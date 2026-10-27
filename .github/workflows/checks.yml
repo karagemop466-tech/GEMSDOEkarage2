@@ -1,0 +1,22 @@
+name: Evidence checks
+on:
+  push:
+    branches: [main, 'arena/**']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.lock.txt
+      - run: python scripts/build_site.py
+      - run: git diff --exit-code -- docs
+      - run: pytest -q
+      - run: python -m compileall -q scripts vendor
