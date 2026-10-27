@@ -99,7 +99,7 @@
       const ageHours = (Date.now() - checked.valueOf()) / 3600000;
       score.textContent = snapshot.score_text;
       const stale = board.status === "unavailable" || ageHours > 8 || ageHours < -0.25;
-      status.textContent = `${stale ? "STALE / REFRESH FAILED" : "PUBLIC SNAPSHOT"} · ${checked.toISOString().slice(0, 16).replace("T", " ")} UTC`;
+      status.textContent = `${stale ? "STALE SNAPSHOT / CHECK OFFICIAL BOARD" : "PUBLIC SNAPSHOT"} · ${checked.toISOString().slice(0, 16).replace("T", " ")} UTC`;
     } catch (_) { score.textContent = "—"; status.textContent = "SNAPSHOT UNAVAILABLE · SEE OFFICIAL BOARD"; }
   };
   loadAudit(); loadMonitor();

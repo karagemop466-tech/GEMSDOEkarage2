@@ -21,3 +21,8 @@ data/
 # Intentionally allow tracked downloadable submission rasters served by Pages.
 !docs/downloads/*.tif
 !docs/downloads/*.tiff
+# Cache arrays and archives by default; retain only the previously quarantined H1 ZIP.
+*.npy
+*.npz
+*.zip
+!docs/downloads/*.zip
