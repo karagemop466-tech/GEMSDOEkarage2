@@ -28,7 +28,7 @@ def render() -> str:
         claim = escape(claims["claims"][row["site"]])
         claim_source = escape(claims["source_url"], quote=True)
         rows.append(f'''<tr data-site="{site}"><td><a class="site-link" href="sites/{site}.html">{site} →</a><span class="table-note"><a href="https://buffedlizard55-lab.github.io/{site}/" target="_blank" rel="noopener noreferrer">Upstream site ↗</a></span><span class="table-note fresh" data-freshness>Not checked</span></td><td><a class="file-link" href="{url}" target="_blank" rel="noopener noreferrer">{name} ↗<small>SHA-256 {short_hash}… · historical only</small></a></td><td><a href="{claim_source}" target="_blank" rel="noopener noreferrer"><strong>{claim}</strong></a><span class="table-note">Owner-reported · unverified</span></td><td>Not estimable<span class="table-note">No verified transfer</span></td><td><strong>No</strong><span class="table-note">{pct} near {closest}</span></td><td><span class="state-no">Do not submit</span></td></tr>''')
-    template = (ROOT / "site_templates/index.html").read_text()
+    template = (ROOT / "site_templates/audit-index.html").read_text()
     if template.count("{{TABLE_ROWS}}") != 1:
         raise ValueError("Expected one table insertion point")
     return template.replace("{{TABLE_ROWS}}", "\n".join(rows))
