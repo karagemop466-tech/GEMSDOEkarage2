@@ -1,0 +1,9 @@
+# User project brief (deduplicated, not verbatim)
+
+Read together with README before every session. Build an auditable GEMS competition project that can generate a genuinely new valid single-band TIFF and make downloads obvious at the top of a clean GitHub Pages site. Provide an executive submission guide and summaries for all nine priority sites, with file identifiers, evidence-qualified performance and uniqueness. Never copy prior submissions except for education. Range validation must prevent the reported [0,1] upload error. Assign a unique name and a note of at most 140 characters.
+
+Before implementation propose three to five geological hypotheses, specifying layers, transforms, missing-fault mechanism, distinction from existing work, plausible mimics, and ranked cost/expected improvement. Validate the best eligible hypothesis with the shared spatially blocked whole-segment hide-and-recover evaluator before any slot. Respect the parallel-run protocol in README. No lane paragraph was actually supplied in this prompt; do not invent one.
+
+Research official freely available data and scientific sources, preserve sources and provenance, flag irregularities, never manufacture verification or scores. Automate validation without human-inspection dependencies, while never bypassing evidence gates. Iterate within the experiment/time budget, not indefinitely. Keep an honest knowledge base, current evidence feed when supported, and negative run cards. The prompt's leaderboard maxima conflict and need actual receipts.
+
+Review in three passes: implementation/verification; bugs/assumptions/edge cases; full requirements and quality recheck. Continue prior-session next steps where present. Explain access limitations and remaining work. Open and merge a pull request on completion when repository permissions allow, without spending a competition submission slot. Do not claim a highest-scoring result without evidence.
