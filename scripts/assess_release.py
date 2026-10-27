@@ -37,12 +37,11 @@ def main():
         validator=dict(single_band=report['bands']==1,finite_inside=report['nan_pixels']==0 and report['infinity_pixels']==0,
                        range_0_1=run['validator']['range'][0]>=0 and run['validator']['range'][1]<=1,
                        crs_match=report['ok'],shape_match=report['ok'],transform_match=report['ok'],
-                       # The shared report used an unauthenticated owner mirror and
-                       # zero-filled exterior. It cannot establish the official
-                       # outside-null policy or organizer acceptance.
+                       # A local format pass on the unauthenticated mirror does not
+                       # establish the organizer's exterior/nodata convention.
                        outside_nodata=None),
         raster_sha256=run['raster_sha256'],submission_name=run['submission_name'],submission_note=run['note'],
-        note='Adapter consumes committed measured receipts; it does not authenticate their origin or reconstruct unavailable inputs.')
+        note='Adapter consumes committed measured receipts; it does not authenticate their origin, infer official exterior nodata, or reconstruct unavailable inputs.')
     result=assess(adapted)
     result.update(evidence_type='EVIDENCE-SCHEMA-ASSESSMENT, not a model score',
                   source_run_card='evidence/run_card.json',slot_authorized=False)

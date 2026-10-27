@@ -1,0 +1,47 @@
+name: Research and site checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Bootstrap pinned research inputs and shared tools
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/bootstrap_research.py > /tmp/gems-bootstrap.json
+          mkdir -p .cache/gems_data
+          ln -sf ../research/inputs/sample.tif .cache/gems_data/sample_submission.tif
+          ln -sf ../research/inputs/labels.tif .cache/gems_data/existing_faults.tif
+          mkdir -p .cache/inputs
+          ln -sf ../research/inputs/sample.tif .cache/inputs/sample_submission.tif
+          ln -sf ../research/inputs/labels.tif .cache/inputs/existing_faults.tif
+          ln -sf ../research/inputs/lattice.tif .cache/inputs/r13_lattice_nan.tif
+          python scripts/audit_focus.py --fetch --output /tmp/gems-focus.json > /dev/null
+      - name: Unit and shared-validator integration tests
+        run: |
+          pytest -q
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm test
+          npm run test:site
+          npm run test:browser
+          python scripts/build_audit_site.py --check
+          bash -n scripts/fetch_feature_mirror.sh
+      - name: Reproduce full nine-raster audit
+        run: |
+          python scripts/audit_references.py --output /tmp/gems-audit.json > /dev/null
+          python scripts/compare_audit.py docs/data/reference-audit.json /tmp/gems-audit.json

@@ -54,3 +54,12 @@ needed tile can be obtained in this runtime.
 ### Upstream changed during this review
 
 - GEMSDOE25 merged [H79 CTHM / SGMC research](https://github.com/buffedlizard55-lab/GEMSDOE25/blob/19b219f629440b9975b093f459c74e21a42476ca/knowledge/40_h79_cthm_poe_outcome_2026-10-27.md) after the audit pin (`b13ccab` → `19b219f`, checked 2026-10-27). Its owner reports a multi-expert gravity/magnetic/topographic/hydrothermal investigation and a negative submission decision. We have not rerun its experiments. This is a substantial overlap in *ingredient families* with our top proposal; its distinctiveness as an operator and its surface/dot novelty against H79 must be proven, not assumed. The pinned historical winners and published audit were not silently refreshed. See the monitor for subsequently changing source heads.
+
+## Additional band provenance check
+
+The owner mirror labels band 15 “depth to basement”, while the competition
+documentation describes a conductive-base-depth feature. Their equivalence and
+physical units are not independently verified. See the separate
+[independent source register](independent-sources.md) and
+[geometry/format review](independent-review.md) for source-by-source links,
+the sample-mirror discrepancy and writer-policy limitations.

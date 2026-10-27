@@ -87,3 +87,19 @@ def test_exact_pruning_improvement_condition():
         margin=.2*before['tp']*(dt+df)-den*dt
         if abs(margin)>1e-9:
             assert (after['dti']>before['dti']) == (margin>0)
+
+
+def test_h1_evaluator_preserves_soft_probabilities():
+    # The older GEMSDOE32 scripts CLIs binarize inputs, but H1's distinct
+    # gems57 evaluator must score different positive probabilities differently.
+    truth = np.zeros((5, 5), dtype=bool)
+    truth[2, 2] = True
+    fold = {"truth": truth, "visible": np.zeros_like(truth), "region": np.ones_like(truth)}
+    valid = np.ones_like(truth)
+    low = np.zeros((5, 5)); low[2, 2] = .2
+    high = np.zeros((5, 5)); high[2, 2] = .8
+    low_result, _ = evaluator.evaluate(low, fold, valid)
+    high_result, _ = evaluator.evaluate(high, fold, valid)
+    assert low_result['tp'] == pytest.approx(.2)
+    assert high_result['tp'] == pytest.approx(.8)
+    assert low_result['dti'] < high_result['dti']

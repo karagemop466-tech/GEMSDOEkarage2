@@ -1,4 +1,10 @@
 'use strict';
+async function fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try { return await fetch(url, {...options, signal: controller.signal}); }
+  finally { clearTimeout(timer); }
+}
 const button = document.getElementById('refresh-sources');
 if (button) button.addEventListener('click', async () => {
   button.disabled = true;
@@ -7,12 +13,12 @@ if (button) button.addEventListener('click', async () => {
   status.textContent = 'Checking public GitHub commits only. No competition account or leaderboard is accessed.';
   results.replaceChildren();
   try {
-    const snapshotResponse = await fetch('evidence/freshness.json');
+    const snapshotResponse = await fetchWithTimeout('evidence/freshness.json');
     if (!snapshotResponse.ok) throw new Error('Local snapshot unavailable');
     const snapshot = await snapshotResponse.json();
     const rows = await Promise.all(Object.entries(snapshot.refs).map(async ([repo, ref]) => {
       try {
-        const response = await fetch(`https://api.github.com/repos/buffedlizard55-lab/${encodeURIComponent(repo)}/commits/main`, {headers: {Accept:'application/vnd.github+json'}});
+        const response = await fetchWithTimeout(`https://api.github.com/repos/buffedlizard55-lab/${encodeURIComponent(repo)}/commits/main`, {headers: {Accept:'application/vnd.github+json'}});
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const current = await response.json();
         if (typeof current.sha !== 'string' || !/^[a-f0-9]{40}$/.test(current.sha)) throw new Error('Invalid GitHub response');

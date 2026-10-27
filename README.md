@@ -77,10 +77,11 @@ be truthfully fabricated.
 ## Why the requested submission is blocked
 
 * No single method paragraph was assigned in the prompt; parallel lanes cannot
-  safely be inferred. The full parallel registry is absent. A later independent
-  review restored the pinned GEMSDOE32 template and its 35-channel feature
-  stack in ignored scratch storage; this owner mirror is not organizer-authenticated
-  and the cache is not distributed or guaranteed to persist.
+  safely be inferred. The full parallel registry is absent. Another independent
+  review reports restoring a pinned GEMSDOE32 template and 35-channel feature
+  stack to ignored scratch storage; an owner-mirrored 19-band input is also
+  hash-pinned. These mirrors are not organizer-authenticated and caches are not
+  distributed or guaranteed to persist.
 * The registered [r13 lattice](https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif)
   covers 5,160,724 of the owner-mirrored footprint's 5,167,373 cells within
   3 pixels. At the historical champion's 37,654-dot reference budget, even an
@@ -138,16 +139,16 @@ not committed. For this checkout, the nine raster files, the lattice, the
 existing-fault raster and the template mirror were independently fetched and
 rechecked.
 
-For a local site preview, run `python -m http.server 8000 --bind 0.0.0.0 -d docs`
-and open the served address. The browser shows only a dated leaderboard
-snapshot. GitHub Pages is configured to refresh GitHub repository metadata only;
-it does not automatically contact DrivenData, and the dated leaderboard snapshot
-is not refreshed or a live score. Stale/unavailable states are explicit. The
-repository currently uses legacy main-root Pages builds; the integration was
-unable to change that setting (HTTP 403). The Actions artifact mirrors the same
-root-to-`docs/` layout, so either deployment serves stable paths. A legacy build
-may temporarily restore the committed older metadata. This monitor cannot access
-team quotas, private labels or submission receipts.
+For a local site preview, run `python scripts/serve_site.py --host 0.0.0.0 --port 8000`
+and open the served address. This allowlisted server publishes documentation and
+research notes, but not local caches or `.git`. The browser shows only a dated
+leaderboard snapshot. Pages refreshes GitHub metadata only; it does not contact
+DrivenData automatically or present the dated leaderboard as a live score.
+Stale/unavailable states are explicit. Repository Pages uses legacy main-root
+builds; the integration could not change the setting (HTTP 403). The Actions
+artifact mirrors the same root-to-`docs/` layout, so either deployment serves
+stable paths. A legacy build may temporarily restore committed older metadata.
+This monitor cannot access team quotas, private labels or submission receipts.
 
 ## Official starting points
 
@@ -191,6 +192,40 @@ fix not landed upstream; it must not be represented as a shared-template fix.
 See `vendor/NOTICE.md` and resolve that upstream before relying on it in a new
 experiment. The evaluator and writer themselves remain unchanged.
 
+
+## Additional independent geometry audit
+
+A separate follow-up measured the nine all-finite historical TIFF variants and
+all 72 directional overlaps, restored eight pinned GEMSDOE24 shared tools without
+modifying them, and rechecked the H1 surface's saved bytes. It ran no further
+geological experiments and did not replay H1's holdout. Its
+[linked dashboard](docs/audit.html), [audit data](docs/data/reference-audit.json),
+[negative audit-scoped run card](docs/data/audit-run-card.json),
+[forensic review](research/independent-review.md),
+[hypotheses](research/independent-hypotheses.md),
+[source register](research/independent-sources.md), and
+[three-pass record](research/independent-three-pass-review.md) are retained
+alongside the main research desk and H1 evidence. Different owner variants may
+have different byte hashes even when their decoded positive masks match.
+
+To reproduce this second audit without the large feature stack:
+
+```sh
+python scripts/bootstrap_research.py
+python scripts/audit_references.py --output /tmp/gems-audit.json
+python scripts/compare_audit.py docs/data/reference-audit.json /tmp/gems-audit.json
+python scripts/check_submission.py docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif
+python scripts/build_audit_site.py --check
+npm test
+npm run test:browser
+```
+
+`python scripts/fetch_feature_mirror.sh` separately restores the optional
+~419 MB owner-mirrored feature file and verifies its SHA-256. The owner sample
+disagrees with the organizer's description, and the equivalence between the
+mirror's band-15 basement label and the organizer's conductive-base-depth
+feature is unknown. Neither mirror-based validator is an organizer receipt.
+
 ## Independent field-notes audit
 
 A further follow-on review, with no additional model experiment or slot, restored
@@ -208,9 +243,12 @@ mask to form GEMSDOE32 lie more than one and at most two pixels from the mirrore
 known-fault mask. It records the upstream H48 and H38 **owner-reported,
 not independently reproduced HOLDOUT-DTI** results with evaluator versions,
 withheld counts and intervals; those proxy results are not organizer receipts.
-The shared GEMSDOE32 evaluator and writer binarize positive continuous inputs,
-so they must not be used for continuous probability evaluation without an
-upstream fix. No private fork or upstream change was made by this review.
+The older pinned GEMSDOE32 `scripts/` evaluator and writer binarize positive
+continuous inputs, so those CLI entrypoints are unsuitable for continuous
+probability evaluation without an upstream fix. They are distinct from the
+vendored `gems57` evaluator and writer used in H1, which preserve soft values;
+H1's holdout has not been independently replayed. No private fork or upstream
+change was made by this review.
 
 To reproduce this additional work after installing the dependencies above:
 

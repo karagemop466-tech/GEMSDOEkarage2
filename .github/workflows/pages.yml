@@ -2,6 +2,7 @@ name: Publish research desk
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
   schedule:
     - cron: '13 */4 * * *'
@@ -25,15 +26,17 @@ jobs:
       - run: python scripts/assess_release.py
       - run: python scripts/build_site.py
       - run: python scripts/build_field_notes.py
-      - run: git diff --exit-code -- docs
+      - run: python scripts/build_audit_site.py --check
+      - run: git diff --exit-code -- docs evidence
       - run: python -m pytest -q
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: npm run test:site
+      - run: npm test && npm run test:site
   deploy:
+    if: github.event_name != 'pull_request'
     needs: verify
     environment:
       name: github-pages
@@ -50,14 +53,13 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
-      # Pages is currently configured for legacy main-root builds. Publish the
-      # same root -> docs/ layout so those builds cannot invalidate URLs when
-      # they race the scheduled Actions deployment. Do not publish .git/caches.
-      - name: Stage stable Pages layout
+      - name: Prepare published site and linked research documents
         run: |
           mkdir -p "$RUNNER_TEMP/gems-pages/docs"
           cp index.html "$RUNNER_TEMP/gems-pages/index.html"
           cp -a docs/. "$RUNNER_TEMP/gems-pages/docs/"
+          cp -a research "$RUNNER_TEMP/gems-pages/research"
+          cp README.md "$RUNNER_TEMP/gems-pages/README.md"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ runner.temp }}/gems-pages

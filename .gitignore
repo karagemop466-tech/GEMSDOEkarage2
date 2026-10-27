@@ -21,3 +21,6 @@ node_modules/
 *.npz
 *.zip
 !docs/downloads/*.zip
+# Generated Pages staging and local analysis outputs.
+.pages/
+outputs/
