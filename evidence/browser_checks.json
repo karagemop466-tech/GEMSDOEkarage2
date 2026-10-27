@@ -86,5 +86,5 @@
   "errors": [],
   "test_type": "LOCAL-BROWSER-MEASUREMENT, not a competition result",
   "environment": "Chromium 153 via @sparticuz/chromium; playwright-core; local HTTP server",
-  "notes": "Initial mobile overflow in revision/hash text was found and fixed; all final checks pass. No screenshots are shipped as data evidence."
+  "notes": "Rechecked after concurrent-main integration. All final checks pass. Initial mobile revision/hash overflow was fixed. Screenshots are not shipped as scientific evidence."
 }

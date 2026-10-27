@@ -4,3 +4,7 @@ __pycache__/
 .pytest_cache/
 *.pyc
 .venv/
+*.tif
+*.tiff
+!docs/downloads/*.tif
+!docs/downloads/*.tiff

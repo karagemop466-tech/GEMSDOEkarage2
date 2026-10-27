@@ -165,3 +165,14 @@ def test_every_historical_raster_grid_was_checked():
         assert row['template_grid_match']
         assert row['infinity_anywhere']==0
         assert row['transform']==list(grid.TRANSFORM)[:6]
+
+
+def test_concurrent_selector_gate_keeps_actual_run_negative():
+    import scripts.readiness as readiness
+    adapted=load('selector_input.json')
+    result=readiness.assess(adapted)
+    assert result['verdict']=='negative' and not result['slot_authorized']
+    assert adapted['baseline_holdout_dti'] is None
+    assert adapted['registry']['final_dots']==[]
+    assert not adapted['registry']['coverage_complete']
+    assert any('duplicate lane' in r for r in result['reasons'])

@@ -58,11 +58,11 @@
 | Standing prompt in README | Actionable deduplicated contract stored, clearly labeled not a verbatim transcript; AGENTS requires reading it each session. |
 | Store verified knowledge and source links | Done with immutable GitHub references, source hashes and explicit official-source retrieval limits. |
 | Three passes | This document records all three, with concrete fixes and final tests. |
-| Open/merge PR and publish Pages | Evidence-check workflow supplied. Pages settings update was denied (HTTP 403 integration permission); existing legacy main/root hosting is preserved via root redirect. PR and build outcomes are reported separately after GitHub confirms them. |
+| Open/merge PR and publish Pages | Original evidence workflow plus incoming main's working Pages workflow preserved, with dependencies and combined tests. Direct settings update denied (HTTP 403); root redirect still supports legacy hosting. PR/build outcomes reported separately after GitHub confirmation. |
 
 ## Final verification
 
-- **35 Python tests passed** locally, including metric-vs-brute-force arithmetic, exact pruning condition, inclusive 3 px distance, whole-component leakage guards, pooled truth-count compatibility, bad-value writer rejection, ZIP roundtrip, actual grid/range/footprint/catalogue, source checksums, evidence schema, all static links and nine summaries.
+- **46 Python tests passed** locally after concurrent-main integration (35 original tests, 10 preserved readiness tests, and one adapter integration test; also 33 unittest subtests), including metric-vs-brute-force arithmetic, exact pruning condition, inclusive 3 px distance, whole-component leakage guards, pooled truth-count compatibility, bad-value writer rejection, ZIP roundtrip, actual grid/range/footprint/catalogue, source checksums, evidence schema, all static links and nine summaries.
 - All **440 pinned registry files** re-verified by SHA-256 from the committed snapshot manifest.
 - JavaScript syntax and Python compilation passed.
 - Real Chromium checks: homepage at **1440, 390 and 320 px**, submission guide/research/sources and **all nine** per-site pages at mobile width; no horizontal page overflow and no uncaught page errors. Approved download control disabled. Research TIF fetched with HTTP 200 and a matching SHA-256. Details: `browser_checks.json`.
@@ -75,3 +75,9 @@ Read README next session. Resolve lane/registry policy, authenticate organizer e
 ### Publishing permission finding
 
 GitHub reports Pages already enabled at `https://karagemop466-tech.github.io/GEMSDOEkarage2/`, sourced from main at `/`. Attempting to change build type to workflow returned `403 Resource not accessible by integration`; no successful setting change is claimed. Removed the custom deploy workflow to avoid knowingly shipping a failing job. The legacy Pages build can serve the root redirect and the docs directory after merge. Read/write Git operations are tested separately; a Pages-settings scope error is not evidence of broken Git authentication.
+
+### Concurrent-main conflict resolution
+
+The first PR #5 merge attempt was rejected because other sessions had merged PRs #1/#2/#4 into main during this run. Fetched and merged origin/main into the fixed Arena branch; did not switch branches or discard the other sessions' scientific evidence. Preserved `scripts/readiness.py`, its ten tests, all upstream source snapshots and prior reviews. Prior HTML is explicitly archived under `docs/previous-main/`, and old per-site/research routes redirect to the newer summaries. Added `scripts/assess_release.py` to consume actual shared-tool receipts through the existing evidence-schema gate; it remains negative due to missing supplied lane, missing compatible incumbent, incomplete registry, detected duplicate and no final dots. The adapter does not fabricate those inputs.
+
+The incoming main already had a successful Tests and Pages workflow (confirmed via GitHub Actions API), so it was retained and updated to install the locked dependencies and run the combined suite. The earlier direct Pages-settings 403 does not imply the Actions token lacks deployment permission. Prior session's official leaderboard observation is preserved as attributed historical evidence, not independently verified by this session or used as score calibration. New physical predictions and experiment count are unchanged.

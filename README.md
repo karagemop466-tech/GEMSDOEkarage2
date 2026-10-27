@@ -51,7 +51,7 @@ python scripts/fetch_focus_registry.py --jobs 6
 
 `gh` must already be connected to GitHub; never paste credentials. Large inputs and caches stay ignored. Downloads and their evidence are committed because they are requested deliverables. `requirements.lock.txt` records the tested environment. To reproduce the exact original registry snapshot rather than refresh live refs, use `python scripts/restore_registry_snapshot.py` with the committed manifest. The experiment writes deterministic names and refuses to overwrite existing outputs; archive/remove the generated outputs deliberately before rerunning. Do not count a rerun as new independent evidence.
 
-To preview: `python -m http.server 8000 --bind 0.0.0.0 --directory docs`. The existing GitHub Pages configuration publishes `main` at the repository root; the root redirect opens `docs/`. The integration cannot change Pages settings (HTTP 403), so this release uses the already-enabled legacy deployment rather than claiming a custom workflow was enabled. The supplied Actions workflow checks evidence and tests.
+To preview: `python -m http.server 8000 --bind 0.0.0.0 --directory docs`. Pages was already enabled on `main` at the repository root. A concurrent session also supplied a working Tests and Pages workflow; it is preserved, with dependency installation and the combined tests. The root redirect supports legacy publishing, and the workflow publishes `docs/`. This integration could not change Pages settings directly (HTTP 403); no successful settings update is claimed.
 
 ## What this audit established
 
@@ -70,3 +70,9 @@ To preview: `python -m http.server 8000 --bind 0.0.0.0 --directory docs`. The ex
 4. Expand immutable registry coverage to all named repositories and confirm format/shape/CRS. Do not claim global scientific uniqueness from a fresh file hash or a nine-repository snapshot.
 5. Only after the stop condition is resolved may another preregistered lane experiment run. H1 failed performance and novelty gates; do not tune it to the same holdout or spend a slot. Deferred hypotheses are ideas, not results.
 6. Promote only a positive, independently checked candidate to a separate quota-aware selector. This session neither submitted to DrivenData nor promised a prize/rank.
+
+## Concurrent-session integration
+
+While this session was running, other Arena branches merged a static dashboard, official-source observations and a fail-closed evidence-schema gate into main. These were not in this session's starting checkout. Their source snapshots, `scripts/readiness.py` and tests are preserved. Earlier pages are clearly archived under `docs/previous-main/`; old site-summary routes redirect to the current summaries. The earlier README is preserved in `knowledge/previous-main-README.md`. An adapter connects our real evaluator/writer/registry receipts to their readiness gate; it returns negative.
+
+The prior session records a public leaderboard observation of 0.4544 on 2026-10-27. That is a prior-session observation, not independently retrieved by this session and not an organizer submission receipt, current verified feed or forecast. See `knowledge/review.md` for its provenance claim. It does not change this run's negative result or justify a slot.
