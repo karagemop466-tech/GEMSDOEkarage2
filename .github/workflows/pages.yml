@@ -25,6 +25,7 @@ jobs:
       - run: python -m pip install -r requirements.lock.txt
       - run: python scripts/assess_release.py
       - run: python scripts/build_site.py
+      - run: python scripts/build_field_notes.py
       - run: python scripts/build_audit_site.py --check
       - run: git diff --exit-code -- docs evidence
       - run: python -m pytest -q
@@ -43,10 +44,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Refresh public source status (failure is shown explicitly)
+      - name: Refresh GitHub source status (not DrivenData)
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python scripts/refresh_feed.py
+        run: |
+          python scripts/refresh_feed.py --github-only
+          python scripts/refresh_sources.py
       - uses: actions/configure-pages@v5
         with:
           enablement: true

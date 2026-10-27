@@ -16,7 +16,11 @@ node_modules/
 # Intentionally quarantined research downloads from the parallel H1 run.
 !docs/downloads/*.tif
 !docs/downloads/*.tiff
-
-# Generated Pages staging and local analysis outputs
+# Cache arrays and archives by default; retain only the previously quarantined H1 ZIP.
+*.npy
+*.npz
+*.zip
+!docs/downloads/*.zip
+# Generated Pages staging and local analysis outputs.
 .pages/
 outputs/

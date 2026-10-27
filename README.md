@@ -77,10 +77,11 @@ be truthfully fabricated.
 ## Why the requested submission is blocked
 
 * No single method paragraph was assigned in the prompt; parallel lanes cannot
-  safely be inferred. The prepared shared feature cache and full parallel registry
-  are absent. An optional owner-mirrored 19-band input has been hash-checked,
-  but is not authenticated by the organizer. The pinned shared-tool manifest is
-  only a partial download, not a complete runnable template checkout.
+  safely be inferred. The full parallel registry is absent. Another independent
+  review reports restoring a pinned GEMSDOE32 template and 35-channel feature
+  stack to ignored scratch storage; an owner-mirrored 19-band input is also
+  hash-pinned. These mirrors are not organizer-authenticated and caches are not
+  distributed or guaranteed to persist.
 * The registered [r13 lattice](https://github.com/buffedlizard55-lab/13GEMSDOE/blob/92ee6f074323f161eed837b80ec3ee5b662e26f5/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif)
   covers 5,160,724 of the owner-mirrored footprint's 5,167,373 cells within
   3 pixels. At the historical champion's 37,654-dot reference budget, even an
@@ -122,8 +123,10 @@ npm run test:site
 `bootstrap_shared.py` restores the pinned upstream shared-tool files and uses
 unchanged upstream code to restore the public core mirrors into `.cache/`.
 Their hashes establish consistency with the owner manifest, not official
-provenance. The partial protocol bundle is **not** a self-contained generic
-holdout runner; the prepared 32-feature array is not in the public tree. The
+provenance. That partial protocol bundle is **not** a self-contained generic
+holdout runner; prepared feature arrays are not in the public tree. The later
+independent template bootstrap described below restores a fuller 35-channel cache
+in scratch storage, but does not run a holdout or create a submission. The
 unchanged shared format checker can be run with `python scripts/check_format.py
 PATH_TO_TIF`; it cannot authorize a submission or prove portal acceptance, and
 its conservative whole-array diagnostic rejects NaN-outside files. The parallel
@@ -138,14 +141,14 @@ rechecked.
 
 For a local site preview, run `python scripts/serve_site.py --host 0.0.0.0 --port 8000`
 and open the served address. This allowlisted server publishes documentation and
-research notes, but not local caches or `.git`. The browser shows only a dated leaderboard
-snapshot. GitHub Pages is configured to attempt a scheduled public-source refresh;
-a failed refresh is explicitly stale/unavailable, never a live score. The current
-repository Pages setting uses legacy main-root builds, and changing it to Actions
-was denied by the GitHub integration (HTTP 403). The Actions artifact therefore
-mirrors the same root-to-`docs/` layout; either deployment serves stable paths.
-A legacy rebuild can temporarily restore the committed older snapshot. This
-monitor cannot access team quotas, private labels or submission receipts.
+research notes, but not local caches or `.git`. The browser shows only a dated
+leaderboard snapshot. Pages refreshes GitHub metadata only; it does not contact
+DrivenData automatically or present the dated leaderboard as a live score.
+Stale/unavailable states are explicit. Repository Pages uses legacy main-root
+builds; the integration could not change the setting (HTTP 403). The Actions
+artifact mirrors the same root-to-`docs/` layout, so either deployment serves
+stable paths. A legacy build may temporarily restore committed older metadata.
+This monitor cannot access team quotas, private labels or submission receipts.
 
 ## Official starting points
 
@@ -222,3 +225,45 @@ npm run test:browser
 disagrees with the organizer's description, and the equivalence between the
 mirror's band-15 basement label and the organizer's conductive-base-depth
 feature is unknown. Neither mirror-based validator is an organizer receipt.
+
+## Independent field-notes audit
+
+A further follow-on review, with no additional model experiment or slot, restored
+the pinned GEMSDOE32 template and owner-mirrored core files, built its 35-channel
+feature cache, and documented its provenance in
+[`evidence/preparation.json`](evidence/preparation.json). See the independent
+[Field Notes dashboard](docs/field-notes/index.html), [detailed forensic
+review](research/findings-2026-10-27.md), [additional preregistration](research/hypotheses-2026-10-27.md),
+and [negative follow-on run card](evidence/run-card.json). These complement,
+not replace, the separate parallel H1 [negative card](evidence/run_card.json)
+and research-only surface. Do not submit the H1 surface.
+
+The second audit reproduced that all 2,545 points removed from the GEMSDOE31
+mask to form GEMSDOE32 lie more than one and at most two pixels from the mirrored
+known-fault mask. It records the upstream H48 and H38 **owner-reported,
+not independently reproduced HOLDOUT-DTI** results with evaluator versions,
+withheld counts and intervals; those proxy results are not organizer receipts.
+The older pinned GEMSDOE32 `scripts/` evaluator and writer binarize positive
+continuous inputs, so those CLI entrypoints are unsuitable for continuous
+probability evaluation without an upstream fix. They are distinct from the
+vendored `gems57` evaluator and writer used in H1, which preserve soft values;
+H1's holdout has not been independently replayed. No private fork or upstream
+change was made by this review.
+
+To reproduce this additional work after installing the dependencies above:
+
+```sh
+python scripts/bootstrap_template.py       # core mirror + shared 35-channel scratch cache (~1.7 GB array)
+python scripts/restore_references.py      # immutable nine-site files, witness and grid mirror
+python scripts/geometry_audit.py          # full-footprint geometry evidence, not an experiment
+python scripts/preflight.py               # expected exit 1: negative, never authorizes upload
+python scripts/build_field_notes.py       # writes docs/field-notes/ only
+```
+
+`python scripts/bootstrap_template.py --verify-only` checks the pinned critical
+files in an existing cache. The mirror sample contains known labels, unlike the
+organizer's documented total-absence sample, so the grid is provisional until
+compared with an authenticated organizer download. No local format validator
+alone proves portal acceptance. The separate uniqueness checker needs a complete,
+independently justified registry and both surface and final-dot checks; a
+manifest's assertion of completeness does not establish that on its own.
