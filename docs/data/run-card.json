@@ -1,32 +1,52 @@
 {
-  "hypothesis": "Unassigned: method paragraph absent",
+  "hypothesis": "Unassigned: the task does not identify a single method-lane paragraph",
   "mechanism": null,
-  "non_fault_mimic": "Lake Lahontan shorelines, basalt-flow margins, and lithologic contacts can mimic structural edges.",
+  "non_fault_mimic": "Not selected because no candidate hypothesis was assigned; examples to control in future tests include Lake Lahontan shorelines, basalt-flow margins, and lithologic contacts.",
+  "metric_specification": {
+    "status": "PRESPECIFIED_NOT_EVALUATED",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "kernel": "triangular",
+    "kernel_radius_m": 300
+  },
   "holdout": {
+    "evidence_type": "HOLDOUT-DTI",
+    "status": "NOT RUN",
     "dti": null,
     "ci95": null,
+    "paired_delta_ci95": null,
     "evaluator_version": null,
     "withheld_positives": null
   },
-  "correlation_overlap_vs_registry": null,
+  "correlation_overlap_vs_registry": {
+    "status": "NOT RUN",
+    "registry_snapshot_sha256": null,
+    "surface_max_rank_correlation": null,
+    "final_dots_max_fraction_within_3px": null
+  },
   "raster_sha256": null,
   "validator": {
+    "status": "NOT RUN - NO CANDIDATE TIFF",
+    "single_band": null,
     "finite_inside": null,
+    "no_nan_inside": null,
     "range_0_1": null,
     "crs_match": null,
     "shape_match": null,
-    "transform_match": null
+    "transform_match": null,
+    "outside_footprint_nodata": null
   },
   "submission_name": null,
-  "submission_note": "No candidate generated: lane and shared template must be pinned before experiments.",
+  "submission_note": "No candidate generated; lane and shared template must be pinned first.",
+  "submission_status": "NO FILE - DO NOT SUBMIT",
   "verdict": "negative",
   "experiments_run": 0,
   "weekly_slots_used": 0,
   "blockers": [
     "Missing assigned method paragraph",
-    "No local feature cache or official competition rasters",
+    "No local competition rasters, sample template, or cached feature stack",
     "Shared template identity not specified",
-    "No complete registry surface/final-dot measurements",
-    "No comparable current holdout best or organizer receipts"
+    "No complete registry surface/final-dot raster measurements",
+    "No comparable current holdout best or organizer receipt"
   ]
 }

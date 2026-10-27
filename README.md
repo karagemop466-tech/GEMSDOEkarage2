@@ -12,7 +12,7 @@ Only label verified evaluator results HOLDOUT-DTI (version, positives, confidenc
 Maximize P(Win): prefer reliable evidence over optimistic claims. Own the Outcome: automate checks, expose blockers, and preserve failed experiments.
 
 ## Current limitations
-The starting repository had only its name. The prompt specifies no actual lane paragraph or template repository/commit. No experiments were run and no TIFF was fabricated. Read the research page for the three-pass audit and candidate hypotheses. The complete verbatim user message is not available as a workspace attachment; the brief preserves its actionable requirements rather than claiming a verbatim archive.
+The starting checkout had only a 16-byte README; the merged main branch now contains the static site, upstream evidence snapshots, and an evidence-schema gate. There is still no actual lane paragraph or identified common-template commit, local competition raster/cache, evaluator/writer, or full registry raster set, so no experiment or TIFF is authorized. On 2026-10-27, the [official public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) showed 0.4544 at rank 1; this is a time-stamped public snapshot, not the historical subset score or a forecast. The organizer [reference solution](https://github.com/drivendataorg/gems-prize-reference-solution) includes a CPU-only setup; a GPU speeds training but is not an absolute prerequisite. Read the research page for the three-pass audit, hypotheses, official source checks, and remaining work. The full verbatim repeated prompt is not stored; `knowledge/project-brief.md` preserves its actionable requirements.
 
 ## Run checks and preview
 ```sh

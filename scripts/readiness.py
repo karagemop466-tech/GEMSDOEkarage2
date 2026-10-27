@@ -1,50 +1,168 @@
-"""Fail-closed selector gate. Evidence must be produced by shared tools, not this gate."""
+"""Fail-closed selector gate for evidence cards.
+
+This module validates evidence structure only; the shared evaluator, raster
+validator, writer, and registry audit must produce the evidence it consumes.
+It does not calculate DTI, inspect GeoTIFF bytes, or authorize a weekly slot.
+"""
+from __future__ import annotations
+
 import math
 
 
-def finite(x):
-    return isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x)
+def _finite_number(value: object) -> bool:
+    return (
+        isinstance(value, (int, float))
+        and not isinstance(value, bool)
+        and math.isfinite(value)
+    )
 
 
-def assess(card):
-    reasons = []
-    if not card.get('lane') or not card.get('template_commit'):
-        reasons.append('Missing method lane or shared template pin')
-    h = card.get('holdout', {})
-    ci = h.get('ci95', [])
-    if (not h.get('evaluator_version') or not isinstance(h.get('withheld_positives'), int)
-            or h.get('withheld_positives', 0) <= 0 or not finite(h.get('dti'))
-            or not 0 <= h.get('dti', -1) <= 1
-            or len(ci) != 2 or not all(finite(x) for x in ci)
-            or not (0 <= ci[0] <= h.get('dti', -1) <= ci[1] <= 1)):
-        reasons.append('Missing or invalid HOLDOUT-DTI evidence')
-    if not finite(card.get('baseline_holdout_dti')) or not finite(h.get('dti')) or h.get('dti', -1) <= card.get('baseline_holdout_dti', 1):
-        reasons.append('Has not beaten comparable current holdout best')
-    if card.get('hide_recover_protocol_verified') is not True:
-        reasons.append('Buffered whole-segment hide-and-recover not verified')
-    canaries = card.get('feature_auc', {})
-    if not canaries or any(not finite(x) or not 0 <= x <= .90 for x in canaries.values()):
-        reasons.append('Feature leakage canary missing or failed')
-    registry = card.get('registry', {})
-    if registry.get('coverage_complete') is not True or not registry.get('snapshot_sha256'):
-        reasons.append('Registry coverage incomplete')
-    for stage in ('surface', 'final_dots'):
-        rows = registry.get(stage, [])
-        if not rows:
-            reasons.append(f'{stage}: no registry measurements')
+def _sha256(value: object) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(char in "0123456789abcdef" for char in value)
+    )
+
+
+def _valid_interval(value: object, *, lower: float, upper: float) -> bool:
+    return (
+        isinstance(value, (list, tuple))
+        and len(value) == 2
+        and all(_finite_number(item) for item in value)
+        and lower <= value[0] <= value[1] <= upper
+    )
+
+
+def assess(card: object) -> dict:
+    """Return a fail-closed promotion verdict from a candidate evidence card.
+
+    ``promote`` means the research gates described here pass. It never means a
+    competition slot is selected or authorized; that decision is separate.
+    """
+    reasons: list[str] = []
+    if not isinstance(card, dict):
+        return {
+            "verdict": "negative",
+            "reasons": ["Evidence card must be a JSON object"],
+            "slot_authorized": False,
+        }
+
+    if not isinstance(card.get("lane"), str) or not card["lane"].strip() or not isinstance(card.get("template_commit"), str) or not card["template_commit"].strip():
+        reasons.append("Missing method lane or shared template pin")
+
+    metric = card.get("metric")
+    if not isinstance(metric, dict) or any(
+        metric.get(key) != expected
+        for key, expected in (
+            ("alpha", 0.2),
+            ("beta", 0.8),
+            ("kernel_radius_m", 300),
+            ("kernel", "triangular"),
+        )
+    ):
+        reasons.append("Pooled DTI metric configuration does not match protocol")
+
+    holdout = card.get("holdout")
+    if not isinstance(holdout, dict):
+        holdout = {}
+    score = holdout.get("dti")
+    count = holdout.get("withheld_positives")
+    raw_ci = holdout.get("ci95")
+    if (
+        not isinstance(holdout.get("evaluator_version"), str)
+        or not holdout["evaluator_version"].strip()
+        or not isinstance(count, int)
+        or isinstance(count, bool)
+        or count <= 0
+        or not _finite_number(score)
+        or not 0 <= score <= 1
+        or not _valid_interval(raw_ci, lower=0, upper=1)
+        or not raw_ci[0] <= score <= raw_ci[1]
+    ):
+        reasons.append("Missing or invalid HOLDOUT-DTI evidence")
+
+    baseline = card.get("baseline_holdout_dti")
+    delta_ci = holdout.get("paired_delta_ci95")
+    if (
+        not _finite_number(baseline)
+        or not 0 <= baseline <= 1
+        or not _finite_number(score)
+        or score <= baseline
+        or not _valid_interval(delta_ci, lower=-1, upper=1)
+        or delta_ci[0] <= 0
+    ):
+        reasons.append("Has not beaten comparable current holdout best with paired 95% CI")
+
+    if card.get("hide_recover_protocol_verified") is not True:
+        reasons.append("Buffered whole-segment hide-and-recover not verified")
+
+    canaries = card.get("feature_auc")
+    if (
+        not isinstance(canaries, dict)
+        or not canaries
+        or any(not _finite_number(value) or not 0 <= value <= 0.90 for value in canaries.values())
+    ):
+        reasons.append("Feature leakage canary missing or failed")
+
+    registry = card.get("registry")
+    if not isinstance(registry, dict):
+        registry = {}
+    if registry.get("coverage_complete") is not True or not _sha256(registry.get("snapshot_sha256")):
+        reasons.append("Registry coverage incomplete or snapshot hash invalid")
+    for stage in ("surface", "final_dots"):
+        rows = registry.get(stage)
+        if not isinstance(rows, list) or not rows:
+            reasons.append(f"{stage}: no registry measurements")
+            continue
         for row in rows:
-            rho, overlap = row.get('rank_correlation'), row.get('overlap_3px')
-            if not row.get('reference') or not finite(rho) or not -1 <= rho <= 1 or not finite(overlap) or not 0 <= overlap <= 1:
-                reasons.append(f'{stage}: invalid measurement')
-            elif rho > .90 or overlap > .70:
-                reasons.append(f'{stage}: duplicate lane; stop')
-    checks = ('single_band', 'finite_inside', 'range_0_1', 'crs_match', 'shape_match', 'transform_match')
-    if any(card.get('validator', {}).get(k) is not True for k in checks):
-        reasons.append('Raster validation missing or failed')
-    sha = card.get('raster_sha256', '')
-    if len(sha) != 64 or any(c not in '0123456789abcdef' for c in sha):
-        reasons.append('Raster SHA256 missing or invalid')
-    if not card.get('submission_name') or not card.get('submission_note') or len(card.get('submission_note', '')) > 140:
-        reasons.append('Submission name/note invalid')
-    return {'verdict': 'negative' if reasons else 'promote', 'reasons': reasons,
-            'slot_authorized': False}  # Separate selector always required.
+            if not isinstance(row, dict):
+                reasons.append(f"{stage}: invalid measurement")
+                continue
+            rho = row.get("rank_correlation")
+            overlap = row.get("overlap_3px")
+            if (
+                not isinstance(row.get("reference"), str)
+                or not row["reference"].strip()
+                or not _finite_number(rho)
+                or not -1 <= rho <= 1
+                or not _finite_number(overlap)
+                or not 0 <= overlap <= 1
+            ):
+                reasons.append(f"{stage}: invalid measurement")
+            elif rho > 0.90 or overlap > 0.70:
+                reasons.append(f"{stage}: duplicate lane; stop")
+
+    validator = card.get("validator")
+    if not isinstance(validator, dict):
+        validator = {}
+    required_checks = (
+        "single_band",
+        "finite_inside",
+        "range_0_1",
+        "crs_match",
+        "shape_match",
+        "transform_match",
+        "outside_nodata",
+    )
+    if any(validator.get(key) is not True for key in required_checks):
+        reasons.append("Raster validation missing or failed")
+
+    if not _sha256(card.get("raster_sha256")):
+        reasons.append("Raster SHA256 missing or invalid")
+    name = card.get("submission_name")
+    note = card.get("submission_note")
+    if (
+        not isinstance(name, str)
+        or not name.strip()
+        or not isinstance(note, str)
+        or not note.strip()
+        or len(note) > 140
+    ):
+        reasons.append("Submission name/note invalid")
+
+    return {
+        "verdict": "negative" if reasons else "promote",
+        "reasons": reasons,
+        "slot_authorized": False,
+    }
