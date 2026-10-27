@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Auditable GEMS fault-mapping research status and submission readiness.">
+  <title>GEMSDOEkarage2 — submission status</title>
+  <style>
+    :root{color-scheme:light;--ink:#162b35;--muted:#526771;--line:#d9e3e7;--paper:#f5f8f8;--white:#fff;--teal:#087e78;--red:#a32626;--redbg:#fff0ef;--gold:#7c5200;--goldbg:#fff6dd;--blue:#164d72}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}header{background:#102d3a;color:#fff;padding:32px max(24px,calc((100vw - 1080px)/2))}header p{margin:.35rem 0 0;color:#c9dde2}main{max-width:1080px;margin:auto;padding:28px 22px 64px}.eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#a9d9d4;font-weight:700}h1{font-size:clamp(2rem,5vw,3.25rem);line-height:1.1;margin:.4rem 0}h2{margin:0 0 12px;font-size:1.45rem}h3{margin:16px 0 6px}p{margin:.6rem 0}.status{border:1px solid #efb0ad;background:var(--redbg);border-radius:14px;padding:22px;margin:0 0 22px}.status strong{display:block;color:var(--red);font-size:1.35rem}.status span{display:block;margin-top:4px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0 26px}.card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:18px}.card b{display:block;font-size:1.03rem}.card p{color:var(--muted);margin-bottom:0}.actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 28px}.button{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:700;padding:11px 16px;border-radius:8px}.button.secondary{background:#fff;color:var(--blue);border:1px solid #9fb7c2}.notice{background:var(--goldbg);border:1px solid #ead08e;border-radius:10px;padding:15px 18px;color:#513b0c}.sources li{margin:.4rem 0}a{color:#075d82}footer{border-top:1px solid var(--line);padding-top:16px;margin-top:36px;color:var(--muted);font-size:.92rem}.tag{display:inline-block;padding:2px 8px;border-radius:99px;background:#e6edef;color:#334b55;font-size:.8rem;font-weight:700}code{background:#eaf0f1;padding:2px 5px;border-radius:4px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">GEMS · Fault discovery · Evidence-first project</div>
+  <h1>GEMSDOEkarage2</h1>
+  <p>Research status, score provenance, and safe submission guidance.</p>
+</header>
+<main>
+  <section class="status" aria-labelledby="status-title">
+    <strong id="status-title">⛔ NO TIFF APPROVED — DO NOT SUBMIT</strong>
+    <span>This checkout contains no competition data, cached features, evaluator, writer, registry rasters, or prediction TIFF. No new submission has been generated or validated. There is no download button because no safe artifact exists.</span>
+  </section>
+  <div class="actions">
+    <a class="button" href="executive-summary.html">Open executive summary &amp; site scorecard</a>
+    <a class="button secondary" href="../README.md">Project charter &amp; research protocol</a>
+    <a class="button secondary" href="run-card.json">Current negative run card (JSON)</a>
+  </div>
+  <section aria-labelledby="decision">
+    <h2 id="decision">What is known</h2>
+    <div class="grid">
+      <article class="card"><b>Historical leader in the supplied nine-site list</b><p>GEMSDOE32 entry H33-2-B2 is reported as 0.2778. This is user-provided historical information, not an independently verified receipt or a forecast.</p></article>
+      <article class="card"><b>Live leaderboard snapshot</b><p>The official public leaderboard page showed 0.4544 at rank 1 when checked 2026-10-27. It changes over time; follow the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">live page</a>.</p></article>
+      <article class="card"><b>Novelty is unverified</b><p>No raster bytes are present to compute surface correlation, exact identity, or the required 3-pixel dot overlap. Different filenames do not establish uniqueness.</p></article>
+      <article class="card"><b>No holdout estimate</b><p>Without the shared cached stack and exact buffered hide-and-recover evaluator, no HOLDOUT-DTI estimate or confidence interval can responsibly be reported.</p></article>
+    </div>
+  </section>
+  <section class="notice" aria-label="Research gate">
+    <b>Stop gate:</b> the parallel-run instructions require one specifically assigned method lane. No such single-method paragraph is identifiable in the supplied request. Along with the absent shared template and data, this prevents an experiment; no candidate has been tested and no slot should be used.
+  </section>
+  <section>
+    <h2>Next authorized work</h2>
+    <ol>
+      <li>Restore the shared template tools and authenticated competition inputs to the expected locations; do not commit private data or credentials.</li>
+      <li>Make the explicit method lane and complete registry available. Check the full registry before any surface construction or dot placement.</li>
+      <li>Run the preregistered feature-only leakage canaries and at most three blocked holdout experiments, using fold-local catalogue features.</li>
+      <li>Only if a same-evaluator HOLDOUT-DTI win, confidence interval, lane-uniqueness tests, and saved-byte format checks all pass, hand the candidate to the separate weekly-slot selector.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>Official review links</h2>
+    <ul class="sources">
+      <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData problem, metric and submission format</a></li>
+      <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData live leaderboard</a></li>
+      <li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">Official reference solution repository</a></li>
+      <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN data release</a></li>
+      <li><a href="https://gbcge.org/current-projects/ingenious/">Great Basin Center for Geothermal Energy — INGENIOUS</a></li>
+    </ul>
+  </section>
+  <footer>Evidence states are explicit: <span class="tag">USER-REPORTED / UNVERIFIED</span> is not a receipt; <span class="tag">HOLDOUT-DTI</span> requires evaluator version, withheld-positive count, and 95% CI; <span class="tag">ORGANIZER-CONFIRMED</span> requires a submission-page receipt. Last reviewed 2026-10-27.</footer>
+</main>
+</body>
+</html>
