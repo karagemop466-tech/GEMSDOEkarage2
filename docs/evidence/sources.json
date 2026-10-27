@@ -1,0 +1,182 @@
+{
+  "retrieved_utc": "2026-10-27T21:04:07.969637+00:00",
+  "sites": [
+    {
+      "repo": "GEMSDOE24",
+      "ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "path": "docs/index.html",
+      "sha256": "9be903d7b36deeacafa20e5370a8553355898926ba3ecbc82713ffff11675e71",
+      "bytes": 194854,
+      "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE24/blob/a73f9ffba29260cc7708e8e0557c84c5bea7d47b/docs/index.html",
+      "viewer_permission": "READ",
+      "verified": "retrieved community source, not an organizer receipt"
+    },
+    {
+      "repo": "GEMSDOE25",
+      "ref": "b13ccabae15d4951854d47cb35e17322e7537b64",
+      "path": "docs/index.html",
+      "sha256": "1369f3908b098cd07f2b4c61adc6501dbdf852654c80b8688dd3ca4a5a4c237e",
+      "bytes": 38015,
+      "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE25/blob/b13ccabae15d4951854d47cb35e17322e7537b64/docs/index.html",
+      "viewer_permission": "READ",
+      "verified": "retrieved community source, not an organizer receipt"
+    },
+    {
+      "repo": "GEMSDOE27",
+      "ref": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "path": "docs/index.html",
+      "sha256": "93656f37e0e7571c33c87a03f50d90b4506594eeab4a467d52db7a8400ab98c8",
+      "bytes": 7483,
+      "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE27/blob/4f34228a9f39e99da592aa34fd835c96d1b693f5/docs/index.html",
+      "viewer_permission": "READ",
+      "verified": "retrieved community source, not an organizer receipt"
+    },
+    {
+      "repo": "GEMSDOE28",
+      "ref": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "path": "docs/index.html",
+      "sha256": "74f432f67acd613294c505867e35e509193978376f04e9b0ec7686e988001a0f",
+      "bytes": 21580,
+      "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE28/blob/4955e29c7b66503ba2178b25d356d713dc1bc534/docs/index.html",
+      "viewer_permission": "READ",
+      "verified": "retrieved community source, not an organizer receipt"
+    },
+    {
+      "repo": "GEMSDOE30",
+      "ref": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "path": "docs/index.html",
+      "sha256": "7b24402562566eeec7f4045c9e9bdf1e3196720192cc5943d961fdf7491f785c",
+      "bytes": 262,
+      "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/d21ddd9502f3c3911e8d77b8f1e6abfaadffc876/docs/index.html",
+      "viewer_permission": "READ",
+      "verified": "retrieved community source, not an organizer receipt"
+    },
+    {
+      "repo": "GEMSDOE31",
+      "ref": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "path": "docs/index.html",
+      "sha256": "5da745baedc77faeb13f5e14b9155b183d60e24fff4662b39de75497327827cf",
+      "bytes": 124786,
+      "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE31/blob/88ec212955353f7590e94b8ef2a9763ffa035d45/docs/index.html",
+      "viewer_permission": "READ",
+      "verified": "retrieved community source, not an organizer receipt"
+    },
+    {
+      "repo": "GEMSDOE32",
+      "ref": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "path": "docs/index.html",
+      "sha256": "1265dbb51c040d8db297f9d36d3cff406e10aae52d1e73e53279c93fc77b4d09",
+      "bytes": 93310,
+      "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/docs/index.html",
+      "viewer_permission": "READ",
+      "verified": "retrieved community source, not an organizer receipt"
+    },
+    {
+      "repo": "GEMSDOE33",
+      "ref": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "path": "docs/index.html",
+      "sha256": "40b0b5399cec44dfce8d9b90c93e783a1d80b010c1999bf10a8de15f2c45c31e",
+      "bytes": 34075,
+      "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE33/blob/844f514819041c7be9efd345a24cf5cd70263f00/docs/index.html",
+      "viewer_permission": "READ",
+      "verified": "retrieved community source, not an organizer receipt"
+    },
+    {
+      "repo": "GEMSDOE36",
+      "ref": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "path": "docs/index.html",
+      "sha256": "526e9427267a1e4ca7dde50637f506ff2973794b1efd73b93c2db1ddf55c0cf0",
+      "bytes": 46640,
+      "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE36/blob/7edcc9b58e6ad0f88c6e6f5ee9218761a391769d/docs/index.html",
+      "viewer_permission": "READ",
+      "verified": "retrieved community source, not an organizer receipt"
+    }
+  ],
+  "official_reference": {
+    "repo": "drivendataorg/gems-prize-reference-solution",
+    "ref": "aebe92f7c8a990f0e3443451b7a825d9afd6336b",
+    "sha256": "1a7622732ba00f67237058bc0efe79b45ba4e87c449fc9c1e5d6ea659de92ca0",
+    "source_url": "https://github.com/drivendataorg/gems-prize-reference-solution/blob/aebe92f7c8a990f0e3443451b7a825d9afd6336b/unet-mc-cv-reference-solution.ipynb",
+    "verified_claims": [
+      "Reference solution is fault detection, not vent labeling.",
+      "Training Tversky loss uses alpha=0.2 and beta=0.8.",
+      "GPU is not mandatory; reference README offers a CPU environment."
+    ],
+    "does_not_verify": [
+      "Hidden leaderboard labels, current ranking, submission cap, or official distance-tolerant scorer.",
+      "Official authenticity of community-mirrored data or its band units."
+    ],
+    "alpha_beta_code_present": true
+  },
+  "shared_tools": {
+    "vendor/gems57/__init__.py": {
+      "sha256": "bd7f12b45caf67b7b4d0da4656c7c3895513bec524ec0b7f251227ecbdd39d26",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/__init__.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/evaluate_holdout.py": {
+      "sha256": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/evaluate_holdout.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/gates.py": {
+      "sha256": "7c57f70dbba58bb1112df4193a3de56516af0f981970d4b943b394f99b573dae",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/gates.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/grid.py": {
+      "sha256": "b96df7ec0f33658a61b0baa5db85fcd19be2cd8b1873f99699bd26bddae8cd8d",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/grid.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/holdout.py": {
+      "sha256": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/holdout.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/metric.py": {
+      "sha256": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/metric.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/network.py": {
+      "sha256": "d5e53d7df182e69bb22a6e39ac16f43d3f5b730e503d86538d5f8f7360020943",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/network.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/spatial.py": {
+      "sha256": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/spatial.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/submission_writer.py": {
+      "sha256": "41220185ac2823fe5358603d38f2a915ea3e5f1ab1f94f0b237295b38b4a2565",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/submission_writer.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/uniqueness.py": {
+      "sha256": "1c5094b814277ae801ccea6a47cf744429cffcdc10f9cc79f229d5fc44a8df95",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/uniqueness.py",
+      "upstream_unchanged": true
+    },
+    "vendor/gems57/validate.py": {
+      "sha256": "e7849554b47f6a2b66aeb2f7cfd5db06267412f049f52a73f1c41f934a2c34dd",
+      "source": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/73485f27cf230af770167397c2b72cb9ce3b3f25/vendor/gems57/validate.py",
+      "upstream_unchanged": true
+    }
+  },
+  "network_limit": "Direct outbound access restricted to GitHub and package registries; other linked official pages not retrieved.",
+  "score_receipts_present": false,
+  "current_leaderboard_verified": false,
+  "official_links_not_retrieved": [
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/",
+    "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+    "https://gdr.openei.org/submissions/1391",
+    "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+    "https://gbcge.org/current-projects/ingenious/",
+    "https://epsg.io/32611"
+  ]
+}

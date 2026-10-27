@@ -5,7 +5,9 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from build_site import render
+from build_field_notes import render
+
+DOCS = ROOT / "docs" / "field-notes"
 
 
 class PageParser(HTMLParser):
@@ -33,7 +35,7 @@ class PageParser(HTMLParser):
 def test_static_pages_are_consistent_and_local_links_resolve():
     render()
     for name in ("index.html", "executive-summary.html"):
-        page = ROOT / "docs" / name
+        page = DOCS / name
         parser = PageParser()
         parser.feed(page.read_text())
         for href in parser.links:
@@ -49,12 +51,12 @@ def test_static_pages_are_consistent_and_local_links_resolve():
         assert "{{" not in text
         if name == "index.html":
             assert parser.disabled and "Download submission TIFF" in text
-    assert not list((ROOT / "docs").rglob("*.tif"))
+    assert not list(DOCS.rglob("*.tif"))
 
 
 def test_site_receipts_match_evidence_and_never_authorize_upload():
-    card = json.loads((ROOT / "docs/data/run-card.json").read_text())
-    audit = json.loads((ROOT / "docs/data/geometry-audit.json").read_text())
+    card = json.loads((DOCS / "data/run-card.json").read_text())
+    audit = json.loads((DOCS / "data/geometry-audit.json").read_text())
     assert card == json.loads((ROOT / "evidence/run-card.json").read_text())
     assert audit == json.loads((ROOT / "evidence/geometry-audit.json").read_text())
     assert card["verdict"] == "negative" and card["upload_approved"] is False

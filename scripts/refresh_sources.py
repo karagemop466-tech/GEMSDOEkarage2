@@ -42,7 +42,7 @@ def build_feed(snapshot: dict, getter) -> dict:
     return {
         "checked_utc": datetime.now(timezone.utc).isoformat(),
         "reviewed_utc": snapshot["observed_utc"],
-        "scope": "GitHub default-branch HEAD metadata only; no score, raster re-audit, organizer quota, or complete-registry claim.",
+        "scope": "GitHub main-branch HEAD metadata only; no score, raster re-audit, organizer quota, or complete-registry claim.",
         "summary": {"total": len(rows),
                     "changed": sum(r["status"] == "changed_since_review" for r in rows),
                     "unavailable": sum(r["status"] == "unavailable" for r in rows)},
@@ -53,7 +53,7 @@ def build_feed(snapshot: dict, getter) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--snapshot", type=Path, default=ROOT / "registry/source_snapshot.json")
-    parser.add_argument("--output", type=Path, default=ROOT / "docs/data/source-feed.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "docs/field-notes/data/source-feed.json")
     args = parser.parse_args()
     snapshot = json.loads(args.snapshot.read_text())
     token = os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")

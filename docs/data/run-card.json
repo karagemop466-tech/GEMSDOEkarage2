@@ -1,57 +1,41 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-10-27T21:29:46.859460+00:00",
-  "experiment_count": 0,
-  "weekly_slots_used": 0,
-  "hypothesis": "No assigned lane; proposed signed cross-profile co-variation is research backlog only.",
-  "mechanism": "Compare flank changes across magnetic, gravity and conductive edges; not implemented or tested here.",
-  "named_non_fault_mimic": "Intrusive or volcanic lithologic contacts and saline basin boundaries.",
-  "holdout_dti": {
-    "value": null,
+  "recorded_utc": "2026-10-27T21:14:19Z",
+  "hypothesis": "Provisional research idea only: cross-scale gravity–magnetic edge displacement with topographic corroboration; no method lane was assigned.",
+  "mechanism": "Compare the orientation and spatial displacement of gravity and magnetic gradients at multiple smoothing scales, then condition on a topographic break. Test only after a lane is assigned.",
+  "named_non_fault_process": "A lithologic or intrusive contact can produce aligned gravity and magnetic gradients without a fault; erosion and survey line artifacts can mimic the surface break.",
+  "holdout": {
+    "classification": "NOT RUN; no HOLDOUT-DTI",
     "evaluator_version": null,
     "withheld_positives": null,
+    "dti": null,
     "confidence_interval_95": null,
-    "reason": "no experiment run"
+    "reason": "No assigned lane, no prepared template feature cache, no complete registry, and the reference-budget lattice preflight is impossible under the literal rule."
   },
-  "registry_comparison": {
-    "candidate_surface_rank_correlation": null,
-    "candidate_surface_overlap": null,
-    "candidate_final_rank_correlation": null,
-    "candidate_final_overlap": null,
-    "reason": "no candidate or full registry; historical reference geometry is in geometry-audit.json",
-    "witness_uncovered_footprint_pixels": 6649,
-    "first_provably_blocked_dot_budget": 22164
+  "correlation_and_overlap_vs_registry": {
+    "scope": "Nine historical files plus a registered r13 lattice; not the complete registry.",
+    "candidate_surface_spearman": null,
+    "candidate_surface_dot_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_dot_overlap": null,
+    "reference_budget": 37654,
+    "reference_budget_minimum_lattice_overlap": 0.8234184947150369,
+    "classification": "GEOMETRY-AUDIT, not a score; not a claim that every smaller raster is impossible."
   },
   "raster_sha256": null,
-  "validator_output": {
-    "status": "NOT RUN: no candidate TIFF",
-    "no_nan_inside": null,
-    "values_in_0_1": null,
-    "crs_shape_transform_match": null
+  "validator": {
+    "status": "NOT RUN: no candidate raster",
+    "no_nan_inside_footprint": null,
+    "values_in_zero_one": null,
+    "crs_shape_transform_match_organizer_template": null,
+    "organizer_acceptance": "unknown"
   },
   "submission_name": null,
-  "submission_note": null,
-  "estimated_leaderboard_score": null,
+  "note": "This audit made no candidate; the parallel H1 surface is research-only. DO NOT SUBMIT.",
   "verdict": "negative",
-  "download_approved": false,
-  "upload_approved": false,
-  "resources": {
-    "shared_template": "available; selected critical files SHA-256 pinned",
-    "core_data": {
-      "training_features.tif": "mirror hash matches",
-      "labels.tif": "mirror hash matches",
-      "existing_faults.tif": "mirror hash matches",
-      "sample_submission.tif": "mirror hash matches"
-    },
-    "shared_feature_cache": "available (shape and dtype checked)",
-    "template_and_data_provenance": "owner mirror; not organizer authenticated; scratch cache is non-persistent"
-  },
-  "blockers": [
-    "No single method paragraph / assignment source was supplied for this parallel lane.",
-    "The complete current cross-session registry and its independent completeness evidence are unavailable.",
-    "No frozen, same-evaluator best with matched folds and baseline artifacts is present in this checkout.",
-    "The organizer-authenticated example and footprint are unavailable; the owner mirror differs from the documented absence example.",
-    "No feature canaries, fold-local candidate holdout, candidate uniqueness audit, saved-byte candidate validator, or separate slot selection exists.",
-    "The shared evaluator and writer binarize positive float inputs; they are not safe for continuous probabilities without an upstream fix."
-  ]
+  "weekly_slot_selected": false,
+  "experiments_run": 0,
+  "readiness": "No file is authorized for upload; the parallel H1 surface failed scientific and registry gates.",
+  "scope": "Independent audit session only; the separately merged H1 session ran one experiment and generated a negative research surface.",
+  "parallel_experiment_card": "../evidence/run_card.json"
 }

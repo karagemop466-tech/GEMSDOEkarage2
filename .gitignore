@@ -1,17 +1,23 @@
-# Regenerable scientific inputs, features, private receipts, and environments
-.cache/
+# Data, working caches, environments and generated rasters remain outside Git.
 .venv/
+.cache/
 __pycache__/
 .pytest_cache/
 *.py[cod]
-data/
-!docs/data/
-!docs/data/*.json
-
-# A TIFF must only be published after the release gate has passed.
+data/raw/
+data/prepared/
+data/processed/
+*.partial
+node_modules/
+# Previous main-branch safeguards against raw or generated raster commits.
+/data/
 *.tif
 *.tiff
+# Intentionally quarantined research downloads from the parallel H1 run.
+!docs/downloads/*.tif
+!docs/downloads/*.tiff
+# Cache arrays and archives by default; retain only the previously quarantined H1 ZIP.
 *.npy
 *.npz
 *.zip
-.DS_Store
+!docs/downloads/*.zip

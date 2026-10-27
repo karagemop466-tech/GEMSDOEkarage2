@@ -81,6 +81,7 @@ def inspect(root: Path = ROOT) -> dict:
 
     return {
         "schema_version": 1,
+        "scope": "This independent follow-on review only; a separate parallel H1 research surface and negative experiment card exist in evidence/run_card.json.",
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "experiment_count": 0,
         "weekly_slots_used": 0,

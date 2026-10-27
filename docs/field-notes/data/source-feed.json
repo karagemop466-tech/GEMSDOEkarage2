@@ -1,7 +1,7 @@
 {
-  "checked_utc": "2026-10-27T21:28:38.609580+00:00",
+  "checked_utc": "2026-10-27T21:35:23.568226+00:00",
   "reviewed_utc": "2026-10-27T21:10:00Z",
-  "scope": "GitHub default-branch HEAD metadata only; no score, raster re-audit, organizer quota, or complete-registry claim.",
+  "scope": "GitHub main-branch HEAD metadata only; no score, raster re-audit, organizer quota, or complete-registry claim.",
   "summary": {
     "total": 9,
     "changed": 1,
