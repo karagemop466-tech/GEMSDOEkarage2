@@ -61,3 +61,14 @@ def test_redirect_guard_refuses_cross_host_and_downgrade():
         guard.redirect_request(req, None, 302, 'Found', {}, 'http://api.github.com/path')
     allowed = guard.redirect_request(req, None, 302, 'Found', {}, 'https://api.github.com/other')
     assert allowed.full_url == 'https://api.github.com/other'
+
+
+def test_github_failure_diagnostics_do_not_expose_exception(monkeypatch):
+    def fail(*args, **kwargs):
+        raise OSError('private details must not be published')
+    monkeypatch.setattr(feed, 'get', fail)
+    manifest = {'assets': [{'role': 'focus', 'site': 'a', 'repo': 'owner/repo', 'ref': 'a'*40}]}
+    result = feed.refresh({}, manifest)
+    assert result['sites'][0]['status'] == 'unavailable'
+    assert result['sites'][0]['error_type'] == 'OSError'
+    assert 'private details' not in json.dumps(result)

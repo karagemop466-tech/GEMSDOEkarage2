@@ -84,3 +84,14 @@ tests (33 unittest subtests) and five DOM tests, with one third-party rasterio
 pending-deprecation warning. Real-browser evidence from the H1 session covers
 its generated pages; the newer dashboard was exercised in DOM/HTTP tests but
 not independently screenshot-tested at responsive viewport sizes here.
+
+## Deployment review
+
+Both legacy main-root Pages publishing and the Actions artifact deployment
+succeeded, but they raced with different URL layouts (`/docs/` vs `/`). The
+Pages settings API and manual workflow-dispatch API returned HTTP 403 for the
+integration. The Actions artifact now stages the same root redirect plus
+`docs/` layout as the legacy build, so both mechanisms publish the same paths;
+no Git internals or caches are staged. A legacy build may briefly restore the
+older committed monitor until the scheduled refresh runs, and the dashboard
+must continue to label old or failed refreshes rather than assert live data.

@@ -142,8 +142,12 @@ For a local site preview, run `python -m http.server 8000 --bind 0.0.0.0 -d docs
 and open the served address. The browser shows only a dated leaderboard
 snapshot. GitHub Pages is configured to refresh GitHub repository metadata only;
 it does not automatically contact DrivenData, and the dated leaderboard snapshot
-is not refreshed or a live score. Stale/unavailable states are explicit. This
-monitor cannot access team quotas, private labels or submission receipts.
+is not refreshed or a live score. Stale/unavailable states are explicit. The
+repository currently uses legacy main-root Pages builds; the integration was
+unable to change that setting (HTTP 403). The Actions artifact mirrors the same
+root-to-`docs/` layout, so either deployment serves stable paths. A legacy build
+may temporarily restore the committed older metadata. This monitor cannot access
+team quotas, private labels or submission receipts.
 
 ## Official starting points
 
