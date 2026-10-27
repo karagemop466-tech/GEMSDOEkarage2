@@ -1,19 +1,50 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#102e2c"><meta name="description" content="GEMS submission guide and per-site executive review."><title>Submission guide · GEMS Research Desk</title><link rel="stylesheet" href="assets/style.css"><script src="assets/app.js" defer></script></head><body>
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header"><div class="header-inner shell"><a class="brand" href="index.html" aria-label="GEMS Research Desk home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 22 13 6l5 10 4-6 6 12M8 25h16"/></svg></span><span><strong>GEMS</strong><small>RESEARCH DESK</small></span></a><nav aria-label="Main navigation"><a href="index.html">Overview</a><a class="active" href="executive-summary.html" aria-current="page">Submission guide</a><a href="research.html">Research</a></nav><a class="header-link" href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener noreferrer">Competition ↗</a></div></header>
-<main id="main" class="shell inner-page">
-  <div class="breadcrumbs"><a href="index.html">Overview</a><span>/</span> Submission guide</div>
-  <div class="page-heading"><div><p class="eyebrow">EXECUTIVE SUMMARY</p><h1>Exactly when—and how—to submit.</h1><p class="lead">A format-valid file alone is not enough. This guide is intentionally fail-closed until a genuinely new, validated file is approved.</p></div><div class="page-tag">CURRENT STATUS<br><strong>NOT READY</strong></div></div>
-  <div class="alert" role="status"><div class="alert-icon" aria-hidden="true">!</div><div><strong>DO NOT SUBMIT — no candidate has passed the gates.</strong><p>The parallel H1 TIFF is available for research only and failed the release gates. No weekly slot has been selected or used. <a href="index.html#research-download">See the research artifact</a>.</p></div></div>
-  <section class="content-grid"><div class="steps"><p class="eyebrow">WHEN A FUTURE FILE IS APPROVED</p><h2>Submission checklist</h2>
-    <article class="step"><span>01</span><div><h3>Confirm the decision first</h3><p>Use a new file only when its run card shows an assigned lane, passing feature canaries, a same-protocol holdout win, complete surface and dot novelty, saved-byte validation, and separate selector approval. Current verdict: <strong>negative</strong>.</p></div></article>
-    <article class="step"><span>02</span><div><h3>Download the exact approved file</h3><p>The project must show its unique filename, SHA-256 and a note of at most 140 characters. Verify the downloaded bytes against the run card. Never rename or resubmit a historical raster as a new model.</p></div></article>
-    <article class="step"><span>03</span><div><h3>Check the competition form</h3><p>Sign in and open <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData GEMS</a> → Submit → Make new submission. Confirm the account’s current remaining weekly quota and rules. Choose the approved single-band GeoTIFF, or a ZIP containing exactly one GeoTIFF, and paste its short note.</p></div></article>
-    <article class="step"><span>04</span><div><h3>Keep the receipt</h3><p>After an authorized upload, retain the organizer receipt, exact file SHA and resulting score. A local HOLDOUT-DTI is a screening result—not an organizer score or a reliable leaderboard forecast.</p></div></article>
-  </div><aside class="side-card"><p class="eyebrow">FORMAT REQUIREMENTS</p><h3>What the organizer describes</h3><ul><li>Single-band <code>float32</code> GeoTIFF</li><li>Predictions in <code>[0, 1]</code></li><li>EPSG:32611, 100 m grid</li><li>Match the official template's shape and geotransform</li><li>Outside-bounds null/NaN per the published description</li></ul><p>The prior portal range error has not been reproduced here. A historical all-finite file passes a strict whole-array range diagnostic, but fails the shared check for NaN outside the mirror footprint. The correct encoding and actual portal acceptance remain unresolved; neither result authorizes upload.</p><p><a class="text-link" href="data/h33-format-diagnostic.json">Historical format diagnostic ↗</a> · <a class="text-link" href="submit.html">Independent format and release review ↗</a></p><a class="text-link" href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/#submission-format">Official specification ↗</a><hr><p>The rules PDF describes three submissions per week; check the current portal for your account and quota. Disclose applicable generative-AI use in the required narrative.</p><a class="text-link" href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules ↗</a></aside></section>
-  <section id="site-details" class="details-section"><div class="section-head"><div><p class="eyebrow">THE NINE-SITE EXECUTIVE REVIEW</p><h2>One decision for every site.</h2></div><div class="section-aside"><p>The score claims below are user-provided and unverified; links are to exact historical owner-repository bytes for research, never an upload recommendation.</p></div></div><div class="site-details" id="site-detail-list"><p class="loading-cell">Loading the pinned audit…</p></div><noscript><p>See the <a href="data/focus_audit.json">nine-site audit JSON</a>.</p></noscript></section>
-  <section class="callout"><div><p class="eyebrow">MACHINE-READABLE EVIDENCE</p><h2>Nothing is hidden behind the status.</h2><p>The H1 run card and independent audit record measured failures and unavailable gates without treating them as passes.</p></div><div class="callout-links"><a href="evidence/run_card.json">H1 negative run card ↓</a><a href="data/focus_audit.json">Nine-site audit ↓</a></div></section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GEMSDOEkarage2 — executive summary &amp; how to submit</title>
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<header>
+  <h1>Executive summary — GEMSDOE sites 24/25/27/28/30/31/32/33/36</h1>
+  <p class="subtitle">How to submit to the DOE GEMS Prize Challenge via DrivenData, plus the nine-site scorecard.</p>
+</header>
+
+<main>
+  <section id="how-to-submit">
+    <h2>How to submit (DrivenData form guide)</h2>
+    <ol>
+      <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
+      <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
+      <li>Format contract: EPSG:32611, 100 m, bounds [243350, 4135550, 572550, 4508550], 3730×3292 pixels, values in [0,1], NaN outside the footprint.</li>
+      <li>Upload, confirm the [0,1] range (portal rejects out-of-range values), and submit.</li>
+      <li>Wait for the organizer DTI evaluation against holdout labels (α=0.2, β=0.8, R=300 m triangular kernel).</li>
+    </ol>
+    <p class="warn">This repo's H-KARAGE-1 TIF is <b>NOT approved to submit</b>: the holdout gate is open (labels.tif requires DrivenData login) and no fold-local HOLDOUT-DTI win with paired 95% CI &gt; 0 vs. the repo best has been demonstrated.</p>
+  </section>
+
+  <section class="scorecard">
+    <h2>Nine-site scorecard</h2>
+    <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
+    <table>
+      <thead>
+        <tr><th>Site</th><th>File</th><th>Reported score</th><th>Transfer estimate</th><th>Within 3 px of best historical</th><th>Research file</th></tr>
+      </thead>
+      <tbody id="scorecard-body"></tbody>
+    </table>
+    <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
+  </section>
+
+  <section id="site-detail-list">
+    <h2>Per-site detail cards</h2>
+    <p>Click a site below for its detailed review.</p>
+  </section>
+
+  <p class="muted">Full per-site reviews: <a href="research-hypotheses.html">research hypotheses (H-KARAGE-2…6)</a> &nbsp;|&nbsp; <a href="how-to-submit.html">submission walkthrough &amp; 7-gate verdict table</a> &nbsp;|&nbsp; <a href="index.html">homepage &amp; download</a>.</p>
 </main>
-<footer><div class="shell footer-inner"><div><strong>GEMS RESEARCH DESK</strong><p>Fault mapping for geothermal exploration.<br>Evidence and limitations, made visible.</p></div><div><a href="research.html#sources">Official sources</a><a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a><a href="evidence/run_card.json">H1 run card</a></div><span>AN INDEPENDENT RESEARCH PROJECT<br>NOT AFFILIATED WITH DRIVENDATA OR DOE</span></div></footer>
-</body></html>
+
+<script src="./assets/app.js"></script>
+</body>
+</html>

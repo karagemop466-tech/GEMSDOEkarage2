@@ -1,0 +1,21 @@
+{
+  "file": "/home/user/GEMSDOEkarage2/submissions/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif",
+  "sha256": "28451a64b659b4e206bb483140fac169987db2edea7dc6a2cdc54f1c0f5fbfff",
+  "bytes": 735586,
+  "crs": "EPSG:32611",
+  "shape": [
+    3730,
+    3292
+  ],
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+  ],
+  "dtype": "float32",
+  "nodata": null,
+  "compress": "lzw"
+}

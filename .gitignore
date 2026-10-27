@@ -1,19 +1,24 @@
 # Data, working caches, environments and generated rasters remain outside Git.
 .venv/
 .cache/
+.vscode/
 __pycache__/
 .pytest_cache/
 *.py[cod]
-data/raw/
-data/prepared/
-data/processed/
 *.partial
 node_modules/
+.DS_Store
+.env
+
+# Competition data is large and gated behind DrivenData login - not stored in Git.
+data/
+
 # Previous main-branch safeguards against raw or generated raster commits.
 /data/
 *.tif
 *.tiff
-# Intentionally quarantined research downloads from the parallel H1 run.
+
+# Intentionally allow tracked downloadable submission rasters served by Pages.
 !docs/downloads/*.tif
 !docs/downloads/*.tiff
 # Cache arrays and archives by default; retain only the previously quarantined H1 ZIP.
