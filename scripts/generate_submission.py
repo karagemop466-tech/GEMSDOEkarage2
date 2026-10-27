@@ -72,7 +72,7 @@ from submission_writer import (OFFICIAL_CRS, OFFICIAL_PIXEL_M, OFFICIAL_WIDTH,
                                write_audit_and_run_card)
 from evaluate_holdout import PIXEL_SIZE_M, ALPHA, BETA, R_METERS
 
-SUBMISSIONS_DIR = REPO_ROOT / "submissions"
+SUBMISSIONS_DIR = REPO_ROOT / "docs" / "downloads"
 REFERENCE_DIR = REPO_ROOT / "reference" / "gemsdoe36"
 RNG_SEED = 0x1C47A9E3
 

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-27T21:14:19Z",
+  "hypothesis": "Provisional research idea only: cross-scale gravity–magnetic edge displacement with topographic corroboration; no method lane was assigned.",
+  "mechanism": "Compare the orientation and spatial displacement of gravity and magnetic gradients at multiple smoothing scales, then condition on a topographic break. Test only after a lane is assigned.",
+  "named_non_fault_process": "A lithologic or intrusive contact can produce aligned gravity and magnetic gradients without a fault; erosion and survey line artifacts can mimic the surface break.",
+  "holdout": {
+    "classification": "NOT RUN; no HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "dti": null,
+    "confidence_interval_95": null,
+    "reason": "No assigned lane, no prepared template feature cache, no complete registry, and the reference-budget lattice preflight is impossible under the literal rule."
+  },
+  "correlation_and_overlap_vs_registry": {
+    "scope": "Nine historical files plus a registered r13 lattice; not the complete registry.",
+    "candidate_surface_spearman": null,
+    "candidate_surface_dot_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_dot_overlap": null,
+    "reference_budget": 37654,
+    "reference_budget_minimum_lattice_overlap": 0.8234184947150369,
+    "classification": "GEOMETRY-AUDIT, not a score; not a claim that every smaller raster is impossible."
+  },
+  "raster_sha256": null,
+  "validator": {
+    "status": "NOT RUN: no candidate raster",
+    "no_nan_inside_footprint": null,
+    "values_in_zero_one": null,
+    "crs_shape_transform_match_organizer_template": null,
+    "organizer_acceptance": "unknown"
+  },
+  "submission_name": null,
+  "note": "This audit made no candidate; the parallel H1 surface is research-only. DO NOT SUBMIT.",
+  "verdict": "negative",
+  "weekly_slot_selected": false,
+  "experiments_run": 0,
+  "readiness": "No file is authorized for upload; the parallel H1 surface failed scientific and registry gates.",
+  "scope": "Independent audit session only; the separately merged H1 session ran one experiment and generated a negative research surface.",
+  "parallel_experiment_card": "../evidence/run_card.json"
+}

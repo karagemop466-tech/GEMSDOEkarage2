@@ -1,0 +1,78 @@
+{
+  "generated_utc": "2026-10-27T21:18:10Z",
+  "note": "Freshness is not a scientific, format or submission-approval gate.",
+  "leaderboard": {
+    "status": "snapshot",
+    "score_text": "0.4544",
+    "rank": 1,
+    "checked_utc": "2026-10-27T21:18:10Z",
+    "access_method": "Arena public web page reader (rechecked)",
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "evidence_class": "PUBLIC ORGANIZER LEADERBOARD SNAPSHOT; not a file-bound submission receipt"
+  },
+  "sites": [
+    {
+      "site": "GEMSDOE24",
+      "pinned_ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "checked_utc": "2026-10-27T21:17:32Z",
+      "latest_ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "status": "unchanged"
+    },
+    {
+      "site": "GEMSDOE25",
+      "pinned_ref": "b13ccabae15d4951854d47cb35e17322e7537b64",
+      "checked_utc": "2026-10-27T21:17:32Z",
+      "latest_ref": "19b219f629440b9975b093f459c74e21a42476ca",
+      "status": "changed"
+    },
+    {
+      "site": "GEMSDOE27",
+      "pinned_ref": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "checked_utc": "2026-10-27T21:17:32Z",
+      "latest_ref": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "status": "unchanged"
+    },
+    {
+      "site": "GEMSDOE28",
+      "pinned_ref": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "checked_utc": "2026-10-27T21:17:33Z",
+      "latest_ref": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "status": "unchanged"
+    },
+    {
+      "site": "GEMSDOE30",
+      "pinned_ref": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "checked_utc": "2026-10-27T21:17:33Z",
+      "latest_ref": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "status": "unchanged"
+    },
+    {
+      "site": "GEMSDOE31",
+      "pinned_ref": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "checked_utc": "2026-10-27T21:17:34Z",
+      "latest_ref": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "status": "unchanged"
+    },
+    {
+      "site": "GEMSDOE32",
+      "pinned_ref": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "checked_utc": "2026-10-27T21:17:34Z",
+      "latest_ref": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "status": "unchanged"
+    },
+    {
+      "site": "GEMSDOE33",
+      "pinned_ref": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "checked_utc": "2026-10-27T21:17:35Z",
+      "latest_ref": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "status": "unchanged"
+    },
+    {
+      "site": "GEMSDOE36",
+      "pinned_ref": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "checked_utc": "2026-10-27T21:17:35Z",
+      "latest_ref": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "status": "unchanged"
+    }
+  ]
+}

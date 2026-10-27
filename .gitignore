@@ -1,12 +1,23 @@
-# Python
+# Data, working caches, environments and generated rasters remain outside Git.
 .venv/
-venv/
+.cache/
+.vscode/
 __pycache__/
-*.pyc
+.pytest_cache/
+*.py[cod]
+*.partial
+node_modules/
+.DS_Store
 .env
 
-# Competition data (large, gated behind DrivenData login - not stored in git)
+# Competition data is large and gated behind DrivenData login - not stored in Git.
 data/
 
-# OS
-.DS_Store
+# Previous main-branch safeguards against raw or generated raster commits.
+/data/
+*.tif
+*.tiff
+
+# Intentionally allow tracked downloadable submission rasters served by Pages.
+!docs/downloads/*.tif
+!docs/downloads/*.tiff
