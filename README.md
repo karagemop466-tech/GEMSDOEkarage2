@@ -1,6 +1,6 @@
 # GEMSDOEkarage2
 
-**Start every session here. No approved competition TIFF exists.**
+**Start every session here. No approved competition TIFF exists.** [Open the Executive Dashboard →](docs/index.html)
 
 Read [the project brief](knowledge/project-brief.md), [review and next steps](knowledge/review.md), and [run card](docs/data/run-card.json) before changing models. The site is in `docs/`; the executive dashboard links nine local per-site summaries and a submission guide.
 
