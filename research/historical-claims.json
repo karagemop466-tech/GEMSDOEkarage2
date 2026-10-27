@@ -1,0 +1,16 @@
+{
+  "evidence_class": "OWNER-REPORTED / UNVERIFIED — not HOLDOUT-DTI, not ORGANIZER-CONFIRMED",
+  "scope": "Highest historical values supplied for the nine-site family, as reproduced in the pinned GEMSDOE30 executive page. No artifact-linked organizer receipts were available. These values are not tied independently to the exact all-finite files audited here and are not estimates for any new submission.",
+  "source_url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/d21ddd9502f3c3911e8d77b8f1e6abfaadffc876/index.html",
+  "claims": {
+    "GEMSDOE24": "0.2477",
+    "GEMSDOE25": "0.2600",
+    "GEMSDOE27": "0.2449",
+    "GEMSDOE28": "0.2710",
+    "GEMSDOE30": "0.2600",
+    "GEMSDOE31": "0.2708",
+    "GEMSDOE32": "0.2778",
+    "GEMSDOE33": "0.2632",
+    "GEMSDOE36": "0.2750"
+  }
+}

@@ -1,0 +1,16 @@
+# Competition inputs, generated caches and model outputs are never committed.
+.cache/
+.venv/
+data/raw/
+data/prepared/
+outputs/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+node_modules/
+# Retain main's conservative binary-data convention.
+/data/
+*.tif
+*.tiff
+.pages/

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-27",
+  "hypothesis": "Proposed only: multi-scale signed gravity, reduced-to-pole magnetics and detrended-elevation edge coherence. No assigned geological method lane was provided.",
+  "mechanism": "Test whether a persistent, oriented subsurface contrast and surface break delineate an unmapped fault. No detector was fitted or evaluated.",
+  "named_non_fault_mimic": "An unfaulted lithologic contact or airborne survey-line levelling artifact can create a similar contrast.",
+  "holdout_dti": null,
+  "holdout_evaluator_version": null,
+  "withheld_positive_count": null,
+  "holdout_95_percent_ci": null,
+  "holdout_status": "Not run; no estimate or claimed improvement.",
+  "registry_scope": "Nine pinned historical TIFFs and one registered calibration lattice; not the complete parallel-run registry.",
+  "surface_rank_correlation_vs_registry": null,
+  "final_dot_overlap_vs_registry": null,
+  "preplacement_geometry": {
+    "label": "GEOMETRY AUDIT, not a score",
+    "reference": "13GEMSDOE spacing-five calibration lattice, registered by GEMSDOE24",
+    "reference_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "candidate_budget": 37654,
+    "uncovered_footprint_cells": 6649,
+    "minimum_possible_directional_overlap": 0.8234184947150369,
+    "limit": 0.7,
+    "duplicate_stop": true
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "NOT RUN — no candidate raster exists",
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "portal_acceptance": "unverified"
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "new_submission_tiff_generated": false,
+  "weekly_slot_selected": false,
+  "experiments_run": 0,
+  "verdict": "negative",
+  "reasons": [
+    "No specific method lane was assigned in the supplied protocol.",
+    "For the stated champion-sized dot budget, the literal any-registry overlap threshold is mathematically impossible to pass against the registered lattice.",
+    "The complete parallel registry and a same-protocol frozen best are unavailable; score receipts and authenticated competition inputs were not accessible. The mirrored sample differs from the organizer's description."
+  ]
+}
