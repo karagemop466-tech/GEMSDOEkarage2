@@ -22,7 +22,11 @@ jobs:
       - name: Bootstrap pinned research inputs and shared tools
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python scripts/bootstrap_research.py > /tmp/gems-bootstrap.json
+        run: |
+          python scripts/bootstrap_research.py > /tmp/gems-bootstrap.json
+          mkdir -p .cache/gems_data
+          ln -sf ../research/inputs/sample.tif .cache/gems_data/sample_submission.tif
+          ln -sf ../research/inputs/labels.tif .cache/gems_data/existing_faults.tif
       - name: Unit and shared-validator integration tests
         run: |
           pytest -q

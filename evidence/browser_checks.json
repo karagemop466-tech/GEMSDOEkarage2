@@ -1,0 +1,90 @@
+{
+  "rows": [
+    {
+      "width": 1440,
+      "overflow": false,
+      "disabled": true,
+      "researchDownload": 1
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "disabled": true,
+      "researchDownload": 1
+    },
+    {
+      "width": 320,
+      "overflow": false,
+      "disabled": true,
+      "researchDownload": 1
+    },
+    {
+      "page": "submission-guide.html",
+      "status": "Submission guide \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "hypotheses.html",
+      "status": "Hypotheses \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sources.html",
+      "status": "Sources and limitations \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sites/GEMSDOE24.html",
+      "status": "GEMSDOE24 \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sites/GEMSDOE25.html",
+      "status": "GEMSDOE25 \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sites/GEMSDOE27.html",
+      "status": "GEMSDOE27 \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sites/GEMSDOE28.html",
+      "status": "GEMSDOE28 \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sites/GEMSDOE30.html",
+      "status": "GEMSDOE30 \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sites/GEMSDOE31.html",
+      "status": "GEMSDOE31 \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sites/GEMSDOE32.html",
+      "status": "GEMSDOE32 \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sites/GEMSDOE33.html",
+      "status": "GEMSDOE33 \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "page": "sites/GEMSDOE36.html",
+      "status": "GEMSDOE36 \u00b7 GEMS discovery lab",
+      "overflow": false
+    },
+    {
+      "download_http_status": 200,
+      "sha256_matches": true
+    }
+  ],
+  "errors": [],
+  "test_type": "LOCAL-BROWSER-MEASUREMENT, not a competition result",
+  "environment": "Chromium 153 via @sparticuz/chromium; playwright-core; local HTTP server",
+  "notes": "Rechecked after concurrent-main integration. All final checks pass. Initial mobile revision/hash overflow was fixed. Screenshots are not shipped as scientific evidence."
+}

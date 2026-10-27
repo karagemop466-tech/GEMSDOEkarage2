@@ -1,0 +1,11 @@
+{
+  "evidence_class": "RASTER-MEASUREMENT",
+  "d28_equals_site30": true,
+  "b1_equals_d28_distance_gt1": true,
+  "b2_equals_d28_distance_gt2": true,
+  "removed_d28_to_b2": 6436,
+  "removed_b1_to_b2": 2545,
+  "site36_contains_all_b2": true,
+  "site36_extra_pixels": 1200,
+  "interpretation": "B2 is a catalogue-apron pruning operation, not an independent discovery model. Reduced false-positive mass is a plausible explanation for user-reported improvement; hidden truth/receipts unavailable, so causal gains are not established."
+}

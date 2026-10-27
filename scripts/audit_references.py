@@ -157,6 +157,7 @@ def run_audit(cache: Path, spec: dict, budget: int = 37654) -> dict:
     }
     return {
         "schema_version": 1,
+        "session_scope": "Independent geometry/format audit; separate from the prior merged H1 experiment.",
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "type": "GEOMETRY AND FORMAT AUDIT — NOT HOLDOUT-DTI OR ORGANIZER SCORE",
         "scope": spec["scope"],

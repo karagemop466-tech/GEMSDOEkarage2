@@ -81,3 +81,12 @@ def test_website_is_derived_from_audit_and_has_no_download_link():
     parser.feed(page)
     assert parser.downloads == []
     assert "Do not submit" in page
+
+
+def test_merged_selector_fails_closed_on_unverified_exterior():
+    selector = load("evidence/selector_input.json")
+    result = load("evidence/selector_result.json")
+    assert selector["validator"]["outside_nodata"] is None
+    assert result["verdict"] == "negative"
+    assert result["slot_authorized"] is False
+    assert "Raster validation missing or failed" in result["reasons"]

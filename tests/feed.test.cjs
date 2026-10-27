@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const {classify, checkReference} = require('../docs/assets/site.js');
+const {classify, checkReference} = require('../docs/assets/audit.js');
 const pin = 'a'.repeat(40);
 
 test('classifies unchanged, changed and invalid hashes without guessing', () => {

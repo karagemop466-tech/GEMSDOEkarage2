@@ -4,6 +4,7 @@ const child = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
 const zlib = require('node:zlib');
+const crypto = require('node:crypto');
 const chromium = require('@sparticuz/chromium').default;
 const {chromium: playwright} = require('playwright-core');
 const root = path.resolve(__dirname, '..');
@@ -60,6 +61,22 @@ function chromeEnvironment() {
       const sha = network === 'stale' && row.site === 'GEMSDOE32' ? 'f'.repeat(40) : row.pinned_ref;
       await route.fulfill({status:200, contentType:'application/json', headers:{'access-control-allow-origin':'*'}, body:JSON.stringify({sha})});
     });
+    const parallelCard = require('../evidence/run_card.json');
+    const artifactResponse = await fetch(base + '/' + parallelCard.raster);
+    assert.equal(artifactResponse.status, 200);
+    const artifactHash = crypto.createHash('sha256').update(Buffer.from(await artifactResponse.arrayBuffer())).digest('hex');
+    assert.equal(artifactHash, parallelCard.raster_sha256);
+    assert.equal(parallelCard.approved_for_weekly_slot, false);
+    for (const width of [1440, 390, 320]) {
+      await page.setViewportSize({width, height:900});
+      await page.goto(base + '/', {waitUntil:'domcontentloaded'});
+      await page.waitForURL('**/docs/index.html');
+      assert.ok(await page.getByRole('button', {name:'No approved submission TIF'}).isDisabled());
+      assert.ok(await page.locator('a[download]').first().innerText().then(text => text.includes('DO NOT SUBMIT')));
+      assert.ok(await page.locator('a[href="audit.html"]').count());
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Experiment overview overflow');
+      console.log(`PASS ${width}px: experiment page, release lock, research-only download`);
+    }
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);
       await page.goto(base + '/docs/audit.html', {waitUntil:'domcontentloaded'});
@@ -90,6 +107,10 @@ function chromeEnvironment() {
     await page.waitForFunction(() => document.querySelector('[data-feed-summary]').textContent.includes('9 unavailable'));
     assert.equal(await page.locator('[data-refresh]').isEnabled(), true);
     assert.equal(await page.locator('.fresh.unavailable').count(), 9);
+    await page.goto(base + '/docs/index.html');
+    await page.locator('#refresh-sources').click();
+    await page.waitForFunction(() => document.querySelector('#freshness-results').textContent.includes('freshness unverified'));
+    assert.equal(await page.locator('#refresh-sources').isEnabled(), true);
     assert.deepEqual(errors, []);
     console.log('PASS freshness: current, changed and unavailable fail-safe states');
   } finally {

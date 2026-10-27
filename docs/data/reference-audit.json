@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-10-27T21:14:26.549899+00:00",
+  "session_scope": "Independent geometry/format audit; separate from the prior merged H1 experiment.",
+  "generated_utc": "2026-10-27T21:28:50.634953+00:00",
   "type": "GEOMETRY AND FORMAT AUDIT \u2014 NOT HOLDOUT-DTI OR ORGANIZER SCORE",
   "scope": "Nine pinned historical rasters and one registered lattice; not the complete live parallel-run registry. Owner mirrors are not authenticated organizer downloads.",
   "shared_template_ref": "2521cb676e172c141a4417e4925b73b6a896c1eb",

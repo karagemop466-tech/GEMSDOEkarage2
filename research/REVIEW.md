@@ -59,12 +59,16 @@ pixels. Do not use that simplification to forecast a score. See the
   universally to small candidates.
 - The prompt specifies a single assigned method lane but does not supply its
   paragraph. It also asks for a new file regardless of gates while requiring an
-  immediate stop on duplicate; the stop is honored. No candidate was written.
-- The shared writer's docstring calls its zero-exterior default “portal-safe”
+  immediate stop on duplicate; this independent audit honored the stop and did
+  not write a candidate. See the separate parallel experiment below.
+- The shared GEMSDOE24 writer's docstring calls its zero-exterior default “portal-safe”
   and discourages the NaN variant despite the published bounds language. This
   is an unsupported assertion: neither encoding has an artifact-linked portal
   receipt here. Report this upstream; do not silently fork or treat the writer's
-  default as an authorization. The local audit reports both diagnostics.
+  default as an authorization. The GEMSDOE57 `grid.py` writer also calls
+  zero-exterior the only submission-compatible mode without portal evidence.
+  The local audit reports both diagnostics; neither claim is independently
+  established and upstream fixes should be proposed rather than privately forked.
 - The canonical shared `evaluate_holdout.py` is a frozen MTR1-specific runner;
   it is not a generic entry point for these new proposals. No shared tool was
   modified or privately forked. The cached prepared feature stack and a frozen
@@ -90,3 +94,25 @@ frozen matched control using the common evaluator and feature-only canaries.
 Resolve exterior format with an organizer clarification or an existing receipt,
 then only let the separate selector consider a slot. If the policy remains
 unchanged, keep the negative result and do not advertise a download as ready.
+
+## Concurrent experiment merged during this audit
+
+A different session merged the H1 signed cross-field parity experiment into
+`main`. Its [run card](../evidence/run_card.json) reports **HOLDOUT-DTI 0.03367**,
+95% CI [0.02867, 0.03929], evaluator `gems57-pooled-hide-v2`, and 58,259
+withheld positives; it reports a negative paired comparison against its best
+primitive control and a literal lattice overlap stop. These are **source-recorded
+results, not independently replayed in this follow-up** and not organizer
+scores. No final dots or slot were selected there. The research-only surface
+was preserved by that session and is prominently marked DO NOT SUBMIT.
+
+We independently re-opened its exact TIFF through the pinned GEMSDOE24 format
+checker. Its SHA-256 is `a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede`;
+the mirrored-grid/interior and strict all-array range diagnostics pass, while
+the mirror-exterior NaN diagnostic fails. Neither establishes the official
+sample identity or portal acceptance. The merged readiness adapter previously
+set `outside_nodata` equal to a general local format-pass flag; it has been
+corrected to unknown so it cannot silently mark the unresolved exterior
+requirement as verified. This does not modify the shared writer or evaluator. The physical report calls band 15 a
+basement-depth layer based on mirror metadata; the organizer instead lists a
+conductive-base depth feature. The band mapping and equivalence are unverified.

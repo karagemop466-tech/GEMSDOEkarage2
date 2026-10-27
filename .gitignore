@@ -1,16 +1,17 @@
-# Competition inputs, generated caches and model outputs are never committed.
+# Local inputs, models and browser/test caches are not committed.
 .cache/
 .venv/
+node_modules/
+data/
 data/raw/
 data/prepared/
 outputs/
+.pages/
 __pycache__/
 .pytest_cache/
 *.pyc
-
-node_modules/
-# Retain main's conservative binary-data convention.
-/data/
 *.tif
 *.tiff
-.pages/
+# Existing explicitly quarantined research surfaces are intentional deliverables.
+!docs/downloads/*.tif
+!docs/downloads/*.tiff
