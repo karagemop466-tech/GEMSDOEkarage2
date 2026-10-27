@@ -138,7 +138,11 @@ rechecked.
 For a local site preview, run `python -m http.server 8000 --bind 0.0.0.0 -d docs`
 and open the served address. The browser shows only a dated leaderboard
 snapshot. GitHub Pages is configured to attempt a scheduled public-source refresh;
-a failed refresh is explicitly stale/unavailable, never a live score. This
+a failed refresh is explicitly stale/unavailable, never a live score. The current
+repository Pages setting uses legacy main-root builds, and changing it to Actions
+was denied by the GitHub integration (HTTP 403). The Actions artifact therefore
+mirrors the same root-to-`docs/` layout; either deployment serves stable paths.
+A legacy rebuild can temporarily restore the committed older snapshot. This
 monitor cannot access team quotas, private labels or submission receipts.
 
 ## Official starting points
