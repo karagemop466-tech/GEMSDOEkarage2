@@ -1,3 +1,5 @@
+> **Earlier review snapshot:** Cache and automation statements below predate the later independent raster audit and partial shared-tool restoration. See [the current review](../research/review.md) and [three-pass record](../research/three-pass-review.md). No submission has been authorized.
+
 # Repository review, evidence review, and next research steps — 2026-10-27
 
 ## 1. What this checkout actually contains

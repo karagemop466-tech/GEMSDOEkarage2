@@ -1,52 +1,41 @@
 {
-  "hypothesis": "Unassigned: the task does not identify a single method-lane paragraph",
-  "mechanism": null,
-  "non_fault_mimic": "Not selected because no candidate hypothesis was assigned; examples to control in future tests include Lake Lahontan shorelines, basalt-flow margins, and lithologic contacts.",
-  "metric_specification": {
-    "status": "PRESPECIFIED_NOT_EVALUATED",
-    "alpha": 0.2,
-    "beta": 0.8,
-    "kernel": "triangular",
-    "kernel_radius_m": 300
-  },
+  "schema_version": 1,
+  "recorded_utc": "2026-10-27T21:14:19Z",
+  "hypothesis": "Provisional research idea only: cross-scale gravity–magnetic edge displacement with topographic corroboration; no method lane was assigned.",
+  "mechanism": "Compare the orientation and spatial displacement of gravity and magnetic gradients at multiple smoothing scales, then condition on a topographic break. Test only after a lane is assigned.",
+  "named_non_fault_process": "A lithologic or intrusive contact can produce aligned gravity and magnetic gradients without a fault; erosion and survey line artifacts can mimic the surface break.",
   "holdout": {
-    "evidence_type": "HOLDOUT-DTI",
-    "status": "NOT RUN",
-    "dti": null,
-    "ci95": null,
-    "paired_delta_ci95": null,
+    "classification": "NOT RUN; no HOLDOUT-DTI",
     "evaluator_version": null,
-    "withheld_positives": null
+    "withheld_positives": null,
+    "dti": null,
+    "confidence_interval_95": null,
+    "reason": "No assigned lane, no prepared template feature cache, no complete registry, and the reference-budget lattice preflight is impossible under the literal rule."
   },
-  "correlation_overlap_vs_registry": {
-    "status": "NOT RUN",
-    "registry_snapshot_sha256": null,
-    "surface_max_rank_correlation": null,
-    "final_dots_max_fraction_within_3px": null
+  "correlation_and_overlap_vs_registry": {
+    "scope": "Nine historical files plus a registered r13 lattice; not the complete registry.",
+    "candidate_surface_spearman": null,
+    "candidate_surface_dot_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_dot_overlap": null,
+    "reference_budget": 37654,
+    "reference_budget_minimum_lattice_overlap": 0.8234184947150369,
+    "classification": "GEOMETRY-AUDIT, not a score; not a claim that every smaller raster is impossible."
   },
   "raster_sha256": null,
   "validator": {
-    "status": "NOT RUN - NO CANDIDATE TIFF",
-    "single_band": null,
-    "finite_inside": null,
-    "no_nan_inside": null,
-    "range_0_1": null,
-    "crs_match": null,
-    "shape_match": null,
-    "transform_match": null,
-    "outside_footprint_nodata": null
+    "status": "NOT RUN: no candidate raster",
+    "no_nan_inside_footprint": null,
+    "values_in_zero_one": null,
+    "crs_shape_transform_match_organizer_template": null,
+    "organizer_acceptance": "unknown"
   },
   "submission_name": null,
-  "submission_note": "No candidate generated; lane and shared template must be pinned first.",
-  "submission_status": "NO FILE - DO NOT SUBMIT",
+  "note": "This audit made no candidate; the parallel H1 surface is research-only. DO NOT SUBMIT.",
   "verdict": "negative",
+  "weekly_slot_selected": false,
   "experiments_run": 0,
-  "weekly_slots_used": 0,
-  "blockers": [
-    "Missing assigned method paragraph",
-    "No local competition rasters, sample template, or cached feature stack",
-    "Shared template identity not specified",
-    "No complete registry surface/final-dot raster measurements",
-    "No comparable current holdout best or organizer receipt"
-  ]
+  "readiness": "No file is authorized for upload; the parallel H1 surface failed scientific and registry gates.",
+  "scope": "Independent audit session only; the separately merged H1 session ran one experiment and generated a negative research surface.",
+  "parallel_experiment_card": "../evidence/run_card.json"
 }

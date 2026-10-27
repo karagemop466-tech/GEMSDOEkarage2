@@ -341,7 +341,7 @@
     "crs_match": true,
     "shape_match": true,
     "transform_match": true,
-    "outside_nodata": true
+    "outside_nodata": null
   },
   "raster_sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede",
   "submission_name": "gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface",
