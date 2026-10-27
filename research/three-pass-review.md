@@ -109,10 +109,10 @@ current JSON, dashboard, experiment overview and per-site pages now use the
 claim-named files. The earlier JSON remains available with a correction
 annotation; none of these score claims has a file-bound organizer receipt.
 
-After the stable-layout deployment, the monitor's safe diagnostic reported zero
-parsed rows and no recognized leaderboard headers. It retained the dated
-public 0.4544 snapshot, rather than presenting it as a current refresh. Added
-fixed response-shape booleans (not page contents, participant data, tokens or
-exception text) to distinguish a table-free response from a challenge, login or
-other shell when the next scheduled build runs. The actual underlying response
-was not inspected; no parser workaround or access bypass is assumed.
+After the stable-layout deployment, an earlier refresh diagnostic reported zero
+parsed rows and no recognized leaderboard headers. The underlying response was
+not inspected, and no parser workaround or access bypass was attempted. A
+concurrent follow-on review subsequently disabled automated DrivenData access:
+the scheduled feed refreshes GitHub metadata only. The dated public 0.4544
+snapshot is never relabeled as a fresh leaderboard check; consult the official
+board directly for its current value.

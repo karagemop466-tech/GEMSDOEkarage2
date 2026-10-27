@@ -45,6 +45,7 @@ def test_download_bytes_grid_range_and_zip(tmp_path):
         assert ds.crs.to_epsg()==32611 and ds.transform==grid.TRANSFORM
         assert ds.nodata is None
         assert np.isfinite(a).all() and a.min()>=0 and a.max()<=1
+        assert ((a > 0) & (a < 1)).any()  # H1 saved field is not binary
         assert (ds.dataset_mask()>0).all()
     # CI need not redownload private/large inputs: create a grid-only template,
     # not labels or hidden truth. This test certifies format, not provenance.

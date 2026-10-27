@@ -99,9 +99,9 @@
       if (Number.isNaN(checked.valueOf())) throw new Error("No valid timestamp");
       const ageHours = (Date.now() - checked.valueOf()) / 3600000;
       score.textContent = snapshot.score_text;
-      const stale = ageHours > 8 || ageHours < -0.25;
-      const label = board.status === "unavailable" ? "STALE / REFRESH FAILED" : stale ? "STALE SNAPSHOT" : "PUBLIC SNAPSHOT";
-      status.textContent = `${label} · ${checked.toISOString().slice(0, 16).replace("T", " ")} UTC`;
+      const stale = board.status === "unavailable" || ageHours > 8 || ageHours < -0.25;
+      const label = stale ? "STALE SNAPSHOT" : "DATED SNAPSHOT";
+      status.textContent = `${label} / CHECK OFFICIAL BOARD · ${checked.toISOString().slice(0, 16).replace("T", " ")} UTC`;
     } catch (_) { score.textContent = "—"; status.textContent = "SNAPSHOT UNAVAILABLE · SEE OFFICIAL BOARD"; }
   };
   loadAudit(); loadMonitor();

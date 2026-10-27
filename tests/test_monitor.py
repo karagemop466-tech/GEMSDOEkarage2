@@ -23,19 +23,24 @@ def test_bad_or_ambiguous_leaderboard_fails_closed(html):
         feed.parse_leaderboard(html)
 
 
-def test_unavailable_preserves_dated_snapshot_and_changed_heads(monkeypatch):
+def test_default_preserves_dated_snapshot_and_checks_only_github(monkeypatch):
     old = {'leaderboard': {'status': 'snapshot', 'score_text': '0.5', 'checked_utc': '2026-01-01T00:00:00Z',
                            'source': 'official', 'evidence_class': 'public'}}
     man = {'assets': [{'role': 'focus', 'site': 'a', 'repo': 'owner/repo', 'ref': 'a'*40}]}
     def fake_get(url, **kwargs):
-        if url == feed.LEADERBOARD:
-            raise OSError('not reachable')
+        assert url.startswith('https://api.github.com/')
         return json.dumps({'sha': 'b'*40})
     monkeypatch.setattr(feed, 'get', fake_get)
     result = feed.refresh(old, man)
-    assert result['leaderboard']['status'] == 'unavailable'
-    assert result['leaderboard']['last_successful']['score_text'] == '0.5'
+    assert result['leaderboard'] == old['leaderboard']
     assert result['sites'][0]['status'] == 'changed'
+
+
+def test_drivendata_automation_is_disabled():
+    with pytest.raises(ValueError, match='only the GitHub API'):
+        feed.get(feed.LEADERBOARD)
+    with pytest.raises(ValueError, match='monitoring is disabled'):
+        feed.refresh({}, {'assets': []}, github_only=False)
 
 
 def test_github_only_does_not_relabel_snapshot(monkeypatch):
@@ -58,27 +63,12 @@ def test_redirect_guard_refuses_cross_host_and_downgrade():
     assert allowed.full_url == 'https://api.github.com/other'
 
 
-def test_failure_diagnostics_do_not_expose_response_or_exception(monkeypatch):
-    page = table('bad private text')
-    monkeypatch.setattr(feed, 'get', lambda *a, **kw: page)
-    result = feed.refresh({}, {'assets': []})['leaderboard']
-    assert result['status'] == 'unavailable'
-    assert result['error_reason'] == 'invalid rank-one value'
-    assert result['diagnostics']['header_has_public_tversky']
-    assert 'private text' not in json.dumps(result)
-
-
-def test_response_shape_diagnostics_use_only_fixed_facts(monkeypatch):
-    page = '''<html><head><title>Just a moment...</title></head><body>
-    <script src="/challenge-platform/private-token"></script>
-    <form><input name="password" value="PRIVATE SECRET"></form></body></html>'''
-    monkeypatch.setattr(feed, 'get', lambda *a, **kw: page)
-    board = feed.refresh({}, {'assets': []})['leaderboard']
-    diag = board['diagnostics']
-    assert diag['parsed_rows'] == 0
-    assert not diag['has_table_element']
-    assert diag['has_script_element'] and diag['has_login_password_field']
-    assert diag['has_challenge_markers'] and not diag['empty_response']
-    assert all(type(value) is bool or (key == 'parsed_rows' and type(value) is int)
-               for key, value in diag.items())
-    assert 'PRIVATE' not in json.dumps(board) and 'private-token' not in json.dumps(board)
+def test_github_failure_diagnostics_do_not_expose_exception(monkeypatch):
+    def fail(*args, **kwargs):
+        raise OSError('private details must not be published')
+    monkeypatch.setattr(feed, 'get', fail)
+    manifest = {'assets': [{'role': 'focus', 'site': 'a', 'repo': 'owner/repo', 'ref': 'a'*40}]}
+    result = feed.refresh({}, manifest)
+    assert result['sites'][0]['status'] == 'unavailable'
+    assert result['sites'][0]['error_type'] == 'OSError'
+    assert 'private details' not in json.dumps(result)

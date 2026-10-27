@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Refresh public leaderboard and pinned-repository freshness for Pages.
+"""Refresh GitHub repository freshness for Pages without contacting DrivenData.
 
-No login, credentials beyond an optional GitHub API token, private scores, or
-submission actions are used. Failures are explicit and preserve a dated last
-successful leaderboard snapshot rather than silently presenting stale data.
+The leaderboard is an unchanged, dated human-observed snapshot; consult the
+organizer's page directly for the current score. GitHub failures are explicit.
 """
 from __future__ import annotations
 
@@ -55,27 +54,6 @@ class TableParser(HTMLParser):
             self.row, self.cell = None, None
 
 
-def diagnose_leaderboard_page(html: str) -> dict:
-    """Return only fixed boolean/count facts, never response or exception text."""
-    parser = TableParser()
-    parser.feed(html)
-    headers = [row for row in parser.rows if any("tversky" in c.casefold() for c in row)]
-    lower = html.casefold()
-    return {
-        "parsed_rows": len(parser.rows),
-        "header_has_rank": any(any("rank" in c.casefold() for c in row) for row in headers),
-        "header_has_public_tversky": any(any("public" in c.casefold() and "tversky" in c.casefold() for c in row) for row in headers),
-        "has_table_element": bool(re.search(r"<table(?:\s|>)", lower)),
-        "has_script_element": bool(re.search(r"<script(?:\s|>)", lower)),
-        "has_leaderboard_word": "leaderboard" in lower,
-        "has_tversky_word": "tversky" in lower,
-        "has_login_password_field": bool(re.search(r"name\s*=\s*['\"](?:password|passwd)['\"]", lower)),
-        "has_challenge_markers": any(marker in lower for marker in ("cf-chl-", "challenge-platform", "cf-turnstile", "just a moment...")),
-        "has_access_denied_marker": any(marker in lower for marker in ("access denied", "403 forbidden")),
-        "empty_response": not bool(html.strip()),
-    }
-
-
 def parse_leaderboard(html: str) -> str:
     """Read the top public score only from a rank/Tversky-labelled table."""
     p = TableParser()
@@ -111,10 +89,11 @@ class SameOriginRedirect(HTTPRedirectHandler):
 
 
 def get(url: str, *, github_token: str | None = None) -> str:
-    headers = {"User-Agent": "GEMSDOEkarage2-public-status/1.0", "Accept": "text/html, application/json"}
+    parsed = urlparse(url)
+    if parsed.scheme != "https" or parsed.hostname != "api.github.com" or parsed.port not in (None, 443):
+        raise ValueError("Automated source refresh may contact only the GitHub API")
+    headers = {"User-Agent": "GEMSDOEkarage2-public-status/1.0", "Accept": "application/json"}
     if github_token:
-        if not url.startswith("https://api.github.com/"):
-            raise ValueError("GitHub token may only be sent to the GitHub API")
         headers["Authorization"] = f"Bearer {github_token}"
     req = Request(url, headers=headers)
     with build_opener(SameOriginRedirect()).open(req, timeout=15) as response:
@@ -137,37 +116,11 @@ def previous_snapshot(previous: dict) -> dict | None:
     return board.get("last_successful")
 
 
-def refresh(old: dict, manifest: dict, *, github_only: bool = False) -> dict:
-    updated = {"generated_utc": now(), "note": "Freshness is not a scientific, format or submission-approval gate."}
-    if github_only:
-        updated["leaderboard"] = old.get("leaderboard", {"status": "unavailable"})
-    else:
-        page = None
-        try:
-            page = get(LEADERBOARD)
-            score = parse_leaderboard(page)
-            updated["leaderboard"] = {"status": "ok", "score_text": score, "rank": 1,
-                "checked_utc": now(), "source": LEADERBOARD,
-                "evidence_class": "PUBLIC ORGANIZER LEADERBOARD SNAPSHOT; not a file-bound submission receipt"}
-        except (OSError, ValueError, UnicodeError, HTTPError, URLError) as exc:
-            # Only publish fixed, locally generated diagnostics. Never publish a
-            # response body, token, URL query, cookie, or arbitrary exception text.
-            known = {
-                "Unexpected cross-origin redirect": "cross-origin redirect rejected",
-                "Response exceeds monitor size limit": "response exceeded size limit",
-                "Rank-one score is not a valid probability-like value": "invalid rank-one value",
-                "Could not unambiguously parse public rank-one score": "leaderboard table not recognized",
-            }
-            updated["leaderboard"] = {"status": "unavailable", "checked_utc": now(),
-                "source": LEADERBOARD, "error_type": type(exc).__name__,
-                "error_reason": known.get(str(exc), "network or unexpected response"),
-                "last_successful": previous_snapshot(old)}
-            if page is not None:
-                try:
-                    # Fixed response-shape facts only: no rows, body, or secrets.
-                    updated["leaderboard"]["diagnostics"] = diagnose_leaderboard_page(page)
-                except ValueError:
-                    updated["leaderboard"]["diagnostics"] = {"parser_failed": True}
+def refresh(old: dict, manifest: dict, *, github_only: bool = True) -> dict:
+    if not github_only:
+        raise ValueError("Automated DrivenData monitoring is disabled; use the official page directly")
+    updated = {"generated_utc": now(), "note": "GitHub metadata only; leaderboard snapshot is not refreshed. Freshness is not a scientific, format or submission-approval gate."}
+    updated["leaderboard"] = old.get("leaderboard", {"status": "unavailable"})
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     sites = []
     for item in [x for x in manifest["assets"] if x["role"] == "focus"]:
@@ -189,7 +142,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--output", type=Path, default=ROOT / "docs/data/monitor.json")
     ap.add_argument("--manifest", type=Path, default=ROOT / "registry/pinned_assets.json")
-    ap.add_argument("--github-only", action="store_true", help="Keep the existing leaderboard snapshot without attempting its refresh")
+    ap.add_argument("--github-only", action="store_true", default=True,
+                    help="Compatibility flag; all refreshes are GitHub-only and never contact DrivenData")
     args = ap.parse_args()
     old = json.loads(args.output.read_text()) if args.output.exists() else {}
     result = refresh(old, json.loads(args.manifest.read_text()), github_only=args.github_only)

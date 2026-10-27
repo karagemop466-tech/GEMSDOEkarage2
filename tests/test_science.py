@@ -87,3 +87,18 @@ def test_exact_pruning_improvement_condition():
         margin=.2*before['tp']*(dt+df)-den*dt
         if abs(margin)>1e-9:
             assert (after['dti']>before['dti']) == (margin>0)
+
+
+def test_gems57_h1_evaluator_preserves_fractional_predictions():
+    # The upstream GEMSDOE32 top-level CLI is binary-only; this is the
+    # distinct shared evaluator used by H1, not an H1 holdout rerun.
+    p = np.zeros((9, 9), float)
+    p[4, 4] = .25
+    truth = np.zeros((9, 9), bool)
+    truth[4, 4] = True
+    fold = {'region': np.ones_like(truth), 'visible': np.zeros_like(truth), 'truth': truth}
+    result, terms = evaluator.evaluate(p, fold, np.ones_like(truth), block_side=4)
+    assert result['tpw'] == pytest.approx(.25)
+    assert result['fnw'] == pytest.approx(.75)
+    assert result['dti'] == pytest.approx(.25 / (.25 + .8 * .75))
+    assert terms[:, 0].sum() == pytest.approx(.25)

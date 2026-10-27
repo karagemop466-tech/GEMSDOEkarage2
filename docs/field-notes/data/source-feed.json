@@ -1,0 +1,75 @@
+{
+  "checked_utc": "2026-10-27T21:35:23.568226+00:00",
+  "reviewed_utc": "2026-10-27T21:10:00Z",
+  "scope": "GitHub main-branch HEAD metadata only; no score, raster re-audit, organizer quota, or complete-registry claim.",
+  "summary": {
+    "total": 9,
+    "changed": 1,
+    "unavailable": 0
+  },
+  "sources": [
+    {
+      "site": "GEMSDOE24",
+      "reviewed_head": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "current_head": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "status": "unchanged",
+      "error": null
+    },
+    {
+      "site": "GEMSDOE25",
+      "reviewed_head": "b13ccabae15d4951854d47cb35e17322e7537b64",
+      "current_head": "19b219f629440b9975b093f459c74e21a42476ca",
+      "status": "changed_since_review",
+      "error": null
+    },
+    {
+      "site": "GEMSDOE27",
+      "reviewed_head": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "current_head": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "status": "unchanged",
+      "error": null
+    },
+    {
+      "site": "GEMSDOE28",
+      "reviewed_head": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "current_head": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "status": "unchanged",
+      "error": null
+    },
+    {
+      "site": "GEMSDOE30",
+      "reviewed_head": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "current_head": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "status": "unchanged",
+      "error": null
+    },
+    {
+      "site": "GEMSDOE31",
+      "reviewed_head": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "current_head": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "status": "unchanged",
+      "error": null
+    },
+    {
+      "site": "GEMSDOE32",
+      "reviewed_head": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "current_head": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "status": "unchanged",
+      "error": null
+    },
+    {
+      "site": "GEMSDOE33",
+      "reviewed_head": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "current_head": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "status": "unchanged",
+      "error": null
+    },
+    {
+      "site": "GEMSDOE36",
+      "reviewed_head": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "current_head": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "status": "unchanged",
+      "error": null
+    }
+  ]
+}
