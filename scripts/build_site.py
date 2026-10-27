@@ -34,7 +34,11 @@ METHODS = {
 def main():
     card, ho, hist, src, forensic, reg = [load(p) for p in ('run_card.json','holdout.json','nine_site_best_files_audit.json','sources.json','champion_forensics.json','surface_registry.json')]
     (DOCS/'evidence').mkdir(exist_ok=True)
-    for p in (ROOT/'evidence').glob('*.json'): shutil.copyfile(p, DOCS/'evidence'/p.name)
+    # Field Notes publishes its own distinct follow-on receipts under
+    # docs/field-notes/data; do not duplicate or confuse them with H1's card.
+    for p in (ROOT/'evidence').glob('*.json'):
+        if p.name not in {'geometry-audit.json', 'preparation.json', 'run-card.json'}:
+            shutil.copyfile(p, DOCS/'evidence'/p.name)
     shutil.copyfile(ROOT/'knowledge/hypotheses.md', DOCS/'evidence/hypotheses.md')
     shutil.copyfile(ROOT/'knowledge/champion_explanation.md', DOCS/'evidence/champion_explanation.md')
     shutil.copyfile(ROOT/'evidence/review.md', DOCS/'evidence/review.md')
