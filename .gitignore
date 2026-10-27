@@ -1,17 +1,22 @@
-# Local inputs, models and browser/test caches are not committed.
-.cache/
+# Data, working caches, environments and generated rasters remain outside Git.
 .venv/
-node_modules/
-data/
-data/raw/
-data/prepared/
-outputs/
-.pages/
+.cache/
 __pycache__/
 .pytest_cache/
-*.pyc
+*.py[cod]
+data/raw/
+data/prepared/
+data/processed/
+*.partial
+node_modules/
+# Previous main-branch safeguards against raw or generated raster commits.
+/data/
 *.tif
 *.tiff
-# Existing explicitly quarantined research surfaces are intentional deliverables.
+# Intentionally quarantined research downloads from the parallel H1 run.
 !docs/downloads/*.tif
 !docs/downloads/*.tiff
+
+# Generated Pages staging and local analysis outputs
+.pages/
+outputs/

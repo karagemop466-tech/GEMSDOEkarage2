@@ -1,13 +1,15 @@
 {
-  "name": "gems-field-intelligence",
+  "name": "gems-research-desk",
   "private": true,
-  "version": "1.0.0",
+  "description": "Read-only GEMS audit dashboard tests",
   "scripts": {
+    "test:site": "node --test tests/site.test.cjs",
     "test": "node --test tests/feed.test.cjs",
     "test:browser": "node tests/browser-smoke.cjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "153.0.0",
+    "jsdom": "30.1.3",
     "playwright-core": "1.64.1"
   },
   "engines": {

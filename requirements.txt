@@ -1,4 +1,4 @@
-# Python 3.11+. The upstream template remains an unmodified, hash-pinned dependency.
+# Reproducible versions used for both independent audits (Python 3.11).
 numpy==2.4.6
 scipy==1.17.1
 rasterio==1.4.4

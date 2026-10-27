@@ -27,11 +27,17 @@ jobs:
           mkdir -p .cache/gems_data
           ln -sf ../research/inputs/sample.tif .cache/gems_data/sample_submission.tif
           ln -sf ../research/inputs/labels.tif .cache/gems_data/existing_faults.tif
+          mkdir -p .cache/inputs
+          ln -sf ../research/inputs/sample.tif .cache/inputs/sample_submission.tif
+          ln -sf ../research/inputs/labels.tif .cache/inputs/existing_faults.tif
+          ln -sf ../research/inputs/lattice.tif .cache/inputs/r13_lattice_nan.tif
+          python scripts/audit_focus.py --fetch --output /tmp/gems-focus.json > /dev/null
       - name: Unit and shared-validator integration tests
         run: |
           pytest -q
           npm ci --ignore-scripts --no-audit --no-fund
           npm test
+          npm run test:site
           npm run test:browser
           python scripts/build_audit_site.py --check
           bash -n scripts/fetch_feature_mirror.sh

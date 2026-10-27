@@ -72,10 +72,12 @@ function chromeEnvironment() {
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
       assert.ok(await page.getByRole('button', {name:'No approved submission TIF'}).isDisabled());
-      assert.ok(await page.locator('a[download]').first().innerText().then(text => text.includes('DO NOT SUBMIT')));
+      assert.ok((await page.locator('#research-download').innerText()).includes('DO NOT SUBMIT'));
+      assert.ok((await page.locator('#research-download a[download]').first().getAttribute('href')).includes('DO-NOT-SUBMIT'));
+      await page.waitForFunction(() => document.querySelectorAll('#scorecard-body tr').length === 9);
       assert.ok(await page.locator('a[href="audit.html"]').count());
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Experiment overview overflow');
-      console.log(`PASS ${width}px: experiment page, release lock, research-only download`);
+      console.log(`PASS ${width}px: primary dashboard, release lock, research-only download`);
     }
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);
@@ -107,7 +109,7 @@ function chromeEnvironment() {
     await page.waitForFunction(() => document.querySelector('[data-feed-summary]').textContent.includes('9 unavailable'));
     assert.equal(await page.locator('[data-refresh]').isEnabled(), true);
     assert.equal(await page.locator('.fresh.unavailable').count(), 9);
-    await page.goto(base + '/docs/index.html');
+    await page.goto(base + '/docs/experiment-index.html');
     await page.locator('#refresh-sources').click();
     await page.waitForFunction(() => document.querySelector('#freshness-results').textContent.includes('freshness unverified'));
     assert.equal(await page.locator('#refresh-sources').isEnabled(), true);

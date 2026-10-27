@@ -1,6 +1,6 @@
 # Preregistered research slate — proposals, not results
 
-Read `README.md` and `SOURCES.md` first. No specific assigned method paragraph
+Read `README.md` and `independent-sources.md` first. No specific assigned method paragraph
 appeared in the request; the four ideas below are **unexecuted proposals**, not
 permission to enter another parallel lane. Ranking is qualitative judgment about
 potential discovery value versus effort, **not a numerical score forecast**. This

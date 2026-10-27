@@ -175,4 +175,6 @@ def test_concurrent_selector_gate_keeps_actual_run_negative():
     assert adapted['baseline_holdout_dti'] is None
     assert adapted['registry']['final_dots']==[]
     assert not adapted['registry']['coverage_complete']
+    assert adapted['validator']['outside_nodata'] is None
+    assert any('Raster validation' in r for r in result['reasons'])
     assert any('duplicate lane' in r for r in result['reasons'])

@@ -42,12 +42,17 @@ independently replayed or presented as an approved entry.
   no longer set `outside_nodata` to true. The selector remains negative. Shared
   evaluator/writer copies were not altered; unsupported claims in their writer
   documentation are recorded for an upstream fix.
-- Final combined Python run: 66 passed, 33 unittest subtests passed. One
-  third-party Rasterio/Affine deprecation warning remains; it is not a raster
-  validity or model score. Node freshness unit tests also passed.
+- After integrating the second independent dashboard, the combined Python run
+  passed 90 tests plus 33 unittest subtests, including both real pinned-raster
+  audits and the independent H1 surface recheck. One third-party
+  Rasterio/Affine deprecation warning remains; it is not a raster validity or
+  model score. All eight Node tests and the browser smoke checks also passed.
 
 ## Pass 3 — presentation, integration and end-to-end recheck
 
+- Reproduced the other session's nine-raster audit and its H1 saved-byte report
+  exactly except creation timestamps; that session selected different NaN-outside
+  variants for several historical files, so byte hashes are not interchangeable.
 - Preserved concurrent-main dashboards, the research-only TIFF/ZIP, source
   snapshots, pinned tools, run cards, per-site pages and readiness tests. The
   independent audit is a separate linked page. Earlier pages are archived and
