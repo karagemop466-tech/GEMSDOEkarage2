@@ -1,0 +1,3 @@
+# Session entry contract
+
+Read README.md, knowledge/hypotheses.md, evidence/run_card.json and evidence/review.md before changing scientific code. README contains the deduplicated standing user prompt. Preserve negative evidence and source verification limits. Do not call historical user reports organizer-confirmed. No slot use, no dot placement, and no further experiments after a registry stop. Never loosen a uniqueness gate without an explicitly revised protocol. Use the unchanged shared evaluator/writer in vendor/gems57; wrappers may orchestrate but must not privately redefine scoring. Read the three-pass review before continuing next session. All work remains on the Arena-assigned branch.
