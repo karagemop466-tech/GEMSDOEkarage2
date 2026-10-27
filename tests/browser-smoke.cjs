@@ -62,28 +62,27 @@ function chromeEnvironment() {
     });
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);
-      await page.goto(base + '/', {waitUntil:'domcontentloaded'});
-      await page.waitForURL('**/docs/index.html');
+      await page.goto(base + '/docs/audit.html', {waitUntil:'domcontentloaded'});
       await page.waitForFunction(() => document.querySelector('[data-feed-summary]').textContent.includes('checked;'));
       assert.equal(await page.locator('tbody tr[data-site]').count(), 9);
       assert.equal(await page.locator('a[download]').count(), 0);
       assert.ok((await page.locator('body').innerText()).includes('No approved file yet'));
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Overview overflow');
       await page.locator('[data-site="GEMSDOE32"] .site-link').click();
-      assert.ok(page.url().endsWith('/docs/site-GEMSDOE32.html'));
-      assert.ok((await page.locator('body').innerText()).toLowerCase().includes('updated audit'));
+      assert.ok(page.url().endsWith('/docs/sites/GEMSDOE32.html'));
+      assert.ok((await page.locator('body').innerText()).toLowerCase().includes('gemsdoe32'));
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Site detail overflow');
       await page.goBack();
       await page.locator('a[href="submit.html"]').first().click();
       assert.ok(page.url().endsWith('/docs/submit.html'));
       assert.ok((await page.locator('body').innerText()).toLowerCase().includes('do not submit'));
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Submit page overflow');
-      await page.goto(base + '/docs/research.html');
+      await page.goto(base + '/docs/audit-research.html');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Research page overflow');
       console.log(`PASS ${viewport.width}px: navigation, 9 rows, release lock, no viewport overflow`);
     }
     network = 'stale';
-    await page.goto(base + '/docs/index.html');
+    await page.goto(base + '/docs/audit.html');
     await page.waitForFunction(() => document.querySelector('[data-site="GEMSDOE32"] [data-freshness]').textContent === 'Changed since audit');
     assert.ok((await page.locator('[data-feed-summary]').innerText()).includes('1 change(s) detected'));
     network = 'fail';

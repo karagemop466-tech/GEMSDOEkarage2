@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "recorded_utc": "2026-10-27",
+  "session_scope": "Independent geometry preflight; a separate parallel session recorded one negative experiment and a research-only surface.",
   "hypothesis": "Proposed only: multi-scale signed gravity, reduced-to-pole magnetics and detrended-elevation edge coherence. No assigned geological method lane was provided.",
   "mechanism": "Test whether a persistent, oriented subsurface contrast and surface break delineate an unmapped fault. No detector was fitted or evaluated.",
   "named_non_fault_mimic": "An unfaulted lithologic contact or airborne survey-line levelling artifact can create a similar contrast.",

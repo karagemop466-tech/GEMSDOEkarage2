@@ -29,7 +29,7 @@ jobs:
           npm ci --ignore-scripts --no-audit --no-fund
           npm test
           npm run test:browser
-          python scripts/build_site.py --check
+          python scripts/build_audit_site.py --check
           bash -n scripts/fetch_feature_mirror.sh
       - name: Reproduce full nine-raster audit
         run: |

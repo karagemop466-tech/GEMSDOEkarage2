@@ -73,8 +73,8 @@ def test_all_internal_site_links_exist():
 
 
 def test_website_is_derived_from_audit_and_has_no_download_link():
-    subprocess.run([sys.executable, str(ROOT / "scripts/build_site.py"), "--check"], check=True, cwd=ROOT)
-    page = (ROOT / "docs/index.html").read_text()
+    subprocess.run([sys.executable, str(ROOT / "scripts/build_audit_site.py"), "--check"], check=True, cwd=ROOT)
+    page = (ROOT / "docs/audit.html").read_text()
     assert page.count('<tr data-site="GEMSDOE') == 9
     assert "Download unavailable" in page and "No approved file yet" in page
     parser = Links()
