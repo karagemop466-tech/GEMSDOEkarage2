@@ -45,3 +45,13 @@ def test_static_pages_local_targets_exist():
                 continue
             path = href.split('#', 1)[0].split('?', 1)[0]
             assert (page.parent/path).is_file(), (page, href)
+
+
+def test_current_negative_card_fails_prior_readiness_gate():
+    # Preserve the earlier evidence-schema gate; current no-candidate data must
+    # never be interpreted as promotion or slot authorization by that gate.
+    from scripts.readiness import assess
+    card = json.loads((ROOT/'docs/data/run-card.json').read_text())
+    outcome = assess(card)
+    assert outcome['verdict'] == 'negative'
+    assert outcome['slot_authorized'] is False

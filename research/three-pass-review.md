@@ -50,3 +50,14 @@
   contain a holdout score, feature canaries, registry-wide pass, candidate hash
   or format approval. Smaller budgets remain possible in principle, and the
   lattice bound is not an excuse to seek artificial lattice holes.
+
+## Concurrent main-branch integration
+
+While the PR was open, `main` gained an independently authored dashboard,
+nine site pages, evidence snapshots and a fail-closed readiness-schema gate.
+These were merged on this session branch: earlier pages and their run card are
+preserved as clearly dated snapshots, while the current dashboard links the
+nine earlier site pages. The merged Pages workflow retains a test gate and adds
+the scheduled refresh. The readiness gate still rejects this negative run card.
+Post-integration local tests: 32 Python tests plus 33 unittest subtests, and
+five DOM tests passed. Deployment remains subject to GitHub Pages settings.

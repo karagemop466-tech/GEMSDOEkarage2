@@ -48,6 +48,9 @@
     const head = el("div", "detail-head"); head.append(el("h3", "", site.site), el("span", "", "DO NOT SUBMIT"));
     card.append(head, el("p", "detail-score", Number(site.reported_score).toFixed(4)), el("p", "detail-copy", "USER-REPORTED / UNVERIFIED · leaderboard estimate unavailable"));
     card.append(link(site.research_download_url, site.filename, "detail-file"));
+    const archive = el("a", "detail-file", "Earlier per-site review ↗");
+    archive.href = `site-${encodeURIComponent(site.site)}.html`;
+    card.append(archive);
     const novelty = site.unique_vs_eight_historical ? "No duplicate found among selected files; full registry not checked" : "Not unique vs selected historical files";
     card.append(el("p", "detail-foot", `${novelty}: ${percent(site.max_other_site_overlap)} within 3 px of ${site.max_overlap_reference}. SHA-256 ${site.sha256.slice(0, 16)}…`));
     return card;

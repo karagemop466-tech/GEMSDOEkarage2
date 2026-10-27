@@ -9,3 +9,7 @@ data/prepared/
 data/processed/
 *.partial
 node_modules/
+# Previous main-branch safeguards against raw or generated raster commits.
+/data/
+*.tif
+*.tiff

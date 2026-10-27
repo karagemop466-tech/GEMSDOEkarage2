@@ -143,3 +143,16 @@ monitor cannot access team quotas, private labels or submission receipts.
 [Reference solution](https://github.com/drivendataorg/gems-prize-reference-solution) ·
 [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and) ·
 [INGENIOUS / GDR](https://gdr.openei.org/submissions/1391).
+
+
+## Earlier repository work retained
+
+A concurrent `main` update added nine local per-site scorecards,
+[`knowledge/project-brief.md`](knowledge/project-brief.md),
+[`knowledge/review.md`](knowledge/review.md), upstream text snapshots under
+`evidence/`, and [`scripts/readiness.py`](scripts/readiness.py). These remain in
+the repository. Its earlier dashboard and run card are preserved as dated
+snapshots; cache and automation statements in them are historical. The
+readiness module checks evidence structure only; it is not an evaluator, a
+raster validator, or a slot authorization. The current audit and run card take
+precedence where the snapshots are stale.

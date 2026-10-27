@@ -40,6 +40,10 @@ test('site guide displays all nine detail cards even with a deep link', async ()
   const dom = await render('executive-summary.html', originalAudit, originalMonitor, '#GEMSDOE32');
   assert.equal(dom.window.document.querySelectorAll('.site-detail').length, 9);
   assert.ok(dom.window.document.querySelector('#GEMSDOE32'));
+  for (const link of dom.window.document.querySelectorAll('.site-detail a[href^="site-"]')) {
+    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
+  }
+  assert.equal(dom.window.document.querySelectorAll('.site-detail a[href^="site-"]').length, 9);
   dom.window.close();
 });
 
