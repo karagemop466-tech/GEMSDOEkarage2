@@ -1,0 +1,17 @@
+{
+  "kind": "DATA-PREPARATION-RECEIPT (not a model, holdout, or organizer receipt)",
+  "date_utc": "2026-10-27",
+  "shared_template": "buffedlizard55-lab/GEMSDOE32@73485f27cf230af770167397c2b72cb9ce3b3f25",
+  "tool_use": "Unmodified upstream restore_data.py --group core, prepare_data.py, and build_features.py. No upstream code was copied into this repository.",
+  "inputs": {
+    "training_features.tif": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "labels.tif": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "existing_faults.tif": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "sample_submission.tif": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+  },
+  "provenance": "Public owner mirror, integrity matched to the shared template manifest; not authenticated against the DrivenData download. See geometry-audit.json for sample-label discrepancy.",
+  "feature_stack": {"format":"NumPy .npy", "shape":[3730,3292,35], "dtype":"float32", "payload_bytes":1719082400, "sha256":"f95486ffa937e0237c53c5e7f59e49cc142825ae5ea56b166d64dcbfeef5bdc0", "persistence":"ignored scratch cache; not distributed and not guaranteed to persist"},
+  "software": {"python":"3.11.2", "numpy":"2.4.6", "scipy":"1.17.1", "rasterio":"1.4.4"},
+  "experiments_run":0,
+  "submissions_generated":0
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-27T21:29:46.859460+00:00",
+  "experiment_count": 0,
+  "weekly_slots_used": 0,
+  "hypothesis": "No assigned lane; proposed signed cross-profile co-variation is research backlog only.",
+  "mechanism": "Compare flank changes across magnetic, gravity and conductive edges; not implemented or tested here.",
+  "named_non_fault_mimic": "Intrusive or volcanic lithologic contacts and saline basin boundaries.",
+  "holdout_dti": {
+    "value": null,
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "confidence_interval_95": null,
+    "reason": "no experiment run"
+  },
+  "registry_comparison": {
+    "candidate_surface_rank_correlation": null,
+    "candidate_surface_overlap": null,
+    "candidate_final_rank_correlation": null,
+    "candidate_final_overlap": null,
+    "reason": "no candidate or full registry; historical reference geometry is in geometry-audit.json",
+    "witness_uncovered_footprint_pixels": 6649,
+    "first_provably_blocked_dot_budget": 22164
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "NOT RUN: no candidate TIFF",
+    "no_nan_inside": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "estimated_leaderboard_score": null,
+  "verdict": "negative",
+  "download_approved": false,
+  "upload_approved": false,
+  "resources": {
+    "shared_template": "available; selected critical files SHA-256 pinned",
+    "core_data": {
+      "training_features.tif": "mirror hash matches",
+      "labels.tif": "mirror hash matches",
+      "existing_faults.tif": "mirror hash matches",
+      "sample_submission.tif": "mirror hash matches"
+    },
+    "shared_feature_cache": "available (shape and dtype checked)",
+    "template_and_data_provenance": "owner mirror; not organizer authenticated; scratch cache is non-persistent"
+  },
+  "blockers": [
+    "No single method paragraph / assignment source was supplied for this parallel lane.",
+    "The complete current cross-session registry and its independent completeness evidence are unavailable.",
+    "No frozen, same-evaluator best with matched folds and baseline artifacts is present in this checkout.",
+    "The organizer-authenticated example and footprint are unavailable; the owner mirror differs from the documented absence example.",
+    "No feature canaries, fold-local candidate holdout, candidate uniqueness audit, saved-byte candidate validator, or separate slot selection exists.",
+    "The shared evaluator and writer binarize positive float inputs; they are not safe for continuous probabilities without an upstream fix."
+  ]
+}

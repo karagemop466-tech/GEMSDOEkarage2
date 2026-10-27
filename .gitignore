@@ -1,0 +1,17 @@
+# Regenerable scientific inputs, features, private receipts, and environments
+.cache/
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+data/
+!docs/data/
+!docs/data/*.json
+
+# A TIFF must only be published after the release gate has passed.
+*.tif
+*.tiff
+*.npy
+*.npz
+*.zip
+.DS_Store
