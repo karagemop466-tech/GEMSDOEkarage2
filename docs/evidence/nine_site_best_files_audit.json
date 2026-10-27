@@ -684,5 +684,10 @@
   "sources": [
     "registry/focus_registry_manifest.json (pinned refs; SHA-256 verified)",
     "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
-  ]
+  ],
+  "later_review_annotation": {
+    "date_utc": "2026-10-27",
+    "note": "The original audit measured NaN-padded variants for GEMSDOE24, 25, 27, 28 and 31; those bytes are not the differently named all-finite/zero files associated with the supplied score claims. A later independent audit retrieved the exact claim-named files and verified their masks. Neither audit establishes a file-bound organizer score.",
+    "corrected_claim_file_audit": "docs/data/focus_audit.json"
+  }
 }

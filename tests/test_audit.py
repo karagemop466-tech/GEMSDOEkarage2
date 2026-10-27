@@ -125,9 +125,11 @@ def test_end_to_end_nine_site_audit_on_synthetic_grid(tmp_path):
 
 def test_real_cached_audit_if_available():
     root = Path(__file__).resolve().parents[1]
-    if not (root / '.cache/inputs/GEMSDOE32.tif').exists():
+    manifest = root/'registry/pinned_assets.json'
+    assets = json.loads(manifest.read_text())['assets']
+    if not all((root/'.cache/inputs'/item['cache_name']).exists() for item in assets):
         pytest.skip('pinned research rasters are optional in CI')
-    result = audit.run(root/'registry/pinned_assets.json', root/'.cache/inputs', False)
+    result = audit.run(manifest, root/'.cache/inputs', False)
     assert result['geometry']['uncovered'] == 6649
     assert result['geometry']['minimum_overlap_at_reference_budget'] > .7
     assert result['forensics']['31_minus_fault_collar_equals_32']

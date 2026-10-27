@@ -55,6 +55,27 @@ class TableParser(HTMLParser):
             self.row, self.cell = None, None
 
 
+def diagnose_leaderboard_page(html: str) -> dict:
+    """Return only fixed boolean/count facts, never response or exception text."""
+    parser = TableParser()
+    parser.feed(html)
+    headers = [row for row in parser.rows if any("tversky" in c.casefold() for c in row)]
+    lower = html.casefold()
+    return {
+        "parsed_rows": len(parser.rows),
+        "header_has_rank": any(any("rank" in c.casefold() for c in row) for row in headers),
+        "header_has_public_tversky": any(any("public" in c.casefold() and "tversky" in c.casefold() for c in row) for row in headers),
+        "has_table_element": bool(re.search(r"<table(?:\s|>)", lower)),
+        "has_script_element": bool(re.search(r"<script(?:\s|>)", lower)),
+        "has_leaderboard_word": "leaderboard" in lower,
+        "has_tversky_word": "tversky" in lower,
+        "has_login_password_field": bool(re.search(r"name\s*=\s*['\"](?:password|passwd)['\"]", lower)),
+        "has_challenge_markers": any(marker in lower for marker in ("cf-chl-", "challenge-platform", "cf-turnstile", "just a moment...")),
+        "has_access_denied_marker": any(marker in lower for marker in ("access denied", "403 forbidden")),
+        "empty_response": not bool(html.strip()),
+    }
+
+
 def parse_leaderboard(html: str) -> str:
     """Read the top public score only from a rank/Tversky-labelled table."""
     p = TableParser()
@@ -143,15 +164,8 @@ def refresh(old: dict, manifest: dict, *, github_only: bool = False) -> dict:
                 "last_successful": previous_snapshot(old)}
             if page is not None:
                 try:
-                    parser = TableParser()
-                    parser.feed(page)
-                    headers = [row for row in parser.rows if any("tversky" in c.casefold() for c in row)]
-                    # Header facts only; never copy participant rows or page contents.
-                    updated["leaderboard"]["diagnostics"] = {
-                        "parsed_rows": len(parser.rows),
-                        "header_has_rank": any(any("rank" in c.casefold() for c in row) for row in headers),
-                        "header_has_public_tversky": any(any("public" in c.casefold() and "tversky" in c.casefold() for c in row) for row in headers),
-                    }
+                    # Fixed response-shape facts only: no rows, body, or secrets.
+                    updated["leaderboard"]["diagnostics"] = diagnose_leaderboard_page(page)
                 except ValueError:
                     updated["leaderboard"]["diagnostics"] = {"parser_failed": True}
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")

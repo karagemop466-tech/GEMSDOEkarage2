@@ -95,3 +95,24 @@ integration. The Actions artifact now stages the same root redirect plus
 no Git internals or caches are staged. A legacy build may briefly restore the
 older committed monitor until the scheduled refresh runs, and the dashboard
 must continue to label old or failed refreshes rather than assert live data.
+
+## Exact-file correction and refresh diagnosis
+
+A further publication review found that the original scorecard displayed the
+NaN-padded siblings of five files next to claims for differently named
+all-finite/zero files. We fetched those five exact claim-named files at the pinned
+site revisions, verified Git blob hashes, sizes and SHA-256, and reran the
+nine-site geometry audit. Their positive masks matched the previously inspected
+siblings pixel-for-pixel; the outside encodings and bytes differ. The 72
+pairwise outcomes and the site 31 → 32 reconstruction did not change. The
+current JSON, dashboard, experiment overview and per-site pages now use the
+claim-named files. The earlier JSON remains available with a correction
+annotation; none of these score claims has a file-bound organizer receipt.
+
+After the stable-layout deployment, the monitor's safe diagnostic reported zero
+parsed rows and no recognized leaderboard headers. It retained the dated
+public 0.4544 snapshot, rather than presenting it as a current refresh. Added
+fixed response-shape booleans (not page contents, participant data, tokens or
+exception text) to distinguish a table-free response from a challenge, login or
+other shell when the next scheduled build runs. The actual underlying response
+was not inspected; no parser workaround or access bypass is assumed.

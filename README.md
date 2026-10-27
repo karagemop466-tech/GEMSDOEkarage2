@@ -133,7 +133,12 @@ geometry/forensic check, not a replacement holdout evaluator or a writer. Its
 source-pinned input manifest is `registry/pinned_assets.json`; cached inputs are
 not committed. For this checkout, the nine raster files, the lattice, the
 existing-fault raster and the template mirror were independently fetched and
-rechecked.
+rechecked. The current nine-site audit uses the exact filenames associated
+with the unverified claims in the historical GEMSDOE28 scorecard. An earlier
+parallel audit used NaN-padded siblings for five sites; the later review checked
+the actual claim-named files and found the same positive masks in those five
+pairs, while the bytes and outside encoding differ. The earlier evidence is
+retained with an annotation; neither variant has a file-bound score receipt.
 
 For a local site preview, run `python -m http.server 8000 --bind 0.0.0.0 -d docs`
 and open the served address. The browser shows only a dated leaderboard

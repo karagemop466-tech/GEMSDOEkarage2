@@ -36,53 +36,57 @@
       "role": "focus",
       "repo": "buffedlizard55-lab/GEMSDOE24",
       "ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
-      "path": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
-      "git_blob_sha1": "cc1752f2ea48b23bd41232c1fdcdceb5f439e401",
-      "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
-      "bytes": 1632732,
-      "cache_name": "GEMSDOE24.tif",
+      "path": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif",
+      "git_blob_sha1": "6b6d31807e501af4749bbaeb43702450893fd720",
+      "sha256": "3e0730e8d4f7db095dd80246a98cba3bc0fc9a28f436b91db27ca34df4d0d1ce",
+      "bytes": 863902,
+      "cache_name": "GEMSDOE24_claimed.tif",
       "site": "GEMSDOE24",
       "reported_score": 0.2477,
-      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)"
+      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+      "score_claim_source": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
     },
     {
       "role": "focus",
       "repo": "buffedlizard55-lab/GEMSDOE25",
       "ref": "b13ccabae15d4951854d47cb35e17322e7537b64",
-      "path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
-      "git_blob_sha1": "c8d3a46481152bbdfd61b113484be979fde9d4c6",
-      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
-      "bytes": 1603424,
-      "cache_name": "GEMSDOE25.tif",
+      "path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+      "git_blob_sha1": "bfb7e86d046dd178c3d6ab60522861b5464dd420",
+      "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+      "bytes": 836982,
+      "cache_name": "GEMSDOE25_claimed.tif",
       "site": "GEMSDOE25",
       "reported_score": 0.26,
-      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)"
+      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+      "score_claim_source": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
     },
     {
       "role": "focus",
       "repo": "buffedlizard55-lab/GEMSDOE27",
       "ref": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
-      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
-      "git_blob_sha1": "c64e48b8bece14391fb59c1969c42c7efd718d39",
-      "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
-      "bytes": 1635084,
-      "cache_name": "GEMSDOE27.tif",
+      "path": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif",
+      "git_blob_sha1": "49ad427035b2267dcd3e8acee10bdc85d5dbe322",
+      "sha256": "a9bf76b57453a5b3af74c8eef837df53c29a0931162aa540b8763220b36ba3bb",
+      "bytes": 866160,
+      "cache_name": "GEMSDOE27_claimed.tif",
       "site": "GEMSDOE27",
       "reported_score": 0.2449,
-      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)"
+      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+      "score_claim_source": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
     },
     {
       "role": "focus",
       "repo": "buffedlizard55-lab/GEMSDOE28",
       "ref": "4955e29c7b66503ba2178b25d356d713dc1bc534",
-      "path": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
-      "git_blob_sha1": "d0fc9ebbda0b15c31208022dbd124d4b9b112108",
-      "sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
-      "bytes": 1590848,
-      "cache_name": "GEMSDOE28.tif",
+      "path": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif",
+      "git_blob_sha1": "10b2354d4ac8af863419284f1e694a02db180711",
+      "sha256": "7c74270ad48fa0b865163853046a6d3815967c5bf37bbda5b74ca7fa22583a32",
+      "bytes": 825430,
+      "cache_name": "GEMSDOE28_claimed.tif",
       "site": "GEMSDOE28",
       "reported_score": 0.271,
-      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)"
+      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+      "score_claim_source": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
     },
     {
       "role": "focus",
@@ -95,20 +99,22 @@
       "cache_name": "GEMSDOE30.tif",
       "site": "GEMSDOE30",
       "reported_score": 0.26,
-      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)"
+      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+      "score_claim_source": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
     },
     {
       "role": "focus",
       "repo": "buffedlizard55-lab/GEMSDOE31",
       "ref": "88ec212955353f7590e94b8ef2a9763ffa035d45",
-      "path": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
-      "git_blob_sha1": "36c2aa32e0bba3d976d1ba76f3fb14903199262d",
-      "sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
-      "bytes": 199214,
-      "cache_name": "GEMSDOE31.tif",
+      "path": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+      "git_blob_sha1": "40df0d6d854542aefc00f1fed87d4e9c7719fa63",
+      "sha256": "acd853936e5a7170b207f23411b1844caa0e7cfdfc303c600e520ccfe75159e6",
+      "bytes": 154580,
+      "cache_name": "GEMSDOE31_claimed.tif",
       "site": "GEMSDOE31",
       "reported_score": 0.2708,
-      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)"
+      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+      "score_claim_source": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
     },
     {
       "role": "focus",
@@ -121,7 +127,8 @@
       "cache_name": "GEMSDOE32.tif",
       "site": "GEMSDOE32",
       "reported_score": 0.2778,
-      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)"
+      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+      "score_claim_source": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
     },
     {
       "role": "focus",
@@ -134,7 +141,8 @@
       "cache_name": "GEMSDOE33.tif",
       "site": "GEMSDOE33",
       "reported_score": 0.2632,
-      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)"
+      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+      "score_claim_source": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
     },
     {
       "role": "focus",
@@ -147,7 +155,8 @@
       "cache_name": "GEMSDOE36.tif",
       "site": "GEMSDOE36",
       "reported_score": 0.275,
-      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)"
+      "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+      "score_claim_source": "https://buffedlizard55-lab.github.io/GEMSDOE28/"
     }
   ]
 }

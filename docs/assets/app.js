@@ -92,14 +92,16 @@
         note.textContent = `Nine historical files only; not the full registry. Source-head check${stale ? " (STALE)" : ""}: ${changed} changed, ${unknown} unavailable at ${data.generated_utc || "unknown time"}.`;
       }
       const board = data.leaderboard || {};
+      if (!["ok", "snapshot", "unavailable"].includes(board.status)) throw new Error("Unknown monitor status");
       const snapshot = board.status === "unavailable" ? board.last_successful : board;
       if (!snapshot || !/^(0(?:\.\d+)?|1(?:\.0+)?)$/.test(snapshot.score_text || "")) throw new Error("No valid score snapshot");
       const checked = new Date(snapshot.checked_utc);
       if (Number.isNaN(checked.valueOf())) throw new Error("No valid timestamp");
       const ageHours = (Date.now() - checked.valueOf()) / 3600000;
       score.textContent = snapshot.score_text;
-      const stale = board.status === "unavailable" || ageHours > 8 || ageHours < -0.25;
-      status.textContent = `${stale ? "STALE / REFRESH FAILED" : "PUBLIC SNAPSHOT"} · ${checked.toISOString().slice(0, 16).replace("T", " ")} UTC`;
+      const stale = ageHours > 8 || ageHours < -0.25;
+      const label = board.status === "unavailable" ? "STALE / REFRESH FAILED" : stale ? "STALE SNAPSHOT" : "PUBLIC SNAPSHOT";
+      status.textContent = `${label} · ${checked.toISOString().slice(0, 16).replace("T", " ")} UTC`;
     } catch (_) { score.textContent = "—"; status.textContent = "SNAPSHOT UNAVAILABLE · SEE OFFICIAL BOARD"; }
   };
   loadAudit(); loadMonitor();

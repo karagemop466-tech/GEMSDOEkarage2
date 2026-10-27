@@ -84,3 +84,21 @@ test('a failed leaderboard refresh remains visibly stale while source status is 
   assert.match(doc.querySelector('#table-note').textContent, /Source-head check/);
   dom.window.close();
 });
+
+test('an aged snapshot is stale without falsely claiming a refresh failure', async () => {
+  const m = structuredClone(originalMonitor);
+  m.leaderboard = {status: 'ok', score_text: '0.4544', checked_utc: '2001-01-01T00:00:00Z'};
+  const dom = await render('index.html', originalAudit, m);
+  const label = dom.window.document.querySelector('#leaderboard-status').textContent;
+  assert.match(label, /STALE SNAPSHOT/);
+  assert.doesNotMatch(label, /REFRESH FAILED/);
+  dom.window.close();
+});
+
+test('unknown monitor status is unavailable, never a fresh result', async () => {
+  const m = structuredClone(originalMonitor);
+  m.leaderboard = {status: 'unexpected', score_text: '0.4544', checked_utc: new Date().toISOString()};
+  const dom = await render('index.html', originalAudit, m);
+  assert.match(dom.window.document.querySelector('#leaderboard-status').textContent, /UNAVAILABLE/);
+  dom.window.close();
+});

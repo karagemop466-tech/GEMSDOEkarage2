@@ -66,3 +66,19 @@ def test_failure_diagnostics_do_not_expose_response_or_exception(monkeypatch):
     assert result['error_reason'] == 'invalid rank-one value'
     assert result['diagnostics']['header_has_public_tversky']
     assert 'private text' not in json.dumps(result)
+
+
+def test_response_shape_diagnostics_use_only_fixed_facts(monkeypatch):
+    page = '''<html><head><title>Just a moment...</title></head><body>
+    <script src="/challenge-platform/private-token"></script>
+    <form><input name="password" value="PRIVATE SECRET"></form></body></html>'''
+    monkeypatch.setattr(feed, 'get', lambda *a, **kw: page)
+    board = feed.refresh({}, {'assets': []})['leaderboard']
+    diag = board['diagnostics']
+    assert diag['parsed_rows'] == 0
+    assert not diag['has_table_element']
+    assert diag['has_script_element'] and diag['has_login_password_field']
+    assert diag['has_challenge_markers'] and not diag['empty_response']
+    assert all(type(value) is bool or (key == 'parsed_rows' and type(value) is int)
+               for key, value in diag.items())
+    assert 'PRIVATE' not in json.dumps(board) and 'private-token' not in json.dumps(board)

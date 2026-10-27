@@ -88,3 +88,34 @@ def test_pages_workflow_keeps_legacy_and_actions_url_layouts_consistent():
     assert 'path: ${{ runner.temp }}/gems-pages' in workflow
     assert 'path: docs\n' not in workflow
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
+
+
+def test_current_scorecard_uses_claim_named_byte_audited_files():
+    # The earlier audit measured NaN siblings for these five claims. Ensure the
+    # current UI, generated pages and pinned hashes instead point to the exact
+    # files named by the published user-reported historical claims.
+    expected = {
+        'GEMSDOE24': 'gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif',
+        'GEMSDOE25': 'gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif',
+        'GEMSDOE27': 'gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif',
+        'GEMSDOE28': 'gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif',
+        'GEMSDOE31': 'gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif',
+        'GEMSDOE32': 'gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif',
+    }
+    report = json.loads((ROOT/'docs/data/focus_audit.json').read_text())
+    manifest = json.loads((ROOT/'registry/pinned_assets.json').read_text())
+    assets = {s['site']: s for s in manifest['assets'] if s['role'] == 'focus'}
+    for row in report['sites']:
+        asset = assets[row['site']]
+        assert row['filename'] == Path(asset['path']).name
+        assert row['sha256'] == asset['sha256']
+        assert row['github_ref'] == asset['ref']
+        assert row['score_claim_source'] == 'https://buffedlizard55-lab.github.io/GEMSDOE28/'
+        assert row['filename'] in (ROOT/'docs'/'experiment-index.html').read_text()
+        detail = (ROOT/'docs'/'sites'/f"{row['site']}.html").read_text()
+        assert row['filename'] in detail and row['sha256'] in detail
+        assert row['nan_in_footprint'] == 0
+    for site, filename in expected.items():
+        assert Path(assets[site]['path']).name == filename
+    previous = json.loads((ROOT/'evidence/nine_site_best_files_audit.json').read_text())
+    assert 'NaN-padded variants' in previous['later_review_annotation']['note']
