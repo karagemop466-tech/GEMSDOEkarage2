@@ -14,7 +14,7 @@ def load(rel):
 
 def test_audit_and_run_card_are_consistent_and_negative():
     audit = load("docs/data/reference-audit.json")
-    card = load("docs/data/run-card.json")
+    card = load("docs/data/audit-run-card.json")
     assert len(audit["reference_files"]) == 9
     assert len(audit["directional_pairwise_overlap"]) == 72
     assert min(audit["directional_pairwise_overlap"].values()) > 0.70

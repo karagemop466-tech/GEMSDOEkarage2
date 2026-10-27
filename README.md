@@ -23,7 +23,7 @@ mirrored-footprint cells farther than 3 px; at 37,654 dots at least 82.34% must
 be near it. That is a geometric stop at that budget, not a score or a proof
 about all smaller rasters. See the [independent executive audit](docs/audit.html),
 [full reproducible audit](docs/data/reference-audit.json), [geometry-only negative
-run card](docs/data/run-card.json), [research review](research/REVIEW.md), and
+run card](docs/data/audit-run-card.json), [research review](research/REVIEW.md), and
 [three-pass review](research/THREE_PASS_REVIEW.md).
 The parallel experiment's distinct [run card](evidence/run_card.json) and
 research-only surface remain preserved and are **not approved for upload**.
