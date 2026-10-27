@@ -1,4 +1,4 @@
-> **Earlier review snapshot:** Cache and automation statements below predate the later independent raster audit and partial shared-tool restoration. See [the current review](../research/review.md) and [three-pass record](../research/three-pass-review.md). No submission has been authorized.
+> **Earlier review snapshot:** Cache and automation statements below predate the later independent raster audit and partial shared-tool restoration. See [the current review](../research/review.md), [independent geometry review](../research/independent-review.md) and [three-pass record](../research/three-pass-review.md). No submission has been authorized.
 
 # Repository review, evidence review, and next research steps — 2026-10-27
 

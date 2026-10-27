@@ -2,7 +2,8 @@
 
 Read `README.md`, `research/review.md`, `research/hypotheses.md`,
 `knowledge/hypotheses.md`, `evidence/run_card.json`, and the audit-session
-`docs/data/run-card.json` before changing scientific or submission workflows.
+`docs/data/run-card.json`, `docs/data/audit-run-card.json` and
+`research/independent-review.md` before changing scientific or submission workflows.
 The standing protocol in the README is binding. H1's verdict is negative;
 its format-checked research surface is not an approved submission. The follow-on
 independent audit ran zero additional experiments. Preserve negative evidence

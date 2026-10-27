@@ -346,5 +346,5 @@
   "raster_sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede",
   "submission_name": "gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface",
   "submission_note": "H1 signed elevation-basement parity, conductivity persistence; research surface only; no slot approval.",
-  "note": "Adapter consumes committed measured receipts; it does not authenticate their origin or reconstruct unavailable inputs."
+  "note": "Adapter consumes committed measured receipts; it does not authenticate their origin, infer official exterior nodata, or reconstruct unavailable inputs."
 }
