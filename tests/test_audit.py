@@ -134,3 +134,23 @@ def test_real_cached_audit_if_available():
     assert result['forensics']['31_dots_removed_within_two_pixels'] == 2545
     assert result['forensics']['32_dots_added_vs_31'] == 0
     assert all(not x['unique_vs_eight_historical'] for x in result['sites'])
+
+
+def test_fetch_binary_via_verified_json_blob(tmp_path, monkeypatch):
+    import base64
+    data = b"\x00\xff\xfebinary\x80"
+    source = tmp_path / "pinned.tif"
+    source.write_bytes(data)
+    item = item_for(source, "focus", "GEMSDOE24")
+    source.unlink()
+    calls = []
+    def fake_gh(endpoint):
+        calls.append(endpoint)
+        if "/git/blobs/" not in endpoint:
+            return {"type": "file", "sha": item["git_blob_sha1"],
+                    "size": len(data), "encoding": "none"}
+        return {"encoding": "base64", "content": base64.b64encode(data).decode()}
+    monkeypatch.setattr(audit.pinned_bootstrap, "gh_json", fake_gh)
+    assert audit.restore(item, tmp_path, True).read_bytes() == data
+    assert len(calls) == 2
+    assert audit.restore(item, tmp_path, False).read_bytes() == data

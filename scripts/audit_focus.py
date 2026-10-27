@@ -10,10 +10,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 from pathlib import Path
-import subprocess
 from datetime import datetime, timezone
+try:
+    from scripts import bootstrap_research as pinned_bootstrap
+except ModuleNotFoundError:  # Direct invocation: python scripts/audit_focus.py
+    import bootstrap_research as pinned_bootstrap
 
 import numpy as np
 import rasterio
@@ -50,16 +52,11 @@ def restore(item: dict, cache: Path, fetch: bool) -> Path:
         if not fetch:
             raise FileNotFoundError(f"Missing {path}; run with --fetch (requires gh).")
         cache.mkdir(parents=True, exist_ok=True)
-        tmp = path.with_suffix(path.suffix + ".partial")
-        endpoint = f"repos/{item['repo']}/contents/{item['path']}?ref={item['ref']}"
-        try:
-            with tmp.open("wb") as out:
-                subprocess.run(["gh", "api", endpoint, "-H", "Accept: application/vnd.github.raw+json"],
-                               stdout=out, check=True)
-            verify_bytes(tmp, item)
-            os.replace(tmp, path)
-        finally:
-            tmp.unlink(missing_ok=True)
+        # Newer gh versions may try to text-transform binary raw responses and
+        # fail with "transform: short source buffer". Reuse the pinned JSON/blob
+        # downloader, which decodes base64 and verifies size, Git blob and SHA.
+        normalized = dict(item, git_blob=item["git_blob_sha1"])
+        pinned_bootstrap.fetch(normalized, cache, name)
     verify_bytes(path, item)
     return path
 

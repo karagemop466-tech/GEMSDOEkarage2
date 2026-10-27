@@ -43,13 +43,16 @@ independently replayed or presented as an approved entry.
   evaluator/writer copies were not altered; unsupported claims in their writer
   documentation are recorded for an upstream fix.
 - After integrating the second independent dashboard, the combined Python run
-  passed 90 tests plus 33 unittest subtests, including both real pinned-raster
+  passed 93 tests plus 33 unittest subtests, including both real pinned-raster
   audits and the independent H1 surface recheck. One third-party
   Rasterio/Affine deprecation warning remains; it is not a raster validity or
   model score. All eight Node tests and the browser smoke checks also passed.
 
 ## Pass 3 — presentation, integration and end-to-end recheck
 
+- GitHub Actions exposed a newer `gh` binary-response text transformation error.
+  The other audit's fetcher now uses the same base64 Git blob path with verified
+  size, SHA-256 and Git SHA, and a binary-byte regression test covers it.
 - Reproduced the other session's nine-raster audit and its H1 saved-byte report
   exactly except creation timestamps; that session selected different NaN-outside
   variants for several historical files, so byte hashes are not interchangeable.
