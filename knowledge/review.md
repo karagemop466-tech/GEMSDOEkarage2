@@ -1,0 +1,40 @@
+# Review and research queue — 2026-10-27
+
+## Scope and evidence
+The starting checkout had only a 16-byte README. No previous sessions, local models, evaluator, writer or cache existed. All nine upstream recursive trees and selected README/executive-summary/manifest files were retrieved via GitHub's API. Stored tree entries include Git blob hashes; evidence files are secondary sources, not organizer receipts. We cannot modify all nine independently owned sites from this repository; local per-site executive pages are provided instead.
+
+The highest historical result in the supplied nine-site subset is USER-REPORTED GEMSDOE32 0.2778. The prompt also supplies inconsistent leaderboard maxima (0.3195 and 0.4413); neither is treated as current or ORGANIZER-CONFIRMED. No leaderboard projection is a score.
+
+## Why GEMSDOE32 might work — not a causal finding
+Sparse dot placement can reduce redundant predicted mass while preserving proximity coverage under a distance-tolerant metric. This is a testable explanation, not proof of why the named submission received its reported result. The later upstream `evidence/h32_winning_run_card.json` describes pruning weak speckles and adding corroborated dots; it is a DIFFERENT submission from the historical h33 identifier. Do not conflate their results. That later card itself reports overlap above the requested duplicate limit while saying promote. Under this project's protocol it would stop as duplicate. Its claimed evaluation and confidence interval have not been reproduced here.
+
+## Ranked hypotheses BEFORE implementation
+These are untested proposals, ranked qualitatively by scientific plausibility and implementation burden, NOT estimated DTI gains. The local repo has no prior implementation; novelty across upstream experiments has NOT been established. All remain deferred until the assigned method paragraph and common template are identified. None is approved as the session lane.
+
+| Priority | Hypothesis / specific required layers | Signature and missing-fault rationale | Non-fault mimic | Difference / cost / expected gain |
+|---|---|---|---|---|
+| First | Residual radiometric discontinuities: GeoDAWN K, eTh, eU plus DEM | Remove elevation/terrain trend within training blocks, detect aligned residual log-ratio edges. Alteration across buried structures could persist where a mapped surface trace does not. | Weathering, parent-rock contact, transported sediment | Conditional residual edges rather than a raw edge sum. Moderate cost; gain unknown. First confirm the exact bands and availability in the common cache. |
+| Second | Magnetic phase dislocation: total magnetic intensity and vertical derivative | Detect stable lateral offsets of phase-congruent ridges at multiple scales; offsets might mark cross-faults rather than continuing an existing catalogue line. | Dikes, survey seams, remanence changes | Offset topology rather than ridge intensity. Higher cost; gain unknown; inspect flightline/seam effects. |
+| Third | Radiometric texture translation: K/eTh/eU grids | Match texture across paired windows and identify coherent lateral displacement with incompatible local lithology-only explanations. Could expose strike-slip offsets with weak topographic expression. | Alluvial transport and compositional boundaries | Displacement matching rather than pointwise fusion. High cost; gain unknown and likely sensitive to raster resolution. |
+| Fourth | Terrain asymmetry transitions: DEM plus magnetic gradient | Measure along-front change in signed cross-profile curvature, requiring independent subsurface corroboration. Buried splays might yield subtle changes beyond visible mapped scarps. | Lake shorelines, fans and roads | Change points in profile asymmetry, not scarp magnitude. Moderate cost; gain unknown. |
+
+Data feasibility: upstream manifests list numerical features and some derived caches, but mirror consistency does not establish organizer authenticity or guarantee any required band. No proposal needing external data is called viable. The official USGS GeoDAWN landing page below is a source candidate, NOT verified downloadable here; USGS, DrivenData, GDR, Dropbox and the PDF hosts are outside this environment's outbound allowlist. Do not claim successful official downloads or full literature verification.
+
+## Official source register
+- Organizer reference code (README retrieved): https://github.com/drivendataorg/gems-prize-reference-solution . It explicitly offers CPU-only training; GPU is an accelerator, not an absolute prerequisite. This is a fault-prediction challenge; a geothermal-vent discovery claim requires independent scientific validation.
+- Competition overview / rules to verify when accessible: https://www.drivendata.org/competitions/306/competition-doe-gems/
+- Problem description (not fetched): https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/
+- Official data portal (not fetched): https://www.drivendata.org/competitions/306/competition-doe-gems/data/
+- USGS source candidate (not fetched): https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and
+- GDR source candidate (not fetched): https://gdr.openei.org/submissions/1391
+- Requested submission PDF (not fetched): https://docs.nlr.gov/docs/fy26osti/96647.pdf
+
+## Three review passes
+1. Inspected empty checkout, nine upstream repositories and official reference README. Implemented static dashboard, nine local summaries and fail-closed evidence gate. No experiments or slots used.
+2. Tested missing required evidence, leakage, nonfinite numbers, malformed confidence intervals, duplicate surfaces and final dots, and non-improving holdout. Gate never authorizes a weekly slot.
+3. Rechecked against prompt: absent lane and shared-template identity preclude experiments; historical claims remain user-reported. No synthetic TIFF, invented score, private evaluator fork, or duplicate promoted. Requirements for a real new TIFF and verified estimated performance remain unfulfilled, explicitly visible in UI and run card.
+
+## Next session, in order
+Identify assigned method paragraph and shared template commit; restore its existing cache and tools without private forks. The mirrors show data may be recoverable through GitHub, so data is NOT proven unobtainable. Authenticate provenance separately. Establish baseline on identical whole-segment folds, then canaries and at most three experiments. Acquire complete registry arrays, not just filenames; fail closed when missing. Only release a genuinely new valid TIFF after every gate passes. Receipt ingestion should then update the dashboard; no live feed is implemented yet.
+
+The gate validates evidence structure, not truth: it does not run raster validation, calculate metrics or prove registry completeness. Its booleans must eventually come from trusted shared-tool outputs. It is not a substitute for those tools.

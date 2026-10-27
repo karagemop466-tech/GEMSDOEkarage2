@@ -1,0 +1,110 @@
+[
+  {
+    "site": "GEMSDOE24",
+    "historical_submission": "h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan",
+    "user_reported_result": "0.2477",
+    "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": null,
+    "download": null,
+    "verdict": "negative",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE24",
+    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+  },
+  {
+    "site": "GEMSDOE25",
+    "historical_submission": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan",
+    "user_reported_result": "0.2600",
+    "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": null,
+    "download": null,
+    "verdict": "negative",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE25",
+    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+  },
+  {
+    "site": "GEMSDOE27",
+    "historical_submission": "topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan",
+    "user_reported_result": "0.2449",
+    "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": null,
+    "download": null,
+    "verdict": "negative",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE27",
+    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+  },
+  {
+    "site": "GEMSDOE28",
+    "historical_submission": "h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan",
+    "user_reported_result": "0.2710",
+    "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": null,
+    "download": null,
+    "verdict": "negative",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE28",
+    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+  },
+  {
+    "site": "GEMSDOE30",
+    "historical_submission": "d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca",
+    "user_reported_result": "0.2600",
+    "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": null,
+    "download": null,
+    "verdict": "negative",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE30",
+    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+  },
+  {
+    "site": "GEMSDOE31",
+    "historical_submission": "h27-4-solo-d28-20261004-8acb75e1-nan",
+    "user_reported_result": "0.2708",
+    "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": null,
+    "download": null,
+    "verdict": "negative",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE31",
+    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+  },
+  {
+    "site": "GEMSDOE32",
+    "historical_submission": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
+    "user_reported_result": "0.2778",
+    "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": null,
+    "download": null,
+    "verdict": "negative",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE32",
+    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+  },
+  {
+    "site": "GEMSDOE33",
+    "historical_submission": "h33d-analog-tip-stepover-r30-20261004-cb490425926e",
+    "user_reported_result": "0.2632",
+    "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": null,
+    "download": null,
+    "verdict": "negative",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE33",
+    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+  },
+  {
+    "site": "GEMSDOE36",
+    "historical_submission": "anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros",
+    "user_reported_result": "0.2750",
+    "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": null,
+    "download": null,
+    "verdict": "negative",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE36",
+    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+  }
+]
