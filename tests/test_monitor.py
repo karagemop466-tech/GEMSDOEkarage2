@@ -56,3 +56,13 @@ def test_redirect_guard_refuses_cross_host_and_downgrade():
         guard.redirect_request(req, None, 302, 'Found', {}, 'http://api.github.com/path')
     allowed = guard.redirect_request(req, None, 302, 'Found', {}, 'https://api.github.com/other')
     assert allowed.full_url == 'https://api.github.com/other'
+
+
+def test_failure_diagnostics_do_not_expose_response_or_exception(monkeypatch):
+    page = table('bad private text')
+    monkeypatch.setattr(feed, 'get', lambda *a, **kw: page)
+    result = feed.refresh({}, {'assets': []})['leaderboard']
+    assert result['status'] == 'unavailable'
+    assert result['error_reason'] == 'invalid rank-one value'
+    assert result['diagnostics']['header_has_public_tversky']
+    assert 'private text' not in json.dumps(result)

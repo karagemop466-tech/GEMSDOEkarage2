@@ -79,3 +79,12 @@ def test_parallel_surface_recheck_against_pinned_mirrors_when_available():
     assert report['positive_on_mirrored_catalogue'] == 0
     assert report['positive_outside_mirrored_footprint'] == 0
     assert report['min'] >= 0 and report['max'] <= 1
+
+
+def test_pages_workflow_keeps_legacy_and_actions_url_layouts_consistent():
+    workflow = (ROOT/'.github/workflows/pages.yml').read_text()
+    assert 'cp index.html "$RUNNER_TEMP/gems-pages/index.html"' in workflow
+    assert 'cp -a docs/. "$RUNNER_TEMP/gems-pages/docs/"' in workflow
+    assert 'path: ${{ runner.temp }}/gems-pages' in workflow
+    assert 'path: docs\n' not in workflow
+    assert 'docs/index.html' in (ROOT/'index.html').read_text()

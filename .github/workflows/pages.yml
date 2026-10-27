@@ -52,11 +52,13 @@ jobs:
           enablement: true
       - name: Prepare published site and linked research documents
         run: |
-          mkdir -p .pages
-          cp -R docs research .pages/
-          cp index.html README.md .pages/
+          mkdir -p "$RUNNER_TEMP/gems-pages/docs"
+          cp index.html "$RUNNER_TEMP/gems-pages/index.html"
+          cp -a docs/. "$RUNNER_TEMP/gems-pages/docs/"
+          cp -a research "$RUNNER_TEMP/gems-pages/research"
+          cp README.md "$RUNNER_TEMP/gems-pages/README.md"
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .pages
+          path: ${{ runner.temp }}/gems-pages
       - id: deployment
         uses: actions/deploy-pages@v4

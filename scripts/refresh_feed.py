@@ -121,15 +121,39 @@ def refresh(old: dict, manifest: dict, *, github_only: bool = False) -> dict:
     if github_only:
         updated["leaderboard"] = old.get("leaderboard", {"status": "unavailable"})
     else:
+        page = None
         try:
-            score = parse_leaderboard(get(LEADERBOARD))
+            page = get(LEADERBOARD)
+            score = parse_leaderboard(page)
             updated["leaderboard"] = {"status": "ok", "score_text": score, "rank": 1,
                 "checked_utc": now(), "source": LEADERBOARD,
                 "evidence_class": "PUBLIC ORGANIZER LEADERBOARD SNAPSHOT; not a file-bound submission receipt"}
         except (OSError, ValueError, UnicodeError, HTTPError, URLError) as exc:
+            # Only publish fixed, locally generated diagnostics. Never publish a
+            # response body, token, URL query, cookie, or arbitrary exception text.
+            known = {
+                "Unexpected cross-origin redirect": "cross-origin redirect rejected",
+                "Response exceeds monitor size limit": "response exceeded size limit",
+                "Rank-one score is not a valid probability-like value": "invalid rank-one value",
+                "Could not unambiguously parse public rank-one score": "leaderboard table not recognized",
+            }
             updated["leaderboard"] = {"status": "unavailable", "checked_utc": now(),
                 "source": LEADERBOARD, "error_type": type(exc).__name__,
+                "error_reason": known.get(str(exc), "network or unexpected response"),
                 "last_successful": previous_snapshot(old)}
+            if page is not None:
+                try:
+                    parser = TableParser()
+                    parser.feed(page)
+                    headers = [row for row in parser.rows if any("tversky" in c.casefold() for c in row)]
+                    # Header facts only; never copy participant rows or page contents.
+                    updated["leaderboard"]["diagnostics"] = {
+                        "parsed_rows": len(parser.rows),
+                        "header_has_rank": any(any("rank" in c.casefold() for c in row) for row in headers),
+                        "header_has_public_tversky": any(any("public" in c.casefold() and "tversky" in c.casefold() for c in row) for row in headers),
+                    }
+                except ValueError:
+                    updated["leaderboard"]["diagnostics"] = {"parser_failed": True}
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     sites = []
     for item in [x for x in manifest["assets"] if x["role"] == "focus"]:
