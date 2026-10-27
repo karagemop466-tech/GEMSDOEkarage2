@@ -47,8 +47,16 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+      # Pages is currently configured for legacy main-root builds. Publish the
+      # same root -> docs/ layout so those builds cannot invalidate URLs when
+      # they race the scheduled Actions deployment. Do not publish .git/caches.
+      - name: Stage stable Pages layout
+        run: |
+          mkdir -p "$RUNNER_TEMP/gems-pages/docs"
+          cp index.html "$RUNNER_TEMP/gems-pages/index.html"
+          cp -a docs/. "$RUNNER_TEMP/gems-pages/docs/"
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: ${{ runner.temp }}/gems-pages
       - id: deployment
         uses: actions/deploy-pages@v4
