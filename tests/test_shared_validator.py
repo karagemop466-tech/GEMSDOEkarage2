@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 import rasterio
 from rasterio.windows import Window
-from audit_references import DEFAULT_CACHE, MANIFEST, load_shared
+from scripts.audit_references import DEFAULT_CACHE, MANIFEST, load_shared
 
 
 @pytest.fixture(scope="module")
@@ -33,7 +33,7 @@ def test_real_shared_writer_validator_and_exterior_diagnostics(shared, tmp_path)
     assert not report["checks"]["variant_strict_whole_array_no_nan_allowed"]["pass"]
     assert report["submission_authorized"] is False
     assert report["ok_to_upload"] is False
-    from check_submission import check
+    from scripts.check_submission import check
     wrapped = check(target)
     assert wrapped["official_format_compliant"] is None
     assert wrapped["upstream_mirror_based_exterior_and_format_diagnostic"] is True
@@ -96,7 +96,7 @@ def test_validator_rejects_wrong_crs_transform_shape_and_band_format(shared, tmp
 def test_check_submission_cli_fails_closed_for_missing_file(tmp_path):
     import subprocess
     import sys
-    from audit_references import ROOT
+    from scripts.audit_references import ROOT
     missing = tmp_path / "missing.tif"
     command = [sys.executable, str(ROOT / "scripts/check_submission.py"), str(missing)]
     result = subprocess.run(command, capture_output=True, text=True, cwd=ROOT)

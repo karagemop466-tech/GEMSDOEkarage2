@@ -16,7 +16,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: python -m unittest discover -s tests -v
+      - run: python -m pip install -r requirements.txt
+      - run: pytest -q
   deploy:
     if: github.event_name != 'pull_request'
     needs: test
@@ -29,8 +30,15 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+      # Publish the same relative structure as the legacy main-root source;
+      # docs pages link to the root research/ and README.md files.
+      - name: Prepare published site
+        run: |
+          mkdir -p .pages
+          cp -R docs research .pages/
+          cp index.html README.md .pages/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: .pages
       - uses: actions/deploy-pages@v4
         id: deployment

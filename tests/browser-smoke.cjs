@@ -69,6 +69,11 @@ function chromeEnvironment() {
       assert.equal(await page.locator('a[download]').count(), 0);
       assert.ok((await page.locator('body').innerText()).includes('No approved file yet'));
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Overview overflow');
+      await page.locator('[data-site="GEMSDOE32"] .site-link').click();
+      assert.ok(page.url().endsWith('/docs/site-GEMSDOE32.html'));
+      assert.ok((await page.locator('body').innerText()).toLowerCase().includes('updated audit'));
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Site detail overflow');
+      await page.goBack();
       await page.locator('a[href="submit.html"]').first().click();
       assert.ok(page.url().endsWith('/docs/submit.html'));
       assert.ok((await page.locator('body').innerText()).toLowerCase().includes('do not submit'));

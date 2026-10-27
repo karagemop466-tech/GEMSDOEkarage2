@@ -2,7 +2,7 @@ import base64
 import hashlib
 from pathlib import Path
 import pytest
-import bootstrap_research as boot
+from scripts import bootstrap_research as boot
 
 
 def fixture_item(data: bytes):

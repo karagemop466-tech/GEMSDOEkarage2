@@ -1,5 +1,5 @@
 import pytest
-from audit_references import geometry_stop
+from scripts.audit_references import geometry_stop
 
 
 def test_real_budget_is_forced_duplicate():

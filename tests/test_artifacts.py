@@ -30,6 +30,9 @@ def test_audit_and_run_card_are_consistent_and_negative():
     assert card["holdout_dti"] is None and card["raster_sha256"] is None
     assert card["submission_name"] is None and card["submission_note"] is None
     assert card["verdict"] == "negative" and not card["new_submission_tiff_generated"] and not card["weekly_slot_selected"]
+    from scripts.readiness import assess
+    assert assess(card)["verdict"] == "negative"
+    assert assess(card)["slot_authorized"] is False
 
 
 def test_manifest_pins_both_references_and_shared_tools():

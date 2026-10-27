@@ -5,7 +5,10 @@ import argparse
 import json
 from pathlib import Path
 import rasterio
-from audit_references import DEFAULT_CACHE, MANIFEST, checked_path, load_shared
+if __package__:
+    from .audit_references import DEFAULT_CACHE, MANIFEST, checked_path, load_shared
+else:  # Direct CLI invocation.
+    from audit_references import DEFAULT_CACHE, MANIFEST, checked_path, load_shared
 
 
 def check(path: Path, cache: Path = DEFAULT_CACHE) -> dict:

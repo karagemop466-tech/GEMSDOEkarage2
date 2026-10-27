@@ -80,6 +80,15 @@ not evidence linking an owner file to an organizer receipt.
 
 ## Evidence and reproducibility
 
+While this branch was in progress, another session merged a prior dashboard,
+per-site pages, upstream evidence snapshots and an evidence-schema readiness
+gate into `main`. Those assets are preserved. The [prior project brief](knowledge/project-brief.md),
+[archived review](knowledge/review.md), [original dashboard](docs/archive-initial-dashboard.html),
+[original research page](docs/archive-initial-research.html), and
+[`scripts/readiness.py`](scripts/readiness.py) remain available. The readiness
+module is a schema gate only; it does not calculate DTI, verify TIFF bytes or
+select a weekly slot. Its previous run card is explicitly archived.
+
 - [Executive summary and nine-site table](docs/index.html)
 - [Submission guide](docs/submit.html)
 - [Four ranked hypotheses and the stopped test plan](research/HYPOTHESES.md)

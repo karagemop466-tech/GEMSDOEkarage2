@@ -1,3 +1,7 @@
+> **Archived prior review.** This document records an earlier session. The current
+> pinned evidence, sample-mirror discrepancy, template identity and decision are
+> in [the updated review](../research/REVIEW.md) and [executive site](../docs/index.html).
+
 # Repository review, evidence review, and next research steps — 2026-10-27
 
 ## 1. What this checkout actually contains
