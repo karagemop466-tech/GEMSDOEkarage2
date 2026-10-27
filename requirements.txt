@@ -1,5 +1,6 @@
-# Reproducible versions used for the independent raster audit (Python 3.11).
+# Reproducible versions used for both independent audits (Python 3.11).
 numpy==2.4.6
 scipy==1.17.1
 rasterio==1.4.4
+scikit-learn==1.9.1
 pytest==9.1.1

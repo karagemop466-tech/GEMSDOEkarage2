@@ -31,9 +31,11 @@
     "organizer_acceptance": "unknown"
   },
   "submission_name": null,
-  "note": "No candidate was generated or approved. DO NOT SUBMIT.",
+  "note": "This audit made no candidate; the parallel H1 surface is research-only. DO NOT SUBMIT.",
   "verdict": "negative",
   "weekly_slot_selected": false,
   "experiments_run": 0,
-  "readiness": "No file is authorized for upload; format checks on historical files do not change this verdict."
+  "readiness": "No file is authorized for upload; the parallel H1 surface failed scientific and registry gates.",
+  "scope": "Independent audit session only; the separately merged H1 session ran one experiment and generated a negative research surface.",
+  "parallel_experiment_card": "../evidence/run_card.json"
 }

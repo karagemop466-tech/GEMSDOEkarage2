@@ -48,7 +48,7 @@
     const head = el("div", "detail-head"); head.append(el("h3", "", site.site), el("span", "", "DO NOT SUBMIT"));
     card.append(head, el("p", "detail-score", Number(site.reported_score).toFixed(4)), el("p", "detail-copy", "USER-REPORTED / UNVERIFIED · leaderboard estimate unavailable"));
     card.append(link(site.research_download_url, site.filename, "detail-file"));
-    const archive = el("a", "detail-file", "Earlier per-site review ↗");
+    const archive = el("a", "detail-file", "Detailed per-site review ↗");
     archive.href = `site-${encodeURIComponent(site.site)}.html`;
     card.append(archive);
     const novelty = site.unique_vs_eight_historical ? "No duplicate found among selected files; full registry not checked" : "Not unique vs selected historical files";

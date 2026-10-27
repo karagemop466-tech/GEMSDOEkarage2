@@ -36,12 +36,12 @@
     <div class="decision-card" aria-labelledby="decision-title">
       <div class="decision-top"><span class="status-badge"><span></span> SUBMISSION BLOCKED</span><span class="decision-index">01 / DECISION</span></div>
       <h2 id="decision-title">No file is approved<br>for submission.</h2>
-      <p>No new GeoTIFF was generated. The assigned method lane is missing and the literal registry overlap rule blocks the reference-size candidate. Do not upload an old file as a new submission.</p>
+      <p>One parallel session produced a research-only surface, but it failed the literal registry gate and did not beat its holdout control. No upload is authorized.</p>
       <div class="decision-actions">
-        <button type="button" disabled aria-describedby="download-reason">Download submission <span aria-hidden="true">↓</span></button>
+        <button type="button" disabled aria-describedby="download-reason">No approved submission TIF <span aria-hidden="true">↓</span></button>
         <a href="executive-summary.html">Read submission guide <span aria-hidden="true">↗</span></a>
       </div>
-      <p class="decision-foot" id="download-reason">A download becomes available only after the evidence gates and separate selector pass.</p>
+      <p class="decision-foot" id="download-reason">A submission download becomes available only after all evidence gates and the separate selector pass.</p>
     </div>
   </section>
 
@@ -49,7 +49,15 @@
     <div class="stat"><p>PUBLIC LEADERBOARD <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener noreferrer" aria-label="Open official leaderboard">↗</a></p><strong id="leaderboard-score">—</strong><small id="leaderboard-status">Loading dated snapshot…</small></div>
     <div class="stat"><p>FOCUS-SITE BEST <span class="info-dot" title="Owner-reported, not a verified submission receipt">i</span></p><strong>0.2778<span class="stat-star">*</span></strong><small>USER-REPORTED · GEMSDOE32</small></div>
     <div class="stat"><p>LITERAL OVERLAP FLOOR</p><strong>82.34<span class="suffix">%</span></strong><small>GEOMETRY AUDIT · reference budget</small></div>
-    <div class="stat"><p>EXPERIMENTS RUN</p><strong>0<span class="suffix"> / 3</span></strong><small>Stopped before a candidate</small></div>
+    <div class="stat"><p>PARALLEL H1 EXPERIMENT</p><strong>1<span class="suffix"> / 3</span></strong><small>Negative · no slot selected</small></div>
+  </section>
+
+  <section class="section shell research-download" id="research-download">
+    <div class="section-head"><div><p class="eyebrow">PARALLEL SESSION · RESEARCH ARTIFACT</p><h2>Available to inspect.<br>Not available to submit.</h2></div><div class="section-aside"><p>The H1 surface is a new continuous research raster, not final dots. It failed the scientific and literal registry gates. <strong>DO NOT SUBMIT.</strong></p></div></div>
+    <div class="artifact-card">
+      <div><span class="artifact-badge">NEGATIVE · RESEARCH ONLY</span><h3>H1 signed cross-field parity</h3><p>HOLDOUT-DTI <strong>0.03367</strong>, 95% CI [0.02867, 0.03929], <code>gems57-pooled-hide-v2</code>, 58,259 withheld positives. Reported by the parallel run; this audit did not rerun the holdout. It lost to the best primitive control and is not a leaderboard prediction.</p><p>Independent saved-byte audit: one float32 band, finite [0,1] against the owner mirror; <strong>100% of positive surface support</strong> is within 3 pixels of the lattice. Organizer acceptance and the official template remain unverified.</p><p class="artifact-hash">SHA-256 <code>a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede</code></p></div>
+      <div class="artifact-actions"><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif" download>Download research TIFF ↓</a><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.zip" download>Download research ZIP ↓</a><a href="evidence/run_card.json">H1 negative run card ↗</a><a href="data/parallel-surface-audit.json">Independent raster recheck ↗</a><a href="experiment-index.html">Full H1 experiment review ↗</a><small>For research only. No competition submission is approved.</small></div>
+    </div>
   </section>
 
   <section class="section shell score-section" id="scorecard">
@@ -78,17 +86,17 @@
   </section>
 
   <section class="section shell gates-section" id="gates">
-    <div class="section-head"><div><p class="eyebrow">THE RELEASE STANDARD</p><h2>Four gates. No shortcuts.</h2></div><div class="section-aside"><p>A valid TIFF is necessary, but it is not a validated discovery or permission to spend a weekly slot.</p><a class="text-link" href="data/run-card.json">Download current run card <span aria-hidden="true">↓</span></a></div></div>
+    <div class="section-head"><div><p class="eyebrow">THE RELEASE STANDARD</p><h2>Four gates. No shortcuts.</h2></div><div class="section-aside"><p>A valid TIFF is necessary, but it is not a validated discovery or permission to spend a weekly slot.</p><a class="text-link" href="evidence/run_card.json">Download H1 run card <span aria-hidden="true">↓</span></a></div></div>
     <div class="gate-grid">
       <article class="gate"><span class="gate-number">01</span><div class="gate-state">BLOCKED</div><h3>Assigned method</h3><p>One explicit lane, a complete registry and the shared prepared feature stack are needed before a comparable experiment.</p></article>
-      <article class="gate"><span class="gate-number">02</span><div class="gate-state">NOT RUN</div><h3>Leakage &amp; holdout</h3><p>Test each feature alone, hide whole buffered segments and beat the same-protocol best with a paired interval.</p></article>
+      <article class="gate"><span class="gate-number">02</span><div class="gate-state">FAILED</div><h3>Leakage &amp; holdout</h3><p>Parallel H1 reports passing canaries but lost to its best primitive control; no comparable incumbent was rebuilt.</p></article>
       <article class="gate"><span class="gate-number">03</span><div class="gate-state">BLOCKED</div><h3>Literal uniqueness</h3><p>Compare the surface and final dots with every registry raster. The registered lattice is not silently exempted.</p></article>
-      <article class="gate"><span class="gate-number">04</span><div class="gate-state">NOT RUN</div><h3>Format &amp; selector</h3><p>Validate saved bytes against an authenticated template, then obtain separate slot approval. Portal acceptance remains unknown.</p></article>
+      <article class="gate"><span class="gate-number">04</span><div class="gate-state">PARTIAL</div><h3>Format &amp; selector</h3><p>H1 passes local mirror checks only; authenticate the template and require separate slot approval. Portal acceptance remains unknown.</p></article>
     </div>
   </section>
 
   <section class="next shell"><div><p class="eyebrow">NEXT, NOT NEXT BEST GUESS</p><h2>Resolve the blockers.<br>Then test the idea.</h2><p>Four ranked hypotheses are documented with their geological mechanisms, mimics, data sources and access limits. None is an observed score.</p></div><a class="button-outline" href="research.html">Explore the research slate <span aria-hidden="true">→</span></a></section>
 </main>
-<footer><div class="shell footer-inner"><div><strong>GEMS RESEARCH DESK</strong><p>Fault mapping for geothermal exploration.<br>Evidence and limitations, made visible.</p></div><div><a href="research.html#sources">Official sources</a><a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a><a href="data/run-card.json">Current run card</a></div><span>AN INDEPENDENT RESEARCH PROJECT<br>NOT AFFILIATED WITH DRIVENDATA OR DOE</span></div></footer>
+<footer><div class="shell footer-inner"><div><strong>GEMS RESEARCH DESK</strong><p>Fault mapping for geothermal exploration.<br>Evidence and limitations, made visible.</p></div><div><a href="research.html#sources">Official sources</a><a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a><a href="evidence/run_card.json">H1 run card</a></div><span>AN INDEPENDENT RESEARCH PROJECT<br>NOT AFFILIATED WITH DRIVENDATA OR DOE</span></div></footer>
 </body>
 </html>

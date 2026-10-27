@@ -11,8 +11,10 @@ The cached, prepared shared feature array is not present. Files under `.cache/`
 are disposable and are **not** committed. Run `scripts/bootstrap_shared.py`
 again when needed; do not mistake owner mirrors for authenticated originals.
 The partial shared-asset manifest is not a complete runnable template checkout:
-its evaluation CLI imports additional lane-specific modules. No evaluator or
-writer was copied into this repository or modified.
+its evaluation CLI imports additional lane-specific modules. The independent
+audit did not copy or modify an evaluator or writer. A concurrently merged
+session separately vendored unchanged shared GEMSDOE32 tools; see
+`vendor/NOTICE.md` and its per-file hashes.
 
 ## Independent audit, not an experiment
 
@@ -22,8 +24,10 @@ directional overlaps of the nine historical positive-dot masks. The same code
 also audits the registered lattice. Pinned refs and checksums are in
 `registry/pinned_assets.json`; machine-readable measurements are in
 `docs/data/focus_audit.json`. This checks only those nine historical rasters and
-one witness, not all files on those sites or all parallel sessions. It does not
-check a new pre-placement surface because none exists.
+one witness, not all files on those sites or all parallel sessions. It
+originally checked no new surface. After the concurrent H1 merge,
+`scripts/audit_parallel_surface.py` separately rechecked the H1 saved raster and
+one lattice witness without rerunning the holdout.
 
 On the pinned mirror footprint, 6,649 cells are outside the lattice's 3-pixel
 neighborhood. For N distinct in-footprint dots, at least `max(0, N - 6649)`
@@ -64,5 +68,15 @@ beat it. A SHA difference alone does not establish uniqueness.
    independent selector consider a weekly slot. The portal, quota, actual
    acceptance and file-bound score receipt require the enrolled account.
 
-There is no private-truth score estimate, candidate GeoTIFF, submission name,
-portal acceptance or competition upload from this checkout.
+The parallel H1 research surface and its name exist, but no final-dot submission, private-truth score estimate, portal acceptance or competition upload exists. H1 was negative; its holdout was not rerun by this audit.
+
+### Shared-helper caveat after concurrent integration
+
+The parallel H1 session's evaluator and writer are pinned unchanged, but its
+inherited registry-fetch helper contains a local integrity fix that the session
+reports was **not** landed upstream (`vendor/NOTICE.md`). That is not a shared
+template fix and does not satisfy the user's instruction to fix shared tools at
+the shared source. Preserve the finding and arrange the upstream fix before
+relying on that modified helper for a new experiment; do not claim it was
+upstreamed. This audit's independently written pin verifier is a separate
+read-only forensic tool, not a replacement evaluator or writer.

@@ -55,3 +55,27 @@ def test_current_negative_card_fails_prior_readiness_gate():
     outcome = assess(card)
     assert outcome['verdict'] == 'negative'
     assert outcome['slot_authorized'] is False
+
+
+def test_parallel_surface_recheck_is_a_negative_not_an_approval():
+    report = json.loads((ROOT/'docs/data/parallel-surface-audit.json').read_text())
+    card = json.loads((ROOT/'evidence/run_card.json').read_text())
+    assert report['sha256'] == card['raster_sha256']
+    assert report['support_overlap_fraction'] == 1.0
+    assert report['single_band_float32'] and report['finite_whole_array']
+    assert not report['organizer_template_authenticated']
+    assert not report['submission_authorized']
+    assert not report['holdout_reproduced_in_this_audit']
+
+
+def test_parallel_surface_recheck_against_pinned_mirrors_when_available():
+    import pytest
+    cache = ROOT/'.cache/inputs'
+    if not (cache/'r13_lattice_nan.tif').exists():
+        pytest.skip('pinned mirrors not restored in lightweight CI')
+    from scripts.audit_parallel_surface import audit
+    report = audit(cache)
+    assert report['support_overlap_fraction'] == 1.0
+    assert report['positive_on_mirrored_catalogue'] == 0
+    assert report['positive_outside_mirrored_footprint'] == 0
+    assert report['min'] >= 0 and report['max'] <= 1

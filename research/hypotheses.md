@@ -42,3 +42,11 @@ DTI or evidence that the hidden leaderboard will improve.
 * [Faulds and Hinz, OSTI](https://www.osti.gov/biblio/1724082) — structural settings for blind geothermal systems; does not establish that a predicted fault hosts geothermal fluid.
 
 **Late source change:** After our nine-site audit was pinned, GEMSDOE25 merged [H79 CTHM / SGMC research](https://github.com/buffedlizard55-lab/GEMSDOE25/blob/19b219f629440b9975b093f459c74e21a42476ca/knowledge/40_h79_cthm_poe_outcome_2026-10-27.md) using overlapping gravity, magnetic, topographic and hydrothermal ingredient families. We have not reproduced that work. The exact cross-scale displacement operator may differ, but this does not establish uniqueness; compare its pre-placement surfaces and final dots against H79 and the complete current registry before any experiment can be promoted. The upstream work also reports a negative, no-submit verdict.
+
+
+**Concurrent main integration:** The parallel session's unrun H2, shear-offset
+edge dipoles, also proposes gravity–magnetic cross-strike displacement. Treat
+our #1 as overlapping, not established unique. Its different H1 hypothesis was
+run once and stopped negative; see [`knowledge/hypotheses.md`](../knowledge/hypotheses.md)
+and [`evidence/run_card.json`](../evidence/run_card.json). Do not count the
+follow-on independent raster audit as another experiment.

@@ -13,3 +13,6 @@ node_modules/
 /data/
 *.tif
 *.tiff
+# Intentionally quarantined research downloads from the parallel H1 run.
+!docs/downloads/*.tif
+!docs/downloads/*.tiff

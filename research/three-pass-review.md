@@ -61,3 +61,26 @@ nine earlier site pages. The merged Pages workflow retains a test gate and adds
 the scheduled refresh. The readiness gate still rejects this negative run card.
 Post-integration local tests: 32 Python tests plus 33 unittest subtests, and
 five DOM tests passed. Deployment remains subject to GitHub Pages settings.
+
+## Second concurrent integration: stopped H1 experiment
+
+A later `main` merge introduced a separate H1 geological experiment, its shared
+unchanged tools, evidence, local website and a quarantined research surface.
+Those assets are preserved; this review did not rerun the experiment. An
+independent saved-byte check (`scripts/audit_parallel_surface.py`) confirmed the
+surface SHA-256, one float32 band, mirrored grid, finite range, zero catalogue
+and exterior positives, and the single-witness collision: all 1,893,817 positive
+surface cells lie within 3 px of the r13 lattice, with full-footprint Spearman
+-0.000057. This uses the inherited positive-support interpretation for a
+continuous surface, not a final-dot comparison. The previous session's
+HOLDOUT-DTI and confidence interval remain attributed to its own evidence.
+
+The experiment report's generator now writes to separate `experiment-*` pages
+instead of overwriting the current dashboard; both reports and the nine
+per-site pages remain linked. Corrected the selector adapter so a local
+zero-padded owner-mirror format pass does not claim that the organizer's
+outside-nodata policy was verified. The combined local suite passed 70 Python
+tests (33 unittest subtests) and five DOM tests, with one third-party rasterio
+pending-deprecation warning. Real-browser evidence from the H1 session covers
+its generated pages; the newer dashboard was exercised in DOM/HTTP tests but
+not independently screenshot-tested at responsive viewport sizes here.

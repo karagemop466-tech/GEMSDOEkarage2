@@ -1,14 +1,19 @@
 # GEMS Research Desk
 
-**Current decision: NO NEW TIFF / DO NOT SUBMIT.** This checkout was initially
-an empty repository, not the completed pipeline described in the task. It now
-contains a reproducible nine-site audit, a fail-closed executive dashboard,
-research hypotheses, source register and a dated negative run card. It has not
-trained a new detector, run a holdout, authorized a slot, or submitted a file.
+**Current decision: DO NOT SUBMIT.** A parallel session generated one new,
+continuous H1 research GeoTIFF, but it failed the literal registry gate and its
+holdout comparison. It is downloadable for research only; no final dots, slot
+selection, organizer acceptance or competition submission exists. The later
+independent audit ran **zero additional experiments**.
+
+Parallel-session **HOLDOUT-DTI** `gems57-pooled-hide-v2`: 0.03367, 95% CI
+[0.02867, 0.03929], 58,259 withheld positives; this audit did not rerun that
+holdout. Independently rechecked saved bytes, owner-mirror grid and 100% positive
+surface support proximity to the lattice. This is not a leaderboard forecast.
 
 [Open the project site](https://karagemop466-tech.github.io/GEMSDOEkarage2/) ·
 [Executive summary and instructions](docs/executive-summary.html) ·
-[Run card](docs/data/run-card.json) · [Audit data](docs/data/focus_audit.json)
+[H1 negative run card](evidence/run_card.json) · [Independent surface audit](docs/data/parallel-surface-audit.json) · [Nine-site audit](docs/data/focus_audit.json)
 
 ## Standing project brief (read at the start of every session)
 
@@ -93,8 +98,8 @@ be truthfully fabricated.
   not independently authenticated. The user's prior `[0,1]` portal error
   cannot be diagnosed from this mirror alone.
 
-These are necessary reasons to stop before fitting/placement, not a claim that a
-better geological method is impossible. [Details and next steps](research/review.md).
+These are reasons not to promote or run another experiment, not a claim that a
+better geological method is impossible. H1 stopped before dot placement. [Details and next steps](research/review.md).
 
 ## Reproduce the independent audit
 
@@ -120,8 +125,10 @@ provenance. The partial protocol bundle is **not** a self-contained generic
 holdout runner; the prepared 32-feature array is not in the public tree. The
 unchanged shared format checker can be run with `python scripts/check_format.py
 PATH_TO_TIF`; it cannot authorize a submission or prove portal acceptance, and
-its conservative whole-array diagnostic rejects NaN-outside files. No shared
-evaluator or writer has been forked. `audit_focus.py` is an independent
+its conservative whole-array diagnostic rejects NaN-outside files. The parallel
+session also vendored a separate unchanged shared GEMSDOE32 evaluator and writer
+with hashes in `vendor/NOTICE.md`; neither is a private modified fork.
+`audit_focus.py` is an independent
 geometry/forensic check, not a replacement holdout evaluator or a writer. Its
 source-pinned input manifest is `registry/pinned_assets.json`; cached inputs are
 not committed. For this checkout, the nine raster files, the lattice, the
@@ -154,5 +161,24 @@ A concurrent `main` update added nine local per-site scorecards,
 the repository. Its earlier dashboard and run card are preserved as dated
 snapshots; cache and automation statements in them are historical. The
 readiness module checks evidence structure only; it is not an evaluator, a
-raster validator, or a slot authorization. The current audit and run card take
-precedence where the snapshots are stale.
+raster validator, or a slot authorization. The current audit and H1 run card take
+precedence where earlier snapshots are stale.
+
+
+## Preserved parallel H1 research
+
+The independently merged H1 runner, evidence and quarantined research TIFF/ZIP
+are retained. See [`evidence/run_card.json`](evidence/run_card.json),
+[`evidence/review.md`](evidence/review.md), and
+[`knowledge/parallel-run-README.md`](knowledge/parallel-run-README.md). The
+project's H1 report is generated as `docs/experiment-index.html` so rebuilding
+it cannot overwrite the current research desk. Recheck its saved bytes with
+`python scripts/audit_parallel_surface.py` after restoring audit inputs. Do not
+rerun or tune H1 after its duplicate stop, or run any new experiment before
+resolving the assigned lane, full registry, comparable incumbent and budget.
+The audit-session card at `docs/data/run-card.json` is scoped to the follow-on
+review; H1's actual experiment card is `evidence/run_card.json`.
+The parallel session's inherited registry-fetch helper has a local integrity
+fix not landed upstream; it must not be represented as a shared-template fix.
+See `vendor/NOTICE.md` and resolve that upstream before relying on it in a new
+experiment. The evaluator and writer themselves remain unchanged.

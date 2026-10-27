@@ -33,6 +33,13 @@ test('dashboard renders nine research rows and keeps submission disabled', async
   assert.match(doc.querySelector('#scorecard-body').textContent, /0\.2778/);
   assert.match(doc.querySelector('#scorecard-body').textContent, /USER-REPORTED/);
   assert.match(doc.querySelector('#scorecard-body').textContent, /DO NOT SUBMIT/);
+  const research = doc.querySelector('#research-download');
+  assert.match(research.textContent, /DO NOT SUBMIT/);
+  assert.match(research.textContent, /HOLDOUT-DTI/);
+  assert.equal(research.querySelectorAll('a[download]').length, 2);
+  for (const link of research.querySelectorAll('a[download]')) {
+    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
+  }
   dom.window.close();
 });
 
