@@ -30,6 +30,21 @@ not regenerate K2 or infer a lane assignment, registry exemption, portal
 acceptance, or current leaderboard score. The prompt supplies no identifiable
 method paragraph, and the previous session exhausted its three-experiment budget.
 
+## 2026-10-28 K3 result
+
+Read `research/review-2026-10-28-k3.md`, `research/hypotheses-2026-10-28-k3-preregistration.md`
+and `evidence/k3/run_card.json`. K3 is holdout-best but NEGATIVE: HOLDOUT-DTI
+0.19157 (+0.03402 vs the replicated K2 incumbent, paired CI > 0), yet final
+dots exceed 70% within-3-px overlap vs 10 registry records including fleet
+submissions, and the surface gate failed vs the quarantined K2 predecessor
+(placement ran only under a disclosed research override). The K3 TIFF is a
+quarantined research artifact; do not submit it, do not regenerate it (writer
+refuses overwrite; surface gate fails closed without the override flag), and do
+not treat the labelled projection as a score. Experiment budget for that
+session is exhausted. The next lane must differentiate dot geography from the
+fleet supervised consensus (preregistration slate C4/C5), with the same shared
+evaluator/writer and preregistered gates.
+
 ## 2026-10-28 saved-byte/data preflight follow-up
 
 Read `research/2026-10-28-next-lane-slate.md`,
@@ -46,7 +61,7 @@ new method as assigned or clear the lattice witness by gaming footprint edges.
 Read `research/release-gate-followup-2026-10-28.md`: the evidence schema now
 requires three additional attestations; schema passage is not evidence verification.
 H2 and B4 artifacts merged from main are also negative research files and are
-included in the five-file public inventory. Read
+included in the public research inventory (five files at that review; six after K3). Read
 `evidence/current-session-review-2026-10-28.md` for the concurrent B4
 integration: its artifact is research-only, its registry scan fails the literal
 lattice stop, and its CLI/final generation are retired. Do not regenerate it or

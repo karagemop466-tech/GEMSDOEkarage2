@@ -30,6 +30,8 @@ ARTIFACTS = (
      "evidence/k2/run_card.json", "evidence/k2/selector_result.json", True),
     ("gemsdoekarage2-b4-stepasym-b110-20261028-zeros",
      "evidence/b4/run_card.json", None, True),
+    ("gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
+     "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
 )
 
 

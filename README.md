@@ -334,6 +334,30 @@ not current values. Consult the official leaderboard directly.
 6. `python scripts/audit_legacy_dots.py` rechecks saved bytes, grid, range,
    footprint and the lattice duplicate witness. No candidate TIFF is generated.
 
+
+### K3 lineament-context candidate — holdout-best, uniqueness-negative (2026-10-28)
+
+**NEGATIVE — DO NOT SUBMIT.** K3 (53-feature orientation-aware HGB +
+expected-DTI placement, `scripts/k3.py`, preregistered in
+[`research/hypotheses-2026-10-28-k3-preregistration.md`](research/hypotheses-2026-10-28-k3-preregistration.md))
+reached HOLDOUT-DTI 0.19157 (gems57-pooled-hide-v2, 58,258 withheld positives,
+95% CI 0.17474–0.20880), beating the bit-faithfully replicated K2 incumbent by
++0.03402 (paired 95% CI +0.02738…+0.04098), with all 53 leakage canaries
+≤0.6382. It nevertheless fails the preregistered uniqueness gate: the surface
+top-support vs the quarantined K2 predecessor was 0.9922, and final dots
+exceed 70% within-3-px overlap against 10 primary-scope registry records
+(including fleet submission rasters; worst 88.6%), while Spearman passes
+everywhere (max |rho| 0.1056) and overlap vs the nine focus best files is
+44.8–51.6%. The artifact `gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif`
+(SHA-256 `d011e9e1…fc61`, 51,914 dots) was written under a disclosed research
+override for final-dot measurement and is research-only. No leaderboard
+estimate exists (labelled projection ~0.25–0.33 is not a score). See
+[`research/review-2026-10-28-k3.md`](research/review-2026-10-28-k3.md) and
+[`evidence/k3/run_card.json`](evidence/k3/run_card.json). Experiment budget
+(3) exhausted; zero slots used. The next viable lane must differentiate its
+*dot geography* from the fleet supervised consensus (preregistration slate
+C4/C5), not merely improve the shared surface.
+
 ### Latest regression review — session 76119165 (2026-10-28)
 
 The [three-pass review](research/session-76119165-review.md) fixed the executive

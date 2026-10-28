@@ -45,7 +45,7 @@ def test_current_saved_downloads_are_research_only_and_hash_bound():
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
     assert result['downloadable_approved_submission'] is None
-    assert len(result['artifacts']) == 5
+    assert len(result['artifacts']) == 6
     for record in result['artifacts']:
         assert record['ok_to_submit'] is False and record['slot_authorized'] is False
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']

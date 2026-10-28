@@ -28,7 +28,20 @@
       <tr><th>File</th><td><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code> · SHA-256 <code>504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</code></td></tr>
       <tr><th>HOLDOUT-DTI</th><td>0.1581, 95% CI 0.1424–0.1742; gems57-pooled-hide-v2, 58,258 withheld positives. Historical mirror-based proxy, not a leaderboard estimate.</td></tr>
       <tr><th>Unique?</th><td>NO under the literal registry rule. Incomplete inventory prevents a global uniqueness claim.</td></tr>
-      <tr><th>Format</th><td>Automated saved-byte recheck found one float32 band, a mirrored-grid match, and finite [0,1] values in the whole file. Exterior convention, organizer template identity and portal acceptance remain unverified. <a href="evidence/public_downloads_audit.json">Inspect the five published research TIFFs and four ZIPs</a>.</td></tr>
+      <tr><th>Format</th><td>Automated saved-byte recheck found one float32 band, a mirrored-grid match, and finite [0,1] values in the whole file. Exterior convention, organizer template identity and portal acceptance remain unverified. <a href="evidence/public_downloads_audit.json">Inspect the six published research TIFFs and five ZIPs</a>.</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section class="verdict-box" id="k3-candidate">
+    <h2>K3 candidate — holdout-best, uniqueness-negative / DO NOT SUBMIT</h2>
+    <p>K3 (orientation-aware 53-feature HGB + expected-DTI placement) beats the replicated K2 incumbent on the spatially-blocked holdout, but its final dots exceed the preregistered 70% within-3-px uniqueness limit against 10 registry records, including fleet submission rasters. Verdict is negative; no slot is approved. A selector ruling on lane convergence and quota would be required before any upload.</p>
+    <p><a href="downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif" download>Download K3 research TIFF — DO NOT SUBMIT</a> · <a href="evidence/k3/run_card.json">K3 run card</a> · <a href="evidence/k3/combined_holdout.json">Holdout evidence</a> · <a href="evidence/k3/final_registry_audit.json">Registry audit</a></p>
+    <div class="table-scroll"><table><tbody>
+      <tr><th>File to download (research only)</th><td><code>gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif</code> · SHA-256 <code>d011e9e12ef3eb506c61bf81c88aa5c24a45532733bea4a9a2100d9df90dfc61</code> · 51,914 dots</td></tr>
+      <tr><th>Estimated leaderboard score</th><td>Unavailable as a score. HOLDOUT-DTI 0.19157, 95% CI 0.17474–0.20880 (gems57-pooled-hide-v2, 58,258 withheld positives); paired gain vs replicated K2 incumbent +0.03402. Labelled PROJECTION — NOT A SCORE: ~0.25–0.33 if a user-reported transfer ratio held. No organizer-confirmed score exists.</td></tr>
+      <tr><th>Unique?</th><td>NO under the preregistered rule: Spearman passes everywhere (max 0.1056) and overlap vs the nine focus best files is 44.8–51.6%, but 10 wider registry records exceed 70% (worst 88.6% vs the quarantined K2 predecessor; 84.8% vs a GEMSDOE32 fleet file). Byte- and pixel-unique; dot geography converges with other supervised lanes.</td></tr>
+      <tr><th>Format</th><td>Local read-back: every cell finite, values exactly 0/1 in [0,1], EPSG:32611 3730×3292 vs mirrored template; zeros outside footprint. Organizer authentication and portal acceptance remain unverified.</td></tr>
+      <tr><th>OK to submit?</th><td><b>NO — DO NOT SUBMIT.</b> OK TO SUBMIT: NO until a separate selector rules otherwise and quota is checked.</td></tr>
     </tbody></table></div>
   </section>
 

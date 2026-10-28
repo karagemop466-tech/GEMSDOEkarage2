@@ -116,7 +116,7 @@ test('all public download links point to a negative saved-byte inventory', async
   const inventory = JSON.parse(fs.readFileSync(path.join(root, 'docs/evidence/public_downloads_audit.json')));
   assert.equal(inventory.inventory_status, 'PASS_RESEARCH_ONLY');
   assert.equal(inventory.downloadable_approved_submission, null);
-  assert.equal(inventory.artifacts.length, 5);
+  assert.equal(inventory.artifacts.length, 6);
   for (const record of inventory.artifacts) {
     assert.equal(record.ok_to_submit, false);
     assert.equal(record.slot_authorized, false);
