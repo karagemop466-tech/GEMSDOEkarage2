@@ -70,7 +70,8 @@ def assess(card: object) -> dict:
     count = holdout.get("withheld_positives")
     raw_ci = holdout.get("ci95")
     if (
-        not isinstance(holdout.get("evaluator_version"), str)
+        holdout.get("evidence_class") != "HOLDOUT-DTI"
+        or not isinstance(holdout.get("evaluator_version"), str)
         or not holdout["evaluator_version"].strip()
         or not isinstance(count, int)
         or isinstance(count, bool)
@@ -132,6 +133,21 @@ def assess(card: object) -> dict:
                 reasons.append(f"{stage}: invalid measurement")
             elif rho > 0.90 or overlap > 0.70:
                 reasons.append(f"{stage}: duplicate lane; stop")
+
+    # Surface and final-dot comparisons must cover the same unique reference
+    # identifiers. This checks card consistency, not registry completeness or
+    # the truth of the measurements supplied by the caller.
+    surface, final = registry.get("surface"), registry.get("final_dots")
+    if isinstance(surface, list) and isinstance(final, list) and surface and final:
+        def references(rows):
+            return [r.get("reference") for r in rows if isinstance(r, dict)]
+        surface_refs, final_refs = references(surface), references(final)
+        if (len(surface_refs) != len(surface) or len(final_refs) != len(final)
+                or any(not isinstance(ref, str) or not ref.strip() for ref in surface_refs + final_refs)
+                or len(set(surface_refs)) != len(surface_refs)
+                or len(set(final_refs)) != len(final_refs)
+                or set(surface_refs) != set(final_refs)):
+            reasons.append("Surface and final-dot registry references do not match uniquely")
 
     validator = card.get("validator")
     if not isinstance(validator, dict):

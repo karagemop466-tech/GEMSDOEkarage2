@@ -2,7 +2,7 @@
 
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Branch: `arena/044d7bda-gemsdoekarage2`
+Work on the Arena-assigned session branch; do not assume an older branch name.
 
 ## Operating instruction
 
@@ -58,14 +58,11 @@ Competitors choose ONE submission for scoring in both rounds before the deadline
 - EPSG 32611: https://epsg.io/32611
 - Tversky index: https://en.wikipedia.org/wiki/Tversky_index
 
-**Known data-access blocker (verified):** drivendata.org/data/ redirects to login;
-training_features.tif, labels.tif, sample_submission.tif and 1m_DEM_links.csv cannot be
-auto-downloaded in this sandbox. Stage data on an unrestricted machine into data/ and
-run scripts/download_competition_data.sh + python scripts/prepare_data.py.
+**Data provenance blocker:** A prior session restored hash-pinned community mirrors of features, labels, faults and a template into disposable `.cache/`; these are not organizer-authenticated. The feature cache is not necessarily present in a new sandbox. The organizer data and portal require access not available here. Data placement alone does not establish eligibility. See `registry/core_data_manifest.json`, `evidence/input_restore.json` and `research/independent-three-pass-review.md`.
 
-## Leaderboard status (verified live read, 2026-10-27)
+## Leaderboard status (historical observation, 2026-10-27)
 
-The live public leaderboard shows #1 = 0.4544 (xiaofanhu). The prompt's earlier
+A previous session reported a public leaderboard snapshot of 0.4544 (xiaofanhu) on 2026-10-27; it is not a current or file-linked organizer receipt. The prompt's earlier
 figures (0.4413 / 0.3195) are stale — flagged as an irregularity; always re-read
 the official leaderboard before claiming a target.
 
@@ -85,8 +82,8 @@ Best supplied results (USER-REPORTED / UNVERIFIED; none linked to an organizer r
 - GEMSDOE24: h25-1-dotted-h19-5-d1-5 = 0.2477
 - GEMSDOE27: topo-gap-closure-t-v2-on-d1-5 = 0.2449
 
-**Critical finding (GEMSDOE28 S23 audit):** all nine historical files share one dot
-geography (D2.8 dotted-ridge / B2 family). The 0.2778 champion is the GEMSDOE31 solo
+**Critical finding:** the nine audited historical masks are highly overlapping;
+several have exact parent/child relationships in the D2.8 / B2 family. The 0.2778 champion is the GEMSDOE31 solo
 dot set with 2,545 catalogue-adjacent dots removed; GEMSDOE25 and GEMSDOE30 have the
 same dot geography; GEMSDOE36 contains every champion dot plus 1,200 extras. Every one
 fails the literal uniqueness gate (100% / 98% / 99.7% within 3 px of each other vs the
@@ -155,34 +152,39 @@ holdout cannot reliably estimate the expert-hidden private score).
   R = 300 m) + spatially-blocked hide-and-recover holdout. Self-tested.
 - scripts/submission_writer.py — validated GeoTIFF writer + audit JSON receipt
   (CRS/shape/transform/dtype/range [0,1]/finite/uniqueness checks).
-- scripts/generate_submission.py — generates the unique H-KARAGE-1 submission TIF
-  (submissions/) with run card + audit.
+- scripts/generate_submission.py — retired, fail-closed legacy generator; it cannot create or publish a TIF.
 - scripts/prepare_data.py      — validates data/ placement once competition data is
   staged (DrivenData login required).
 - scripts/download_competition_data.sh — data download documentation.
-- submissions/                 — the generated unique submission TIF + audit + run card.
+- docs/downloads/              — quarantined research artifacts; none is approved for submission.
 - reference/gemsdoe36/         — learning/education-only reference rasters fetched from
   the GEMSDOE36 source repo (never for submission).
 - docs/                        — GitHub Pages site: index.html, executive-summary.html,
   how-to-submit.html, research-hypotheses.html.
 - README.md                    — this file (the consolidated project prompt).
 
-## How to run (this sandbox)
+## How to run and next steps
 
-1. `python scripts/evaluate_holdout.py` — metric self-test.
-2. `python scripts/generate_submission.py` — builds + validates the unique submission
-   TIF (requires reference/ gemsdoe36 rasters present).
-3. `python scripts/prepare_data.py` — after competition data is staged in data/.
+- `python scripts/assess_release.py` evaluates the existing stopped H1 evidence;
+  it does not independently authenticate inputs or authorize a slot.
+- `python scripts/preflight.py` records missing prerequisites and exits nonzero;
+  its default output is a historical evidence path, so pass `--output` to avoid
+  overwriting earlier records.
+- `python scripts/build_site.py` regenerates the experiment pages. See
+  `research/independent-three-pass-review.md` for the prior reproducibility work.
+- `python scripts/generate_submission.py` intentionally fails closed. The old
+  generator tried to evade a registry control, did not establish uniqueness or
+  performance, and must not place dots or publish a file.
 
-## Next steps / limitations
+**No submission-ready TIFF exists.** H1 is a local research surface only, not a
+final dot submission; its measured holdout and collision are in
+`evidence/run_card.json`. A separate older irregular-lattice TIFF is archived,
+not approved or established unique. No hidden leaderboard estimate is justified.
 
-- labels.tif / training_features.tif are not available in this sandbox
-  (DrivenData login required, network-blocked). Holdout DTI and a leaderboard score
-  estimate therefore CANNOT be computed yet. The generated TIF is:
-    OK TO DOWNLOAD: YES (research / audit only, format-validated)
-    OK TO SUBMIT TO DRIVENDATA: NO — pending holdout validation and selector approval.
-- To promote: stage data in data/, run prepare_data.py, beat the repo holdout best
-  with paired 95% CI > 0, pass leakage canaries and uniqueness gates, then the
-  selector spends a weekly slot.
-- Live leaderboard target to beat: 0.4544 (public #1). Best focus-site claim: 0.2778
-  (GEMSDOE32, owner-reported, unverified).
+Resolve the method-lane assignment and literal lattice-control policy across
+sessions; authenticate competition data/template and exterior nodata rules;
+restore the shared cache and independently complete registry; reconstruct a
+same-fold incumbent and obtain file-bound receipts. Only then can a new run
+apply canaries, the surface stop, buffered holdout, final-dot novelty and
+saved-byte validation. Promotion and a weekly slot remain separate decisions.
+A failed gate cannot be overcome by re-labeling or lattice avoidance.

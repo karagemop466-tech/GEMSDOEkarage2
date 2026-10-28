@@ -63,3 +63,16 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 4px; font-size: 12.
 .tag { font-weight: 700; }
 .tag.no { color: var(--no); } tag.yes { color: var(--ok); }
 .cs { white-space: nowrap; }
+/* Current dashboard: preserve readable tables without page-wide overflow. */
+header, main { max-width: 1180px; margin: 0 auto; padding: 1rem; }
+header nav { display: flex; flex-wrap: wrap; gap: .6rem; }
+.verdict-box, .scorecard, .research-download, .decision-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 1.25rem; margin: 1rem 0; min-width: 0;
+}
+.verdict-box { border-left: 5px solid var(--no); }
+.scorecard { overflow-x: auto; }
+.file-name, code, a { overflow-wrap: anywhere; }
+button:disabled { padding: .75rem 1rem; font-weight: 700; }
+h1, h2, h3, p, span { overflow-wrap: anywhere; }
+@media (max-width: 400px) { h1 { font-size: 1.55rem; } .badge { margin-left: 0; } }
