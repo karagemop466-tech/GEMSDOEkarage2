@@ -26,10 +26,13 @@ and `evidence/k2/run_card.json`. K2 ran 3 preregistered experiments (canaries +
 primitives; supervised HGB; continuation + apron) on restored hash-pinned mirror
 data (`scripts/restore_k2_inputs.py`, `scripts/k2.py`); its candidate
 `gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif` (sha256 504be458…8dfb) is
-PROMOTE-TO-SELECTOR CONDITIONAL: it passes format, canary, holdout (0.1581) and
+negative under the literal stop protocol: it has format, canary, holdout (0.1581) and
 submission-scope uniqueness (430 docs/downloads rasters; 435 compared in total), but the literal all-registry scope
 fails on the impossible spacing-5 lattice and one calibration ridge mask
 (0.7205), and quota/authentication are account-side. Do not call it approved,
-do not spend a slot from an agent session, and do not tune it further without a
-new preregistration. H-KARAGE-1 is defective (dots outside footprint); H1 stays
+do not spend a slot from an agent session, and do not tune this stopped lane. H-KARAGE-1 is defective (dots outside footprint); H1 stays
 negative. Preserve all prior negative evidence.
+
+## Current K2 protocol correction
+
+K2 is **negative, DO NOT SUBMIT**, not conditionally eligible: its recorded surface overlap triggered the literal registry stop before placement. See `evidence/k2-protocol-review.json`; historical conditional-promotion receipts are superseded and retained only for audit. No lane was supplied for this session; do not run another experiment without one.
