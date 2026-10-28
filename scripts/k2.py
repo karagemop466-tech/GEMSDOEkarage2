@@ -359,62 +359,13 @@ FINAL_RATE = 0.0110
 
 
 def cmd_final():
-    from gems57 import uniqueness as uniq
-    from gems57.submission_writer import write_submission
-    assert len(FINAL_NAME) <= 140 and len(FINAL_NOTE) <= 140, (len(FINAL_NAME), len(FINAL_NOTE))
-    grid, valid, eligible, folds, F = load_ctx()
-    cat = grid.catalogue
-    dcat = ndi.distance_transform_edt(~cat)
-    pos = np.flatnonzero(cat & eligible)
-    neg_pool = np.flatnonzero(eligible & ~cat & (dcat > 3))
-    rng = np.random.default_rng(SEED)
-    neg = rng.choice(neg_pool, min(250_000, len(neg_pool)), replace=False)
-    ids = np.r_[pos, neg]
-    y = np.r_[np.ones(len(pos)), np.zeros(len(neg))]
-    t0 = time.time()
-    model = train_hgb(gather(F, ids), y, SEED)
-    surf = np.zeros(grid.shape, np.float32)
-    elig_idx = np.flatnonzero(eligible)
-    for s in range(0, len(elig_idx), 400_000):
-        chunk = elig_idx[s:s + 400_000]
-        surf.ravel()[chunk] = model.predict_proba(gather(F, chunk))[:, 1]
-    print(f"full fit+predict {time.time()-t0:.0f}s pos={len(pos)} neg={len(neg)}", flush=True)
-    allowed = eligible & (dcat > 2)
-    corr = continuation_mask(cat, allowed)
-    boosted = surf.copy(); boosted[corr] *= 2.0
-    np.save(K2 / "surf_final.npy", surf); np.save(K2 / "surf_final_boosted.npy", boosted)
-    # --- surface-before-placement registry check (9 focus best + lattice) ---
-    focus = {}
-    reg_dir = ROOT / ".cache/registry_focus"
-    for s in ("24", "25", "27", "28", "30", "31", "32", "33", "36"):
-        with rasterio.open(reg_dir / f"GEMSDOE{s}.tif") as ds:
-            focus[f"GEMSDOE{s}"] = ds.read(1)
-    with rasterio.open(reg_dir / "r13_lattice_nan.tif") as ds:
-        focus["r13_lattice"] = ds.read(1)
-    surf_rows = {}
-    for name, arr in focus.items():
-        rho = uniq.surface_rho(boosted, np.where(np.isfinite(arr), arr, 0), grid.footprint)
-        lit = uniq.dot_overlap(boosted, arr)
-        surf_rows[name] = {**rho, "literal_support_overlap_gt0": lit}
-        print(f"surface vs {name}: rho={rho['spearman_full_footprint']:.4f} lit_overlap={lit:.4f}", flush=True)
-    # --- emission + write via shared writer ---
-    budget = int(round(FINAL_RATE * int((eligible & ~cat).sum())))
-    dots = emit(boosted, allowed, budget)
-    print(f"budget={budget} dots={int(dots.sum())} corridor_px={int(corr.sum())}", flush=True)
-    pred = dots.astype(np.float32)
-    out = ROOT / "docs/downloads" / f"{FINAL_NAME}.tif"
-    receipt = write_submission(out, pred, DATA / "sample_submission.tif", grid.footprint,
-                               note=FINAL_NOTE, name=FINAL_NAME, catalogue=cat,
-                               metadata={"experiment": "K2 E2+E3 config hgbcont_b110, full-catalogue refit",
-                                         "apron_px_excluded_from_catalogue": 2,
-                                         "budget_dots": int(dots.sum()), "rate": FINAL_RATE})
-    info = {"name": FINAL_NAME, "note": FINAL_NOTE, "budget": budget,
-        "dots": int(dots.sum()), "corridor_px": int(corr.sum()),
-        "train_pos": int(len(pos)), "train_neg": int(len(neg)),
-        "surface_registry_rows": surf_rows, "writer_receipt_file": receipt["file"],
-        "sha256": receipt["sha256"]}
-    (EV / "final_generation.json").write_text(json.dumps(info, indent=2) + "\n")
-    print(json.dumps(info, indent=2)[:1200], flush=True)
+    """Retired: the archived K2 surface failed the literal pre-placement gate.
+
+    Keep the earlier artifact and receipts for audit only. Re-running a stopped
+    experiment or silently narrowing its registry would violate the protocol.
+    """
+    raise SystemExit("K2 final placement is disabled: surface registry stop; "
+                     "no candidate will be written. See evidence/k2-review-2026-10-28.json")
 
 
 def cmd_audit():

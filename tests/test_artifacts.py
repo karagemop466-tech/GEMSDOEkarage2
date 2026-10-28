@@ -100,9 +100,8 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'unverified' in text.lower()
         assert 'READ' in text
     homepage=(ROOT/'docs/index.html').read_text()
-    # 2026-10-28: the K2 selector is now negative; the nine historical
-    # files and all local candidates remain quarantined on the homepage.
-    assert 'SELECTOR NEGATIVE' in homepage
+    # K2 conditional promotion was superseded by a negative release review.
+    assert 'K2 research artifact' in homepage
     assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     assert 'NO APPROVED SUBMISSION' in homepage
