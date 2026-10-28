@@ -1,4 +1,5 @@
 {
+  "current_status_warning": "SUPERSEDED HISTORICAL RECORD: prior conditional promotion is not authorization. Literal surface stop exceeded before placement and final-dot uniqueness failed. DO NOT SUBMIT. See docs/evidence/k2-protocol-review.json.",
   "schema": "gems.parallel_run_card.v1",
   "session_date": "2026-10-28",
   "repo": "karagemop466-tech/GEMSDOEkarage2",

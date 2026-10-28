@@ -167,7 +167,7 @@ positives, 95% CI [0.0286737956, 0.0392948028]); its paired difference against
 the best primitive is -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]).
 These are prior research results, not organizer scores or leaderboard estimates.
 
-### K2 supervised candidate — pending selector ruling (later, 2026-10-28)
+### K2 supervised research raster — negative under the binding protocol
 
 A parallel K2 session ran 3 preregistered experiments on restored hash-pinned
 mirror data (`scripts/restore_k2_inputs.py`, `scripts/k2.py`) reusing the shared
@@ -175,7 +175,7 @@ mirror data (`scripts/restore_k2_inputs.py`, `scripts/k2.py`) reusing the shared
 [`docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif`](docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif)
 (SHA-256 `504be458…8dfb`, 54,491 dots; supervised HGB on 26 label-blind features
 + tip continuation + dotted emission at 1.10%, >2 px off-catalogue) is
-**PROMOTE-TO-SELECTOR, CONDITIONAL — still NO APPROVED FILE until a selector rules:**
+**NEGATIVE — DO NOT SUBMIT.** The earlier conditional promotion is superseded: recorded surface overlap exceeded the literal stop before dot placement, yet placement proceeded. Final-dot uniqueness also failed and the registry inventory is incomplete:
 
 - HOLDOUT-DTI **0.1581** (95% CI 0.1424–0.1742; `gems57-pooled-hide-v2`, 58,258
   withheld positives), paired Δ **+0.0861** (CI +0.0691…+0.1037) vs the best
@@ -191,14 +191,13 @@ mirror data (`scripts/restore_k2_inputs.py`, `scripts/k2.py`) reusing the shared
 - Literal all-registry scope still fails on two **non-submission calibration**
   records: the spacing-5 lattice (100% overlap — mathematically impossible for
   any in-footprint file, champion included) and a vendored ctx-ridge mask
-  (72.05%; its halo covers 87.4% of the catalogue itself). Selector must rule
-  on scope; weekly quota is account-side; mirrored inputs are not
+  (72.05%; its halo covers 87.4% of the catalogue itself). A future protocol revision would be required before any exemption; weekly quota is account-side; mirrored inputs are not
   organizer-authenticated. Leaderboard estimate: **Unavailable** (a labelled
   projection, not a score, is in the run card).
 - Full record: [`research/review-2026-10-28-k2.md`](research/review-2026-10-28-k2.md),
   [`evidence/k2/run_card.json`](evidence/k2/run_card.json). Reproduce:
   `python scripts/restore_k2_inputs.py` then `python scripts/k2.py features|e1|e2|e3|combine`
-  (`final`/`audit` regenerate + re-audit; the shared writer refuses to overwrite).
+  (`final` is retired because the surface stop was crossed; `audit` only reads existing results).
 
 The nine-site scorecard contains **user-reported, unverified** results, not
 file-linked organizer receipts. No calibrated leaderboard estimate is available.

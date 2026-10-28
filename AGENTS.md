@@ -33,3 +33,10 @@ fails on the impossible spacing-5 lattice and one calibration ridge mask
 do not spend a slot from an agent session, and do not tune it further without a
 new preregistration. H-KARAGE-1 is defective (dots outside footprint); H1 stays
 negative. Preserve all prior negative evidence.
+
+## Current K2 safety correction
+
+The prior conditional K2 promotion is superseded by the negative run card
+`docs/evidence/k2-protocol-review.json`. Literal registry surface stop was
+exceeded before placement, and final-dot uniqueness failed. Do not submit or
+regenerate K2; its prior card is historical, not authorization.
