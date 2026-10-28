@@ -15,6 +15,7 @@
       "zip_file": null,
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
@@ -55,6 +56,7 @@
       "zip_file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
@@ -98,6 +100,7 @@
       "zip_file": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
@@ -140,6 +143,7 @@
       "zip_file": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
@@ -183,6 +187,7 @@
       "zip_file": "docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
@@ -225,6 +230,7 @@
       "zip_file": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
@@ -268,6 +274,7 @@
       "zip_file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,

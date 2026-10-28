@@ -6,8 +6,10 @@ source-access limitations and the user's literal parallel-run protocol.
 
 ## Current decision: all TIFFs are research-only
 
-Read `research/2026-10-28-independent-three-pass-review.md` and
+Read `research/2026-10-28-independent-three-pass-review.md`,
+`research/hk3-protocol-correction-2026-10-28.md` and
 `evidence/2026-10-28-independent-audit-run-card.json` for this correction.
+The prior unsafe card is preserved under `evidence/hk3/history/`.
 The previous HK3 `PROMOTE` decision was incorrect and has been withdrawn. Its saved
 TIFF has 45,046 of 45,108 dots within 3 px of a registered lattice: >70% means STOP,
 with **no registry exclusions or exceptions**. Its wider scan was incomplete. Read

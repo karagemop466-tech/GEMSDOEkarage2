@@ -26,6 +26,7 @@ jobs:
       - run: python scripts/assess_release.py
       - run: python scripts/audit_k2_release.py
       - run: python scripts/audit_public_downloads.py --check
+      - run: python scripts/review_hk3_protocol.py --check
       - run: python scripts/review_k2_release.py
       - run: python scripts/build_site.py
       - run: python scripts/build_field_notes.py

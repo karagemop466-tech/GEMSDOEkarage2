@@ -15,6 +15,11 @@ import json
 from pathlib import Path
 import sys
 
+try:
+    from scripts.build_site import METHODS
+except ModuleNotFoundError:  # direct execution as ``python scripts/...``
+    from build_site import METHODS
+
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 EV = ROOT / "evidence"
@@ -91,14 +96,14 @@ def gather() -> dict:
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3}
 
 
-def shell(title: str, active: str, body: str) -> str:
+def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
     items = [("index.html", "desk", "Submission desk"), ("executive-summary.html", "summary", "Executive summary"),
              ("how-to-submit.html", "guide", "How to submit"), ("audit.html", "audit", "Nine-site audit"),
              ("hypotheses.html", "research", "Earlier research"), ("sources.html", "sources", "Sources")]
     links = " · ".join(f'<a href="{url}"{(" aria-current=page" if key == active else "")}>{label}</a>'
                        for url, key, label in items)
     return f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en"><head>{f'<base href="{esc(base_href)}">' if base_href else ''}<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)} · GEMSDOEkarage2</title>
 <meta name="description" content="Evidence-led GEMS fault discovery desk. Research files are not approved for submission.">
 <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
@@ -214,13 +219,30 @@ code, .container, .hero { overflow-wrap: anywhere; word-break: break-word; }
 '''
 
 
+def focus_detail(record: dict, geo: dict) -> str:
+    site = record["site"]
+    source = f'https://github.com/buffedlizard55-lab/{site}/raw/{record["ref"]}/docs/downloads/{record["file"]}'
+    return f'''<section class="hero"><h2>{esc(site)} executive summary — DO NOT RESUBMIT</h2>
+<p><b>Historical file:</b> <a href="{esc(source)}">{esc(record['file'])}</a> · research reference only.<br>
+<b>Historical report:</b> {record['owner_reported_unverified']:.4f} — USER-REPORTED / UNVERIFIED, not an organizer receipt.</p>
+<p><b>Estimated leaderboard score:</b> unavailable. <b>Unique:</b> NO — {geo['max_focus_overlap_fraction'] * 100:.1f}% of its dots are within 3 px of {esc(geo['closest_focus_site'])}. <b>Upload:</b> not approved.</p>
+<p><b>SHA-256:</b> <code>{esc(record['sha256'])}</code><br><b>Pinned revision:</b> <code>{esc(record['ref'])}</code><br><b>Method / interpretation:</b> {esc(METHODS[site])}</p>
+<p>Research downloads are for inspection only, not new submissions. This pinned snapshot does not establish the independently maintained site's current best. <a href="{esc(record['site_url'])}">Original site ↗</a> · <a href="sites/{esc(site)}.html">Detailed prior summary</a> · <a href="executive-summary.html">Nine-site comparison</a>.</p></section>'''
+
+
 def render_all(d: dict) -> dict[str, str]:
     desk = hero(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
-    return {"index.html": shell("Submission desk", "desk", desk),
-            "executive-summary.html": shell("Executive summary", "summary", desk),
-            "how-to-submit.html": shell("How to submit", "guide", how),
-            "submit.html": shell("How to submit", "guide", how), "assets/hk3.css": CSS}
+    pages = {"index.html": shell("Submission desk", "desk", desk),
+             "executive-summary.html": shell("Executive summary", "summary", desk),
+             "how-to-submit.html": shell("How to submit", "guide", how),
+             "submit.html": shell("How to submit", "guide", how), "assets/hk3.css": CSS}
+    geometry = {row["site"]: row for row in d["geometry"]["historical_final_dots"]}
+    for record in d["focus"]:
+        site = record["site"]
+        pages[f"focus/{site}.html"] = shell(f"{site} executive summary", "summary",
+            focus_detail(record, geometry[site]), base_href="../")
+    return pages
 
 
 def main() -> int:

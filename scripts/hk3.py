@@ -10,7 +10,7 @@ available via scripts/recheck_hk3.py; it cannot generate a TIFF or grant a slot.
 from __future__ import annotations
 
 
-MESSAGE = ("BLOCKED: the HK3 lane is stopped and its experiment budget is exhausted; "
+MESSAGE = ("BLOCKED: HK3 is retired; the lane is stopped and its experiment budget is exhausted; "
            "no experiment, TIFF, audit overwrite, or promotion generated")
 
 

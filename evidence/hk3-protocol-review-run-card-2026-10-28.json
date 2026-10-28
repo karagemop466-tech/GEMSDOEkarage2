@@ -1,0 +1,77 @@
+{
+  "schema": "gems.hk3_protocol_review.v1",
+  "hypothesis": "No new geological hypothesis tested; independently enforce HK3's recorded mandatory registry stop.",
+  "mechanism": "Revoke the unauthorized literal-rule exception and bind research-only publication to the saved TIFF bytes.",
+  "named_non_fault_process": "Lithologic contacts, pluvial shorelines, terrace risers and flight-line striping may mimic HK3's structural edges; not newly tested here.",
+  "holdout_dti": null,
+  "holdout_ci95": null,
+  "holdout_status": "Not rerun. No new HOLDOUT-DTI or ORGANIZER-CONFIRMED score.",
+  "historical_holdout": {
+    "evidence_class": "HOLDOUT-DTI, ARCHIVED NOT RERUN",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 58258,
+    "dti": 0.18450466022225004,
+    "ci95": [
+      0.16769141176106592,
+      0.2014839638261474
+    ],
+    "source": "evidence/hk3/run_card.json",
+    "source_sha256": "5c651f8a20a0f6e61e7bde50905502f6796e4942b0b14f6f8e893cd5cb18fa96",
+    "caveat": "K2 comparison only; no paired win over the later K3 best or new verification of whole-segment splits."
+  },
+  "correlation_overlap_vs_registry": {
+    "status": "ARCHIVED GEOMETRY, NOT RERUN",
+    "source": "evidence/hk3/registry_audit.json",
+    "source_sha256": "c1571ce595518dc36194763b7de957f5957664d3047ac41b9d2810e017bb8c75",
+    "max_abs_spearman": 0.11433925986987725,
+    "max_final_dot_overlap_3px": 0.9986255209718897,
+    "surface_clearance_before_placement_verified": false,
+    "registry_coverage_complete": false,
+    "references_expected": 453,
+    "references_checked": 452,
+    "literal_duplicate_stop": true
+  },
+  "raster": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+  "raster_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+  "raster_status": "Existing research TIFF; unchanged. No unique eligible submission generated.",
+  "validator_output": {
+    "evidence_class": "SAVED-BYTE LOCAL FORMAT CHECK, NOT ORGANIZER ACCEPTANCE",
+    "whole_array_finite": true,
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "single_band_float32": true,
+    "mirror_crs_match": true,
+    "mirror_shape_match": true,
+    "mirror_transform_match": true,
+    "self_contained_tiff": true,
+    "organizer_template_authenticated": false,
+    "organizer_crs_shape_transform_match": null,
+    "portal_acceptance": null,
+    "diagnostics": {
+      "nan_pixels": 0,
+      "infinite_pixels": 0,
+      "masked_pixels": 0,
+      "positive_pixels": 45108,
+      "finite_min": 0.0,
+      "finite_max": 1.0,
+      "whole_array_pixels": 12279160
+    }
+  },
+  "submission_name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
+  "submission_note": "RESEARCH ONLY; DO NOT SUBMIT. HK3 failed mandatory registry overlap; no organizer acceptance or validated leaderboard estimate.",
+  "protocol_stop_triggered": true,
+  "new_experiments_run": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "leaderboard_estimate": null,
+  "review_integrity_checks": {
+    "corrected_negative_card_and_selector": true,
+    "common_readiness_rejects_current_card": true,
+    "common_readiness_rejects_original_promotion": true,
+    "raster_unchanged_since_original_card": true,
+    "historical_registry_bound_to_same_tiff": true,
+    "saved_download_checks_pass_research_only": true,
+    "all_downloads_research_only": true
+  },
+  "verdict": "negative"
+}

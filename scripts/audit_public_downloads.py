@@ -71,6 +71,7 @@ def inspect_raster(path: Path, grid: dict) -> dict:
     with rasterio.open(path) as ds:
         require_single_file_dataset(ds, path)
         checks = {
+            "self_contained_tiff": True,
             "single_band": ds.count == 1,
             "float32": ds.count == 1 and ds.dtypes == ("float32",),
             "geotiff": ds.driver == "GTiff",
@@ -140,6 +141,7 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             checks["raster_unchanged_during_read"] = digest_file(tif) == actual_sha
         except (OSError, ValueError, RasterioError) as exc:
             checks["tif_readable"] = False
+            checks["self_contained_tiff"] = False  # not established on an unreadable or multi-file raster
             detail = {"diagnostics": {"error_type": type(exc).__name__, "error": str(exc)}}
     try:
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)

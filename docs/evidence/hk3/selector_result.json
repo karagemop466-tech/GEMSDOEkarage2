@@ -15,5 +15,10 @@
     "The run passed local range/grid diagnostics on an owner mirror only; it is not proven portal-compatible.",
     "Only eight new-feature canaries were measured, not all 34 model inputs; the full leakage gate is unverified."
   ],
-  "evidence": "evidence/hk3/literal_recheck.json"
+  "evidence": "evidence/hk3/literal_recheck.json",
+  "who_spends_the_slot": "No slot selected or authorized; selector cannot waive mandatory protocol stops.",
+  "limitations": [
+    "Inputs are hash-pinned owner mirrors, not organizer-authenticated bytes; portal acceptance is unverified until a receipt exists.",
+    "Weekly quota and final-selection status of the account are unknown to this repository."
+  ]
 }

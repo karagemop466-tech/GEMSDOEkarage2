@@ -122,6 +122,11 @@ function chromeEnvironment() {
     await page.goto(base + '/docs/executive-summary.html', {waitUntil:'domcontentloaded'});
     assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
     assert.ok((await page.locator('body').innerText()).includes('0.2778'));
+    await page.goto(base + '/docs/focus/GEMSDOE32.html', {waitUntil:'domcontentloaded'});
+    const focusText = await page.locator('body').innerText();
+    assert.ok(focusText.includes('GEMSDOE32') && focusText.includes('DO NOT RESUBMIT'));
+    assert.ok(focusText.includes('USER-REPORTED / UNVERIFIED'));
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Focus page overflow');
     await page.goto(base + '/docs/site-GEMSDOE32.html', {waitUntil:'domcontentloaded'});
     await page.waitForURL('**/docs/sites/GEMSDOE32.html');
     assert.ok((await page.locator('body').innerText()).includes('GEMSDOE32'));

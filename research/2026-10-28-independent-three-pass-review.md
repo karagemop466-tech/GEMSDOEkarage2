@@ -68,6 +68,12 @@ is an audit and safety correction, not a new method lane.
   `README.md`, `AGENTS.md` and the historical HK3 research-note warning. The former
   speculative leaderboard projection remains only as withdrawn historical context.
   All current HTML routes were reviewed for misleading approval language.
+* Main advanced concurrently with independent negative-decision corrections. These
+  were reconciled on the assigned branch: the upstream original-card/selector history,
+  protocol-review receipt and policy checks, status notice and nine `docs/focus/`
+  summaries were preserved. Their protocol-review receipt was regenerated against
+  the reconciled card; the new literal recheck remains independent of that historical
+  summary. The full leakage flag was tightened to reflect only eight recorded canaries.
 * Regression tests exercise forged card/selector/receipt values, hash binding, GDAL
   external-mask sidecars, retirement entry points, portal-acceptance language and
   negative legacy decisions. Browser tests actually download and hash the research
@@ -108,7 +114,7 @@ is an audit and safety correction, not a new method lane.
 
 ## Automated verification
 
-Local pre-integration run: **213 Python tests plus 98 subtests passed** (89 Rasterio/Affine
+Local post-integration run: **228 Python tests plus 98 subtests passed** (89 Rasterio/Affine
 pending-deprecation warnings); **3 Node feed and 7 site tests passed**; browser
 smoke tests passed at 1440, 390 and 320 px, including actual byte-hashed downloads.
 Both independent geometry replays, the HK3 literal recheck (including 1/2-thread

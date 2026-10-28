@@ -206,7 +206,10 @@ complete live registry have not been established.
   resurrect its feature, experiment, placement, audit or card commands.
 * The [three-pass independent review](research/2026-10-28-independent-three-pass-review.md)
   records the corrections and reproducibility checks; the [session card](evidence/2026-10-28-independent-audit-run-card.json)
-  uses nulls for unmade candidate evidence.
+  uses nulls for unmade candidate evidence. Concurrent corrections, the
+  [status notice](SUBMISSION_STATUS.md) and the
+  [preserved original card](evidence/hk3/history/run_card-before-protocol-correction.json)
+  are retained after reconciliation with main.
 * The [nine-site desk](docs/executive-summary.html) has pinned historical files,
   source links and negative uniqueness checks. The highest claim, 0.2778 for
   GEMSDOE32, is **USER-REPORTED / UNVERIFIED**; no causal explanation for the

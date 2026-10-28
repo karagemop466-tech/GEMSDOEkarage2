@@ -44,3 +44,23 @@ def test_current_k2_release_card_is_negative_under_literal_registry_gate():
         text = (ROOT / 'docs' / page).read_text()
         assert 'DO NOT SUBMIT' in text
         assert 'literal' in text.lower() or 'uniqueness' in text.lower()
+
+
+def test_current_hk3_is_not_approved_when_literal_registry_gate_failed():
+    from scripts.hk3_release_policy import publication_eligible
+
+    card = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
+    assert card['verdict'] == 'negative'
+    assert card['gates']['unique_literal_vs_all_registry_rasters'] is False
+    assert card['protocol_stop_triggered'] is True
+    assert publication_eligible(card) is False
+
+
+def test_promote_string_cannot_bypass_missing_shared_readiness_evidence():
+    from scripts.hk3_release_policy import publication_eligible
+
+    actual = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
+    forged = dict(actual, verdict='PROMOTE')
+    # The current card has no complete nested release_evidence contract, and
+    # carries a binding protocol stop. A changed verdict string is insufficient.
+    assert publication_eligible(forged) is False

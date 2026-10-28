@@ -1849,5 +1849,23 @@
   "protocol_stop_triggered": true,
   "organizer_inputs_authenticated": false,
   "slot_authorized": false,
-  "leaderboard_estimate": null
+  "leaderboard_estimate": null,
+  "protocol_correction": {
+    "date": "2026-10-28",
+    "source": "research/hk3-protocol-correction-2026-10-28.md",
+    "historical_card": "evidence/hk3/history/run_card-before-protocol-correction.json",
+    "measurements_rerun": false,
+    "historical_exception_rejected": true,
+    "reasons": [
+      "Literal all-registry overlap exceeds 70%; research and dense rasters cannot be exempted by this session.",
+      "Spacing-5 lattice was excluded as a degenerate witness; the prompt authorizes no such exclusion.",
+      "No assigned single-method paragraph or passing pre-placement receipt established.",
+      "Canaries cover eight new features, not the entire 34-feature model inventory.",
+      "Win over refitted K2 is not a demonstrated win over current K3 holdout best.",
+      "Organizer input/template authenticity, exterior convention, current registry and portal quota are unverified.",
+      "Historical budget receipt records three experiments and about 2h15m; do not extend this stopped lane."
+    ],
+    "independent_recheck": "evidence/hk3/literal_recheck.json",
+    "independent_recheck_performed": true
+  }
 }

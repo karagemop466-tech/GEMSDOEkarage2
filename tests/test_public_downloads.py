@@ -94,6 +94,7 @@ def test_external_gdal_sidecar_is_rejected_even_if_tiff_hash_is_unchanged(tmp_pa
     report = mod.audit_artifact(*args)
     assert report['status'] == 'FAIL_CLOSED' and report['ok_to_submit'] is False
     assert report['checks']['tif_readable'] is False
+    assert report['checks']['self_contained_tiff'] is False
     assert 'companion' in report['diagnostics']['error'].lower()
 
 
