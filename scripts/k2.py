@@ -413,9 +413,7 @@ def main():
     ap.add_argument("cmd", choices=["features", "e1", "e2", "e3", "combine", "final", "audit"])
     ap.add_argument("--candidate", default="hgbcont_b110")
     a = ap.parse_args()
-    {"features": cmd_features, "e1": cmd_e1, "e2": cmd_e2, "e3": cmd_e3,
-     "combine": lambda: cmd_combine(a.candidate), "final": cmd_final,
-     "audit": cmd_audit}[a.cmd]()
+    raise SystemExit("K2 run is closed and disabled: experiment budget exhausted and pre-placement surface registry stop. Historical artifacts are read-only.")
 
 
 if __name__ == "__main__":
