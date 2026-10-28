@@ -1821,5 +1821,15 @@
     "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",
     "Registry = 440 + 9 + lattice pinned rasters; repositories may contain newer files."
   ],
-  "protocol_stop_triggered": true
+  "protocol_stop_triggered": true,
+  "historical_release_decision": {
+    "verdict": "PROMOTE",
+    "literal_rule_exception_applied": true,
+    "status": "superseded: exception not authorized by user protocol"
+  },
+  "slot_authorized": false,
+  "release_review": {
+    "reason": "Literal all-registry overlap gate failed; chance correction and submission status cannot override the mandatory stop. Lane self-declared, budget exhausted; no organizer authentication or receipt.",
+    "new_experiments": 0
+  }
 }

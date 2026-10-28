@@ -1,3 +1,10 @@
+# Latest release correction — takes precedence over historical HK3 status
+
+Read `research/release-correction-ab495106.md`. HK3 is NEGATIVE, research-only.
+The literal registry stop cannot be waived by chance correction or submission
+status. Historical PROMOTE and instructions to upload HK3 below are superseded.
+No new lane or budget is inferred from repeated prompts. Preserve saved bytes.
+
 # Starting point for future work
 
 Read `README.md`, `research/review.md`, `research/hypotheses.md`,

@@ -13,7 +13,10 @@ Usage:  python scripts/build_hk3_pages.py [--check]
 """
 from __future__ import annotations
 
-from hk3_release_policy import publication_eligible
+if __package__:
+    from .hk3_release_policy import publication_eligible
+else:
+    from hk3_release_policy import publication_eligible
 
 import argparse
 import html
@@ -484,7 +487,7 @@ def page_summary(d) -> str:
 <h3>6. Official sources (verified links; what each was used for)</h3>
 <ul>
 <li><a href="{OFFICIAL['competition']}">GEMS Prize Challenge — competition home ↗</a> (DrivenData / U.S. DOE).</li>
-<li><a href="{OFFICIAL['problem']}">Problem description ↗</a>: metric (α 0.2, β 0.8, 300 m triangular kernel, known-fault pixels excluded), single-band float raster requirement, submission quota (≤ 3 per week).</li>
+<li><a href="{OFFICIAL['problem']}">Problem description ↗</a>: metric (α 0.2, β 0.8, 300 m triangular kernel, known-fault pixels excluded), single-band float raster requirement, submission quota (current account cap unverified).</li>
 <li><a href="{OFFICIAL['data']}">Data download page ↗</a>: numeric_features.tif (19 bands, EPSG:32611, 100 m), labels.tif, example_submission.tif, 1 m DEM link list.</li>
 <li><a href="{OFFICIAL['reference']}">Organizer reference solution (GitHub) ↗</a>: band list for all 19 features, Tversky loss α 0.2 / β 0.8, GeoTIFF written with the labels' CRS/transform and finite values everywhere.</li>
 <li><a href="{OFFICIAL['usgs_qfaults']}">USGS Quaternary fault and fold database ↗</a> and INGENIOUS (Nevada Bureau of Mines and Geology) — the public fault catalogue the labels exclude.</li>
@@ -513,7 +516,7 @@ def page_howto(d) -> str:
 <ol>
 <li><b>Download</b> the TIF with the button above (direct link: <code>docs/downloads/{esc(sub['name'])}.tif</code>). Do not open it in an image editor; do not re-save it.</li>
 <li><b>Verify the bytes</b> (optional but recommended): <code>sha256sum {esc(sub['name'])}.tif</code> must print <code>{esc(r['sha256'])}</code>.</li>
-<li><b>Sign in</b> to DrivenData and open the <a href="{OFFICIAL['submissions']}">GEMS Prize Challenge submissions page ↗</a>. Check that you still have a slot (the rules allow at most 3 submissions per week).</li>
+<li><b>Sign in</b> to DrivenData and open the <a href="{OFFICIAL['submissions']}">GEMS Prize Challenge submissions page ↗</a>. Check the current cap and remaining quota on the authenticated page; neither was verified here.</li>
 <li><b>Upload</b> the TIF as the prediction file. Use this name and note (≤ 140 characters):<br>
 <code>{esc(sub['name'])}</code><br>
 <code>{esc(sub['note'])}</code></li>

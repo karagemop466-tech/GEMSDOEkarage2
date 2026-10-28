@@ -108,3 +108,13 @@ new method and frozen matched-fold current-best comparator; run feature canaries
 pre-placement registry checks before at most three experiments/two hours. Only a
 candidate passing all gates may reach the separate selector step. Do not use altered
 filenames, jitter, or footprint holes to disguise a duplicate.
+
+## Concurrent-main reconciliation
+
+The first merge attempt failed because a concurrent correction merged as
+`2b1ba4b` after PR checks passed. Merged main into this same Arena branch,
+retaining `SUBMISSION_STATUS.md`, the concurrent review/run card, release-history
+fields, and its removal of the unverified weekly quota claim. Conflict resolution
+uses this branch's stricter complete-gate schema and explicit stop, with the
+exception history archived rather than treated as an active waiver. No raster
+bytes changed. Reran tests and generated-file audits after reconciliation.

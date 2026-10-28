@@ -4,6 +4,17 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest release correction — 2026-10-28
+
+**NO APPROVED SUBMISSION. DO NOT UPLOAD HK3.** Its saved all-registry
+uniqueness gate failed. The previous PROMOTE decision applied an unauthorized
+exception and is superseded by the negative run card. Research-only TIFF/ZIP
+bytes remain downloadable, unchanged. Historical measurements below are not
+organizer-confirmed scores. See [three-pass review](research/release-correction-ab495106.md).
+The supplied prompt is consolidated below; read this correction and the standing
+protocol every session. Maximize P(Win) and Own the Outcome mean preserving
+negative evidence rather than spending a slot on an ineligible artifact.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated
