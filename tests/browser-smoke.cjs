@@ -70,11 +70,11 @@ function chromeEnvironment() {
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
-      await page.waitForURL('**/docs/index.html');
+      await page.waitForURL('**/docs/experiment-index.html');
       assert.ok(await page.getByRole('button', {name:'No approved submission TIF'}).isDisabled());
-      assert.ok((await page.locator('#research-download').innerText()).includes('DO NOT SUBMIT'));
-      assert.ok((await page.locator('#research-download a[download]').first().getAttribute('href')).includes('DO-NOT-SUBMIT'));
-      await page.waitForFunction(() => document.querySelectorAll('#scorecard-body tr').length === 9);
+      assert.ok((await page.locator('#downloads').innerText()).includes('DO NOT SUBMIT'));
+      assert.ok((await page.locator('#downloads a[download]').first().getAttribute('href')).includes('DO-NOT-SUBMIT'));
+      assert.equal(await page.locator('.table-wrap tbody tr').count(), 9, 'Nine-site executive scorecard is present');
       assert.ok(await page.locator('a[href="audit.html"]').count());
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Experiment overview overflow');
       console.log(`PASS ${width}px: primary dashboard, release lock, research-only download`);
@@ -100,6 +100,21 @@ function chromeEnvironment() {
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Research page overflow');
       console.log(`PASS ${viewport.width}px: navigation, 9 rows, release lock, no viewport overflow`);
     }
+    // Legacy paths must route to the current negative release—not the archived
+    // page that previously invited a research-only TIFF to be submitted.
+    await page.goto(base + '/docs/index.html', {waitUntil:'domcontentloaded'});
+    await page.waitForURL('**/docs/experiment-index.html');
+    assert.ok((await page.locator('#downloads').innerText()).includes('DO NOT SUBMIT'));
+    await page.goto(base + '/docs/how-to-submit.html', {waitUntil:'domcontentloaded'});
+    await page.waitForURL('**/docs/submission-guide.html');
+    assert.ok((await page.locator('main').innerText()).includes('CURRENT RELEASE: DO NOT SUBMIT'));
+    await page.goto(base + '/docs/executive-summary.html', {waitUntil:'domcontentloaded'});
+    await page.waitForURL('**/docs/experiment-executive-summary.html');
+    assert.ok(await page.getByRole('button', {name:'No approved submission TIF'}).isDisabled());
+    await page.goto(base + '/docs/site-GEMSDOE32.html', {waitUntil:'domcontentloaded'});
+    await page.waitForURL('**/docs/sites/GEMSDOE32.html');
+    assert.ok((await page.locator('body').innerText()).includes('GEMSDOE32'));
+
     network = 'stale';
     await page.goto(base + '/docs/audit.html');
     await page.waitForFunction(() => document.querySelector('[data-site="GEMSDOE32"] [data-freshness]').textContent === 'Changed since audit');

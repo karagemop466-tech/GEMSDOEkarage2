@@ -2,16 +2,17 @@
 
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Branch: `arena/044d7bda-gemsdoekarage2`
+Work only on the Arena-assigned branch for the active session; do not hard-code or rename its branch.
 
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated
-project prompt and defines what we are building: a system that produces a unique,
-format-valid GeoTIFF submission for the DOE GEMS Prize Challenge, with an executive
-summary over the focus GEMSDOE sites, a GitHub Pages front end with a one-click
-downloadable submission TIF, and a validated pipeline (holdout DTI evaluation +
-submission writer + run cards) following the parallel-run protocol.
+project prompt and defines the goal: an auditable system that can produce a unique,
+format-valid GeoTIFF candidate for the DOE GEMS Prize Challenge, with an executive
+summary over the focus GEMSDOE sites and a GitHub Pages front end. The site must make
+an approved submission download obvious—but must never present a negative research
+artifact as submit-ready. The current release is negative; no competition upload is
+authorized. Follow the shared holdout, writer, uniqueness, and run-card protocol.
 
 ---
 
@@ -63,11 +64,13 @@ training_features.tif, labels.tif, sample_submission.tif and 1m_DEM_links.csv ca
 auto-downloaded in this sandbox. Stage data on an unrestricted machine into data/ and
 run scripts/download_competition_data.sh + python scripts/prepare_data.py.
 
-## Leaderboard status (verified live read, 2026-10-27)
+## Leaderboard status (last recorded public snapshot: 2026-10-27)
 
-The live public leaderboard shows #1 = 0.4544 (xiaofanhu). The prompt's earlier
-figures (0.4413 / 0.3195) are stale — flagged as an irregularity; always re-read
-the official leaderboard before claiming a target.
+The saved public-board snapshot recorded #1 = 0.4544 (xiaofanhu) on 2026-10-27
+(`docs/data/monitor.json`). This session has not refreshed the DrivenData page, so
+treat 0.4544 as a dated snapshot, not today's verified leaderboard. The prompt's
+0.4413 and 0.3195 figures conflict with each other and with that snapshot; flag them
+as historical claims and refresh the official leaderboard before using any target.
 
 ## Focus sites (nine)
 
@@ -155,34 +158,46 @@ holdout cannot reliably estimate the expert-hidden private score).
   R = 300 m) + spatially-blocked hide-and-recover holdout. Self-tested.
 - scripts/submission_writer.py — validated GeoTIFF writer + audit JSON receipt
   (CRS/shape/transform/dtype/range [0,1]/finite/uniqueness checks).
-- scripts/generate_submission.py — generates the unique H-KARAGE-1 submission TIF
-  (submissions/) with run card + audit.
-- scripts/prepare_data.py      — validates data/ placement once competition data is
-  staged (DrivenData login required).
-- scripts/download_competition_data.sh — data download documentation.
-- submissions/                 — the generated unique submission TIF + audit + run card.
-- reference/gemsdoe36/         — learning/education-only reference rasters fetched from
-  the GEMSDOE36 source repo (never for submission).
-- docs/                        — GitHub Pages site: index.html, executive-summary.html,
-  how-to-submit.html, research-hypotheses.html.
-- README.md                    — this file (the consolidated project prompt).
+- scripts/generate_submission.py — legacy H-KARAGE-1 prototype generator. Its
+  synthetic lattice-avoidance raster is a research artifact, not a geological
+  submission; do not run it to create a competition entry or infer eligibility.
+- scripts/prepare_data.py — validates data placement after inputs are staged;
+  DrivenData authentication is required for the official download.
+- scripts/download_competition_data.sh — documents the authenticated data dependency.
+- docs/downloads/ — quarantined historical research rasters, never approved entries.
+- reference/gemsdoe36/ — learning/education-only reference rasters; never for submission.
+- docs/experiment-index.html — current executive summary / release decision.
+  `index.html` and legacy `docs/index.html` route to this page. `docs/submission-guide.html`
+  is the current upload walkthrough; obsolete pages route to current equivalents.
+- research/repo-review-2026-10-28.md — this session's release-path review, tests,
+  blockers, and priority next steps.
+- README.md — this file (the consolidated project prompt).
 
-## How to run (this sandbox)
+## Safe checks (this checkout)
 
-1. `python scripts/evaluate_holdout.py` — metric self-test.
-2. `python scripts/generate_submission.py` — builds + validates the unique submission
-   TIF (requires reference/ gemsdoe36 rasters present).
-3. `python scripts/prepare_data.py` — after competition data is staged in data/.
+1. `.venv/bin/pytest -q` — Python regression suite (install the locked requirements first).
+2. `npm test && npm run test:site && npm run test:browser` — dashboard checks after `npm ci`.
+3. Do **not** run `scripts/generate_submission.py` as a submission workflow. It is a
+   legacy research prototype and its output is not cleared by this release.
+4. `python scripts/prepare_data.py` is only an input-format check after authenticated
+   official files are staged in `data/`; it does not authorize training or upload.
 
 ## Next steps / limitations
 
-- labels.tif / training_features.tif are not available in this sandbox
-  (DrivenData login required, network-blocked). Holdout DTI and a leaderboard score
-  estimate therefore CANNOT be computed yet. The generated TIF is:
-    OK TO DOWNLOAD: YES (research / audit only, format-validated)
-    OK TO SUBMIT TO DRIVENDATA: NO — pending holdout validation and selector approval.
-- To promote: stage data in data/, run prepare_data.py, beat the repo holdout best
-  with paired 95% CI > 0, pass leakage canaries and uniqueness gates, then the
-  selector spends a weekly slot.
-- Live leaderboard target to beat: 0.4544 (public #1). Best focus-site claim: 0.2778
-  (GEMSDOE32, owner-reported, unverified).
+- No organizer-authenticated training inputs, submission template, or private labels are
+  present in this checkout; DrivenData's data tab requires an authenticated account.
+  A recorded mirror-based experiment exists: H1 HOLDOUT-DTI = 0.03367 (evaluator
+  `gems57-pooled-hide-v2`, 58,259 withheld positive pixels, 95% CI [0.02867, 0.03929]);
+  it lost to its best primitive control (paired delta -0.03092, 95% CI [-0.03761,
+  -0.02358]). This is a research holdout result from owner-mirrored inputs, not an
+  organizer score or a leaderboard estimate. No estimate is defensible for the
+  historical focus-site reports.
+- Research artifacts are available to download for audit only; **OK TO SUBMIT:
+  NO**. H1 is negative, its pre-placement novelty check stopped at a registered
+  lattice, and no final-dot file was made. Do not use the older H-KARAGE-1 raster.
+- Before another experiment: resolve the missing assigned method lane, restore and
+  authenticate shared inputs/tools, obtain a complete registry and compatible frozen
+  holdout incumbent, then run canaries and surface novelty before placement. Keep the
+  separate selector and weekly-slot decision out of the experiment runner.
+- The last recorded public leaderboard snapshot was 0.4544 on 2026-10-27; not refreshed
+  this session. The highest focus-site value 0.2778 is owner-reported and unverified.
