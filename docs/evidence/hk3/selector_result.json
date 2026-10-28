@@ -4,6 +4,7 @@
   "candidate": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
   "raster_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
   "source_run_card": "evidence/hk3/run_card.json",
+  "current_release_assessment": "evidence/hk3/current_release_assessment.json",
   "verdict": "negative",
   "ok_to_download_for_research": true,
   "ok_to_submit": false,

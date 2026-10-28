@@ -76,9 +76,14 @@ is an audit and safety correction, not a new method lane.
   summary. The full leakage flag was tightened to reflect only eight recorded canaries.
 * Regression tests exercise forged card/selector/receipt values, hash binding, GDAL
   external-mask sidecars, retirement entry points, portal-acceptance language and
-  negative legacy decisions. Browser tests actually download and hash the research
-  file at desktop and 320/390px widths, check nine rows, navigation, no horizontal
-  overflow and failed/changed GitHub freshness responses.
+  negative legacy decisions. The later concurrent strict-gate assessment and
+  historical selector were retained; the current assessment was reconciled to the
+  unestablished full canary, unknown portal acceptance and null new-submission fields.
+  Its negative decision is now hash-bound and checked by both the inventory and
+  renderer, but no asserted assessment can authorize a candidate. Browser tests
+  actually download and hash the research file at desktop and 320/390px widths,
+  check nine rows, navigation, no horizontal overflow and failed/changed GitHub
+  freshness responses.
 
 ## Pass 3 — mandate, source and limitation reconciliation
 
@@ -114,7 +119,7 @@ is an audit and safety correction, not a new method lane.
 
 ## Automated verification
 
-Local post-integration run: **228 Python tests plus 98 subtests passed** (89 Rasterio/Affine
+Local post-integration run: **229 Python tests plus 98 subtests passed** (90 Rasterio/Affine
 pending-deprecation warnings); **3 Node feed and 7 site tests passed**; browser
 smoke tests passed at 1440, 390 and 320 px, including actual byte-hashed downloads.
 Both independent geometry replays, the HK3 literal recheck (including 1/2-thread

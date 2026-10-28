@@ -197,3 +197,14 @@ def test_page_builder_refuses_a_forged_promote_card_or_selector(monkeypatch):
     monkeypatch.setattr(builder, "load", forged_witness)
     with pytest.raises(ValueError, match="witness counts"):
         builder.gather()
+
+    def forged_assessment(path):
+        data = copy.deepcopy(original(path))
+        if path == builder.EV / "hk3/current_release_assessment.json":
+            # Eight passing canaries must never be presented as the full gate.
+            data["leakage_canary_passed"] = True
+        return data
+
+    monkeypatch.setattr(builder, "load", forged_assessment)
+    with pytest.raises(ValueError, match="Current assessment"):
+        builder.gather()

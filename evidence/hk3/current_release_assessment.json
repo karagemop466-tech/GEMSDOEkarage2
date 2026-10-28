@@ -1,0 +1,117 @@
+{
+  "schema": "gems.current_release_assessment.v1",
+  "date": "2026-10-28",
+  "candidate": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+  "raster_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+  "source_run_card": "evidence/hk3/run_card.json",
+  "source_registry_audit": "evidence/hk3/registry_audit.json",
+  "status": "negative_research_only",
+  "ok_to_download_for_research": true,
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "preplacement_surface_clearance_passed": false,
+  "final_dot_uniqueness_passed": false,
+  "current_holdout_comparison_passed": false,
+  "organizer_template_authenticated": false,
+  "source_data_authenticated": false,
+  "lane_assignment_authorized": false,
+  "registry_scan_complete": false,
+  "leakage_canary_passed": false,
+  "protocol_basis": "The current user-supplied parallel-run rule is literal: if more than 70% of a candidate's dots are within 3 px of any registry raster, record a duplicate and stop. No exceptions for never-submitted files, surfaces, or degenerate lattice witnesses are stated.",
+  "blocking_findings": [
+    {
+      "gate": "final_dot_overlap",
+      "evidence_class": "REGISTRY-OVERLAP AUDIT",
+      "observed": 0.9986255209718897,
+      "threshold": 0.7,
+      "reference": "13GEMSDOE r13 lattice raster; 45,108 candidate positive pixels, 45,046 within 3 px (value reported as fraction 0.9986255209718897)",
+      "result": "FAIL — duplicate under the literal rule; stop."
+    },
+    {
+      "gate": "registry_coverage",
+      "evidence_class": "REGISTRY-OVERLAP AUDIT",
+      "checked": 452,
+      "expected": 453,
+      "complete_accessible_scan": false,
+      "result": "FAIL — one expected registry entry was missing/invalid; no global uniqueness clearance can be claimed."
+    },
+    {
+      "gate": "preplacement_surface_clearance",
+      "evidence_class": "PROTOCOL REVIEW",
+      "result": "Not established by the available committed HK3 receipts under the literal all-registry rule. No new placement or surface scan was performed in this review."
+    },
+    {
+      "gate": "current_holdout_incumbent",
+      "evidence_class": "HOLDOUT-DTI",
+      "candidate": {
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "withheld_positive_pixels": 58258,
+        "dti": 0.18450466022225004,
+        "ci95": [
+          0.16769141176106592,
+          0.2014839638261474
+        ]
+      },
+      "current_repository_best_k3": {
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "withheld_positive_pixels": 58258,
+        "dti": 0.19157,
+        "ci95": [
+          0.1747,
+          0.2088
+        ]
+      },
+      "passed": false,
+      "result": "No paired cross-session test establishes that HK3 beats the repository's higher K3 holdout result. Intervals overlap; do not claim a statistically significant difference."
+    },
+    {
+      "gate": "lane_assignment",
+      "evidence_class": "PROTOCOL REVIEW",
+      "passed": false,
+      "result": "The prompt provides no uniquely identifiable coordinator-assigned method paragraph. The historical HK3 lane was self-declared; no lane authorization receipt is present."
+    },
+    {
+      "gate": "organizer_input_and_portal_acceptance",
+      "evidence_class": "ACCESS LIMITATION",
+      "result": "The local checks use hash-pinned public owner mirrors, not authenticated DrivenData input bytes; no organizer receipt or portal acceptance is present."
+    }
+  ],
+  "historical_record_note": "The current HK3 run card is NEGATIVE. The pre-correction PROMOTE decision and its unauthorized exception to the literal 70% registry rule are preserved in evidence/hk3/approval-retracted-20261028.json and evidence/hk3/selector_result-historical-promote.json; the original state is also in Git history. This assessment controls download/upload guidance. No raster bytes or historical measurements were changed. The eight new-feature canaries do not establish the full 34-feature leakage gate; this assessment was corrected after independent review.",
+  "research_download_note": "The TIFF may be downloaded only to inspect/reproduce the recorded research result. It is not approved for competition submission.",
+  "hypothesis": "No new geological experiment was run in this review because the existing final raster has a literal registry duplicate witness and the experiment budget in the prior HK3 lane is exhausted.",
+  "mechanism": "No new mechanism evaluated.",
+  "named_non_fault_process": "Not evaluated; plausible mimics recorded in the historical HK3 run card are lithologic/intrusive contacts, pluvial shorelines, terrace risers, and survey flight-line striping.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "value": null,
+    "ci95": null,
+    "reason": "No new holdout run in this review; values above are historical HK3 and K3 receipts, not new results."
+  },
+  "correlation_overlap_vs_registry": {
+    "surface_before_placement": "Not established under literal full-registry rule; no re-run in this review.",
+    "final_dots": {
+      "evidence_class": "REGISTRY-OVERLAP AUDIT",
+      "max_within_3px_overlap": 0.9986255209718897,
+      "reference": "r13 lattice raster; see evidence/hk3/registry_audit.json"
+    }
+  },
+  "validator_output": {
+    "evidence_class": "LOCAL FORMAT/RANGE CHECK ONLY",
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match_owner_mirror_template": true,
+    "organizer_template_authenticated": false,
+    "portal_acceptance": null,
+    "portal_acceptance_note": "Unknown; no organizer receipt."
+  },
+  "verdict": "negative",
+  "experiments_run_this_review": 0,
+  "weekly_slot_selected": false,
+  "leakage_canary_scope": "Eight newly added features have recorded standalone canaries; the full 34-feature gate is not established.",
+  "historical_research_name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
+  "historical_research_note": "HK3 research raster; literal registry-overlap stop. DO NOT SUBMIT.",
+  "submission_name": null,
+  "submission_note": null
+}

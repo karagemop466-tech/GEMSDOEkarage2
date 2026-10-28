@@ -292,6 +292,7 @@
         "metadata_research_only_and_hash_bound": true,
         "metadata_hk3_negative_status": true,
         "selector_explicit_negative": true,
+        "current_assessment_negative_and_hash_bound": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {

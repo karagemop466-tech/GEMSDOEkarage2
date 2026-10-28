@@ -207,7 +207,8 @@ complete live registry have not been established.
 * The [three-pass independent review](research/2026-10-28-independent-three-pass-review.md)
   records the corrections and reproducibility checks; the [session card](evidence/2026-10-28-independent-audit-run-card.json)
   uses nulls for unmade candidate evidence. Concurrent corrections, the
-  [status notice](SUBMISSION_STATUS.md) and the
+  [status notice](SUBMISSION_STATUS.md), the [hash-bound current assessment](evidence/hk3/current_release_assessment.json),
+  the [additional strict-gate review](research/repo-review-2026-10-28-strict-gate.md), and the
   [preserved original card](evidence/hk3/history/run_card-before-protocol-correction.json)
   are retained after reconciliation with main.
 * The [nine-site desk](docs/executive-summary.html) has pinned historical files,

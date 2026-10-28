@@ -51,6 +51,12 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert len(result['artifacts']) == 7
     found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
     assert len(found) == 1 and found[0]['kind'] == 'research'
+    assert found[0]['checks']['current_assessment_negative_and_hash_bound'] is True
+    assessment = json.loads((ROOT / 'evidence/hk3/current_release_assessment.json').read_text())
+    assert assessment == json.loads((ROOT / 'docs/evidence/hk3/current_release_assessment.json').read_text())
+    assert assessment['leakage_canary_passed'] is False
+    assert assessment['validator_output']['portal_acceptance'] is None
+    assert assessment['submission_name'] is None and assessment['submission_note'] is None
     for record in result['artifacts']:
         assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
         assert record['ok_to_submit'] is False and record['slot_authorized'] is False
@@ -125,6 +131,37 @@ def test_fixture_integrity_and_missing_selector_fail_closed(tmp_path):
     contradictory = mod.audit_artifact(*args)
     assert contradictory['status'] == 'FAIL_CLOSED'
     assert contradictory['checks']['selector_explicit_negative'] is False
+
+
+def test_negative_assessment_must_be_hash_bound_and_confined_to_evidence(tmp_path):
+    args, card_path = make_fixture(tmp_path)
+    root, stem, card_rel, selector_rel, _, _ = args
+    card = json.loads(card_path.read_text())
+    selector_path = root / selector_rel
+    selector = json.loads(selector_path.read_text())
+    selector['current_release_assessment'] = 'evidence/current-release.json'
+    selector_path.write_text(json.dumps(selector))
+    assessment_path = root / selector['current_release_assessment']
+    assessment = dict(status='negative_research_only', ok_to_submit=False, slot_authorized=False,
+                      candidate=f'docs/downloads/{stem}.tif', raster_sha256=card['raster_sha256'],
+                      source_run_card=card_rel)
+    assessment_path.write_text(json.dumps(assessment))
+    valid = mod.audit_artifact(*args)
+    assert valid['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert valid['checks']['current_assessment_negative_and_hash_bound'] is True
+    for key, value in [('raster_sha256', 'wrong'), ('status', 'approved'),
+                       ('source_run_card', 'elsewhere.json'), ('slot_authorized', True)]:
+        altered = dict(assessment, **{key: value})
+        assessment_path.write_text(json.dumps(altered))
+        bad = mod.audit_artifact(*args)
+        assert bad['status'] == 'FAIL_CLOSED'
+        assert bad['checks']['current_assessment_negative_and_hash_bound'] is False
+    assessment_path.write_text(json.dumps(assessment))
+    selector['current_release_assessment'] = '../outside.json'
+    selector_path.write_text(json.dumps(selector))
+    escaped = mod.audit_artifact(*args)
+    assert escaped['status'] == 'FAIL_CLOSED'
+    assert escaped['checks']['current_assessment_negative_and_hash_bound'] is False
 
 
 def test_negative_card_with_a_hidden_approval_flag_fails_closed(tmp_path):

@@ -44,6 +44,7 @@ def load(path: Path) -> dict:
 def gather() -> dict:
     card = load(EV / "hk3/run_card.json")
     selector = load(EV / "hk3/selector_result.json")
+    assessment = load(EV / "hk3/current_release_assessment.json")
     witness = load(EV / "hk3/literal_recheck.json")
     registry = load(EV / "hk3/registry_audit.json")
     inventory = load(EV / "public_downloads_audit.json")
@@ -57,8 +58,16 @@ def gather() -> dict:
         raise ValueError("Missing or unsafe research raster path")
     sha = hashlib.sha256(candidate.read_bytes()).hexdigest()
     if not (sha == card["raster"]["sha256"] == witness["candidate_sha256"]
-            == selector["raster_sha256"] == registry["candidate_file_sha256"]):
+            == selector["raster_sha256"] == registry["candidate_file_sha256"] == assessment["raster_sha256"]):
         raise ValueError("Research raster or evidence hashes disagree")
+    if (selector.get("current_release_assessment") != "evidence/hk3/current_release_assessment.json"
+            or assessment.get("source_run_card") != "evidence/hk3/run_card.json"
+            or assessment.get("candidate") != filename or assessment.get("status") != "negative_research_only"
+            or assessment.get("ok_to_submit") is not False or assessment.get("slot_authorized") is not False
+            or assessment.get("leakage_canary_passed") is not False
+            or assessment.get("submission_name") is not None or assessment.get("submission_note") is not None
+            or assessment.get("validator_output", {}).get("portal_acceptance") is not None):
+        raise ValueError("Current assessment contradicts the negative saved-byte decision")
     count, matched, overlap = (witness["candidate_positive_inside_footprint"],
                                witness["matched_within_3_pixels"], witness["overlap_fraction"])
     witness_rows = [r for r in registry["rows"] if r.get("sha256") == witness["witness_sha256"]]
@@ -142,7 +151,7 @@ def evidence_summary(d: dict) -> str:
 <tr><th>Leaderboard estimate</th><td><b>Unavailable.</b> Transfer from catalogue holdout to the hidden expert labels is not validated. A prior speculative estimate is retained as historical evidence, not a score or a release criterion.</td></tr>
 </tbody></table>
 <p class="muted">The lattice is nearly space-filling; its overlap can flag unrelated maps and does not establish copying. Nevertheless, the specified literal rule requires a stop. At the historical 37,654-dot budget, at least 82.34% of in-footprint dots must lie in its 3-pixel halo. This bound does not rule out every smaller map.</p>
-<p><a href="evidence/2026-10-28-independent-audit-run-card.json">This audit's run card</a> · <a href="evidence/hk3/decision_correction.json">Original decision and correction</a> · <a href="evidence/hk3/run_card.json">Corrected HK3 card</a> · <a href="evidence/hk3/registry_audit.json">Original registry scan</a> · <a href="evidence/public_downloads_audit.json">Saved-byte inventory</a></p>
+<p><a href="evidence/2026-10-28-independent-audit-run-card.json">This audit's run card</a> · <a href="evidence/hk3/decision_correction.json">Original decision and correction</a> · <a href="evidence/hk3/run_card.json">Corrected HK3 card</a> · <a href="evidence/hk3/current_release_assessment.json">Current no-submit assessment</a> · <a href="evidence/hk3/registry_audit.json">Original registry scan</a> · <a href="evidence/public_downloads_audit.json">Saved-byte inventory</a></p>
 </section>'''
 
 

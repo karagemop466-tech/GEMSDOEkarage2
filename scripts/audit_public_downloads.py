@@ -195,6 +195,27 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                                                         selector.get("ok_to_submit", False) is False and
                                                         selector.get("approved_for_weekly_slot", False) is False and
                                                         selector.get("source_run_card") == card_rel)
+                # HK3's concurrent release review adds a current, byte-bound
+                # negative assessment. If present for another research artifact,
+                # do not silently ignore contradictions there either.
+                if "current_release_assessment" in selector or card_rel == "evidence/hk3/run_card.json":
+                    checks["current_assessment_negative_and_hash_bound"] = False
+                    assessment_rel = selector.get("current_release_assessment")
+                    if not isinstance(assessment_rel, str):
+                        raise ValueError("Missing release assessment")
+                    assessment_path = (root / assessment_rel).resolve()
+                    if not assessment_path.is_relative_to((root / "evidence").resolve()):
+                        raise ValueError("Release assessment outside evidence directory")
+                    assessment = json.loads(assessment_path.read_text())
+                    checks["current_assessment_negative_and_hash_bound"] = (
+                        assessment.get("status") == "negative_research_only"
+                        and assessment.get("ok_to_submit") is False
+                        and assessment.get("slot_authorized") is False
+                        and assessment.get("candidate") == rel
+                        and assessment.get("raster_sha256") == actual_sha
+                        and assessment.get("source_run_card") == card_rel
+                        and (card_rel != "evidence/hk3/run_card.json"
+                             or assessment_rel == "evidence/hk3/current_release_assessment.json"))
         except (OSError, ValueError, TypeError, AttributeError):
             checks["selector_explicit_candidate" if candidate else "selector_explicit_negative"] = False
     if has_zip:
