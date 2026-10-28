@@ -100,8 +100,9 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'unverified' in text.lower()
         assert 'READ' in text
     homepage=(ROOT/'docs/index.html').read_text()
-    # The literal registry stop supersedes K2's earlier conditional claim.
-    assert 'NEGATIVE' in homepage
+    # 2026-10-28: the K2 selector is now negative; the nine historical
+    # files and all local candidates remain quarantined on the homepage.
+    assert 'SELECTOR NEGATIVE' in homepage
     assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     assert 'NO APPROVED SUBMISSION' in homepage
