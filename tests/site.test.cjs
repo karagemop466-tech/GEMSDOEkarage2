@@ -112,25 +112,30 @@ test('current download does not claim established uniqueness or submission readi
   dom.window.close();
 });
 
-test('K2 final registry failure is negative everywhere and its TIF is research-only', async () => {
-  const cardPath = path.join(root, 'evidence/k2/run_card.json');
-  const auditPath = path.join(root, 'evidence/k2/final_registry_audit.json');
+test('current K2 release card is negative and primary pages are research-only', async () => {
+  const cardPath = path.join(root, 'evidence/k2-review-2026-10-28.json');
+  const auditPath = path.join(root, 'evidence/k2/literal_release_audit.json');
+  const registryPath = path.join(root, 'evidence/k2/final_registry_audit.json');
   const card = JSON.parse(fs.readFileSync(cardPath, 'utf8'));
   const audit = JSON.parse(fs.readFileSync(auditPath, 'utf8'));
+  const registry = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
   const sha = require('node:crypto').createHash('sha256')
     .update(fs.readFileSync(path.join(root, 'docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif')))
     .digest('hex');
   assert.equal(card.verdict, 'negative');
   assert.equal(card.raster_sha256, sha);
+  assert.equal(card.ok_to_submit, false);
   assert.equal(audit.verdict, 'negative');
-  assert.equal(audit.stop_required, true);
-  assert.equal(audit.complete_accessible_scan, false);
-  assert.ok(audit.rows.some(row => row.submission?.includes('r13-lattice') && row.my_dots_within_3px_of_theirs === 1));
-  assert.ok(audit.rows.some(row => row.submission?.includes('ctx-ridge') && row.my_dots_within_3px_of_theirs > 0.70));
+  assert.equal(audit.slot_authorized, false);
+  assert.equal(registry.verdict, 'negative');
+  assert.equal(registry.stop_required, true);
+  assert.equal(registry.complete_accessible_scan, false);
+  assert.ok(registry.rows.some(row => row.submission?.includes('r13-lattice') && row.my_dots_within_3px_of_theirs === 1));
+  assert.ok(registry.rows.some(row => row.submission?.includes('ctx-ridge') && row.my_dots_within_3px_of_theirs > 0.70));
   for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
     const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
-    assert.match(html, /NEGATIVE/);
+    assert.match(html, /Current literal-policy verdict: NEGATIVE/);
     assert.match(html, /DO NOT SUBMIT/);
-    assert.doesNotMatch(html, /CONDITIONAL YES|PROMOTE TO SELECTOR/);
+    assert.doesNotMatch(html, /cannot trigger/);
   }
 });

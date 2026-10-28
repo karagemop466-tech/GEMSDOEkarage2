@@ -4,6 +4,18 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest independent release review — 2026-10-28
+
+**K2 current literal-policy verdict: NEGATIVE / DO NOT SUBMIT.** Its historical
+conditional experiment card is not clearance. The independent audit checks the
+committed TIFF/ZIP bytes and includes calibration entries without exemptions.
+See [current audit](evidence/k2/literal_release_audit.json) and
+[three-pass review](research/release-review-2026-10-28.md).
+Reproduce with `python scripts/audit_k2_release.py`; this performs no training,
+placement, upload or slot authorization. No new geological experiments were run.
+The existing five preregistered hypotheses and three completed experiments are
+preserved; do not restart their budget or tune a stopped candidate.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated
@@ -167,34 +179,29 @@ positives, 95% CI [0.0286737956, 0.0392948028]); its paired difference against
 the best primitive is -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]).
 These are prior research results, not organizer scores or leaderboard estimates.
 
-### K2 supervised research artifact — NEGATIVE / DO NOT SUBMIT (review ruling, 2026-10-28)
+### K2 supervised candidate — negative release review (2026-10-28)
 
-A parallel K2 session ran 3 preregistered experiments on restored hash-pinned
-mirror data (`scripts/restore_k2_inputs.py`, `scripts/k2.py`) reusing the shared
-`vendor/gems57` evaluator/folds/writer unchanged. Its candidate
-[`docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif`](docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif)
-(SHA-256 `504be458…8dfb`, 54,491 dots; supervised HGB on 26 label-blind features
-+ tip continuation + dotted emission at 1.10%, >2 px off-catalogue) is
-**NEGATIVE — DO NOT SUBMIT.** The final-dot audit fails the literal registry rule; this TIFF is kept solely as a research artifact:
+The earlier K2 card's conditional promotion is superseded: **DO NOT SUBMIT**.
+Its archived pre-placement positive-surface-support overlap with the registered
+lattice is 100%, exceeding the literal 70% gate; final-dot evidence also reports
+100% overlap and an incomplete scan. Placement should have stopped before writing
+its raster. A subset of submission comparisons cannot exempt registry entries.
+`scripts/k2.py final` is retired and cannot overwrite the artifact.
 
-- HOLDOUT-DTI **0.1581** (95% CI 0.1424–0.1742; `gems57-pooled-hide-v2`, 58,258
-  withheld positives), paired Δ **+0.0861** (CI +0.0691…+0.1037) vs the best
-  primitive; 26/26 leakage canaries pass (worst AUC 0.6211).
-- Format: whole array finite in [0,1] (values exactly {0,1}), writer receipt +
-  independent read-back pass; outside footprint = 0 (same encoding as the
-  reported-scored champion `-zeros` file; the local strict NaN-outside clause
-  is documented, not hidden).
-- The narrower submission-raster scan had max overlap 68.1% and max |Spearman| 0.119, but this does not override the literal registry gate.
-- The final registry audit measures **100%** within 3 px of the spacing-5 lattice and **72.0523%** within 3 px of the ctx-ridge calibration raster. Both exceed 70%: stop under the protocol. The registry audit is also incomplete (442/443 checked), and ctx-ridge was not covered by the recorded pre-placement surface check.
-- Verdict: **NEGATIVE / DO NOT SUBMIT**. No calibration entry is exempted, no selector waiver is assumed, and no weekly slot is spent. Inputs remain owner mirrors rather than organizer-authenticated data. Leaderboard estimate: **Unavailable**; the 0.2778 value is user-reported and no forecast is endorsed.
-- Full record: [`research/review-2026-10-28-k2.md`](research/review-2026-10-28-k2.md),
-  [`evidence/k2/run_card.json`](evidence/k2/run_card.json). Reproduce:
-  `python scripts/restore_k2_inputs.py` then `python scripts/k2.py features|e1|e2|e3|combine`
-  (`final`/`audit` regenerate + re-audit; the shared writer refuses to overwrite).
+The historical HOLDOUT-DTI was 0.1581 (95% CI 0.1424–0.1742,
+`gems57-pooled-hide-v2`, 58,258 withheld positives); it was not replayed in this
+review and is not an estimated leaderboard score. The saved raster is finite and
+in [0,1], but the historical strict NaN-outside validator fails, the footprint
+mirror is not organizer-authenticated, and portal acceptance is unknown. Earlier
+conditional promotion and projection claims remain archived for provenance only.
+The current machine-readable review is
+[`evidence/k2-review-2026-10-28.json`](evidence/k2-review-2026-10-28.json).
+Recheck bytes and the receipt with `python scripts/review_k2_release.py`.
+Do not repeat experiments without a new assigned lane, preregistration, and protocol
+resolution; never use a weekly slot as a format test.
 
 The nine-site scorecard contains **user-reported, unverified** results, not
 file-linked organizer receipts. No calibrated leaderboard estimate is available.
-The detailed three-pass release ruling is in [`research/review-2026-10-28-release-ruling.md`](research/review-2026-10-28-release-ruling.md).
 The prompt's leaderboard figures and the 2026-10-27 observation are snapshots,
 not current values. Consult the official leaderboard directly.
 
