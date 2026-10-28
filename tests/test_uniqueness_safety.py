@@ -40,3 +40,37 @@ def test_forged_passing_receipt_cannot_skip_surface_reaudit(tmp_path):
     write_tif(final_path, final)
     with pytest.raises(ValueError, match="surface fails re-audit"):
         audit("final", final_path, template, manifest, support, receipt_path, surface)
+
+
+@pytest.mark.parametrize("which", ["template", "reference"])
+def test_unbound_external_mask_cannot_change_registry_audit(tmp_path, which):
+    import rasterio
+    template, ref, surface, support, manifest = create_set(tmp_path, True)
+    target = template if which == "template" else ref
+    before = target.read_bytes()
+    with rasterio.Env(GDAL_TIFF_INTERNAL_MASK=False):
+        with rasterio.open(target, "r+") as ds:
+            ds.write_mask(np.ones(ds.shape, dtype="uint8") * 255)
+    assert target.read_bytes() == before
+    assert Path(str(target) + ".msk").exists()
+    with pytest.raises(ValueError, match="external GDAL dependencies"):
+        audit("surface", surface, template, manifest, support)
+
+
+def test_final_tiff_external_mask_is_not_bound_by_receipt(tmp_path):
+    import rasterio
+    template, ref, surface, support, manifest = create_set(tmp_path, True)
+    receipt = audit("surface", surface, template, manifest, support)
+    receipt_path = tmp_path / "receipt.json"
+    receipt_path.write_text(json.dumps(receipt))
+    final = np.zeros((30, 30), dtype="float32")
+    final[25, 25] = 1
+    final_path = tmp_path / "final.tif"
+    write_tif(final_path, final)
+    before = final_path.read_bytes()
+    with rasterio.Env(GDAL_TIFF_INTERNAL_MASK=False):
+        with rasterio.open(final_path, "r+") as ds:
+            ds.write_mask(np.ones(ds.shape, dtype="uint8") * 255)
+    assert final_path.read_bytes() == before
+    with pytest.raises(ValueError, match="external GDAL dependencies"):
+        audit("final", final_path, template, manifest, support, receipt_path, surface)

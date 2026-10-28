@@ -23,6 +23,7 @@ from scipy.stats import rankdata
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from restore_references import digest  # noqa: E402
+from raster_integrity import require_self_contained  # noqa: E402
 
 
 def centered_ranks(values: np.ndarray) -> tuple[np.ndarray, float]:
@@ -65,6 +66,7 @@ def read_tif(path: Path, expected_grid=None):
             raise ValueError(f"Reference grid mismatch: {path}")
         arr = ds.read(1)
         mask = ds.read_masks(1)
+        require_self_contained(ds)
     return arr, mask, grid
 
 

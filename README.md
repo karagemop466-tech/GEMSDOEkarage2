@@ -4,6 +4,17 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest safety follow-up — 2026-10-28
+
+**No approved submission; do not upload the research TIFFs.** The latest follow-up
+ran no experiment and did not use a competition slot. All nine focus GitHub heads
+changed relative to the October 27 reviewed snapshot; this is not a new score or
+raster audit. See the [three-pass review](evidence/current-session-review-2026-10-28.md),
+[GitHub HEAD receipt](docs/evidence/source-head-review-2026-10-28.json), and
+[negative run card](docs/evidence/followup-session-run-card.json). The local raster
+audits reject external GDAL sidecars not covered by the TIFF hash; input placement
+and grid checks do not imply training readiness or submission authorization.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated

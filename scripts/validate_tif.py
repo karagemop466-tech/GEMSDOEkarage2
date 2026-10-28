@@ -20,6 +20,7 @@ from rasterio.errors import RasterioError
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from restore_references import digest  # noqa: E402
+from raster_integrity import require_self_contained  # noqa: E402
 
 
 def validate(candidate: Path, template: Path) -> dict:
@@ -31,12 +32,14 @@ def validate(candidate: Path, template: Path) -> dict:
         template_grid = (ds.shape, ds.crs, ds.transform)
         ref = ds.read(1)
         foot = np.isfinite(ref) & (ds.read_masks(1) > 0)
+        require_self_contained(ds)
         template_sha = digest(template)
     if not foot.any():
         raise ValueError("Reference footprint is empty")
     with rasterio.open(candidate) as ds:
         data = ds.read(1)
         mask = ds.read_masks(1)
+        require_self_contained(ds)
         same_shape = ds.shape == template_grid[0]
         checks = {
             "geotiff_driver": ds.driver == "GTiff",

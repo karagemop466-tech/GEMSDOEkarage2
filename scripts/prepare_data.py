@@ -12,9 +12,9 @@ required - see scripts/download_competition_data.sh):
   data/existing_faults.tif     catalogue faults (USGS + INGENIOUS)
   data/1m_DEM_links.csv        URLs for 1 m DEM tiles
 
-This script does NOT download anything (DrivenData authentication is required
-and is not available in this sandbox).  It only checks placement and prints a
-machine-readable summary used by evaluate_holdout.py and generate_submission.py.
+This script does NOT download anything. It checks local file placement and
+basic grid consistency only; it does not authenticate inputs, train a model,
+or authorize a submission. The old generate_submission.py is retired.
 """
 
 from __future__ import annotations
@@ -49,18 +49,32 @@ def summarize(path):
             "transform": [ds.transform.a, ds.transform.b, ds.transform.c,
                           ds.transform.d, ds.transform.e, ds.transform.f],
             "bounds": [ds.bounds.left, ds.bounds.bottom, ds.bounds.right, ds.bounds.top],
-            "nodata": ds.nodata,
+            "nodata": (str(ds.nodata) if ds.nodata is not None and not np.isfinite(ds.nodata)
+                       else ds.nodata),
         }
 
 
 def main():
     missing = [f for f in EXPECTED if not (DATA_DIR / f).exists()]
     if missing:
+        # Do not leave a stale successful summary beside an incomplete input set.
+        if DATA_DIR.is_dir():
+            (DATA_DIR / "prepared.json").write_text(json.dumps({
+                "data_dir": str(DATA_DIR), "grids_consistent": False,
+                "missing_files": missing,
+                "note": "Incomplete local inputs; not submission authorization."
+            }, indent=2) + "\n")
         print(f"[prepare_data] data/ not complete. Missing: {missing}", flush=True)
-        print("[prepare_data] See scripts/download_competition_data.sh for how to obtain data.",
+        print("[prepare_data] See scripts/download_competition_data.sh for access limitations.",
               flush=True)
         return 1
 
+    # Invalidate any earlier receipt before opening files: an unreadable raster
+    # must not leave a previous success looking current.
+    (DATA_DIR / "prepared.json").write_text(json.dumps({
+        "data_dir": str(DATA_DIR), "grids_consistent": False,
+        "note": "Local check incomplete; not submission authorization."
+    }, indent=2) + "\n")
     summary = {"data_dir": str(DATA_DIR), "files": []}
     template = None
     for f in EXPECTED:
@@ -75,7 +89,7 @@ def main():
             template = info
 
     # Cross-check grid consistency
-    grids_ok = True
+    grids_ok = template is not None and template["crs"] is not None and template["shape"][2] == 1
     for info in summary["files"]:
         if "shape" not in info:
             continue
@@ -87,14 +101,15 @@ def main():
         grids_ok = grids_ok and same_shape and same_crs and same_t
         info["matches_template"] = bool(same_shape and same_crs and same_t)
     summary["grids_consistent"] = bool(grids_ok)
+    summary["note"] = "Local placement and grid check only; not input authentication, training readiness or submission authorization."
 
     out = DATA_DIR / "prepared.json"
     with open(out, "w") as fh:
-        json.dump(summary, fh, indent=2)
+        json.dump(summary, fh, indent=2, allow_nan=False)
     print(f"[prepare_data] {len(EXPECTED) - len(missing)}/{len(EXPECTED)} files present; "
           f"grids consistent: {grids_ok}", flush=True)
     print(f"[prepare_data] summary written to {out}", flush=True)
-    return 0 if not missing else 1
+    return 0 if grids_ok else 1
 
 
 if __name__ == "__main__":
