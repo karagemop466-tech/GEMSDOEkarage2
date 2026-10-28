@@ -190,6 +190,10 @@ holdout cannot reliably estimate the expert-hidden private score).
 
 ## Current safety status and next steps (2026-10-28)
 
+The [selector evidence review](research/selector-evidence-review-2026-10-28-eee3.md)
+adds fail-closed checks for a matched incumbent/split, complete declared feature
+canaries, and pooled scoring. These validate card consistency only, not the
+underlying evidence or a competition slot. The review ran no new experiments.
 Latest follow-up: [`research/arena-review-2026-10-28.md`](research/arena-review-2026-10-28.md). The review ran no new experiment and did not approve any submission.
 
 **No TIFF is approved for submission.** The archived irregular-dot raster is
