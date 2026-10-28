@@ -1,0 +1,18 @@
+{
+  "phase": "surface-before-placement",
+  "scope": "nine focus repositories at pinned refs; not all sites named in the request",
+  "expected": 440,
+  "checked": 1,
+  "stopped_early": true,
+  "complete_scan": false,
+  "rows": [
+    {
+      "repo": "GEMSDOE24",
+      "submission": "docs/downloads/24gems-blind-upwelling-20261026T162611Z-a23f2207f2c0-zeros.tif",
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry/GEMSDOE24/docs/downloads/24gems-blind-upwelling-20261026T162611Z-a23f2207f2c0-zeros.tif",
+      "error": "missing registry file; cannot certify uniqueness"
+    }
+  ],
+  "unique_cleared": false,
+  "final_dots": "not placed: registry stop or unresolved gate"
+}

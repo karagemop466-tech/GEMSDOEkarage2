@@ -1,54 +1,54 @@
 {
-  "hypothesis": "H1 signed cross-field displacement parity",
-  "mechanism": "Opposing detrended-elevation and basement-depth gradients, 200/600m persistence and conductivity contrast; no fault-derived predictors.",
-  "non_fault_mimic": "Basin sedimentation plus saline groundwater; interpolation boundaries.",
+  "hypothesis": "H2 dilational stepover / relay ramp detector",
+  "mechanism": "Gravity low (basin/stepover trap) x conductivity high (hydrothermal alteration) x magnetic edge (buried contact) x topographic gradient reversal at stepover jogs; no catalogue-derived predictor.",
+  "non_fault_mimic": "Sedimentary basin fill, saline groundwater, lithologic contacts, interpolation boundaries.",
   "holdout": {
     "evidence_class": "HOLDOUT-DTI",
     "evaluator_version": "gems57-pooled-hide-v2",
-    "dti": 0.03367297511935826,
+    "dti": 0.01729626417392917,
     "ci95": [
-      0.028673795591260962,
-      0.03929480282078235
+      0.014538745970571762,
+      0.020358376888986195
     ],
     "withheld_positive_pixels": 58259,
-    "tpw": 2375.674195224181,
-    "fpw": 117345.12659283992,
-    "fnw": 55883.325804775835
+    "tpw": 1012.094792625132,
+    "fpw": 58528.0310249581,
+    "fnw": 57246.90520737489
   },
   "paired_delta_vs_best_primitive": {
     "evidence_class": "HOLDOUT-DTI",
     "evaluator_version": "gems57-pooled-hide-v2",
-    "delta": -0.030924475565448452,
+    "delta": -0.04263174989027315,
     "ci95": [
-      -0.03761085723290119,
-      -0.023575584306472257
+      -0.05096118543300277,
+      -0.03470148592714335
     ],
     "withheld_positive_pixels": 58259
   },
   "registry": {
     "phase": "surface-before-placement",
-    "compared": 59,
+    "compared": 1,
     "expected": 440,
-    "rho": -5.7022254782426125e-05,
-    "overlap": 1.0,
-    "witness": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "rho": null,
+    "overlap": null,
+    "witness": "docs/downloads/24gems-blind-upwelling-20261026T162611Z-a23f2207f2c0-zeros.tif",
     "scope": "nine focus repositories at pinned refs; not all sites named in the request",
     "final_dot_check": "not run: no placement after stop"
   },
-  "raster_sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede",
-  "raster": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
+  "raster_sha256": "313d207480fc7c8ac81d3cdf60fe5012d4c1ef778bb2600b7ac469ee104fc4f1",
+  "raster": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
   "validator": {
     "ok": true,
-    "details": "evidence/validator.json",
+    "details": "evidence/validator_h2.json",
     "nan_pixels": 0,
     "range": [
       0.0,
-      0.9152089953422546
+      0.8522605299949646
     ],
     "crs_shape_transform_match": true
   },
-  "submission_name": "gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface",
-  "note": "H1 signed elevation-basement parity, conductivity persistence; research surface only; no slot approval.",
+  "submission_name": "gemsdoekarage2-h2-stepover-8d519ec5ec58",
+  "note": "H2 dilational stepover/relay ramp detector; gravity low x conductivity high x magnetic edge; research surface.",
   "format_valid": true,
   "unique_submission_verified": false,
   "approved_for_weekly_slot": false,
@@ -57,7 +57,7 @@
   "verdict": "negative",
   "reasons": [
     "Literal surface registry stop; no final dots generated.",
-    "Failed paired improvement against the best primitive control; no compatible incumbent reconstruction exists.",
+    "No paired improvement established against the best primitive control.",
     "Historical leaderboard receipts unavailable; no leaderboard score estimate is defensible."
   ],
   "download_policy": "Research surface download only. NOT a recommended submission."

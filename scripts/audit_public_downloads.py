@@ -23,9 +23,13 @@ ARTIFACTS = (
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
      None, False),
     ("gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface",
+     "evidence/h1/run_card.json", None, True),
+    ("gemsdoekarage2-h2-stepover-8d519ec5ec58",
      "evidence/run_card.json", "evidence/selector_result.json", True),
     ("gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
      "evidence/k2/run_card.json", "evidence/k2/selector_result.json", True),
+    ("gemsdoekarage2-b4-stepasym-b110-20261028-zeros",
+     "evidence/b4/run_card.json", None, True),
 )
 
 

@@ -1,7 +1,8 @@
 # Starting point for future work
 
 Read `README.md`, `research/review.md`, `research/hypotheses.md`,
-`knowledge/hypotheses.md`, `evidence/run_card.json`, and the audit-session
+`knowledge/hypotheses.md`, `evidence/h1/run_card.json` (H1),
+`evidence/run_card.json` (H2), and the audit-session
 `docs/data/run-card.json`, `docs/data/audit-run-card.json` and
 `research/independent-review.md` before changing scientific or submission workflows.
 The standing protocol in the README is binding. H1's verdict is negative;
@@ -32,10 +33,16 @@ method paragraph, and the previous session exhausted its three-experiment budget
 
 Read `research/2026-10-28-next-lane-slate.md`,
 `evidence/owner_mirror_preflight_2026-10-28.json` and
-`evidence/public_downloads_audit.json`. All three published TIFFs are
-research-only; `PASS_RESEARCH_ONLY` means file/hash/ZIP integrity, not scientific
-or organizer approval. To repeat the GitHub-owner-mirror preflight without a
-human: `bash scripts/download_competition_data.sh --research-mirror` (ignored
-cache, NOT official inputs). Run `python scripts/audit_public_downloads.py --check`
+`evidence/public_downloads_audit.json` and
+`evidence/session-31569490-run-card.json`. Every published TIFF is research-only;
+`PASS_RESEARCH_ONLY` means file/hash/ZIP integrity, not scientific or organizer
+approval. To repeat the GitHub-owner-mirror preflight without a human:
+`bash scripts/download_competition_data.sh --research-mirror` (ignored cache,
+NOT official inputs). Run `python scripts/audit_public_downloads.py --check`
 before publishing: any extra or changed public TIF/ZIP stops CI. Do not label a
 new method as assigned or clear the lattice witness by gaming footprint edges.
+
+Read `research/release-gate-followup-2026-10-28.md`: the evidence schema now
+requires three additional attestations; schema passage is not evidence verification.
+Newer H2 and B4 artifacts merged on main are also negative research files; update
+the public inventory for all of them before using it to gate deployment.

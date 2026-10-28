@@ -12,7 +12,7 @@ cards. The prior H1 result is HOLDOUT-DTI `gems57-pooled-hide-v2`, 58,259
 withheld positive pixels, 0.03367 (95% CI 0.02867–0.03929); its best primitive
 control was 0.06460 (95% CI 0.05818–0.07081), on the same folds. These are
 prior-session results, not independently rerun here or projections of the
-hidden leaderboard. See `evidence/holdout.json` and `evidence/run_card.json`.
+hidden leaderboard. See `evidence/h1/holdout.json` and `evidence/h1/run_card.json`.
 The H1 surface overlapped the lattice witness at 100% directional positive
 support before placement and stopped. The complete registry and matched
 incumbent remain unavailable. The historical B2 report is user-provided, not a

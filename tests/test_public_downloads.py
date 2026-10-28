@@ -45,12 +45,24 @@ def test_current_saved_downloads_are_research_only_and_hash_bound():
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
     assert result['downloadable_approved_submission'] is None
-    assert len(result['artifacts']) == 3
+    assert len(result['artifacts']) == 5
     for record in result['artifacts']:
         assert record['ok_to_submit'] is False and record['slot_authorized'] is False
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
         assert record['checks']['mirror_transform_match']
+
+
+def test_b4_literal_followup_is_bound_to_saved_tif_and_negative_registry():
+    b4 = json.loads((ROOT / 'evidence/b4/literal_followup.json').read_text())
+    prior = json.loads((ROOT / 'evidence/b4/final_registry_audit.json').read_text())
+    assert b4['candidate_sha256'] == mod.digest_file(ROOT / b4['candidate_file'])
+    assert prior['candidate_file_sha256'] == b4['candidate_sha256']
+    assert prior['unique'] is False and prior['worst_dot_overlap'] == 1.0
+    assert b4['candidate_dots_within_3px_of_lattice'] == b4['candidate_positive_pixels_inside_footprint'] == 51914
+    assert b4['candidate_overlap_fraction'] == 1.0
+    assert b4['minimum_overlap_at_this_budget_from_counting_bound'] > 0.70
+    assert b4['slot_authorized'] is False
 
 
 def test_fixture_integrity_and_missing_selector_fail_closed(tmp_path):

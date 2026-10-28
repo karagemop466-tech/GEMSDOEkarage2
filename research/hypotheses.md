@@ -48,5 +48,5 @@ DTI or evidence that the hidden leaderboard will improve.
 edge dipoles, also proposes gravity–magnetic cross-strike displacement. Treat
 our #1 as overlapping, not established unique. Its different H1 hypothesis was
 run once and stopped negative; see [`knowledge/hypotheses.md`](../knowledge/hypotheses.md)
-and [`evidence/run_card.json`](../evidence/run_card.json). Do not count the
+and [`evidence/h1/run_card.json`](../evidence/h1/run_card.json). Do not count the
 follow-on independent raster audit as another experiment.
