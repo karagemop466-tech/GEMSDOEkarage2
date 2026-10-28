@@ -178,9 +178,12 @@ See the current, hash-bound safety decision:
 [`evidence/hk3/current_release_decision.json`](evidence/hk3/current_release_decision.json)
 and the review:
 [`research/repo-review-2026-10-28-current.md`](research/repo-review-2026-10-28-current.md).
-The older `evidence/hk3/selector_result.json` and HK3 run card are preserved as
-historical evidence, but their positive recommendation is superseded; it applied
-an exception that the binding prompt does not allow.
+The current `evidence/hk3/run_card.json` and `selector_result.json` now record a
+negative decision. The retraction receipt
+[`evidence/hk3/approval-retracted-20261028.json`](evidence/hk3/approval-retracted-20261028.json)
+documents the prior unauthorized `PROMOTE` exception; earlier full snapshots remain
+in Git history. That historical recommendation applied an exception the binding
+prompt does not allow.
 
 **Why the release is blocked:** the protocol says to stop if rank-correlation
 exceeds 0.90 OR more than 70% of candidate dots fall within 3 px of any registry

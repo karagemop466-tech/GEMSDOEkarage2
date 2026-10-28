@@ -2,7 +2,7 @@
 
 ## Executive disposition
 
-**Release: NEGATIVE — DO NOT SUBMIT any TIFF in this checkout.** The HK3 file remains a research artifact that can be downloaded for audit, not a competition recommendation. Its historical `PROMOTE` card and selector result are preserved for provenance; a new hash-bound safety decision supersedes that recommendation because it applied an exception forbidden by the prompt's literal registry rule. No geological experiment, dot placement, submission, or competition-slot use occurred during this review.
+**Release: NEGATIVE — DO NOT SUBMIT any TIFF in this checkout.** The HK3 file remains a research artifact that can be downloaded for audit, not a competition recommendation. The current HK3 run card and selector are negative; `evidence/hk3/approval-retracted-20261028.json` documents the prior `PROMOTE` exception, and earlier full snapshots remain in Git history. The hash-bound safety decision records the literal registry stop. No geological experiment, dot placement, submission, or competition-slot use occurred during this review.
 
 The existing repository had an urgent user-facing safety defect: the homepage and executive summary said “OK TO SUBMIT: YES” and “Submit” even though the run card itself recorded a failed literal uniqueness gate. The page generator applied an unpermitted exception to that hard stop. The registry audit also omitted a degenerate lattice witness despite the protocol saying **any** registry raster counts. This review corrected the public release decision and generator so those contradictions fail closed.
 
@@ -41,7 +41,7 @@ Implemented a current release-safety decision bound to the candidate SHA-256. Up
 Verification after the fix (pinned Python dependencies in ignored `.venv`; Node dependencies from the lockfile):
 
 - CI safety sequence (`assess_release.py`, `audit_k2_release.py`, `audit_public_downloads.py --check`, `review_k2_release.py`, site builders, HK3 generator, generator `--check`): passed. `assess_release.py` remains negative; the published-download inventory is `PASS_RESEARCH_ONLY`, with no approved submission path.
-- `.venv/bin/python -m pytest -q`: **201 passed, 7 skipped, 98 subtests passed**; 86 Rasterio `PendingDeprecationWarning`s remain.
+- `.venv/bin/python -m pytest -q`: **203 passed, 7 skipped, 98 subtests passed** after integrating the main-branch negative run-card and post-stop runner guards; 86 Rasterio `PendingDeprecationWarning`s remain.
 - `npm test`: **3 passed**.
 - `npm run test:site`: **7 passed**.
 - `npm run test:browser`: **passed** desktop 1440 px and mobile 390/320 px checks plus freshness fail-safe checks.

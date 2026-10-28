@@ -10,6 +10,7 @@ import rasterio
 from rasterio.transform import from_origin
 
 from scripts import audit_public_downloads as mod
+from scripts.hk3_release_policy import REQUIRED_GATES
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -55,8 +56,8 @@ def test_current_saved_downloads_are_hash_bound_but_no_file_is_approved():
     assert blocked[0]['status'] == 'VERIFIED_RESEARCH_ONLY'
     assert blocked[0]['ok_to_submit'] is False and blocked[0]['slot_authorized'] is False
     for key in ('current_release_decision_hash_bound', 'current_release_decision_negative',
-                'literal_registry_stop_recorded', 'registry_incompleteness_disclosed',
-                'historical_selector_marked_superseded'):
+                'current_run_card_negative', 'literal_registry_stop_recorded',
+                'registry_incompleteness_disclosed', 'historical_selector_marked_superseded'):
         assert blocked[0]['checks'][key] is True
     for record in result['artifacts']:
         assert record['ok_to_submit'] is False
@@ -75,7 +76,9 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     assert bad['status'] == 'FAIL_CLOSED' and bad['ok_to_submit'] is False
     # a PROMOTE card whose selector is negative must also fail closed
     card = json.loads(card_path.read_text())
-    card.update(verdict='PROMOTE', gates={'a': True, 'unique_literal_vs_all_registry_rasters': True}, holdout={'evidence_class': 'HOLDOUT-DTI'})
+    card.update(verdict='PROMOTE', protocol_stop_triggered=False,
+                gates={**{key: True for key in REQUIRED_GATES}, 'literal_rule_exception_applied': False},
+                holdout={'evidence_class': 'HOLDOUT-DTI'})
     card_path.write_text(json.dumps(card))
     still = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert still['status'] == 'FAIL_CLOSED' and still['checks']['selector_explicit_candidate'] is False

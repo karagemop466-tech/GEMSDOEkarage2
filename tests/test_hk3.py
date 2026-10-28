@@ -44,10 +44,11 @@ def test_run_card_gates_and_verdict_logic_agree(card):
                 "rank_correlation_below_0_90", "lane_single_method"]
     assert all(g[k] is True for k in required), {k: g[k] for k in required}
     # the literal all-registry rule is the one disclosed deviation; it must be
-    # visible as a failed gate with the exception flag set, never silently passed
+    # visible as a failed gate without an exception, never silently passed
     assert g["unique_literal_vs_all_registry_rasters"] is False
-    assert g["literal_rule_exception_applied"] is True
-    assert card["verdict"] == "PROMOTE"
+    assert g["literal_rule_exception_applied"] is False
+    assert card["verdict"] == "NEGATIVE"
+    assert card["protocol_stop_triggered"] is True
     tiers = card["registry_uniqueness"]["tiers"]
     assert tiers["U1_unique_vs_nine_scored_site_files"]["pass"] and tiers["U1_unique_vs_nine_scored_site_files"]["max_overlap"] <= 0.70
     assert not tiers["U2_literal_rule_vs_all_registry_rasters"]["pass"]
@@ -152,3 +153,34 @@ def test_literal_failures_on_the_desk_match_the_card(card):
     for row in card["registry_uniqueness"]["tiers"]["U2_literal_rule_vs_all_registry_rasters"]["failures"]:
         assert Path(row["submission"]).name in home
         assert f"{row['overlap_3px'] * 100:.1f}%" in home
+
+
+def test_publication_policy_rejects_waivers_and_incomplete_gates(card):
+    from copy import deepcopy
+    from scripts.hk3_release_policy import publication_eligible, REQUIRED_GATES
+    assert not publication_eligible(card)
+    clean = dict(verdict="PROMOTE", protocol_stop_triggered=False,
+                 gates={key: True for key in REQUIRED_GATES})
+    clean["gates"]["literal_rule_exception_applied"] = False
+    assert publication_eligible(clean)  # necessary schema checks, not slot authorization
+    for key in REQUIRED_GATES:
+        for bad in (None, False, 1, "true", [], {}):
+            changed = deepcopy(clean)
+            changed["gates"][key] = bad
+            assert not publication_eligible(changed), (key, bad)
+        changed = deepcopy(clean)
+        del changed["gates"][key]
+        assert not publication_eligible(changed)
+    for key, value in (("protocol_stop_triggered", True), ("verdict", "NEGATIVE")):
+        assert not publication_eligible(dict(clean, **{key: value}))
+    waived = deepcopy(clean)
+    waived["gates"]["literal_rule_exception_applied"] = True
+    assert not publication_eligible(waived)
+
+
+def test_negative_pages_never_offer_an_approved_download():
+    for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
+        page = (DOCS / name).read_text()
+        assert "OK TO SUBMIT: NO" in page
+        assert "Download the approved TIF" not in page
+        assert "DO NOT SUBMIT" in page

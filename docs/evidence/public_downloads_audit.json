@@ -273,7 +273,7 @@
         "range_0_1": true,
         "no_masked_pixels": true,
         "raster_unchanged_during_read": true,
-        "historical_card_verdict_is_recorded": true,
+        "current_run_card_negative": true,
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
