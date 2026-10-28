@@ -2,18 +2,18 @@
 
 ## Current decision: NO APPROVED SUBMISSION — DO NOT UPLOAD
 
-The repository contains a historical HK3 GeoTIFF for research and reproducibility, but **it is not approved for the DrivenData competition**. The old `PROMOTE` decision was retracted; see [`evidence/hk3/approval-retracted-20261028.json`](evidence/hk3/approval-retracted-20261028.json), the archived [`pre-correction run card`](evidence/hk3/history/run_card-before-protocol-correction.json), the [protocol correction review](research/hk3-protocol-correction-2026-10-28.md), and the [repository review/verification record](research/repo-review-2026-10-28-final.md).
+The repository contains a historical HK3 GeoTIFF for research and reproducibility, but **it is not approved for the DrivenData competition**. The old `PROMOTE` decision was retracted; see the [current hash-bound negative assessment](evidence/hk3/current_release_assessment.json), [`evidence/hk3/approval-retracted-20261028.json`](evidence/hk3/approval-retracted-20261028.json), the archived [`pre-correction run card`](evidence/hk3/history/run_card-before-protocol-correction.json), the [protocol correction review](research/hk3-protocol-correction-2026-10-28.md), and the [repository review/verification record](research/repo-review-2026-10-28-final.md).
 
 | Item | Current status |
 |---|---|
 | Research artifact | [`docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`](docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif) |
 | Download status | Research-only; do not submit |
 | File SHA-256 | `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9` |
-| Historical HOLDOUT-DTI | 0.1845 [0.1677, 0.2015], evaluator `gems57-pooled-hide-v2`, 58,258 withheld positives; historical evidence only |
-| Historical leaderboard projection | 0.263–0.286, LEADERBOARD-CALIBRATED ESTIMATE, not a score; no private-label validation |
-| Literal registry uniqueness | FAIL: three recorded 3-pixel overlaps exceed 70% |
+| Historical HOLDOUT-DTI | 0.1845 [0.1677, 0.2015], evaluator `gems57-pooled-hide-v2`, 58,258 withheld positives; historical evidence only. The repository's recorded K3 value is 0.19157 [0.1747, 0.2088]; no paired cross-session test establishes an HK3 win over K3. |
+| Historical leaderboard projection | 0.263–0.286 in the archived pre-correction card; LEADERBOARD-CALIBRATED ESTIMATE, not an observed score; no private-label validation |
+| Literal registry uniqueness | FAIL: 45,046/45,108 dots (99.8626%) within 3 px of the r13 lattice; the archived non-degenerate scan also records 71.0%, 73.3%, and 74.9% against three other rasters. No density/lattice exception is authorized. |
 | Method lane | Self-declared; no coordinator assignment receipt |
-| Registry coverage | No complete current accessible-scan certificate; do not assume the pinned snapshot is the fleet-wide registry |
+| Registry coverage | Incomplete: 452/453 expected entries in the full scan; no current complete accessible-scan certificate |
 | Pre-placement surface gate | No verifiable surface-gate receipt bound to a surface hash in the release record |
 | Input/template provenance | Owner mirrors only; organizer authentication absent |
 | Budget/runtime | Historical run used 3 experiments and reports ~2 h 15 min; no machine-readable runtime receipt |

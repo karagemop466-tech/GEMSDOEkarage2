@@ -45,17 +45,39 @@ def gather():
         "rc": load(EV / "hk3/run_card.json"),
         "geo": load(EV / "geometry-audit.json"),
         "audit": load(EV / "hk3/registry_audit.json"),
+        "release": load(EV / "hk3/current_release_assessment.json"),
+        "selector": load(EV / "hk3/selector_result.json"),
         "sites": load(ROOT / "registry/focus_sites.json"),
     }
 
 
-def eligible(card):
-    # Do not accept PROMOTE alone. The full common evidence contract applies.
-    return publication_eligible(card)
+def eligible(d):
+    # Historical cards may be checked in isolation; current page eligibility
+    # requires the full evidence contract, assessment, and byte-bound selector.
+    if not isinstance(d, dict) or "rc" not in d:
+        return publication_eligible(d)
+    card, release, selector = d["rc"], d["release"], d["selector"]
+    return bool(
+        publication_eligible(card)
+        and release.get("status") == "approved"
+        and release.get("ok_to_submit") is True
+        and release.get("raster_sha256") == card.get("raster", {}).get("sha256")
+        and release.get("source_run_card") == "evidence/hk3/run_card.json"
+        and all(release.get(key) is True for key in (
+            "preplacement_surface_clearance_passed", "final_dot_uniqueness_passed",
+            "current_holdout_comparison_passed", "organizer_template_authenticated",
+            "source_data_authenticated", "lane_assignment_authorized",
+            "registry_scan_complete", "leakage_canary_passed"))
+        and selector.get("verdict") == "candidate_approved_by_automated_gates"
+        and selector.get("ok_to_submit") is True
+        and selector.get("slot_authorized") is False
+        and selector.get("raster_sha256") == card.get("raster", {}).get("sha256")
+        and selector.get("source_run_card") == "evidence/hk3/run_card.json"
+    )
 
 
 def shell(title, body, d, prefix=""):
-    ok = eligible(d["rc"])
+    ok = eligible(d)
     nav = [("index.html", "Research download"), ("executive-summary.html", "Executive summary"),
            ("how-to-submit.html", "Submission gates"), ("audit.html", "Historical audit")]
     links = " · ".join(f'<a href="{prefix}{url}">{label}</a>' for url, label in nav)
@@ -88,7 +110,8 @@ The former PROMOTE verdict and selector approval are withdrawn. No new experimen
 <a class="btn secondary" href="downloads/{esc(sub['name'])}.zip" download>Research ZIP</a></p>
 <p><b>File:</b> <code>{esc(sub['name'])}.tif</code><br><b>SHA-256:</b> <code>{esc(r['sha256'])}</code><br>
 <b>Research note ({len(sub['note'])}/140 characters):</b> <code>{esc(sub['note'])}</code></p>
-<p><a href="evidence/hk3/run_card.json">Corrected run card</a> · <a href="evidence/hk3/history/run_card-before-protocol-correction.json">Original card (superseded)</a> ·
+<p><a href="evidence/hk3/run_card.json">Corrected run card</a> · <a href="evidence/hk3/current_release_assessment.json">Hash-bound current release assessment</a> ·
+<a href="evidence/hk3/selector_result.json">Current negative selector</a> · <a href="evidence/hk3/history/run_card-before-protocol-correction.json">Original card (superseded)</a> ·
 <a href="../research/hk3-protocol-correction-2026-10-28.md">Three-pass review and next steps</a></p></section>'''
 
 
@@ -119,13 +142,13 @@ def uniqueness(d):
     c = d["rc"]; u = c["registry_uniqueness"]; t = u["tiers"]; literal = t["U2_literal_rule_vs_all_registry_rasters"]
     rows = ''.join(f'<tr><td><code>{esc(Path(r["submission"]).name)}</code></td><td>{r["overlap_3px"]:.1%}</td><td>{esc(r["repo"])}</td></tr>' for r in literal["failures"])
     return f'''<section class="section"><h2>Mandatory registry stop</h2>
-<p><b>Literal 70 % rule vs all {literal['rasters_checked']} non-degenerate registry rasters:</b> <b class="no">FAIL</b> in the historical restricted audit.</p>
+<p><b>Literal 70 % rule:</b> <b class="no">FAIL</b>. <b>Literal 70 % rule vs all {literal['rasters_checked']} non-degenerate registry rasters:</b> <b class="no">FAIL</b> in the historical restricted audit, with three literal witnesses.</p>
 <table><thead><tr><th>Flagged raster</th><th>HK3 dots within 3 px (archived)</th><th>Repository</th></tr></thead><tbody>{rows}</tbody></table>
 <p>The historical scan additionally excluded {len(u['degenerate_witnesses'])} dense witnesses:
 {', '.join('<code>'+esc(Path(x).name)+'</code>' for x in u['degenerate_witnesses'])}.
 The prompt says <em>any registry raster</em>; density, research status, chance correction and lack of a prior score do not authorize exceptions.
-The full archived scan's worst overlap, including excluded references, is {d['audit']['worst_dot_overlap']:.4%};
-{d['audit']['registry_rasters_checked']} of {d['audit']['registry_rasters_expected']} references were checked and coverage is not certified complete.
+The full archived scan's worst overlap, including excluded references, is {100 * d['audit']['worst_dot_overlap']:.4f} % of final dots within 3 px of the r13 lattice;
+Registry completeness: {d['audit']['registry_rasters_checked']} of {d['audit']['registry_rasters_expected']} expected entries were checked, so coverage is not certified complete.
 These measurements are inherited, not rerun. Surface clearance before placement is not established.</p>
 <p>HK3's maximum overlap vs the nine pinned focus files is {t['U1_unique_vs_nine_scored_site_files']['max_overlap']:.1%},
 with maximum |ρ| {t['U1_unique_vs_nine_scored_site_files']['max_abs_rho']:.3f}. That narrower pass does not establish global uniqueness.</p></section>'''

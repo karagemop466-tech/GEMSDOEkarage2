@@ -76,8 +76,23 @@ def assess(card: object) -> dict:
         or protocol.get("stop_triggered") is not False
     ):
         reasons.append("Pre-placement clearance missing or mandatory protocol stop triggered")
+    preplacement_receipt = protocol.get("preplacement_receipt") if isinstance(protocol, dict) else None
+    if (not isinstance(preplacement_receipt, dict)
+            or preplacement_receipt.get("status") != "pass"
+            or preplacement_receipt.get("checked_before_emission") is not True
+            or not _sha256(preplacement_receipt.get("surface_sha256"))
+            or not _sha256(preplacement_receipt.get("receipt_sha256"))):
+        reasons.append("Hash-bound pre-placement surface receipt missing or invalid")
+
     if card.get("organizer_inputs_authenticated") is not True:
         reasons.append("Organizer input/template authenticity not established")
+    provenance = card.get("organizer_provenance")
+    if (not isinstance(provenance, dict)
+            or not isinstance(provenance.get("receipt_id"), str)
+            or not provenance["receipt_id"].strip()
+            or not _sha256(provenance.get("input_manifest_sha256"))
+            or not _sha256(provenance.get("template_sha256"))):
+        reasons.append("Authenticated organizer provenance receipt or hashes missing")
 
     # The numerical/receipt schema cannot prove wall-clock truth, but it must
     # fail closed when the parallel-run budget is missing, malformed, exceeded,
@@ -193,6 +208,9 @@ def assess(card: object) -> dict:
         reasons.append("Pre-placement surface pass and stop sequence not verified")
     if registry.get("coverage_complete") is not True or not _sha256(registry.get("snapshot_sha256")):
         reasons.append("Registry coverage incomplete or snapshot hash invalid")
+    if (not isinstance(preplacement_receipt, dict)
+            or registry.get("surface_sha256") != preplacement_receipt.get("surface_sha256")):
+        reasons.append("Pre-placement registry receipt is not bound to the audited surface hash")
     for stage in ("surface", "final_dots"):
         rows = registry.get(stage)
         if not isinstance(rows, list) or not rows:

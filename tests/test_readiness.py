@@ -13,8 +13,13 @@ def good():
         "protocol": {
             "preplacement_passed_before_emission": True,
             "stop_triggered": False,
+            "preplacement_receipt": {"status": "pass", "checked_before_emission": True,
+                                     "surface_sha256": "2" * 64, "receipt_sha256": "3" * 64},
         },
         "organizer_inputs_authenticated": True,
+        "organizer_provenance": {"receipt_id": "organizer-receipt-1",
+                                 "input_manifest_sha256": "4" * 64,
+                                 "template_sha256": "5" * 64},
         "budget": {"experiments_used": 2, "elapsed_seconds": 7100,
                    "receipt_sha256": "9" * 64},
         "metric": {
@@ -53,6 +58,7 @@ def good():
             "coverage_complete": True,
             "surface_pass_before_placement_verified": True,
             "snapshot_sha256": "a" * 64,
+            "surface_sha256": "2" * 64,
             "surface": rows,
             "final_dots": copy.deepcopy(rows),
         },
@@ -112,6 +118,22 @@ class GateTests(unittest.TestCase):
                 card = good()
                 del card[key]
                 self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_preplacement_surface_and_organizer_provenance_are_hash_bound(self):
+        mutations = (
+            lambda c: c["protocol"].pop("preplacement_receipt"),
+            lambda c: c["protocol"]["preplacement_receipt"].update(receipt_sha256="invalid"),
+            lambda c: c["protocol"]["preplacement_receipt"].update(surface_sha256="8" * 64),
+            lambda c: c["registry"].update(surface_sha256="8" * 64),
+            lambda c: c.update(organizer_provenance={}),
+            lambda c: c["organizer_provenance"].update(template_sha256="not-a-sha"),
+        )
+        for mutate in mutations:
+            with self.subTest(mutate=mutate):
+                card = good()
+                mutate(card)
+                self.assertEqual(assess(card)["verdict"], "negative")
+        self.assertEqual(assess(good())["verdict"], "promote")
 
     def test_experiment_and_runtime_budget_are_receipted_and_bounded(self):
         for key, value in (("experiments_used", 4), ("experiments_used", -1),

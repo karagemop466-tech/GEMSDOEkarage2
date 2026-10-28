@@ -167,14 +167,12 @@ holdout cannot reliably estimate the expert-hidden private score).
 
 **NO APPROVED SUBMISSION. All seven published TIFFs are research-only. DO NOT SUBMIT.**
 HK3's former PROMOTE/selector approval is withdrawn: its own evidence fails the
-mandatory literal all-registry gate. The prompt authorizes no density, research-file,
-or chance-correction exception. No new experiment or slot was used in this review.
-The lane has exhausted its budget and its generation/training/card commands are retired.
+mandatory literal all-registry gate. The hash-bound current assessment reports 45,046/45,108 dots (99.8626%) within 3 px of the r13 lattice and only 452/453 expected registry entries scanned; the separate non-degenerate scan also has three >70% witnesses. The prompt authorizes no density, research-file, or chance-correction exception. No new experiment or slot was used in this review. The lane has exhausted its budget and its generation/training/card commands are retired.
 
 - [Research download and executive summary](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html):
   one-click existing TIF, explicitly **research only**; nine per-site executive summaries.
-- [Three-pass protocol review and four ranked untested hypotheses](research/hk3-protocol-correction-2026-10-28.md), plus the [repository review and verification record](research/repo-review-2026-10-28-final.md).
-- [Current submission-status summary](SUBMISSION_STATUS.md).
+- [Three-pass protocol review and four ranked untested hypotheses](research/hk3-protocol-correction-2026-10-28.md); [additional three-pass repo audit and qualitative hypotheses](research/repo-review-2026-10-28-strict-gate.md); and the [repository implementation/verification record](research/repo-review-2026-10-28-final.md).
+- [Current submission-status summary](SUBMISSION_STATUS.md) and [hash-bound no-submit assessment](evidence/hk3/current_release_assessment.json).
 - [Corrected HK3 run card](evidence/hk3/run_card.json), [negative selector](evidence/hk3/selector_result.json),
   [saved-byte public inventory](evidence/public_downloads_audit.json).
 - [Original HK3 card (superseded)](evidence/hk3/history/run_card-before-protocol-correction.json)
