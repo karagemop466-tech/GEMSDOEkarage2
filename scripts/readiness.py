@@ -95,6 +95,24 @@ def assess(card: object) -> dict:
     ):
         reasons.append("Has not beaten comparable current holdout best with paired 95% CI")
 
+    # Evidence-schema consistency only: these claims must also be checked against
+    # the underlying receipts by the separate selector. A bare baseline number
+    # cannot establish that the paired comparison used the same folds/evaluator.
+    baseline_evidence = card.get("baseline_evidence")
+    if not isinstance(baseline_evidence, dict):
+        baseline_evidence = {}
+    folds_hash = holdout.get("folds_sha256")
+    if (
+        not _sha256(folds_hash)
+        or baseline_evidence.get("folds_sha256") != folds_hash
+        or not isinstance(holdout.get("evaluator_version"), str)
+        or not holdout["evaluator_version"].strip()
+        or baseline_evidence.get("evaluator_version") != holdout.get("evaluator_version")
+        or not _sha256(baseline_evidence.get("receipt_sha256"))
+        or not _sha256(holdout.get("paired_comparison_receipt_sha256"))
+    ):
+        reasons.append("Comparable baseline evaluator, fold fingerprint or comparison receipts missing or inconsistent")
+
     if card.get("hide_recover_protocol_verified") is not True:
         reasons.append("Buffered whole-segment hide-and-recover not verified")
 

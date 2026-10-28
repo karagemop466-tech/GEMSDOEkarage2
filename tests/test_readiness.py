@@ -22,8 +22,15 @@ def good():
             "dti": 0.20,
             "ci95": [0.16, 0.24],
             "paired_delta_ci95": [0.005, 0.02],
+            "folds_sha256": "c" * 64,
+            "paired_comparison_receipt_sha256": "d" * 64,
         },
         "baseline_holdout_dti": 0.19,
+        "baseline_evidence": {
+            "evaluator_version": "shared-v1",
+            "folds_sha256": "c" * 64,
+            "receipt_sha256": "e" * 64,
+        },
         "hide_recover_protocol_verified": True,
         "feature_auc": {"magnetic": 0.7, "terrain": 0.82},
         "registry": {
@@ -102,6 +109,22 @@ class GateTests(unittest.TestCase):
                 card = good()
                 card["holdout"]["paired_delta_ci95"] = interval
                 self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_baseline_provenance_must_match_and_receipts_be_pinned(self):
+        for section, key, value in (
+            ("baseline_evidence", "evaluator_version", "other-v1"),
+            ("baseline_evidence", "folds_sha256", "f" * 64),
+            ("baseline_evidence", "receipt_sha256", None),
+            ("holdout", "folds_sha256", "bad"),
+            ("holdout", "paired_comparison_receipt_sha256", "bad"),
+        ):
+            with self.subTest(section=section, key=key):
+                card = good()
+                card[section][key] = value
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["baseline_evidence"] = None
+        self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_malformed_nested_objects_fail_without_raising(self):
         cases = (
