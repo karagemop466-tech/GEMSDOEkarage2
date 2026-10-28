@@ -120,6 +120,8 @@ def assess(card: object) -> dict:
         or not _sha256(baseline_evidence.get("evidence_sha256"))
     ):
         reasons.append("Comparable baseline holdout provenance missing or mismatched")
+    if card.get("baseline_same_protocol_verified") is not True:
+        reasons.append("Comparable incumbent protocol not verified")
 
     if card.get("hide_recover_protocol_verified") is not True:
         reasons.append("Buffered whole-segment hide-and-recover not verified")
@@ -137,6 +139,8 @@ def assess(card: object) -> dict:
     registry = card.get("registry")
     if not isinstance(registry, dict):
         registry = {}
+    if registry.get("surface_pass_before_placement_verified") is not True:
+        reasons.append("Pre-placement surface pass and stop sequence not verified")
     if registry.get("coverage_complete") is not True or not _sha256(registry.get("snapshot_sha256")):
         reasons.append("Registry coverage incomplete or snapshot hash invalid")
     for stage in ("surface", "final_dots"):
@@ -180,6 +184,8 @@ def assess(card: object) -> dict:
     validator = card.get("validator")
     if not isinstance(validator, dict):
         validator = {}
+    if validator.get("organizer_template_authenticated") is not True:
+        reasons.append("Organizer template authentication not verified")
     required_checks = (
         "single_band",
         "finite_inside",
