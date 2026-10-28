@@ -53,7 +53,7 @@ H1's prior HOLDOUT-DTI is 0.03367297511935826, 95% CI
 [0.028673795591260962, 0.03929480282078235], evaluator
 gems57-pooled-hide-v2, 58,259 withheld positive pixels. It was not rerun here;
 its paired improvement against its primitive control was negative and its
-registry surface overlap hit the stop. See ../evidence/run_card.json.
+registry surface overlap hit the stop. See ../evidence/h1/run_card.json.
 
 The nine best-file geometry audit supports a plausible explanation for B2:
 GEMSDOE32 deletes 2,545 catalogue-adjacent dots from the solo set. DTI can reward

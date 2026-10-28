@@ -112,6 +112,24 @@ test('current download does not claim established uniqueness or submission readi
   dom.window.close();
 });
 
+test('all public download links point to a negative saved-byte inventory', async () => {
+  const inventory = JSON.parse(fs.readFileSync(path.join(root, 'docs/evidence/public_downloads_audit.json')));
+  assert.equal(inventory.inventory_status, 'PASS_RESEARCH_ONLY');
+  assert.equal(inventory.downloadable_approved_submission, null);
+  assert.equal(inventory.artifacts.length, 5);
+  for (const record of inventory.artifacts) {
+    assert.equal(record.ok_to_submit, false);
+    assert.equal(record.slot_authorized, false);
+    assert.ok(record.checks.card_sha_matches_saved_bytes);
+  }
+  for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
+    const dom = await render(page);
+    assert.ok(dom.window.document.querySelector('a[href="evidence/public_downloads_audit.json"]'));
+    assert.match(dom.window.document.body.textContent, /DO NOT SUBMIT|DO NOT UPLOAD|NO APPROVED/i);
+    dom.window.close();
+  }
+});
+
 test('K2 literal-policy review is negative and links only to a research artifact', async () => {
   const home = await render('index.html');
   const section = home.window.document.querySelector('#k2-candidate');
@@ -126,7 +144,11 @@ test('K2 literal-policy review is negative and links only to a research artifact
   const k2 = summary.window.document.querySelector('#k2');
   assert.match(k2.textContent, /negative/i);
   assert.match(k2.textContent, /DO NOT SUBMIT/);
-  assert.match(k2.querySelector('thead').textContent, /File to download for research — DO NOT SUBMIT/);
+  assert.match(k2.querySelector('thead').textContent, /File for research.*DO NOT SUBMIT/);
+  const b4 = summary.window.document.querySelector('#b4');
+  assert.match(b4.textContent, /literal registry DUPLICATE STOP/);
+  assert.match(b4.textContent, /Unique under the literal all-registry rule: NO/);
+  assert.ok(b4.querySelector('a[href="evidence/b4/literal_followup.json"]'));
   summary.window.close();
 });
 
