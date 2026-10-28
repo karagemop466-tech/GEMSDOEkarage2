@@ -40,26 +40,20 @@ def make_fixture(tmp_path):
     return args, card_path
 
 
-def test_current_saved_downloads_are_hash_bound_with_one_candidate():
+def test_current_saved_downloads_are_hash_bound_and_all_research_only():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_ONE_CANDIDATE_FOR_UPLOAD'
-    hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert result['downloadable_approved_submission'] == hk3['raster']['file']
-    assert result['score_estimate']['label'].startswith('LEADERBOARD-CALIBRATED ESTIMATE')
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
+    assert result['downloadable_approved_submission'] is None
+    assert result['score_estimate'] is None
     assert len(result['artifacts']) == 7
-    candidates = [r for r in result['artifacts'] if r['kind'] == 'candidate']
-    assert len(candidates) == 1 and candidates[0]['raster_sha256'] == hk3['raster']['sha256']
-    assert candidates[0]['ok_to_submit'] is True and candidates[0]['slot_authorized'] is False
-    assert candidates[0]['checks']['selector_explicit_candidate'] and candidates[0]['checks']['card_hard_gates_all_pass']
     for record in result['artifacts']:
-        if record['kind'] == 'research':
-            assert record['ok_to_submit'] is False
-        assert record['slot_authorized'] is False
-        assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
-        assert record['checks']['card_sha_matches_saved_bytes']
-        assert record['checks']['mirror_transform_match']
+        assert record['kind'] == 'research'
+        assert record['ok_to_submit'] is False and record['slot_authorized'] is False
+        for key in ('whole_array_finite', 'range_0_1', 'card_sha_matches_saved_bytes',
+                    'mirror_transform_match', 'self_contained_tiff', 'card_verdict_negative'):
+            assert record['checks'][key]
 
 
 def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
@@ -75,11 +69,34 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     card_path.write_text(json.dumps(card))
     still = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert still['status'] == 'FAIL_CLOSED' and still['checks']['selector_explicit_candidate'] is False
-    # matching selector bound to the saved bytes => verified candidate
+    # A matching selector still cannot bypass the common readiness evidence.
     (root / selector_rel).write_text(json.dumps(dict(verdict='candidate_approved_by_automated_gates', ok_to_submit=True,
         slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
     good = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
-    assert good['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD' and good['ok_to_submit'] is True
+    assert good['status'] == 'FAIL_CLOSED' and good['ok_to_submit'] is False
+    assert not good['checks']['common_readiness_pass']
+    # A complete synthetic contract is accepted only when bound to these bytes.
+    from test_readiness import good as valid_contract
+    release = valid_contract()
+    release.update(raster_sha256=card['raster_sha256'], submission_name=stem,
+                   submission_note=card['note'])
+    card.update(release_evidence=release, protocol_stop_triggered=False)
+    card['gates']['literal_rule_exception_applied'] = False
+    card_path.write_text(json.dumps(card))
+    validated = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
+    assert validated['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD'
+    # Disclosure cannot waive even a single mandatory literal failure.
+    card['gates']['unique_literal_vs_all_registry_rasters'] = False
+    card['gates']['literal_rule_exception_applied'] = True
+    card_path.write_text(json.dumps(card))
+    blocked = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
+    assert blocked['status'] == 'FAIL_CLOSED' and not blocked['ok_to_submit']
+    # A passing nested contract cannot erase a recorded outer stop.
+    card['gates']['unique_literal_vs_all_registry_rasters'] = True
+    card['gates']['literal_rule_exception_applied'] = False
+    card['protocol_stop_triggered'] = True
+    card_path.write_text(json.dumps(card))
+    assert not mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')['ok_to_submit']
     # a second candidate in the inventory is refused
     second = tmp_path / 'docs/downloads/second.tif'
     shutil.copyfile(root / f'docs/downloads/{stem}.tif', second)
@@ -161,3 +178,21 @@ def test_unknown_published_raster_is_never_silently_allowed(tmp_path, monkeypatc
     assert result['inventory_status'] == 'FAIL_CLOSED'
     assert result['unexpected_downloads'] == ['new-unreviewed.tif']
     assert result['downloadable_approved_submission'] is None
+
+
+def test_external_mask_sidecar_is_not_covered_by_lone_tiff_hash(tmp_path):
+    args, card_path = make_fixture(tmp_path)
+    tif = tmp_path / 'docs/downloads/negative-research.tif'
+    with rasterio.Env(GDAL_TIFF_INTERNAL_MASK=False):
+        with rasterio.open(tif, 'r+') as ds:
+            ds.write_mask(np.full((5, 6), 255, np.uint8))
+    assert tif.with_suffix('.tif.msk').exists()
+    # Even if local TIFF hash/ZIP receipts are refreshed, a sidecar is rejected.
+    card = json.loads(card_path.read_text())
+    card['raster_sha256'] = mod.digest_file(tif)
+    card_path.write_text(json.dumps(card))
+    with zipfile.ZipFile(tif.with_suffix('.zip'), 'w') as out:
+        out.write(tif, tif.name)
+    report = mod.audit_artifact(*args)
+    assert report['checks']['self_contained_tiff'] is False
+    assert report['status'] == 'FAIL_CLOSED' and not report['ok_to_submit']

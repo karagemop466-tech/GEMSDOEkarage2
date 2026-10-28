@@ -66,7 +66,7 @@ test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and 
   assert.equal(gateRows.length, booleanGates.length);
   const fails = gateRows.filter(li => li.querySelector('.pill.no'));
   assert.equal(fails.length, booleanGates.filter(([, v]) => v === false).length);
-  assert.match(text, /Literal-rule exception applied:\s*yes/);
+  assert.match(text, /Literal-rule exception applied:\s*no/);
   dom.window.close();
 });
 
@@ -115,6 +115,6 @@ test('official sources are linked with the competition metric page', () => {
   const dom = render('executive-summary.html');
   const hrefs = [...dom.window.document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));
   assert.ok(hrefs.includes('https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/'));
-  assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution'));
+  assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution/tree/aebe92f7c8a990f0e3443451b7a825d9afd6336b'));
   dom.window.close();
 });

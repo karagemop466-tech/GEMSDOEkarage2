@@ -84,6 +84,7 @@ def _zero_cross_distance(a, valid, sigma):
 
 
 def cmd_features():
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     grid, valid, eligible = k2.grid_and_masks()
     if not k2.feat_path().exists():
         k2.cmd_features()
@@ -212,6 +213,7 @@ def hit_stats(dots, fold, valid):
 
 # ----------------------------------------------------------------------------- E2
 def cmd_e2():
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     from sklearn.metrics import roc_auc_score
     grid, valid, eligible, folds, F = load_ctx()
     canaries, terms, receipts, hits = [], {}, [], {}
@@ -277,6 +279,7 @@ def cmd_bridge():
     (b) the candidate emitted at exactly the D2.8 per-fold dot count (equal-n ratios);
     (c) the candidate's cumulative T/M by rank band (5k-dot bands up to 2% of active px)
         for the calibrated budget rule in E3."""
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     from gems57 import metric
     grid, valid, eligible, folds, _ = load_ctx()
     rows, d28_per_fold = {}, {}
@@ -431,6 +434,7 @@ FULL_ACTIVE_PX = 5_011_946  # eligible px on the full map; equals the pooled hol
 
 # ----------------------------------------------------------------------------- E3
 def cmd_e3(name, note, rate, write=True, reuse_surface=False):
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     global FULL_ACTIVE_PX
     grid, valid, eligible = k2.grid_and_masks()
     F = open_features(grid.shape)
@@ -632,6 +636,7 @@ EXTRA_ANCHORS = [
 def cmd_anchors():
     """Out-of-sample checks of the transfer estimator on owner-reported files outside the
     D2.8 family (same folds, same hit statistics, same ratio transfer vs D2.8)."""
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     grid, valid, eligible, folds, _ = load_ctx()
     bridge = json.loads((EV / "bridge.json").read_text())
     calib = json.loads((ROOT / "evidence/calibration/leaderboard_calibration.json").read_text())
@@ -666,6 +671,7 @@ def cmd_anchors():
 # ----------------------------------------------------------------------------- run card
 def cmd_card(name):
     """Assemble the single JSON run card from the per-step evidence files."""
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     import subprocess
     grid = load_grid(DATA)
     e2 = json.loads((EV / "e2.json").read_text())
@@ -753,16 +759,9 @@ def cmd_card(name):
     }
     d = paired["cand34_b110_minus_inc26_b110"]          # same budget, same folds, same emission
     gates["holdout_beats_refit_incumbent_paired_ci_excludes_zero"] = bool(d["ci95"][0] > 0)
-    # Verdict logic (stated, not hidden): every gate must pass except that the *literal* all-registry
-    # rule (U2) may fail only against rasters that were never submitted or that are line/surface
-    # rasters with > 100k positive pixels, provided U1, U3, U4 and the rank-correlation gate pass.
-    # The pre-registered note (section 3c) said "literal => stop"; this is a disclosed deviation and
-    # the literal failures are printed on every page.  The selector/quota step remains separate.
-    u2 = tiers["U2_literal_rule_vs_all_registry_rasters"]
-    u2_excusable = all(f["submission"] in never_submitted or f["their_positive_px"] > 100_000 for f in u2["failures"])
-    hard = {k: v for k, v in gates.items() if isinstance(v, bool) and k != "unique_literal_vs_all_registry_rasters"}
-    verdict = "PROMOTE" if all(hard.values()) and (u2["pass"] or u2_excusable) else "NEGATIVE"
-    gates["literal_rule_exception_applied"] = (not u2["pass"]) and u2_excusable and verdict == "PROMOTE"
+    # Historical exceptions are forbidden. This stopped lane cannot be promoted.
+    verdict = "negative"
+    gates["literal_rule_exception_applied"] = False
     card = {
         "kind": "HK3 RUN CARD (single JSON per the parallel-run protocol)",
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),

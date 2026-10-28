@@ -2,9 +2,9 @@
 """Re-read every published TIFF/ZIP and fail closed on unexpected downloads.
 
 This is an integrity and local-format audit of the published files, not a model
-evaluation. Research files need a negative run card; the single upload candidate
-(HK3) needs a PROMOTE run card whose hard gates all pass plus an explicit selector
-receipt bound to the saved bytes. No TIFF is generated and no organizer
+evaluation. Research files need a negative run card. Any future upload candidate needs
+the common strict readiness contract and a selector bound to the saved bytes.
+No mandatory registry exception is allowed; HK3 is research-only. No TIFF is generated and no organizer
 template/receipt is authenticated here.
 """
 from __future__ import annotations
@@ -17,6 +17,10 @@ import zipfile
 
 import numpy as np
 import rasterio
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from scripts.readiness import assess
 from rasterio.errors import RasterioError
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,7 +41,7 @@ ARTIFACTS = (
     ("gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "candidate"),
+     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True),
 )
 
 
@@ -69,6 +73,7 @@ def inspect_raster(path: Path, grid: dict) -> dict:
             "single_band": ds.count == 1,
             "float32": ds.count == 1 and ds.dtypes == ("float32",),
             "geotiff": ds.driver == "GTiff",
+            "self_contained_tiff": len(ds.files) == 1 and Path(ds.files[0]).resolve() == path.resolve(),
             "mirror_shape_match": list(ds.shape) == grid["shape"],
             "mirror_crs_match": str(ds.crs) == grid["crs"],
             "mirror_transform_match": list(ds.transform)[:6] == grid["transform"],
@@ -137,14 +142,21 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
         if candidate:
             checks["card_verdict_promote"] = card.get("verdict") == "PROMOTE"
+            release = card.get("release_evidence") or {}
+            checks["release_evidence_bound_to_saved_bytes"] = (
+                isinstance(release, dict)
+                and release.get("raster_sha256") == actual_sha
+                and release.get("submission_name") == stem
+                and release.get("submission_note") == card.get("note"))
+            # No private eligibility fork: the common strict evidence gate applies.
+            checks["common_readiness_pass"] = assess(card.get("release_evidence"))["verdict"] == "promote"
             gates = card.get("gates") or {}
-            checks["card_hard_gates_all_pass"] = bool(gates) and all(
-                v is True for k, v in gates.items()
-                if isinstance(v, bool) and k not in ("unique_literal_vs_all_registry_rasters", "literal_rule_exception_applied"))
-            checks["card_literal_rule_failures_disclosed"] = (
-                gates.get("unique_literal_vs_all_registry_rasters") is True or
-                (gates.get("literal_rule_exception_applied") is True and
-                 bool((card.get("registry_uniqueness") or {}).get("tiers", {}).get("U2_literal_rule_vs_all_registry_rasters", {}).get("failures"))))
+            checks["card_hard_gates_all_pass"] = (
+                gates.get("unique_literal_vs_all_registry_rasters") is True
+                and gates.get("literal_rule_exception_applied") is False
+                and card.get("protocol_stop_triggered") is False
+                and all(v is True for k, v in gates.items()
+                        if isinstance(v, bool) and k != "literal_rule_exception_applied"))
             checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
         else:
             checks["card_verdict_negative"] = card.get("verdict") == "negative"

@@ -43,11 +43,12 @@ def test_run_card_gates_and_verdict_logic_agree(card):
                 "unique_chance_corrected_vs_all_registry_rasters", "unique_literal_vs_submitted_dot_rasters",
                 "rank_correlation_below_0_90", "lane_single_method"]
     assert all(g[k] is True for k in required), {k: g[k] for k in required}
-    # the literal all-registry rule is the one disclosed deviation; it must be
-    # visible as a failed gate with the exception flag set, never silently passed
+    # The recorded literal failure blocks promotion, regardless of narrower passes.
     assert g["unique_literal_vs_all_registry_rasters"] is False
-    assert g["literal_rule_exception_applied"] is True
-    assert card["verdict"] == "PROMOTE"
+    assert g["literal_rule_exception_applied"] is False
+    assert card["verdict"] == "negative"
+    assert card["protocol_stop_triggered"] is True
+    assert card["leaderboard_estimate"] is None
     tiers = card["registry_uniqueness"]["tiers"]
     assert tiers["U1_unique_vs_nine_scored_site_files"]["pass"] and tiers["U1_unique_vs_nine_scored_site_files"]["max_overlap"] <= 0.70
     assert not tiers["U2_literal_rule_vs_all_registry_rasters"]["pass"]

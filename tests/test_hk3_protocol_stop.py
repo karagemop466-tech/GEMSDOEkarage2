@@ -1,0 +1,88 @@
+"""Mandatory stops cannot be erased by verdict strings or publication exceptions."""
+from __future__ import annotations
+
+import copy
+import hashlib
+import json
+import re
+from pathlib import Path
+import subprocess
+import sys
+
+import pytest
+
+from scripts import build_hk3_pages as pages
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_historical_hk3_promotion_is_preserved_but_not_eligible():
+    historical = json.loads((ROOT / 'evidence/hk3/history/run_card-before-protocol-correction.json').read_text())
+    assert historical['verdict'] == 'PROMOTE'
+    assert historical['gates']['literal_rule_exception_applied'] is True
+    assert historical['gates']['unique_literal_vs_all_registry_rasters'] is False
+    assert not pages.eligible(historical)
+    # Relabeling cannot make a stopped, incomplete card pass the common schema.
+    historical['verdict'] = 'promote'
+    assert not pages.eligible(historical)
+
+
+def test_all_pages_fail_closed_even_if_the_verdict_is_forged():
+    data = pages.gather()
+    forged = copy.deepcopy(data)
+    forged['rc']['verdict'] = 'promote'
+    for name, text in pages.render_all(forged).items():
+        if name.endswith('.html'):
+            assert 'OK TO SUBMIT: NO' in text
+            assert 'OK TO SUBMIT: YES' not in text
+            assert 'DO NOT SUBMIT' in text or 'DO NOT RESUBMIT' in text
+
+
+@pytest.mark.parametrize('command', ['features', 'e2', 'bridge', 'e3', 'card', 'anchors'])
+def test_hk3_retired_commands_leave_cards_and_tif_unchanged(command):
+    card = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
+    paths = [ROOT / card['raster']['file'], ROOT / 'evidence/hk3/run_card.json',
+             ROOT / 'evidence/hk3/e2.json', ROOT / 'evidence/hk3/e3_generation.json']
+    before = [hashlib.sha256(path.read_bytes()).digest() for path in paths]
+    result = subprocess.run([sys.executable, str(ROOT / 'scripts/hk3.py'), command],
+                            cwd=ROOT, capture_output=True, text=True, timeout=20)
+    assert result.returncode != 0
+    assert 'HK3 is retired' in result.stderr
+    assert before == [hashlib.sha256(path.read_bytes()).digest() for path in paths]
+
+
+def test_direct_generation_entry_point_is_retired_before_data_or_writer(monkeypatch):
+    from scripts import hk3
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError('Retired generation reached a data loader or writer')
+
+    monkeypatch.setattr(hk3.k2, 'grid_and_masks', forbidden)
+    monkeypatch.setattr(hk3, 'write_submission', forbidden)
+    with pytest.raises(RuntimeError, match='HK3 is retired'):
+        hk3.cmd_e3('must-not-exist', 'Do not submit', .009, reuse_surface=True)
+
+
+def test_nine_current_focus_summaries_have_no_submission_downloads():
+    data = pages.gather()
+    rendered = pages.render_all(data)
+    for s in data['sites']['sites']:
+        text = rendered[f"focus/{s['site']}.html"]
+        assert s['file'] in text and s['sha256'] in text
+        assert 'USER-REPORTED / UNVERIFIED' in text
+        assert 'DO NOT RESUBMIT' in text and 'unavailable' in text
+        assert not re.search(r'<a\b[^>]*\sdownload(?:[\s=>])', text)
+
+
+def test_protocol_review_is_reproducible_and_not_a_new_score():
+    from scripts.review_hk3_protocol import review, OUTPUT
+    result = review()
+    assert result == json.loads((ROOT / 'evidence' / OUTPUT).read_text())
+    assert result == json.loads((ROOT / 'docs/evidence' / OUTPUT).read_text())
+    assert result['holdout_dti'] is None and result['leaderboard_estimate'] is None
+    assert result['verdict'] == 'negative'
+    assert result['new_experiments_run'] == result['submission_slots_used'] == 0
+    assert result['correlation_overlap_vs_registry']['max_final_dot_overlap_3px'] > .70
+    assert result['validator_output']['values_in_0_1'] is True
+    assert result['validator_output']['organizer_crs_shape_transform_match'] is None
+    assert len(result['submission_note']) <= 140
