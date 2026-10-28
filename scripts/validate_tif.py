@@ -33,6 +33,7 @@ def validate(candidate: Path, template: Path) -> dict:
         template_grid = (ds.shape, ds.crs, ds.transform)
         ref = ds.read(1)
         foot = np.isfinite(ref) & (ds.read_masks(1) > 0)
+        require_single_file_dataset(ds, template)
         template_sha = digest(template)
     if not foot.any():
         raise ValueError("Reference footprint is empty")
@@ -40,6 +41,7 @@ def validate(candidate: Path, template: Path) -> dict:
         require_single_file_dataset(ds, candidate)
         data = ds.read(1)
         mask = ds.read_masks(1)
+        require_single_file_dataset(ds, candidate)
         same_shape = ds.shape == template_grid[0]
         checks = {
             "geotiff_driver": ds.driver == "GTiff",

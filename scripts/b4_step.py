@@ -172,23 +172,8 @@ FINAL_NOTE = "B4 paired-flank scarp-step asymmetry (elev/basement/gravity/RTP), 
 
 
 def cmd_final():
-    grid, valid, eligible, folds, steps, grads = ctx()
-    surf = fused(steps, eligible)  # full-catalogue train domain = all eligible
-    dcat = ndi.distance_transform_edt(~grid.catalogue)
-    allowed = eligible & (dcat > 2)
-    budget = int(round(0.0110 * int(allowed.sum())))
-    dots = k2mod.emit(np.where(allowed, surf, -1), allowed, budget)
-    np.save(OUT / "final_surface.npy", surf); np.save(OUT / "final_dots.npy", dots)
-    from gems57 import submission_writer
-    outtif = ROOT / "docs/downloads" / f"{FINAL_NAME}.tif"
-    receipt = submission_writer.write_submission(
-        outtif, dots.astype(np.float32), DATA / "sample_submission.tif",
-        grid.footprint, note=FINAL_NOTE, name=FINAL_NAME, catalogue=grid.catalogue)
-    (EV / "final_generation.json").write_text(json.dumps(
-        {"name": FINAL_NAME, "note": FINAL_NOTE, "dots": int(dots.sum()), "budget": budget,
-         "sha256": hashlib.sha256(outtif.read_bytes()).hexdigest(), "receipt": receipt},
-        indent=2, default=str) + "\n")
-    print(outtif, int(dots.sum()), hashlib.sha256(outtif.read_bytes()).hexdigest())
+    """Historical B4 failed the registry protocol; never regenerate its dots."""
+    raise RuntimeError("BLOCKED: B4 has no assigned lane or passing pre-placement registry receipt; no TIFF generated.")
 
 
 def cmd_audit():
@@ -222,6 +207,4 @@ def cmd_audit():
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["surface", "holdout", "holdout2", "final", "audit"])
-    a = ap.parse_args()
-    {"surface": cmd_surface, "holdout": cmd_holdout, "holdout2": cmd_holdout2, "final": cmd_final, "audit": cmd_audit}[a.cmd]()
+    raise SystemExit("BLOCKED: historical B4 run is closed; no new experiment or TIFF is authorized. See README.md.")

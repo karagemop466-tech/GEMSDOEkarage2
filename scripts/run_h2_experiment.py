@@ -119,6 +119,8 @@ def crop_fold(fold, sl):
 
 
 def main():
+    raise RuntimeError("BLOCKED: historical H2 is closed; no assigned lane, complete registry or new experiment budget. No TIFF generated.")
+
     def budget_expired(signum, frame):
         raise TimeoutError('Two-hour experiment budget exhausted; no promotion is allowed')
     signal.signal(signal.SIGALRM, budget_expired)

@@ -67,6 +67,7 @@ def read_tif(path: Path, expected_grid=None):
             raise ValueError(f"Reference grid mismatch: {path}")
         arr = ds.read(1)
         mask = ds.read_masks(1)
+        require_single_file_dataset(ds, path)
     return arr, mask, grid
 
 
