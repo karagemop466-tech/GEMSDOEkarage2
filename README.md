@@ -4,6 +4,24 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest review — 2026-10-28 (d13851b5)
+
+**No approved submission; no new experiment or slot used.** Read the
+[three-pass review](research/review-d13851b5.md) and
+[run card](evidence/review-d13851b5-run-card.json). The generic research gate now
+requires explicit pre-placement clearance, no prior mandatory stop, and
+organizer-authenticated inputs/template. These evidence-schema assertions do not
+independently prove provenance or authorize a slot. A later narrower passing
+scan cannot clear a prior protocol stop. The executive summary labels its file
+column **research — DO NOT SUBMIT**. All 155 Python tests passed with pinned
+mirror inputs restored, plus 48 subtests; Node feed/site and browser checks passed.
+
+The [official reference README](https://github.com/drivendataorg/gems-prize-reference-solution/blob/aebe92f7c8a990f0e3443451b7a825d9afd6336b/README.md)
+explicitly supports CPU-only execution: a GPU is useful, not mandatory. Network,
+authenticity, lane, registry and validation blockers remain; placing data alone
+does not make this pipeline submission-ready. Existing five-hypothesis research
+slates are preserved, not reauthorized or presented as newly tested.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated

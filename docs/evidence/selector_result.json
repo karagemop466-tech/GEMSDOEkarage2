@@ -2,6 +2,8 @@
   "verdict": "negative",
   "reasons": [
     "Missing method lane or shared template pin",
+    "Pre-placement clearance missing or mandatory protocol stop triggered",
+    "Organizer input/template authenticity not established",
     "Has not beaten comparable current holdout best with paired 95% CI",
     "Registry coverage incomplete or snapshot hash invalid",
     "surface: duplicate lane; stop",

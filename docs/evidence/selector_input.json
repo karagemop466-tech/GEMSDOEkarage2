@@ -1,6 +1,11 @@
 {
   "lane": "",
   "proposed_lane": "H1 signed cross-field displacement parity",
+  "protocol": {
+    "preplacement_passed_before_emission": false,
+    "stop_triggered": true
+  },
+  "organizer_inputs_authenticated": false,
   "template_commit": "73485f27cf230af770167397c2b72cb9ce3b3f25",
   "metric": {
     "alpha": 0.2,

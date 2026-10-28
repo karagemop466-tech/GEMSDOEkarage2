@@ -51,6 +51,17 @@ def assess(card: object) -> dict:
     if not isinstance(card.get("lane"), str) or not card["lane"].strip() or not isinstance(card.get("template_commit"), str) or not card["template_commit"].strip():
         reasons.append("Missing method lane or shared template pin")
 
+    # A later passing scan cannot erase an earlier mandatory stop. These are
+    # required evidence assertions, not provenance authentication performed here.
+    protocol = card.get("protocol")
+    if not isinstance(protocol, dict) or (
+        protocol.get("preplacement_passed_before_emission") is not True
+        or protocol.get("stop_triggered") is not False
+    ):
+        reasons.append("Pre-placement clearance missing or mandatory protocol stop triggered")
+    if card.get("organizer_inputs_authenticated") is not True:
+        reasons.append("Organizer input/template authenticity not established")
+
     metric = card.get("metric")
     if not isinstance(metric, dict) or any(
         metric.get(key) != expected
