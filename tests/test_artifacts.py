@@ -100,7 +100,9 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'unverified' in text.lower()
         assert 'READ' in text
     homepage=(ROOT/'docs/index.html').read_text()
-    assert 'No approved submission TIF' in homepage
+    # 2026-10-28: superseded by the K2 conditional candidate; the nine historical
+    # files and both prior local candidates remain quarantined on the homepage.
+    assert 'CONDITIONAL' in homepage
     assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     assert 'NO APPROVED SUBMISSION' in homepage

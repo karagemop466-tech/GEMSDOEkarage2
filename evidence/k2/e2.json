@@ -1,0 +1,68 @@
+{
+  "experiment": "E2 supervised HGB (B1)",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "folds": [
+    {
+      "fold": 0,
+      "train": {
+        "pos": 27783,
+        "neg": 180000
+      },
+      "seconds": 62.0
+    },
+    {
+      "fold": 1,
+      "train": {
+        "pos": 43742,
+        "neg": 180000
+      },
+      "seconds": 36.8
+    },
+    {
+      "fold": 2,
+      "train": {
+        "pos": 46562,
+        "neg": 180000
+      },
+      "seconds": 27.1
+    },
+    {
+      "fold": 3,
+      "train": {
+        "pos": 46861,
+        "neg": 180000
+      },
+      "seconds": 28.3
+    }
+  ],
+  "model": "HistGradientBoosting 350it lr.06 leaves63 minleaf40 L2=1",
+  "features": [
+    "mag_anom",
+    "rtp",
+    "tmi_hg",
+    "grav_slope",
+    "tc",
+    "tmi_vg",
+    "grav_vg",
+    "det_elev",
+    "iso_grav",
+    "tmi",
+    "depth_base",
+    "cond_surf",
+    "grav_hg",
+    "elev_slope",
+    "g15_rtp",
+    "g15_det_elev",
+    "g15_iso_grav",
+    "g15_depth_base",
+    "g15_cond_surf",
+    "g40_rtp",
+    "g40_det_elev",
+    "g40_iso_grav",
+    "g40_depth_base",
+    "g40_cond_surf",
+    "dog_det_elev",
+    "dog_rtp"
+  ]
+}
