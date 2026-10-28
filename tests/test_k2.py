@@ -118,3 +118,25 @@ def test_current_pages_do_not_promise_k2_upload_or_portal_acceptance():
         assert "DO NOT SUBMIT" in text or "do not submit" in text
         assert "CONDITIONAL YES" not in text
         assert "cannot trigger" not in text
+
+
+def test_current_k2_review_and_saved_bytes_agree():
+    from scripts.review_k2_release import review
+    report = review()
+    for path in (ROOT / "evidence/k2-review-2026-10-28.json", ROOT / "docs/evidence/k2-review-2026-10-28.json"):
+        assert load(path) == report
+    assert report["verdict"] == "negative" and not report["ok_to_submit"]
+    assert report["correlation_overlap_vs_registry"]["surface_lattice_positive_support_within_3px"] > 0.70
+    assert report["correlation_overlap_vs_registry"]["final_worst_overlap"] > 0.70
+    assert report["validator"]["all_cells_in_0_1"]
+    assert not report["validator"]["outside_is_nan_per_historical_strict_validator"]
+    assert report["validator"]["organizer_template_match"] is None
+
+
+def test_k2_release_pages_do_not_promote_or_promise_portal_acceptance():
+    for name in ("index.html", "executive-summary.html", "how-to-submit.html"):
+        page = (ROOT / "docs" / name).read_text()
+        assert "DO NOT SUBMIT" in page
+        assert "evidence/k2-review-2026-10-28.json" in page
+        assert "cannot trigger" not in page
+        assert "CONDITIONAL YES" not in page
