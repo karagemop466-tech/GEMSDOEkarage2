@@ -1,0 +1,32 @@
+{
+  "hypothesis": "Prior K2 supervised multi-physics and fault-tip continuation; no new hypothesis tested in this review.",
+  "mechanism": "Prior model trained on visible catalogue faults and generated a sparse geophysical prediction surface with continuation corridors.",
+  "named_non_fault_process": "Lithologic contacts can mimic potential-field fault edges; terrace risers can mimic scarps.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positives": 58258,
+    "value": 0.15812071903309205,
+    "ci95": [0.14237392193985562, 0.17415355413093683],
+    "source": "evidence/k2-protocol-review-2026-10-28.json",
+    "qualification": "Prior result on owner mirrors; not rerun, not a leaderboard estimate."
+  },
+  "registry": {
+    "surface": "Prior lattice Spearman 0.00014277117109167287 and support overlap 1.0; mandatory pre-placement stop crossed.",
+    "final_dots": "Prior audit: maximum overlap 1.0; 3 duplicate rows, 1 invalid file, completeness not certified. Dots should not have been placed.",
+    "source": "evidence/k2-protocol-review-2026-10-28.json"
+  },
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "validator_output": {
+    "source": "evidence/k2-protocol-review-2026-10-28.json; prior readback, not rerun",
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match_organizer": null,
+    "qualification": "Organizer template not authenticated; prior comparison used a mirror. Portal acceptance and exterior convention unknown."
+  },
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "submission_note": "Research only; failed registry stop. Do not submit.",
+  "new_experiments": 0,
+  "slot_authorized": false,
+  "verdict": "negative"
+}
