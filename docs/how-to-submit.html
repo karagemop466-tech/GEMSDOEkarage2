@@ -10,21 +10,9 @@
 <li>Enter the file’s short run-card note (at most 140 characters under this project’s protocol), submit only if the separate selector approves a slot, and keep the organizer’s receipt with the file hash. A unique filename alone does not prove a unique prediction.</li>
 </ol><p>The form description supplied in the request mentions a file and optional note, not a separate name field; use a distinct filename.</p></section>
 <section class="section"><h3>If the portal rejects the value range</h3><p>Check the actual rejected file: inspect all pixels, including exterior cells and nodata sentinels, for NaN, infinity or values outside [0,1]; check the organizer’s current instructions. The error text alone does not establish its cause. A finite all-array test is conservative, but the exterior convention remains unresolved; do not silently clip or substitute values and claim approval.</p></section>
-<section class="section"><h3>K2 research artifact — NOT APPROVED — DO NOT SUBMIT</h3>
-<p>The K2 experiment card proposed conditional promotion, but no separate selector has approved K2 or authorized a slot. The stored negative selector receipt assesses earlier H1 evidence, not K2. This raster is available only for research/audit, not upload:
-<code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code> (SHA-256
-<code>504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</code>, 54,491 dots).
-Gates measured by the project itself (no human inspector): format/range pass (whole array finite, values
-exactly 0/1); 26/26 leakage canaries ≤ 0.6211 AUC; HOLDOUT-DTI 0.1581 [0.1424, 0.1742] with paired
-Δ +0.0861 vs the best primitive; unique vs all 430 checked <code>docs/downloads</code> submission rasters
-(max 68.1% within 3 px vs the 70% limit; max |ρ| 0.119 vs 0.90). The literal all-registry scope fails on
-the spacing-5 lattice (100% — impossible for any in-footprint file) and one vendored calibration ridge mask
-(72.1%). No K2 selector approval exists; this candidate is <strong>not approved and must not be uploaded</strong>.</p>
-<p><em>Do not use this artifact for a submission.</em> The following details are retained only to make the research record auditable: candidate GeoTIFF is linked from the
-<a href="index.html#k2-candidate">home page</a>; recorded SHA-256 is above. Do not attach the .tif or its ZIP to DrivenData. The historical note (108 chars) was:
-<code>K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue &gt;2px; zeros outside footprint</code>.
-Save the organizer receipt — it becomes the first ORGANIZER-CONFIRMED score; until then the leaderboard
-estimate is Unavailable and any projection is not a score. <a href="evidence/k2/run_card.json">K2 run card</a>.</p></section>
+<section class="section"><h3>K2 research artifact — DO NOT SUBMIT</h3>
+<p>The prior conditional-promotion claim is superseded by a negative review: surface support and final dots failed the literal lattice proximity gate, final registry coverage is incomplete, and the strict historical exterior-NaN check failed. Finite [0,1] values do not prove portal acceptance. No slot is authorized. <a href="evidence/k2-review-2026-10-28.json">Current review run card</a> · <a href="evidence/k2-protocol-review.json">Protocol review</a> · <a href="index.html#k2-candidate">Research-only file</a>.</p>
+<p>The archived name and optional note are in the run card for provenance, not instructions to upload.</p></section>
 <section class="section"><h3>Evidence and limits</h3><ul>
 <li>H1’s saved surface is format-checked against a community mirror, not an authenticated organizer template. It fails a registry proximity stop and is not a dotted submission. <a href="evidence/run_card.json">H1 run card</a>.</li>
 <li>The older irregular-dot prototype’s own receipt records 100% overlap with a reconstructed lattice, exceeding the 70% limit, contradicting its “unique by construction” language. The saved-byte pinned-mirror recheck found 99.94% overlap and 5,426 positive cells outside that mirrored footprint. It is disabled and must not be submitted. <a href="evidence/legacy-dot-audit-2026-10-28.json">Saved-byte audit</a>. <a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json">Historical receipt</a>.</li>

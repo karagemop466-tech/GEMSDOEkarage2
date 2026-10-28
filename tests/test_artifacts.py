@@ -100,11 +100,8 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'unverified' in text.lower()
         assert 'READ' in text
     homepage=(ROOT/'docs/index.html').read_text()
-    # K2's old experiment card was conditional; the current selector is negative.
-    # No downloadable research artifact may be mistaken for an approved submission.
+    # K2 conditional promotion was superseded by a negative release review.
     assert 'K2 research artifact' in homepage
-    assert 'no separate selector has approved K2' in homepage
-    assert 'NOT APPROVED' in homepage
     assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     assert 'NO APPROVED SUBMISSION' in homepage

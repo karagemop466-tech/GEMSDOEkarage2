@@ -113,20 +113,20 @@ test('current download does not claim established uniqueness or submission readi
 });
 
 test('K2 experiment cannot be mistaken for the current approved submission', async () => {
-  const selector = JSON.parse(fs.readFileSync(path.join(root, 'evidence/selector_result.json')));
+  const selector = JSON.parse(fs.readFileSync(path.join(root, 'evidence/k2/selector_result.json')));
   assert.equal(selector.verdict, 'negative');
+  assert.equal(selector.ok_to_submit, false);
   assert.equal(selector.slot_authorized, false);
   const runCard = JSON.parse(fs.readFileSync(path.join(root, 'evidence/k2/run_card.json')));
-  assert.equal(runCard.verdict, 'promote'); // historical experiment result, not selector authorization
+  assert.equal(runCard.verdict, 'promote'); // archived experiment recommendation, superseded by selector
   for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
     const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
-    assert.match(html, /NOT APPROVED/);
+    assert.match(html, /negative/i);
     assert.match(html, /DO NOT SUBMIT/);
-    assert.match(html, /no separate selector has approved K2|no separate selector has approved K2 or authorized a weekly slot|no K2 selector approval exists/i);
   }
   const landing = await render('index.html');
   const card = landing.window.document.querySelector('#k2-candidate');
-  assert.match(card.textContent, /NOT APPROVED/);
+  assert.match(card.textContent, /SELECTOR NEGATIVE/);
   assert.match(card.textContent, /DO NOT SUBMIT/);
   for (const link of card.querySelectorAll('a[download]')) {
     assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));

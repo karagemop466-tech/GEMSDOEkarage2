@@ -29,41 +29,25 @@
   </section>
 
   <section id="k2">
-    <h2>K2 research artifact (2026-10-28) — NOT APPROVED — DO NOT SUBMIT</h2>
-    <p>The K2 run card proposed conditional promotion to a separate selector; no separate selector has approved K2 or authorized a weekly slot. The stored negative selector receipt assesses earlier H1 evidence, not K2. The raster is retained for research/audit only. A supervised model (26 label-blind geophysics features,
-    fold-local training on visible faults, tip-continuation, dotted emission ≥2.8 px spacing) was tested in 3
-    preregistered experiments on the shared gems57-pooled-hide-v2 holdout (58,258 withheld positives):
-    <b>HOLDOUT-DTI 0.1581</b> (95% CI 0.1424–0.1742) vs 0.0720 for the best unsupervised primitive
-    (paired Δ +0.0861, CI +0.0691…+0.1037); all 26 per-feature leakage canaries ≤ 0.6211 AUC.
-    Leaderboard estimate remains <b>Unavailable</b> — catalogue holdout cannot measure recovery of expert-hidden
-    faults (the reported 0.2778 champion scores 0.0067 against the catalogue it avoids). A labelled projection
-    (not a score, ~0.24–0.29 if the champion family's contaminated transfer held) is documented in the run card.</p>
-    <div class="table-scroll"><table>
-      <thead><tr><th>File to download</th><th>Estimated score</th><th>Unique submission?</th></tr></thead>
-      <tbody><tr>
-        <td><a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code> (research/audit only; <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip" download>ZIP</a>) · SHA-256 <code>504be458…8dfb</code></td>
-        <td>Unavailable (never submitted). HOLDOUT-DTI 0.1581 above; projection labelled not-a-score.</td>
-        <td>Pass only vs 430 checked submission rasters (max overlap 68.1%; max |ρ| 0.119; champion 33.7%). FAIL literal all-registry novelty against two calibration records. <b>NO — no K2 selector approval or slot authorization exists. DO NOT SUBMIT.</b></td>
-      </tr></tbody>
-    </table></div>
-    <p>Why the reported 0.2778 (GEMSDOE32) leads the nine: byte-verified, it is the GEMSDOE25/30 dot set with dots
-    ≤2 px from known faults deleted; organizers exclude known-fault pixels from scoring, so apron dots mostly waste
-    false-positive budget (α = 0.2) under the 300 m max-kernel. Same geography, least-wasteful emission — beating it
-    requires a better surface, which is what the holdout above tests. Evidence:
-    <a href="evidence/k2/run_card.json">K2 run card</a> · <a href="evidence/k2/combined_holdout.json">holdout</a> ·
-    <a href="evidence/k2/final_registry_audit.json">registry audit</a>. Exact upload steps once approved:
-    <a href="how-to-submit.html">submission guide</a>.</p>
+    <h2>K2 review — negative, DO NOT SUBMIT</h2>
+    <p>The archived K2 run reports HOLDOUT-DTI 0.1581 (95% CI 0.1424–0.1742; gems57-pooled-hide-v2, 58,258 withheld positives). This review did not replay the experiment. It is a catalogue-recovery proxy, not a leaderboard score; the estimate is unavailable.</p>
+    <div class="table-scroll"><table><thead><tr><th>File for research</th><th>Leaderboard estimate</th><th>Unique and OK to submit?</th></tr></thead><tbody><tr>
+    <td><a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download>Download K2 TIF — DO NOT SUBMIT</a></td>
+    <td>Unavailable; not submitted.</td><td>No under the literal gate. Archived pre-placement surface support and final dots exceed the lattice proximity threshold; final registry coverage is incomplete. No approved file.</td>
+    </tr></tbody></table></div>
+    <p>The file's cells are finite and in [0,1], and its geometry matches recorded mirror metadata; the historical strict exterior-NaN check failed. Organizer template authenticity, acceptance and quota remain unknown. <a href="evidence/k2-review-2026-10-28.json">Review run card</a> · <a href="evidence/k2-protocol-review.json">Protocol review</a> · <a href="evidence/k2/validate_tif_strict.json">Strict validator</a>.</p>
+    <p>Why might the reported GEMSDOE32 result lead the nine? The mirror audit found it is a pruned D2.8-family mask. Reducing low-yield prediction mass is a plausible explanation, but pruning can also lose hidden-fault credit. Neither the causal explanation nor its user-reported 0.2778 is established by an organizer receipt. Whether a new file can beat it is unknown. <a href="evidence/champion_explanation.md">Details and caveats</a>.</p>
   </section>
 
   <section class="scorecard">
     <h2>Nine-site scorecard</h2>
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
-    <table>
+    <div class="table-scroll"><table>
       <thead>
         <tr><th>Site / file</th><th>Reported score</th><th>Leaderboard estimate</th><th>Unique vs selected historical files?</th><th>Research download</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
-    </table>
+    </table></div>
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
   </section>
 

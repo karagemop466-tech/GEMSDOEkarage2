@@ -1,83 +1,76 @@
 # Repository review — Arena session, 2026-10-28
 
-## Executive disposition
+## Executive decision
 
-**Current release decision: no approved file — do not submit any TIFF from this repository.** This review did not generate a raster, run a geological experiment, select a competition slot, or upload anything. The branch already contains a K2 experiment and downloadable research artifact, but the K2 run card's conditional `promote` field is not a competition-slot approval. The stored `evidence/selector_result.json` is a negative assessment of earlier H1 evidence; it does not adjudicate K2. No separate K2 selector authorization is present.
+**NO APPROVED SUBMISSION — DO NOT SUBMIT any repository TIFF.** This review generated no raster, ran no geological experiment, selected no competition slot, and performed no upload. The K2 research artifact is still downloadable for audit, but an explicit K2 selector receipt now records `verdict: negative`, `ok_to_submit: false`, `slot_authorized: false` at `evidence/k2/selector_result.json`.
 
-The main correction in this review is release communication: the homepage, executive summary, how-to-submit guide, README and K2 research report had potentially conflicting language describing K2 as a candidate “pending selector ruling” or “conditional yes,” despite no K2 selector authorization and a literal all-registry uniqueness failure. They now say **research/audit only — NOT APPROVED — DO NOT SUBMIT**. The research artifact remains downloadable for reproducibility, clearly not as a competition-ready submission.
+The decisive issue is not leaderboard score or format: K2's archived pre-placement surface support overlaps the spacing-5 lattice at 1.0, exceeding the literal >0.70 stop threshold before dot placement. Its archived final scan also reports duplicates, an incomplete scan, and a 0.7205 overlap against a calibration ridge raster. The strict historical outside-footprint-NaN check fails. The registry cannot be narrowed or calibration entries exempted without an authorized protocol ruling. These gates make K2 **not eligible**, regardless of its prior holdout result or comparison with a subset of submission files.
 
-## Pass 1 — inventory and evidence review
+## Pass 1 — repository and evidence review
 
-Read `README.md`, `AGENTS.md`, the experiment hypotheses/preregistration, K2 and H1 run cards, the negative selector result, nine-site scorecards, current site pages, and Python/Node tests. The README contains the user's consolidated project prompt and official source links. The site includes individual summaries for all nine focus repos and a submission walkthrough.
+Read the README, AGENTS instructions, nine-site audit, preregistration, K2 experiment and selector cards, current site pages, and regression suites. The README contains the consolidated project mandate and manual source links. The site has an executive summary and individual cards for the nine named focus repos.
 
-### Nine-site top result and interpretation
+### Nine-site score interpretation
 
-The nine historical results are labelled **USER-REPORTED / UNVERIFIED** in the repository, not organizer-confirmed receipts. The supplied highest of those is the GEMSDOE32 `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` result, 0.2778. Local forensics in the existing K2 record describe a shared dotted-ridge parent with catalogue-adjacent dots pruned; this is a plausible emission/masking explanation for the reported ranking, not proof of private-test causality. The repository says the organizer's hidden labels cannot be predicted from catalogue holdout alone. Accordingly, **no leaderboard score estimate is available**; a projection is not a score.
+The supplied GEMSDOE32 `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` value of **0.2778** is reported in this project as **USER-REPORTED / UNVERIFIED**, not as an organizer-confirmed receipt. The prior mirror audit describes its raster as a dot-pruned member of a shared D2.8 family. That is a plausible emission/masking explanation for why it ranked above related user-reported files, not proof of private-test causality. The 0.2778 value is not a valid score estimate for a new file. The leaderboard estimate remains **unavailable**; catalogue holdout is not calibrated to the expert-hidden leaderboard.
 
-### Existing research slate (not newly proposed or rerun here)
+### Candidate slate already preregistered elsewhere
 
-The prior preregistration `research/hypotheses-2026-10-28-preregistration.md` already records five hypotheses and their layer/signature, missing-fault rationale, mimic, novelty relative to prior repo methods and rough cost:
+The five candidate hypotheses below come from `research/hypotheses-2026-10-28-preregistration.md`; they are not newly proposed or validated in this review. The original preregistration contains the full method differences and implementation cost assessments.
 
-1. **B1 supervised multi-physics texture** — competition-stack magnetic/gravity/topographic/basement/conductivity layers; multi-scale edge and difference-of-Gaussian signatures. Intended to learn fault-like expressions beyond mapped traces. Main mimic: lithologic/intrusive contacts and mapping bias. Medium cost.
-2. **B2 fault-tip/gap continuation** — use visible segment geometry and local strike to extend likelihood from mapped ends. Intended to capture traces truncated by cover. Main mimic: genuine segment termination or en-échelon geometry. Low–medium cost.
-3. **B3 structure-tensor ridge coherence** — directional coherence of fused gradient magnitude. Intended to prefer fault-like linear features over isotropic noise. Main mimics: roads, canals, flight-line striping and bedding ridges. Low cost.
-4. **B4 scarp-step asymmetry** — paired flank elevation differences persistent along strike, using the 100 m elevation layer unless official 1 m DEM access is confirmed. Intended to find covered/eroded fault scarps. Main mimics: terrace risers, shorelines and road cuts. Medium cost.
-5. **B5 seismicity alignment** — seismicity/depth aggregates from the provided stack aligned with candidate structures. Intended to identify active unmapped structures. Main mimics: blasts and induced seismicity; spatial resolution is a concern. Low cost, expected weaker.
+1. **Supervised multi-physics texture:** magnetic/gravity/topographic/basement/conductivity layers; multiscale gradients and difference-of-Gaussian signatures. Rationale: mapped-fault texture may recur on hidden structures. Mimics: lithologic/intrusive contacts and catalogue mapping bias. Medium cost.
+2. **Fault-tip/gap continuation:** visible segment endpoints, strike and local continuation corridors. Rationale: traces can be truncated by cover. Mimics: actual segment termination or en-échelon geometry. Low–medium cost.
+3. **Structure-tensor ridge coherence:** orientation coherence over fused edge magnitude. Rationale: directional lineaments may be more fault-like than isotropic noise. Mimics: roads, canals, flight-line artifacts and bedding ridges. Low cost.
+4. **Scarp-step asymmetry:** paired elevation-flank differences persistent along strike. Rationale: fault scarps are steps and may remain detectable after crest erosion. Mimics: shoreline benches, terraces and road cuts. Medium cost; official 1 m DEM availability remains login-gated in the supplied references.
+5. **Seismicity alignment:** provided seismicity/depth aggregates aligned with structures. Rationale: active unmapped faults may host seismicity. Mimics: blasts and induced seismicity; stack resolution is a concern. Low cost, expected weaker.
 
-That list is carried forward from prior work, not asserted as a new slate. The available checkout records three K2 experiments already run. The task protocol caps work at three experiments and requires an assigned method lane; no coordinator-assigned single method paragraph is present in this prompt. `AGENTS.md` says not to invent a lane or continue testing after the prior experiment budget. Therefore I did **not** test a fourth idea or claim the hypotheses above beat a holdout baseline. The top prior candidate cannot be safely revalidated in this review under those constraints.
+The method-lane instruction does not supply an assigned method paragraph. K2 previously self-assigned one and already used the three-experiment budget. The current instructions prohibit inventing a lane or exceeding the cap. Thus no candidate was tested or claimed to beat the current holdout best in this review. No new data source is proposed as available without verification.
 
-### Existing K2 artifact — scope and provenance
+### K2 evidence and limits
 
-The tracked file `docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif` exists; SHA-256 re-read in this session:
+- The saved raster SHA-256 is `504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb`; it matches the archived run card. This is byte identity only.
+- Prior **HOLDOUT-DTI** is 0.1581207190 (95% CI [0.1423739219, 0.1741535541]), evaluator `gems57-pooled-hide-v2`, 58,258 withheld positive pixels. This is archived evidence, not independently replayed here, not an ORGANIZER-CONFIRMED score, and not a calibrated leaderboard estimate.
+- The archived feature canaries reported 26/26 below the threshold, with worst symmetric AUC 0.6211. Not rerun here.
+- The K2 selector receipt states the strict scope result: final overlap 1.0 against the spacing-5 calibration lattice; 0.7205 against the ctx-ridge calibration mask; registry coverage incomplete; organizer input/template and weekly account quota unavailable. It explicitly sets `ok_to_submit: false`.
+- The separate review card records finite saved pixels in [0,1] and matching shape/transform against the owner-mirror metadata, but the strict exterior-NaN validation is false and the organizer template is unauthenticated. This does not establish portal acceptance.
 
-`504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb`
+## Pass 2 — release and code review
 
-The committed K2 record labels its score as **HOLDOUT-DTI**, evaluator `gems57-pooled-hide-v2`, 58,258 withheld positives, 95% CI 0.1424–0.1742, and records all 26 canaries at or below 0.6211 AUC. Those are historical, mirror-based research measurements and were not rerun here. Its reported final-dot comparison passes only against the checked submission-raster subset (430 focus-site submission rasters, maximum 68.1% within-3-px overlap and maximum absolute Spearman 0.119). The same record reports failure under the literal complete-registry scope against calibration entries (spacing-5 lattice and ctx-ridge mask). Consequently it is **not cleared as unique under the stated literal rule**. Format read-back and a hash do not repair this novelty failure, authenticate organizer inputs, establish portal acceptance, or authorize a weekly slot.
+The current mainline includes the critical release correction: homepage and guide consistently say K2 is negative and DO NOT SUBMIT; the historical conditional recommendation is preserved only as historical evidence. It also disables the K2 final export path, adds a fail-closed K2 review/selector receipt, and fixes a readiness-gate bug where a strongly inverse AUC could look harmless if only the maximum raw AUC were considered. These are preferable to silently exempting registry entries or reusing the candidate.
 
-The K2 record's historical conditional promotion is preserved rather than overwritten. The current selector receipt governs release: negative / unauthorized. The existing candidate TIF is not a new artifact produced in this session and is not a recommendation to submit.
+This session's branch changes were reconciled with the concurrently advanced mainline before PR review; the mainline's later safety evidence and selector changes were retained. The report, tests, and merged implementation should be judged against that newer state, not the original stale checkout.
 
-## Pass 2 — safety and documentation corrections
+## Pass 3 — verification and original-request check
 
-- Reworded `docs/index.html` to label K2 explicitly as a research artifact, state that no K2 selector has approved it, distinguish the older H1 selector assessment, and make the download label say DO NOT SUBMIT.
-- Reworded `docs/executive-summary.html` and its K2 table to distinguish scoped comparison from literal-registry failure and show an explicit “NO — DO NOT SUBMIT” verdict.
-- Reworded `docs/how-to-submit.html` so it no longer tells the reader to wait for / assume an unresolved selector ruling; it now says the current decision is negative and forbids uploading this artifact.
-- Added a superseding-status notice and corrected the current decision in `research/review-2026-10-28-k2.md`, while leaving the original run card and numerical experiment evidence intact.
-- Updated the README to clarify that K2's old run-card `promote` is historical, not current slot authorization.
-- Added regression tests tying the research-only wording to the current negative selector receipt, while explicitly asserting that the old K2 run card is historical evidence only.
+All current downloads are research evidence only. The nine-site scores remain visibly user-reported; there is no score forecast; the downloadable K2 TIF is not cleared as unique and must not be submitted. The submission guide describes the future workflow without selecting a file or spending a slot. No human inspection is used to bypass automated gates.
 
-## Pass 3 — validation and original-request check
+Final verification on the reconciled tree:
 
-The corrected site states, at the beginning and on the submission guide, that no file is approved. K2's artifact is easy to download for research/audit and clearly says not to submit. The nine historical scorecards remain labelled unverified; the estimate is unavailable rather than invented. No new TIFF is claimed, no weekly slot is selected, and no experiment was run outside the protocol.
+- `.venv/bin/pytest -q` — **131 passed, 7 skipped**, 34 subtests passed; 38 non-failing Rasterio `PendingDeprecationWarning`s.
+- `npm test` — **3 passed**; `npm run test:site` — **8 passed**, including regression protection for the negative K2 selector; `npm run test:browser` — passed desktop and 390/320 px mobile checks, release lock and freshness states.
+- `git diff --check` — passed.
 
-Checks run after the changes:
+No new geological experiment, TIF generation, promotion or upload was performed. The K2 run is not re-labeled as a new experiment.
 
-- `.venv/bin/pytest -q` — **126 passed, 7 skipped**, 33 subtests passed. Skips are optional tests requiring large restored inputs. 38 Rasterio `PendingDeprecationWarning`s are non-failing.
-- `npm test` — **3 passed**.
-- `npm run test:site` — **8 passed**, including the new K2 release-status regression test.
-- `npm run test:browser` — passed desktop (1440 px) and mobile (390/320 px) checks, release lock, site navigation and fail-safe freshness states.
-- Re-read the candidate TIFF and ZIP SHA-256 values; the TIFF hash matches the committed K2 run card. This verifies bytes, not scientific quality or organizer acceptance.
+## Remaining blockers / next work
 
-No submission-format checker was rerun because the authenticated organizer template is absent from this checkout; committed receipts are historical evidence only. A separate quick exploratory all-HTML link scan initially counted archived pages' relative paths as broken; it was not used as a pass/fail result. The committed static-site link tests passed in the full Python suite.
+1. Get an explicit coordinator-assigned lane and formal ruling on the literal registry definition. Do not exempt reference/calibration rasters privately.
+2. Restore and authenticate official competition inputs and the exact official template; resolve the exterior/nodata convention from organizer evidence.
+3. Build a complete, current registry and frozen matched incumbent. Only then preregister one allowed experiment, run per-feature leakage canaries, buffered whole-segment hide-and-recover, and surface and final-dot novelty checks with the shared tools.
+4. A separate selector can evaluate weekly quota only after all gates pass. Capture a file-bound organizer receipt after an actual submission; do not present HOLDOUT-DTI as leaderboard score.
+5. Refresh leaderboard and external-source data only if the network/authentication pathway permits; label stale or unavailable results explicitly.
 
-## Limitations and next work
+## Manual-review sources
 
-1. Obtain the method paragraph/lane assignment from the coordinator and resolve the exact registry scope without exempting difficult entries ad hoc.
-2. Authenticate the official competition inputs/template through authorized DrivenData access; verify exterior/nodata semantics against organizer guidance. Public owner mirrors are not authenticated inputs.
-3. Restore a complete, current registry snapshot and a frozen incumbent evaluated on exactly matching spatial folds before any new registered experiment.
-4. Only after preregistered holdout, canary, surface novelty and final-dot novelty gates pass should a separate selector evaluate account quota. Save a file-bound ORGANIZER-CONFIRMED receipt only after an actual portal submission; do not call HOLDOUT-DTI a leaderboard score.
-5. Refresh leaderboard status only where network/authentication permits and mark stale/unavailable otherwise. The prompt's numbers and archived snapshots are not live values.
+These links are provided for manual verification; this session did not fetch non-GitHub official sources due the sandbox network allowlist.
 
-## Source links for manual review
-
-Links below are listed for review; this sandbox session did not independently refresh external non-GitHub sources. Source-access and authenticity limitations above remain in force.
-
-- [Official DrivenData GEMS competition](https://www.drivendata.org/competitions/306/competition-doe-gems/)
-- [Official problem description and submission format](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
-- [Official About page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/)
-- [Official competition data tab](https://www.drivendata.org/competitions/306/competition-doe-gems/data/)
+- [Official DrivenData competition](https://www.drivendata.org/competitions/306/competition-doe-gems/)
+- [Problem description and format](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
+- [About page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/)
+- [Official data tab](https://www.drivendata.org/competitions/306/competition-doe-gems/data/)
 - [Official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-- [DrivenData reference solution](https://github.com/drivendataorg/gems-prize-reference-solution)
-- [USGS GeoDAWN data release](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and)
+- [Reference solution](https://github.com/drivendataorg/gems-prize-reference-solution)
+- [USGS GeoDAWN data](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and)
 - [INGENIOUS project](https://gbcge.org/current-projects/ingenious/)
 - [DOE Geothermal Data Repository submission 1391](https://gdr.openei.org/submissions/1391)
 - [EPSG:32611](https://epsg.io/32611)
