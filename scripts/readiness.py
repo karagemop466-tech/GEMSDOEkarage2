@@ -53,6 +53,12 @@ def assess(card: object) -> dict:
 
     if not isinstance(card.get("lane"), str) or not card["lane"].strip() or not isinstance(card.get("template_commit"), str) or not card["template_commit"].strip():
         reasons.append("Missing method lane or shared template pin")
+    assignment = card.get("lane_assignment")
+    if (not isinstance(assignment, dict)
+            or not isinstance(assignment.get("source"), str)
+            or not assignment["source"].strip()
+            or not _sha256(assignment.get("sha256"))):
+        reasons.append("Lane assignment receipt missing or invalid")
 
     metric = card.get("metric")
     if not isinstance(metric, dict) or any(
@@ -63,7 +69,7 @@ def assess(card: object) -> dict:
             ("kernel_radius_m", 300),
             ("kernel", "triangular"),
         )
-    ):
+    ) or metric.get("pooled") is not True:
         reasons.append("Pooled DTI metric configuration does not match protocol")
 
     holdout = card.get("holdout")
@@ -105,7 +111,9 @@ def assess(card: object) -> dict:
     if not isinstance(baseline_evidence, dict):
         baseline_evidence = {}
     if (
-        baseline_evidence.get("evidence_class") != "HOLDOUT-DTI"
+        not isinstance(baseline_evidence.get("incumbent_id"), str)
+        or not baseline_evidence["incumbent_id"].strip()
+        or baseline_evidence.get("evidence_class") != "HOLDOUT-DTI"
         or not _finite_number(baseline_evidence.get("dti"))
         or baseline_evidence.get("dti") != baseline
         or not _valid_interval(baseline_evidence.get("ci95"), lower=0, upper=1)
@@ -132,12 +140,18 @@ def assess(card: object) -> dict:
     # Either direction can leak: AUC near zero is equivalent to a near-one AUC
     # after reversing feature sign. Accept raw AUC or max(AUC, 1-AUC).
     canaries = card.get("feature_auc")
+    model_features = card.get("model_features")
     if (
-        not isinstance(canaries, dict)
+        not isinstance(model_features, list)
+        or not model_features
+        or any(not isinstance(name, str) or not name.strip() for name in model_features)
+        or len(set(model_features)) != len(model_features)
+        or not isinstance(canaries, dict)
         or not canaries
+        or set(canaries) != set(model_features)
         or any(not _finite_number(value) or not 0.10 <= value <= 0.90 for value in canaries.values())
     ):
-        reasons.append("Feature leakage canary missing or failed")
+        reasons.append("Feature leakage canary missing or failed, or feature inventory does not match")
 
     registry = card.get("registry")
     if not isinstance(registry, dict):

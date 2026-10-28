@@ -1,12 +1,14 @@
 {
   "lane": "",
+  "lane_assignment": null,
   "proposed_lane": "H1 signed cross-field displacement parity",
   "template_commit": "73485f27cf230af770167397c2b72cb9ce3b3f25",
   "metric": {
     "alpha": 0.2,
     "beta": 0.8,
     "kernel_radius_m": 300,
-    "kernel": "triangular"
+    "kernel": "triangular",
+    "pooled": true
   },
   "holdout": {
     "evidence_class": "HOLDOUT-DTI",
@@ -20,7 +22,9 @@
     "paired_delta_ci95": null
   },
   "baseline_holdout_dti": null,
+  "baseline_holdout": null,
   "hide_recover_protocol_verified": true,
+  "model_features": null,
   "feature_auc": {
     "opposition_s2": 0.6042556956593499,
     "elevation_s2": 0.5960596542333718,
