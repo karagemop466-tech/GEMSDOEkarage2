@@ -8,40 +8,46 @@
 </head>
 <body>
 <header>
-  <h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
+  <h1>GEMSDOEkarage2<span class="badge no">OK TO SUBMIT: NO</span></h1>
   <p class="subtitle">GEMS Prize Challenge — fault-detection research GeoTIFF pipeline, focus-site audit, and submission receipts.</p>
 </header>
 
 <main>
+  <h2>NO APPROVED SUBMISSION — DO NOT UPLOAD</h2>
+  <nav aria-label="Research evidence"><a href="index.html">Dashboard</a> · <a href="executive-summary.html">Executive summary</a> · <a href="experiment-executive-summary.html">H1 measured negative result</a> · <a href="audit.html">Nine-site geometry audit</a> · <a href="field-notes/index.html">Independent audit and next steps</a></nav>
   <section class="verdict-box">
-    <h2>NO APPROVED SUBMISSION — DO NOT UPLOAD</h2>
-    <p>There is no validated unique, high-scoring competition file. The selector is negative: an incomplete registry, an unassigned lane, a missing comparable incumbent, and a duplicate stop remain. A research download is available below, not for submission.</p>
-    <p><a href="executive-summary.html">Executive summary</a> · <a href="how-to-submit.html">Submission guide</a> · <a href="audit.html">Nine-site audit</a> · <a href="hypotheses.html">Research hypotheses</a> · <a href="evidence/selector_result.json">Selector receipt</a></p>
+    <p class="verdict"><b>OK TO DOWNLOAD: YES</b> — research / audit GeoTIFF only. H1 saved bytes are finite and in [0,1]; organizer-template authentication remains unresolved.
+    <b>No approved submission TIF</b> — nothing here is approved for the weekly DrivenData slot.
+    <b>OK TO SUBMIT TO DRIVENDATA: NO</b> — H1 has recorded mirrored-data HOLDOUT-DTI evidence but failed improvement and surface novelty; no compatible incumbent or complete registry is available. Restoring a cache does not clear these gates.</p>
   </section>
 
   <section class="scorecard">
     <h2>Nine focus sites — reported best results (USER-REPORTED / UNVERIFIED)</h2>
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
-    <div class="table-scroll"><table>
+    <table>
       <thead>
-        <tr><th>Site and historical file</th><th>Reported score</th><th>Transfer estimate</th><th>Uniqueness vs selected files</th><th>Research file</th></tr>
+        <tr><th>Site / file</th><th>Reported score</th><th>Leaderboard estimate</th><th>Unique vs selected historical files?</th><th>Research download</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
-    </table></div>
+    </table>
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
   </section>
 
   <section class="research-download" id="research-download">
-    <h2>Research surface — DO NOT SUBMIT</h2>
-    <p>H1 recorded 100% overlap with a registry lattice, above the 70% limit, stopped at the surface uniqueness gate and did not beat its best primitive control. The file is a research surface, not a final dotted submission. Organizer acceptance and global uniqueness are not established.</p>
-    <p>HOLDOUT-DTI: 0.03367, 95% CI [0.02867, 0.03929], evaluator gems57-pooled-hide-v2, 58,259 withheld positives. This is not a leaderboard estimate. <a href="evidence/run_card.json">Experiment run card</a></p>
-    <p><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif" download>Download research TIF — DO NOT SUBMIT</a> · <a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.zip" download>Research ZIP — DO NOT SUBMIT</a></p>
-    <p><a href="experiment-index.html">Full experiment analysis</a> · <a href="evidence/validator.json">Local format receipt</a></p>
+    <h2>H1 negative research surface — uniqueness not established</h2>
+    <p><b>DO NOT SUBMIT</b> — HOLDOUT-DTI improvement and surface-novelty gates failed. No final-dot submission was generated. Download the saved research surface and receipt below.</p>
+    <ul>
+      <li><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif" download>gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif</a> (archived research raster, not approved)</li>
+      <li><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.zip" download>H1 research ZIP — DO NOT SUBMIT</a></li>
+      <li><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.json">H1 surface receipt</a> (research receipt; not submission approval)</li>
+    </ul>
   </section>
+
+  <p>Historical H-KARAGE-1 is also rejected: its recorded lattice overlap is 100%, above the 70% limit. Its old unique-by-construction claim is not a clearance. <a href="how-to-submit.html">Gate status and historical irregularity</a>.</p>
 
   <section class="decision-card">
     <h2>Submission decision</h2>
-    <p>Passing format alone is not submission approval. An independent slot selector and current quota check are required after all scientific and uniqueness gates pass.</p>
+    <p>Holdout DTI with paired 95% CI &gt; 0 vs. repo best is required before any weekly slot is requested.</p>
     <button disabled>No approved submission TIF</button>
   </section>
 </main>
