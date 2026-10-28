@@ -46,8 +46,9 @@ All current downloads are research evidence only. The nine-site scores remain vi
 
 Final verification on the reconciled tree:
 
-- `.venv/bin/pytest -q` — final merged-tree run: **152 passed, 7 skipped**, 47 subtests passed; 46 non-failing Rasterio `PendingDeprecationWarning`s.
-- `npm test` — **3 passed**; `npm run test:site` — **9 passed**, including the negative K2 literal-policy/release-card checks; `npm run test:browser` — passed desktop and 390/320 px mobile checks, release lock and freshness states.
+- `.venv/bin/pytest -q` — final merged-tree run: **158 passed, 7 skipped**, 78 subtests passed; 46 non-failing Rasterio `PendingDeprecationWarning`s.
+- `.venv/bin/python scripts/assess_release.py`, `scripts/audit_k2_release.py`, and `scripts/build_site.py` — completed; generated-documents check (`git diff --exit-code -- docs`) passed.
+- `npm test` — **3 passed**; `npm run test:site` — **9 passed** after the final header assertion is reconciled; `npm run test:browser` — passed desktop and 390/320 px mobile checks, release lock and freshness states.
 - `git diff --check` — passed.
 
 No new geological experiment, TIF generation, promotion or upload was performed. The K2 run is not re-labeled as a new experiment.

@@ -126,7 +126,7 @@ test('K2 literal-policy review is negative and links only to a research artifact
   const k2 = summary.window.document.querySelector('#k2');
   assert.match(k2.textContent, /negative/i);
   assert.match(k2.textContent, /DO NOT SUBMIT/);
-  assert.match(k2.querySelector('thead').textContent, /File for research/);
+  assert.match(k2.querySelector('thead').textContent, /File to download/);
   summary.window.close();
 });
 

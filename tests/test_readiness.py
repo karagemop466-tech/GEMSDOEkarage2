@@ -8,12 +8,14 @@ def good():
     rows = [{"reference": "pinned-reference", "rank_correlation": 0.5, "overlap_3px": 0.6}]
     return {
         "lane": "assigned-method",
+        "lane_assignment": {"source": "coordinator-assignment.json", "sha256": "d" * 64},
         "template_commit": "pinned-template-commit",
         "metric": {
             "alpha": 0.2,
             "beta": 0.8,
             "kernel_radius_m": 300,
             "kernel": "triangular",
+            "pooled": True,
         },
         "holdout": {
             "evidence_class": "HOLDOUT-DTI",
@@ -22,10 +24,23 @@ def good():
             "dti": 0.20,
             "ci95": [0.16, 0.24],
             "paired_delta_ci95": [0.005, 0.02],
+            "paired_comparison_receipt_sha256": "a" * 64,
+            "split_manifest_sha256": "c" * 64,
+            "truth_manifest_sha256": "d" * 64,
+            "scoring_config_sha256": "f" * 64,
         },
         "baseline_holdout_dti": 0.19,
+        "baseline_holdout": {
+            "incumbent_id": "frozen-incumbent",
+            "evidence_class": "HOLDOUT-DTI", "dti": 0.19, "ci95": [0.15, 0.23],
+            "evaluator_version": "shared-v1", "withheld_positives": 100,
+            "split_manifest_sha256": "c" * 64,
+            "truth_manifest_sha256": "d" * 64, "scoring_config_sha256": "f" * 64,
+            "evidence_sha256": "e" * 64,
+        },
         "baseline_same_protocol_verified": True,
         "hide_recover_protocol_verified": True,
+        "model_features": ["magnetic", "terrain"],
         "feature_auc": {"magnetic": 0.7, "terrain": 0.82},
         "registry": {
             "coverage_complete": True,
@@ -73,7 +88,7 @@ class GateTests(unittest.TestCase):
                 self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_wrong_metric_configuration_fails(self):
-        for key, value in (("alpha", 0.5), ("beta", 0.2), ("kernel_radius_m", 200), ("kernel", "gaussian")):
+        for key, value in (("alpha", 0.5), ("beta", 0.2), ("kernel_radius_m", 200), ("kernel", "gaussian"), ("pooled", False), ("pooled", 1)):
             with self.subTest(key=key):
                 card = good()
                 card["metric"][key] = value
@@ -99,12 +114,34 @@ class GateTests(unittest.TestCase):
         card["baseline_holdout_dti"] = 0.20
         self.assertEqual(assess(card)["verdict"], "negative")
 
+    def test_baseline_provenance_is_required_and_matched(self):
+        for key, value in (("evidence_class", "projection"),
+                           ("dti", 0.18), ("ci95", None), ("evaluator_version", "other"),
+                           ("withheld_positives", 99),
+                           ("split_manifest_sha256", "f" * 64),
+                           ("truth_manifest_sha256", "f" * 64),
+                           ("scoring_config_sha256", "a" * 64),
+                           ("evidence_sha256", "bad")):
+            with self.subTest(key=key):
+                card = good()
+                card["baseline_holdout"][key] = value
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        del card["holdout"]["split_manifest_sha256"]
+        self.assertEqual(assess(card)["verdict"], "negative")
+
     def test_nonpositive_paired_delta_interval_fails(self):
         for interval in ([0.0, 0.02], [-0.01, 0.02], [-0.03, -0.01]):
             with self.subTest(interval=interval):
                 card = good()
                 card["holdout"]["paired_delta_ci95"] = interval
                 self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_paired_comparison_receipt_hash_is_required(self):
+        for value in (None, "bad", "F" * 64):
+            card = good()
+            card["holdout"]["paired_comparison_receipt_sha256"] = value
+            self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_malformed_nested_objects_fail_without_raising(self):
         cases = (
@@ -133,6 +170,50 @@ class GateTests(unittest.TestCase):
         self.assertEqual(assess(card)["verdict"], "negative")
         card = good()
         card["registry"]["surface"][0]["reference"] = []
+        self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_lane_assignment_receipt_is_required(self):
+        for assignment in (None, {}, {"source": "", "sha256": "a" * 64},
+                           {"source": "claim", "sha256": "bad"}):
+            with self.subTest(assignment=assignment):
+                card = good()
+                card["lane_assignment"] = assignment
+                self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_feature_inventory_must_match_canaries(self):
+        for features in (["magnetic", "terrain", "unexamined"], ["magnetic"],
+                         ["magnetic", "magnetic"], ["magnetic", []], []):
+            with self.subTest(features=features):
+                card = good()
+                card["model_features"] = features
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        del card["feature_auc"]["terrain"]
+        self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_incumbent_must_be_matched_on_identified_holdout(self):
+        for key, value in (("split_manifest_sha256", "b" * 64), ("split_manifest_sha256", None),
+                           ("evaluator_version", "other"), ("withheld_positives", 99),
+                           ("evidence_class", "projection"), ("incumbent_id", "")):
+            with self.subTest(key=key, value=value):
+                card = good()
+                card["baseline_holdout"][key] = value
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["holdout"]["split_manifest_sha256"] = None
+        self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_oversized_integer_evidence_fails_closed(self):
+        for section, key in (("holdout", "dti"), ("feature_auc", "magnetic")):
+            with self.subTest(section=section, key=key):
+                card = good()
+                card[section][key] = 10**1000
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["registry"]["surface"][0]["overlap_3px"] = 10**1000
+        self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["holdout"]["ci95"] = [0, 10**1000]
         self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_protocol_attestations_are_required_and_strict_booleans(self):
