@@ -90,7 +90,8 @@ def test_k2_uniqueness_scopes_are_as_reported():
 def test_homepage_names_exactly_one_conditional_candidate():
     home = (ROOT / "docs" / "index.html").read_text()
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
-    assert "NEGATIVE" in home and "DO NOT SUBMIT" in home
+    assert "SELECTOR NEGATIVE" in home and "DO NOT SUBMIT" in home
+    assert "evidence/k2/selector_result.json" in home
     assert "NO APPROVED" in home  # selector has not approved any file yet
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
 
