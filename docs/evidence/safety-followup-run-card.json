@@ -1,0 +1,28 @@
+{
+  "hypothesis": "No new experiment; prior K2 supervised multiphysics and tip continuation reviewed",
+  "mechanism": "Prior model combines potential-field and terrain signatures with visible-fault continuation",
+  "named_non_fault_mimic": "Lithologic contacts and alluvial terrace risers",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI",
+    "value": 0.15812071903309205,
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positives": 58258,
+    "ci95": [
+      0.14237392193985562,
+      0.17415355413093683
+    ],
+    "source": "evidence/k2/run_card.json; prior run, not rerun"
+  },
+  "registry_comparison": {
+    "surface_lattice_overlap": 1.0,
+    "final_calibration_ridge_overlap": 0.7205,
+    "scope": "prior card; not independently rechecked; complete registry unavailable"
+  },
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "validator_output": "Prior local writer pass and strict outside-NaN failure; organizer template not authenticated; not rerun",
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "note": "Research only; literal registry stop and unassigned lane. Do not submit.",
+  "verdict": "negative",
+  "experiments_this_session": 0,
+  "slots_used": 0
+}

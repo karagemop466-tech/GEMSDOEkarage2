@@ -100,10 +100,9 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'unverified' in text.lower()
         assert 'READ' in text
     homepage=(ROOT/'docs/index.html').read_text()
-    # K2's historical conditional selector recommendation remains quarantined;
-    # it is not represented as an approved candidate or upload-ready file.
-    assert 'conditional promotion' in homepage.lower()
-    assert 'research artifact — do not submit' in homepage.lower()
+    # K2 conditional promotion was superseded by a negative release review.
+    assert 'K2 research artifact' in homepage
+    assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     assert 'NO APPROVED SUBMISSION' in homepage
 
