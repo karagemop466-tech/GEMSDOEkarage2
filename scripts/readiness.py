@@ -98,11 +98,12 @@ def assess(card: object) -> dict:
     if card.get("hide_recover_protocol_verified") is not True:
         reasons.append("Buffered whole-segment hide-and-recover not verified")
 
+    # An inverted feature is equally predictive; reject either AUC tail.
     canaries = card.get("feature_auc")
     if (
         not isinstance(canaries, dict)
         or not canaries
-        or any(not _finite_number(value) or not 0 <= value <= 0.90 for value in canaries.values())
+        or any(not _finite_number(value) or not 0.10 <= value <= 0.90 for value in canaries.values())
     ):
         reasons.append("Feature leakage canary missing or failed")
 
