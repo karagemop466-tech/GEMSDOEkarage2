@@ -22,6 +22,7 @@ def good():
             "dti": 0.20,
             "ci95": [0.16, 0.24],
             "paired_delta_ci95": [0.005, 0.02],
+            "paired_comparison_receipt_sha256": "a" * 64,
             "split_manifest_sha256": "c" * 64,
             "truth_manifest_sha256": "d" * 64,
             "scoring_config_sha256": "f" * 64,
@@ -131,6 +132,12 @@ class GateTests(unittest.TestCase):
                 card = good()
                 card["holdout"]["paired_delta_ci95"] = interval
                 self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_paired_comparison_receipt_hash_is_required(self):
+        for value in (None, "bad", "F" * 64):
+            card = good()
+            card["holdout"]["paired_comparison_receipt_sha256"] = value
+            self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_malformed_nested_objects_fail_without_raising(self):
         cases = (

@@ -1,0 +1,25 @@
+# Selector and release review — 2026-10-28
+
+**Release: negative. No TIFF is approved for submission.** No experiment, dot placement, or competition submission was performed in this review. The request references a method-lane paragraph that is not present. K2 crossed the stated pre-placement registry stop; the full registry is not certified complete. The historical K2 file is research-only, even though its values are locally finite and within range.
+
+## Pass 1 — existing work and scientific evidence
+
+Read the standing README and AGENTS instructions, the nine-site records, K2 protocol correction, and prior hypothesis preregistration. The existing [nine-site comparison](../docs/executive-summary.html) lists user-reported, unverified historical results, not organizer receipts. GEMSDOE32's reported 0.2778 is the highest in that supplied nine-site list, not a validated prediction of a new submission. Existing geometry suggests catalogue-adjacent pruning and sparse emission as plausible explanations, but the hidden labels and receipt are unavailable; causality and a higher future leaderboard result are unknown. The earlier [five candidate hypotheses](hypotheses-2026-10-28-preregistration.md) and [alternative three](repo-review-2026-10-28-session.md) document layers, mimics and costs. They are proposals, not validated new experiments. Later reviews supersede that preregistration's self-assigned-lane rationale.
+
+Prior K2 **HOLDOUT-DTI**: 0.1581207190, 95% CI [0.1423739219, 0.1741535541], evaluator `gems57-pooled-hide-v2`, 58,258 withheld positives; [prior run card](../evidence/k2/run_card.json). This is a mirror-based proxy, not an organizer-confirmed score or leaderboard projection, and was not rerun here.
+
+## Pass 2 — defects and corrections
+
+The schema selector in the original checkout allowed a candidate to pass with a baseline value and paired interval without requiring evidence that the baseline and candidate used the same evaluator and folds. A concurrent main-branch change independently added matching evaluator, split, truth and scoring-configuration claims and a baseline evidence hash. This branch adds a paired-comparison receipt hash requirement. Tests cover missing and mismatched claims. **This is schema validation only:** it does not load receipts, verify their hashes, bind their contents to numbers, establish equivalent data or preprocessing, or check the CI computation. Those checks remain necessary before promotion; self-reported fingerprints alone do not prove comparability. This does not modify the shared evaluator or writer.
+
+The executive-summary research-file table used a generic download heading, contradicting an existing safety test and making the research-only status less explicit. The heading now says research only. The failed site test was rerun successfully after the correction.
+
+## Pass 3 — saved bytes and remaining limitations
+
+Current local K2 readback: SHA-256 `504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb`, single float32 band, 3730 × 3292, EPSG:32611, transform `(100, 0, 243350, 0, -100, 4508550)`, all finite, range [0, 1]. This is not an authenticated-template match, footprint-specific check, portal acceptance, or uniqueness proof. The earlier pre-placement lattice overlap was 1.0, above the 0.70 stop; see the [protocol review](k2-protocol-review-2026-10-28.md). The rejected original upload and its bytes were not available, so the reported range-error cause cannot be diagnosed.
+
+This sandbox can access GitHub and package registries but not DrivenData, Dropbox or USGS hosts. The [official reference repository](https://github.com/drivendataorg/gems-prize-reference-solution) was checked through GitHub's API in this session. The [competition data](https://www.drivendata.org/competitions/306/competition-doe-gems/data/), [problem statement](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), [leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/), and [USGS GeoDAWN release](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and) were not rechecked here. The prompt contains conflicting leaderboard values; neither is asserted current.
+
+Next: establish the assigned lane and registry-scope decision, restore organizer-authenticated data and template, certify the complete registry, freeze a same-fold incumbent, and verify actual receipts and their contents. Only then test the top candidate under the shared protocol, with feature canaries and stop-before-placement checks; a separate selector checks any slot and submission rules. The literal lattice conflict must not be bypassed by placing dots at footprint edges. No current score estimate or approved download is available.
+
+Verification: Python `pytest -q`: 147 passed, 7 skipped, 40 subtests passed. Node feed: 3 passed; site: 8 passed after fix; browser: desktop and two mobile widths and freshness states passed. Skipped integrations are not passes of organizer-data checks. See [run card](../evidence/selector-evidence-review-2026-10-28.json).
