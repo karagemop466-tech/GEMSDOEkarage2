@@ -161,6 +161,19 @@ class GateTests(unittest.TestCase):
         card["registry"]["surface"][0]["reference"] = []
         self.assertEqual(assess(card)["verdict"], "negative")
 
+    def test_oversized_integer_evidence_fails_closed(self):
+        for section, key in (("holdout", "dti"), ("feature_auc", "magnetic")):
+            with self.subTest(section=section, key=key):
+                card = good()
+                card[section][key] = 10**1000
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["registry"]["surface"][0]["overlap_3px"] = 10**1000
+        self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["holdout"]["ci95"] = [0, 10**1000]
+        self.assertEqual(assess(card)["verdict"], "negative")
+
     def test_protocol_attestations_are_required_and_strict_booleans(self):
         for section, key in ((None, "baseline_same_protocol_verified"),
                              ("registry", "surface_pass_before_placement_verified"),

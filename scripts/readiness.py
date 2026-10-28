@@ -15,6 +15,8 @@ def _finite_number(value: object) -> bool:
     try:
         return math.isfinite(value)
     except OverflowError:
+        # Arbitrarily large JSON integers cannot be converted to a C double.
+        # Treat them as invalid evidence rather than crashing the selector.
         return False
 
 
