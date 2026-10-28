@@ -60,6 +60,17 @@ def assess(card: object) -> dict:
             or not _sha256(assignment.get("sha256"))):
         reasons.append("Lane assignment receipt missing or invalid")
 
+    # A later passing scan cannot erase an earlier mandatory stop. These are
+    # required evidence assertions, not provenance authentication performed here.
+    protocol = card.get("protocol")
+    if not isinstance(protocol, dict) or (
+        protocol.get("preplacement_passed_before_emission") is not True
+        or protocol.get("stop_triggered") is not False
+    ):
+        reasons.append("Pre-placement clearance missing or mandatory protocol stop triggered")
+    if card.get("organizer_inputs_authenticated") is not True:
+        reasons.append("Organizer input/template authenticity not established")
+
     metric = card.get("metric")
     if not isinstance(metric, dict) or any(
         metric.get(key) != expected
