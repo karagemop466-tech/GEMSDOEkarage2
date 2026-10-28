@@ -9,6 +9,7 @@ Work on the Arena-assigned branch for the current session.
 No submission is approved. The release gate now requires matched baseline evidence
 and split, truth, and scoring-configuration hashes; it validates card structure,
 not the authenticity of those manifests. See [this review](research/release-gate-review-2026-10-28.md).
+Latest audit: [three-pass byte-bound raster review](research/review-sidecar-2026-10-28.md). No approved submission; K2 remains negative.
 
 ## Operating instruction
 
