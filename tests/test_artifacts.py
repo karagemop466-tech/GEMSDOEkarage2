@@ -124,7 +124,7 @@ def test_historical_relationships_and_registry_stop_evidence():
     h=load('champion_forensics.json')
     assert h['d28_equals_site30'] and h['b2_equals_d28_distance_gt2']
     assert h['removed_d28_to_b2']==6436
-    s=load('surface_registry.json')
+    s=load('h1/surface_registry.json')
     assert s['stopped_early'] and not s['unique_cleared'] and s['checked']==len(s['rows'])
     assert any(r.get('duplicate_by_overlap') or r.get('duplicate_by_rho') for r in s['rows'])
     cert=load('saturation_certificate.json')
@@ -178,7 +178,7 @@ def test_every_historical_raster_grid_was_checked():
 
 def test_concurrent_selector_gate_keeps_actual_run_negative():
     import scripts.readiness as readiness
-    adapted=load('selector_input.json')
+    adapted=load('h1/selector_input.json')
     result=readiness.assess(adapted)
     assert result['verdict']=='negative' and not result['slot_authorized']
     assert adapted['baseline_holdout_dti'] is None

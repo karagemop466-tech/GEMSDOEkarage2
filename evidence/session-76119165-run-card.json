@@ -1,0 +1,33 @@
+{
+  "hypothesis": "No new scientific hypothesis tested; review and regression hardening of the existing negative K2 release.",
+  "mechanism": "Preserve a recorded negative verdict or protocol stop in the readiness schema gate; label the executive-summary download as research only.",
+  "named_non_fault_process": "Lithologic contacts can mimic potential-field fault edges; terrace risers can mimic scarps. These are prior candidate caveats, not newly tested mechanisms.",
+  "holdout_dti": null,
+  "holdout_status": "Not rerun; no new HOLDOUT-DTI or organizer-confirmed score claimed.",
+  "correlation_overlap_vs_registry": {
+    "measurement_status": "Not rerun; inherited K2 protocol-stop evidence only",
+    "source": "evidence/k2-protocol-review-2026-10-28.json",
+    "surface_overlap_3px_vs_lattice_prior": 1.0,
+    "scope": "Prior registry coverage was incomplete; no uniqueness certification."
+  },
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "raster_status": "Existing research-only K2 TIFF, not newly generated; saved-byte release audit rerun.",
+  "validator_output": {
+    "source": "evidence/k2-review-2026-10-28.json",
+    "whole_array_finite": true,
+    "values_in_0_1": true,
+    "single_band_float32": true,
+    "organizer_crs_shape_transform_match": null,
+    "organizer_template_authenticated": false,
+    "footprint_rechecked": false,
+    "organizer_acceptance": "Not tested"
+  },
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "submission_note": "Research only. Failed mandatory registry stop; DO NOT SUBMIT. No new experiment in this review.",
+  "protocol_stop_triggered": true,
+  "new_experiments_run": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "leaderboard_estimate": null,
+  "verdict": "negative"
+}

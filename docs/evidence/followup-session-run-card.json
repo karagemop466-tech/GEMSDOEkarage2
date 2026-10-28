@@ -1,0 +1,15 @@
+{
+  "hypothesis": "No assigned method lane; no new geological experiment was run.",
+  "mechanism": "Not evaluated in this session; prior experiments are retained as separate evidence.",
+  "named_non_fault_process": "Not applicable to a non-experimental safety review; prior K2 cites lithologic contacts and terrace risers.",
+  "holdout_dti": {"evidence_class": "HOLDOUT-DTI", "evaluator_version": null, "withheld_positives": null, "value": null, "confidence_interval_95": null, "reason": "No holdout run in this session."},
+  "correlation_overlap_vs_registry": {"surface": null, "final_dots": null, "reason": "No new candidate; earlier K2 crossed the pre-placement duplicate stop."},
+  "raster_sha256": null,
+  "validator_output": {"status": "Not run: no new candidate", "no_nan_inside_footprint": null, "values_in_0_1": null, "crs_shape_transform_match": null},
+  "submission_name": null,
+  "submission_note": "No submission candidate; do not upload research artifacts.",
+  "verdict": "negative",
+  "slot_authorized": false,
+  "experiments_run": 0,
+  "previous_experiment_evidence": "evidence/k2/run_card.json"
+}

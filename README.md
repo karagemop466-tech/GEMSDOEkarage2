@@ -188,6 +188,15 @@ ORGANIZER-CONFIRMED (DrivenData is unreachable from the sandbox).
 | U4 literal rule vs every submitted dot raster | — | PASS |
 | Leakage canary (max single-feature AUC) | 0.596 | PASS |
 
+**Concurrent K3 lane (merged from main, 2026-10-28):** K3 (`gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif`,
+53-feature lineament-context HGB) reached HOLDOUT-DTI **0.1916** [0.1747, 0.2088] at the same
+1.10 % budget — *higher than HK3's 0.1845* (intervals overlap; same folds/evaluator; no paired
+test across sessions) — but its verdict is NEGATIVE: the surface failed the pre-placement gate
+against K2 (0.9922 top-support overlap) and its final dots exceed 70 % within 3 px of ten
+registry records (worst 0.886). HK3's 3 px catalogue apron and 3 px dot separation are what
+keep its overlaps ≤ 48.4 %. So: K3 is the holdout-best file in the repository, HK3 is the best
+*submittable* file, and the holdout incumbent for any next lane is K3's 0.1916, not HK3's.
+
 θ = the fraction of the candidate's holdout advantage over the D2.8 anchor (coverage ×1.114,
 hit ×1.156 at equal dots) that transfers to the hidden 1 m-lidar labels; the file beats
 0.2778 only if ≳ ⅔ of that advantage transfers. One organizer score of this file calibrates
@@ -278,3 +287,220 @@ Research notes: [`research/hypotheses-2026-10-28-hk3.md`](research/hypotheses-20
 [`research/independent-review.md`](research/independent-review.md),
 [`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
 [`research/hypotheses.md`](research/hypotheses.md).
+
+## Earlier 2026-10-28 session notes (concurrent branches, merged; superseded by the HK3 status above)
+
+These sections were written by concurrent sessions before the HK3 lane produced an
+approved file. Their *negative* findings (H1, H2, B4, K2, K3 all DO NOT SUBMIT) remain
+valid and their receipts are linked from the site; their statements that "no file is
+approved" describe the repository *before* `evidence/hk3/run_card.json` existed.
+
+### Latest safety follow-up — 2026-10-28
+
+**No approved submission; do not upload the research TIFFs.** The latest follow-up
+ran no experiment and did not use a competition slot. All nine focus GitHub heads
+changed relative to the October 27 reviewed snapshot; this is not a new score or
+raster audit. See the [three-pass review](evidence/current-session-review-2026-10-28.md),
+[GitHub HEAD receipt](docs/evidence/source-head-review-2026-10-28.json), and
+[negative run card](docs/evidence/followup-session-run-card.json). The local raster
+audits reject external GDAL sidecars not covered by the TIFF hash; input placement
+and grid checks do not imply training readiness or submission authorization.
+
+### Latest review — 2026-10-28 (d13851b5)
+
+**No approved submission; no new experiment or slot used.** Read the
+[three-pass review](research/review-d13851b5.md) and
+[run card](evidence/review-d13851b5-run-card.json). The generic research gate now
+requires explicit pre-placement clearance, no prior mandatory stop, and
+organizer-authenticated inputs/template. These evidence-schema assertions do not
+independently prove provenance or authorize a slot. A later narrower passing
+scan cannot clear a prior protocol stop. The executive summary labels its file
+column **research — DO NOT SUBMIT**. All 164 Python tests passed after main integration with pinned
+mirror inputs restored, plus 73 subtests; Node feed/site and browser checks passed.
+
+The [official reference README](https://github.com/drivendataorg/gems-prize-reference-solution/blob/aebe92f7c8a990f0e3443451b7a825d9afd6336b/README.md)
+explicitly supports CPU-only execution: a GPU is useful, not mandatory. Network,
+authenticity, lane, registry and validation blockers remain; placing data alone
+does not make this pipeline submission-ready. Existing five-hypothesis research
+slates are preserved, not reauthorized or presented as newly tested.
+### Latest review and release status
+
+**No approved submission TIFF. Do not submit the existing research artifacts.**
+The latest [selector evidence review](research/selector-evidence-review-2026-10-28.md)
+records the unresolved lane, literal registry stop, unauthenticated organizer inputs,
+and the schema-only baseline-comparability safeguard. It does not estimate a private
+leaderboard score or authorize a competition slot.
+
+### Latest review
+
+No submission is approved. The release gate now requires matched baseline evidence
+and split, truth, and scoring-configuration hashes; it validates card structure,
+not the authenticity of those manifests. See [this review](research/release-gate-review-2026-10-28.md).
+### Latest release-gate follow-up (2026-10-28)
+
+**No TIFF is approved for upload.** The release schema now requires evidence
+attestations for a comparable baseline, a surface pass before placement, and an
+authenticated organizer template. It does not independently verify those claims.
+See [the three-pass follow-up](research/release-gate-followup-2026-10-28.md)
+and the [K2 protocol correction](research/k2-protocol-review-2026-10-28.md).
+No new experiment or competition slot was used in this follow-up.
+Latest audit: [three-pass byte-bound raster review](research/review-sidecar-2026-10-28.md). No approved submission; K2 remains negative.
+
+
+**This branch's autonomous follow-up:** GitHub-hosted owner mirrors were
+restored to ignored `.cache/competition_data/` with pinned SHA-256 hashes and
+passed a *research-only* raster/schema preflight. The sample still contains
+60,988 known-fault positives, contrary to the published all-absence description;
+this mirror is **not organizer-authenticated**. See
+[`evidence/owner_mirror_preflight_2026-10-28.json`](evidence/owner_mirror_preflight_2026-10-28.json).
+The nine historical geometry results were independently reproduced from pinned
+bytes (`scripts/bootstrap_research.py`, `scripts/audit_references.py`,
+`scripts/compare_audit.py`), not turned into a new leaderboard score. The
+[download inventory](evidence/public_downloads_audit.json) reopens **all hosted
+research TIFFs and ZIPs**, checks their saved-byte hashes, float32/grid/range,
+and rejects unknown downloads; it reports **PASS_RESEARCH_ONLY**, not competition
+authorization. A prior Node site regression (mislabelled research column) was
+fixed. The K2 literal audit now gives the conditional spacing-lattice counting
+bound (54,491 saved positives → at least 47,842/54,491 ≈ 87.80% overlap if
+all are in the mirrored footprint); this does **not** rule out every smaller
+candidate. These are geometry measurements, not DTI or organizer scores. Four
+ranked *untried local* proposals appear in
+[`research/2026-10-28-next-lane-slate.md`](research/2026-10-28-next-lane-slate.md).
+This branch ran zero additional geological experiments; concurrent H2 and B4
+negative research runs merged from main while this audit was in progress. A
+[dated GitHub HEAD-only check](docs/evidence/source-head-review-2026-10-28.json)
+reported nine changed focus repositories since the pinned review; it does not
+refresh their raster or score audits. Automated Pages refresh checks GitHub
+metadata only, not DrivenData or account quota.
+[Current negative run card](evidence/session-31569490-run-card.json) records null
+new-candidate score, raster hash and submission name rather than inventing one.
+The [three-pass review](research/31569490-three-pass-review.md) documents the
+concurrent-main reconciliation, exact reproducible checks and remaining blockers.
+
+The [selector evidence review](research/selector-evidence-review-2026-10-28-eee3.md)
+adds fail-closed checks for matched incumbents, complete feature canaries, and
+pooled scoring. Schema consistency is not evidence verification or slot approval.
+Latest separate follow-up: [`research/arena-review-2026-10-28.md`](research/arena-review-2026-10-28.md).
+
+**No TIFF is approved for submission.** The archived irregular-dot raster is
+not unique under the literal rule. A saved-byte recheck against the pinned
+owner-mirror footprint and lattice found 6,765 of 6,769 in-footprint dots
+within 3 pixels of the lattice and 5,426 positive pixels outside the mirrored
+footprint. This is a geometry audit, not a score; the mirror is not an
+organizer-authenticated footprint. See
+[`evidence/legacy-dot-audit-2026-10-28.json`](evidence/legacy-dot-audit-2026-10-28.json).
+The historical run card and format receipt are retained as provenance, not as
+current clearance. Their claims of uniqueness and 15,000 emitted dots are wrong.
+`scripts/generate_submission.py` is disabled to prevent repeating the failed
+method or overwriting evidence. The separately generated H1 surface also failed
+its registry and holdout gates and must not be submitted. Recorded mirror-based
+HOLDOUT-DTI for H1 is 0.0336729751 (`gems57-pooled-hide-v2`, 58,259 withheld
+positives, 95% CI [0.0286737956, 0.0392948028]); its paired difference against
+the best primitive is -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]).
+These are prior research results, not organizer scores or leaderboard estimates.
+
+### H2 stepover research surface — negative (concurrent main merge, 2026-10-28)
+
+The recorded H2 HOLDOUT-DTI is 0.0172963 (95% CI [0.0145387, 0.0203584];
+`gems57-pooled-hide-v2`, 58,259 withheld positives), and the paired difference
+against its best primitive is negative. Its surface registry receipt stops after
+one of 440 pinned comparisons, before final-dot checking. The new downloadable
+H2 TIFF is a **research-only surface**, not a unique or approved submission.
+See [`evidence/run_card_h2.json`](evidence/run_card_h2.json). H1's current root
+card is [`evidence/run_card.json`](evidence/run_card.json); its identical
+archived receipts are also retained under [`evidence/h1/`](evidence/h1/) from
+when a concurrent merge briefly replaced the root card. Do not label an H1
+result with H2's hash or holdout.
+
+### B4 scarp-step candidate — negative (concurrent main merge, 2026-10-28)
+
+**NEGATIVE — DO NOT SUBMIT.** New lane tested: paired-flank step asymmetry
+(elev/basement/gravity/RTP, 8 orientations) in `scripts/b4_step.py`.
+HOLDOUT-DTI (gems57-pooled-hide-v2, 58,259 withheld): 0.0981 @1.10%
+(CI 0.0850–0.1125), 0.1206 @1.50%; paired Δ vs its own gradient control
++0.0040 (95% CI [+0.0011, +0.0070]). The K2 prior result used 58,258
+withheld positives; a matched-fold paired incumbent win is **not** established.
+Canaries pass (worst 0.622). The generated TIF
+(`docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif`,
+sha256 2f553692…) has max overlap 0.228 vs the nine focus files but **fails**
+the literal all-registry uniqueness rule: its final audit reports 1.0 overlap
+with the lattice and `unique=false`. An independent saved-byte calculation
+reproduces 51,914/51,914 within 3 px on the pinned owner-mirror footprint
+([receipt](evidence/b4/literal_followup.json)); this does not authenticate the
+organizer's sample. It is format-valid on the mirror grid, not an approved
+competition file. Research download only. See
+`research/b4-step-review-2026-10-28.md` and `evidence/b4/run_card.json`.
+No leaderboard estimate exists for any repo file (Unavailable).
+
+### K2 supervised candidate — protocol stop (2026-10-28)
+
+1. Install `requirements.lock.txt` in a Python virtual environment and run
+   `.venv/bin/pytest -q`.
+2. Run `npm ci && npm test && npm run test:site && npm run test:browser` for the
+   public dashboard/feed suite.
+3. `bash scripts/download_competition_data.sh --research-mirror` automatically
+   restores four SHA-pinned **owner mirrors** from public GitHub into ignored
+   `.cache/competition_data/` and runs a core-only schema preflight. It does not
+   download the authenticated organizer files or the DEM links, train a model,
+   approve a slot, or create a TIFF. With no flag the script **exits nonzero**
+   instead of pretending URLs were downloaded. If authorized files are already
+   in `data/`, `bash scripts/download_competition_data.sh --validate-official`
+   checks their schema (including a nonempty `1m_DEM_links.csv`), but cannot
+   authenticate origin. A grid mismatch, missing/empty file or malformed TIFF
+   fails closed and writes a negative `prepared.json` rather than a false pass.
+4. `.venv/bin/python scripts/audit_public_downloads.py --check` independently
+   verifies every *currently published* TIF/ZIP, run-card digest, range, grid
+   and negative selector status against the committed receipt. It requires no
+   human inspector and cannot grant upload permission. CI blocks unknown or
+   changed public downloads. See the [machine-readable audit](evidence/public_downloads_audit.json).
+5. `python scripts/restore_references.py` downloads pinned public GitHub mirrors
+   to `.cache/input/`; hashes are checked. These are not authenticated organizer
+   downloads and are not the complete registry.
+6. `python scripts/audit_legacy_dots.py` rechecks saved bytes, grid, range,
+   footprint and the lattice duplicate witness. No candidate TIFF is generated.
+
+
+### K3 lineament-context candidate — holdout-best, uniqueness-negative (2026-10-28)
+
+**NEGATIVE — DO NOT SUBMIT.** K3 (53-feature orientation-aware HGB +
+expected-DTI placement, `scripts/k3.py`, preregistered in
+[`research/hypotheses-2026-10-28-k3-preregistration.md`](research/hypotheses-2026-10-28-k3-preregistration.md))
+reached HOLDOUT-DTI 0.19157 (gems57-pooled-hide-v2, 58,258 withheld positives,
+95% CI 0.17474–0.20880), beating the bit-faithfully replicated K2 incumbent by
++0.03402 (paired 95% CI +0.02738…+0.04098), with all 53 leakage canaries
+≤0.6382. It nevertheless fails the preregistered uniqueness gate: the surface
+top-support vs the quarantined K2 predecessor was 0.9922, and final dots
+exceed 70% within-3-px overlap against 10 primary-scope registry records
+(including fleet submission rasters; worst 88.6%), while Spearman passes
+everywhere (max |rho| 0.1056) and overlap vs the nine focus best files is
+44.8–51.6%. The artifact `gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif`
+(SHA-256 `d011e9e1…fc61`, 51,914 dots) was written under a disclosed research
+override for final-dot measurement and is research-only. No leaderboard
+estimate exists (labelled projection ~0.25–0.33 is not a score). See
+[`research/review-2026-10-28-k3.md`](research/review-2026-10-28-k3.md) and
+[`evidence/k3/run_card.json`](evidence/k3/run_card.json). Experiment budget
+(3) exhausted; zero slots used. The next viable lane must differentiate its
+*dot geography* from the fleet supervised consensus (preregistration slate
+C4/C5), not merely improve the shared surface.
+
+### Latest regression review — session 76119165 (2026-10-28)
+
+The [three-pass review](research/session-76119165-review.md) fixed the executive
+summary's research-download heading and hardened the readiness schema gate against
+overriding an explicitly recorded negative verdict or protocol stop. No new
+experiments or TIFFs were generated; no slot is authorized. See the
+[review run card](evidence/session-76119165-run-card.json). Python tests passed
+with seven input-dependent integration skips; feed, site and browser checks passed.
+
+### Remaining work
+
+[`research/hypotheses.md`](research/hypotheses.md), and the distinct `evidence/run_card.json` / `evidence/h1/run_card.json`
+(H1, identical restored copies), `evidence/run_card_h2.json` (H2) and
+`evidence/run-card.json` (unrun preflight) records for prior work. See also
+[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md),
+[`research/final-three-pass-review-2026-10-28.md`](research/final-three-pass-review-2026-10-28.md),
+and [`research/release-review-2026-10-28.md`](research/release-review-2026-10-28.md).
+The K2 download links on the site are **research-only / DO NOT SUBMIT**. The earlier
+conditional selector recommendation is superseded by the negative literal-policy
+decision at [`evidence/k2/selector_result.json`](evidence/k2/selector_result.json);
+no TIFF is approved for competition submission.

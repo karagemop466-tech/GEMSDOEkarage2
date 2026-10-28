@@ -10,20 +10,31 @@
   "submission_note": "K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue >2px; zeros outside footprint",
   "correlation_overlap_vs_registry": {
     "surface_before_placement": {
-      "vs_9_focus_best": "Spearman rho <= 0.0917; literal positive-support overlap <= 0.1836",
-      "vs_r13_lattice": "rho 0.0001; literal overlap 1.0 (mathematically forced; see impossible_gate)"
+      "source": "evidence/k2/final_generation.json (prior recorded measurement; not rerun)",
+      "vs_r13_lattice_spearman_full_footprint": 0.00014277117109167287,
+      "vs_r13_lattice_support_overlap_within_3px": 1.0,
+      "duplicate_stop": true
     },
     "final_dots": {
-      "vs_9_focus_best_max_overlap": 0.4268,
-      "vs_champion_GEMSDOE32_overlap": 0.337,
-      "vs_all_submission_rasters_9_repos": "430 docs/downloads submission rasters successfully compared (420 pinned + 10 current-head delta, 2026-10-28): max overlap 0.6808 (< 0.70), max |Spearman| 0.1189 (< 0.90), 0 duplicates, byte- and pixel-unique. 435 rasters successfully compared in total when docs/research, archive, evidence, non-calibration inputs/ surfaces and the 2 prior local candidates are included (same maxima); 1 additional 32x48 format-test file is grid-incomparable.",
-      "vs_calibration_inputs": "GEMSDOE24 inputs/calibration/gems10-h25-ctx-ridge overlap 0.7205 (> 0.70 LITERAL FAIL). This binary ridge mask (174,232 px) has a 3-px halo covering 26.31% of the footprint and 87.39% of the catalogue itself, i.e. real faults are more concentrated in its halo than this candidate is. It is a vendored GEMSDOE10 calibration surface, not a focus-site submission.",
-      "incomparable_record": "GEMSDOE36 GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif is 32x48 px (grid mismatch, fail-closed error in scan); byte-distinct, cannot be a duplicate of a full-grid submission",
-      "scope_note": "440 hash-pinned rasters at 2026-10-27 refs + delta to current heads checked 2026-10-28 (451 enumerated). Not the organizer registry; other teams' submissions are unknowable."
-    },
-    "impossible_gate": "The spacing-5 calibration lattice (nodes at indices = 0 mod 5) places every integer pixel within sqrt(8) = 2.83 px of a node; measured 99.8713% of footprint pixels within 3 px of a lattice dot. The 0.2778 champion itself has ~100% of its dots within 3 px of the lattice. Applied literally to this registry entry, the <=70% rule forbids every in-footprint candidate, including every historically scored file. Reported, not gamed."
+      "source": "evidence/k2/final_registry_audit.json (prior recorded measurement; not rerun)",
+      "rasters_expected": 443,
+      "rasters_checked": 442,
+      "complete_accessible_scan": false,
+      "worst_overlap_3px": 1.0,
+      "duplicate_count": 3,
+      "unique_under_literal_gate": false
+    }
   },
-  "measurement_status": "Saved bytes rechecked; registry measurements and holdout inherited, not rerun.",
+  "geometry_lower_bound": {
+    "evidence_class": "GEOMETRY LOWER BOUND, NOT A SCORE",
+    "saved_positive_pixels": 54491,
+    "mirrored_uncovered_footprint_pixels": 6649,
+    "minimum_matches_if_all_dots_in_mirror_footprint": 47842,
+    "minimum_overlap_if_all_dots_in_mirror_footprint": 0.877979849883467,
+    "first_dot_budget_guaranteed_to_exceed_70_percent": 22164,
+    "scope": "Conditional on owner-mirror footprint and saved prior zero-exterior receipt; smaller budgets not universally blocked."
+  },
+  "measurement_status": "Saved bytes and conditional geometry bound rechecked; registry measurements and holdout inherited, not rerun.",
   "validator": {
     "single_band": true,
     "float32": true,

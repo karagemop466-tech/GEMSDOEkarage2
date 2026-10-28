@@ -9,9 +9,9 @@
 **NO APPROVED COMPETITION SUBMISSION.** One new physical hypothesis was implemented and tested, then stopped at the pre-placement registry gate. A newly calculated, format-valid research GeoTIFF is downloadable, but **it is not uniqueness-cleared, is not a high-scoring submission, and must not be submitted**. Renaming, jittering, or re-encoding a previous file is not an improvement.
 
 - [Executive summary and downloads](https://karagemop466-tech.github.io/GEMSDOEkarage2/)
-- [Nine focus-site evidence](evidence/nine_site_best_files_audit.json)
-- [Run card](evidence/run_card.json) · [holdout details](evidence/holdout.json) · [validator](evidence/validator.json)
-- [Hypotheses and preregistration](knowledge/hypotheses.md) · [official and community source audit](evidence/sources.json)
+- [Nine focus-site evidence](../evidence/nine_site_best_files_audit.json)
+- [Archived H1 run card](../evidence/h1/run_card.json) · [H1 holdout details](../evidence/h1/holdout.json) · [H1 validator](../evidence/h1/validator.json)
+- [Hypotheses and preregistration](hypotheses.md) · [official and community source audit](../evidence/sources.json)
 
 **HOLDOUT-DTI** `gems57-pooled-hide-v2`: **0.03367**, spatial-cluster bootstrap 95% CI **[0.02867, 0.03929]**, **58,259 withheld positive pixels**. This is not a leaderboard estimate. The paired difference against the best primitive control was negative. The generated surface has directional 3 px overlap **1.0** with a registered lattice; the literal >70% stop applies. No final dots were placed, and no competition slot was used.
 

@@ -8,7 +8,14 @@ import json
 import os
 from pathlib import Path
 import urllib.error
-import urllib.request
+
+# Reuse the GitHub-only, same-origin redirect guard and bounded response reader.
+# This job may carry an Actions token; urllib's default redirect handler does
+# not enforce an origin boundary for that credential.
+if __package__:
+    from .refresh_feed import get
+else:
+    from refresh_feed import get
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -17,11 +24,7 @@ def github_head(repo: str, token: str | None = None) -> str:
     if not repo.startswith("GEMSDOE") or not repo[7:].isdigit():
         raise ValueError("Unexpected repository name")
     url = f"https://api.github.com/repos/buffedlizard55-lab/{repo}/commits/main"
-    headers = {"Accept": "application/vnd.github+json", "User-Agent": "GEMSDOEkarage2-status/1.0"}
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
-    with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=20) as response:
-        result = json.load(response)
+    result = json.loads(get(url, github_token=token))
     sha = result["sha"]
     if not isinstance(sha, str) or len(sha) != 40 or any(c not in "0123456789abcdef" for c in sha):
         raise ValueError("Invalid GitHub commit SHA")
@@ -35,7 +38,7 @@ def build_feed(snapshot: dict, getter) -> dict:
             current = getter(site)
             status = "unchanged" if current == baseline else "changed_since_review"
             error = None
-        except (OSError, ValueError, KeyError, urllib.error.URLError, json.JSONDecodeError) as exc:
+        except (OSError, ValueError, KeyError, TypeError, UnicodeError, urllib.error.URLError) as exc:
             current, status, error = None, "unavailable", type(exc).__name__
         rows.append({"site": site, "reviewed_head": baseline, "current_head": current,
                      "status": status, "error": error})

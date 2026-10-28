@@ -1,0 +1,180 @@
+{
+  "schema": "gems.input_preflight.v2",
+  "evidence_class": "LOCAL-DATA-SCHEMA, NOT ORGANIZER AUTHENTICATION",
+  "mode": "core-only research",
+  "data_dir": ".cache/competition_data (ignored local cache; not committed)",
+  "missing": [],
+  "files": [
+    {
+      "file": "training_features.tif",
+      "bytes": 418912844,
+      "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+      "driver": "GTiff",
+      "shape": [
+        3730,
+        3292,
+        19
+      ],
+      "dtypes": [
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32",
+        "float32"
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "bounds": [
+        243350.0,
+        4135550.0,
+        572550.0,
+        4508550.0
+      ],
+      "nodata_repr": "-3.4028234663852886e+38",
+      "mirror_hash_match": true
+    },
+    {
+      "file": "labels.tif",
+      "bytes": 425830,
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "driver": "GTiff",
+      "shape": [
+        3730,
+        3292,
+        1
+      ],
+      "dtypes": [
+        "int8"
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "bounds": [
+        243350.0,
+        4135550.0,
+        572550.0,
+        4508550.0
+      ],
+      "nodata_repr": "-1.0",
+      "mirror_hash_match": true
+    },
+    {
+      "file": "existing_faults.tif",
+      "bytes": 425830,
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "driver": "GTiff",
+      "shape": [
+        3730,
+        3292,
+        1
+      ],
+      "dtypes": [
+        "int8"
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "bounds": [
+        243350.0,
+        4135550.0,
+        572550.0,
+        4508550.0
+      ],
+      "nodata_repr": "-1.0",
+      "mirror_hash_match": true
+    },
+    {
+      "file": "sample_submission.tif",
+      "bytes": 1599597,
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "driver": "GTiff",
+      "shape": [
+        3730,
+        3292,
+        1
+      ],
+      "dtypes": [
+        "float32"
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "bounds": [
+        243350.0,
+        4135550.0,
+        572550.0,
+        4508550.0
+      ],
+      "nodata_repr": "nan",
+      "mirror_hash_match": true
+    }
+  ],
+  "checks": {
+    "matching_shape_crs_transform": true,
+    "expected_mirror_shape": true,
+    "expected_epsg_32611": true,
+    "north_up_100m": true,
+    "all_geotiff": true,
+    "features_19_float32_bands": true,
+    "sample_one_float32_band": true,
+    "labels_one_band_each": true,
+    "owner_mirror_hashes": true,
+    "nonempty_sample_footprint": true
+  },
+  "irregularities": [
+    "SHA-256 agrees with the selected owner mirror; official provenance is not established.",
+    "The sample contains positive predictions. The organizer's published example was described as total fault absence; confirm the exact organizer file before submission."
+  ],
+  "schema_pass": true,
+  "upload_authorized": false,
+  "submission_generated": false,
+  "mirror_manifest": "registry/core_data_manifest.json",
+  "diagnostics": {
+    "footprint_pixels": 5167373,
+    "sample_positive_pixels": 60988,
+    "sample_ones_outside_footprint": 0,
+    "sample_positive_equals_labels_inside": true
+  },
+  "source_manifest_sha256": "356b0f4540fd55209b9e6936d2f74c57efb1d0a5ae16104ffb2d5b99eb591b6c",
+  "observation_date_utc": "2026-10-28",
+  "scope_note": "Snapshot of research-only owner-mirror preflight, not a live feed or an organizer-authenticated sample."
+}

@@ -1,0 +1,1152 @@
+{
+  "experiment": "K3 E1 canaries + primitives",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "canaries": [
+    {
+      "fold": 0,
+      "positives": 28701,
+      "unlabeled_sample": 60000,
+      "features": {
+        "mag_anom": {
+          "auc": 0.4982916475035713,
+          "canary_max_auc_1m": 0.5017083524964288,
+          "pass": true
+        },
+        "rtp": {
+          "auc": 0.5055488261152341,
+          "canary_max_auc_1m": 0.5055488261152341,
+          "pass": true
+        },
+        "tmi_hg": {
+          "auc": 0.5251026340545626,
+          "canary_max_auc_1m": 0.5251026340545626,
+          "pass": true
+        },
+        "grav_slope": {
+          "auc": 0.5305747894963009,
+          "canary_max_auc_1m": 0.5305747894963009,
+          "pass": true
+        },
+        "tc": {
+          "auc": 0.46433736426140787,
+          "canary_max_auc_1m": 0.5356626357385921,
+          "pass": true
+        },
+        "tmi_vg": {
+          "auc": 0.4949192876554824,
+          "canary_max_auc_1m": 0.5050807123445176,
+          "pass": true
+        },
+        "grav_vg": {
+          "auc": 0.5140139934148636,
+          "canary_max_auc_1m": 0.5140139934148636,
+          "pass": true
+        },
+        "det_elev": {
+          "auc": 0.4994380097093017,
+          "canary_max_auc_1m": 0.5005619902906984,
+          "pass": true
+        },
+        "iso_grav": {
+          "auc": 0.45838512827659894,
+          "canary_max_auc_1m": 0.5416148717234011,
+          "pass": true
+        },
+        "tmi": {
+          "auc": 0.49871191509006657,
+          "canary_max_auc_1m": 0.5012880849099335,
+          "pass": true
+        },
+        "depth_base": {
+          "auc": 0.5175321643845162,
+          "canary_max_auc_1m": 0.5175321643845162,
+          "pass": true
+        },
+        "cond_surf": {
+          "auc": 0.5027880837485337,
+          "canary_max_auc_1m": 0.5027880837485337,
+          "pass": true
+        },
+        "grav_hg": {
+          "auc": 0.4689692301661963,
+          "canary_max_auc_1m": 0.5310307698338037,
+          "pass": true
+        },
+        "elev_slope": {
+          "auc": 0.5472871058499703,
+          "canary_max_auc_1m": 0.5472871058499703,
+          "pass": true
+        },
+        "g15_rtp": {
+          "auc": 0.5271020925519436,
+          "canary_max_auc_1m": 0.5271020925519436,
+          "pass": true
+        },
+        "g15_det_elev": {
+          "auc": 0.5677671988780878,
+          "canary_max_auc_1m": 0.5677671988780878,
+          "pass": true
+        },
+        "g15_iso_grav": {
+          "auc": 0.5317826196532061,
+          "canary_max_auc_1m": 0.5317826196532061,
+          "pass": true
+        },
+        "g15_depth_base": {
+          "auc": 0.5279679157520645,
+          "canary_max_auc_1m": 0.5279679157520645,
+          "pass": true
+        },
+        "g15_cond_surf": {
+          "auc": 0.5022778866590014,
+          "canary_max_auc_1m": 0.5022778866590014,
+          "pass": true
+        },
+        "g40_rtp": {
+          "auc": 0.5297521895288201,
+          "canary_max_auc_1m": 0.5297521895288201,
+          "pass": true
+        },
+        "g40_det_elev": {
+          "auc": 0.5745701708999686,
+          "canary_max_auc_1m": 0.5745701708999686,
+          "pass": true
+        },
+        "g40_iso_grav": {
+          "auc": 0.5307276860272,
+          "canary_max_auc_1m": 0.5307276860272,
+          "pass": true
+        },
+        "g40_depth_base": {
+          "auc": 0.527525776976412,
+          "canary_max_auc_1m": 0.527525776976412,
+          "pass": true
+        },
+        "g40_cond_surf": {
+          "auc": 0.5003906341823166,
+          "canary_max_auc_1m": 0.5003906341823166,
+          "pass": true
+        },
+        "dog_det_elev": {
+          "auc": 0.4387643232523838,
+          "canary_max_auc_1m": 0.5612356767476162,
+          "pass": true
+        },
+        "dog_rtp": {
+          "auc": 0.49349247209737174,
+          "canary_max_auc_1m": 0.5065075279026283,
+          "pass": true
+        },
+        "coh_rtp": {
+          "auc": 0.5129247291035155,
+          "canary_max_auc_1m": 0.5129247291035155,
+          "pass": true
+        },
+        "coh_det_elev": {
+          "auc": 0.5611512757975913,
+          "canary_max_auc_1m": 0.5611512757975913,
+          "pass": true
+        },
+        "coh_iso_grav": {
+          "auc": 0.4900013475140239,
+          "canary_max_auc_1m": 0.5099986524859761,
+          "pass": true
+        },
+        "coh_depth_base": {
+          "auc": 0.5082184154442935,
+          "canary_max_auc_1m": 0.5082184154442935,
+          "pass": true
+        },
+        "lin_rtp": {
+          "auc": 0.5307925333612069,
+          "canary_max_auc_1m": 0.5307925333612069,
+          "pass": true
+        },
+        "lin_det_elev": {
+          "auc": 0.5940940934113794,
+          "canary_max_auc_1m": 0.5940940934113794,
+          "pass": true
+        },
+        "lin_iso_grav": {
+          "auc": 0.5287813197565706,
+          "canary_max_auc_1m": 0.5287813197565706,
+          "pass": true
+        },
+        "lin_depth_base": {
+          "auc": 0.5276316710799857,
+          "canary_max_auc_1m": 0.5276316710799857,
+          "pass": true
+        },
+        "haniso_rtp": {
+          "auc": 0.5039965332218389,
+          "canary_max_auc_1m": 0.5039965332218389,
+          "pass": true
+        },
+        "haniso_det_elev": {
+          "auc": 0.500384103341347,
+          "canary_max_auc_1m": 0.500384103341347,
+          "pass": true
+        },
+        "haniso_iso_grav": {
+          "auc": 0.49323277237726915,
+          "canary_max_auc_1m": 0.5067672276227309,
+          "pass": true
+        },
+        "haniso_depth_base": {
+          "auc": 0.49709228772516634,
+          "canary_max_auc_1m": 0.5029077122748337,
+          "pass": true
+        },
+        "hridge_rtp": {
+          "auc": 0.5227720959200027,
+          "canary_max_auc_1m": 0.5227720959200027,
+          "pass": true
+        },
+        "hridge_det_elev": {
+          "auc": 0.5426825673902187,
+          "canary_max_auc_1m": 0.5426825673902187,
+          "pass": true
+        },
+        "hridge_iso_grav": {
+          "auc": 0.5221880349697454,
+          "canary_max_auc_1m": 0.5221880349697454,
+          "pass": true
+        },
+        "hridge_depth_base": {
+          "auc": 0.5138398592383541,
+          "canary_max_auc_1m": 0.5138398592383541,
+          "pass": true
+        },
+        "tex7_rtp": {
+          "auc": 0.5277582038372647,
+          "canary_max_auc_1m": 0.5277582038372647,
+          "pass": true
+        },
+        "tex7_det_elev": {
+          "auc": 0.5595017005795384,
+          "canary_max_auc_1m": 0.5595017005795384,
+          "pass": true
+        },
+        "tex7_cond_surf": {
+          "auc": 0.5039333736919736,
+          "canary_max_auc_1m": 0.5039333736919736,
+          "pass": true
+        },
+        "tex15_rtp": {
+          "auc": 0.5306426068197392,
+          "canary_max_auc_1m": 0.5306426068197392,
+          "pass": true
+        },
+        "tex15_det_elev": {
+          "auc": 0.5646849410008943,
+          "canary_max_auc_1m": 0.5646849410008943,
+          "pass": true
+        },
+        "tex15_cond_surf": {
+          "auc": 0.5004616372251838,
+          "canary_max_auc_1m": 0.5004616372251838,
+          "pass": true
+        },
+        "cos_er": {
+          "auc": 0.5155121337235636,
+          "canary_max_auc_1m": 0.5155121337235636,
+          "pass": true
+        },
+        "cos_eg": {
+          "auc": 0.5285566597563384,
+          "canary_max_auc_1m": 0.5285566597563384,
+          "pass": true
+        },
+        "agree_er": {
+          "auc": 0.563386003971987,
+          "canary_max_auc_1m": 0.563386003971987,
+          "pass": true
+        },
+        "step2_elev": {
+          "auc": 0.5699124766268306,
+          "canary_max_auc_1m": 0.5699124766268306,
+          "pass": true
+        },
+        "step4_elev": {
+          "auc": 0.5712196514639444,
+          "canary_max_auc_1m": 0.5712196514639444,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 1,
+      "positives": 12118,
+      "unlabeled_sample": 60000,
+      "features": {
+        "mag_anom": {
+          "auc": 0.516899743494526,
+          "canary_max_auc_1m": 0.516899743494526,
+          "pass": true
+        },
+        "rtp": {
+          "auc": 0.4976559780216757,
+          "canary_max_auc_1m": 0.5023440219783243,
+          "pass": true
+        },
+        "tmi_hg": {
+          "auc": 0.4854450782582384,
+          "canary_max_auc_1m": 0.5145549217417615,
+          "pass": true
+        },
+        "grav_slope": {
+          "auc": 0.5737510734719701,
+          "canary_max_auc_1m": 0.5737510734719701,
+          "pass": true
+        },
+        "tc": {
+          "auc": 0.43086602712218736,
+          "canary_max_auc_1m": 0.5691339728778126,
+          "pass": true
+        },
+        "tmi_vg": {
+          "auc": 0.4867378637839027,
+          "canary_max_auc_1m": 0.5132621362160973,
+          "pass": true
+        },
+        "grav_vg": {
+          "auc": 0.5346389943334984,
+          "canary_max_auc_1m": 0.5346389943334984,
+          "pass": true
+        },
+        "det_elev": {
+          "auc": 0.45447716619904277,
+          "canary_max_auc_1m": 0.5455228338009572,
+          "pass": true
+        },
+        "iso_grav": {
+          "auc": 0.4833057029487814,
+          "canary_max_auc_1m": 0.5166942970512186,
+          "pass": true
+        },
+        "tmi": {
+          "auc": 0.5070030698135005,
+          "canary_max_auc_1m": 0.5070030698135005,
+          "pass": true
+        },
+        "depth_base": {
+          "auc": 0.5186841888100348,
+          "canary_max_auc_1m": 0.5186841888100348,
+          "pass": true
+        },
+        "cond_surf": {
+          "auc": 0.47344613935192825,
+          "canary_max_auc_1m": 0.5265538606480717,
+          "pass": true
+        },
+        "grav_hg": {
+          "auc": 0.5752257447598613,
+          "canary_max_auc_1m": 0.5752257447598613,
+          "pass": true
+        },
+        "elev_slope": {
+          "auc": 0.5531588999834957,
+          "canary_max_auc_1m": 0.5531588999834957,
+          "pass": true
+        },
+        "g15_rtp": {
+          "auc": 0.4924291742311712,
+          "canary_max_auc_1m": 0.5075708257688287,
+          "pass": true
+        },
+        "g15_det_elev": {
+          "auc": 0.5889502482532871,
+          "canary_max_auc_1m": 0.5889502482532871,
+          "pass": true
+        },
+        "g15_iso_grav": {
+          "auc": 0.5775710884634428,
+          "canary_max_auc_1m": 0.5775710884634428,
+          "pass": true
+        },
+        "g15_depth_base": {
+          "auc": 0.553690626203444,
+          "canary_max_auc_1m": 0.553690626203444,
+          "pass": true
+        },
+        "g15_cond_surf": {
+          "auc": 0.4964929581339055,
+          "canary_max_auc_1m": 0.5035070418660945,
+          "pass": true
+        },
+        "g40_rtp": {
+          "auc": 0.49893777782362325,
+          "canary_max_auc_1m": 0.5010622221763767,
+          "pass": true
+        },
+        "g40_det_elev": {
+          "auc": 0.601585732656654,
+          "canary_max_auc_1m": 0.601585732656654,
+          "pass": true
+        },
+        "g40_iso_grav": {
+          "auc": 0.5768712830775156,
+          "canary_max_auc_1m": 0.5768712830775156,
+          "pass": true
+        },
+        "g40_depth_base": {
+          "auc": 0.5547376217197557,
+          "canary_max_auc_1m": 0.5547376217197557,
+          "pass": true
+        },
+        "g40_cond_surf": {
+          "auc": 0.4954008822963085,
+          "canary_max_auc_1m": 0.5045991177036915,
+          "pass": true
+        },
+        "dog_det_elev": {
+          "auc": 0.37893756670517686,
+          "canary_max_auc_1m": 0.6210624332948231,
+          "pass": true
+        },
+        "dog_rtp": {
+          "auc": 0.48329722657754304,
+          "canary_max_auc_1m": 0.516702773422457,
+          "pass": true
+        },
+        "coh_rtp": {
+          "auc": 0.5351265796060956,
+          "canary_max_auc_1m": 0.5351265796060956,
+          "pass": true
+        },
+        "coh_det_elev": {
+          "auc": 0.6036478461792375,
+          "canary_max_auc_1m": 0.6036478461792375,
+          "pass": true
+        },
+        "coh_iso_grav": {
+          "auc": 0.5065890294052924,
+          "canary_max_auc_1m": 0.5065890294052924,
+          "pass": true
+        },
+        "coh_depth_base": {
+          "auc": 0.5511732986741487,
+          "canary_max_auc_1m": 0.5511732986741487,
+          "pass": true
+        },
+        "lin_rtp": {
+          "auc": 0.5026802889640755,
+          "canary_max_auc_1m": 0.5026802889640755,
+          "pass": true
+        },
+        "lin_det_elev": {
+          "auc": 0.638154430048963,
+          "canary_max_auc_1m": 0.638154430048963,
+          "pass": true
+        },
+        "lin_iso_grav": {
+          "auc": 0.574830579165979,
+          "canary_max_auc_1m": 0.574830579165979,
+          "pass": true
+        },
+        "lin_depth_base": {
+          "auc": 0.5551322096605601,
+          "canary_max_auc_1m": 0.5551322096605601,
+          "pass": true
+        },
+        "haniso_rtp": {
+          "auc": 0.4991112504813776,
+          "canary_max_auc_1m": 0.5008887495186224,
+          "pass": true
+        },
+        "haniso_det_elev": {
+          "auc": 0.486870389090609,
+          "canary_max_auc_1m": 0.513129610909391,
+          "pass": true
+        },
+        "haniso_iso_grav": {
+          "auc": 0.4871825541893602,
+          "canary_max_auc_1m": 0.5128174458106398,
+          "pass": true
+        },
+        "haniso_depth_base": {
+          "auc": 0.506250323898333,
+          "canary_max_auc_1m": 0.506250323898333,
+          "pass": true
+        },
+        "hridge_rtp": {
+          "auc": 0.48204527493535787,
+          "canary_max_auc_1m": 0.5179547250646421,
+          "pass": true
+        },
+        "hridge_det_elev": {
+          "auc": 0.5283959261704352,
+          "canary_max_auc_1m": 0.5283959261704352,
+          "pass": true
+        },
+        "hridge_iso_grav": {
+          "auc": 0.5474480786158332,
+          "canary_max_auc_1m": 0.5474480786158332,
+          "pass": true
+        },
+        "hridge_depth_base": {
+          "auc": 0.5538449063376796,
+          "canary_max_auc_1m": 0.5538449063376796,
+          "pass": true
+        },
+        "tex7_rtp": {
+          "auc": 0.4885071690873082,
+          "canary_max_auc_1m": 0.5114928309126918,
+          "pass": true
+        },
+        "tex7_det_elev": {
+          "auc": 0.5700614904824779,
+          "canary_max_auc_1m": 0.5700614904824779,
+          "pass": true
+        },
+        "tex7_cond_surf": {
+          "auc": 0.4963211118446389,
+          "canary_max_auc_1m": 0.5036788881553611,
+          "pass": true
+        },
+        "tex15_rtp": {
+          "auc": 0.4888000302580183,
+          "canary_max_auc_1m": 0.5111999697419817,
+          "pass": true
+        },
+        "tex15_det_elev": {
+          "auc": 0.5746264276283215,
+          "canary_max_auc_1m": 0.5746264276283215,
+          "pass": true
+        },
+        "tex15_cond_surf": {
+          "auc": 0.49636296212246245,
+          "canary_max_auc_1m": 0.5036370378775376,
+          "pass": true
+        },
+        "cos_er": {
+          "auc": 0.48547964323045606,
+          "canary_max_auc_1m": 0.514520356769544,
+          "pass": true
+        },
+        "cos_eg": {
+          "auc": 0.5927663104472686,
+          "canary_max_auc_1m": 0.5927663104472686,
+          "pass": true
+        },
+        "agree_er": {
+          "auc": 0.5567945631842438,
+          "canary_max_auc_1m": 0.5567945631842438,
+          "pass": true
+        },
+        "step2_elev": {
+          "auc": 0.5917308267315838,
+          "canary_max_auc_1m": 0.5917308267315838,
+          "pass": true
+        },
+        "step4_elev": {
+          "auc": 0.5913270369147824,
+          "canary_max_auc_1m": 0.5913270369147824,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 2,
+      "positives": 8213,
+      "unlabeled_sample": 60000,
+      "features": {
+        "mag_anom": {
+          "auc": 0.47284583586996226,
+          "canary_max_auc_1m": 0.5271541641300377,
+          "pass": true
+        },
+        "rtp": {
+          "auc": 0.5588655677990179,
+          "canary_max_auc_1m": 0.5588655677990179,
+          "pass": true
+        },
+        "tmi_hg": {
+          "auc": 0.5532043335768497,
+          "canary_max_auc_1m": 0.5532043335768497,
+          "pass": true
+        },
+        "grav_slope": {
+          "auc": 0.46533684199845776,
+          "canary_max_auc_1m": 0.5346631580015422,
+          "pass": true
+        },
+        "tc": {
+          "auc": 0.4255778187020578,
+          "canary_max_auc_1m": 0.5744221812979422,
+          "pass": true
+        },
+        "tmi_vg": {
+          "auc": 0.47688779881488697,
+          "canary_max_auc_1m": 0.523112201185113,
+          "pass": true
+        },
+        "grav_vg": {
+          "auc": 0.5235417072527294,
+          "canary_max_auc_1m": 0.5235417072527294,
+          "pass": true
+        },
+        "det_elev": {
+          "auc": 0.5551873574414545,
+          "canary_max_auc_1m": 0.5551873574414545,
+          "pass": true
+        },
+        "iso_grav": {
+          "auc": 0.4764218535654856,
+          "canary_max_auc_1m": 0.5235781464345144,
+          "pass": true
+        },
+        "tmi": {
+          "auc": 0.48426146657737734,
+          "canary_max_auc_1m": 0.5157385334226227,
+          "pass": true
+        },
+        "depth_base": {
+          "auc": 0.4775916301392102,
+          "canary_max_auc_1m": 0.5224083698607898,
+          "pass": true
+        },
+        "cond_surf": {
+          "auc": 0.4700707415073664,
+          "canary_max_auc_1m": 0.5299292584926336,
+          "pass": true
+        },
+        "grav_hg": {
+          "auc": 0.496386084053736,
+          "canary_max_auc_1m": 0.503613915946264,
+          "pass": true
+        },
+        "elev_slope": {
+          "auc": 0.5864028055115873,
+          "canary_max_auc_1m": 0.5864028055115873,
+          "pass": true
+        },
+        "g15_rtp": {
+          "auc": 0.5710621311741548,
+          "canary_max_auc_1m": 0.5710621311741548,
+          "pass": true
+        },
+        "g15_det_elev": {
+          "auc": 0.5866686482811803,
+          "canary_max_auc_1m": 0.5866686482811803,
+          "pass": true
+        },
+        "g15_iso_grav": {
+          "auc": 0.47009272494825277,
+          "canary_max_auc_1m": 0.5299072750517473,
+          "pass": true
+        },
+        "g15_depth_base": {
+          "auc": 0.4706349892446934,
+          "canary_max_auc_1m": 0.5293650107553066,
+          "pass": true
+        },
+        "g15_cond_surf": {
+          "auc": 0.5032153181947319,
+          "canary_max_auc_1m": 0.5032153181947319,
+          "pass": true
+        },
+        "g40_rtp": {
+          "auc": 0.5749727961767929,
+          "canary_max_auc_1m": 0.5749727961767929,
+          "pass": true
+        },
+        "g40_det_elev": {
+          "auc": 0.5925351962336134,
+          "canary_max_auc_1m": 0.5925351962336134,
+          "pass": true
+        },
+        "g40_iso_grav": {
+          "auc": 0.46861539226429644,
+          "canary_max_auc_1m": 0.5313846077357036,
+          "pass": true
+        },
+        "g40_depth_base": {
+          "auc": 0.4715568448394821,
+          "canary_max_auc_1m": 0.5284431551605179,
+          "pass": true
+        },
+        "g40_cond_surf": {
+          "auc": 0.5017964436462519,
+          "canary_max_auc_1m": 0.5017964436462519,
+          "pass": true
+        },
+        "dog_det_elev": {
+          "auc": 0.41308209241446486,
+          "canary_max_auc_1m": 0.5869179075855351,
+          "pass": true
+        },
+        "dog_rtp": {
+          "auc": 0.47798254697836756,
+          "canary_max_auc_1m": 0.5220174530216324,
+          "pass": true
+        },
+        "coh_rtp": {
+          "auc": 0.5449687172774869,
+          "canary_max_auc_1m": 0.5449687172774869,
+          "pass": true
+        },
+        "coh_det_elev": {
+          "auc": 0.48529656946304633,
+          "canary_max_auc_1m": 0.5147034305369537,
+          "pass": true
+        },
+        "coh_iso_grav": {
+          "auc": 0.49058685924753437,
+          "canary_max_auc_1m": 0.5094131407524656,
+          "pass": true
+        },
+        "coh_depth_base": {
+          "auc": 0.5283694285482365,
+          "canary_max_auc_1m": 0.5283694285482365,
+          "pass": true
+        },
+        "lin_rtp": {
+          "auc": 0.5803992927878567,
+          "canary_max_auc_1m": 0.5803992927878567,
+          "pass": true
+        },
+        "lin_det_elev": {
+          "auc": 0.5966303614188888,
+          "canary_max_auc_1m": 0.5966303614188888,
+          "pass": true
+        },
+        "lin_iso_grav": {
+          "auc": 0.4731605564349202,
+          "canary_max_auc_1m": 0.5268394435650798,
+          "pass": true
+        },
+        "lin_depth_base": {
+          "auc": 0.47401287491375466,
+          "canary_max_auc_1m": 0.5259871250862453,
+          "pass": true
+        },
+        "haniso_rtp": {
+          "auc": 0.5104132310564552,
+          "canary_max_auc_1m": 0.5104132310564552,
+          "pass": true
+        },
+        "haniso_det_elev": {
+          "auc": 0.5063721741953813,
+          "canary_max_auc_1m": 0.5063721741953813,
+          "pass": true
+        },
+        "haniso_iso_grav": {
+          "auc": 0.4795821177807541,
+          "canary_max_auc_1m": 0.5204178822192459,
+          "pass": true
+        },
+        "haniso_depth_base": {
+          "auc": 0.5039553086570072,
+          "canary_max_auc_1m": 0.5039553086570072,
+          "pass": true
+        },
+        "hridge_rtp": {
+          "auc": 0.5520237631397378,
+          "canary_max_auc_1m": 0.5520237631397378,
+          "pass": true
+        },
+        "hridge_det_elev": {
+          "auc": 0.5821939871748041,
+          "canary_max_auc_1m": 0.5821939871748041,
+          "pass": true
+        },
+        "hridge_iso_grav": {
+          "auc": 0.4754619201266285,
+          "canary_max_auc_1m": 0.5245380798733714,
+          "pass": true
+        },
+        "hridge_depth_base": {
+          "auc": 0.46181488493851214,
+          "canary_max_auc_1m": 0.5381851150614878,
+          "pass": true
+        },
+        "tex7_rtp": {
+          "auc": 0.5761294583789927,
+          "canary_max_auc_1m": 0.5761294583789927,
+          "pass": true
+        },
+        "tex7_det_elev": {
+          "auc": 0.5886457841227323,
+          "canary_max_auc_1m": 0.5886457841227323,
+          "pass": true
+        },
+        "tex7_cond_surf": {
+          "auc": 0.5055251248021428,
+          "canary_max_auc_1m": 0.5055251248021428,
+          "pass": true
+        },
+        "tex15_rtp": {
+          "auc": 0.5808356974714883,
+          "canary_max_auc_1m": 0.5808356974714883,
+          "pass": true
+        },
+        "tex15_det_elev": {
+          "auc": 0.5938971437558342,
+          "canary_max_auc_1m": 0.5938971437558342,
+          "pass": true
+        },
+        "tex15_cond_surf": {
+          "auc": 0.5056143228215431,
+          "canary_max_auc_1m": 0.5056143228215431,
+          "pass": true
+        },
+        "cos_er": {
+          "auc": 0.5110042940054386,
+          "canary_max_auc_1m": 0.5110042940054386,
+          "pass": true
+        },
+        "cos_eg": {
+          "auc": 0.4938314460814156,
+          "canary_max_auc_1m": 0.5061685539185844,
+          "pass": true
+        },
+        "agree_er": {
+          "auc": 0.5761969448841269,
+          "canary_max_auc_1m": 0.5761969448841269,
+          "pass": true
+        },
+        "step2_elev": {
+          "auc": 0.5870042818296197,
+          "canary_max_auc_1m": 0.5870042818296197,
+          "pass": true
+        },
+        "step4_elev": {
+          "auc": 0.5887314856528268,
+          "canary_max_auc_1m": 0.5887314856528268,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 3,
+      "positives": 9226,
+      "unlabeled_sample": 60000,
+      "features": {
+        "mag_anom": {
+          "auc": 0.509484705361659,
+          "canary_max_auc_1m": 0.509484705361659,
+          "pass": true
+        },
+        "rtp": {
+          "auc": 0.5070309695425971,
+          "canary_max_auc_1m": 0.5070309695425971,
+          "pass": true
+        },
+        "tmi_hg": {
+          "auc": 0.5017237173928752,
+          "canary_max_auc_1m": 0.5017237173928752,
+          "pass": true
+        },
+        "grav_slope": {
+          "auc": 0.5596460392730689,
+          "canary_max_auc_1m": 0.5596460392730689,
+          "pass": true
+        },
+        "tc": {
+          "auc": 0.38256181624394825,
+          "canary_max_auc_1m": 0.6174381837560518,
+          "pass": true
+        },
+        "tmi_vg": {
+          "auc": 0.48402599176241057,
+          "canary_max_auc_1m": 0.5159740082375894,
+          "pass": true
+        },
+        "grav_vg": {
+          "auc": 0.561306019221042,
+          "canary_max_auc_1m": 0.561306019221042,
+          "pass": true
+        },
+        "det_elev": {
+          "auc": 0.47888925952019656,
+          "canary_max_auc_1m": 0.5211107404798034,
+          "pass": true
+        },
+        "iso_grav": {
+          "auc": 0.48906412222703954,
+          "canary_max_auc_1m": 0.5109358777729605,
+          "pass": true
+        },
+        "tmi": {
+          "auc": 0.5033266520341065,
+          "canary_max_auc_1m": 0.5033266520341065,
+          "pass": true
+        },
+        "depth_base": {
+          "auc": 0.5315335446925356,
+          "canary_max_auc_1m": 0.5315335446925356,
+          "pass": true
+        },
+        "cond_surf": {
+          "auc": 0.5430386182166341,
+          "canary_max_auc_1m": 0.5430386182166341,
+          "pass": true
+        },
+        "grav_hg": {
+          "auc": 0.5146651582484283,
+          "canary_max_auc_1m": 0.5146651582484283,
+          "pass": true
+        },
+        "elev_slope": {
+          "auc": 0.5710494842474167,
+          "canary_max_auc_1m": 0.5710494842474167,
+          "pass": true
+        },
+        "g15_rtp": {
+          "auc": 0.5090937495483778,
+          "canary_max_auc_1m": 0.5090937495483778,
+          "pass": true
+        },
+        "g15_det_elev": {
+          "auc": 0.590187116121107,
+          "canary_max_auc_1m": 0.590187116121107,
+          "pass": true
+        },
+        "g15_iso_grav": {
+          "auc": 0.5569972107811259,
+          "canary_max_auc_1m": 0.5569972107811259,
+          "pass": true
+        },
+        "g15_depth_base": {
+          "auc": 0.5701072729243442,
+          "canary_max_auc_1m": 0.5701072729243442,
+          "pass": true
+        },
+        "g15_cond_surf": {
+          "auc": 0.5069310418021533,
+          "canary_max_auc_1m": 0.5069310418021533,
+          "pass": true
+        },
+        "g40_rtp": {
+          "auc": 0.508801492159838,
+          "canary_max_auc_1m": 0.508801492159838,
+          "pass": true
+        },
+        "g40_det_elev": {
+          "auc": 0.5905768055856637,
+          "canary_max_auc_1m": 0.5905768055856637,
+          "pass": true
+        },
+        "g40_iso_grav": {
+          "auc": 0.5581510098272996,
+          "canary_max_auc_1m": 0.5581510098272996,
+          "pass": true
+        },
+        "g40_depth_base": {
+          "auc": 0.5717294990606258,
+          "canary_max_auc_1m": 0.5717294990606258,
+          "pass": true
+        },
+        "g40_cond_surf": {
+          "auc": 0.5070241798540357,
+          "canary_max_auc_1m": 0.5070241798540357,
+          "pass": true
+        },
+        "dog_det_elev": {
+          "auc": 0.4172210880482694,
+          "canary_max_auc_1m": 0.5827789119517306,
+          "pass": true
+        },
+        "dog_rtp": {
+          "auc": 0.48373345798106804,
+          "canary_max_auc_1m": 0.516266542018932,
+          "pass": true
+        },
+        "coh_rtp": {
+          "auc": 0.49974470066478793,
+          "canary_max_auc_1m": 0.5002552993352121,
+          "pass": true
+        },
+        "coh_det_elev": {
+          "auc": 0.5583412069152396,
+          "canary_max_auc_1m": 0.5583412069152396,
+          "pass": true
+        },
+        "coh_iso_grav": {
+          "auc": 0.523635180468242,
+          "canary_max_auc_1m": 0.523635180468242,
+          "pass": true
+        },
+        "coh_depth_base": {
+          "auc": 0.5294883029843197,
+          "canary_max_auc_1m": 0.5294883029843197,
+          "pass": true
+        },
+        "lin_rtp": {
+          "auc": 0.5093336025001807,
+          "canary_max_auc_1m": 0.5093336025001807,
+          "pass": true
+        },
+        "lin_det_elev": {
+          "auc": 0.6172123039959534,
+          "canary_max_auc_1m": 0.6172123039959534,
+          "pass": true
+        },
+        "lin_iso_grav": {
+          "auc": 0.5561928661753017,
+          "canary_max_auc_1m": 0.5561928661753017,
+          "pass": true
+        },
+        "lin_depth_base": {
+          "auc": 0.5695977572440205,
+          "canary_max_auc_1m": 0.5695977572440205,
+          "pass": true
+        },
+        "haniso_rtp": {
+          "auc": 0.49638736902955416,
+          "canary_max_auc_1m": 0.5036126309704458,
+          "pass": true
+        },
+        "haniso_det_elev": {
+          "auc": 0.48806005672375175,
+          "canary_max_auc_1m": 0.5119399432762483,
+          "pass": true
+        },
+        "haniso_iso_grav": {
+          "auc": 0.4862401212154057,
+          "canary_max_auc_1m": 0.5137598787845943,
+          "pass": true
+        },
+        "haniso_depth_base": {
+          "auc": 0.5046289471782643,
+          "canary_max_auc_1m": 0.5046289471782643,
+          "pass": true
+        },
+        "hridge_rtp": {
+          "auc": 0.5024571103403426,
+          "canary_max_auc_1m": 0.5024571103403426,
+          "pass": true
+        },
+        "hridge_det_elev": {
+          "auc": 0.5385495411518173,
+          "canary_max_auc_1m": 0.5385495411518173,
+          "pass": true
+        },
+        "hridge_iso_grav": {
+          "auc": 0.5132022951441578,
+          "canary_max_auc_1m": 0.5132022951441578,
+          "pass": true
+        },
+        "hridge_depth_base": {
+          "auc": 0.5636732278343811,
+          "canary_max_auc_1m": 0.5636732278343811,
+          "pass": true
+        },
+        "tex7_rtp": {
+          "auc": 0.506683320687911,
+          "canary_max_auc_1m": 0.506683320687911,
+          "pass": true
+        },
+        "tex7_det_elev": {
+          "auc": 0.57876489901727,
+          "canary_max_auc_1m": 0.57876489901727,
+          "pass": true
+        },
+        "tex7_cond_surf": {
+          "auc": 0.5038286743984391,
+          "canary_max_auc_1m": 0.5038286743984391,
+          "pass": true
+        },
+        "tex15_rtp": {
+          "auc": 0.5012454503576849,
+          "canary_max_auc_1m": 0.5012454503576849,
+          "pass": true
+        },
+        "tex15_det_elev": {
+          "auc": 0.5765922718404508,
+          "canary_max_auc_1m": 0.5765922718404508,
+          "pass": true
+        },
+        "tex15_cond_surf": {
+          "auc": 0.5040774071464701,
+          "canary_max_auc_1m": 0.5040774071464701,
+          "pass": true
+        },
+        "cos_er": {
+          "auc": 0.4878510007948551,
+          "canary_max_auc_1m": 0.5121489992051449,
+          "pass": true
+        },
+        "cos_eg": {
+          "auc": 0.5600744526338608,
+          "canary_max_auc_1m": 0.5600744526338608,
+          "pass": true
+        },
+        "agree_er": {
+          "auc": 0.5544051502998771,
+          "canary_max_auc_1m": 0.5544051502998771,
+          "pass": true
+        },
+        "step2_elev": {
+          "auc": 0.5906612932654094,
+          "canary_max_auc_1m": 0.5906612932654094,
+          "pass": true
+        },
+        "step4_elev": {
+          "auc": 0.587253578654527,
+          "canary_max_auc_1m": 0.587253578654527,
+          "pass": true
+        }
+      }
+    }
+  ],
+  "worst_canary_by_feature": {
+    "mag_anom": 0.5271541641300377,
+    "rtp": 0.5588655677990179,
+    "tmi_hg": 0.5532043335768497,
+    "grav_slope": 0.5737510734719701,
+    "tc": 0.6174381837560518,
+    "tmi_vg": 0.523112201185113,
+    "grav_vg": 0.561306019221042,
+    "det_elev": 0.5551873574414545,
+    "iso_grav": 0.5416148717234011,
+    "tmi": 0.5157385334226227,
+    "depth_base": 0.5315335446925356,
+    "cond_surf": 0.5430386182166341,
+    "grav_hg": 0.5752257447598613,
+    "elev_slope": 0.5864028055115873,
+    "g15_rtp": 0.5710621311741548,
+    "g15_det_elev": 0.590187116121107,
+    "g15_iso_grav": 0.5775710884634428,
+    "g15_depth_base": 0.5701072729243442,
+    "g15_cond_surf": 0.5069310418021533,
+    "g40_rtp": 0.5749727961767929,
+    "g40_det_elev": 0.601585732656654,
+    "g40_iso_grav": 0.5768712830775156,
+    "g40_depth_base": 0.5717294990606258,
+    "g40_cond_surf": 0.5070241798540357,
+    "dog_det_elev": 0.6210624332948231,
+    "dog_rtp": 0.5220174530216324,
+    "coh_rtp": 0.5449687172774869,
+    "coh_det_elev": 0.6036478461792375,
+    "coh_iso_grav": 0.523635180468242,
+    "coh_depth_base": 0.5511732986741487,
+    "lin_rtp": 0.5803992927878567,
+    "lin_det_elev": 0.638154430048963,
+    "lin_iso_grav": 0.574830579165979,
+    "lin_depth_base": 0.5695977572440205,
+    "haniso_rtp": 0.5104132310564552,
+    "haniso_det_elev": 0.513129610909391,
+    "haniso_iso_grav": 0.5204178822192459,
+    "haniso_depth_base": 0.506250323898333,
+    "hridge_rtp": 0.5520237631397378,
+    "hridge_det_elev": 0.5821939871748041,
+    "hridge_iso_grav": 0.5474480786158332,
+    "hridge_depth_base": 0.5636732278343811,
+    "tex7_rtp": 0.5761294583789927,
+    "tex7_det_elev": 0.5886457841227323,
+    "tex7_cond_surf": 0.5055251248021428,
+    "tex15_rtp": 0.5808356974714883,
+    "tex15_det_elev": 0.5938971437558342,
+    "tex15_cond_surf": 0.5056143228215431,
+    "cos_er": 0.5155121337235636,
+    "cos_eg": 0.5927663104472686,
+    "agree_er": 0.5761969448841269,
+    "step2_elev": 0.5917308267315838,
+    "step4_elev": 0.5913270369147824
+  },
+  "canary_all_pass": true,
+  "budget_rule": "0.73% of eligible region px, min-sep 2.8px"
+}

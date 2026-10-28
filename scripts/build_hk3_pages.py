@@ -201,22 +201,84 @@ def uniqueness_note(rc) -> str:
 """
 
 
-def legacy_section() -> str:
+def legacy_cards() -> dict:
+    """Run cards of the other lanes in this repository (all negative); read from disk, never typed."""
+    def rd(rel):
+        try:
+            return json.loads((ROOT / rel).read_text())
+        except (OSError, ValueError):
+            return None
+    return {
+        "k3": rd("evidence/k3/run_card.json"), "k2": rd("evidence/k2/run_card.json"), "b4": rd("evidence/b4/run_card.json"),
+        "h2": rd("evidence/run_card_h2.json"), "h1": rd("evidence/h1/run_card.json"),
+    }
+
+
+def legacy_section(rc) -> str:
+    c = legacy_cards()
+    hk3_b110 = rc["holdout"]["candidate_same_budget_as_incumbent_b110"]["dti"]
+    hk3_u1 = rc["registry_uniqueness"]["tiers"]["U1_unique_vs_nine_scored_site_files"]["max_overlap"]
+    rows = []
+
+    def row(stem, sha, why, receipts):
+        rows.append(f'<tr><td><code class="cs">{esc(stem)}.tif</code><br><span class="sub-label">SHA-256 {esc(sha)}</span></td>'
+                    f'<td><span class="pill no">DO NOT SUBMIT</span></td><td>{why}</td><td>{receipts}</td></tr>')
+
+    k3 = c["k3"]
+    if k3:
+        h = k3["holdout"]; cor = k3["correlation_overlap_vs_registry"]
+        worst = max(r["overlap"] for r in cor["final_dots"]["flagged_primary"])
+        row(k3["submission_name"], k3["raster_sha256"],
+            f'K3 (concurrent lane; 53-feature lineament-context HGB, {k3["dots"]:,} dots, expected-DTI placement &gt; 2 px off catalogue): '
+            f'HOLDOUT-DTI <b>{f4(h["candidate_dti"])}</b> [{f4(h["candidate_ci95"][0])}, {f4(h["candidate_ci95"][1])}] at the 1.10 % budget — '
+            f'<b>higher than HK3&#8217;s {f4(hk3_b110)}</b> at the same budget (intervals overlap; same folds and evaluator, but no paired test exists across the two sessions). '
+            f'Verdict {esc(k3["verdict"]).upper()}: its surface failed the pre-placement gate against K2 (top-support overlap '
+            f'{cor["surface_before_placement"]["top_support_overlap_vs_K2_predecessor"]:.4f}) and its final dots exceed 70 % within 3 px of '
+            f'{cor["final_dots"]["duplicates_primary_count"]} registry records (worst {worst:.3f}). HK3 keeps a 3 px catalogue apron and 3 px dot separation, '
+            f'which is why its overlap with every scored file stays ≤ {pct(hk3_u1)}. K3 is the holdout-best file in this repository but is not submittable; '
+            f'HK3 is the best <em>submittable</em> file. Protocol note: HK3 did not beat K3 on holdout, so the holdout incumbent for the next lane is K3&#8217;s {f4(h["candidate_dti"])}.',
+            '<a href="evidence/k3/run_card.json">k3/run_card.json</a> · <a href="evidence/k3/selector_result.json">k3/selector_result.json</a>')
+    k2 = c["k2"]
+    if k2:
+        h = k2["holdout"]
+        row(k2["submission_name"], k2["raster_sha256"],
+            f'K2 (26-feature HGB, {k2["dots"]:,} dots): HOLDOUT-DTI {f4(h["dti"])} [{f4(h["ci95"][0])}, {f4(h["ci95"][1])}]; '
+            f'prior literal-policy verdict for K2: NEGATIVE (pre-placement lattice overlap 100 % against the 70 % limit; the lattice is now classified as a degenerate witness, '
+            f'but the file is superseded by HK3 and was never submitted).',
+            '<a href="evidence/k2-review-2026-10-28.json">k2-review-2026-10-28.json</a> · <a href="evidence/k2-protocol-review.json">k2-protocol-review.json</a> · '
+            '<a href="evidence/k2/literal_release_audit.json">literal_release_audit.json</a> · <a href="evidence/k2/selector_result.json">selector_result.json</a>')
+    b4 = c["b4"]
+    if b4:
+        h = b4["holdout"]
+        row(b4["submission_name"], b4["raster_sha256"],
+            f'B4 scarp-step asymmetry (concurrent lane, {b4["dots"]:,} dots): HOLDOUT-DTI {f4(h["b4_b110"])} [{f4(h["b4_b110_ci95"][0])}, {f4(h["b4_b110_ci95"][1])}] at 1.10 % — '
+            f'below the K2 incumbent ({f4(h["incumbent_k2_holdout_dti"])}); verdict NEGATIVE; its own audit also reports 1.0 overlap with the lattice.',
+            '<a href="evidence/b4/run_card.json">b4/run_card.json</a> · <a href="evidence/b4/literal_followup.json">b4/literal_followup.json</a>')
+    h2 = c["h2"]
+    if h2:
+        h = h2["holdout"]
+        row(h2["submission_name"], h2["raster_sha256"],
+            f'H2 dilational stepover / relay-ramp surface (not dots): HOLDOUT-DTI {f4(h["dti"])} [{f4(h["ci95"][0])}, {f4(h["ci95"][1])}] — worse than its primitives; verdict NEGATIVE.',
+            '<a href="evidence/run_card_h2.json">run_card_h2.json</a>')
+    h1 = c["h1"]
+    if h1:
+        h = h1["holdout"]
+        row(h1["submission_name"], h1["raster_sha256"],
+            f'H1 signed-downthrow-parity surface (not dots): HOLDOUT-DTI {f4(h["dti"])} [{f4(h["ci95"][0])}, {f4(h["ci95"][1])}] — worse than its primitive controls; verdict NEGATIVE.',
+            '<a href="evidence/h1/run_card.json">h1/run_card.json</a> · <a href="evidence/run_card.json">run_card.json</a>')
+    row("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros", "see audit",
+        'H-KARAGE-1 irregular raster: <b>not unique</b> — 100% of its in-footprint positives lie within 3 px of the r13 lattice (6,765 of 6,769; the rule&#8217;s limit is 70%), '
+        'and 5,426 positives fall outside the footprint. NO.',
+        '<a href="evidence/legacy-dot-audit-2026-10-28.json">legacy-dot-audit-2026-10-28.json</a>')
     return f"""
 <section class="section" id="legacy">
-<h3>Legacy research artefacts on this server — DO NOT SUBMIT</h3>
+<h3>Other files on this server — research only, DO NOT SUBMIT</h3>
+<p>Every run card below is negative. They stay published so that their receipts remain verifiable; the shared download inventory
+(<a href="evidence/public_downloads_audit.json">public_downloads_audit.json</a>) re-reads all of them from disk on every build.</p>
 <table>
 <thead><tr><th>File</th><th>Status</th><th>Why</th><th>Receipts</th></tr></thead>
-<tbody>
-<tr><td><code class="cs">gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code><br><span class="sub-label">SHA-256 504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</span></td><td><span class="pill no">DO NOT SUBMIT</span></td>
-<td>K2 (26-feature HGB, 54,491 dots): HOLDOUT-DTI 0.1581 [0.1424, 0.1742]; prior literal-policy verdict for K2: NEGATIVE (pre-placement lattice overlap 100 % against the 70 % limit; the lattice is now classified as a degenerate witness, but the file is superseded by HK3 and was never submitted).</td>
-<td><a href="evidence/k2-review-2026-10-28.json">k2-review-2026-10-28.json</a> · <a href="evidence/k2-protocol-review.json">k2-protocol-review.json</a> · <a href="evidence/k2/literal_release_audit.json">literal_release_audit.json</a> · <a href="evidence/k2/selector_result.json">selector_result.json</a></td></tr>
-<tr><td><code class="cs">gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif</code></td><td><span class="pill no">DO NOT SUBMIT</span></td>
-<td>H1 signed-downthrow-parity surface (not dots): HOLDOUT-DTI 0.0337 [0.0287, 0.0393] — worse than its primitive controls; verdict NEGATIVE.</td><td><a href="evidence/run_card.json">run_card.json</a></td></tr>
-<tr><td><code class="cs">gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif</code></td><td><span class="pill no">DO NOT SUBMIT</span></td>
-<td>H-KARAGE-1 irregular raster: <b>not unique</b> — 100% of its in-footprint positives lie within 3 px of the r13 lattice (6,765 of 6,769; the rule's limit is 70%), and 5,426 positives fall outside the footprint. NO.</td><td><a href="evidence/legacy-dot-audit-2026-10-28.json">legacy-dot-audit-2026-10-28.json</a></td></tr>
-</tbody></table>
-<p class="muted">These files stay published only so that the receipts above remain verifiable. The only file offered for upload is the HK3 file at the top of the page.</p>
+<tbody>{''.join(rows)}</tbody></table>
+<p class="muted">The only file offered for upload is the HK3 file at the top of the page.</p>
 </section>
 """
 
@@ -280,11 +342,9 @@ At the submitted rate ({row['rate']*100:.1f} % of active px): {f4(row['holdout_d
 <tbody>
 <tr><td><a href="{tif}" download><code>{esc(sub['name'])}.tif</code></a></td><td><span class="pill {'ok' if ok else 'no'}">{'OK TO SUBMIT' if ok else 'DO NOT SUBMIT'}</span></td>
 <td>{f4(est['estimate'])} LEADERBOARD-CALIBRATED ESTIMATE · {f4(hold['candidate_same_budget_as_incumbent_b110']['dti'])} HOLDOUT-DTI</td><td>YES vs all scored files (max {pct(ru['tiers']['U1_unique_vs_nine_scored_site_files']['max_overlap'])}); literal all-registry rule: see note</td></tr>
-<tr><td><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code></td><td><span class="pill no">DO NOT SUBMIT</span></td><td>0.1581 HOLDOUT-DTI (K2, 26 features; superseded)</td><td>research artefact; prior verdict NEGATIVE (<a href="#legacy">details</a>)</td></tr>
-<tr><td><code>gemsdoekarage2-h1-parity-…-surface.tif</code></td><td><span class="pill no">DO NOT SUBMIT</span></td><td>0.0337 HOLDOUT-DTI (surface, not dots)</td><td>research artefact (<a href="#legacy">details</a>)</td></tr>
-<tr><td><code>gemsdoe-karage2-hkarage1-…-zeros.tif</code></td><td><span class="pill no">DO NOT SUBMIT</span></td><td>—</td><td>NO — not unique (<a href="#legacy">details</a>)</td></tr>
+<tr><td>K3, K2, B4, H2, H1 research files and the H-KARAGE-1 raster (<a href="#legacy">table below</a>)</td><td><span class="pill no">DO NOT SUBMIT</span></td><td>HOLDOUT-DTI only (K3 {f4(legacy_cards()["k3"]["holdout"]["candidate_dti"]) if legacy_cards()["k3"] else "—"} is the holdout-best but fails uniqueness; the rest are below the incumbent)</td><td>negative run cards; never offered for upload</td></tr>
 </tbody></table>
-<p>The three older files remain on the server only as research evidence. Do not upload them.</p>
+<p>The other files remain on the server only as research evidence. Do not upload them.</p>
 </section>
 
 <section class="section">
@@ -309,7 +369,7 @@ At the submitted rate ({row['rate']*100:.1f} % of active px): {f4(row['holdout_d
 <p>HK3 keeps the geometry lessons (3 px catalogue apron, 3 px spacing, binary dots) and changes the <em>surface</em>: eight catalogue-free edge-geometry bands (gradient-ridge centrality and structure-tensor coherence of detrended elevation, gravity and magnetic tilt-angle zero-crossing distances, 500 m roughness) added to the 26-band K2 stack and learned per spatial fold from visible faults only. On identical folds it covers {pct(est['holdout_cov_ratio_cand_over_D28'] - 1)} more withheld fault credit than the D2.8 family field at the same dot count, with {pct(est['holdout_hit_ratio_cand_over_D28'] - 1)} higher per-dot hit rate. The budget ({r['dots']:,} dots) was chosen by a pre-registered maximin rule on the calibrated curve, not tuned on the holdout. <a href="executive-summary.html">Details, hypotheses and limits →</a></p>
 </section>
 """
-    out += legacy_section()
+    out += legacy_section(rc)
     out += foot(d)
     return badge_fill(out, d)
 
@@ -430,7 +490,7 @@ def page_summary(d) -> str:
 </ul>
 </section>
 """
-    out += legacy_section()
+    out += legacy_section(rc)
     out += foot(d)
     return badge_fill(out, d)
 
@@ -476,7 +536,7 @@ def page_howto(d) -> str:
 </ul>
 </section>
 """
-    out += legacy_section()
+    out += legacy_section(rc)
     out += foot(d)
     return badge_fill(out, d)
 

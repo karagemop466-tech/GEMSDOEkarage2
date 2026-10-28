@@ -25,6 +25,8 @@ def test_boundary_is_inclusive_and_calibration_not_exempt():
     assert not registry_failures({'rows': [row(.90, .70)]})
     assert registry_failures({'rows': [row(.1, .7205)]})
     assert registry_failures({'rows': []})
+    assert registry_failures({'rows': [None]})
+    assert registry_failures(None)
 
 
 def test_current_audit_is_reproducible_and_not_authorized():
@@ -32,6 +34,15 @@ def test_current_audit_is_reproducible_and_not_authorized():
     assert current == json.loads((ROOT / 'evidence/k2/literal_release_audit.json').read_text())
     assert all(current['validator'].values())
     assert current['registry_failures']
+    bound = current['geometry_lower_bound']
+    assert bound['saved_positive_pixels'] == 54491
+    assert bound['minimum_matches_if_all_dots_in_mirror_footprint'] == 47842
+    assert bound['minimum_overlap_if_all_dots_in_mirror_footprint'] > 0.70
+    comparisons = current['correlation_overlap_vs_registry']
+    assert 'impossible_gate' not in comparisons
+    assert comparisons['surface_before_placement']['vs_r13_lattice_support_overlap_within_3px'] == 1.0
+    assert comparisons['surface_before_placement']['duplicate_stop'] is True
+    assert comparisons['final_dots']['unique_under_literal_gate'] is False
     assert current['verdict'] == 'negative'
     assert current['slot_authorized'] is False
     assert current['leaderboard_estimate'] is None

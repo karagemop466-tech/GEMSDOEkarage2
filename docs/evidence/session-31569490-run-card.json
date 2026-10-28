@@ -1,0 +1,50 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "date_utc": "2026-10-28",
+  "branch": "arena/31569490-gemsdoekarage2",
+  "scope": "Repository/data/publication integrity follow-up; zero new geological experiments, zero generated TIFFs and zero competition submissions.",
+  "hypothesis": "Conditional next-lane proposal #1: a blockwise terrain-residualized, oriented gravity-gradient step may reveal covered fault segments beyond the mapped catalogue.",
+  "mechanism": "Proposed only: label-blind spatial-block regression of iso_grav_anom and iso_grav_anom_vg against det_elev and det_elev_slope, followed by an oriented residual edge and a shoreline/contour null. No surface was fitted or placed.",
+  "named_non_fault_mimic": "Unfaulted sediment-bedrock density contact or a pluvial lake-terrace riser.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI, NOT RUN IN THIS FOLLOW-UP",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "value": null,
+    "ci95": null,
+    "reason": "No assigned method paragraph, complete current registry or authenticated organizer template. The prior K2 pre-placement stop was not waived."
+  },
+  "correlation_overlap_vs_registry": {
+    "new_surface_rank_correlation": null,
+    "new_surface_overlap_3px": null,
+    "new_final_dots_rank_correlation": null,
+    "new_final_dots_overlap_3px": null,
+    "prior_b4_saved_byte_lattice_overlap_3px": 1.0,
+    "prior_b4_source": "evidence/b4/literal_followup.json (GEOMETRY-AUDIT, NOT A SCORE)",
+    "prior_k2_saved_byte_lattice_overlap_3px": 1.0,
+    "prior_k2_source": "evidence/k2/literal_release_audit.json (REGISTRY-MEASUREMENT, NOT A SCORE)",
+    "new_candidate_reason": "No new candidate was generated after the mandatory stop; prior measurements are not a new uniqueness clearance."
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "new_candidate": null,
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "research_download_inventory": "evidence/public_downloads_audit.json: five existing TIFFs and four ZIPs are byte/range/grid checked against an unauthenticated mirror; all research-only, none approved."
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "leaderboard_estimate": null,
+  "experiments_run": 0,
+  "submission_slots_used": 0,
+  "verdict": "negative",
+  "download_approved_for_research": true,
+  "upload_approved": false,
+  "reasons": [
+    "No coordinator-assigned single method paragraph or complete current parallel registry was provided.",
+    "B4 and K2 saved rasters fail the literal lattice threshold; no exemption was invented.",
+    "The GitHub-restored sample is an owner mirror with 60,988 known-fault positives, not an organizer-authenticated template.",
+    "No calibrated private-leaderboard score estimator or file-bound organizer receipt is available."
+  ]
+}
