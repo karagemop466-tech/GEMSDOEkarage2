@@ -36,7 +36,7 @@ test('dashboard renders nine research rows and keeps submission disabled', async
   const research = doc.querySelector('#research-download');
   assert.match(research.textContent, /DO NOT SUBMIT/);
   assert.match(research.textContent, /HOLDOUT-DTI/);
-  assert.equal(research.querySelectorAll('a[download]').length, 1);
+  assert.equal(research.querySelectorAll('a[download]').length, 2);
   assert.match(research.querySelector('a[download]').getAttribute('href'), /DO-NOT-SUBMIT/);
   assert.doesNotMatch(research.textContent, /unique research TIF/i);
   for (const link of research.querySelectorAll('a[download]')) {
