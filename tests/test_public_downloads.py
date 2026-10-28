@@ -48,7 +48,7 @@ def test_current_saved_downloads_are_hash_bound_with_one_candidate():
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None
     assert len(result['artifacts']) == 7
-    assert all(r['kind'] == 'research' and not r['ok_to_submit'] for r in result['artifacts'])
+    assert all(r['kind'] == 'research' for r in result['artifacts'])
     for record in result['artifacts']:
         if record['kind'] == 'research':
             assert record['ok_to_submit'] is False
@@ -67,7 +67,10 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     assert bad['status'] == 'FAIL_CLOSED' and bad['ok_to_submit'] is False
     # a PROMOTE card whose selector is negative must also fail closed
     card = json.loads(card_path.read_text())
-    card.update(verdict='PROMOTE', gates={'a': True, 'unique_literal_vs_all_registry_rasters': True}, holdout={'evidence_class': 'HOLDOUT-DTI'})
+    from scripts.hk3_release_policy import REQUIRED_GATES
+    card.update(verdict='PROMOTE', protocol_stop_triggered=False,
+                gates={**dict.fromkeys(REQUIRED_GATES, True), 'literal_rule_exception_applied': False},
+                holdout={'evidence_class': 'HOLDOUT-DTI'})
     card_path.write_text(json.dumps(card))
     still = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert still['status'] == 'FAIL_CLOSED' and still['checks']['selector_explicit_candidate'] is False

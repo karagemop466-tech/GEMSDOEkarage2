@@ -44,11 +44,11 @@ def test_run_card_gates_and_verdict_logic_agree(card):
                 "rank_correlation_below_0_90", "lane_single_method"]
     assert all(g[k] is True for k in required), {k: g[k] for k in required}
     # the literal all-registry rule is the one disclosed deviation; it must be
-    # visible as a failed gate with the exception flag set, never silently passed
+    # visible as a failed gate without an exception, never silently passed
     assert g["unique_literal_vs_all_registry_rasters"] is False
-    assert g["literal_rule_exception_applied"] is True
-    assert card["verdict"] == "negative"
-    assert card["slot_authorized"] is False
+    assert g["literal_rule_exception_applied"] is False
+    assert card["verdict"] == "NEGATIVE"
+    assert card["protocol_stop_triggered"] is True
     tiers = card["registry_uniqueness"]["tiers"]
     assert tiers["U1_unique_vs_nine_scored_site_files"]["pass"] and tiers["U1_unique_vs_nine_scored_site_files"]["max_overlap"] <= 0.70
     assert not tiers["U2_literal_rule_vs_all_registry_rasters"]["pass"]
@@ -142,17 +142,32 @@ def test_literal_failures_on_the_desk_match_the_card(card):
         assert f"{row['overlap_3px'] * 100:.1f}%" in home
 
 
-def test_page_release_policy_cannot_waive_literal_stop(card):
-    import copy
-    from scripts.build_hk3_pages import release_allowed, badge_fill
-    forged = copy.deepcopy(card)
-    forged['verdict'] = 'PROMOTE'
-    forged['slot_authorized'] = True
-    assert not release_allowed(forged)
-    assert badge_fill('{BADGE_TEXT}', {'rc': forged}) == 'OK TO SUBMIT: NO'
-    forged['gates']['unique_literal_vs_all_registry_rasters'] = True
-    assert not release_allowed(forged)  # historical exception flag still blocks
-    forged['gates']['literal_rule_exception_applied'] = False
-    assert release_allowed(forged)
-    forged['gates'].pop('unique_literal_vs_all_registry_rasters')
-    assert not release_allowed(forged)
+def test_publication_policy_rejects_waivers_and_incomplete_gates(card):
+    from copy import deepcopy
+    from scripts.hk3_release_policy import publication_eligible, REQUIRED_GATES
+    assert not publication_eligible(card)
+    clean = dict(verdict="PROMOTE", protocol_stop_triggered=False,
+                 gates={key: True for key in REQUIRED_GATES})
+    clean["gates"]["literal_rule_exception_applied"] = False
+    assert publication_eligible(clean)  # necessary schema checks, not slot authorization
+    for key in REQUIRED_GATES:
+        for bad in (None, False, 1, "true", [], {}):
+            changed = deepcopy(clean)
+            changed["gates"][key] = bad
+            assert not publication_eligible(changed), (key, bad)
+        changed = deepcopy(clean)
+        del changed["gates"][key]
+        assert not publication_eligible(changed)
+    for key, value in (("protocol_stop_triggered", True), ("verdict", "NEGATIVE")):
+        assert not publication_eligible(dict(clean, **{key: value}))
+    waived = deepcopy(clean)
+    waived["gates"]["literal_rule_exception_applied"] = True
+    assert not publication_eligible(waived)
+
+
+def test_negative_pages_never_offer_an_approved_download():
+    for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
+        page = (DOCS / name).read_text()
+        assert "OK TO SUBMIT: NO" in page
+        assert "Download the approved TIF" not in page
+        assert "Binding duplicate stop: DO NOT SUBMIT" in page or "NO APPROVED FILE" in page

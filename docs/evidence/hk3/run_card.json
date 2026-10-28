@@ -486,7 +486,7 @@
         "max_abs_rho": 0.11433925986987725
       }
     },
-    "verdict_logic": "PROMOTE requires U1, U3, U4 and rank-correlation to pass; the literal all-registry rule U2 may fail only against never-submitted rasters or line/surface rasters > 100k positive px (disclosed deviation from the pre-registered 'literal => stop'); literal failures are listed on every page",
+    "verdict_logic": "All-registry literal overlap is binding. Chance correction and submission status cannot waive a failure.",
     "scope": "440 hash-pinned rasters from the 9 focus repos at pinned refs + the 9 pinned best files + r13 lattice + prior local candidates. Not the organizer registry; repos may have gained rasters since the pinned refs.",
     "rasters_checked": 450,
     "errors": 1,
@@ -1794,8 +1794,8 @@
   },
   "submission": {
     "name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-    "note": "Research only. Literal all-registry overlap gate failed; do not submit.",
-    "note_chars": 71
+    "note": "HK3: 34-feature HGB with catalogue-free edge-centrality bands; dots sep 3px, >3px off catalogue; zeros outside",
+    "note_chars": 110
   },
   "gates": {
     "format_shared_validator_pass": true,
@@ -1812,15 +1812,16 @@
     "lane_single_method": true,
     "experiments_used": 3,
     "time_budget_note": "E1 calibration, E2 holdout, E3 generation; ~2 h 15 min wall-clock including the artifact write",
-    "literal_rule_exception_applied": true
+    "literal_rule_exception_applied": false
   },
-  "verdict": "negative",
-  "verdict_meaning": "PROMOTE = every automated gate passed and the artifact may be offered for download; the selector/quota step is separate and is not performed here.",
+  "verdict": "NEGATIVE",
+  "verdict_meaning": "NEGATIVE: literal all-registry duplicate gate failed; research only, DO NOT SUBMIT. No exception authorized.",
   "limitations": [
     "Leaderboard anchors are USER-REPORTED scores; no organizer receipt could be fetched (network allowlist).",
     "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",
     "Registry = 440 + 9 + lattice pinned rasters; repositories may contain newer files."
   ],
+  "protocol_stop_triggered": true,
   "historical_release_decision": {
     "verdict": "PROMOTE",
     "literal_rule_exception_applied": true,

@@ -10,7 +10,8 @@
   "slot_authorized": false,
   "who_spends_the_slot": "the user (human selector) \u2014 this repository never spends a weekly slot and cannot see the account quota",
   "reasons": [
-    "Literal all-registry overlap gate failed. Previous exception and upload approval are superseded. No slot authorized."
+    "Literal all-registry uniqueness failed. Prior exception and approval retracted; research-only download.",
+    "Chance correction and submission history cannot waive the user stop. No validated leaderboard estimate or current-best paired win established."
   ],
   "limitations": [
     "Inputs are hash-pinned owner mirrors, not organizer-authenticated bytes; portal acceptance is unverified until a receipt exists.",

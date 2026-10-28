@@ -753,9 +753,8 @@ def cmd_card(name):
     }
     d = paired["cand34_b110_minus_inc26_b110"]          # same budget, same folds, same emission
     gates["holdout_beats_refit_incumbent_paired_ci_excludes_zero"] = bool(d["ci95"][0] > 0)
-    # The user's literal all-registry stop admits no private exceptions.
-    hard = {k: v for k, v in gates.items() if isinstance(v, bool)}
-    verdict = "PROMOTE" if all(hard.values()) else "NEGATIVE"
+    # Literal registry failures cannot be waived by raster density or submission status.
+    verdict = "NEGATIVE"  # This retired lane already triggered a binding duplicate stop.
     gates["literal_rule_exception_applied"] = False
     card = {
         "kind": "HK3 RUN CARD (single JSON per the parallel-run protocol)",
@@ -784,7 +783,7 @@ def cmd_card(name):
                             "candidate_matched_to_D28_count": bridge["candidate_matched_to_D28_count"]},
         "estimator": {k: v for k, v in est.items() if k != "budget_table"},
         "registry_uniqueness": {
-            "tiers": tiers, "verdict_logic": "Every mandatory gate, including the literal all-registry stop, must pass. No exception is authorized.",
+            "tiers": tiers, "verdict_logic": "Literal all-registry failure is binding; no density or submission-status exception.",
             "scope": audit["scope"], "rasters_checked": nd["checked"], "errors": nd["errors"],
             "degenerate_witnesses": audit["degenerate_witnesses"],
             "worst_overlap_nondegenerate": nd["worst_overlap"], "worst_overlap_submission": nd["worst_overlap_submission"],
@@ -809,8 +808,8 @@ def cmd_card(name):
         "validator": {"shared_gems57": v_shared, "historical_strict_nan_outside": strict,
                       "note": "The file writes 0 outside the footprint (the organizer-scored GEMSDOE32 champion is a -zeros file; the official reference notebook writes finite values everywhere). The historical strict validator's NaN-outside check is therefore expected to read false; every other check must pass."},
         "submission": {"name": name, "note": gen["note"], "note_chars": len(gen["note"])},
-        "gates": gates, "verdict": verdict,
-        "verdict_meaning": "PROMOTE = every automated gate passed and the artifact may be offered for download; the selector/quota step is separate and is not performed here.",
+        "gates": gates, "verdict": verdict, "protocol_stop_triggered": True,
+        "verdict_meaning": "NEGATIVE: retired duplicate lane; research only, DO NOT SUBMIT.",
         "limitations": [
             "Leaderboard anchors are USER-REPORTED scores; no organizer receipt could be fetched (network allowlist).",
             "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",
@@ -830,6 +829,8 @@ def main():
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--reuse-surface", action="store_true", help="reuse .cache/hk3/surface_full.npy from a previous e3 run (same model, same seed)")
     a = ap.parse_args()
+    if a.cmd != "audit":
+        ap.error("HK3 is retired after a literal duplicate stop; experiments, placement and evidence rewrites are disabled. Read-only saved-raster audit remains available.")
     if a.cmd == "features":
         cmd_features()
     elif a.cmd == "e2":
