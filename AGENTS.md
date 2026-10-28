@@ -21,15 +21,16 @@ leaderboard snapshot is not a live score or a file-bound organizer receipt.
 
 ## 2026-10-28 K2 session addendum
 
-Read `research/review-2026-10-28-k2.md`, `research/hypotheses-2026-10-28-preregistration.md`
-and `evidence/k2/run_card.json`. K2 ran 3 preregistered experiments (canaries +
-primitives; supervised HGB; continuation + apron) on restored hash-pinned mirror
-data (`scripts/restore_k2_inputs.py`, `scripts/k2.py`); its candidate
+Read `research/review-2026-10-28-k2.md`, `research/review-2026-10-28-arena-session.md`,
+`research/hypotheses-2026-10-28-preregistration.md` and `evidence/k2/run_card.json`.
+K2 ran 3 preregistered experiments on restored hash-pinned mirror data. Its run-card
+`promote` value is historical only and does not authorize a competition slot.
+`evidence/selector_result.json` is a negative assessment of earlier H1 evidence,
+not a K2 selector decision; no separate K2 approval exists. The candidate
 `gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif` (sha256 504be458…8dfb) is
-PROMOTE-TO-SELECTOR CONDITIONAL: it passes format, canary, holdout (0.1581) and
-submission-scope uniqueness (430 docs/downloads rasters; 435 compared in total), but the literal all-registry scope
-fails on the impossible spacing-5 lattice and one calibration ridge mask
-(0.7205), and quota/authentication are account-side. Do not call it approved,
-do not spend a slot from an agent session, and do not tune it further without a
-new preregistration. H-KARAGE-1 is defective (dots outside footprint); H1 stays
+research/audit-only and **DO NOT SUBMIT**. It passes selected submission-raster
+comparisons but fails the literal all-registry scope against two calibration
+records; organizer authentication and quota are unresolved. Do not override the
+selector, spend a slot, or tune further without an assigned lane and a new
+preregistration. H-KARAGE-1 is defective (dots outside footprint); H1 stays
 negative. Preserve all prior negative evidence.

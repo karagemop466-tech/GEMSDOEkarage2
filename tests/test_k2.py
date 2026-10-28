@@ -87,9 +87,11 @@ def test_k2_uniqueness_scopes_are_as_reported():
     assert delta["duplicate_count"] == 0
 
 
-def test_homepage_names_exactly_one_conditional_candidate():
+def test_homepage_quarantines_historical_k2_candidate_after_negative_selector():
     home = (ROOT / "docs" / "index.html").read_text()
+    selector = load(ROOT / "evidence" / "selector_result.json")
+    assert selector["verdict"] == "negative" and selector["slot_authorized"] is False
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
-    assert "CONDITIONAL" in home and "DO NOT SUBMIT" in home  # priors stay quarantined
-    assert "NO APPROVED" in home  # selector has not approved any file yet
+    assert "NOT APPROVED" in home and "DO NOT SUBMIT" in home
+    assert "no separate selector has approved K2" in home
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home

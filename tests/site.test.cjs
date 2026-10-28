@@ -111,3 +111,25 @@ test('current download does not claim established uniqueness or submission readi
   assert.doesNotMatch(text, /unique research TIF|\(submission raster\)/);
   dom.window.close();
 });
+
+test('K2 experiment cannot be mistaken for the current approved submission', async () => {
+  const selector = JSON.parse(fs.readFileSync(path.join(root, 'evidence/selector_result.json')));
+  assert.equal(selector.verdict, 'negative');
+  assert.equal(selector.slot_authorized, false);
+  const runCard = JSON.parse(fs.readFileSync(path.join(root, 'evidence/k2/run_card.json')));
+  assert.equal(runCard.verdict, 'promote'); // historical experiment result, not selector authorization
+  for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
+    const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
+    assert.match(html, /NOT APPROVED/);
+    assert.match(html, /DO NOT SUBMIT/);
+    assert.match(html, /no separate selector has approved K2|no separate selector has approved K2 or authorized a weekly slot|no K2 selector approval exists/i);
+  }
+  const landing = await render('index.html');
+  const card = landing.window.document.querySelector('#k2-candidate');
+  assert.match(card.textContent, /NOT APPROVED/);
+  assert.match(card.textContent, /DO NOT SUBMIT/);
+  for (const link of card.querySelectorAll('a[download]')) {
+    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
+  }
+  landing.window.close();
+});
