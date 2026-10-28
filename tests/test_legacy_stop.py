@@ -28,5 +28,8 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
         for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text):
             assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
             assert card['submission']['name'] in href
-        # Current release assessment overrides the historical run-card verdict.
-        assert 'OK TO SUBMIT: NO' in text and 'OK TO SUBMIT: YES' not in text
+        # Release approval is derived from the separate fail-closed selector,
+        # not from a historical experiment-card PROMOTE label.
+        selector = json.loads((ROOT / 'evidence/hk3/selector_result.json').read_text())
+        assert ('OK TO SUBMIT: YES' in text) == (selector.get('ok_to_submit') is True)
+        assert ('OK TO SUBMIT: NO' in text) == (selector.get('ok_to_submit') is not True)
