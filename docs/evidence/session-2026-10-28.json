@@ -1,0 +1,15 @@
+{
+  "hypothesis": "No assigned lane; no new geological experiment in this session.",
+  "mechanism": "Not evaluated; prior H1 is documented separately in evidence/run_card.json.",
+  "named_non_fault_process": "Basin sedimentation and saline groundwater (prior H1 confounders).",
+  "holdout_dti": {"evidence_class": "HOLDOUT-DTI", "evaluator_version": null, "withheld_positives": null, "value": null, "confidence_interval_95": null, "reason": "No experiment run in this session."},
+  "correlation_and_overlap_vs_registry": {"surface": null, "final_dots": null, "reason": "No new candidate; the prior H1 stopped at a lattice witness."},
+  "raster_sha256": null,
+  "validator_output": {"status": "Not run: no new candidate", "no_nan_inside_footprint": null, "values_in_0_1": null, "crs_shape_transform_match": null},
+  "submission_name": null,
+  "submission_note": "No candidate generated; prior H1 is research only. Do not submit.",
+  "verdict": "negative",
+  "slot_authorized": false,
+  "experiments_run": 0,
+  "prior_experiment_card": "evidence/run_card.json"
+}

@@ -5,87 +5,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEMSDOEkarage2 — GEMS Prize Challenge submission system</title>
 <link rel="stylesheet" href="./assets/style.css">
-<style>
-.download-box{border:2px solid #1a7f37;background:#f0fff4;padding:16px;border-radius:8px;margin:16px 0}
-.download-btn{display:inline-block;background:#1a7f37;color:#fff;padding:12px 20px;border-radius:6px;font-weight:700;text-decoration:none;margin:6px 8px 6px 0}
-.mono{font-family:ui-monospace,monospace;font-size:.92em;word-break:break-all}
-</style>
 </head>
 <body>
 <header>
-  <h1>GEMSDOEkarage2<span class="badge warn">OK TO SUBMIT: CONDITIONAL — SEE GATES</span></h1>
-  <p class="subtitle">DOE GEMS Prize Challenge (DrivenData #306) — fault-discovery submission system. Session 2026-10-28.</p>
+  <h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
+  <p class="subtitle">GEMS Prize Challenge — fault-detection research GeoTIFF pipeline, focus-site audit, and submission receipts.</p>
 </header>
 
 <main>
   <section class="verdict-box">
-    <p class="verdict"><b>OK TO DOWNLOAD: YES</b> — one new, unique, format-validated submission TIF is ready below.
-    <b>OK TO SUBMIT TO DRIVENDATA: CONDITIONAL YES</b> — every satisfiable automated gate passes (format / range,
-    leakage canaries, spatially-blocked HOLDOUT-DTI win, uniqueness vs all 430 checked docs/downloads submission rasters from the nine focus sites). Three items need a human selector only because they cannot be automated from here:
-    (1) a literal all-registry uniqueness scope also counts two non-submission calibration rasters (one makes
-    <i>any</i> in-footprint file fail — proof linked); (2) your weekly quota / final-selection status;
-    (3) inputs are hash-pinned owner mirrors, not organizer-authenticated. <b>Every other TIF on this site: DO NOT SUBMIT.</b>
-    Full evidence: <a href="executive-summary.html">executive summary</a>.</p>
+    <h2>NO APPROVED SUBMISSION — DO NOT UPLOAD</h2>
+    <p>There is no validated unique, high-scoring competition file. The selector is negative: an incomplete registry, an unassigned lane, a missing comparable incumbent, and a duplicate stop remain. A research download is available below, not for submission.</p>
+    <p><a href="executive-summary.html">Executive summary</a> · <a href="how-to-submit.html">Submission guide</a> · <a href="audit.html">Nine-site audit</a> · <a href="hypotheses.html">Research hypotheses</a> · <a href="evidence/selector_result.json">Selector receipt</a></p>
   </section>
 
-  <section class="download-box" id="submission-download">
-    <h2>⬇️ Download the submission TIF (the only submittable file)</h2>
-    <p><a class="download-btn" href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download>Download .tif</a>
-    <a class="download-btn" href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip" download>Download .zip (same single TIF)</a></p>
-    <table>
-      <tbody>
-      <tr><th>File to download</th><td class="mono">gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</td></tr>
-      <tr><th>SHA-256 (verify after download)</th><td class="mono">504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</td></tr>
-      <tr><th>Estimated score</th><td><b>Leaderboard score: UNAVAILABLE — never submitted; no honest point estimate exists.</b>
-        HOLDOUT-DTI (gems57-pooled-hide-v2, 58,258 withheld catalogue positives): <b>0.1581</b> (95% CI 0.1424–0.1742),
-        paired Δ vs best primitive +0.0861 (CI +0.0691…+0.1037). Labelled PROJECTION (not a score): ~0.24–0.29
-        <i>if</i> the champion family's contaminated catalogue→private transfer ratio held. See executive summary §4.</td></tr>
-      <tr><th>Unique vs other GEMSDOE sites?</th><td><b>Yes vs every checked submission</b> — max 68.1% of its dots within 3 px of any one
-        of 430 docs/downloads submission rasters (gate ≤ 70%); max |Spearman ρ| 0.119 (gate ≤ 0.90); vs the 0.2778 champion only 33.7% within 3 px.
-        Byte- and pixel-unique. The only failures are 2 non-submission calibration records (see gate G8).</td></tr>
-      <tr><th>Format</th><td>Single-band float32 GeoTIFF, EPSG:32611, 3730×3292, 100 m, values exactly {0,1},
-        every cell finite — it cannot trigger <i>"Predicted values must be in range [0, 1]"</i>. 54,491 dots; 0 on known faults; 0 outside footprint.</td></tr>
-      <tr><th>Submission-form Note (108 chars)</th><td class="mono">K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue &gt;2px; zeros outside footprint</td></tr>
-      <tr><th>Receipts</th><td><a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.json" download>validator receipt (.json)</a> ·
-        <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros-run-card.json" download>run card (.json)</a> ·
-        <a href="evidence/k2/combined_holdout.json">holdout evidence</a> · <a href="evidence/k2/final_registry_audit.json">443-raster uniqueness audit</a></td></tr>
-      </tbody>
-    </table>
-    <p>Then follow the <a href="how-to-submit.html">step-by-step submission guide</a>.</p>
+  <section style="border:2px solid #9a6700;background:#fff8e1;padding:16px;border-radius:8px;margin:16px 0" id="k2-candidate">
+    <h2>K2 CONDITIONAL candidate (2026-10-28) — pending selector ruling — NO APPROVED FILE YET</h2>
+    <p>A new supervised candidate passed every satisfiable automated gate and is <b>promoted to the selector
+    conditionally</b>. It is <b>not approved</b> and must not be uploaded until the selector rules on:
+    (1) the literal registry scope — two non-submission calibration records fail it (the spacing-5 lattice at
+    100% overlap, impossible for any in-footprint file above the 70% limit; one ctx-ridge calibration mask at 72.1%);
+    (2) remaining weekly quota / final selection; (3) hash-pinned owner-mirror inputs (not organizer-authenticated).</p>
+    <p><a style="display:inline-block;background:#9a6700;color:#fff;padding:10px 16px;border-radius:6px;font-weight:700" href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download>Download candidate TIF — pending selector ruling</a>
+    <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip" download>Single-TIF ZIP</a> ·
+    <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.json" download>Validator receipt</a> ·
+    <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros-run-card.json" download>Run card</a></p>
+    <div class="table-scroll"><table><tbody>
+      <tr><th>File</th><td><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code> · SHA-256 <code>504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</code> · 54,491 dots</td></tr>
+      <tr><th>Score evidence</th><td>Leaderboard estimate <b>Unavailable</b> (never submitted). HOLDOUT-DTI <b>0.1581</b> (95% CI 0.1424–0.1742; gems57-pooled-hide-v2; 58,258 withheld), paired Δ +0.0861 vs best primitive. A labelled projection (not a score) is in the run card.</td></tr>
+      <tr><th>Unique?</th><td>Yes vs all 430 checked <code>docs/downloads</code> submission rasters from the nine focus repos (max 68.1% of dots within 3 px, gate 70%; max |ρ| 0.119, gate 0.90; vs the reported 0.2778 champion 33.7%). No under the literal all-registry scope (calibration records above).</td></tr>
+      <tr><th>Format</th><td>Single-band float32, EPSG:32611, 3730×3292; every cell finite, values exactly 0/1 — cannot trigger “Predicted values must be in range [0, 1]”; 0 dots on known faults or outside footprint.</td></tr>
+      <tr><th>Form note (108 chars)</th><td><code>K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue &gt;2px; zeros outside footprint</code></td></tr>
+    </tbody></table></div>
+    <p>Full review: <a href="executive-summary.html#k2">executive summary §K2</a> · <a href="evidence/k2/combined_holdout.json">holdout evidence</a> · <a href="evidence/k2/final_registry_audit.json">443-raster audit</a></p>
   </section>
 
   <section class="scorecard">
     <h2>Nine focus sites — reported best results (USER-REPORTED / UNVERIFIED)</h2>
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
-    <table>
+    <div class="table-scroll"><table>
       <thead>
-        <tr><th>Site</th><th>File</th><th>Reported score</th><th>Transfer estimate</th><th>Within 3 px of best historical</th><th>Research file</th></tr>
+        <tr><th>Site and historical file</th><th>Reported score</th><th>Transfer estimate</th><th>Uniqueness vs selected files</th><th>Research file</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
-    </table>
+    </table></div>
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
-    <p>All nine share one dot geography: the GEMSDOE32 0.2778 file is the GEMSDOE25/30 dot set with dots ≤2 px
-    from known faults deleted (byte-verified). <b>None of the nine is submittable again</b> — each is 86.7–100%
-    within 3 px of the champion. Details per site in the <a href="executive-summary.html">executive summary</a>.</p>
   </section>
 
   <section class="research-download" id="research-download">
-    <h2>Prior research TIFs on this site — DO NOT SUBMIT</h2>
-    <p><b>DO NOT SUBMIT</b> either prior file. H-KARAGE-1 (below) was found defective on 2026-10-28 re-audit:
-    claimed 15,000 dots but has 12,195 positive pixels, 5,426 of them <i>outside the footprint</i>, with no
-    geological input and no HOLDOUT-DTI. The H1 parity surface scored HOLDOUT-DTI 0.0337, below its controls
-    (negative). Both are kept only as negative evidence.</p>
-    <ul>
-      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif" download>gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif</a> (DEFECTIVE — research only)</li>
-      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-audit.json" download>…-zeros-audit.json</a> (superseded receipt)</li>
-    </ul>
+    <h2>Research surface — uniqueness not established — DO NOT SUBMIT</h2>
+    <p>H1 recorded 100% overlap with a registry lattice, above the 70% limit, stopped at the surface uniqueness gate and did not beat its best primitive control. The file is a research surface, not a final dotted submission. Organizer acceptance and global uniqueness are not established.</p>
+    <p>HOLDOUT-DTI: 0.03367, 95% CI [0.02867, 0.03929], evaluator gems57-pooled-hide-v2, 58,259 withheld positives. This is not a leaderboard estimate. <a href="evidence/run_card.json">Experiment run card</a></p>
+    <p><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif" download>Download research TIF — DO NOT SUBMIT</a> · <a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.zip" download>Research ZIP — DO NOT SUBMIT</a></p>
+    <p><a href="experiment-executive-summary.html">H1 executive summary</a> · <a href="experiment-index.html">Full experiment analysis</a> · <a href="evidence/validator.json">Local format receipt</a></p>
   </section>
+
+  <section><h2>Legacy irregular-dot raster: not unique</h2><p>Saved-byte recheck: 6,765 of 6,769 in-footprint positives are within 3 pixels of the pinned lattice (99.94%, exceeding the 70% gate); 5,426 positives fall outside the mirrored footprint. The historical card reported 100% against an assumed lattice. The mirror is not organizer-authenticated. <a href="evidence/legacy-dot-audit-2026-10-28.json">Read the audit</a>. DO NOT SUBMIT.</p></section>
 
   <section class="decision-card">
     <h2>Submission decision</h2>
-    <p>Automated gates G1–G7 + G9 pass for the K2 file above; G8 (literal registry scope) and G10 (quota /
-    authentication) are selector decisions. This site never spends a slot by itself:</p>
-    <button disabled>Request weekly DrivenData submission slot</button>
+    <p>Passing format alone is not submission approval. An independent slot selector and current quota check are required after all scientific and uniqueness gates pass.</p>
+    <button disabled>No approved submission TIF</button>
   </section>
 </main>
 

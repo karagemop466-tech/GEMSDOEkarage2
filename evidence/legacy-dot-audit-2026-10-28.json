@@ -1,0 +1,18 @@
+{
+  "classification": "GEOMETRY / LOCAL FORMAT AUDIT, not a score or organizer acceptance",
+  "candidate_sha256": "28451a64b659b4e206bb483140fac169987db2edea7dc6a2cdc54f1c0f5fbfff",
+  "mirror_template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+  "lattice_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+  "single_band": true,
+  "float32": true,
+  "mirror_grid_match": true,
+  "whole_array_finite_range_0_1": true,
+  "positive_inside_mirror_footprint": 6769,
+  "positive_outside_mirror_footprint": 5426,
+  "positive_inside_within_3px_of_lattice": 6765,
+  "directional_overlap_fraction": 0.999409070763776,
+  "duplicate_stop": true,
+  "scope": "Pinned owner mirrors; footprint not organizer-authenticated; full registry not checked.",
+  "verdict": "negative",
+  "submission_authorized": false
+}

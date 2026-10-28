@@ -1,0 +1,36 @@
+{
+  "scope": "Three-pass review and saved-byte legacy raster audit; no new experiment or TIFF was generated.",
+  "hypothesis": "No method lane was assigned; previously proposed cross-scale geophysical profile displacement remains untested backlog.",
+  "mechanism": "A buried fault may displace magnetic and gravity gradient profiles relative to each other; this has not been tested in this session.",
+  "named_non_fault_process": "An intrusive lithological contact can also create magnetic and gravity gradients.",
+  "holdout_dti": {
+    "value": null,
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "confidence_interval_95": null,
+    "reason": "No experiment performed and no matched incumbent available."
+  },
+  "registry_comparison": {
+    "surface_rank_correlation": null,
+    "surface_overlap": null,
+    "final_rank_correlation": null,
+    "legacy_final_overlap_with_lattice": 0.999409070763776,
+    "scope": "One pinned lattice against the previously generated raster, inside an unauthenticated mirror footprint; not the complete registry or a new candidate."
+  },
+  "raster_sha256": "28451a64b659b4e206bb483140fac169987db2edea7dc6a2cdc54f1c0f5fbfff",
+  "validator_output": {
+    "single_band_float32": true,
+    "whole_array_finite_range_0_1": true,
+    "mirror_grid_match": true,
+    "outside_mirror_positive_pixels": 5426,
+    "organizer_template_authenticated": false,
+    "organizer_acceptance": "unknown",
+    "evidence": "evidence/legacy-dot-audit-2026-10-28.json",
+    "no_nan_inside_mirrored_footprint": true
+  },
+  "submission_name": null,
+  "submission_note": "No approved candidate; legacy raster fails the duplicate gate. Do not submit.",
+  "verdict": "negative",
+  "experiments_run": 0,
+  "weekly_slots_used": 0
+}

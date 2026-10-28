@@ -37,6 +37,8 @@ test('dashboard renders nine research rows and keeps submission disabled', async
   assert.match(research.textContent, /DO NOT SUBMIT/);
   assert.match(research.textContent, /HOLDOUT-DTI/);
   assert.equal(research.querySelectorAll('a[download]').length, 2);
+  assert.match(research.querySelector('a[download]').getAttribute('href'), /DO-NOT-SUBMIT/);
+  assert.doesNotMatch(research.textContent, /unique research TIF/i);
   for (const link of research.querySelectorAll('a[download]')) {
     assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
   }
@@ -47,10 +49,10 @@ test('site guide displays all nine detail cards even with a deep link', async ()
   const dom = await render('executive-summary.html', originalAudit, originalMonitor, '#GEMSDOE32');
   assert.equal(dom.window.document.querySelectorAll('.site-detail').length, 9);
   assert.ok(dom.window.document.querySelector('#GEMSDOE32'));
-  for (const link of dom.window.document.querySelectorAll('.site-detail a[href^="site-"]')) {
+  for (const link of dom.window.document.querySelectorAll('.site-detail a[href^="sites/"]')) {
     assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
   }
-  assert.equal(dom.window.document.querySelectorAll('.site-detail a[href^="site-"]').length, 9);
+  assert.equal(dom.window.document.querySelectorAll('.site-detail a[href^="sites/"]').length, 9);
   dom.window.close();
 });
 
@@ -82,5 +84,30 @@ test('a failed leaderboard refresh remains visibly stale while source status is 
   assert.equal(doc.querySelector('#leaderboard-score').textContent, '0.4544');
   assert.match(doc.querySelector('#leaderboard-status').textContent, /STALE/);
   assert.match(doc.querySelector('#table-note').textContent, /Source-head check/);
+  dom.window.close();
+});
+
+test('dashboard table headers match every rendered row', async () => {
+  for (const page of ['index.html', 'executive-summary.html']) {
+    const dom = await render(page);
+    const doc = dom.window.document;
+    const headers = doc.querySelectorAll('.scorecard thead th').length;
+    assert.equal(headers, 5);
+    for (const row of doc.querySelectorAll('#scorecard-body tr')) {
+      assert.equal(row.children.length, headers);
+    }
+    assert.doesNotMatch(doc.body.textContent, /labels\.tif requires DrivenData login/);
+    assert.match(doc.body.textContent, /negative|failed/);
+    assert.ok(doc.querySelector('a[href="experiment-executive-summary.html"]'));
+    dom.window.close();
+  }
+});
+
+test('current download does not claim established uniqueness or submission readiness', async () => {
+  const dom = await render('index.html');
+  const text = dom.window.document.querySelector('#research-download').textContent;
+  assert.match(text, /uniqueness not established/);
+  assert.match(text, /DO NOT SUBMIT/);
+  assert.doesNotMatch(text, /unique research TIF|\(submission raster\)/);
   dom.window.close();
 });

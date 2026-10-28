@@ -21,7 +21,7 @@ leaderboard snapshot is not a live score or a file-bound organizer receipt.
 
 ## 2026-10-28 K2 session addendum
 
-Read `research/review-2026-10-28.md`, `research/hypotheses-2026-10-28-preregistration.md`
+Read `research/review-2026-10-28-k2.md`, `research/hypotheses-2026-10-28-preregistration.md`
 and `evidence/k2/run_card.json`. K2 ran 3 preregistered experiments (canaries +
 primitives; supervised HGB; continuation + apron) on restored hash-pinned mirror
 data (`scripts/restore_k2_inputs.py`, `scripts/k2.py`); its candidate

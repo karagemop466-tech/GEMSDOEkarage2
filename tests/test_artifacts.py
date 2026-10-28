@@ -104,6 +104,8 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
     # files and both prior local candidates remain quarantined on the homepage.
     assert 'CONDITIONAL' in homepage
     assert 'DO NOT SUBMIT' in homepage
+    assert 'docs/index.html' in (ROOT/'index.html').read_text()
+    assert 'NO APPROVED SUBMISSION' in homepage
 
 
 def test_shared_scientific_tools_unchanged():
