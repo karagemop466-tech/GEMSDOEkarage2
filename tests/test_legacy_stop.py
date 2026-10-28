@@ -13,7 +13,7 @@ def test_legacy_generator_stops_before_modifying_outputs():
     run = subprocess.run([sys.executable, str(ROOT / 'scripts/generate_submission.py')],
                          cwd=ROOT, capture_output=True, text=True, timeout=30)
     assert run.returncode != 0
-    assert 'DISABLED' in run.stderr and 'DO NOT SUBMIT' in run.stderr
+    assert 'BLOCKED' in run.stderr and 'No TIFF generated or published' in run.stderr
     assert hashlib.sha256(target.read_bytes()).digest() == before
 
 

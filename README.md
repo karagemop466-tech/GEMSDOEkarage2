@@ -150,7 +150,7 @@ holdout cannot reliably estimate the expert-hidden private score).
   R = 300 m) + spatially-blocked hide-and-recover holdout. Self-tested.
 - scripts/submission_writer.py — validated GeoTIFF writer + audit JSON receipt
   (CRS/shape/transform/dtype/range [0,1]/finite/uniqueness checks).
-- scripts/generate_submission.py — disabled legacy prototype, retained for audit; its uniqueness claims are contradicted by its own lattice-overlap receipt. Do not run it to generate a candidate.
+- scripts/generate_submission.py — retired, fail-closed legacy generator; its historical uniqueness claims are contradicted by its own lattice-overlap receipt. It cannot create a candidate.
 - scripts/prepare_data.py      — validates data/ placement once competition data is
   staged (DrivenData login required).
 - scripts/download_competition_data.sh — data download documentation.

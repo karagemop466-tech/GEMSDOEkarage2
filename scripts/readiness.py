@@ -134,14 +134,20 @@ def assess(card: object) -> dict:
             elif rho > 0.90 or overlap > 0.70:
                 reasons.append(f"{stage}: duplicate lane; stop")
 
-    # Comparing different or duplicated reference lists cannot establish the
-    # required surface AND final-dot checks against the same registry.
-    stages = [registry.get(stage) for stage in ("surface", "final_dots")]
-    if all(isinstance(rows, list) and rows for rows in stages):
-        refs = [[r.get("reference") for r in rows if isinstance(r, dict)] for rows in stages]
-        if (any(len(refs[i]) != len(stages[i]) or any(not isinstance(ref, str) or not ref.strip() for ref in refs[i]) or len(set(refs[i])) != len(refs[i]) for i in range(2))
-                or set(refs[0]) != set(refs[1])):
-            reasons.append("Registry references differ between stages or are duplicated")
+    # Surface and final-dot comparisons must cover the same unique reference
+    # identifiers. This checks card consistency, not registry completeness or
+    # the truth of the measurements supplied by the caller.
+    surface, final = registry.get("surface"), registry.get("final_dots")
+    if isinstance(surface, list) and isinstance(final, list) and surface and final:
+        def references(rows):
+            return [r.get("reference") for r in rows if isinstance(r, dict)]
+        surface_refs, final_refs = references(surface), references(final)
+        if (len(surface_refs) != len(surface) or len(final_refs) != len(final)
+                or any(not isinstance(ref, str) or not ref.strip() for ref in surface_refs + final_refs)
+                or len(set(surface_refs)) != len(surface_refs)
+                or len(set(final_refs)) != len(final_refs)
+                or set(surface_refs) != set(final_refs)):
+            reasons.append("Surface and final-dot registry references do not match uniquely")
 
     validator = card.get("validator")
     if not isinstance(validator, dict):

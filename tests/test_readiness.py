@@ -118,17 +118,18 @@ class GateTests(unittest.TestCase):
                 card.update(change)
                 self.assertEqual(assess(card)["verdict"], "negative")
 
-    def test_reference_stages_must_match_without_duplicates(self):
+    def test_score_class_and_registry_stage_coverage_fail_closed(self):
         card = good()
-        card["registry"]["final_dots"][0]["reference"] = "another"
+        card["holdout"]["evidence_class"] = "projection"
+        self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["registry"]["final_dots"][0]["reference"] = "different"
         self.assertEqual(assess(card)["verdict"], "negative")
         card = good()
         card["registry"]["surface"].append(copy.deepcopy(card["registry"]["surface"][0]))
         self.assertEqual(assess(card)["verdict"], "negative")
-
-    def test_holdout_evidence_must_be_labeled(self):
         card = good()
-        card["holdout"]["evidence_class"] = "ORGANIZER-CONFIRMED"
+        card["registry"]["surface"][0]["reference"] = []
         self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_missing_outside_nodata_fails(self):
