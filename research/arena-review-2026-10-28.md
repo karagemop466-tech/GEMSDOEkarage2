@@ -30,8 +30,10 @@ safeguard, not a change to the shared evaluator or writer. It does not authentic
 receipts, prove registry completeness, or authorize a slot.
 
 The executive-summary research table header said “File to download” while its test
-expected a research-only label. Changed the header to “File for research only” to
-make the negative release status clearer. No artifact was promoted.
+expected a research-only label. Clarified the header to make the negative release
+status clearer. No artifact was promoted. Concurrent main independently implemented
+the same overflow guard and a comparable header; both changes were reconciled on
+integration, with both sets of additional tests preserved.
 
 ## Pass 3: verification and remaining work
 
@@ -39,6 +41,7 @@ make the negative release status clearer. No artifact was promoted.
   unavailable data/dependency conditions; they are not successful validations.
 - Feed tests: 3 passed; site tests: 8 passed; browser smoke passed at desktop and
   narrow widths. These verify interface behavior, not competition acceptance.
+- After integrating concurrent main, Python: 154 passed, 7 skipped, 59 subtests passed; feed: 3 passed; site: 9 passed.
 - `git diff --check` passed.
 - No organizer data or receipt was authenticated and no new registry or holdout
   calculation was run. Prior saved results remain conditional on owner-mirror
