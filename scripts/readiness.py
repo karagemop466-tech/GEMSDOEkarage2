@@ -128,6 +128,7 @@ def assess(card: object) -> dict:
         or not _sha256(holdout.get("scoring_config_sha256"))
         or baseline_evidence.get("scoring_config_sha256") != holdout.get("scoring_config_sha256")
         or not _sha256(baseline_evidence.get("evidence_sha256"))
+        or not _sha256(holdout.get("paired_comparison_receipt_sha256"))
     ):
         reasons.append("Comparable baseline holdout provenance missing or mismatched")
     if card.get("baseline_same_protocol_verified") is not True:
