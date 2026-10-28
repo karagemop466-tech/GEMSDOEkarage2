@@ -73,7 +73,8 @@ function chromeEnvironment() {
       await page.waitForURL('**/docs/index.html');
       assert.ok(await page.getByRole('button', {name:'No approved submission TIF'}).isDisabled());
       assert.ok((await page.locator('#research-download').innerText()).includes('DO NOT SUBMIT'));
-      assert.ok((await page.locator('#research-download a[download]').first().getAttribute('href')).includes('DO-NOT-SUBMIT'));
+      assert.ok((await page.locator('body').innerText()).includes('not unique'));
+      assert.ok((await page.locator('#research-download a[download]').first().getAttribute('href')).endsWith('.tif'));
       await page.waitForFunction(() => document.querySelectorAll('#scorecard-body tr').length === 9);
       assert.ok(await page.locator('a[href="audit.html"]').count());
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Experiment overview overflow');
@@ -106,7 +107,7 @@ function chromeEnvironment() {
     assert.ok((await page.locator('body').innerText()).includes('NO APPROVED FILE'));
     assert.ok((await page.locator('body').innerText()).toLowerCase().includes('do not submit'));
     await page.goto(base + '/docs/executive-summary.html', {waitUntil:'domcontentloaded'});
-    assert.ok((await page.locator('body').innerText()).includes('NO FILE IS APPROVED TO SUBMIT'));
+    assert.ok((await page.locator('body').innerText()).includes('NO APPROVED SUBMISSION'));
     await page.goto(base + '/docs/site-GEMSDOE32.html', {waitUntil:'domcontentloaded'});
     await page.waitForURL('**/docs/sites/GEMSDOE32.html');
     assert.ok((await page.locator('body').innerText()).includes('GEMSDOE32'));

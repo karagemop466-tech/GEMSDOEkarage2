@@ -68,17 +68,20 @@ unauthorized in `evidence/selector_result.json`.
 - The H1 score and user-supplied historical scores do not estimate the hidden
   test leaderboard. No file-bound organizer receipt is present.
 - The continuous H1 surface is labeled research-only and failed both holdout
-  improvement and registry novelty. The old 15,000-dot H-KARAGE-1 artifact is a
-  synthetic placement prototype, not a geological detector. Neither is cleared
-  for upload; do not use either as the requested competition TIF.
+  improvement and registry novelty. The legacy H-KARAGE-1 card claimed 15,000
+  dots and uniqueness, but its saved-byte audit counted 6,769 in-footprint
+  positives; 6,765 of those are within 3 px of the pinned lattice (99.94%),
+  and 5,426 positives are outside the mirrored footprint. The lattice test is mirror-scoped, not global
+  organizer clearance. The old artifact is a synthetic placement prototype,
+  not a geological detector. Neither TIFF is cleared for upload.
 - Source-freshness data checked GitHub refs only. The saved public-board snapshot
   is stale, and there is no authenticated quota/score feed.
 
 ## Verification performed
 
-- Locked Python environment: `pytest -q` — 119 passed, 6 skipped, 33 subtests
+- Locked Python environment: `pytest -q` — 121 passed, 7 skipped, 33 subtests
   passed. 38 Rasterio `PendingDeprecationWarning`s remain (not test failures).
-- `npm test` — 3 passed; `npm run test:site` — 5 passed.
+- `npm test` — 3 passed; `npm run test:site` — 7 passed.
 - `npm run test:browser` — passed at widths 1440, 390 and 320 px; passed nine-site
   audit navigation, legacy-path safety, release lock, and freshness fail-safe states.
 - `scripts/assess_release.py` — negative, slot unauthorized. Reasons include no

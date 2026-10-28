@@ -2,17 +2,16 @@
 
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Branch: the active Arena session branch (see `git status -sb`)
+Work on the Arena-assigned branch for the current session.
 
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated
-project prompt and defines the goal: an auditable system that can produce a unique,
-format-valid GeoTIFF candidate for the DOE GEMS Prize Challenge, with an executive
-summary over the focus GEMSDOE sites and a GitHub Pages front end. The site must make
-an approved submission download obvious—but must never present a negative research
-artifact as submit-ready. The current release is negative; no competition upload is
-authorized. Follow the shared holdout, writer, uniqueness, and run-card protocol.
+project prompt and defines what we are building: a system that produces a unique,
+format-valid GeoTIFF submission for the DOE GEMS Prize Challenge, with an executive
+summary over the focus GEMSDOE sites, a GitHub Pages front end with a one-click
+downloadable submission TIF, and a validated pipeline (holdout DTI evaluation +
+submission writer + run cards) following the parallel-run protocol.
 
 ---
 
@@ -36,14 +35,14 @@ pixel-wise probabilities/confidence scores in [0, 1].
 **Submission format (official):**
 - single band, 32-bit float (float32), values between 0 and 1
 - CRS: EPSG:32611 (UTM zone 11N), 100 m resolution
-- same bounds, shape and geotransform as the training data; data outside bounds is null/nan
+- same bounds, shape and geotransform as the submission template; organizer exterior guidance versus portal range handling remains unresolved
 - submit a single .tif or a .zip containing a single .tif
 - Note field on the submission form (short comment, e.g. clustering with k=25), max 140 chars advised
 
 **Performance metric:** distance-weighted Tversky index, DTI(alpha=0.2, beta=0.8),
 triangular kernel k(d) = max(1 - d/R, 0) with R = 300 m (3 px at 100 m):
 
-DTI = TPw / (TPw + alpha × FPw + beta × FNw), with distinct distance-weighted sums over truth and prediction pixels. The ordinary pixelwise Tversky expression is not the distance-weighted metric. See `vendor/gems57/metric.py` and `research/independent-review.md`; the hidden scorer has not been authenticated in this session.
+DTI = TPw / (TPw + alpha × FPw + beta × FNw), with distinct distance-weighted sums over truth and prediction pixels. The ordinary pixelwise Tversky expression is not the distance-weighted metric. See `research/independent-review.md`; the hidden scorer has not been authenticated in this session.
 
 **Prize structure:** Initial Prize Round scored on a private expert-labeled test set
 (top 5 -> $10,000 each); expert panel reviews submissions to expand the label set;
@@ -57,11 +56,16 @@ Competitors choose ONE submission for scoring in both rounds before the deadline
 - EPSG 32611: https://epsg.io/32611
 - Tversky index: https://en.wikipedia.org/wiki/Tversky_index
 
-**Data access:** competition data requires enrollment/login according to the prior audit. This session cannot access DrivenData or Dropbox from its shell. Prior sessions restored hash-pinned community mirrors (not authenticated organizer copies); their cache is not present in this checkout. See `evidence/input_restore.json` and `research/independent-review.md`. The actual shared derived cache, full registry, organizer receipts and same-fold incumbent remain unavailable. Data placement alone does not resolve these blockers.
+**Data access:** A prior session reported a login redirect for DrivenData data. This
+session cannot contact DrivenData or Dropbox under its network allowlist. Public
+owner mirrors were previously restored for research but are not authenticated
+organizer inputs. Data placement is not the only blocker; see the safety status below.
 
-## Leaderboard status (historical snapshot, not a live read)
+## Leaderboard status (historical observation, 2026-10-27)
 
-A prior session reported a public leaderboard snapshot of 0.4544 on 2026-10-27; it is not a file-bound organizer receipt and was not rechecked in this session. The prompt’s 0.4413 / 0.3195 figures conflict. Consult the official leaderboard for the current ranking.
+A prior session recorded public leaderboard #1 = 0.4544 (xiaofanhu) on 2026-10-27; this session cannot independently confirm it or the current leaderboard. The prompt's earlier
+figures (0.4413 / 0.3195) are stale — flagged as an irregularity; always re-read
+the official leaderboard before claiming a target.
 
 ## Focus sites (nine)
 
@@ -79,16 +83,14 @@ Best supplied results (USER-REPORTED / UNVERIFIED; none linked to an organizer r
 - GEMSDOE24: h25-1-dotted-h19-5-d1-5 = 0.2477
 - GEMSDOE27: topo-gap-closure-t-v2-on-d1-5 = 0.2449
 
-**Critical finding (pinned mirror audit):** the nine audited historical files have
-substantial pairwise dot overlap; not all are identical. The GEMSDOE32 B2 mask
-is the GEMSDOE31 solo dot set with 2,545 catalogue-adjacent dots removed;
-GEMSDOE25 and GEMSDOE30 have the same dot geography, and GEMSDOE36 contains every
-B2 dot plus 1,200 extras. Each of the nine exceeds the directional overlap limit
-against at least one of the other eight. The lattice covers almost all of the
-mirrored footprint; a bound at the H33 budget is not a universal impossibility
-proof. The footprint matters: see `evidence/geometry-audit.json` and
-`evidence/saturation_certificate.json` for their different scopes. The nine files
-are marked DO NOT SUBMIT here; their upstream sites were not modified.
+**Critical finding (nine-site geometry audit):** the nine audited historical files
+have substantial pairwise dot overlap. The GEMSDOE32 mask is the GEMSDOE31
+mask with 2,545 known-fault-adjacent pixels removed; the GEMSDOE25 and GEMSDOE30
+masks match, and GEMSDOE36 contains the GEMSDOE32 mask plus 1,200 pixels. Each
+historical mask exceeds the directional overlap threshold against another
+reference. The lattice counting bound depends on footprint and budget, and does
+not establish failure for every smaller raster. See
+`evidence/geometry-audit.json` and `docs/evidence/saturation_certificate.json`.
 
 **No validated leaderboard estimate exists for any of them** ("Unavailable" — catalogue
 holdout cannot reliably estimate the expert-hidden private score).
@@ -133,8 +135,9 @@ holdout cannot reliably estimate the expert-hidden private score).
 - GitHub Pages site with clean, user-friendly, simple UI; executive summary subpage
   explaining exactly how to make a submission.
 - Obvious one-click download of the submission TIF, front and center on the site.
-- Fix the "Predicted values must be in range [0, 1]" portal error: generated TIFs must
-  be finite and in [0, 1] everywhere (verified byte-wise).
+- Investigate the "Predicted values must be in range [0, 1]" portal error. Validate
+  saved pixels and resolve the exterior convention against organizer evidence;
+  whole-array finiteness alone does not establish portal acceptance.
 - Unique submission name + short note (<= 140 chars).
 - All information organized in easy-to-read tables with official, verified links for
   manual review. No hallucinations; flag irregularities.
@@ -145,36 +148,59 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
-## What this repo contains
+## Current safety status and next steps (2026-10-28)
 
-- scripts/evaluate_holdout.py  — distance-weighted Tversky index (alpha 0.2, beta 0.8,
-  R = 300 m) + spatially-blocked hide-and-recover holdout. Self-tested.
-- scripts/submission_writer.py — validated GeoTIFF writer + audit JSON receipt
-  (CRS/shape/transform/dtype/range [0,1]/finite/uniqueness checks).
-- scripts/generate_submission.py — retired, fail-closed legacy generator; its historical uniqueness claims are contradicted by its own lattice-overlap receipt. It cannot create a candidate.
-- scripts/prepare_data.py      — validates data/ placement once competition data is
-  staged (DrivenData login required).
-- scripts/download_competition_data.sh — data download documentation.
-- docs/downloads/              — quarantined research artifacts; none is approved for submission.
-- reference/gemsdoe36/         — learning/education-only reference rasters fetched from
-  the GEMSDOE36 source repo (never for submission).
-- docs/index.html — current GitHub Pages executive summary and negative release
-  status; `index.html` routes directly to it. Historical site pages remain available
-  only as explicit audited detail pages or redirects to current reviews.
-- research/repo-review-2026-10-28.md — this session's checkout review and test results.
-- README.md — this file (the consolidated project prompt).
+**No TIFF is approved for submission.** The archived irregular-dot raster is
+not unique under the literal rule. A saved-byte recheck against the pinned
+owner-mirror footprint and lattice found 6,765 of 6,769 in-footprint dots
+within 3 pixels of the lattice and 5,426 positive pixels outside the mirrored
+footprint. This is a geometry audit, not a score; the mirror is not an
+organizer-authenticated footprint. See
+[`evidence/legacy-dot-audit-2026-10-28.json`](evidence/legacy-dot-audit-2026-10-28.json).
+The historical run card and format receipt are retained as provenance, not as
+current clearance. Their claims of uniqueness and 15,000 emitted dots are wrong.
+`scripts/generate_submission.py` is disabled to prevent repeating the failed
+method or overwriting evidence. The separately generated H1 surface also failed
+its registry and holdout gates and must not be submitted. Recorded mirror-based
+HOLDOUT-DTI for H1 is 0.0336729751 (`gems57-pooled-hide-v2`, 58,259 withheld
+positives, 95% CI [0.0286737956, 0.0392948028]); its paired difference against
+the best primitive is -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]).
+These are prior research results, not organizer scores or leaderboard estimates.
 
-## How to run (this sandbox)
+The nine-site scorecard contains **user-reported, unverified** results, not
+file-linked organizer receipts. No calibrated leaderboard estimate is available.
+The prompt's leaderboard figures and the 2026-10-27 observation are snapshots,
+not current values. Consult the official leaderboard directly.
 
-1. `.venv/bin/pytest -q` — Python regression suite after installing `requirements.lock.txt`.
-2. `npm ci && npm test && npm run test:site && npm run test:browser` — feed, site and browser checks.
-3. Review `evidence/selector_result.json` and `evidence/run_card.json`; no candidate is approved. The legacy generator is deliberately disabled.
-4. `python scripts/prepare_data.py` — only after authenticated competition data is staged in `data/`; this is not submission authorization.
+### Reproduce checks and the legacy geometry audit
 
-## Next steps / limitations
+1. Install `requirements.lock.txt` in a Python virtual environment and run
+   `.venv/bin/pytest -q`.
+2. Run `npm ci && npm test && npm run test:site && npm run test:browser` for the
+   public dashboard/feed suite.
+3. `python scripts/restore_references.py` downloads pinned public GitHub mirrors
+   to `.cache/input/`; hashes are checked. These are not authenticated organizer
+   downloads and are not the complete registry.
+4. `python scripts/audit_legacy_dots.py` rechecks saved bytes, grid, range,
+   footprint and the lattice duplicate witness. No candidate TIFF is generated.
 
-- Prior sessions restored hash-pinned community mirrors of the feature stack and mapped faults into ephemeral cache, not authenticated organizer data. The cache is absent from a fresh checkout; `evidence/input_restore.json` records prior restoration, not present-day file availability. Prior H1 HOLDOUT-DTI is recorded in `evidence/run_card.json`: 0.0336729751, evaluator `gems57-pooled-hide-v2`, 58,259 withheld positives, 95% CI [0.0286737956, 0.0392948028]. Its paired difference vs. best primitive was -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]). This is mirror-based research, not an organizer score or leaderboard estimate. The H1 surface is downloadable for audit only and must NOT be submitted: it failed performance and uniqueness gates.
-- To promote: stage data in data/, run prepare_data.py, beat the repo holdout best
-  with paired 95% CI > 0, pass leakage canaries and uniqueness gates, then the
-  selector spends a weekly slot.
-- Current leaderboard and quota are unverified in this session. Best supplied focus-site claim is 0.2778 (GEMSDOE32, user-reported, no linked organizer receipt).
+### Remaining work
+
+- Establish the assigned method lane and a complete current registry. Do not
+  bypass the lattice threshold or tune placement to exploit gaps.
+- Authenticate organizer data and footprint; resolve the sample-mirror mismatch
+  and exterior encoding with organizer evidence, not a local format pass alone.
+- Repair any shared evaluator/writer defect in the shared template, not a private
+  fork; rebuild visible-only fold features, canary each feature, and compare
+  against a frozen incumbent on identical buffered folds. A prior mirror was
+  obtained, but availability and authority of current competition inputs remain
+  unresolved. Data placement alone is not enough for promotion.
+- A separate selector must evaluate all gates and account-specific quota before
+  a slot is considered. No score or successful upload can be guaranteed.
+
+See [`research/independent-review.md`](research/independent-review.md),
+[`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
+[`research/hypotheses.md`](research/hypotheses.md), and the two distinct
+`evidence/run_card.json` / `evidence/run-card.json` records for prior work. See also
+[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md) for this
+checkout's release-path review.
