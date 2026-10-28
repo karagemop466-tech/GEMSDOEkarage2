@@ -120,7 +120,9 @@ def test_desk_pages_are_generated_from_the_run_card(card):
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
         assert "{BADGE" not in page
-        assert ("OK TO SUBMIT: YES" in page) == (card["verdict"] == "PROMOTE")
+        selector = json.loads((ROOT / "evidence/hk3/selector_result.json").read_text())
+        assert ("OK TO SUBMIT: YES" in page) == (selector.get("ok_to_submit") is True)
+        assert ("OK TO SUBMIT: NO" in page) == (selector.get("ok_to_submit") is not True)
         if name in ("index.html", "how-to-submit.html"):
             assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
@@ -128,7 +130,8 @@ def test_desk_pages_are_generated_from_the_run_card(card):
             assert card["submission"]["name"] in href
             assert (DOCS / href).exists()
     home = (DOCS / "index.html").read_text()
-    assert "HOLDOUT-DTI" in home and "LEADERBOARD-CALIBRATED ESTIMATE" in home
+    assert "HOLDOUT-DTI" in home and "PROJECTION — NOT A SCORE" in home
+    assert "DO NOT SUBMIT" in home
     assert "ORGANIZER-CONFIRMED" in home  # the label the page says it does *not* have
     assert 'Literal 70 % rule vs all 450 non-degenerate registry rasters:</b> <b class="no">FAIL' in home
     assert "drivendata.org/competitions/306/competition-doe-gems/page/967/" in home

@@ -163,27 +163,29 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
-## Current status (2026-10-28, lane HK3 — edge-centrality) — read before doing anything
+## Current status (2026-10-28) — read before doing anything
 
-**One file is approved by every automated gate and offered to the selector (the user):**
-`docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`
-(sha256 `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9`; `.zip` of the
-same bytes; 45,108 dots at 1.0, zeros elsewhere including outside the footprint; float32,
-EPSG:32611, 3730 × 3292, origin (243350, 4508550)). Run card:
-[`evidence/hk3/run_card.json`](evidence/hk3/run_card.json) — verdict **PROMOTE**. The site
-badge "OK TO SUBMIT: YES / NO" is generated from that card by `scripts/build_hk3_pages.py`;
-never hand-edit `docs/index.html`, `executive-summary.html`, `how-to-submit.html`,
-`submit.html`. No submission slot has been spent by this repository; no number here is
-ORGANIZER-CONFIRMED (DrivenData is unreachable from the sandbox).
+**NO TIFF IS CLEARED FOR COMPETITION SUBMISSION.** The HK3 GeoTIFF remains available
+for research/audit only at `docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`
+(SHA-256 `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9`). Its historical
+run card says PROMOTE, but the mandatory literal registry gate failed for three measured
+rasters (>70% within 3 px), and that run card records an impermissible exception. The registry
+audit is incomplete (452/453 accessible) and the data/template are unauthenticated owner
+mirrors. The separate selector now records **negative / do not submit** in
+[`evidence/hk3/selector_result.json`](evidence/hk3/selector_result.json). The generated site
+must follow this selector and all literal gates, not the experiment card's PROMOTE label.
+No submission slot has been spent; no number is ORGANIZER-CONFIRMED. See the latest
+[three-pass review](research/repo-review-2026-10-28-arena.md). Never hand-edit generated
+`docs/index.html`, `executive-summary.html`, `how-to-submit.html`, or `submit.html`.
 
 | Quantity | Value | Label |
 |---|---|---|
 | Holdout, candidate vs re-fitted incumbent at the same 1.10 % budget | **0.1845** [0.1677, 0.2015] vs 0.1575 [0.1417, 0.1737]; paired Δ +0.0270 [+0.0206, +0.0337] | HOLDOUT-DTI, `gems57-pooled-hide-v2`, 58,258 withheld positives |
 | Holdout at the submitted 0.9 % rate | 0.1733 (T 9,825 of 58,258) | HOLDOUT-DTI |
-| Estimated organizer score | **0.263 – 0.286** (θ = 0 → 0.2628, θ = 0.5 → 0.2742, θ = 0.75 → 0.2798, θ = 1 → 0.2855; pessimistic floor 0.2574) | LEADERBOARD-CALIBRATED ESTIMATE — never a score |
+| Historical transfer scenarios | 0.263–0.286 (scenario values under θ assumptions; 0.257 pessimistic scenario) | PROJECTION — NOT A SCORE; not validated and not organizer-confirmed |
 | Best user-reported focus-site result | 0.2778 (GEMSDOE32 B2) | USER-REPORTED / UNVERIFIED |
 | Uniqueness U1 vs the nine scored files | max 48.4 % of dots within 3 px, \|ρ\| ≤ 0.031 | PASS |
-| U2 literal 70 % rule vs all 450 registry rasters | **FAIL ×3** — ctx-ridge *surface* 71.0 % (owner-reported 0.128; champion overlaps it 59 %), GEMSDOE32 h45 KS0 73.3 % (owner: DO NOT SUBMIT, never submitted), own K2 74.9 % (never submitted) | disclosed deviation, exception applied |
+| U2 literal 70 % rule vs all 450 registry rasters | **FAIL ×3** — recorded overlaps 71.0%, 73.3%, 74.9%; the run card improperly applied an exception. Current selector is negative; no submission clearance. The accessible registry is also incomplete (452/453). | mandatory stop; no exception |
 | U3 chance-corrected overlap vs all | max 0.692 | PASS |
 | U4 literal rule vs every submitted dot raster | — | PASS |
 | Leakage canary (max single-feature AUC) | 0.596 | PASS |
@@ -193,9 +195,10 @@ ORGANIZER-CONFIRMED (DrivenData is unreachable from the sandbox).
 1.10 % budget — *higher than HK3's 0.1845* (intervals overlap; same folds/evaluator; no paired
 test across sessions) — but its verdict is NEGATIVE: the surface failed the pre-placement gate
 against K2 (0.9922 top-support overlap) and its final dots exceed 70 % within 3 px of ten
-registry records (worst 0.886). HK3's 3 px catalogue apron and 3 px dot separation are what
-keep its overlaps ≤ 48.4 %. So: K3 is the holdout-best file in the repository, HK3 is the best
-*submittable* file, and the holdout incumbent for any next lane is K3's 0.1916, not HK3's.
+registry records (worst 0.886). HK3's three-pixel catalogue apron and dot spacing do not clear
+the literal all-registry rule. K3 is the holdout-best file in the repository; neither it nor
+HK3 is currently cleared for submission. Any future lane must use the strongest comparable
+holdout incumbent only after resolving protocol/registry blockers.
 
 θ = the fraction of the candidate's holdout advantage over the D2.8 anchor (coverage ×1.114,
 hit ×1.156 at equal dots) that transfers to the hidden 1 m-lidar labels; the file beats

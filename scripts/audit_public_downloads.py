@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Re-read every published TIFF/ZIP and fail closed on unexpected downloads.
 
-This is an integrity and local-format audit of the published files, not a model
-evaluation. Research files need a negative run card; the single upload candidate
-(HK3) needs a PROMOTE run card whose hard gates all pass plus an explicit selector
-receipt bound to the saved bytes. No TIFF is generated and no organizer
-template/receipt is authenticated here.
+This is an integrity and local-format audit, not a model evaluation or upload
+authorization. Published research files need explicit research-only treatment;
+no file is an upload candidate unless all literal protocol gates and a separate
+selector receipt pass. No organizer template or receipt is authenticated here.
 """
 from __future__ import annotations
 
@@ -21,7 +20,8 @@ from rasterio.errors import RasterioError
 
 ROOT = Path(__file__).resolve().parents[1]
 # (stem, run card, selector, has_zip[, kind]); kind "research" = negative card required,
-# kind "candidate" = PROMOTE card + explicit selector required (HK3 lane, 2026-10-28).
+# kind "withheld" = retained research artifact whose historical run card says PROMOTE,
+# but whose separate protocol selector explicitly blocks submission.
 ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
@@ -37,7 +37,7 @@ ARTIFACTS = (
     ("gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "candidate"),
+     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "withheld"),
 )
 
 
@@ -139,13 +139,14 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             checks["card_verdict_promote"] = card.get("verdict") == "PROMOTE"
             gates = card.get("gates") or {}
             checks["card_hard_gates_all_pass"] = bool(gates) and all(
-                v is True for k, v in gates.items()
-                if isinstance(v, bool) and k not in ("unique_literal_vs_all_registry_rasters", "literal_rule_exception_applied"))
-            checks["card_literal_rule_failures_disclosed"] = (
-                gates.get("unique_literal_vs_all_registry_rasters") is True or
-                (gates.get("literal_rule_exception_applied") is True and
-                 bool((card.get("registry_uniqueness") or {}).get("tiers", {}).get("U2_literal_rule_vs_all_registry_rasters", {}).get("failures"))))
+                v is True for key, v in gates.items()
+                if isinstance(v, bool) and key != "literal_rule_exception_applied")
+            checks["card_literal_rule_passed_without_exception"] = (
+                gates.get("unique_literal_vs_all_registry_rasters") is True
+                and gates.get("literal_rule_exception_applied") is False)
             checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
+        elif kind == "withheld":
+            checks["card_historical_promotion_retained"] = card.get("verdict") == "PROMOTE"
         else:
             checks["card_verdict_negative"] = card.get("verdict") == "negative"
         checks["card_has_same_filename"] = (card.get("raster", rel) == rel and
@@ -159,17 +160,28 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         try:
             selector = json.loads((root / selector_rel).read_text())
             if candidate:
-                # the automated selector may approve the *download for upload*; the weekly slot
-                # itself is spent by the human selector, so slot_authorized stays False here
+                # All mandatory gates and provenance attestations are required;
+                # no waiver or historical PROMOTE card can override a failure.
                 checks["selector_explicit_candidate"] = (selector.get("verdict") == "candidate_approved_by_automated_gates" and
                                                          selector.get("ok_to_submit") is True and
                                                          selector.get("slot_authorized") is False and
+                                                         selector.get("organizer_inputs_authenticated") is True and
+                                                         selector.get("lane_assignment_verified") is True and
+                                                         selector.get("registry_complete") is True and
+                                                         isinstance(selector.get("experiments_run"), int) and
+                                                         not isinstance(selector.get("experiments_run"), bool) and
+                                                         0 < selector["experiments_run"] <= 3 and
+                                                         isinstance(selector.get("wall_clock_hours"), (int, float)) and
+                                                         not isinstance(selector.get("wall_clock_hours"), bool) and
+                                                         0 <= selector["wall_clock_hours"] <= 2 and
                                                          selector.get("source_run_card") == card_rel and
                                                          selector.get("raster_sha256") == actual_sha)
             else:
                 checks["selector_explicit_negative"] = (selector.get("verdict") == "negative" and
+                                                        selector.get("ok_to_submit") in (False, None) and
                                                         selector.get("slot_authorized") is False and
-                                                        selector.get("source_run_card") == card_rel)
+                                                        selector.get("source_run_card") == card_rel and
+                                                        (not selector.get("raster_sha256") or selector.get("raster_sha256") == actual_sha))
         except (OSError, ValueError, TypeError, AttributeError):
             checks["selector_explicit_candidate" if candidate else "selector_explicit_negative"] = False
     if has_zip:
