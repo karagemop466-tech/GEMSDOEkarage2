@@ -28,7 +28,7 @@ def test_k2_run_card_matches_raster_bytes():
     assert TIF.stat().st_size == c["raster_bytes"]
     assert len(c["note"]) <= 140 and len(c["submission_name"]) <= 140
     assert c["experiments_run"] == 3 and c["submission_slots_used"] == 0
-    assert c["verdict"] == "promote" and "CONDITIONAL" in c["verdict_scope"]
+    assert c["verdict"] == "negative" and c["historical_verdict_before_protocol_review"] == "promote"
     with zipfile.ZipFile(TIF.with_suffix(".zip")) as z:
         assert z.namelist() == [TIF.name]
         assert z.read(TIF.name) == TIF.read_bytes()
@@ -90,6 +90,30 @@ def test_k2_uniqueness_scopes_are_as_reported():
 def test_homepage_names_exactly_one_conditional_candidate():
     home = (ROOT / "docs" / "index.html").read_text()
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
-    assert "CONDITIONAL" in home and "DO NOT SUBMIT" in home  # priors stay quarantined
+    assert "NEGATIVE" in home and "DO NOT SUBMIT" in home
     assert "NO APPROVED" in home  # selector has not approved any file yet
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
+
+
+def test_k2_preplacement_stop_and_cli_are_fail_closed(tmp_path):
+    import subprocess
+    import sys
+    before = hashlib.sha256(TIF.read_bytes()).hexdigest()
+    for command in ("e1", "e2", "e3", "combine", "final", "audit", "features"):
+        result = subprocess.run([sys.executable, str(ROOT / "scripts/k2.py"), command],
+                                cwd=tmp_path, capture_output=True, text=True)
+        assert result.returncode != 0
+        assert "K2 run is closed" in result.stderr
+    assert hashlib.sha256(TIF.read_bytes()).hexdigest() == before
+    generation = load(K2 / "final_generation.json")
+    assert generation["surface_registry_rows"]["r13_lattice"]["literal_support_overlap_gt0"] > 0.70
+    assert load(K2 / "final_registry_audit.json")["unique"] is False
+    assert load(ROOT / "evidence/k2-protocol-review-2026-10-28.json")["verdict"] == "negative"
+
+
+def test_current_pages_do_not_promise_k2_upload_or_portal_acceptance():
+    for page in ("index.html", "executive-summary.html", "how-to-submit.html"):
+        text = (ROOT / "docs" / page).read_text()
+        assert "DO NOT SUBMIT" in text or "do not submit" in text
+        assert "CONDITIONAL YES" not in text
+        assert "cannot trigger" not in text

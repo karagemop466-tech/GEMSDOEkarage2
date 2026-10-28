@@ -359,6 +359,7 @@ FINAL_RATE = 0.0110
 
 
 def cmd_final():
+    raise SystemExit("K2 is stopped: pre-placement registry gate failed; no emission or write allowed.")
     from gems57 import uniqueness as uniq
     from gems57.submission_writer import write_submission
     assert len(FINAL_NAME) <= 140 and len(FINAL_NOTE) <= 140, (len(FINAL_NAME), len(FINAL_NOTE))
@@ -462,9 +463,7 @@ def main():
     ap.add_argument("cmd", choices=["features", "e1", "e2", "e3", "combine", "final", "audit"])
     ap.add_argument("--candidate", default="hgbcont_b110")
     a = ap.parse_args()
-    {"features": cmd_features, "e1": cmd_e1, "e2": cmd_e2, "e3": cmd_e3,
-     "combine": lambda: cmd_combine(a.candidate), "final": cmd_final,
-     "audit": cmd_audit}[a.cmd]()
+    raise SystemExit("K2 run is closed: experiment budget exhausted and pre-placement registry gate failed. Historical artifacts are read-only.")
 
 
 if __name__ == "__main__":
