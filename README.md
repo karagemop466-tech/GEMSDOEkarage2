@@ -4,6 +4,11 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest review
+
+No submission is approved. The release gate now requires matched baseline evidence
+and split, truth, and scoring-configuration hashes; it validates card structure,
+not the authenticity of those manifests. See [this review](research/release-gate-review-2026-10-28.md).
 ## Latest release-gate follow-up (2026-10-28)
 
 **No TIFF is approved for upload.** The release schema now requires evidence

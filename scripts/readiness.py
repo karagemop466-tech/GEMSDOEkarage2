@@ -96,6 +96,30 @@ def assess(card: object) -> dict:
     ):
         reasons.append("Has not beaten comparable current holdout best with paired 95% CI")
 
+    # A bare baseline number is not evidence that the comparison used the same
+    # folds and targets. These hashes identify frozen split and truth manifests;
+    # callers still have to authenticate their contents independently.
+    baseline_evidence = card.get("baseline_holdout")
+    if not isinstance(baseline_evidence, dict):
+        baseline_evidence = {}
+    if (
+        baseline_evidence.get("evidence_class") != "HOLDOUT-DTI"
+        or not _finite_number(baseline_evidence.get("dti"))
+        or baseline_evidence.get("dti") != baseline
+        or not _valid_interval(baseline_evidence.get("ci95"), lower=0, upper=1)
+        or not isinstance(baseline_evidence.get("withheld_positives"), int)
+        or isinstance(baseline_evidence.get("withheld_positives"), bool)
+        or baseline_evidence.get("evaluator_version") != holdout.get("evaluator_version")
+        or baseline_evidence.get("withheld_positives") != count
+        or not _sha256(holdout.get("split_manifest_sha256"))
+        or baseline_evidence.get("split_manifest_sha256") != holdout.get("split_manifest_sha256")
+        or not _sha256(holdout.get("truth_manifest_sha256"))
+        or baseline_evidence.get("truth_manifest_sha256") != holdout.get("truth_manifest_sha256")
+        or not _sha256(holdout.get("scoring_config_sha256"))
+        or baseline_evidence.get("scoring_config_sha256") != holdout.get("scoring_config_sha256")
+        or not _sha256(baseline_evidence.get("evidence_sha256"))
+    ):
+        reasons.append("Comparable baseline holdout provenance missing or mismatched")
     if card.get("baseline_same_protocol_verified") is not True:
         reasons.append("Comparable incumbent protocol not verified")
 

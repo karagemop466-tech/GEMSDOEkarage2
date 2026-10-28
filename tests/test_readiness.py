@@ -22,8 +22,18 @@ def good():
             "dti": 0.20,
             "ci95": [0.16, 0.24],
             "paired_delta_ci95": [0.005, 0.02],
+            "split_manifest_sha256": "c" * 64,
+            "truth_manifest_sha256": "d" * 64,
+            "scoring_config_sha256": "f" * 64,
         },
         "baseline_holdout_dti": 0.19,
+        "baseline_holdout": {
+            "evidence_class": "HOLDOUT-DTI", "dti": 0.19, "ci95": [0.15, 0.23],
+            "evaluator_version": "shared-v1", "withheld_positives": 100,
+            "split_manifest_sha256": "c" * 64,
+            "truth_manifest_sha256": "d" * 64, "scoring_config_sha256": "f" * 64,
+            "evidence_sha256": "e" * 64,
+        },
         "baseline_same_protocol_verified": True,
         "hide_recover_protocol_verified": True,
         "feature_auc": {"magnetic": 0.7, "terrain": 0.82},
@@ -97,6 +107,22 @@ class GateTests(unittest.TestCase):
     def test_no_holdout_improvement_fails(self):
         card = good()
         card["baseline_holdout_dti"] = 0.20
+        self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_baseline_provenance_is_required_and_matched(self):
+        for key, value in (("evidence_class", "projection"),
+                           ("dti", 0.18), ("ci95", None), ("evaluator_version", "other"),
+                           ("withheld_positives", 99),
+                           ("split_manifest_sha256", "f" * 64),
+                           ("truth_manifest_sha256", "f" * 64),
+                           ("scoring_config_sha256", "a" * 64),
+                           ("evidence_sha256", "bad")):
+            with self.subTest(key=key):
+                card = good()
+                card["baseline_holdout"][key] = value
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        del card["holdout"]["split_manifest_sha256"]
         self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_nonpositive_paired_delta_interval_fails(self):
