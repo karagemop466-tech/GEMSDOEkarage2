@@ -2,7 +2,7 @@
 
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Branch: `arena/044d7bda-gemsdoekarage2`
+Branch: the active Arena session branch (see `git status -sb`)
 
 ## Operating instruction
 
@@ -42,9 +42,7 @@ pixel-wise probabilities/confidence scores in [0, 1].
 **Performance metric:** distance-weighted Tversky index, DTI(alpha=0.2, beta=0.8),
 triangular kernel k(d) = max(1 - d/R, 0) with R = 300 m (3 px at 100 m):
 
-TI = sum_x p(x) g(x) / ( sum_x p(x) g(x) + alpha sum_x p(x)(1-g(x)) + beta sum_x (1-p(x)) g(x) )
-
-with distance-weighted TPw / FPw / FNw terms per the problem description.
+DTI = TPw / (TPw + alpha × FPw + beta × FNw), with distinct distance-weighted sums over truth and prediction pixels. The ordinary pixelwise Tversky expression is not the distance-weighted metric. See `vendor/gems57/metric.py` and `research/independent-review.md`; the hidden scorer has not been authenticated in this session.
 
 **Prize structure:** Initial Prize Round scored on a private expert-labeled test set
 (top 5 -> $10,000 each); expert panel reviews submissions to expand the label set;
@@ -58,16 +56,11 @@ Competitors choose ONE submission for scoring in both rounds before the deadline
 - EPSG 32611: https://epsg.io/32611
 - Tversky index: https://en.wikipedia.org/wiki/Tversky_index
 
-**Known data-access blocker (verified):** drivendata.org/data/ redirects to login;
-training_features.tif, labels.tif, sample_submission.tif and 1m_DEM_links.csv cannot be
-auto-downloaded in this sandbox. Stage data on an unrestricted machine into data/ and
-run scripts/download_competition_data.sh + python scripts/prepare_data.py.
+**Data access:** competition data requires enrollment/login according to the prior audit. This session cannot access DrivenData or Dropbox from its shell. Prior sessions restored hash-pinned community mirrors (not authenticated organizer copies); their cache is not present in this checkout. See `evidence/input_restore.json` and `research/independent-review.md`. The actual shared derived cache, full registry, organizer receipts and same-fold incumbent remain unavailable. Data placement alone does not resolve these blockers.
 
-## Leaderboard status (verified live read, 2026-10-27)
+## Leaderboard status (historical snapshot, not a live read)
 
-The live public leaderboard shows #1 = 0.4544 (xiaofanhu). The prompt's earlier
-figures (0.4413 / 0.3195) are stale — flagged as an irregularity; always re-read
-the official leaderboard before claiming a target.
+A prior session reported a public leaderboard snapshot of 0.4544 on 2026-10-27; it is not a file-bound organizer receipt and was not rechecked in this session. The prompt’s 0.4413 / 0.3195 figures conflict. Consult the official leaderboard for the current ranking.
 
 ## Focus sites (nine)
 
@@ -92,7 +85,7 @@ same dot geography; GEMSDOE36 contains every champion dot plus 1,200 extras. Eve
 fails the literal uniqueness gate (100% / 98% / 99.7% within 3 px of each other vs the
 requested 70% cap) against the spacing-5 calibration lattice, which covers 99.8713% of
 the footprint within 3 px; at the 37,654-dot budget at least 82.34% of any candidate's
-dots fall within 3 px of the lattice. All nine are marked DO NOT SUBMIT on their sites.
+dots fall within 3 px of the lattice. All nine are marked DO NOT SUBMIT in this repository; their upstream sites were not modified.
 
 **No validated leaderboard estimate exists for any of them** ("Unavailable" — catalogue
 holdout cannot reliably estimate the expert-hidden private score).
@@ -155,12 +148,11 @@ holdout cannot reliably estimate the expert-hidden private score).
   R = 300 m) + spatially-blocked hide-and-recover holdout. Self-tested.
 - scripts/submission_writer.py — validated GeoTIFF writer + audit JSON receipt
   (CRS/shape/transform/dtype/range [0,1]/finite/uniqueness checks).
-- scripts/generate_submission.py — generates the unique H-KARAGE-1 submission TIF
-  (submissions/) with run card + audit.
+- scripts/generate_submission.py — disabled legacy prototype, retained for audit; its uniqueness claims are contradicted by its own lattice-overlap receipt. Do not run it to generate a candidate.
 - scripts/prepare_data.py      — validates data/ placement once competition data is
   staged (DrivenData login required).
 - scripts/download_competition_data.sh — data download documentation.
-- submissions/                 — the generated unique submission TIF + audit + run card.
+- docs/downloads/              — quarantined research artifacts; none is approved for submission.
 - reference/gemsdoe36/         — learning/education-only reference rasters fetched from
   the GEMSDOE36 source repo (never for submission).
 - docs/                        — GitHub Pages site: index.html, executive-summary.html,
@@ -170,19 +162,13 @@ holdout cannot reliably estimate the expert-hidden private score).
 ## How to run (this sandbox)
 
 1. `python scripts/evaluate_holdout.py` — metric self-test.
-2. `python scripts/generate_submission.py` — builds + validates the unique submission
-   TIF (requires reference/ gemsdoe36 rasters present).
+2. Review `evidence/selector_result.json` and `evidence/run_card.json`; no candidate is approved. The legacy generator is deliberately disabled.
 3. `python scripts/prepare_data.py` — after competition data is staged in data/.
 
 ## Next steps / limitations
 
-- labels.tif / training_features.tif are not available in this sandbox
-  (DrivenData login required, network-blocked). Holdout DTI and a leaderboard score
-  estimate therefore CANNOT be computed yet. The generated TIF is:
-    OK TO DOWNLOAD: YES (research / audit only, format-validated)
-    OK TO SUBMIT TO DRIVENDATA: NO — pending holdout validation and selector approval.
+- Prior sessions restored hash-pinned community mirrors of the feature stack and mapped faults into ephemeral cache, not authenticated organizer data. The cache is absent from a fresh checkout; `evidence/input_restore.json` records prior restoration, not present-day file availability. Prior H1 holdout is recorded in `evidence/run_card.json`; no calibrated leaderboard estimate exists. The H1 research surface is downloadable for audit only and must NOT be submitted: it failed performance and uniqueness gates.
 - To promote: stage data in data/, run prepare_data.py, beat the repo holdout best
   with paired 95% CI > 0, pass leakage canaries and uniqueness gates, then the
   selector spends a weekly slot.
-- Live leaderboard target to beat: 0.4544 (public #1). Best focus-site claim: 0.2778
-  (GEMSDOE32, owner-reported, unverified).
+- Current leaderboard and quota are unverified in this session. Best supplied focus-site claim is 0.2778 (GEMSDOE32, user-reported, no linked organizer receipt).

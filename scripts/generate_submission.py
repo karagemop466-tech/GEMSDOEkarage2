@@ -1,4 +1,11 @@
-"""generate_submission.py
+"""ARCHIVED AND DISABLED: historical research prototype, NOT a submission generator.
+
+The original claims below are preserved as historical context, not verified facts.
+The checked-in run card itself records 100% overlap with a reconstructed lattice,
+contradicting its novelty claim. The literal stop rule forbids regeneration.
+See evidence/selector_result.json and docs/how-to-submit.html.
+
+generate_submission.py
 ----------------------
 
 Generates the GEMSDOEkarage2 unique competition submission GeoTIFF.
@@ -305,6 +312,7 @@ def run_card(name, note, sha, receipt, validation, uniqueness, version, grid):
 
 
 def main():
+    raise SystemExit("DISABLED: historical prototype failed the literal registry stop; DO NOT SUBMIT or regenerate. See evidence/selector_result.json.")
     import rasterio
     from scipy import ndimage
     from submission_writer import _spearman, _dot_overlap_3px

@@ -70,7 +70,8 @@ def assess(card: object) -> dict:
     count = holdout.get("withheld_positives")
     raw_ci = holdout.get("ci95")
     if (
-        not isinstance(holdout.get("evaluator_version"), str)
+        holdout.get("evidence_class") != "HOLDOUT-DTI"
+        or not isinstance(holdout.get("evaluator_version"), str)
         or not holdout["evaluator_version"].strip()
         or not isinstance(count, int)
         or isinstance(count, bool)
@@ -132,6 +133,15 @@ def assess(card: object) -> dict:
                 reasons.append(f"{stage}: invalid measurement")
             elif rho > 0.90 or overlap > 0.70:
                 reasons.append(f"{stage}: duplicate lane; stop")
+
+    # Comparing different or duplicated reference lists cannot establish the
+    # required surface AND final-dot checks against the same registry.
+    stages = [registry.get(stage) for stage in ("surface", "final_dots")]
+    if all(isinstance(rows, list) and rows for rows in stages):
+        refs = [[r.get("reference") for r in rows if isinstance(r, dict)] for rows in stages]
+        if (any(len(refs[i]) != len(stages[i]) or any(not isinstance(ref, str) or not ref.strip() for ref in refs[i]) or len(set(refs[i])) != len(refs[i]) for i in range(2))
+                or set(refs[0]) != set(refs[1])):
+            reasons.append("Registry references differ between stages or are duplicated")
 
     validator = card.get("validator")
     if not isinstance(validator, dict):

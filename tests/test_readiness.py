@@ -16,6 +16,7 @@ def good():
             "kernel": "triangular",
         },
         "holdout": {
+            "evidence_class": "HOLDOUT-DTI",
             "evaluator_version": "shared-v1",
             "withheld_positives": 100,
             "dti": 0.20,
@@ -116,6 +117,19 @@ class GateTests(unittest.TestCase):
                 card = good()
                 card.update(change)
                 self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_reference_stages_must_match_without_duplicates(self):
+        card = good()
+        card["registry"]["final_dots"][0]["reference"] = "another"
+        self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["registry"]["surface"].append(copy.deepcopy(card["registry"]["surface"][0]))
+        self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_holdout_evidence_must_be_labeled(self):
+        card = good()
+        card["holdout"]["evidence_class"] = "ORGANIZER-CONFIRMED"
+        self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_missing_outside_nodata_fails(self):
         card = good()
