@@ -1,0 +1,7 @@
+{
+  "previous_verdict": "PROMOTE",
+  "previous_verdict_meaning": "PROMOTE = every automated gate passed and the artifact may be offered for download; the selector/quota step is separate and is not performed here.",
+  "previous_registry_verdict_logic": "PROMOTE requires U1, U3, U4 and rank-correlation to pass; the literal all-registry rule U2 may fail only against never-submitted rasters or line/surface rasters > 100k positive px (disclosed deviation from the pre-registered 'literal => stop'); literal failures are listed on every page",
+  "previous_exception_applied": true,
+  "reason": "Unauthorised exception to literal all-registry duplicate stop. Historical measurements retained; no new experiment."
+}

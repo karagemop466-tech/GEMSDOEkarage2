@@ -34,24 +34,22 @@ method paragraph, and the previous session exhausted its three-experiment budget
 
 Read `README.md` ("Current status"), `research/hypotheses-2026-10-28-hk3.md` (§3b budget
 rule, §3c uniqueness rule, §4 outcome) and `evidence/hk3/run_card.json` before touching
-anything. One file is approved by the automated gates (verdict PROMOTE with one disclosed
-literal-rule exception printed in red on every page); the user is the selector and no slot
-has been spent. Rules for the next session:
+anything. HK3 is NEGATIVE: the earlier PROMOTE exception is retracted. The literal all-registry rule is binding; research downloads are not upload approval. See research/session-635ee6a9-review.md. Rules for the next session:
 
 * The four desk pages (`docs/index.html`, `executive-summary.html`, `how-to-submit.html`,
   `submit.html`) and `docs/assets/hk3.css` are **generated** by
   `scripts/build_hk3_pages.py` from `evidence/hk3/*.json` + `evidence/calibration/*.json`;
   CI runs `build_hk3_pages.py --check`. Change the evidence or the generator, never the HTML.
 * `scripts/hk3.py` is the lane runner (features / e2 / bridge / e3 / audit / anchors / card).
-  Its cache lives in `.cache/hk3/` (gitignored; rebuild with `hk3.py features`, ≈ 10 min).
+  Its historical cache lived in `.cache/hk3/` (gitignored). The CLI now blocks experiments and evidence rewrites after the stop.
   The lane's 3-experiment budget is used; a new experiment means a new lane and a new note.
 * Never pick a dot budget from holdout DTI; use the §3b maximin over θ. Never use a raster
   built on the whole catalogue as a transfer anchor (≈ 2.9× leakage inflation).
-* Uniqueness tiers U1–U4 are binding; any literal failure must stay visible. Re-run
+* The literal all-registry rule is binding; U3/U4 are diagnostic only. Any literal failure stops the lane. Re-run
   `hk3.py audit` if the pinned registry refs change.
 * If the user reports an organizer score for the HK3 file, write it to
   `evidence/hk3/run_card.json` under `organizer_confirmed` (value, date, submission name),
-  label it ORGANIZER-CONFIRMED, rebuild the pages, and use it to calibrate θ before anything
+  retain it as USER-REPORTED unless a file-bound organizer receipt is supplied; only then label it ORGANIZER-CONFIRMED. Rebuild the pages, and use it to calibrate θ before anything
   else.
 * Legacy files (K2, H1, H-KARAGE-1) remain research-only; `scripts/k2.py` and
   `scripts/generate_submission.py` stay disabled.
