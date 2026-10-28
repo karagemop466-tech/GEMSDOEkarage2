@@ -167,15 +167,19 @@ positives, 95% CI [0.0286737956, 0.0392948028]); its paired difference against
 the best primitive is -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]).
 These are prior research results, not organizer scores or leaderboard estimates.
 
-### K2 supervised candidate — pending selector ruling (later, 2026-10-28)
+### K2 research candidate — literal uniqueness failure; DO NOT SUBMIT (recorded 2026-10-28)
 
-A parallel K2 session ran 3 preregistered experiments on restored hash-pinned
+A prior K2 session ran 3 preregistered experiments on restored hash-pinned
 mirror data (`scripts/restore_k2_inputs.py`, `scripts/k2.py`) reusing the shared
 `vendor/gems57` evaluator/folds/writer unchanged. Its candidate
 [`docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif`](docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif)
 (SHA-256 `504be458…8dfb`, 54,491 dots; supervised HGB on 26 label-blind features
-+ tip continuation + dotted emission at 1.10%, >2 px off-catalogue) is
-**PROMOTE-TO-SELECTOR, CONDITIONAL — still NO APPROVED FILE until a selector rules:**
++ tip continuation + dotted emission at 1.10%, >2 px off-catalogue) is a
+**research-only artifact; DO NOT SUBMIT**. Its historical experiment card says
+`promote` only for conditional selector consideration, but the literal all-registry
+gate fails (100% overlap with the spacing-5 calibration lattice and 72.05% with
+a ctx-ridge calibration raster). The live site and current release review therefore
+must not call it an approved or unconditionally unique submission.
 
 - HOLDOUT-DTI **0.1581** (95% CI 0.1424–0.1742; `gems57-pooled-hide-v2`, 58,258
   withheld positives), paired Δ **+0.0861** (CI +0.0691…+0.1037) vs the best
@@ -235,5 +239,6 @@ See [`research/independent-review.md`](research/independent-review.md),
 [`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
 [`research/hypotheses.md`](research/hypotheses.md), and the two distinct
 `evidence/run_card.json` / `evidence/run-card.json` records for prior work. See also
-[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md) for this
-checkout's release-path review.
+[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md) and
+[`research/repo-review-2026-10-28-arena.md`](research/repo-review-2026-10-28-arena.md)
+for the earlier release-path review and this session's three-pass review.

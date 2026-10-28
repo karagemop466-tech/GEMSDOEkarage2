@@ -29,30 +29,17 @@
   </section>
 
   <section id="k2">
-    <h2>K2 candidate (later, 2026-10-28) — conditional, pending selector ruling</h2>
-    <p>The safety verdict above predates this candidate. A supervised model (26 label-blind geophysics features,
-    fold-local training on visible faults, tip-continuation, dotted emission ≥2.8 px spacing) was tested in 3
-    preregistered experiments on the shared gems57-pooled-hide-v2 holdout (58,258 withheld positives):
-    <b>HOLDOUT-DTI 0.1581</b> (95% CI 0.1424–0.1742) vs 0.0720 for the best unsupervised primitive
-    (paired Δ +0.0861, CI +0.0691…+0.1037); all 26 per-feature leakage canaries ≤ 0.6211 AUC.
-    Leaderboard estimate remains <b>Unavailable</b> — catalogue holdout cannot measure recovery of expert-hidden
-    faults (the reported 0.2778 champion scores 0.0067 against the catalogue it avoids). A labelled projection
-    (not a score, ~0.24–0.29 if the champion family's contaminated transfer held) is documented in the run card.</p>
+    <h2>K2 research candidate — NOT CLEARED — DO NOT SUBMIT</h2>
+    <p>The saved experiment records a supervised model (26 label-blind geophysics features, fold-local training on visible faults, tip-continuation, dotted emission ≥2.8 px spacing) tested in 3 preregistered experiments on the shared gems57-pooled-hide-v2 holdout (58,258 withheld positives): <b>HOLDOUT-DTI 0.1581</b> (95% CI 0.1424–0.1742) vs 0.0720 for the best unsupervised primitive (paired Δ +0.0861, CI +0.0691…+0.1037); all 26 per-feature leakage canaries ≤0.6211 AUC. This is evidence from the recorded experiment, not rerun in this review. Leaderboard estimate is <b>Unavailable</b>: catalogue holdout cannot measure recovery of expert-hidden faults. The old run card's labelled numerical projection is not a score and should not be used for submission decisions.</p>
     <div class="table-scroll"><table>
-      <thead><tr><th>File to download</th><th>Estimated score</th><th>Unique submission?</th></tr></thead>
+      <thead><tr><th>Research file (download only for inspection)</th><th>Score / estimate</th><th>Uniqueness and release decision</th></tr></thead>
       <tbody><tr>
-        <td><a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code></a> (<a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip" download>ZIP</a>) · SHA-256 <code>504be458…8dfb</code></td>
-        <td>Unavailable (never submitted). HOLDOUT-DTI 0.1581 above; projection labelled not-a-score.</td>
-        <td>Yes vs all 430 checked <code>docs/downloads</code> submission rasters (max overlap 68.1% of 70%; max |ρ| 0.119 of 0.90; champion 33.7%). Literal all-registry scope fails only on the impossible spacing-5 lattice (100%) and one calibration ridge mask (72.1%) — selector ruling required. <b>Not approved until then.</b></td>
+        <td><a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif — DO NOT SUBMIT</code></a> (<a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip" download>research ZIP — DO NOT SUBMIT</a>) · SHA-256 <code>504be458…8dfb</code></td>
+        <td>Leaderboard estimate unavailable (never submitted). HOLDOUT-DTI 0.1581 is not a leaderboard estimate.</td>
+        <td><b>Fails literal all-registry uniqueness:</b> the calibration lattice overlap is 100%, and the ctx-ridge calibration mask overlap is 72.05% (limit 70%). It passed the 430 checked <code>docs/downloads</code> submission rasters from the nine focus repositories (max overlap 68.1%; max |ρ| 0.119), but that narrower result does not clear the required full registry. <b>DO NOT SUBMIT.</b></td>
       </tr></tbody>
     </table></div>
-    <p>Why the reported 0.2778 (GEMSDOE32) leads the nine: byte-verified, it is the GEMSDOE25/30 dot set with dots
-    ≤2 px from known faults deleted; organizers exclude known-fault pixels from scoring, so apron dots mostly waste
-    false-positive budget (α = 0.2) under the 300 m max-kernel. Same geography, least-wasteful emission — beating it
-    requires a better surface, which is what the holdout above tests. Evidence:
-    <a href="evidence/k2/run_card.json">K2 run card</a> · <a href="evidence/k2/combined_holdout.json">holdout</a> ·
-    <a href="evidence/k2/final_registry_audit.json">registry audit</a>. Exact upload steps once approved:
-    <a href="how-to-submit.html">submission guide</a>.</p>
+    <p>Why the reported 0.2778 (GEMSDOE32) leads the nine: measured file forensics say it shares the GEMSDOE25/30 dotted parent geography and removes dots within 2 px of the known-fault catalogue. This is consistent with reducing redundant false-positive emission under the reported scoring setup, but does not prove the organizers' hidden score arose for that reason. The historical 0.2778 remains USER-REPORTED / UNVERIFIED; no submission-page receipt is available. K2's HOLDOUT-DTI does not establish a private leaderboard gain. Evidence: <a href="evidence/k2/run_card.json">K2 experiment card</a> · <a href="evidence/release-review-run-card-2026-10-28.json">current negative release-review card</a> · <a href="evidence/k2/combined_holdout.json">holdout</a> · <a href="evidence/k2/final_registry_audit.json">registry audit</a> · <a href="evidence/k2/validate_tif_strict.json">strict format diagnostic</a>. Submission steps are documented at <a href="how-to-submit.html">submission guide</a>; no file is currently approved.</p>
   </section>
 
   <section class="scorecard">

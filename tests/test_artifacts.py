@@ -100,9 +100,10 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'unverified' in text.lower()
         assert 'READ' in text
     homepage=(ROOT/'docs/index.html').read_text()
-    # 2026-10-28: superseded by the K2 conditional candidate; the nine historical
-    # files and both prior local candidates remain quarantined on the homepage.
-    assert 'CONDITIONAL' in homepage
+    # The prior K2 selector note was narrowed after review found literal
+    # all-registry uniqueness failures; the research artifact is never upload-ready.
+    assert 'K2 research candidate' in homepage
+    assert 'literal all-registry uniqueness gate' in homepage
     assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     assert 'NO APPROVED SUBMISSION' in homepage

@@ -87,9 +87,11 @@ def test_k2_uniqueness_scopes_are_as_reported():
     assert delta["duplicate_count"] == 0
 
 
-def test_homepage_names_exactly_one_conditional_candidate():
+def test_homepage_keeps_k2_research_only_after_literal_uniqueness_failure():
     home = (ROOT / "docs" / "index.html").read_text()
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
-    assert "CONDITIONAL" in home and "DO NOT SUBMIT" in home  # priors stay quarantined
-    assert "NO APPROVED" in home  # selector has not approved any file yet
+    assert "NOT CLEARED" in home and "DO NOT SUBMIT" in home
+    assert "literal all-registry uniqueness gate" in home
+    assert "100% overlap" in home and "72.05%" in home
+    assert "NO APPROVED" in home
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home

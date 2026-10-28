@@ -1,0 +1,59 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "review_date": "2026-10-28",
+  "review_scope": "Release and evidence review of the already-existing K2 artifact; zero new experiments, zero new dot placement, zero competition slots used.",
+  "hypothesis": "B1+B2: hidden faults share the multi-physics texture of mapped faults, and some visible-fault tips continue beyond catalogue endpoints.",
+  "mechanism": "Prior recorded candidate: HistGradientBoosting over 26 label-blind geophysics features trained fold-locally on visible mapped faults, plus visible-only fault-tip continuation and dotted emission. This review did not rerun or independently reproduce the experiment.",
+  "named_non_fault_process_that_could_mimic_it": "Lithologic/intrusive contacts generate magnetic and gravity edges; terrace risers and Lahontan shorelines can mimic scarps; training on mapped faults can encode mapper-selection bias.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.15812071903309205,
+    "withheld_positive_pixels": 58258,
+    "ci95": [0.14237392193985562, 0.17415355413093683],
+    "paired_delta_vs_best_primitive": {
+      "dti_delta": 0.08614,
+      "ci95": [0.06914, 0.10369]
+    },
+    "provenance": "Previously recorded in evidence/k2/run_card.json; not rerun in this review; not an ORGANIZER-CONFIRMED score and not a leaderboard estimate."
+  },
+  "correlation_overlap_vs_registry": {
+    "evidence_class": "REGISTRY-MEASUREMENT",
+    "scope_complete": false,
+    "checked_focus_submission_rasters": 430,
+    "max_directional_overlap_within_3px": 0.6808,
+    "max_absolute_spearman": 0.11893667579631634,
+    "calibration_spacing5_lattice_overlap_within_3px": 1.0,
+    "calibration_ctx_ridge_overlap_within_3px": 0.7205,
+    "literal_thresholds": {
+      "max_overlap": 0.7,
+      "max_absolute_spearman": 0.9
+    },
+    "literal_all_registry_result": "FAIL; overlap exceeds 0.70 for the lattice and ctx-ridge calibration records. The 430-raster submission-only comparison does not establish global uniqueness."
+  },
+  "raster": {
+    "path": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+    "sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb"
+  },
+  "validator_output": {
+    "evidence_class": "LOCAL-FORMAT-READBACK; not organizer acceptance",
+    "single_band_float32": true,
+    "no_nan_inside_footprint": true,
+    "whole_array_finite": true,
+    "values_in_0_1": true,
+    "unique_values": [0, 1],
+    "crs": "EPSG:32611",
+    "shape": [3730, 3292],
+    "transform": [100, 0, 243350, 0, -100, 4508550],
+    "grid_matches": "hash-pinned owner-mirror template; organizer-authenticated template not available",
+    "outside_encoding": "zero outside footprint; separate strict local NaN-outside rule fails",
+    "organizer_or_portal_acceptance": "not established"
+  },
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "note": "K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue >2px; zeros outside footprint",
+  "note_characters": 108,
+  "verdict": "negative",
+  "submission_approved": false,
+  "leaderboard_estimate": "Unavailable; no organizer score receipt and holdout DTI does not estimate the private expert-labeled score.",
+  "weekly_slots_used": 0
+}
