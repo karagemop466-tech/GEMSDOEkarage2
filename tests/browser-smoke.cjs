@@ -101,6 +101,20 @@ function chromeEnvironment() {
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Research page overflow');
       console.log(`PASS ${viewport.width}px: navigation, 9 rows, release lock, no viewport overflow`);
     }
+    // Legacy and alternate routes must not revive the previously unsafe
+    // invitation to download and submit a research-only TIFF.
+    await page.goto(base + '/docs/how-to-submit.html', {waitUntil:'domcontentloaded'});
+    assert.ok((await page.locator('body').innerText()).includes('NO APPROVED FILE'));
+    assert.ok((await page.locator('body').innerText()).toLowerCase().includes('do not submit'));
+    await page.goto(base + '/docs/executive-summary.html', {waitUntil:'domcontentloaded'});
+    assert.ok((await page.locator('body').innerText()).includes('NO APPROVED SUBMISSION'));
+    await page.goto(base + '/docs/site-GEMSDOE32.html', {waitUntil:'domcontentloaded'});
+    await page.waitForURL('**/docs/sites/GEMSDOE32.html');
+    assert.ok((await page.locator('body').innerText()).includes('GEMSDOE32'));
+    await page.goto(base + '/docs/research-hypotheses.html', {waitUntil:'domcontentloaded'});
+    await page.waitForURL('**/docs/hypotheses.html');
+    assert.ok((await page.locator('body').innerText()).includes('H1 · Signed downthrow parity'));
+
     network = 'stale';
     await page.goto(base + '/docs/audit.html');
     await page.waitForFunction(() => document.querySelector('[data-site="GEMSDOE32"] [data-freshness]').textContent === 'Changed since audit');

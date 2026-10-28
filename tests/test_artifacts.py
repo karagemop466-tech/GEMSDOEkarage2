@@ -102,6 +102,8 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
     homepage=(ROOT/'docs/index.html').read_text()
     assert 'No approved submission TIF' in homepage
     assert 'DO NOT SUBMIT' in homepage
+    assert 'docs/index.html' in (ROOT/'index.html').read_text()
+    assert 'NO APPROVED SUBMISSION' in homepage
 
 
 def test_shared_scientific_tools_unchanged():

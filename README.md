@@ -161,20 +161,27 @@ The historical run card and format receipt are retained as provenance, not as
 current clearance. Their claims of uniqueness and 15,000 emitted dots are wrong.
 `scripts/generate_submission.py` is disabled to prevent repeating the failed
 method or overwriting evidence. The separately generated H1 surface also failed
-its registry and holdout gates and must not be submitted.
+its registry and holdout gates and must not be submitted. Recorded mirror-based
+HOLDOUT-DTI for H1 is 0.0336729751 (`gems57-pooled-hide-v2`, 58,259 withheld
+positives, 95% CI [0.0286737956, 0.0392948028]); its paired difference against
+the best primitive is -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]).
+These are prior research results, not organizer scores or leaderboard estimates.
 
 The nine-site scorecard contains **user-reported, unverified** results, not
 file-linked organizer receipts. No calibrated leaderboard estimate is available.
 The prompt's leaderboard figures and the 2026-10-27 observation are snapshots,
 not current values. Consult the official leaderboard directly.
 
-### Reproduce the legacy geometry check
+### Reproduce checks and the legacy geometry audit
 
-1. Install `requirements.lock.txt` in a Python virtual environment.
-2. `python scripts/restore_references.py` downloads pinned public GitHub mirrors
+1. Install `requirements.lock.txt` in a Python virtual environment and run
+   `.venv/bin/pytest -q`.
+2. Run `npm ci && npm test && npm run test:site && npm run test:browser` for the
+   public dashboard/feed suite.
+3. `python scripts/restore_references.py` downloads pinned public GitHub mirrors
    to `.cache/input/`; hashes are checked. These are not authenticated organizer
    downloads and are not the complete registry.
-3. `python scripts/audit_legacy_dots.py` rechecks saved bytes, grid, range,
+4. `python scripts/audit_legacy_dots.py` rechecks saved bytes, grid, range,
    footprint and the lattice duplicate witness. No candidate TIFF is generated.
 
 ### Remaining work
@@ -194,4 +201,6 @@ not current values. Consult the official leaderboard directly.
 See [`research/independent-review.md`](research/independent-review.md),
 [`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
 [`research/hypotheses.md`](research/hypotheses.md), and the two distinct
-`evidence/run_card.json` / `evidence/run-card.json` records for prior work.
+`evidence/run_card.json` / `evidence/run-card.json` records for prior work. See also
+[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md) for this
+checkout's release-path review.

@@ -88,3 +88,4 @@ def test_pages_workflow_keeps_legacy_and_actions_url_layouts_consistent():
     assert 'path: ${{ runner.temp }}/gems-pages' in workflow
     assert 'path: docs\n' not in workflow
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
+    assert 'NO APPROVED SUBMISSION' in (ROOT/'docs/index.html').read_text()
