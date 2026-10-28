@@ -200,6 +200,15 @@ not current values. Consult the official leaderboard directly.
 4. `python scripts/audit_legacy_dots.py` rechecks saved bytes, grid, range,
    footprint and the lattice duplicate witness. No candidate TIFF is generated.
 
+### Latest regression review — session 76119165 (2026-10-28)
+
+The [three-pass review](research/session-76119165-review.md) fixed the executive
+summary's research-download heading and hardened the readiness schema gate against
+overriding an explicitly recorded negative verdict or protocol stop. No new
+experiments or TIFFs were generated; no slot is authorized. See the
+[review run card](evidence/session-76119165-run-card.json). Python tests passed
+with seven input-dependent integration skips; feed, site and browser checks passed.
+
 ### Remaining work
 
 - Establish the assigned method lane and a complete current registry. Do not

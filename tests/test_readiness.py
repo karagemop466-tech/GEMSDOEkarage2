@@ -62,6 +62,25 @@ class GateTests(unittest.TestCase):
             {"verdict": "promote", "reasons": [], "slot_authorized": False},
         )
 
+    def test_recorded_stop_cannot_be_promoted_by_later_passing_measurements(self):
+        for declaration in (True, None, "false", 0, {}, []):
+            with self.subTest(declaration=declaration):
+                card = good()
+                card["protocol_stop_triggered"] = declaration
+                result = assess(card)
+                self.assertEqual(result["verdict"], "negative")
+                self.assertFalse(result["slot_authorized"])
+        card = good()
+        card["protocol_stop_triggered"] = False
+        self.assertEqual(assess(card)["verdict"], "promote")
+
+    def test_explicit_negative_verdict_is_preserved(self):
+        card = good()
+        card["verdict"] = "negative"
+        result = assess(card)
+        self.assertEqual(result["verdict"], "negative")
+        self.assertIn("Candidate already records a negative verdict", result["reasons"])
+
     def test_each_required_top_level_section_is_mandatory(self):
         for key in good():
             with self.subTest(key=key):

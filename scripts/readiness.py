@@ -48,6 +48,14 @@ def assess(card: object) -> dict:
             "slot_authorized": False,
         }
 
+    # A later schema pass must never erase a recorded scientific/protocol stop.
+    # These optional fields preserve compatibility with existing receipts; their
+    # absence does not establish that the experiment's history was audited.
+    if card.get("verdict") == "negative":
+        reasons.append("Candidate already records a negative verdict")
+    if "protocol_stop_triggered" in card and card["protocol_stop_triggered"] is not False:
+        reasons.append("Recorded protocol stop or invalid stop declaration; stop")
+
     if not isinstance(card.get("lane"), str) or not card["lane"].strip() or not isinstance(card.get("template_commit"), str) or not card["template_commit"].strip():
         reasons.append("Missing method lane or shared template pin")
 
