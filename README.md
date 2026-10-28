@@ -235,5 +235,9 @@ See [`research/independent-review.md`](research/independent-review.md),
 [`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
 [`research/hypotheses.md`](research/hypotheses.md), and the two distinct
 `evidence/run_card.json` / `evidence/run-card.json` records for prior work. See also
-[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md) for this
-checkout's release-path review.
+[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md) for the
+release-path review and [`research/repo-review-2026-10-28-session.md`](research/repo-review-2026-10-28-session.md)
+for the latest three-pass audit, prospective hypothesis ranking and test results.
+The K2 download links on the site are explicitly **research-only / DO NOT SUBMIT**;
+the run-card conditional selector recommendation is not approval, and the literal
+all-registry gate remains unresolved.

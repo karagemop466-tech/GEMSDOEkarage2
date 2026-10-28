@@ -111,3 +111,20 @@ test('current download does not claim established uniqueness or submission readi
   assert.doesNotMatch(text, /unique research TIF|\(submission raster\)/);
   dom.window.close();
 });
+
+test('K2 historical conditional selector recommendation is visibly not approval', async () => {
+  const home = await render('index.html');
+  const section = home.window.document.querySelector('#k2-candidate');
+  assert.match(section.textContent, /research artifact/i);
+  assert.match(section.textContent, /DO NOT SUBMIT/);
+  assert.match(section.textContent, /not an approved file|not approved/i);
+  assert.match(section.querySelector('a[download]').textContent, /DO NOT SUBMIT/);
+  home.window.close();
+
+  const summary = await render('executive-summary.html');
+  const k2 = summary.window.document.querySelector('#k2');
+  assert.match(k2.textContent, /NOT APPROVED/);
+  assert.match(k2.textContent, /DO NOT SUBMIT/);
+  assert.match(k2.querySelector('thead').textContent, /Research artifact \(not approved\)/);
+  summary.window.close();
+});
