@@ -4,6 +4,18 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest independent release review — 2026-10-28
+
+**K2 current literal-policy verdict: NEGATIVE / DO NOT SUBMIT.** Its historical
+conditional experiment card is not clearance. The independent audit checks the
+committed TIFF/ZIP bytes and includes calibration entries without exemptions.
+See [current audit](evidence/k2/literal_release_audit.json) and
+[three-pass review](research/release-review-2026-10-28.md).
+Reproduce with `python scripts/audit_k2_release.py`; this performs no training,
+placement, upload or slot authorization. No new geological experiments were run.
+The existing five preregistered hypotheses and three completed experiments are
+preserved; do not restart their budget or tune a stopped candidate.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated

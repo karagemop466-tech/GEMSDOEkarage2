@@ -1,0 +1,115 @@
+{
+  "schema": "gems.literal_release_audit.v1",
+  "evidence_class": "RELEASE-AUDIT, NOT A SCORE",
+  "source_run_card": "evidence/k2/run_card.json",
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "hypothesis": "B1+B2: Hidden Great Basin faults share the local multi-physics expression (magnetic/gravity potential-field edges, topographic break, basement-depth step, conductivity contrast at 150-600 m scales) of catalogue faults, learnable from the 19-band GeoDAWN stack without any catalogue-derived predictor; fault tips continue beyond mapped segment ends. Emitting the learned surface as binary dots (min separation 2.8 px, 1.10% budget, >2 px off the known catalogue) maximizes distance-weighted Tversky credit per dot on hidden faults.",
+  "mechanism": "HistGradientBoosting classifier (350 iterations, lr 0.06, 63 leaves, min-leaf 40, L2=1.0) on 26 features (14 raw bands + gradient magnitudes at sigma 1.5/4.0 px for rtp, det_elev, iso_grav, depth_to_base, cond_surf + 2 difference-of-Gaussians), fit per holdout fold on visible catalogue positives vs sampled unlabeled pixels >3 px from visible faults; tip-continuation corridors (visible components >=15 px, PCA strike, <=25 px, x2 surface boost); greedy descending-surface dot emission with 2.8 px minimum separation. Shared gems57-pooled-hide-v2 evaluator, label-blind quadrant whole-component folds, 8 km buffer, visible faults masked pixel-exactly in scoring.",
+  "named_non_fault_mimic": "Lithologic/intrusive contacts produce identical potential-field steps; alluvial-fan terrace risers and Lahontan shorelines mimic scarps; mapped-catalogue bias means the model learns 'faults that get mapped', which may differ systematically from the expert-hidden set (missing-not-at-random).",
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "submission_note": "K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue >2px; zeros outside footprint",
+  "correlation_overlap_vs_registry": {
+    "surface_before_placement": {
+      "vs_9_focus_best": "Spearman rho <= 0.0917; literal positive-support overlap <= 0.1836",
+      "vs_r13_lattice": "rho 0.0001; literal overlap 1.0 (mathematically forced; see impossible_gate)"
+    },
+    "final_dots": {
+      "vs_9_focus_best_max_overlap": 0.4268,
+      "vs_champion_GEMSDOE32_overlap": 0.337,
+      "vs_all_submission_rasters_9_repos": "430 docs/downloads submission rasters successfully compared (420 pinned + 10 current-head delta, 2026-10-28): max overlap 0.6808 (< 0.70), max |Spearman| 0.1189 (< 0.90), 0 duplicates, byte- and pixel-unique. 435 rasters successfully compared in total when docs/research, archive, evidence, non-calibration inputs/ surfaces and the 2 prior local candidates are included (same maxima); 1 additional 32x48 format-test file is grid-incomparable.",
+      "vs_calibration_inputs": "GEMSDOE24 inputs/calibration/gems10-h25-ctx-ridge overlap 0.7205 (> 0.70 LITERAL FAIL). This binary ridge mask (174,232 px) has a 3-px halo covering 26.31% of the footprint and 87.39% of the catalogue itself, i.e. real faults are more concentrated in its halo than this candidate is. It is a vendored GEMSDOE10 calibration surface, not a focus-site submission.",
+      "incomparable_record": "GEMSDOE36 GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif is 32x48 px (grid mismatch, fail-closed error in scan); byte-distinct, cannot be a duplicate of a full-grid submission",
+      "scope_note": "440 hash-pinned rasters at 2026-10-27 refs + delta to current heads checked 2026-10-28 (451 enumerated). Not the organizer registry; other teams' submissions are unknowable."
+    },
+    "impossible_gate": "The spacing-5 calibration lattice (nodes at indices = 0 mod 5) places every integer pixel within sqrt(8) = 2.83 px of a node; measured 99.8713% of footprint pixels within 3 px of a lattice dot. The 0.2778 champion itself has ~100% of its dots within 3 px of the lattice. Applied literally to this registry entry, the <=70% rule forbids every in-footprint candidate, including every historically scored file. Reported, not gamed."
+  },
+  "measurement_status": "Saved bytes rechecked; registry measurements and holdout inherited, not rerun.",
+  "validator": {
+    "single_band": true,
+    "float32": true,
+    "finite_everywhere": true,
+    "range_0_1": true,
+    "mirror_shape_match": true,
+    "mirror_crs_match": true,
+    "mirror_transform_match": true,
+    "sha256_match": true,
+    "zip_roundtrip": true
+  },
+  "organizer_template_authenticated": false,
+  "footprint_rechecked": false,
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "kernel": "triangular, R = 300 m",
+    "candidate_arm": "hgbcont_b110",
+    "dti": 0.15812071903309205,
+    "ci95": [
+      0.14237392193985562,
+      0.17415355413093683
+    ],
+    "withheld_positive_pixels": 58258,
+    "tpw": 9262.96209671478,
+    "fpw": 50612.95513759131,
+    "fnw": 48995.03790328523,
+    "per_fold_dti": {
+      "fold0": 0.1386,
+      "fold1": 0.2198,
+      "fold2": 0.1328,
+      "fold3": 0.1541
+    },
+    "paired_delta_vs_best_primitive_ridge_coh": {
+      "delta": 0.08614,
+      "ci95": [
+        0.06914,
+        0.10369
+      ]
+    },
+    "paired_delta_vs_plain_hgb_same_budget": {
+      "delta": 0.00057,
+      "ci95": [
+        0.0002,
+        0.00105
+      ]
+    },
+    "bootstrap": "paired physical spatial-cluster percentile, 156 clusters, 2000 draws, seed 20261028; conditional on folds/catalogue/budgets, NOT a leaderboard interval"
+  },
+  "holdout_status": "Prior recorded HOLDOUT-DTI; not rerun by this audit",
+  "registry_failures": [
+    {
+      "reference": "GEMSDOE24/inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "reason": "literal duplicate gate",
+      "rank_correlation": -0.00023917233838600032,
+      "overlap_3px": 1.0
+    },
+    {
+      "reference": "GEMSDOE24/inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+      "reason": "literal duplicate gate",
+      "rank_correlation": 0.043796518117763,
+      "overlap_3px": 0.7205226551173588
+    },
+    {
+      "reference": "GEMSDOE36/docs/downloads/GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif",
+      "reason": "missing or incomparable measurement"
+    },
+    {
+      "reference": "13GEMSDOE/docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "reason": "literal duplicate gate",
+      "rank_correlation": -0.00023917233838600032,
+      "overlap_3px": 1.0
+    }
+  ],
+  "reasons": [
+    "Literal all-registry uniqueness failed; no scope exemption is authorized.",
+    "Assigned lane absent; prior experiments used a self-assigned lane.",
+    "Organizer inputs, exterior convention, quota and receipt are unverified.",
+    "Primitive comparison is not a frozen same-fold historical champion comparison."
+  ],
+  "experiments_run": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "leaderboard_estimate": null,
+  "verdict": "negative",
+  "download_policy": "Research download only. DO NOT SUBMIT under the current protocol."
+}
