@@ -21,16 +21,23 @@ def test_historical_hk3_promotion_is_preserved_but_not_eligible():
     assert historical['verdict'] == 'PROMOTE'
     assert historical['gates']['literal_rule_exception_applied'] is True
     assert historical['gates']['unique_literal_vs_all_registry_rasters'] is False
-    assert not pages.eligible(historical)
+    from scripts.hk3_release_policy import publication_eligible
+    assert not publication_eligible(historical)
     # Relabeling cannot make a stopped, incomplete card pass the common schema.
     historical['verdict'] = 'promote'
-    assert not pages.eligible(historical)
+    assert not publication_eligible(historical)
 
 
 def test_all_pages_fail_closed_even_if_the_verdict_is_forged():
     data = pages.gather()
     forged = copy.deepcopy(data)
-    forged['rc']['verdict'] = 'promote'
+    forged['card']['verdict'] = 'promote'
+    forged['card']['protocol_stop_triggered'] = False
+    forged['card']['gates']['literal_rule_exception_applied'] = False
+    from scripts.hk3_release_policy import REQUIRED_GATES
+    from test_readiness import good
+    forged['card']['gates'].update({key: True for key in REQUIRED_GATES})
+    forged['card']['release_evidence'] = good()  # matching-looking schema is not authenticated evidence
     for name, text in pages.render_all(forged).items():
         if name.endswith('.html'):
             assert 'OK TO SUBMIT: NO' in text
@@ -51,22 +58,20 @@ def test_hk3_retired_commands_leave_cards_and_tif_unchanged(command):
     assert before == [hashlib.sha256(path.read_bytes()).digest() for path in paths]
 
 
-def test_direct_generation_entry_point_is_retired_before_data_or_writer(monkeypatch):
+def test_direct_generation_entry_point_is_retired_before_data_or_writer(tmp_path):
     from scripts import hk3
 
-    def forbidden(*args, **kwargs):
-        raise AssertionError('Retired generation reached a data loader or writer')
-
-    monkeypatch.setattr(hk3.k2, 'grid_and_masks', forbidden)
-    monkeypatch.setattr(hk3, 'write_submission', forbidden)
+    # The retired module no longer exposes a loader, writer, or experiment code.
+    assert not hasattr(hk3, 'k2') and not hasattr(hk3, 'write_submission')
     with pytest.raises(RuntimeError, match='HK3 is retired'):
         hk3.cmd_e3('must-not-exist', 'Do not submit', .009, reuse_surface=True)
+    assert not list(tmp_path.iterdir())
 
 
 def test_nine_current_focus_summaries_have_no_submission_downloads():
     data = pages.gather()
     rendered = pages.render_all(data)
-    for s in data['sites']['sites']:
+    for s in data['focus']:
         text = rendered[f"focus/{s['site']}.html"]
         assert s['file'] in text and s['sha256'] in text
         assert 'USER-REPORTED / UNVERIFIED' in text

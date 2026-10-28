@@ -67,18 +67,13 @@ function chromeEnvironment() {
     const artifactHash = crypto.createHash('sha256').update(Buffer.from(await artifactResponse.arrayBuffer())).digest('hex');
     assert.equal(artifactHash, parallelCard.raster_sha256);
     assert.equal(parallelCard.approved_for_weekly_slot, false);
-    // The HK3 research artifact remains downloadable, but the separate selector
-    // explicitly withholds upload clearance; served bytes must hash to its card.
+    // HK3 is an existing research-only file, never an upload candidate.
     const hk3 = require('../evidence/hk3/run_card.json');
-    const hk3Selector = require('../evidence/hk3/selector_result.json');
-    const hk3Release = require('../evidence/hk3/current_release_assessment.json');
-    assert.equal(hk3Release.ok_to_submit, false);
     const hk3Response = await fetch(base + '/' + hk3.raster.file);
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
-    const expectBadge = hk3Release.status === 'approved' && hk3Release.ok_to_submit === true &&
-      hk3Selector.verdict === 'candidate_approved_by_automated_gates' && hk3Selector.ok_to_submit === true
-      ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO';
+    assert.equal(hk3.verdict, 'negative');
+    const expectBadge = 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
@@ -86,12 +81,17 @@ function chromeEnvironment() {
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
       const primary = page.locator('a.btn.big[download]').first();
       assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
+      assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
+      const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
+      assert.equal(download.suggestedFilename(), path.basename(hk3.raster.file));
+      const downloaded = fs.readFileSync(await download.path());
+      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), hk3.raster.sha256);
       assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('body').innerText()).includes('not unique'));
       assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);
       assert.ok(await page.locator('a[href="audit.html"]').count());
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Desk overflow');
-      console.log(`PASS ${width}px: submission desk, verdict badge, single click-to-download file`);
+      console.log(`PASS ${width}px: negative badge, research-only click/download, exact SHA-256`);
     }
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);
@@ -122,6 +122,11 @@ function chromeEnvironment() {
     await page.goto(base + '/docs/executive-summary.html', {waitUntil:'domcontentloaded'});
     assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
     assert.ok((await page.locator('body').innerText()).includes('0.2778'));
+    await page.goto(base + '/docs/focus/GEMSDOE32.html', {waitUntil:'domcontentloaded'});
+    const focusText = await page.locator('body').innerText();
+    assert.ok(focusText.includes('GEMSDOE32') && focusText.includes('DO NOT RESUBMIT'));
+    assert.ok(focusText.includes('USER-REPORTED / UNVERIFIED'));
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Focus page overflow');
     await page.goto(base + '/docs/site-GEMSDOE32.html', {waitUntil:'domcontentloaded'});
     await page.waitForURL('**/docs/sites/GEMSDOE32.html');
     assert.ok((await page.locator('body').innerText()).includes('GEMSDOE32'));

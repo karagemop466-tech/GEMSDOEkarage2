@@ -15,10 +15,10 @@
       "zip_file": null,
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
-        "self_contained_tiff": true,
         "mirror_shape_match": true,
         "mirror_crs_match": true,
         "mirror_transform_match": true,
@@ -56,10 +56,10 @@
       "zip_file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
-        "self_contained_tiff": true,
         "mirror_shape_match": true,
         "mirror_crs_match": true,
         "mirror_transform_match": true,
@@ -71,6 +71,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "selector_explicit_negative": true,
         "zip_contains_exact_saved_tif": true
       },
@@ -99,10 +100,10 @@
       "zip_file": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
-        "self_contained_tiff": true,
         "mirror_shape_match": true,
         "mirror_crs_match": true,
         "mirror_transform_match": true,
@@ -114,6 +115,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {
@@ -141,10 +143,10 @@
       "zip_file": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
-        "self_contained_tiff": true,
         "mirror_shape_match": true,
         "mirror_crs_match": true,
         "mirror_transform_match": true,
@@ -156,6 +158,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "selector_explicit_negative": true,
         "zip_contains_exact_saved_tif": true
       },
@@ -184,10 +187,10 @@
       "zip_file": "docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
-        "self_contained_tiff": true,
         "mirror_shape_match": true,
         "mirror_crs_match": true,
         "mirror_transform_match": true,
@@ -199,6 +202,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {
@@ -226,10 +230,10 @@
       "zip_file": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
-        "self_contained_tiff": true,
         "mirror_shape_match": true,
         "mirror_crs_match": true,
         "mirror_transform_match": true,
@@ -241,6 +245,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "selector_explicit_negative": true,
         "zip_contains_exact_saved_tif": true
       },
@@ -269,10 +274,10 @@
       "zip_file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.zip",
       "checks": {
         "tif_exists": true,
+        "self_contained_tiff": true,
         "single_band": true,
         "float32": true,
         "geotiff": true,
-        "self_contained_tiff": true,
         "mirror_shape_match": true,
         "mirror_crs_match": true,
         "mirror_transform_match": true,
@@ -284,7 +289,10 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
+        "metadata_hk3_negative_status": true,
         "selector_explicit_negative": true,
+        "current_assessment_negative_and_hash_bound": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {

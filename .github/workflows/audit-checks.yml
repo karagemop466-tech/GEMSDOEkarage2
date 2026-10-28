@@ -32,6 +32,7 @@ jobs:
           ln -sf ../research/inputs/labels.tif .cache/inputs/existing_faults.tif
           ln -sf ../research/inputs/lattice.tif .cache/inputs/r13_lattice_nan.tif
           python scripts/audit_focus.py --fetch --output /tmp/gems-focus.json > /dev/null
+          python scripts/recheck_hk3.py --check
       - name: Unit and shared-validator integration tests
         run: |
           python scripts/audit_public_downloads.py --check

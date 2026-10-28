@@ -23,6 +23,7 @@ from scipy.ndimage import distance_transform_edt
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from restore_references import digest  # noqa: E402
+from raster_integrity import require_single_file_dataset  # noqa: E402
 
 
 def verify_sha(path: Path, expected: str) -> None:
@@ -54,6 +55,7 @@ def audit(input_dir: Path, manifest: dict) -> dict:
     verify_sha(witness_path, manifest["witness"]["sha256"])
 
     with rasterio.open(template) as source:
+        require_single_file_dataset(source, template)
         expected = grid(source)
         arr = source.read(1)
         # This pinned mirror explicitly uses NaN outside. Do not assume a finite
@@ -62,13 +64,18 @@ def audit(input_dir: Path, manifest: dict) -> dict:
         template_positive = (arr > 0) & footprint
         template_info = {"shape": list(source.shape), "crs": str(source.crs),
                          "transform": list(source.transform)[:6], "sha256": digest(template)}
+        require_single_file_dataset(source, template)
+    verify_sha(template, manifest["mirror_template"]["sha256"])
     n_foot = int(footprint.sum())
     if not n_foot:
         raise ValueError("Empty template footprint")
     with rasterio.open(labels) as source:
+        require_single_file_dataset(source, labels)
         if grid(source) != expected or source.count != 1:
             raise ValueError("Labels differ from template grid")
         label_pos = (source.read(1) > 0) & footprint
+        require_single_file_dataset(source, labels)
+    verify_sha(labels, manifest["mirror_labels"]["sha256"])
     template_info.update({"footprint_pixels": n_foot,
                           "positive_pixels": int(template_positive.sum()),
                           "positive_pixels_equal_label_mask": bool(np.array_equal(template_positive, label_pos))})
@@ -77,6 +84,7 @@ def audit(input_dir: Path, manifest: dict) -> dict:
     def load_ref(path: Path, expected_hash: str):
         verify_sha(path, expected_hash)
         with rasterio.open(path) as ds:
+            require_single_file_dataset(ds, path)
             if grid(ds) != expected:
                 raise ValueError(f"Grid mismatch: {path}")
             if ds.count != 1:
@@ -88,7 +96,9 @@ def audit(input_dir: Path, manifest: dict) -> dict:
             if not np.isin(inside, (0, 1)).all():
                 raise ValueError(f"Binary historical comparison required, got continuous values: {path}")
             dots = (raster > 0) & footprint
-            return dots, {"sha256": digest(path), "dot_count": int(dots.sum()),
+            require_single_file_dataset(ds, path)
+            verify_sha(path, expected_hash)
+            return dots, {"sha256": expected_hash, "dot_count": int(dots.sum()),
                           "single_band": True, "dtype": ds.dtypes[0],
                           "inside_finite_and_in_range": True,
                           "outside_all_nan": bool(np.isnan(raster[~footprint]).all()),

@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """Re-read every published TIFF/ZIP and fail closed on unexpected downloads.
 
-This is an integrity and local-format audit of the published files, not a model
-evaluation. Research files need a negative run card. Any future upload candidate needs
-the common strict readiness contract, a current hash-bound positive assessment with every
-release gate true, and a selector bound to the same saved bytes. No mandatory registry
-exception is allowed; HK3 is research-only. No TIFF is generated and no organizer
-portal receipt is authenticated here.
+This is an integrity and local-format audit of published research files, not a
+model evaluation, a selector, or a release-authorization system. All current
+files need a negative run card. A claimed candidate fails closed: this inventory
+cannot authenticate organizer inputs, prove pre-placement chronology, establish
+a complete registry, or authorize a weekly slot. No TIFF is generated here.
 """
 from __future__ import annotations
 
@@ -18,16 +17,15 @@ import zipfile
 
 import numpy as np
 import rasterio
-
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from scripts.readiness import assess
-from scripts.hk3_release_policy import publication_eligible
 from rasterio.errors import RasterioError
 
+try:
+    from scripts.raster_integrity import require_single_file_dataset
+except ModuleNotFoundError:  # direct execution as ``python scripts/...``
+    from raster_integrity import require_single_file_dataset
+
 ROOT = Path(__file__).resolve().parents[1]
-# (stem, run card, selector, has_zip[, kind]); kind "research" = negative card required,
-# kind "candidate" = PROMOTE card + explicit selector required (HK3 lane, 2026-10-28).
+# (stem, run card, selector, has_zip[, kind]); current entries are research only.
 ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
@@ -71,11 +69,12 @@ def digest_file(path: Path) -> str:
 def inspect_raster(path: Path, grid: dict) -> dict:
     """Inspect *saved* bytes in windows; never replace or silently clip pixels."""
     with rasterio.open(path) as ds:
+        require_single_file_dataset(ds, path)
         checks = {
+            "self_contained_tiff": True,
             "single_band": ds.count == 1,
             "float32": ds.count == 1 and ds.dtypes == ("float32",),
             "geotiff": ds.driver == "GTiff",
-            "self_contained_tiff": len(ds.files) == 1 and Path(ds.files[0]).resolve() == path.resolve(),
             "mirror_shape_match": list(ds.shape) == grid["shape"],
             "mirror_crs_match": str(ds.crs) == grid["crs"],
             "mirror_transform_match": list(ds.transform)[:6] == grid["transform"],
@@ -98,6 +97,7 @@ def inspect_raster(path: Path, grid: dict) -> dict:
         checks.update(whole_array_finite=nan == 0 and inf == 0,
                       range_0_1=nan == 0 and inf == 0 and minimum >= 0 and maximum <= 1,
                       no_masked_pixels=masked == 0)
+        require_single_file_dataset(ds, path)
         return {"checks": checks, "diagnostics": {
             "nan_pixels": nan, "infinite_pixels": inf, "masked_pixels": masked,
             "positive_pixels": positive, "finite_min": minimum if minimum != float("inf") else None,
@@ -125,6 +125,8 @@ def inspect_zip(path: Path, tif: Path, expected_sha256: str) -> bool:
 
 def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | None,
                    has_zip: bool, grid: dict, kind: str = "research") -> dict:
+    if kind not in ("research", "candidate"):
+        raise ValueError(f"Unknown artifact kind: {kind}")
     rel = f"docs/downloads/{stem}.tif"
     candidate = kind == "candidate"
     tif = root / rel
@@ -139,23 +141,20 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             checks["raster_unchanged_during_read"] = digest_file(tif) == actual_sha
         except (OSError, ValueError, RasterioError) as exc:
             checks["tif_readable"] = False
-            detail = {"diagnostics": {"error_type": type(exc).__name__}}
+            checks["self_contained_tiff"] = False  # not established on an unreadable or multi-file raster
+            detail = {"diagnostics": {"error_type": type(exc).__name__, "error": str(exc)}}
     try:
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
         if candidate:
-            checks["card_verdict_promote"] = card.get("verdict") == "PROMOTE"
-            release = card.get("release_evidence") or {}
-            checks["release_evidence_bound_to_saved_bytes"] = (
-                isinstance(release, dict)
-                and release.get("raster_sha256") == actual_sha
-                and release.get("submission_name") == stem
-                and release.get("submission_note") == card.get("note"))
-            # No private eligibility fork: the common strict evidence gate applies.
-            checks["common_readiness_pass"] = assess(card.get("release_evidence"))["verdict"] == "promote"
-            checks["card_hard_gates_all_pass"] = publication_eligible(card)
-            checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
+            # This inventory does not implement the independent, provenance-bound
+            # selector required for a promotion. A claimed PROMOTE plus a matching
+            # selector JSON is not evidence that the underlying gates actually ran.
+            checks["independent_release_verification_implemented"] = False
         else:
-            checks["card_verdict_negative"] = card.get("verdict") == "negative"
+            checks["card_verdict_negative"] = (card.get("verdict") == "negative"
+                                                and card.get("ok_to_submit", False) is False
+                                                and card.get("approved_for_weekly_slot", False) is False
+                                                and card.get("slot_authorized", False) is False)
         checks["card_has_same_filename"] = (card.get("raster", rel) == rel and
                                             card.get("submission_name") == stem)
         checks["card_sha_matches_saved_bytes"] = actual_sha is not None and card.get("raster_sha256") == actual_sha
@@ -163,38 +162,60 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                                                 0 < len(card["note"]) <= 140)
     except (OSError, ValueError, TypeError, AttributeError):
         checks["card_readable"] = False
+    metadata_path = tif.with_suffix('.json')
+    if metadata_path.exists() or card_rel == "evidence/hk3/run_card.json":
+        try:
+            metadata = json.loads(metadata_path.read_text())
+            checks["metadata_research_only_and_hash_bound"] = (
+                isinstance(metadata, dict) and metadata.get("sha256") == actual_sha
+                and metadata.get("promoted") is False
+                and metadata.get("approved_for_weekly_slot") is False
+                and metadata.get("ok_to_submit", False) is False
+            )
+            if card_rel == "evidence/hk3/run_card.json":
+                checks["metadata_hk3_negative_status"] = (
+                    "DO NOT SUBMIT" in metadata.get("status", "")
+                    and "WITHDRAWN" in metadata.get("metadata", {}).get("estimator", {}).get("status", "")
+                )
+        except (OSError, ValueError, TypeError, AttributeError):
+            checks["metadata_research_only_and_hash_bound"] = False
     if selector_rel is not None:
         try:
             selector = json.loads((root / selector_rel).read_text())
             if candidate:
-                # the automated selector may approve the *download for upload*; the weekly slot
-                # itself is spent by the human selector, so slot_authorized stays False here
+                # Matching assertions are recorded for diagnostics, never as authorization.
                 checks["selector_explicit_candidate"] = (selector.get("verdict") == "candidate_approved_by_automated_gates" and
                                                          selector.get("ok_to_submit") is True and
                                                          selector.get("slot_authorized") is False and
                                                          selector.get("source_run_card") == card_rel and
                                                          selector.get("raster_sha256") == actual_sha)
-                assessment_rel = selector.get("current_release_assessment")
-                try:
-                    assessment = json.loads((root / assessment_rel).read_text()) if assessment_rel else {}
-                    checks["current_assessment_bound"] = (
-                        assessment.get("status") == "approved"
-                        and assessment.get("ok_to_submit") is True
-                        and assessment.get("raster_sha256") == actual_sha
-                        and assessment.get("source_run_card") == card_rel)
-                    checks["current_assessment_approval_gates_pass"] = all(
-                        assessment.get(key) is True for key in (
-                            "preplacement_surface_clearance_passed", "final_dot_uniqueness_passed",
-                            "current_holdout_comparison_passed", "organizer_template_authenticated",
-                            "source_data_authenticated", "lane_assignment_authorized",
-                            "registry_scan_complete", "leakage_canary_passed"))
-                except (OSError, ValueError, TypeError, AttributeError):
-                    checks["current_assessment_bound"] = False
-                    checks["current_assessment_approval_gates_pass"] = False
             else:
                 checks["selector_explicit_negative"] = (selector.get("verdict") == "negative" and
                                                         selector.get("slot_authorized") is False and
+                                                        selector.get("ok_to_submit", False) is False and
+                                                        selector.get("approved_for_weekly_slot", False) is False and
                                                         selector.get("source_run_card") == card_rel)
+                # HK3's concurrent release review adds a current, byte-bound
+                # negative assessment. If present for another research artifact,
+                # do not silently ignore contradictions there either.
+                if "current_release_assessment" in selector or card_rel == "evidence/hk3/run_card.json":
+                    checks["current_assessment_negative_and_hash_bound"] = False
+                    assessment_rel = selector.get("current_release_assessment")
+                    if not isinstance(assessment_rel, str):
+                        raise ValueError("Missing release assessment")
+                    assessment_path = (root / assessment_rel).resolve()
+                    if not assessment_path.is_relative_to((root / "evidence").resolve()):
+                        raise ValueError("Release assessment outside evidence directory")
+                    assessment = json.loads(assessment_path.read_text())
+                    checks["current_assessment_negative_and_hash_bound"] = (
+                        assessment.get("status") == "negative_research_only"
+                        and assessment.get("ok_to_submit") is False
+                        and assessment.get("slot_authorized") is False
+                        and assessment.get("candidate") == rel
+                        and assessment.get("raster_sha256") == actual_sha
+                        and assessment.get("source_run_card") == card_rel
+                        and (card_rel != "evidence/hk3/run_card.json"
+                             or assessment_rel == "evidence/hk3/current_release_assessment.json"))
         except (OSError, ValueError, TypeError, AttributeError):
             checks["selector_explicit_candidate" if candidate else "selector_explicit_negative"] = False
     if has_zip:
@@ -203,18 +224,15 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 inspect_zip(tif.with_suffix('.zip'), tif, actual_sha))
         except (OSError, ValueError, zipfile.BadZipFile, RuntimeError):
             checks["zip_contains_exact_saved_tif"] = False
-    ok = all(checks.values())
-    if candidate:
-        status = "VERIFIED_CANDIDATE_FOR_UPLOAD" if ok else "FAIL_CLOSED"
-    else:
-        status = "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED"
+    ok = all(checks.values()) and not candidate
+    status = "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED"
     return {
         "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
         "selector": selector_rel, "zip_file": f"docs/downloads/{stem}.zip" if has_zip else None,
         "checks": checks, "diagnostics": detail.get("diagnostics", {}),
         "status": status,
         "download_for_research": ok,
-        "ok_to_submit": bool(candidate and ok), "slot_authorized": False,
+        "ok_to_submit": False, "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
         "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists",
     }
@@ -232,30 +250,16 @@ def audit(root: Path = ROOT) -> dict:
     entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
                for a in ARTIFACTS]
     good = (not unexpected and not missing and
-            all(row['status'] in ('VERIFIED_RESEARCH_ONLY', 'VERIFIED_CANDIDATE_FOR_UPLOAD') for row in entries))
-    approved = [row['file'] for row in entries if row['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD']
-    if good and len(approved) > 1:
-        good = False  # exactly one file may be offered for upload at a time
-    if good and approved:
-        status = "PASS_ONE_CANDIDATE_FOR_UPLOAD"
-    elif good:
-        status = "PASS_RESEARCH_ONLY"
-    else:
-        status = "FAIL_CLOSED"
-    estimate = None
-    if good and approved:
-        card = json.loads((root / 'evidence/hk3/run_card.json').read_text())
-        estimate = {"label": card["estimator"]["evidence_class"], "value": card["estimator"]["estimate"],
-                    "theta_sensitivity": card["estimator"]["estimate_theta"]}
+            all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in entries))
     return {
         "schema": "gems.published_downloads.v2",
         "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-        "inventory_status": status,
-        "verdict": "candidate_available" if (good and approved) else "negative",
+        "inventory_status": "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED",
+        "verdict": "negative",
         "unexpected_downloads": unexpected, "missing_downloads": missing,
         "artifacts": entries,
-        "downloadable_approved_submission": approved[0] if (good and approved) else None,
-        "score_estimate": estimate,
+        "downloadable_approved_submission": None,
+        "score_estimate": None,
         "organizer_template_authenticated": False,
         "format_note": "Each raster is read from disk, whole-array range and grid compared with an unauthenticated owner mirror. Footprint/exterior policy and portal acceptance require organizer evidence.",
         "slot_authorized": False,

@@ -9,16 +9,15 @@
   "ok_to_download_for_research": true,
   "ok_to_submit": false,
   "slot_authorized": false,
-  "who_spends_the_slot": "No slot selected or authorized; selector cannot waive mandatory protocol stops.",
   "reasons": [
-    "Literal all-registry overlap exceeds 70%; research and dense rasters cannot be exempted by this session.",
-    "Spacing-5 lattice was excluded as a degenerate witness; the prompt authorizes no such exclusion.",
-    "No assigned single-method paragraph or passing pre-placement receipt established.",
-    "Canaries cover eight new features, not the entire 34-feature model inventory.",
-    "Win over refitted K2 is not a demonstrated win over current K3 holdout best.",
-    "Organizer input/template authenticity, exterior convention, current registry and portal quota are unverified.",
-    "Historical budget receipt records three experiments and about 2h15m; do not extend this stopped lane."
+    "The literal all-registry 3-pixel overlap is 45046/45108 against the pinned lattice: >70%; no exception is permitted.",
+    "The historical non-lattice audit itself records additional >70% witnesses and an incomplete registry comparison.",
+    "No assigned method paragraph, authenticated organizer template, valid pre-placement surface receipt, or separate selector/weekly quota is established.",
+    "The run passed local range/grid diagnostics on an owner mirror only; it is not proven portal-compatible.",
+    "Only eight new-feature canaries were measured, not all 34 model inputs; the full leakage gate is unverified."
   ],
+  "evidence": "evidence/hk3/literal_recheck.json",
+  "who_spends_the_slot": "No slot selected or authorized; selector cannot waive mandatory protocol stops.",
   "limitations": [
     "Inputs are hash-pinned owner mirrors, not organizer-authenticated bytes; portal acceptance is unverified until a receipt exists.",
     "Weekly quota and final-selection status of the account are unknown to this repository."

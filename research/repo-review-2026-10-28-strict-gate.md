@@ -1,6 +1,14 @@
 # Three-pass repository review — literal duplicate stop and release status
 
-**Date:** 2026-10-28 (UTC)  
+> **Integration note:** This is the concurrent review as recorded at its time.
+> Its final JSON's raster name, hash and note identify the *historical research
+> file*, not a new candidate or submission. The reconciled current assessment
+> records no new submission name or note and corrects the full 34-feature canary
+> gate to unestablished: only eight new-feature canaries were recorded. The
+> public inventory is stricter than a claimed approval: it cannot authorize any
+> candidate without an independent release verifier.
+
+**Date:** 2026-10-28 (UTC)
 **Scope:** repository review and safety correction only. No new geological experiment, model fit, dot placement, competition upload, or weekly-slot selection was performed.
 
 ## Executive disposition

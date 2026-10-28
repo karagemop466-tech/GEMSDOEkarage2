@@ -212,8 +212,10 @@
       "st_aniso_det_elev": 0.5964485429603474,
       "rough5_det_elev": 0.5928508320142862
     },
-    "canary_all_pass": true,
-    "note": "The submitted budget (rate over active px) is set by the calibrated rule, not by the holdout; the holdout number for the exact submitted rate is in estimator.curve_row_used.holdout_dti"
+    "canary_all_pass": false,
+    "note": "The submitted budget (rate over active px) is set by the calibrated rule, not by the holdout; the holdout number for the exact submitted rate is in estimator.curve_row_used.holdout_dti",
+    "canary_eight_new_features_all_pass": true,
+    "canary_scope": "Eight new features only; all 34 input features were not independently tested. Full model leakage gate is not established."
   },
   "transfer_anchor": {
     "evidence_class": "HOLDOUT hit statistics of pinned external files on the same folds (bridge.json)",
@@ -372,7 +374,7 @@
       "G and the anchor (T, M) come from the lattice-pinned calibration of USER-REPORTED scores",
       "the anchor's holdout number may be inflated by catalogue leakage, which makes this estimate conservative if so"
     ],
-    "status": "ARCHIVED UNVALIDATED SCENARIO; not an eligible score estimate or confidence interval"
+    "status": "WITHDRAWN \u2014 unvalidated holdout-to-hidden-label transfer; not a score or release criterion"
   },
   "registry_uniqueness": {
     "tiers": {
@@ -487,7 +489,7 @@
         "max_abs_rho": 0.11433925986987725
       }
     },
-    "verdict_logic": "Literal all-registry failure is blocking. U1/U3/U4 diagnostics cannot waive U2, the lattice, or a prior mandatory stop.",
+    "verdict_logic": "Any rank correlation above 0.90 or directed dot overlap above 0.70 against any registry raster is a duplicate stop. No density, research-status, or chance-correction exemption. Missing or invalid comparisons cannot establish a pass.",
     "scope": "440 hash-pinned rasters from the 9 focus repos at pinned refs + the 9 pinned best files + r13 lattice + prior local candidates. Not the organizer registry; repos may have gained rasters since the pinned refs.",
     "rasters_checked": 450,
     "errors": 1,
@@ -759,7 +761,14 @@
       }
     ],
     "rank_corr_limit": 0.9,
-    "overlap_limit": 0.7
+    "overlap_limit": 0.7,
+    "historical_verdict_logic_superseded": "PROMOTE requires U1, U3, U4 and rank-correlation to pass; the literal all-registry rule U2 may fail only against never-submitted rasters or line/surface rasters > 100k positive px (disclosed deviation from the pre-registered 'literal => stop'); literal failures are listed on every page",
+    "all_registry_worst_overlap": 0.9986255209718897,
+    "all_registry_worst_witness_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "preplacement_clearance_verified": false,
+    "historical_tiers_not_release_gates": true,
+    "literal_lattice_witness_overlap": 0.9986255209718897,
+    "complete_accessible_scan": false
   },
   "raster": {
     "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
@@ -1695,7 +1704,7 @@
       },
       "evidence_class": "HOLDOUT diagnostic (not a score)"
     },
-    "reading": "Historical cross-family checks overpredict user reports by 1.5\u20132.9x. Full-catalogue external anchors and unverified receipts do not validate cross-family transfer or a conservative estimate."
+    "reading": "Historical cross-family checks overpredict owner reports. Whole-catalogue external anchors and unverified receipts do not validate transfer or establish a conservative estimate."
   },
   "validator": {
     "shared_gems57": {
@@ -1791,37 +1800,52 @@
       "strict_format_pass": false,
       "upload_authorized": false
     },
-    "note": "The file writes 0 outside the footprint (the organizer-scored GEMSDOE32 champion is a -zeros file; the official reference notebook writes finite values everywhere). The historical strict validator's NaN-outside check is therefore expected to read false; every other check must pass."
+    "note": "Research-only recheck: all saved pixels are finite in [0,1] and match the owner-mirror grid. The file has zero, not NaN, outside that mirror footprint. The mirror is not organizer-authenticated and portal acceptance is unverified."
   },
   "submission": {
     "name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
     "note": "RESEARCH ONLY; DO NOT SUBMIT. HK3 failed mandatory registry overlap; no organizer acceptance or validated leaderboard estimate.",
-    "note_chars": 127
+    "note_chars": 127,
+    "status": "HISTORICAL PROPOSAL ONLY \u2014 NOT AUTHORIZED FOR SUBMISSION"
   },
   "gates": {
     "format_shared_validator_pass": true,
     "grid_matches_example_submission": true,
     "whole_array_finite_in_0_1": true,
     "no_dots_on_mapped_catalogue": true,
-    "leakage_canary_pass": true,
+    "leakage_canary_pass": false,
     "holdout_beats_refit_incumbent_paired_ci_excludes_zero": true,
     "unique_vs_nine_scored_site_files": true,
     "unique_literal_vs_all_registry_rasters": false,
     "unique_chance_corrected_vs_all_registry_rasters": true,
     "unique_literal_vs_submitted_dot_rasters": true,
     "rank_correlation_below_0_90": true,
-    "lane_single_method": true,
+    "lane_single_method": false,
     "experiments_used": 3,
     "time_budget_note": "E1 calibration, E2 holdout, E3 generation; ~2 h 15 min wall-clock including the artifact write",
-    "literal_rule_exception_applied": false
+    "literal_rule_exception_applied": false,
+    "assigned_lane_verified": false,
+    "registry_complete": false
   },
   "verdict": "negative",
-  "verdict_meaning": "NEGATIVE: mandatory all-registry rule failed. No exception is authorized by the prompt. Research download only; DO NOT SUBMIT.",
+  "verdict_meaning": "NEGATIVE: research-only artifact. The literal registry stop applies; no selector approval or submission slot is authorized.",
   "limitations": [
-    "Leaderboard anchors are USER-REPORTED scores; no organizer receipt could be fetched (network allowlist).",
-    "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",
-    "Registry = 440 + 9 + lattice pinned rasters; repositories may contain newer files."
+    "Owner reports are not file-linked organizer receipts.",
+    "Eight new feature canaries passed, but the full 34-feature inventory was not individually tested.",
+    "No assigned single-method paragraph or prior valid surface clearance was established.",
+    "Prior 3-experiment run recorded ~2h15m, above the requested time budget.",
+    "Historical holdout-to-hidden-label transfer is unvalidated; no defensible leaderboard estimate.",
+    "The 453-entry historical registry scan is incomplete and does not establish live-registry clearance."
   ],
+  "historical_decision_correction": {
+    "date": "2026-10-28",
+    "original_verdict": "PROMOTE",
+    "original_exception_applied": true,
+    "original_source": "https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/cc1ed0d2c07cd11893c00d3e6e030fa786a4a7ae/evidence/hk3/run_card.json",
+    "reason": "Superseded: the literal any-registry rule has no exemption; final dots crossed it, registry coverage was incomplete, and the lane was self-declared. Research and format results remain historical, not upload authorization.",
+    "recheck": "evidence/hk3/literal_recheck.json"
+  },
+  "local_format_scope": "Owner-mirrored sample only, not an authenticated organizer template or portal acceptance.",
   "protocol_stop_triggered": true,
   "organizer_inputs_authenticated": false,
   "slot_authorized": false,
@@ -1840,6 +1864,8 @@
       "Win over refitted K2 is not a demonstrated win over current K3 holdout best.",
       "Organizer input/template authenticity, exterior convention, current registry and portal quota are unverified.",
       "Historical budget receipt records three experiments and about 2h15m; do not extend this stopped lane."
-    ]
+    ],
+    "independent_recheck": "evidence/hk3/literal_recheck.json",
+    "independent_recheck_performed": true
   }
 }

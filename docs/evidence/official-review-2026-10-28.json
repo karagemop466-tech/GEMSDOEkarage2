@@ -1,0 +1,46 @@
+{
+  "schema": "gems.official-page-observations.v1",
+  "observed_date_utc": "2026-10-28",
+  "access_method": "Public page reader; not an authenticated DrivenData account or a submission-page receipt. Values may change after observation.",
+  "sources": [
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "publisher": "DrivenData, competition organizer",
+      "observations": [
+        "Prediction target is geological faults, not confirmed geothermal vents.",
+        "Distance-weighted Tversky uses alpha 0.2, beta 0.8, and a triangular kernel with 300 m support.",
+        "Submission is one float32 GeoTIFF layer with confidence values in [0,1], EPSG:32611, 100 m resolution and the training bounds; the page says data outside the bounds are null or NaN.",
+        "The sample submission is described as predicting total fault absence.",
+        "The public and private test labels consist of expert-identified new faults; the final round uses expanded labels."
+      ]
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "publisher": "DrivenData, competition organizer",
+      "observation_type": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; NOT A FILE-LINKED SUBMISSION RECEIPT",
+      "first_place": {"participant": "xiaofanhu", "value": 0.4544},
+      "user_cited_0_3195": {"rank": 27, "participant": "kpomazi", "value": 0.3195},
+      "limitations": "A public rank is neither a private-round result nor evidence for the score of any local raster."
+    },
+    {
+      "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "publisher": "U.S. Department of Energy / National Laboratory of the Rockies",
+      "observations": ["Section 3.4 permits up to three automated scoring submissions per week as specified by the competition website and requires one final selection per participating entity."]
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+      "publisher": "DrivenData",
+      "observation": "Public page reader redirected to login; actual account, data bytes, weekly quota and submission receipts are not available in this session."
+    },
+    {
+      "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "publisher": "U.S. Geological Survey",
+      "observation": "The GeoDAWN release provides magnetic and radiometric grids and line data for geological mapping; variable flight height and processing require attention when interpreting edges. The page identifies the release as CC0."
+    },
+    {
+      "url": "https://gdr.openei.org/submissions/1391",
+      "publisher": "DOE Geothermal Data Repository",
+      "observation": "The public INGENIOUS compilation includes geothermal and geophysical datasets and is listed under CC BY 4.0; local download and exact geographic coverage were not verified here."
+    }
+  ]
+}

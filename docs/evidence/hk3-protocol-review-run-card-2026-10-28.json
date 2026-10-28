@@ -16,7 +16,7 @@
       0.2014839638261474
     ],
     "source": "evidence/hk3/run_card.json",
-    "source_sha256": "4d2ebf9f1188057378906133a0a9ad92f01570735092f8e3e0abd2212240a608",
+    "source_sha256": "5c651f8a20a0f6e61e7bde50905502f6796e4942b0b14f6f8e893cd5cb18fa96",
     "caveat": "K2 comparison only; no paired win over the later K3 best or new verification of whole-segment splits."
   },
   "correlation_overlap_vs_registry": {

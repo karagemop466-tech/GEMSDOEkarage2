@@ -36,7 +36,7 @@ pixel-wise probabilities/confidence scores in [0, 1].
 - single band, 32-bit float (float32), values between 0 and 1
 - CRS: EPSG:32611 (UTM zone 11N), 100 m resolution
 - same bounds, shape and geotransform as the submission template; organizer exterior guidance versus portal range handling remains unresolved
-- submit a single .tif or a .zip containing a single .tif
+- the official problem page specifies a single GeoTIFF; upload acceptance of a ZIP is not authenticated
 - Note field on the submission form (short comment, e.g. clustering with k=25), max 140 chars advised
 
 **Performance metric:** distance-weighted Tversky index, DTI(alpha=0.2, beta=0.8),
@@ -45,9 +45,10 @@ triangular kernel k(d) = max(1 - d/R, 0) with R = 300 m (3 px at 100 m):
 DTI = TPw / (TPw + alpha × FPw + beta × FNw), with distinct distance-weighted sums over truth and prediction pixels. The ordinary pixelwise Tversky expression is not the distance-weighted metric. See `research/independent-review.md`; the hidden scorer has not been authenticated in this session.
 
 **Prize structure:** Initial Prize Round scored on a private expert-labeled test set
-(top 5 -> $10,000 each); expert panel reviews submissions to expand the label set;
-Final Prize Round re-scores against the expanded set (top 5 -> $250,000).
-Competitors choose ONE submission for scoring in both rounds before the deadline.
+(top five receive $10,000 each); expert panel reviews submissions to expand the label set;
+the Final Prize Round re-scores against the expanded set (top five share $250,000:
+$100,000, $70,000, $40,000, $25,000 and $15,000). Competitors choose ONE submission
+for scoring in both rounds before the deadline.
 
 **Official data sources:**
 - GeoDAWN airborne magnetic/radiometric surveys (USGS): https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and
@@ -56,16 +57,20 @@ Competitors choose ONE submission for scoring in both rounds before the deadline
 - EPSG 32611: https://epsg.io/32611
 - Tversky index: https://en.wikipedia.org/wiki/Tversky_index
 
-**Data access:** A prior session reported a login redirect for DrivenData data. This
-session cannot contact DrivenData or Dropbox under its network allowlist. Public
-owner mirrors were previously restored for research but are not authenticated
-organizer inputs. Data placement is not the only blocker; see the safety status below.
+**Data access:** The public page reader reached organizer pages, but the data and
+submission pages redirect to login without an authenticated organizer account. The
+sandbox shell has a stricter outbound allowlist. Public owner mirrors were restored
+for research, but are not authenticated organizer inputs. The mirror sample contains
+positive cells even though the official description says it predicts total absence;
+its provenance/footprint and exterior handling therefore remain unresolved.
 
-## Leaderboard status (historical observation, 2026-10-27)
+## Leaderboard status (public observation, 2026-10-28)
 
-A prior session recorded public leaderboard #1 = 0.4544 (xiaofanhu) on 2026-10-27; this session cannot independently confirm it or the current leaderboard. The prompt's earlier
-figures (0.4413 / 0.3195) are stale — flagged as an irregularity; always re-read
-the official leaderboard before claiming a target.
+The public organizer page showed **0.4544** for xiaofanhu in first place, and
+**0.3195** for kpomazi at rank 27 on 2026-10-28. This is an organizer-published
+public snapshot, not a file-linked submission receipt; it can change. The earlier
+user-cited figures are not a current target. Re-read the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
+before comparing; see [`evidence/official-review-2026-10-28.json`](evidence/official-review-2026-10-28.json).
 
 ## Focus sites (nine)
 
@@ -163,56 +168,80 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
-## Current status — HK3 protocol correction (2026-10-28)
+## Current status — 2026-10-28 independent correction
 
-**NO APPROVED SUBMISSION. All seven published TIFFs are research-only. DO NOT SUBMIT.**
-HK3's former PROMOTE/selector approval is withdrawn: its own evidence fails the
-mandatory literal all-registry gate. The prompt authorizes no density, research-file,
-or chance-correction exception. No new experiment or slot was used in this review.
-The lane has exhausted its budget and its generation/training/card commands are retired.
+**NEGATIVE — NO TIFF IS APPROVED. DO NOT SUBMIT ANY RESEARCH DOWNLOAD.**
+An earlier HK3 promoter asserted `PROMOTE` after exempting registered rasters. The
+binding user protocol has no such exemption. An independent re-read of saved TIFF
+bytes found **45,046 / 45,108 = 99.862552%** of HK3 dots within three pixels of a
+registered spacing lattice; this exceeds the strict >70% any-registry stop. The
+historical audit also recorded three other failing comparisons and one invalid-grid
+registry item. The lattice is very dense, so this is not proof of copying; it is
+nonetheless a mandatory literal-protocol stop. No final rule waiver, ranked-rho
+pass, or score estimate cures it. The previous pre-placement clearance and a
+complete live registry have not been established.
 
-- [Research download and executive summary](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html):
-  one-click existing TIF, explicitly **research only**; nine per-site executive summaries.
-- [Three-pass protocol review and four ranked untested hypotheses](research/hk3-protocol-correction-2026-10-28.md); [additional three-pass repo audit and three qualitative hypotheses](research/repo-review-2026-10-28-strict-gate.md).
-- [Hash-bound current no-submit assessment](evidence/hk3/current_release_assessment.json).
-- [Corrected HK3 run card](evidence/hk3/run_card.json), [negative selector](evidence/hk3/selector_result.json),
-  [saved-byte public inventory](evidence/public_downloads_audit.json).
-- [Original HK3 card (superseded)](evidence/hk3/history/run_card-before-protocol-correction.json)
-  and [old status text](knowledge/hk3-historical-status-2026-10-28.md) preserve the historical
-  exception and projection for audit; neither is current approval.
+* [`evidence/hk3/literal_recheck.json`](evidence/hk3/literal_recheck.json) is the
+  reproducible saved-byte receipt; [`decision_correction.json`](evidence/hk3/decision_correction.json)
+  preserves the unsafe historical decision and correction. The run card and
+  selector now say negative; no slot is authorized.
+* HK3 is a research file at `docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`,
+  SHA-256 `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9`.
+  It has one float32 band, a finite whole-array [0,1] range and the owner-mirror grid;
+  its exterior is zero, not NaN. The organizer template and portal acceptance have
+  not been authenticated. The cause of the previous portal error is unknown.
+* Historical HK3 **HOLDOUT-DTI** is 0.1845046602, 95% CI [0.1676914118,
+  0.2014839638], `gems57-pooled-hide-v2`, 58,258 withheld positives at 1.10%.
+  Historical K3 **HOLDOUT-DTI** is 0.19157, 95% CI [0.17474, 0.20880], same named
+  evaluator and withheld count. Both are negative and are not organizer scores;
+  no matched paired comparison of HK3 and K3 has been established.
+* No defensible local-candidate leaderboard estimate exists. The retained old
+  calibration assumed an unverified transfer from catalogue holdout to hidden truth;
+  its projection is not a score or a promotion basis. Only eight new HK3 features
+  have recorded standalone canaries; the full 34-feature leakage gate is unverified.
+* This audit made no new geological experiment, TIFF or submission. The prompt has
+  no identifiable single assigned method paragraph, prior HK3 used its three
+  experiments and recorded more than two hours, and the complete registry and
+  organizer data are not available. `scripts/hk3.py` is retired; do not rerun or
+  resurrect its feature, experiment, placement, audit or card commands.
+* The [three-pass independent review](research/2026-10-28-independent-three-pass-review.md)
+  records the corrections and reproducibility checks; the [session card](evidence/2026-10-28-independent-audit-run-card.json)
+  uses nulls for unmade candidate evidence. Concurrent corrections, the
+  [status notice](SUBMISSION_STATUS.md), the [hash-bound current assessment](evidence/hk3/current_release_assessment.json),
+  the [additional strict-gate review](research/repo-review-2026-10-28-strict-gate.md), and the
+  [preserved original card](evidence/hk3/history/run_card-before-protocol-correction.json)
+  are retained after reconciliation with main.
+* The [nine-site desk](docs/executive-summary.html) has pinned historical files,
+  source links and negative uniqueness checks. The highest claim, 0.2778 for
+  GEMSDOE32, is **USER-REPORTED / UNVERIFIED**; no causal explanation for the
+  hidden result has been established. Four [future hypotheses](research/2026-10-28-next-lane-slate.md)
+  are untested research proposals, not an assigned lane.
 
-The archived TIFF is finite and in [0,1] and matches the pinned owner-mirror grid.
-That is **not** authentication of the organizer template or proof of portal acceptance.
-The rejected file and submission receipt are absent; the range-error cause is unproven.
-No validated leaderboard estimate exists. Archived ratio-transfer scenarios are not scores.
-The highest of the nine supplied reports is GEMSDOE32 0.2778 **USER-REPORTED / UNVERIFIED**;
-no file-linked organizer receipt or current leaderboard was obtained.
+### Reproduce the read-only audit
 
-The shared readiness schema, not a verdict string or private exception, governs future
-eligibility. A passing schema still requires independently verified evidence and saved bytes.
-Do not re-fit, re-place or rename a stopped candidate to evade the registry gate.
+```sh
+python -m venv .venv && .venv/bin/pip install -r requirements.lock.txt
+.venv/bin/python scripts/bootstrap_research.py  # small hash-pinned GitHub owner mirrors, not organizer data
+.venv/bin/python scripts/recheck_hk3.py --check
+.venv/bin/python scripts/audit_public_downloads.py --check
+.venv/bin/python scripts/build_hk3_pages.py --check
+.venv/bin/pytest -q
+npm ci --ignore-scripts --no-audit --no-fund && npm test && npm run test:site && npm run test:browser
+```
 
-### Next session, in order
+The mirrored inputs can be regenerated, but remain unauthenticated; the download
+inventory verifies integrity, not eligibility. The four desk pages and HK3 CSS are
+generated by `scripts/build_hk3_pages.py`; change the generator/evidence, not just
+the HTML. Any future release requires an explicitly assigned lane, authenticated
+inputs, clean bounded experiments, complete registry checks before and after
+placement, and a separate selector. Do not try to game gaps in the lattice.
 
-1. Resolve the missing assigned method paragraph and the all-registry dense-witness
-   conflict with the registry owner; this session cannot waive the user's literal rule.
-2. Authenticate organizer inputs/template, band meanings and exterior convention; update
-   the complete parallel registry. All nine GitHub HEADs differ from the pinned historical
-   snapshot; a metadata refresh is **not** a current score/file audit.
-3. Freeze the whole-segment, buffered same-fold best and all-feature canaries. Test only
-   the assigned hypothesis within the budget using the shared evaluator/writer and cache.
-4. Require a paired holdout win and literal pre-placement clearance before dots, then
-   final-dot clearance, saved-byte validation and a separate quota-aware selector.
-   No competition upload is automated. GPU is optional for some methods (official CPU reference available).
+## Earlier 2026-10-28 session notes (historical, superseded where inconsistent)
 
-The README above consolidates the user's repeated project prompt and must be read at the
-start of every session. The urgency to generate a unique TIF does not override the explicit
-mandatory stop, evidence labels, three-experiment/two-hour budget or selector separation.
-
-## Earlier 2026-10-28 session notes (concurrent branches, merged; superseded by the HK3 status above)
-
-These are historical notes. Their negative verdicts remain valid; any later statement
-that HK3 was approved is superseded by the protocol correction above. No file is currently approved.
+Prior H1, H2, B4, K2 and K3 negative decisions remain in force. Any earlier claim
+that HK3 is submittable, that registry entries may be excluded, or that its
+speculative projection is a measured score has been withdrawn. Historical source
+files are preserved for context; the current correction takes precedence.
 
 ### Latest safety follow-up — 2026-10-28
 
