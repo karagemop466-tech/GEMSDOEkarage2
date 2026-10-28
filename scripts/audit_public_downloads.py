@@ -37,7 +37,7 @@ ARTIFACTS = (
     ("gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "candidate"),
+     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "research"),
 )
 
 
@@ -140,11 +140,10 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             gates = card.get("gates") or {}
             checks["card_hard_gates_all_pass"] = bool(gates) and all(
                 v is True for k, v in gates.items()
-                if isinstance(v, bool) and k not in ("unique_literal_vs_all_registry_rasters", "literal_rule_exception_applied"))
+                if isinstance(v, bool) and k != "literal_rule_exception_applied")
             checks["card_literal_rule_failures_disclosed"] = (
-                gates.get("unique_literal_vs_all_registry_rasters") is True or
-                (gates.get("literal_rule_exception_applied") is True and
-                 bool((card.get("registry_uniqueness") or {}).get("tiers", {}).get("U2_literal_rule_vs_all_registry_rasters", {}).get("failures"))))
+                gates.get("unique_literal_vs_all_registry_rasters") is True
+                and not gates.get("literal_rule_exception_applied", False))
             checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
         else:
             checks["card_verdict_negative"] = card.get("verdict") == "negative"

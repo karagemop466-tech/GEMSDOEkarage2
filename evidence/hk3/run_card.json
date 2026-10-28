@@ -1794,8 +1794,8 @@
   },
   "submission": {
     "name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-    "note": "HK3: 34-feature HGB with catalogue-free edge-centrality bands; dots sep 3px, >3px off catalogue; zeros outside",
-    "note_chars": 110
+    "note": "Research only. Literal all-registry overlap gate failed; do not submit.",
+    "note_chars": 71
   },
   "gates": {
     "format_shared_validator_pass": true,
@@ -1814,11 +1814,21 @@
     "time_budget_note": "E1 calibration, E2 holdout, E3 generation; ~2 h 15 min wall-clock including the artifact write",
     "literal_rule_exception_applied": true
   },
-  "verdict": "PROMOTE",
+  "verdict": "negative",
   "verdict_meaning": "PROMOTE = every automated gate passed and the artifact may be offered for download; the selector/quota step is separate and is not performed here.",
   "limitations": [
     "Leaderboard anchors are USER-REPORTED scores; no organizer receipt could be fetched (network allowlist).",
     "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",
     "Registry = 440 + 9 + lattice pinned rasters; repositories may contain newer files."
-  ]
+  ],
+  "historical_release_decision": {
+    "verdict": "PROMOTE",
+    "literal_rule_exception_applied": true,
+    "status": "superseded: exception not authorized by user protocol"
+  },
+  "slot_authorized": false,
+  "release_review": {
+    "reason": "Literal all-registry overlap gate failed; chance correction and submission status cannot override the mandatory stop. Lane self-declared, budget exhausted; no organizer authentication or receipt.",
+    "new_experiments": 0
+  }
 }

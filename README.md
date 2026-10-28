@@ -4,6 +4,17 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest release correction — 2026-10-28
+
+**NO APPROVED SUBMISSION. DO NOT UPLOAD HK3.** Its saved all-registry
+uniqueness gate failed. The previous PROMOTE decision applied an unauthorized
+exception and is superseded by the negative run card. Research-only TIFF/ZIP
+bytes remain downloadable, unchanged. Historical measurements below are not
+organizer-confirmed scores. See [three-pass review](research/release-correction-ab495106.md).
+The supplied prompt is consolidated below; read this correction and the standing
+protocol every session. Maximize P(Win) and Own the Outcome mean preserving
+negative evidence rather than spending a slot on an ineligible artifact.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated
@@ -165,12 +176,12 @@ holdout cannot reliably estimate the expert-hidden private score).
 
 ## Current status (2026-10-28, lane HK3 — edge-centrality) — read before doing anything
 
-**One file is approved by every automated gate and offered to the selector (the user):**
+**Historical HK3 artifact — research only; literal uniqueness gate failed:**
 `docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`
 (sha256 `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9`; `.zip` of the
 same bytes; 45,108 dots at 1.0, zeros elsewhere including outside the footprint; float32,
 EPSG:32611, 3730 × 3292, origin (243350, 4508550)). Run card:
-[`evidence/hk3/run_card.json`](evidence/hk3/run_card.json) — verdict **PROMOTE**. The site
+[`evidence/hk3/run_card.json`](evidence/hk3/run_card.json) — verdict **negative** (historical PROMOTE superseded). The site
 badge "OK TO SUBMIT: YES / NO" is generated from that card by `scripts/build_hk3_pages.py`;
 never hand-edit `docs/index.html`, `executive-summary.html`, `how-to-submit.html`,
 `submit.html`. No submission slot has been spent by this repository; no number here is
@@ -194,7 +205,7 @@ ORGANIZER-CONFIRMED (DrivenData is unreachable from the sandbox).
 test across sessions) — but its verdict is NEGATIVE: the surface failed the pre-placement gate
 against K2 (0.9922 top-support overlap) and its final dots exceed 70 % within 3 px of ten
 registry records (worst 0.886). HK3's 3 px catalogue apron and 3 px dot separation are what
-keep its overlaps ≤ 48.4 %. So: K3 is the holdout-best file in the repository, HK3 is the best
+keep its overlaps ≤ 48.4 %. So: K3 is the holdout-best file in the repository, HK3 is also negative; there is no
 *submittable* file, and the holdout incumbent for any next lane is K3's 0.1916, not HK3's.
 
 θ = the fraction of the candidate's holdout advantage over the D2.8 anchor (coverage ×1.114,
@@ -264,12 +275,9 @@ shared writer (dots ≥ 3 px apart, ≥ 3 px off the catalogue, zeros outside).
 
 ### Remaining work (for the next session)
 
-1. **Selector step (user):** download the HK3 file from the site, upload it with the name and
-   note on the page, and record the organizer score as ORGANIZER-CONFIRMED in
-   `evidence/hk3/run_card.json` (`organizer_confirmed`), then rebuild the pages. That single
-   number calibrates θ (see above) and decides whether the lane continues.
-2. If θ ≥ 0.5: a second HK3 file is *not* automatically better — re-run E2 with a frozen
-   incumbent = this file, and only promote on a paired CI that excludes zero.
+1. Resolve the missing coordinator method paragraph and registry scope before a new lane. Do not upload HK3 or tune its dots after the mandatory stop.
+2. Authenticate organizer inputs and exterior convention, refresh the complete registry,
+   and freeze a compatible incumbent before testing a newly assigned hypothesis.
 3. New information, ranked: HK3-c (1 m-lidar scarp morphometrics from USGS 3DEP via The
    National Map — obtain tiles outside the sandbox, pin hashes in
    `registry/pinned_assets.json`), HK3-b (basin-margin gravity-gradient steps), HK3-d
@@ -290,10 +298,9 @@ Research notes: [`research/hypotheses-2026-10-28-hk3.md`](research/hypotheses-20
 
 ## Earlier 2026-10-28 session notes (concurrent branches, merged; superseded by the HK3 status above)
 
-These sections were written by concurrent sessions before the HK3 lane produced an
-approved file. Their *negative* findings (H1, H2, B4, K2, K3 all DO NOT SUBMIT) remain
+These sections were written by concurrent sessions before the HK3 release review. Their *negative* findings (H1, H2, B4, K2, K3 all DO NOT SUBMIT) remain
 valid and their receipts are linked from the site; their statements that "no file is
-approved" describe the repository *before* `evidence/hk3/run_card.json` existed.
+approved" describe the repository *before* the HK3 release correction; none is currently approved.
 
 ### Latest safety follow-up — 2026-10-28
 

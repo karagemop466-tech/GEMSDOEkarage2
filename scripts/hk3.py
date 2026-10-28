@@ -753,16 +753,10 @@ def cmd_card(name):
     }
     d = paired["cand34_b110_minus_inc26_b110"]          # same budget, same folds, same emission
     gates["holdout_beats_refit_incumbent_paired_ci_excludes_zero"] = bool(d["ci95"][0] > 0)
-    # Verdict logic (stated, not hidden): every gate must pass except that the *literal* all-registry
-    # rule (U2) may fail only against rasters that were never submitted or that are line/surface
-    # rasters with > 100k positive pixels, provided U1, U3, U4 and the rank-correlation gate pass.
-    # The pre-registered note (section 3c) said "literal => stop"; this is a disclosed deviation and
-    # the literal failures are printed on every page.  The selector/quota step remains separate.
-    u2 = tiers["U2_literal_rule_vs_all_registry_rasters"]
-    u2_excusable = all(f["submission"] in never_submitted or f["their_positive_px"] > 100_000 for f in u2["failures"])
-    hard = {k: v for k, v in gates.items() if isinstance(v, bool) and k != "unique_literal_vs_all_registry_rasters"}
-    verdict = "PROMOTE" if all(hard.values()) and (u2["pass"] or u2_excusable) else "NEGATIVE"
-    gates["literal_rule_exception_applied"] = (not u2["pass"]) and u2_excusable and verdict == "PROMOTE"
+    # The user's literal all-registry stop admits no private exceptions.
+    hard = {k: v for k, v in gates.items() if isinstance(v, bool)}
+    verdict = "PROMOTE" if all(hard.values()) else "NEGATIVE"
+    gates["literal_rule_exception_applied"] = False
     card = {
         "kind": "HK3 RUN CARD (single JSON per the parallel-run protocol)",
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -790,9 +784,7 @@ def cmd_card(name):
                             "candidate_matched_to_D28_count": bridge["candidate_matched_to_D28_count"]},
         "estimator": {k: v for k, v in est.items() if k != "budget_table"},
         "registry_uniqueness": {
-            "tiers": tiers, "verdict_logic": ("PROMOTE requires U1, U3, U4 and rank-correlation to pass; the literal all-registry rule U2 may fail only "
-                                              "against never-submitted rasters or line/surface rasters > 100k positive px (disclosed deviation from "
-                                              "the pre-registered 'literal => stop'); literal failures are listed on every page"),
+            "tiers": tiers, "verdict_logic": "Every mandatory gate, including the literal all-registry stop, must pass. No exception is authorized.",
             "scope": audit["scope"], "rasters_checked": nd["checked"], "errors": nd["errors"],
             "degenerate_witnesses": audit["degenerate_witnesses"],
             "worst_overlap_nondegenerate": nd["worst_overlap"], "worst_overlap_submission": nd["worst_overlap_submission"],

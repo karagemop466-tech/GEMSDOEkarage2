@@ -47,7 +47,8 @@ def test_run_card_gates_and_verdict_logic_agree(card):
     # visible as a failed gate with the exception flag set, never silently passed
     assert g["unique_literal_vs_all_registry_rasters"] is False
     assert g["literal_rule_exception_applied"] is True
-    assert card["verdict"] == "PROMOTE"
+    assert card["verdict"] == "negative"
+    assert card["slot_authorized"] is False
     tiers = card["registry_uniqueness"]["tiers"]
     assert tiers["U1_unique_vs_nine_scored_site_files"]["pass"] and tiers["U1_unique_vs_nine_scored_site_files"]["max_overlap"] <= 0.70
     assert not tiers["U2_literal_rule_vs_all_registry_rasters"]["pass"]
@@ -139,3 +140,19 @@ def test_literal_failures_on_the_desk_match_the_card(card):
     for row in card["registry_uniqueness"]["tiers"]["U2_literal_rule_vs_all_registry_rasters"]["failures"]:
         assert Path(row["submission"]).name in home
         assert f"{row['overlap_3px'] * 100:.1f}%" in home
+
+
+def test_page_release_policy_cannot_waive_literal_stop(card):
+    import copy
+    from scripts.build_hk3_pages import release_allowed, badge_fill
+    forged = copy.deepcopy(card)
+    forged['verdict'] = 'PROMOTE'
+    forged['slot_authorized'] = True
+    assert not release_allowed(forged)
+    assert badge_fill('{BADGE_TEXT}', {'rc': forged}) == 'OK TO SUBMIT: NO'
+    forged['gates']['unique_literal_vs_all_registry_rasters'] = True
+    assert not release_allowed(forged)  # historical exception flag still blocks
+    forged['gates']['literal_rule_exception_applied'] = False
+    assert release_allowed(forged)
+    forged['gates'].pop('unique_literal_vs_all_registry_rasters')
+    assert not release_allowed(forged)

@@ -44,15 +44,11 @@ def test_current_saved_downloads_are_hash_bound_with_one_candidate():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_ONE_CANDIDATE_FOR_UPLOAD'
-    hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert result['downloadable_approved_submission'] == hk3['raster']['file']
-    assert result['score_estimate']['label'].startswith('LEADERBOARD-CALIBRATED ESTIMATE')
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
+    assert result['downloadable_approved_submission'] is None
+    assert result['score_estimate'] is None
     assert len(result['artifacts']) == 7
-    candidates = [r for r in result['artifacts'] if r['kind'] == 'candidate']
-    assert len(candidates) == 1 and candidates[0]['raster_sha256'] == hk3['raster']['sha256']
-    assert candidates[0]['ok_to_submit'] is True and candidates[0]['slot_authorized'] is False
-    assert candidates[0]['checks']['selector_explicit_candidate'] and candidates[0]['checks']['card_hard_gates_all_pass']
+    assert all(r['kind'] == 'research' and not r['ok_to_submit'] for r in result['artifacts'])
     for record in result['artifacts']:
         if record['kind'] == 'research':
             assert record['ok_to_submit'] is False
