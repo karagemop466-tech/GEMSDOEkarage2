@@ -19,7 +19,7 @@ def main():
     source=hold['scores']['candidate']
     surface_rows=[dict(reference=f"{r['repo']}/{r['submission']}",rank_correlation=r.get('spearman_full_footprint'),
                        overlap_3px=r.get('my_dots_within_3px_of_theirs')) for r in registry['rows'] if 'error' not in r]
-    features={name:max(f['features'][name]['auc'] for f in hold['canaries']) for name in hold['canaries'][0]['features']}
+    features={name:max(max(f['features'][name]['auc'], 1-f['features'][name]['auc']) for f in hold['canaries']) for name in hold['canaries'][0]['features']}
     adapted=dict(
         lane='',  # Prompt had no actual assigned lane paragraph. Provisional H1 is not a supplied assignment.
         proposed_lane=run['hypothesis'],

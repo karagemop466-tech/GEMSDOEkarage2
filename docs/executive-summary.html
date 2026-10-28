@@ -13,6 +13,14 @@
 </header>
 
 <main>
+  <section class="verdict-box" aria-label="Current K2 release audit">
+    <h2>Current literal-policy verdict: NEGATIVE — DO NOT SUBMIT K2</h2>
+    <p>The historical K2 card's conditional promotion is experimental provenance, not clearance.
+    The binding all-registry gate fails; no calibration exemption or assigned lane has been authorized.
+    Download is for research only. No competition slot was used. A locally finite TIFF does not prove portal acceptance.</p>
+    <p><a href="evidence/k2/literal_release_audit.json">Current independent K2 release audit (saved-byte validation and literal registry failures)</a></p>
+  </section>
+
   <h2>NO APPROVED SUBMISSION — DO NOT UPLOAD</h2>
   <nav aria-label="Research evidence"><a href="index.html">Dashboard</a> · <a href="executive-summary.html">Executive summary</a> · <a href="experiment-executive-summary.html">H1 measured negative result</a> · <a href="field-notes/index.html">Independent audit and next steps</a></nav>
   <p><a href="experiment-executive-summary.html">H1 executive summary</a></p>
@@ -29,28 +37,25 @@
   </section>
 
   <section id="k2">
-    <h2>K2 research candidate — NOT CLEARED — DO NOT SUBMIT</h2>
-    <p>The saved experiment records a supervised model (26 label-blind geophysics features, fold-local training on visible faults, tip-continuation, dotted emission ≥2.8 px spacing) tested in 3 preregistered experiments on the shared gems57-pooled-hide-v2 holdout (58,258 withheld positives): <b>HOLDOUT-DTI 0.1581</b> (95% CI 0.1424–0.1742) vs 0.0720 for the best unsupervised primitive (paired Δ +0.0861, CI +0.0691…+0.1037); all 26 per-feature leakage canaries ≤0.6211 AUC. This is evidence from the recorded experiment, not rerun in this review. Leaderboard estimate is <b>Unavailable</b>: catalogue holdout cannot measure recovery of expert-hidden faults. The old run card's labelled numerical projection is not a score and should not be used for submission decisions.</p>
-    <div class="table-scroll"><table>
-      <thead><tr><th>Research file (download only for inspection)</th><th>Score / estimate</th><th>Uniqueness and release decision</th></tr></thead>
-      <tbody><tr>
-        <td><a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif — DO NOT SUBMIT</code></a> (<a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip" download>research ZIP — DO NOT SUBMIT</a>) · SHA-256 <code>504be458…8dfb</code></td>
-        <td>Leaderboard estimate unavailable (never submitted). HOLDOUT-DTI 0.1581 is not a leaderboard estimate.</td>
-        <td><b>Fails literal all-registry uniqueness:</b> the calibration lattice overlap is 100%, and the ctx-ridge calibration mask overlap is 72.05% (limit 70%). It passed the 430 checked <code>docs/downloads</code> submission rasters from the nine focus repositories (max overlap 68.1%; max |ρ| 0.119), but that narrower result does not clear the required full registry. <b>DO NOT SUBMIT.</b></td>
-      </tr></tbody>
-    </table></div>
-    <p>Why the reported 0.2778 (GEMSDOE32) leads the nine: measured file forensics say it shares the GEMSDOE25/30 dotted parent geography and removes dots within 2 px of the known-fault catalogue. This is consistent with reducing redundant false-positive emission under the reported scoring setup, but does not prove the organizers' hidden score arose for that reason. The historical 0.2778 remains USER-REPORTED / UNVERIFIED; no submission-page receipt is available. K2's HOLDOUT-DTI does not establish a private leaderboard gain. Evidence: <a href="evidence/k2/run_card.json">K2 experiment card</a> · <a href="evidence/release-review-run-card-2026-10-28.json">current negative release-review card</a> · <a href="evidence/k2/combined_holdout.json">holdout</a> · <a href="evidence/k2/final_registry_audit.json">registry audit</a> · <a href="evidence/k2/validate_tif_strict.json">strict format diagnostic</a>. Submission steps are documented at <a href="how-to-submit.html">submission guide</a>; no file is currently approved.</p>
+    <h2>K2 review — negative, DO NOT SUBMIT</h2>
+    <p>The archived K2 run reports HOLDOUT-DTI 0.1581 (95% CI 0.1424–0.1742; gems57-pooled-hide-v2, 58,258 withheld positives). This review did not replay the experiment. It is a catalogue-recovery proxy, not a leaderboard score; the estimate is unavailable.</p>
+    <div class="table-scroll"><table><thead><tr><th>File for research</th><th>Leaderboard estimate</th><th>Unique and OK to submit?</th></tr></thead><tbody><tr>
+    <td><a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download>Download K2 TIF — DO NOT SUBMIT</a></td>
+    <td>Unavailable; not submitted.</td><td>No under the literal gate. Archived pre-placement surface support and final dots exceed the lattice proximity threshold; final registry coverage is incomplete. No approved file.</td>
+    </tr></tbody></table></div>
+    <p>The file's cells are finite and in [0,1], and its geometry matches recorded mirror metadata; the historical strict exterior-NaN check failed. Organizer template authenticity, acceptance and quota remain unknown. <a href="evidence/k2-review-2026-10-28.json">Review run card</a> · <a href="evidence/k2-protocol-review.json">Protocol review</a> · <a href="evidence/k2/validate_tif_strict.json">Strict validator</a>.</p>
+    <p>Why might the reported GEMSDOE32 result lead the nine? The mirror audit found it is a pruned D2.8-family mask. Reducing low-yield prediction mass is a plausible explanation, but pruning can also lose hidden-fault credit. Neither the causal explanation nor its user-reported 0.2778 is established by an organizer receipt. Whether a new file can beat it is unknown. <a href="evidence/champion_explanation.md">Details and caveats</a>.</p>
   </section>
 
   <section class="scorecard">
     <h2>Nine-site scorecard</h2>
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
-    <table>
+    <div class="table-scroll"><table>
       <thead>
         <tr><th>Site / file</th><th>Reported score</th><th>Leaderboard estimate</th><th>Unique vs selected historical files?</th><th>Research download</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
-    </table>
+    </table></div>
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
   </section>
 

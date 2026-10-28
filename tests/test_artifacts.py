@@ -100,10 +100,8 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'unverified' in text.lower()
         assert 'READ' in text
     homepage=(ROOT/'docs/index.html').read_text()
-    # The prior K2 selector note was narrowed after review found literal
-    # all-registry uniqueness failures; the research artifact is never upload-ready.
-    assert 'K2 research candidate' in homepage
-    assert 'literal all-registry uniqueness gate' in homepage
+    # K2 conditional promotion was superseded by a negative release review.
+    assert 'K2 research artifact' in homepage
     assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     assert 'NO APPROVED SUBMISSION' in homepage

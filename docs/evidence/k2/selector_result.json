@@ -1,0 +1,26 @@
+{
+  "schema": "gems.selector_decision.v1",
+  "date": "2026-10-28",
+  "candidate": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "verdict": "negative",
+  "slot_authorized": false,
+  "ok_to_download_for_research": true,
+  "ok_to_submit": false,
+  "reasons": [
+    "Literal registry gate failed: final-dot overlap is 1.0 against the spacing-5 calibration lattice, above 0.70.",
+    "Literal registry gate failed: final-dot overlap is 0.7205 against the vendored h25-ctx-ridge calibration raster, above 0.70.",
+    "Registry coverage is incomplete; other teams' submissions and an organizer-authenticated registry are unavailable.",
+    "Competition inputs and footprint are hash-pinned owner mirrors, not organizer-authenticated bytes.",
+    "Weekly quota and account-side final-selection status are unavailable."
+  ],
+  "passed_gates": {
+    "holdout_improvement": "HOLDOUT-DTI 0.1581207190, 95% CI [0.1423739219, 0.1741535541], gems57-pooled-hide-v2, 58258 withheld positives; paired delta CI above zero versus frozen primitive and plain-HGB controls.",
+    "leakage_canaries": "26 of 26 feature-alone canaries passed; worst max(AUC, 1-AUC) = 0.6211.",
+    "submission_raster_uniqueness": "430 checked focus-repository docs/downloads rasters: maximum overlap 0.6808 and maximum absolute Spearman 0.1189.",
+    "saved_byte_format": "Single-band float32; EPSG:32611; shape 3730x3292; finite values exactly 0 or 1; matching transform on the pinned mirror grid."
+  },
+  "score_statement": "No leaderboard estimate is available. HOLDOUT-DTI is not an organizer score and is not a calibrated private-leaderboard estimate.",
+  "decision_basis": "The prompt says overlap above 70% with any registry raster is duplicate lane drift and requires stop. Calibration status does not create an exception. The selector therefore applies the literal rule and fails closed.",
+  "source_run_card": "evidence/k2/run_card.json"
+}

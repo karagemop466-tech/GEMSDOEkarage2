@@ -24,18 +24,17 @@ def test_h1_remains_negative():
 
 
 def test_current_k2_release_card_is_negative_under_literal_registry_gate():
-    card = json.loads((ROOT / 'docs/evidence/release-review-run-card-2026-10-28.json').read_text())
+    card = json.loads((ROOT / 'docs/evidence/k2-review-2026-10-28.json').read_text())
     assert card['verdict'] == 'negative'
-    assert card['submission_approved'] is False
-    assert card['holdout']['evidence_class'] == 'HOLDOUT-DTI'
+    assert card['ok_to_submit'] is False
+    assert card['holdout']['classification'].startswith('HOLDOUT-DTI')
     assert card['holdout']['evaluator_version']
-    assert card['holdout']['withheld_positive_pixels'] > 0
-    assert len(card['holdout']['ci95']) == 2
-    assert card['correlation_overlap_vs_registry']['literal_all_registry_result'].startswith('FAIL')
-    assert card['correlation_overlap_vs_registry']['calibration_spacing5_lattice_overlap_within_3px'] > 0.70
-    assert card['correlation_overlap_vs_registry']['calibration_ctx_ridge_overlap_within_3px'] > 0.70
+    assert card['holdout']['withheld_positives'] > 0
+    assert len(card['holdout']['confidence_interval_95']) == 2
+    assert card['correlation_overlap_vs_registry']['final_worst_overlap'] > 0.70
+    assert card['correlation_overlap_vs_registry']['final_scan_complete'] is False
     assert len(card['note']) <= 140
-    assert card['leaderboard_estimate'].startswith('Unavailable')
+    assert card['holdout']['leaderboard_estimate'] is None
     for page in ('index.html', 'executive-summary.html', 'how-to-submit.html'):
         text = (ROOT / 'docs' / page).read_text()
         assert 'DO NOT SUBMIT' in text

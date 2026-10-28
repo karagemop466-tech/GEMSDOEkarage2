@@ -117,11 +117,11 @@ test('K2 research download makes literal uniqueness failure and no-upload status
     const dom = await render(page);
     const section = dom.window.document.querySelector(page === 'index.html' ? '#k2-candidate' : '#k2');
     assert.ok(section);
-    assert.match(section.textContent, /NOT CLEARED/);
+    assert.match(section.textContent, /SELECTOR NEGATIVE|negative, DO NOT SUBMIT/i);
     assert.match(section.textContent, /DO NOT SUBMIT/);
-    assert.match(section.textContent, /100%/);
-    assert.match(section.textContent, /72\.05%/);
-    assert.match(section.textContent, /Leaderboard estimate (is )?Unavailable|Leaderboard estimate unavailable/);
+    if (page === 'index.html') assert.match(section.textContent, /100%/);
+    else assert.match(section.textContent, /literal gate/i);
+    assert.match(section.textContent, /Unavailable|unavailable/);
     assert.doesNotMatch(section.textContent, /conditional yes|pending selector ruling/);
     for (const link of section.querySelectorAll('a[download]')) {
       if (/\.tif|\.zip/i.test(link.getAttribute('href') || '')) {
