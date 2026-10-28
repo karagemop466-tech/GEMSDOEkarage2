@@ -140,3 +140,9 @@ class GateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_absurd_json_integer_fails_closed_instead_of_crashing():
+    card = good()
+    card["feature_auc"]["magnetic"] = 10 ** 400
+    assert assess(card)["verdict"] == "negative"
