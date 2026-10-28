@@ -78,14 +78,16 @@ Best supplied results (USER-REPORTED / UNVERIFIED; none linked to an organizer r
 - GEMSDOE24: h25-1-dotted-h19-5-d1-5 = 0.2477
 - GEMSDOE27: topo-gap-closure-t-v2-on-d1-5 = 0.2449
 
-**Critical finding (GEMSDOE28 S23 audit):** all nine historical files share one dot
-geography (D2.8 dotted-ridge / B2 family). The 0.2778 champion is the GEMSDOE31 solo
-dot set with 2,545 catalogue-adjacent dots removed; GEMSDOE25 and GEMSDOE30 have the
-same dot geography; GEMSDOE36 contains every champion dot plus 1,200 extras. Every one
-fails the literal uniqueness gate (100% / 98% / 99.7% within 3 px of each other vs the
-requested 70% cap) against the spacing-5 calibration lattice, which covers 99.8713% of
-the footprint within 3 px; at the 37,654-dot budget at least 82.34% of any candidate's
-dots fall within 3 px of the lattice. All nine are marked DO NOT SUBMIT in this repository; their upstream sites were not modified.
+**Critical finding (pinned mirror audit):** the nine audited historical files have
+substantial pairwise dot overlap; not all are identical. The GEMSDOE32 B2 mask
+is the GEMSDOE31 solo dot set with 2,545 catalogue-adjacent dots removed;
+GEMSDOE25 and GEMSDOE30 have the same dot geography, and GEMSDOE36 contains every
+B2 dot plus 1,200 extras. Each of the nine exceeds the directional overlap limit
+against at least one of the other eight. The lattice covers almost all of the
+mirrored footprint; a bound at the H33 budget is not a universal impossibility
+proof. The footprint matters: see `evidence/geometry-audit.json` and
+`evidence/saturation_certificate.json` for their different scopes. The nine files
+are marked DO NOT SUBMIT here; their upstream sites were not modified.
 
 **No validated leaderboard estimate exists for any of them** ("Unavailable" — catalogue
 holdout cannot reliably estimate the expert-hidden private score).
