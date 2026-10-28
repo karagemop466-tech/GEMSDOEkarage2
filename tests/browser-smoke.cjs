@@ -67,7 +67,7 @@ function chromeEnvironment() {
     const artifactHash = crypto.createHash('sha256').update(Buffer.from(await artifactResponse.arrayBuffer())).digest('hex');
     assert.equal(artifactHash, parallelCard.raster_sha256);
     assert.equal(parallelCard.approved_for_weekly_slot, false);
-    // the HK3 run card names the only file offered for upload; its served bytes must hash to the card
+    // The HK3 research artifact remains auditable by hash but must not be offered for upload.
     const hk3 = require('../evidence/hk3/run_card.json');
     const hk3Response = await fetch(base + '/' + hk3.raster.file);
     assert.equal(hk3Response.status, 200);
@@ -78,14 +78,15 @@ function chromeEnvironment() {
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
-      const primary = page.locator('a.btn.big[download]').first();
-      assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
+      assert.equal(await page.locator('a[download]').count(), 0, 'No artifact may be offered while release gates fail');
+      assert.ok((await page.locator('body').innerText()).includes('No approved submission file'));
+      assert.ok((await page.locator('body').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('body').innerText()).includes('not unique'));
       assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);
       assert.ok(await page.locator('a[href="audit.html"]').count());
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Desk overflow');
-      console.log(`PASS ${width}px: submission desk, verdict badge, single click-to-download file`);
+      console.log(`PASS ${width}px: submission desk, negative verdict, no unapproved download`);
     }
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);

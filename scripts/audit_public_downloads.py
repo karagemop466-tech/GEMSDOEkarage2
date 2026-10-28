@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Re-read every published TIFF/ZIP and fail closed on unexpected downloads.
 
-This is an integrity and local-format audit of the published files, not a model
-evaluation. Research files need a negative run card; the single upload candidate
-(HK3) needs a PROMOTE run card whose hard gates all pass plus an explicit selector
-receipt bound to the saved bytes. No TIFF is generated and no organizer
-template/receipt is authenticated here.
+This is an integrity and local-format audit of published research files, not a
+model evaluation or upload approval. No artifact in the current registry is an
+approved candidate. No TIFF is generated and no organizer template/receipt is
+authenticated here.
 """
 from __future__ import annotations
 
@@ -13,6 +12,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import sys
 import zipfile
 
 import numpy as np
@@ -20,8 +20,10 @@ import rasterio
 from rasterio.errors import RasterioError
 
 ROOT = Path(__file__).resolve().parents[1]
-# (stem, run card, selector, has_zip[, kind]); kind "research" = negative card required,
-# kind "candidate" = PROMOTE card + explicit selector required (HK3 lane, 2026-10-28).
+sys.path.insert(0, str(ROOT / "scripts"))
+from build_hk3_pages import release_decision  # shared fail-closed release policy
+# (stem, run card, selector, has_zip[, kind]); all current artifacts are
+# research-only because no candidate passes every binding release gate.
 ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
@@ -37,7 +39,7 @@ ARTIFACTS = (
     ("gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "candidate"),
+     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "research"),
 )
 
 
@@ -137,14 +139,13 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
         if candidate:
             checks["card_verdict_promote"] = card.get("verdict") == "PROMOTE"
-            gates = card.get("gates") or {}
-            checks["card_hard_gates_all_pass"] = bool(gates) and all(
-                v is True for k, v in gates.items()
-                if isinstance(v, bool) and k not in ("unique_literal_vs_all_registry_rasters", "literal_rule_exception_applied"))
-            checks["card_literal_rule_failures_disclosed"] = (
-                gates.get("unique_literal_vs_all_registry_rasters") is True or
-                (gates.get("literal_rule_exception_applied") is True and
-                 bool((card.get("registry_uniqueness") or {}).get("tiers", {}).get("U2_literal_rule_vs_all_registry_rasters", {}).get("failures"))))
+            try:
+                registry_audit = json.loads((root / "evidence/hk3/registry_audit.json").read_text())
+            except (OSError, ValueError):
+                registry_audit = {}
+            decision = release_decision({"rc": card, "aud": registry_audit})
+            checks["strict_protocol_release_eligible"] = decision["eligible"]
+            detail.setdefault("diagnostics", {})["release_blockers"] = decision["blockers"]
             checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
         else:
             checks["card_verdict_negative"] = card.get("verdict") == "negative"

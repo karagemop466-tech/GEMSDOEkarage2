@@ -1,96 +1,62 @@
 # Starting point for future work
 
-Read `README.md`, `research/review.md`, `research/hypotheses.md`,
-`knowledge/hypotheses.md`, `evidence/h1/run_card.json` (H1),
-`evidence/run_card.json` (H1 restored root), `evidence/run_card_h2.json` (H2),
-and the audit-session
-`docs/data/run-card.json`, `docs/data/audit-run-card.json` and
-`research/independent-review.md` before changing scientific or submission workflows.
-The standing protocol in the README is binding. H1's verdict is negative;
-its format-checked research surface is not an approved submission. The follow-on
-independent audit ran zero additional experiments. Preserve negative evidence
-and source-access limits. Do not invent an assigned method lane, exempt registry
-entries, hide unavailable evidence, privately modify shared evaluators/writers,
-or spend a competition slot. Do not place dots or tune H1 after its registry
-stop. Read the three-pass reviews; remain on the Arena-assigned branch.
+Read `README.md` (especially **Current status** and **Parallel-run protocol**),
+`research/repo-review-2026-10-28-agent.md`,
+`research/independent-review.md`, `research/hypotheses.md`,
+`knowledge/hypotheses.md`, and the relevant experiment's run card before any
+scientific or submission workflow change. Remain on the Arena-assigned branch.
 
-Read `research/findings-2026-10-27.md`, `research/hypotheses-2026-10-27.md`,
-and the independent follow-on `evidence/run-card.json` for the additional
-lattice, shared-stack, prior-art and upstream-tool review. Its static companion
-is `docs/field-notes/`; it does not replace or approve the parallel H1 surface.
-Automated source refresh must contact GitHub only, never DrivenData. The dated
-leaderboard snapshot is not a live score or a file-bound organizer receipt.
+## Current release status — 2026-10-28
 
-## 2026-10-28 K2 protocol correction
+**No TIF in this repository is approved for submission.** The formerly promoted
+HK3 artifact is research-only: its literal 70% registry-overlap gate failed,
+a historical exception was applied contrary to the binding protocol, the
+registry audit is incomplete, the lane paragraph was self-declared rather than
+coordinator-assigned, organizer inputs are unauthenticated mirrors, and the
+saved run record exceeds the two-hour limit. See the repo review and the
+`protocol_review_override` field in `evidence/hk3/run_card.json`.
+No new experiment, raster generation, selector decision, or competition slot
+was used by that review. The saved holdout is historical evidence, not a
+leaderboard score. The earlier score projection is invalidated by the metric
+review; leaderboard-score estimate is unavailable.
 
-Read `research/k2-protocol-review-2026-10-28.md` and its JSON run card. K2 is
-negative: the literal pre-placement registry stop was crossed, so its file is
-research-only and must not be submitted. Preserve historical measurements; do
-not regenerate K2 or infer a lane assignment, registry exemption, portal
-acceptance, or current leaderboard score. The prompt supplies no identifiable
-method paragraph, and the previous session exhausted its three-experiment budget.
+## Binding operating rules
 
-## 2026-10-28 HK3 lane — current state (read this first)
+* Do not invent or self-assign a method paragraph. No experiment until the
+  coordinator's specific assigned paragraph, complete current registry scope,
+  organizer-authenticated inputs, and a fresh budget are in hand.
+* The literal stop is binding: if surface rank-correlation exceeds 0.90 or
+  more than 70% of dots are within 3 px of any one registry raster, record a
+  duplicate and stop. Test before placement and on final dots. Do not exempt
+  calibration, unsubmitted, surface, fleet, or local rasters without a written
+  policy change.
+* Reuse shared cached features, `evaluate_holdout.py`, and `submission_writer.py`.
+  Hide whole fault segments with a buffer; derive catalogue-based features from
+  visible faults only; mask visible faults pixel-exactly; score pooled DTI
+  (alpha 0.2, beta 0.8, 300 m triangular kernel). Do not privately fork shared
+  evaluators/writers; fix shared tools once and report it.
+* Run feature-alone leakage canaries first (AUC > 0.90 is leakage until proven
+  otherwise). Label every score as HOLDOUT-DTI with evaluator version, withheld
+  positives, and 95% CI, or ORGANIZER-CONFIRMED from a file-bound receipt.
+  Projections are never scores.
+* End each experiment with one JSON run card, including hypothesis, mechanism,
+  non-fault mimic, holdout and CI, registry correlation/overlap, raster SHA-256,
+  validator output, unique name/note (<=140 characters), and verdict.
+* Stop at three experiments or two hours, whichever comes first. A separate
+  selector—not the experiment runner—chooses any real slot within account quota.
+* A local validator or owner mirror is not organizer acceptance. Do not claim
+  upload readiness until the official template/provenance, exterior convention,
+  range, grid and portal acceptance are established.
+* Current Pages are generated by `scripts/build_hk3_pages.py` from evidence;
+  don't hand-edit generated pages. Its fail-closed policy and
+  `scripts/audit_public_downloads.py` must remain in agreement. The historical
+  HK3, K3, K2, B4, H2, H1, and H-KARAGE-1 outputs remain research-only; do not
+  regenerate or promote them.
 
-Read `README.md` ("Current status"), `research/hypotheses-2026-10-28-hk3.md` (§3b budget
-rule, §3c uniqueness rule, §4 outcome) and `evidence/hk3/run_card.json` before touching
-anything. One file is approved by the automated gates (verdict PROMOTE with one disclosed
-literal-rule exception printed in red on every page); the user is the selector and no slot
-has been spent. Rules for the next session:
+## Historical evidence to preserve
 
-* The four desk pages (`docs/index.html`, `executive-summary.html`, `how-to-submit.html`,
-  `submit.html`) and `docs/assets/hk3.css` are **generated** by
-  `scripts/build_hk3_pages.py` from `evidence/hk3/*.json` + `evidence/calibration/*.json`;
-  CI runs `build_hk3_pages.py --check`. Change the evidence or the generator, never the HTML.
-* `scripts/hk3.py` is the lane runner (features / e2 / bridge / e3 / audit / anchors / card).
-  Its cache lives in `.cache/hk3/` (gitignored; rebuild with `hk3.py features`, ≈ 10 min).
-  The lane's 3-experiment budget is used; a new experiment means a new lane and a new note.
-* Never pick a dot budget from holdout DTI; use the §3b maximin over θ. Never use a raster
-  built on the whole catalogue as a transfer anchor (≈ 2.9× leakage inflation).
-* Uniqueness tiers U1–U4 are binding; any literal failure must stay visible. Re-run
-  `hk3.py audit` if the pinned registry refs change.
-* If the user reports an organizer score for the HK3 file, write it to
-  `evidence/hk3/run_card.json` under `organizer_confirmed` (value, date, submission name),
-  label it ORGANIZER-CONFIRMED, rebuild the pages, and use it to calibrate θ before anything
-  else.
-* Legacy files (K2, H1, H-KARAGE-1) remain research-only; `scripts/k2.py` and
-  `scripts/generate_submission.py` stay disabled.
-
-## Notes from concurrent 2026-10-28 branches (merged)
-
-## 2026-10-28 K3 result
-
-Read `research/review-2026-10-28-k3.md`, `research/hypotheses-2026-10-28-k3-preregistration.md`
-and `evidence/k3/run_card.json`. K3 is holdout-best but NEGATIVE: HOLDOUT-DTI
-0.19157 (+0.03402 vs the replicated K2 incumbent, paired CI > 0), yet final
-dots exceed 70% within-3-px overlap vs 10 registry records including fleet
-submissions, and the surface gate failed vs the quarantined K2 predecessor
-(placement ran only under a disclosed research override). The K3 TIFF is a
-quarantined research artifact; do not submit it, do not regenerate it (writer
-refuses overwrite; surface gate fails closed without the override flag), and do
-not treat the labelled projection as a score. Experiment budget for that
-session is exhausted. The next lane must differentiate dot geography from the
-fleet supervised consensus (preregistration slate C4/C5), with the same shared
-evaluator/writer and preregistered gates.
-
-## 2026-10-28 saved-byte/data preflight follow-up
-
-Read `research/2026-10-28-next-lane-slate.md`,
-`evidence/owner_mirror_preflight_2026-10-28.json` and
-`evidence/public_downloads_audit.json` and
-`evidence/session-31569490-run-card.json`. Every published TIFF is research-only;
-`PASS_RESEARCH_ONLY` means file/hash/ZIP integrity, not scientific or organizer
-approval. To repeat the GitHub-owner-mirror preflight without a human:
-`bash scripts/download_competition_data.sh --research-mirror` (ignored cache,
-NOT official inputs). Run `python scripts/audit_public_downloads.py --check`
-before publishing: any extra or changed public TIF/ZIP stops CI. Do not label a
-new method as assigned or clear the lattice witness by gaming footprint edges.
-
-Read `research/release-gate-followup-2026-10-28.md`: the evidence schema now
-requires three additional attestations; schema passage is not evidence verification.
-H2 and B4 artifacts merged from main are also negative research files and are
-included in the public research inventory (five files at that review; six after K3). Read
-`evidence/current-session-review-2026-10-28.md` for the concurrent B4
-integration: its artifact is research-only, its registry scan fails the literal
-lattice stop, and its CLI/final generation are retired. Do not regenerate it or
-claim uniqueness or organizer approval.
+Read the relevant run cards and reviews under `evidence/` and `research/` for
+H1, H2, K2, K3, B4, HK3, and the earlier public-download audits. Keep negative
+results and source-access limits. GitHub owner mirrors are research-only, not
+DrivenData-authenticated data. Automated refresh is GitHub-only; it is not a
+live DrivenData leaderboard, receipt, quota, or score feed.

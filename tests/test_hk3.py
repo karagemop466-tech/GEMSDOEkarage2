@@ -43,11 +43,15 @@ def test_run_card_gates_and_verdict_logic_agree(card):
                 "unique_chance_corrected_vs_all_registry_rasters", "unique_literal_vs_submitted_dot_rasters",
                 "rank_correlation_below_0_90", "lane_single_method"]
     assert all(g[k] is True for k in required), {k: g[k] for k in required}
-    # the literal all-registry rule is the one disclosed deviation; it must be
-    # visible as a failed gate with the exception flag set, never silently passed
     assert g["unique_literal_vs_all_registry_rasters"] is False
-    assert g["literal_rule_exception_applied"] is True
-    assert card["verdict"] == "PROMOTE"
+    assert g["literal_rule_exception_applied"] is True  # preserved historical decision, not authorized
+    assert card["historical_verdict_before_protocol_review"] == "PROMOTE"
+    assert card["verdict"] == "negative"
+    assert card["protocol_review_override"]["release_eligible"] is False
+    assert card["protocol_review_override"]["submission_authorized"] is False
+    assert g["wall_clock_minutes"] == 135
+    selector = load(EV / "selector_result.json")
+    assert selector["verdict"] == "negative" and selector["ok_to_submit"] is False
     tiers = card["registry_uniqueness"]["tiers"]
     assert tiers["U1_unique_vs_nine_scored_site_files"]["pass"] and tiers["U1_unique_vs_nine_scored_site_files"]["max_overlap"] <= 0.70
     assert not tiers["U2_literal_rule_vs_all_registry_rasters"]["pass"]
@@ -120,15 +124,16 @@ def test_desk_pages_are_generated_from_the_run_card(card):
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
         assert "{BADGE" not in page
-        assert ("OK TO SUBMIT: YES" in page) == (card["verdict"] == "PROMOTE")
+        assert "OK TO SUBMIT: YES" not in page
+        assert "OK TO SUBMIT: NO" in page
         if name in ("index.html", "how-to-submit.html"):
             assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
-        for href in downloads:
-            assert card["submission"]["name"] in href
-            assert (DOCS / href).exists()
+        assert downloads == []
     home = (DOCS / "index.html").read_text()
-    assert "HOLDOUT-DTI" in home and "LEADERBOARD-CALIBRATED ESTIMATE" in home
+    assert "HOLDOUT-DTI" in home and "Leaderboard score estimate unavailable" in home
+    assert "DO NOT SUBMIT — RESEARCH ONLY" in home
+    assert "coordinator-assigned method paragraph is absent" in home
     assert "ORGANIZER-CONFIRMED" in home  # the label the page says it does *not* have
     assert 'Literal 70 % rule vs all 450 non-degenerate registry rasters:</b> <b class="no">FAIL' in home
     assert "drivendata.org/competitions/306/competition-doe-gems/page/967/" in home

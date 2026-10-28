@@ -59,6 +59,7 @@ def test_k3_site_language_is_negative():
         assert "DO NOT SUBMIT" in text
         assert "CONDITIONAL YES" not in text
         assert "evidence/k3/run_card.json" in text
-        # K3 is the holdout-best file but uniqueness-negative: it must be named, never offered
+        # K3 is a historical research file, never offered; no repository file is approved.
         assert f'{STEM}.tif" download' not in text
-        assert "holdout-best" in text
+        assert "repository's largest recorded point HOLDOUT-DTI" in text
+        assert "No candidate is approved" in text

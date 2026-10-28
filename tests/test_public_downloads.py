@@ -40,22 +40,20 @@ def make_fixture(tmp_path):
     return args, card_path
 
 
-def test_current_saved_downloads_are_hash_bound_with_one_candidate():
+def test_current_saved_downloads_are_hash_bound_and_all_research_only():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_ONE_CANDIDATE_FOR_UPLOAD'
-    hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert result['downloadable_approved_submission'] == hk3['raster']['file']
-    assert result['score_estimate']['label'].startswith('LEADERBOARD-CALIBRATED ESTIMATE')
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
+    assert result['downloadable_approved_submission'] is None
+    assert result['score_estimate'] is None
     assert len(result['artifacts']) == 7
-    candidates = [r for r in result['artifacts'] if r['kind'] == 'candidate']
-    assert len(candidates) == 1 and candidates[0]['raster_sha256'] == hk3['raster']['sha256']
-    assert candidates[0]['ok_to_submit'] is True and candidates[0]['slot_authorized'] is False
-    assert candidates[0]['checks']['selector_explicit_candidate'] and candidates[0]['checks']['card_hard_gates_all_pass']
+    assert not [r for r in result['artifacts'] if r['kind'] == 'candidate']
+    hk3 = next(r for r in result['artifacts'] if 'hk3-edgecentrality' in r['file'])
+    assert hk3['kind'] == 'research' and hk3['ok_to_submit'] is False
+    assert hk3['status'] == 'VERIFIED_RESEARCH_ONLY'
     for record in result['artifacts']:
-        if record['kind'] == 'research':
-            assert record['ok_to_submit'] is False
+        assert record['ok_to_submit'] is False
         assert record['slot_authorized'] is False
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
@@ -75,11 +73,14 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     card_path.write_text(json.dumps(card))
     still = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert still['status'] == 'FAIL_CLOSED' and still['checks']['selector_explicit_candidate'] is False
-    # matching selector bound to the saved bytes => verified candidate
+    # Even a selector bound to the saved bytes cannot override missing strict
+    # protocol evidence (assigned lane, complete registry, literal uniqueness,
+    # authenticated inputs, and the time-budget receipt).
     (root / selector_rel).write_text(json.dumps(dict(verdict='candidate_approved_by_automated_gates', ok_to_submit=True,
         slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
-    good = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
-    assert good['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD' and good['ok_to_submit'] is True
+    still_blocked = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
+    assert still_blocked['status'] == 'FAIL_CLOSED'
+    assert still_blocked['checks']['strict_protocol_release_eligible'] is False
     # a second candidate in the inventory is refused
     second = tmp_path / 'docs/downloads/second.tif'
     shutil.copyfile(root / f'docs/downloads/{stem}.tif', second)

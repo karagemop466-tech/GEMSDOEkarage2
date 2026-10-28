@@ -1812,13 +1812,30 @@
     "lane_single_method": true,
     "experiments_used": 3,
     "time_budget_note": "E1 calibration, E2 holdout, E3 generation; ~2 h 15 min wall-clock including the artifact write",
-    "literal_rule_exception_applied": true
+    "literal_rule_exception_applied": true,
+    "wall_clock_minutes": 135
   },
-  "verdict": "PROMOTE",
+  "verdict": "negative",
   "verdict_meaning": "PROMOTE = every automated gate passed and the artifact may be offered for download; the selector/quota step is separate and is not performed here.",
   "limitations": [
     "Leaderboard anchors are USER-REPORTED scores; no organizer receipt could be fetched (network allowlist).",
     "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",
     "Registry = 440 + 9 + lattice pinned rasters; repositories may contain newer files."
-  ]
+  ],
+  "historical_verdict_before_protocol_review": "PROMOTE",
+  "protocol_review_override": {
+    "review_date_utc": "2026-10-28",
+    "review_source": "research/repo-review-2026-10-28-agent.md",
+    "decision": "negative",
+    "release_eligible": false,
+    "submission_authorized": false,
+    "reasons": [
+      "Binding literal overlap rule failed against three registry rasters (including 73.3% and 74.9% final-dot overlap); the historical selector applied an unauthorized exception.",
+      "The registry audit is incomplete and records an error.",
+      "No coordinator-assigned method paragraph is present; the lane was self-declared.",
+      "Organizer-authenticated input/template provenance is absent.",
+      "The run card records approximately 2 hours 15 minutes, exceeding the two-hour protocol budget."
+    ],
+    "scope": "Release decision correction only. No model, feature stack, evaluator, writer, raster bytes, holdout result or organizer score was changed or rerun."
+  }
 }

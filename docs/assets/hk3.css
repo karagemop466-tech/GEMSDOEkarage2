@@ -19,6 +19,9 @@ tr.chosen td { background: #ecfdf5; font-weight: 700; }
 .notice table { margin: 8px 0; }
 b.no { color: var(--no); } b.ok { color: var(--ok); }
 .tag.no { color: var(--no); }
+.release-blockers { margin: 10px 0; padding: 12px 18px 12px 34px; border: 1px solid #fecaca; border-radius: 8px; color: var(--no); background: #fff7f7; }
+.release-blockers li { margin: 4px 0; }
+.blocked-file { border-left: 4px solid var(--no); padding: 10px 14px; background: #fff7f7; }
 .header .badge { vertical-align: middle; }
 /* narrow viewports: never overflow horizontally */
 .wrap, .inner, .section, .hero { max-width: 100%; min-width: 0; overflow-wrap: anywhere; }

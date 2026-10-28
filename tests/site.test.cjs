@@ -32,17 +32,12 @@ test('every desk page carries the run-card verdict badge and no unresolved place
   }
 });
 
-test('the only click-to-download links are the file named by the run card, and the bytes exist', () => {
+test('desk pages do not offer the blocked research artifact as a download', () => {
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
-    if (page === 'index.html' || page === 'how-to-submit.html') assert.ok(links.length >= 1, `${page}: no download link`);
-    for (const link of links) {
-      const href = link.getAttribute('href');
-      assert.match(href, new RegExp(card.submission.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-      assert.doesNotMatch(href, /k2-hgbcont|h1-parity|hkarage1|DO-NOT-SUBMIT/);
-      assert.ok(fs.existsSync(path.join(root, 'docs', href)), `${page}: ${href} missing`);
-    }
+    assert.equal(links.length, 0, `${page}: blocked research artifact must not have a download attribute`);
+    assert.match(dom.window.document.body.textContent, /NO APPROVED|DO NOT SUBMIT|RESEARCH ONLY/);
     dom.window.close();
   }
 });
@@ -52,8 +47,8 @@ test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and 
   const text = dom.window.document.body.textContent;
   assert.match(text, new RegExp(card.raster.sha256));
   assert.match(text, /HOLDOUT-DTI/);
-  assert.match(text, /LEADERBOARD-CALIBRATED ESTIMATE/);
-  assert.match(text, /NOT ORGANIZER-CONFIRMED/);
+  assert.match(text, /Leaderboard score estimate unavailable/);
+  assert.match(text, /none exist in this repository/);
   assert.match(text, /Literal 70 % rule vs all 450 non-degenerate registry rasters:\s*FAIL/);
   const failures = card.registry_uniqueness.tiers.U2_literal_rule_vs_all_registry_rasters.failures;
   assert.ok(failures.length >= 1);
