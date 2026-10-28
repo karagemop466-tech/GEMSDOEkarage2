@@ -150,6 +150,29 @@ holdout cannot reliably estimate the expert-hidden private score).
 
 ## Current safety status and next steps (2026-10-28)
 
+**This session's autonomous follow-up:** The GitHub-hosted owner mirrors were
+restored to ignored `.cache/competition_data/` with pinned SHA-256 hashes and
+passed the *research-only* raster/schema preflight. The sample still contains
+60,988 known-fault positives, contrary to the published all-absence description;
+this mirror is **not organizer-authenticated**. See
+[`evidence/owner_mirror_preflight_2026-10-28.json`](evidence/owner_mirror_preflight_2026-10-28.json).
+The nine historical geometry results were independently reproduced from pinned
+bytes (`scripts/bootstrap_research.py`, `scripts/audit_references.py`,
+`scripts/compare_audit.py`), not turned into a new leaderboard score. The
+[download inventory](evidence/public_downloads_audit.json) reopens **all three**
+published TIFFs, checks their saved-byte hashes, float32/grid/range and both ZIP
+round-trips, and rejects unknown downloads; it reports **PASS_RESEARCH_ONLY**, not
+competition authorization. A prior Node site regression (mislabelled research
+column) was fixed. The K2 literal audit now gives the conditional spacing-lattice
+counting bound (54,491 saved positives → at least 47,842/54,491 ≈ 87.80% overlap
+if all are in the mirrored footprint), without repeating the false assertion
+that every smaller candidate is impossible. These are geometry measurements,
+not DTI or organizer scores. The four ranked *untried local* hypotheses are in
+[`research/2026-10-28-next-lane-slate.md`](research/2026-10-28-next-lane-slate.md);
+no new scientific experiment was run because the assigned lane and registry
+ruling are missing. The previous K2 pre-placement stop and exhausted prior
+experiment budget are preserved.
+
 **No TIFF is approved for submission.** The archived irregular-dot raster is
 not unique under the literal rule. A saved-byte recheck against the pinned
 owner-mirror footprint and lattice found 6,765 of 6,769 in-footprint dots
@@ -194,10 +217,25 @@ not current values. Consult the official leaderboard directly.
    `.venv/bin/pytest -q`.
 2. Run `npm ci && npm test && npm run test:site && npm run test:browser` for the
    public dashboard/feed suite.
-3. `python scripts/restore_references.py` downloads pinned public GitHub mirrors
+3. `bash scripts/download_competition_data.sh --research-mirror` automatically
+   restores four SHA-pinned **owner mirrors** from public GitHub into ignored
+   `.cache/competition_data/` and runs a core-only schema preflight. It does not
+   download the authenticated organizer files or the DEM links, train a model,
+   approve a slot, or create a TIFF. With no flag the script **exits nonzero**
+   instead of pretending URLs were downloaded. If authorized files are already
+   in `data/`, `bash scripts/download_competition_data.sh --validate-official`
+   checks their schema (including a nonempty `1m_DEM_links.csv`), but cannot
+   authenticate origin. A grid mismatch, missing/empty file or malformed TIFF
+   fails closed and writes a negative `prepared.json` rather than a false pass.
+4. `.venv/bin/python scripts/audit_public_downloads.py --check` independently
+   verifies every *currently published* TIF/ZIP, run-card digest, range, grid
+   and negative selector status against the committed receipt. It requires no
+   human inspector and cannot grant upload permission. CI blocks unknown or
+   changed public downloads. See the [machine-readable audit](evidence/public_downloads_audit.json).
+5. `python scripts/restore_references.py` downloads pinned public GitHub mirrors
    to `.cache/input/`; hashes are checked. These are not authenticated organizer
    downloads and are not the complete registry.
-4. `python scripts/audit_legacy_dots.py` rechecks saved bytes, grid, range,
+6. `python scripts/audit_legacy_dots.py` rechecks saved bytes, grid, range,
    footprint and the lattice duplicate witness. No candidate TIFF is generated.
 
 ### Remaining work

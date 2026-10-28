@@ -27,3 +27,15 @@ research-only and must not be submitted. Preserve historical measurements; do
 not regenerate K2 or infer a lane assignment, registry exemption, portal
 acceptance, or current leaderboard score. The prompt supplies no identifiable
 method paragraph, and the previous session exhausted its three-experiment budget.
+
+## 2026-10-28 saved-byte/data preflight follow-up
+
+Read `research/2026-10-28-next-lane-slate.md`,
+`evidence/owner_mirror_preflight_2026-10-28.json` and
+`evidence/public_downloads_audit.json`. All three published TIFFs are
+research-only; `PASS_RESEARCH_ONLY` means file/hash/ZIP integrity, not scientific
+or organizer approval. To repeat the GitHub-owner-mirror preflight without a
+human: `bash scripts/download_competition_data.sh --research-mirror` (ignored
+cache, NOT official inputs). Run `python scripts/audit_public_downloads.py --check`
+before publishing: any extra or changed public TIF/ZIP stops CI. Do not label a
+new method as assigned or clear the lattice witness by gaming footprint edges.
