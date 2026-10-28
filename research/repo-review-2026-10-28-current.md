@@ -41,7 +41,7 @@ Implemented a current release-safety decision bound to the candidate SHA-256. Up
 Verification after the fix (pinned Python dependencies in ignored `.venv`; Node dependencies from the lockfile):
 
 - CI safety sequence (`assess_release.py`, `audit_k2_release.py`, `audit_public_downloads.py --check`, `review_k2_release.py`, site builders, HK3 generator, generator `--check`): passed. `assess_release.py` remains negative; the published-download inventory is `PASS_RESEARCH_ONLY`, with no approved submission path.
-- `.venv/bin/python -m pytest -q`: **203 passed, 7 skipped, 98 subtests passed** after integrating the main-branch negative run-card and post-stop runner guards; 86 Rasterio `PendingDeprecationWarning`s remain.
+- `.venv/bin/python -m pytest -q`: **216 passed, 7 skipped, 98 subtests passed** after integrating the current main-branch protocol correction; 87 Rasterio `PendingDeprecationWarning`s remain.
 - `npm test`: **3 passed**.
 - `npm run test:site`: **7 passed**.
 - `npm run test:browser`: **passed** desktop 1440 px and mobile 390/320 px checks plus freshness fail-safe checks.

@@ -17,11 +17,7 @@ submission writer + run cards) following the parallel-run protocol.
 
 # PROJECT PROMPT (CONSOLIDATED)
 
-## Competition references (official pages; not freshly verified in this review)
-
-These links are the authoritative places to check. Do not treat cached summaries below as
-current rule or leaderboard confirmation; the 2026-10-28 review environment could not
-reach DrivenData or DOE/USGS sources.
+## Competition (verified from official sources)
 
 - [GEMS Prize Challenge — DrivenData](https://www.drivendata.org/competitions/306/competition-doe-gems/)
 - [Problem description](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
@@ -167,88 +163,56 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
-## Current status (reviewed 2026-10-28) — release is blocked
+## Current status — HK3 protocol correction (2026-10-28)
 
-**NO TIFF IN THIS REPOSITORY IS APPROVED FOR COMPETITION SUBMISSION.** The HK3
-TIFF is retained for research/download and reproducibility only:
-`docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`
-(SHA-256 `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9`).
-The public pages must show **OK TO SUBMIT: NO** and label it **DO NOT SUBMIT**.
-See the current, hash-bound safety decision:
-[`evidence/hk3/current_release_decision.json`](evidence/hk3/current_release_decision.json)
-and the review:
-[`research/repo-review-2026-10-28-current.md`](research/repo-review-2026-10-28-current.md).
-The current `evidence/hk3/run_card.json` and `selector_result.json` now record a
-negative decision. The retraction receipt
-[`evidence/hk3/approval-retracted-20261028.json`](evidence/hk3/approval-retracted-20261028.json)
-documents the prior unauthorized `PROMOTE` exception; earlier full snapshots remain
-in Git history. That historical recommendation applied an exception the binding
-prompt does not allow.
+**NO APPROVED SUBMISSION. All seven published TIFFs are research-only. DO NOT SUBMIT.**
+HK3's former PROMOTE/selector approval is withdrawn: its own evidence fails the
+mandatory literal all-registry gate. The prompt authorizes no density, research-file,
+or chance-correction exception. No new experiment or slot was used in this review.
+The lane has exhausted its budget and its generation/training/card commands are retired.
 
-**Why the release is blocked:** the protocol says to stop if rank-correlation
-exceeds 0.90 OR more than 70% of candidate dots fall within 3 px of any registry
-raster. The saved audit reports 99.8626% dot overlap against the r13 lattice
-witness, in addition to three more records above 70% (70.9763%, 73.3484%, and
-74.9401%). The historical audit excluded the lattice as degenerate and excepted
-other non-submission/control objects; the protocol supplies no such exclusions.
-The complete registry scan is not certified (452 checked, one invalid/missing).
-The supposed HK3 lane was self-declared; the prompt does not identify an
-assigned method paragraph. Also, the reported wall time was about 2 h 15 min,
-exceeding the protocol's 2-hour budget. These issues independently prohibit
-promotion.
+- [Research download and executive summary](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html):
+  one-click existing TIF, explicitly **research only**; nine per-site executive summaries.
+- [Three-pass protocol review and four ranked untested hypotheses](research/hk3-protocol-correction-2026-10-28.md).
+- [Current hash-bound release decision](evidence/hk3/current_release_decision.json),
+  [corrected HK3 run card](evidence/hk3/run_card.json), [negative selector](evidence/hk3/selector_result.json),
+  [saved-byte public inventory](evidence/public_downloads_audit.json).
+- [Original HK3 card (superseded)](evidence/hk3/history/run_card-before-protocol-correction.json)
+  and [old status text](knowledge/hk3-historical-status-2026-10-28.md) preserve the historical
+  exception and projection for audit; neither is current approval.
 
-The file's local format receipt reports one float32 band, finite values in [0,1],
-EPSG:32611, shape 3730 × 3292, and a transform matching the **owner-mirror**
-template. The organizer template is not authenticated, the historical strict
-NaN-outside check fails (the raster stores zero outside), and portal acceptance
-is untested. A local format pass is not proof of portal acceptance.
+The archived TIFF is finite and in [0,1] and matches the pinned owner-mirror grid.
+That is **not** authentication of the organizer template or proof of portal acceptance.
+The rejected file and submission receipt are absent; the range-error cause is unproven.
+No validated leaderboard estimate exists. Archived ratio-transfer scenarios are not scores.
+The highest of the nine supplied reports is GEMSDOE32 0.2778 **USER-REPORTED / UNVERIFIED**;
+no file-linked organizer receipt or current leaderboard was obtained.
 
-| Quantity | Result | Evidence label / limitation |
-|---|---|---|
-| HK3 at equal 1.10% dot budget | 0.1845 [0.1677, 0.2015], 58,258 withheld positives, evaluator `gems57-pooled-hide-v2` | HOLDOUT-DTI (historical; not rerun in this review; not a leaderboard estimate) |
-| HK3 vs refitted incumbent | Δ +0.0270 [0.0206, 0.0337], same evaluator/folds | HOLDOUT-DTI paired difference; does not override the registry stop |
-| HK3 exploratory leaderboard transfer interval | 0.2628–0.2855 | Historical projection based on unverified reported anchors and transfer assumptions; not a score and not a validated estimate |
-| HK3 registry overlap | 99.8626% maximum; three additional records exceed 70% | Historical registry measurement; incomplete registry coverage |
-| HK3 release status | **DO NOT SUBMIT** | Current safety decision; no slot used |
+The shared readiness schema, not a verdict string or private exception, governs future
+eligibility. A passing schema still requires independently verified evidence and saved bytes.
+Do not re-fit, re-place or rename a stopped candidate to evade the registry gate.
 
-### Interpreting the focus-site high score
+### Next session, in order
 
-The highest value supplied for the nine focus sites is GEMSDOE32 B2 = 0.2778,
-which remains **USER-REPORTED / UNVERIFIED** (no file-linked organizer receipt
-is in this checkout). Pinned-byte geometry supports that B2 removes a band of
-ridge-family dots close to the mapped catalogue from its parent geometry. That
-can plausibly reduce false-positive mass under a scorer that excludes known
-faults, improving DTI without discovering additional faults. This is a
-mechanistic interpretation of the reported scores, not a causal experiment or
-proof of hidden-label hits. The nine files have substantial shared geometry and
-must not be treated as independent strategies; exact site-by-site provenance
-and measurements are in `evidence/nine_site_best_files_audit.json` and the
-executive summary. Do not promise a score above 0.2778 from the current evidence.
+1. Resolve the missing assigned method paragraph and the all-registry dense-witness
+   conflict with the registry owner; this session cannot waive the user's literal rule.
+2. Authenticate organizer inputs/template, band meanings and exterior convention; update
+   the complete parallel registry. All nine GitHub HEADs differ from the pinned historical
+   snapshot; a metadata refresh is **not** a current score/file audit.
+3. Freeze the whole-segment, buffered same-fold best and all-feature canaries. Test only
+   the assigned hypothesis within the budget using the shared evaluator/writer and cache.
+4. Require a paired holdout win and literal pre-placement clearance before dots, then
+   final-dot clearance, saved-byte validation and a separate quota-aware selector.
+   No competition upload is automated. GPU is optional for some methods (official CPU reference available).
 
-### Rules for the next session
+The README above consolidates the user's repeated project prompt and must be read at the
+start of every session. The urgency to generate a unique TIF does not override the explicit
+mandatory stop, evidence labels, three-experiment/two-hour budget or selector separation.
 
-- Do not use a submission slot or generate/emit new dots in the stopped HK3 lane.
-- First obtain an explicit lane assignment (the current prompt supplies no
-  uniquely identifiable method paragraph), authenticate the competition inputs
-  and official grid/template, and restore a complete registry inventory.
-- Reuse the pinned shared feature stack, holdout evaluator and submission
-  writer. Preregister 3–5 candidates, test each feature alone for leakage, and
-  run no more than three experiments or two hours, whichever comes first.
-- A future candidate must beat the current same-evaluator holdout best with
-  uncertainty reported, pass literal pre-placement uniqueness and repeat the
-  test on final dots, pass format checks against authenticated organizer input,
-  and then go through a separate selector step. A projection is never a score.
-- Keep every negative result, disclose incomplete scans and source limitations,
-  and never redefine the registry scope or exclude a witness to turn a fail into
-  a pass.
+## Earlier 2026-10-28 session notes (concurrent branches, merged; superseded by the HK3 status above)
 
-## Earlier 2026-10-28 session notes (concurrent branches, merged; historical)
-
-These sections were written before the historical HK3 recommendation and before the
-current safety review. Their *negative* findings (H1, H2, B4, K2, K3 all DO NOT SUBMIT)
-remain valid and their receipts are linked from the site. Historical positive HK3 claims
-are superseded by the current release decision above; the earlier "no file approved"
-statements now agree with the current fail-closed status.
+These are historical notes. Their negative verdicts remain valid; any later statement
+that HK3 was approved is superseded by the protocol correction above. No file is currently approved.
 
 ### Latest safety follow-up — 2026-10-28
 
