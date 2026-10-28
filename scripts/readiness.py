@@ -79,6 +79,20 @@ def assess(card: object) -> dict:
     if card.get("organizer_inputs_authenticated") is not True:
         reasons.append("Organizer input/template authenticity not established")
 
+    # The numerical/receipt schema cannot prove wall-clock truth, but it must
+    # fail closed when the parallel-run budget is missing, malformed, exceeded,
+    # or lacks a machine-readable receipt binding the recorded limits.
+    budget = card.get("budget")
+    if not isinstance(budget, dict):
+        reasons.append("Experiment/runtime budget receipt missing")
+    else:
+        experiments = budget.get("experiments_used")
+        elapsed = budget.get("elapsed_seconds")
+        if (type(experiments) is not int or not 0 <= experiments <= 3
+                or not _finite_number(elapsed) or not 0 <= elapsed <= 7200
+                or not _sha256(budget.get("receipt_sha256"))):
+            reasons.append("Experiment/runtime budget exceeded or receipt invalid")
+
     metric = card.get("metric")
     if not isinstance(metric, dict) or any(
         metric.get(key) != expected

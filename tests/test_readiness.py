@@ -15,6 +15,8 @@ def good():
             "stop_triggered": False,
         },
         "organizer_inputs_authenticated": True,
+        "budget": {"experiments_used": 2, "elapsed_seconds": 7100,
+                   "receipt_sha256": "9" * 64},
         "metric": {
             "alpha": 0.2,
             "beta": 0.8,
@@ -110,6 +112,23 @@ class GateTests(unittest.TestCase):
                 card = good()
                 del card[key]
                 self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_experiment_and_runtime_budget_are_receipted_and_bounded(self):
+        for key, value in (("experiments_used", 4), ("experiments_used", -1),
+                           ("experiments_used", True), ("elapsed_seconds", 7201),
+                           ("elapsed_seconds", -1), ("elapsed_seconds", float("nan")),
+                           ("receipt_sha256", "missing")):
+            with self.subTest(key=key, value=value):
+                card = good()
+                card["budget"][key] = value
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        del card["budget"]
+        self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["budget"]["experiments_used"] = 3
+        card["budget"]["elapsed_seconds"] = 7200
+        self.assertEqual(assess(card)["verdict"], "promote")
 
     def test_prior_stop_cannot_be_erased_by_later_passing_measurements(self):
         card = good()

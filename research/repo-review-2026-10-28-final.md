@@ -22,19 +22,20 @@ Reviewed `README.md`, `AGENTS.md`, run cards and selector evidence, the shared e
 ### Implemented
 
 1. The main-branch release correction retracts the historical HK3 approval, sets the current run card and selector negative, and preserves the prior decision and reason in a separate retraction receipt. `scripts/build_hk3_pages.py` calls the shared fail-closed `publication_eligible()` policy rather than trusting the historical `PROMOTE` string.
-2. This review strengthened `scripts/hk3_release_policy.py`: in addition to the protocol stop and literal uniqueness gates, approval now requires complete accessible registry coverage with no reported errors, a coordinator-assignment receipt, a pre-placement surface-gate receipt bound to a surface hash, no more than three experiments, a numeric runtime at or below 7,200 seconds, and organizer-authenticated inputs/template attestations. Missing attestations fail closed. These are schema/attestation checks, not cryptographic authentication.
-3. Regenerated home, executive-summary, how-to-submit and submit pages show **NO APPROVED SUBMISSION**. The existing HK3 file is labelled **RESEARCH ONLY — DO NOT SUBMIT**. The guide explicitly blocks upload instructions and tells users not to spend a slot.
+2. The merged main branch routes publication through `scripts/hk3_release_policy.py` into the shared `scripts/readiness.py` evidence contract, which requires complete registry coverage, a coordinator assignment receipt, verified pre-placement/final-dot comparisons, holdout provenance, organizer-input/template attestations, and the literal hard stops. This review added an explicit machine-readable budget receipt gate: integer experiments in [0, 3], finite elapsed seconds in [0, 7,200], and a 64-character SHA-256. Missing, malformed, or over-budget records fail closed. These are schema checks; they do not independently authenticate receipt contents.
+3. Regenerated the home, executive-summary, how-to-submit and submit pages. They show a negative submission badge, label the existing HK3 file **RESEARCH ONLY — DO NOT SUBMIT**, and tell users to stop and not upload or spend a slot. The guide's generic future steps are conditional on a new candidate passing all gates and are not authorization for HK3.
 4. Reframed the GEMSDOE32 discussion as a cautious explanation of a user-reported result, not an established causal finding. Clarified that the historical leaderboard estimate is not a score.
 5. Added regression tests for hard-stop handling, missing receipts, incomplete registry coverage, page status, and blocked upload instructions. The current run card is negative; the former PROMOTE verdict and its exception rationale are preserved in the separate approval-retraction receipt.
 6. Updated the README's authoritative status and `AGENTS.md` so the next session does not encounter contradictory “approved” versus “not approved” instructions.
 
 ### Verification
 
-- `python scripts/build_hk3_pages.py --check`: pass; generated pages are synchronized.
-- `.venv/bin/python scripts/build_hk3_pages.py --check`: pass; generated pages are synchronized and display **NO APPROVED SUBMISSION**.
+- `.venv/bin/python scripts/assess_release.py`: negative; no slot authorized. `.venv/bin/python scripts/audit_k2_release.py` and `scripts/review_k2_release.py`: negative audits, with zero new experiments.
+- `.venv/bin/python scripts/review_hk3_protocol.py --check`: pass; correction remains negative, research-only, zero new experiments or slots.
+- `.venv/bin/python scripts/build_hk3_pages.py --check`: pass; generated home, executive summary, submission guide and nine focus summaries are synchronized and display a negative release decision.
 - `.venv/bin/python scripts/audit_public_downloads.py --check`: `PASS_RESEARCH_ONLY`; no approved download and no score estimate emitted (7 artifacts).
 - `.venv/bin/python scripts/build_audit_site.py --check`: pass; audit site artifact is current.
-- `.venv/bin/python -m pytest -q`: **203 passed, 7 skipped, 98 subtests passed** (86 Rasterio deprecation warnings; skips are optional/cache-dependent).
+- `.venv/bin/python -m pytest -q`: **218 passed, 7 skipped, 106 subtests passed** (87 Rasterio deprecation warnings; skips are optional/cache-dependent).
 - `npm test`: **3 passed**; `npm run test:site`: **7 passed**; `npm run test:browser`: passed at desktop and 390/320-pixel widths and checked freshness states.
 - `git diff --check`: pass. Dependency installation used repository pins; no dependency manifest/lockfile was changed.
 

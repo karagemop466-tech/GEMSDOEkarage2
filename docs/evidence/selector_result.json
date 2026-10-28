@@ -5,6 +5,7 @@
     "Lane assignment receipt missing or invalid",
     "Pre-placement clearance missing or mandatory protocol stop triggered",
     "Organizer input/template authenticity not established",
+    "Experiment/runtime budget receipt missing",
     "Has not beaten comparable current holdout best with paired 95% CI",
     "Comparable baseline holdout provenance missing or mismatched",
     "Comparable incumbent protocol not verified",

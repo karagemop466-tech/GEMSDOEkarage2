@@ -2,7 +2,7 @@
 
 ## Current decision: NO APPROVED SUBMISSION — DO NOT UPLOAD
 
-The repository contains a historical HK3 GeoTIFF for research and reproducibility, but **it is not approved for the DrivenData competition**. The old `PROMOTE` decision was retracted after review; see [`evidence/hk3/approval-retracted-20261028.json`](evidence/hk3/approval-retracted-20261028.json) and the [three-pass repository review](research/repo-review-2026-10-28-final.md).
+The repository contains a historical HK3 GeoTIFF for research and reproducibility, but **it is not approved for the DrivenData competition**. The old `PROMOTE` decision was retracted; see [`evidence/hk3/approval-retracted-20261028.json`](evidence/hk3/approval-retracted-20261028.json), the archived [`pre-correction run card`](evidence/hk3/history/run_card-before-protocol-correction.json), the [protocol correction review](research/hk3-protocol-correction-2026-10-28.md), and the [repository review/verification record](research/repo-review-2026-10-28-final.md).
 
 | Item | Current status |
 |---|---|

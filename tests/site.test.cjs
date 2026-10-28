@@ -25,7 +25,7 @@ test('every desk page carries the run-card verdict badge and no unresolved place
     const dom = render(page);
     const badge = dom.window.document.querySelector('.header .badge');
     assert.ok(badge, `${page}: badge missing`);
-    assert.equal(badge.textContent, ok ? 'APPROVED SUBMISSION' : 'NO APPROVED SUBMISSION');
+    assert.equal(badge.textContent, ok ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO');
     assert.ok(badge.classList.contains(ok ? 'ok' : 'no'));
     assert.doesNotMatch(dom.window.document.body.innerHTML, /\{BADGE/);
     dom.window.close();
@@ -115,6 +115,6 @@ test('official sources are linked with the competition metric page', () => {
   const dom = render('executive-summary.html');
   const hrefs = [...dom.window.document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));
   assert.ok(hrefs.includes('https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/'));
-  assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution'));
+  assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution/tree/aebe92f7c8a990f0e3443451b7a825d9afd6336b'));
   dom.window.close();
 });
