@@ -28,6 +28,8 @@ not regenerate K2 or infer a lane assignment, registry exemption, portal
 acceptance, or current leaderboard score. The prompt supplies no identifiable
 method paragraph, and the previous session exhausted its three-experiment budget.
 
-This Arena session's three-pass inventory and source limitations are documented in
-`research/review-2026-10-28-arena-session.md`; read it alongside the upstream
-protocol review before making further release claims.
+Read `research/release-gate-followup-2026-10-28.md`: the evidence schema now
+requires three additional attestations; schema passage is not evidence verification.
+
+For the session inventory and protocol-constrained hypothesis review, also read
+`research/review-2026-10-28-arena-session.md`.

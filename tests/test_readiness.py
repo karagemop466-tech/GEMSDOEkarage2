@@ -24,10 +24,12 @@ def good():
             "paired_delta_ci95": [0.005, 0.02],
         },
         "baseline_holdout_dti": 0.19,
+        "baseline_same_protocol_verified": True,
         "hide_recover_protocol_verified": True,
         "feature_auc": {"magnetic": 0.7, "terrain": 0.82},
         "registry": {
             "coverage_complete": True,
+            "surface_pass_before_placement_verified": True,
             "snapshot_sha256": "a" * 64,
             "surface": rows,
             "final_dots": copy.deepcopy(rows),
@@ -35,6 +37,7 @@ def good():
         "validator": {
             key: True
             for key in (
+                "organizer_template_authenticated",
                 "single_band",
                 "finite_inside",
                 "range_0_1",
@@ -132,6 +135,17 @@ class GateTests(unittest.TestCase):
         card["registry"]["surface"][0]["reference"] = []
         self.assertEqual(assess(card)["verdict"], "negative")
 
+    def test_protocol_attestations_are_required_and_strict_booleans(self):
+        for section, key in ((None, "baseline_same_protocol_verified"),
+                             ("registry", "surface_pass_before_placement_verified"),
+                             ("validator", "organizer_template_authenticated")):
+            for value in (None, False, 1, "true"):
+                with self.subTest(section=section, key=key, value=value):
+                    card = good()
+                    target = card if section is None else card[section]
+                    target[key] = value
+                    self.assertEqual(assess(card)["verdict"], "negative")
+
     def test_missing_outside_nodata_fails(self):
         card = good()
         del card["validator"]["outside_nodata"]
@@ -140,3 +154,9 @@ class GateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_absurd_json_integer_fails_closed_instead_of_crashing():
+    card = good()
+    card["feature_auc"]["magnetic"] = 10 ** 400
+    assert assess(card)["verdict"] == "negative"
