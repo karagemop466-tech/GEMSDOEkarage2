@@ -20,3 +20,9 @@ def test_b4_final_function_is_blocked():
     from scripts.b4_step import cmd_final
     with pytest.raises(RuntimeError, match='BLOCKED'):
         cmd_final()
+
+
+def test_h2_runner_does_not_reopen_closed_experiment():
+    result = subprocess.run([sys.executable, str(ROOT / 'scripts/run_h2_experiment.py')],
+                            cwd=ROOT, capture_output=True, text=True)
+    assert result.returncode != 0 and 'BLOCKED' in result.stderr

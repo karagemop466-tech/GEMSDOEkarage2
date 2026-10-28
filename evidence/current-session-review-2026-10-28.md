@@ -75,3 +75,11 @@ are preserved as negative evidence, while the CLI and direct final function now
 stop; the public pages no longer claim global uniqueness or a proven H33 causal
 explanation. Its historical holdout is not replayed here, and differing withheld
 positive counts prevent asserting exact fold identity with K2 without more evidence.
+
+A second concurrent integration added H2, a negative research surface. Its
+saved registry row reports a **missing file**, not a measured duplicate; the
+incomplete check is not uniqueness clearance. H2's original runner is retired to
+avoid unassigned-lane reruns. Its separate `_h2` receipts remain intact. The
+concurrent change also overwrote generic H1 evidence with H2 data while leaving
+H1 descriptions and tests in place; the generic receipts and generated H1
+pages were restored to the H1 evidence, preventing cross-experiment attribution.
