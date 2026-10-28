@@ -22,12 +22,25 @@ def good():
             "dti": 0.20,
             "ci95": [0.16, 0.24],
             "paired_delta_ci95": [0.005, 0.02],
+            "paired_comparison_receipt_sha256": "a" * 64,
+            "split_manifest_sha256": "c" * 64,
+            "truth_manifest_sha256": "d" * 64,
+            "scoring_config_sha256": "f" * 64,
         },
         "baseline_holdout_dti": 0.19,
+        "baseline_holdout": {
+            "evidence_class": "HOLDOUT-DTI", "dti": 0.19, "ci95": [0.15, 0.23],
+            "evaluator_version": "shared-v1", "withheld_positives": 100,
+            "split_manifest_sha256": "c" * 64,
+            "truth_manifest_sha256": "d" * 64, "scoring_config_sha256": "f" * 64,
+            "evidence_sha256": "e" * 64,
+        },
+        "baseline_same_protocol_verified": True,
         "hide_recover_protocol_verified": True,
         "feature_auc": {"magnetic": 0.7, "terrain": 0.82},
         "registry": {
             "coverage_complete": True,
+            "surface_pass_before_placement_verified": True,
             "snapshot_sha256": "a" * 64,
             "surface": rows,
             "final_dots": copy.deepcopy(rows),
@@ -35,6 +48,7 @@ def good():
         "validator": {
             key: True
             for key in (
+                "organizer_template_authenticated",
                 "single_band",
                 "finite_inside",
                 "range_0_1",
@@ -96,12 +110,34 @@ class GateTests(unittest.TestCase):
         card["baseline_holdout_dti"] = 0.20
         self.assertEqual(assess(card)["verdict"], "negative")
 
+    def test_baseline_provenance_is_required_and_matched(self):
+        for key, value in (("evidence_class", "projection"),
+                           ("dti", 0.18), ("ci95", None), ("evaluator_version", "other"),
+                           ("withheld_positives", 99),
+                           ("split_manifest_sha256", "f" * 64),
+                           ("truth_manifest_sha256", "f" * 64),
+                           ("scoring_config_sha256", "a" * 64),
+                           ("evidence_sha256", "bad")):
+            with self.subTest(key=key):
+                card = good()
+                card["baseline_holdout"][key] = value
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        del card["holdout"]["split_manifest_sha256"]
+        self.assertEqual(assess(card)["verdict"], "negative")
+
     def test_nonpositive_paired_delta_interval_fails(self):
         for interval in ([0.0, 0.02], [-0.01, 0.02], [-0.03, -0.01]):
             with self.subTest(interval=interval):
                 card = good()
                 card["holdout"]["paired_delta_ci95"] = interval
                 self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_paired_comparison_receipt_hash_is_required(self):
+        for value in (None, "bad", "F" * 64):
+            card = good()
+            card["holdout"]["paired_comparison_receipt_sha256"] = value
+            self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_malformed_nested_objects_fail_without_raising(self):
         cases = (
@@ -132,6 +168,30 @@ class GateTests(unittest.TestCase):
         card["registry"]["surface"][0]["reference"] = []
         self.assertEqual(assess(card)["verdict"], "negative")
 
+    def test_oversized_integer_evidence_fails_closed(self):
+        for section, key in (("holdout", "dti"), ("feature_auc", "magnetic")):
+            with self.subTest(section=section, key=key):
+                card = good()
+                card[section][key] = 10**1000
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["registry"]["surface"][0]["overlap_3px"] = 10**1000
+        self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["holdout"]["ci95"] = [0, 10**1000]
+        self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_protocol_attestations_are_required_and_strict_booleans(self):
+        for section, key in ((None, "baseline_same_protocol_verified"),
+                             ("registry", "surface_pass_before_placement_verified"),
+                             ("validator", "organizer_template_authenticated")):
+            for value in (None, False, 1, "true"):
+                with self.subTest(section=section, key=key, value=value):
+                    card = good()
+                    target = card if section is None else card[section]
+                    target[key] = value
+                    self.assertEqual(assess(card)["verdict"], "negative")
+
     def test_missing_outside_nodata_fails(self):
         card = good()
         del card["validator"]["outside_nodata"]
@@ -140,3 +200,9 @@ class GateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_absurd_json_integer_fails_closed_instead_of_crashing():
+    card = good()
+    card["feature_auc"]["magnetic"] = 10 ** 400
+    assert assess(card)["verdict"] == "negative"
