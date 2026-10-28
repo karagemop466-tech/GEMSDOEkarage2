@@ -20,20 +20,18 @@
   </section>
 
   <section style="border:2px solid #9a6700;background:#fff8e1;padding:16px;border-radius:8px;margin:16px 0" id="k2-candidate">
-    <h2>K2 research candidate (2026-10-28) — NEGATIVE — DO NOT SUBMIT</h2>
-    <p>A prior session generated a supervised research candidate, but its self-assigned lane and surface registry failure violate the literal protocol; its conditional promotion is superseded by a <b>negative verdict</b>. It is <b>not approved</b> and must not be uploaded. Unresolved issues include:
-    (1) the literal registry scope — two non-submission calibration records fail it (the spacing-5 lattice at
-    100% surface overlap; edge exceptions mean not every dot budget is mathematically impossible; one ctx-ridge calibration mask at 72.1%);
-    (2) remaining weekly quota / final selection; (3) hash-pinned owner-mirror inputs (not organizer-authenticated).</p>
-    <p><a style="display:inline-block;background:#9a6700;color:#fff;padding:10px 16px;border-radius:6px;font-weight:700" href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download>Download research TIF — DO NOT SUBMIT</a>
+    <h2>K2 candidate (2026-10-28) — SELECTOR NEGATIVE — DO NOT SUBMIT</h2>
+    <p>A supervised candidate passed the satisfiable model and format gates, but the selector returned <b>NEGATIVE</b>. It is <b>not approved</b> and must not be uploaded because:
+    (1) the literal any-registry-raster rule fails on two calibration records (spacing-5 lattice at 100% overlap and ctx-ridge at 72.1%, both above 70%); (2) registry coverage and weekly quota are unknown; and (3) inputs are hash-pinned owner mirrors, not organizer-authenticated.</p>
+    <p><a style="display:inline-block;background:#9a6700;color:#fff;padding:10px 16px;border-radius:6px;font-weight:700" href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download>Download research candidate TIF — DO NOT SUBMIT</a>
     <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip" download>Single-TIF ZIP</a> ·
     <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.json" download>Validator receipt</a> ·
-    <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros-run-card.json" download>Run card</a></p>
+    <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros-run-card.json" download>Run card</a> · <a href="evidence/k2/selector_result.json">Negative selector decision</a></p>
     <div class="table-scroll"><table><tbody>
       <tr><th>File</th><td><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code> · SHA-256 <code>504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</code> · 54,491 dots</td></tr>
       <tr><th>Score evidence</th><td>Leaderboard estimate <b>Unavailable</b> (never submitted). HOLDOUT-DTI <b>0.1581</b> (95% CI 0.1424–0.1742; gems57-pooled-hide-v2; 58,258 withheld), paired Δ +0.0861 vs best primitive. A labelled projection (not a score) is in the run card.</td></tr>
       <tr><th>Unique?</th><td>Yes vs all 430 checked <code>docs/downloads</code> submission rasters from the nine focus repos (max 68.1% of dots within 3 px, gate 70%; max |ρ| 0.119, gate 0.90; vs the reported 0.2778 champion 33.7%). No under the literal all-registry scope (calibration records above).</td></tr>
-      <tr><th>Format</th><td>Single-band float32, EPSG:32611, 3730×3292; every cell finite, values exactly 0/1 — local range check passes; portal acceptance is not verified; 0 dots on known faults or outside footprint.</td></tr>
+      <tr><th>Format</th><td>Single-band float32, EPSG:32611, 3730×3292; every cell finite, values exactly 0/1 — cannot trigger “Predicted values must be in range [0, 1]”; 0 dots on known faults or outside footprint.</td></tr>
       <tr><th>Form note (108 chars)</th><td><code>K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue &gt;2px; zeros outside footprint</code></td></tr>
     </tbody></table></div>
     <p>Full review: <a href="executive-summary.html#k2">executive summary §K2</a> · <a href="evidence/k2/combined_holdout.json">holdout evidence</a> · <a href="evidence/k2/final_registry_audit.json">443-raster audit</a></p>
