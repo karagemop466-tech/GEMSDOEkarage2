@@ -112,6 +112,24 @@ test('current download does not claim established uniqueness or submission readi
   dom.window.close();
 });
 
+test('K2 literal-policy review is negative and links only to a research artifact', async () => {
+  const home = await render('index.html');
+  const section = home.window.document.querySelector('#k2-candidate');
+  assert.match(section.textContent, /research artifact/i);
+  assert.match(section.textContent, /DO NOT SUBMIT/);
+  assert.match(section.textContent, /SELECTOR NEGATIVE|No slot is approved/);
+  assert.match(section.querySelector('a[download]').textContent, /DO NOT SUBMIT/);
+  assert.match(section.innerHTML, /evidence\/k2-review-2026-10-28\.json/);
+  home.window.close();
+
+  const summary = await render('executive-summary.html');
+  const k2 = summary.window.document.querySelector('#k2');
+  assert.match(k2.textContent, /negative/i);
+  assert.match(k2.textContent, /DO NOT SUBMIT/);
+  assert.match(k2.querySelector('thead').textContent, /File to download/);
+  summary.window.close();
+});
+
 test('current K2 release card is negative and primary pages are research-only', async () => {
   const cardPath = path.join(root, 'evidence/k2-review-2026-10-28.json');
   const auditPath = path.join(root, 'evidence/k2/literal_release_audit.json');

@@ -1,0 +1,38 @@
+{
+  "hypothesis": "No new hypothesis tested; review of prior K2 supervised multi-physics and fault-tip continuation experiment.",
+  "mechanism": "Prior K2 trained on visible catalogue faults and emitted sparse dots from a geophysical surface with continuation corridors. Its surface registry measurement crossed the mandatory stop before placement.",
+  "named_non_fault_process": "Lithologic contacts can produce potential-field edges similar to faults; terrace risers can mimic topographic scarps.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positives": 58258,
+    "value": 0.15812071903309205,
+    "confidence_interval_95": [0.14237392193985562, 0.17415355413093683],
+    "source": "evidence/k2/run_card.json",
+    "qualification": "Prior session's proxy on hash-pinned owner mirrors; not rerun here, not a leaderboard estimate."
+  },
+  "correlation_and_overlap_vs_registry": {
+    "surface": "Prior measurement: lattice Spearman 0.00014277117109167287; positive-support overlap within 3 pixels 1.0. Gate exceeded; full registry was not covered.",
+    "final_dots": "Prior audit: worst overlap 1.0; 3 duplicate rows, 1 invalid, inventory not certified complete. Dot placement should not have occurred.",
+    "source": ["evidence/k2/final_generation.json", "evidence/k2/final_registry_audit.json"]
+  },
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "validator_output": {
+    "status": "Current readback of saved research TIFF; prior mirror-based template comparison not rerun.",
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "single_band_float32": true,
+    "whole_array_finite": true,
+    "observed_crs_shape_transform": "EPSG:32611, 3730x3292, [100,0,243350,0,-100,4508550]",
+    "crs_shape_transform_match": null,
+    "match_reason": "No organizer-authenticated reference available in this session; prior comparison used an owner mirror.",
+    "outside_policy": "Unverified: file is zero outside mirror footprint; prior strict validator expects NaN.",
+    "organizer_acceptance": "Not tested"
+  },
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "submission_note": "K2 research only; failed literal registry stop. Do not submit.",
+  "verdict": "negative",
+  "slot_authorized": false,
+  "new_experiments_run": 0,
+  "note": "Historical K2 generated three experiments and a TIFF; this review is not a new experiment and does not authorize or repeat it."
+}

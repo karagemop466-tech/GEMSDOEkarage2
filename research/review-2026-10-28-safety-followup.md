@@ -1,5 +1,7 @@
 # Safety follow-up — 2026-10-28
 
+> Later protocol review amended the K2 card to negative while retaining the earlier verdict for provenance; see [K2 protocol review](k2-protocol-review-2026-10-28.md).
+
 ## Pass 1: evidence reconciliation
 
 No experiments or competition submissions were made. The prompt specifies a lane
