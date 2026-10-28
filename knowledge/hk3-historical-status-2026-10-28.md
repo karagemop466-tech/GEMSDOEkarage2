@@ -123,4 +123,3 @@ Research notes: [`research/hypotheses-2026-10-28-hk3.md`](research/hypotheses-20
 [`research/independent-review.md`](research/independent-review.md),
 [`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
 [`research/hypotheses.md`](research/hypotheses.md).
-

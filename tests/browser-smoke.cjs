@@ -71,10 +71,14 @@ function chromeEnvironment() {
     // explicitly withholds upload clearance; served bytes must hash to its card.
     const hk3 = require('../evidence/hk3/run_card.json');
     const hk3Selector = require('../evidence/hk3/selector_result.json');
+    const hk3Release = require('../evidence/hk3/current_release_assessment.json');
+    assert.equal(hk3Release.ok_to_submit, false);
     const hk3Response = await fetch(base + '/' + hk3.raster.file);
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
-    const expectBadge = hk3Selector.ok_to_submit === true ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO';
+    const expectBadge = hk3Release.status === 'approved' && hk3Release.ok_to_submit === true &&
+      hk3Selector.verdict === 'candidate_approved_by_automated_gates' && hk3Selector.ok_to_submit === true
+      ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});

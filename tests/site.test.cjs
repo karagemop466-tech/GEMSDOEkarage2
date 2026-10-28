@@ -6,7 +6,19 @@ const {JSDOM, VirtualConsole} = require('jsdom');
 
 const root = path.join(__dirname, '..');
 const card = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/run_card.json')));
-const ok = card.verdict === 'PROMOTE';
+const release = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/current_release_assessment.json')));
+const selector = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/selector_result.json')));
+const requiredReleaseGates = ['preplacement_surface_clearance_passed', 'final_dot_uniqueness_passed',
+  'current_holdout_comparison_passed', 'organizer_template_authenticated', 'source_data_authenticated',
+  'lane_assignment_authorized', 'registry_scan_complete', 'leakage_canary_passed'];
+const ok = card.verdict === 'PROMOTE' && card.protocol_stop_triggered === false &&
+  card.gates.unique_literal_vs_all_registry_rasters === true &&
+  card.gates.rank_correlation_below_0_90 === true &&
+  card.gates.literal_rule_exception_applied === false &&
+  release.status === 'approved' && release.ok_to_submit === true &&
+  requiredReleaseGates.every(key => release[key] === true) &&
+  selector.verdict === 'candidate_approved_by_automated_gates' && selector.ok_to_submit === true &&
+  selector.slot_authorized === false && selector.raster_sha256 === card.raster.sha256;
 
 function render(page) {
   const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
@@ -20,7 +32,7 @@ function render(page) {
 
 const pages = ['index.html', 'executive-summary.html', 'how-to-submit.html', 'submit.html'];
 
-test('every desk page carries the run-card verdict badge and no unresolved placeholder', () => {
+test('every desk page carries the current release badge and no unresolved placeholder', () => {
   for (const page of pages) {
     const dom = render(page);
     const badge = dom.window.document.querySelector('.header .badge');
@@ -54,7 +66,9 @@ test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and 
   assert.match(text, /HOLDOUT-DTI/);
   assert.match(text, /LEADERBOARD-CALIBRATED ESTIMATE/);
   assert.match(text, /NOT ORGANIZER-CONFIRMED/);
-  assert.match(text, /Literal 70 % rule vs all 450 non-degenerate registry rasters:\s*FAIL/);
+  assert.match(text, /Literal 70 % rule:\s*FAIL/);
+  assert.match(text, /99\.8626 % of final dots within 3 px of the r13 lattice/);
+  assert.match(text, /Registry completeness:\s*452 of 453 expected entries were checked/);
   const failures = card.registry_uniqueness.tiers.U2_literal_rule_vs_all_registry_rasters.failures;
   assert.ok(failures.length >= 1);
   for (const row of failures) {

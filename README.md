@@ -173,7 +173,8 @@ The lane has exhausted its budget and its generation/training/card commands are 
 
 - [Research download and executive summary](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html):
   one-click existing TIF, explicitly **research only**; nine per-site executive summaries.
-- [Three-pass protocol review and four ranked untested hypotheses](research/hk3-protocol-correction-2026-10-28.md).
+- [Three-pass protocol review and four ranked untested hypotheses](research/hk3-protocol-correction-2026-10-28.md); [additional three-pass repo audit and three qualitative hypotheses](research/repo-review-2026-10-28-strict-gate.md).
+- [Hash-bound current no-submit assessment](evidence/hk3/current_release_assessment.json).
 - [Corrected HK3 run card](evidence/hk3/run_card.json), [negative selector](evidence/hk3/selector_result.json),
   [saved-byte public inventory](evidence/public_downloads_audit.json).
 - [Original HK3 card (superseded)](evidence/hk3/history/run_card-before-protocol-correction.json)

@@ -32,8 +32,18 @@ def make_fixture(tmp_path):
     card = dict(raster=f'docs/downloads/{stem}.tif', raster_sha256=mod.digest_file(tif),
                 submission_name=stem, note='Negative research only', verdict='negative')
     card_path.write_text(json.dumps(card))
+    assessment_rel = 'evidence/current-release.json'
+    assessment_path = tmp_path / assessment_rel
+    assessment_path.write_text(json.dumps(dict(
+        status='negative_research_only', ok_to_submit=False,
+        raster_sha256=card['raster_sha256'], source_run_card='evidence/card.json',
+        preplacement_surface_clearance_passed=False, final_dot_uniqueness_passed=False,
+        current_holdout_comparison_passed=False, organizer_template_authenticated=False,
+        source_data_authenticated=False, lane_assignment_authorized=False,
+        registry_scan_complete=False, leakage_canary_passed=False)))
     (tmp_path / 'evidence/selector.json').write_text(json.dumps(dict(verdict='negative',
-        slot_authorized=False, source_run_card='evidence/card.json')))
+        slot_authorized=False, source_run_card='evidence/card.json',
+        current_release_assessment=assessment_rel)))
     with zipfile.ZipFile(tif.with_suffix('.zip'), 'w') as out:
         out.write(tif, tif.name)
     args = (tmp_path, stem, 'evidence/card.json', 'evidence/selector.json', True, grid)
@@ -71,10 +81,12 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     assert still['status'] == 'FAIL_CLOSED' and still['checks']['selector_explicit_candidate'] is False
     # A matching selector still cannot bypass the common readiness evidence.
     (root / selector_rel).write_text(json.dumps(dict(verdict='candidate_approved_by_automated_gates', ok_to_submit=True,
-        slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
+        slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'],
+        current_release_assessment='evidence/current-release.json')))
     good = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert good['status'] == 'FAIL_CLOSED' and good['ok_to_submit'] is False
     assert not good['checks']['common_readiness_pass']
+    assert good['checks']['current_assessment_bound'] is False
     # A complete synthetic contract is accepted only when bound to these bytes.
     from test_readiness import good as valid_contract
     release = valid_contract()
@@ -85,6 +97,15 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     card['gates'].update({key: True for key in REQUIRED_GATES})
     card['gates']['literal_rule_exception_applied'] = False
     card_path.write_text(json.dumps(card))
+    assessment_path = root / 'evidence/current-release.json'
+    assessment = json.loads(assessment_path.read_text())
+    assessment.update(status='approved', ok_to_submit=True)
+    for key in ('preplacement_surface_clearance_passed', 'final_dot_uniqueness_passed',
+                'current_holdout_comparison_passed', 'organizer_template_authenticated',
+                'source_data_authenticated', 'lane_assignment_authorized',
+                'registry_scan_complete', 'leakage_canary_passed'):
+        assessment[key] = True
+    assessment_path.write_text(json.dumps(assessment))
     validated = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert validated['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD'
     # Disclosure cannot waive even a single mandatory literal failure.

@@ -107,8 +107,12 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     card=load('hk3/run_card.json')
     selector=load('hk3/selector_result.json')
-    assert ('OK TO SUBMIT: YES' in homepage) == (selector.get('ok_to_submit') is True)
-    assert ('OK TO SUBMIT: NO' in homepage) == (selector.get('ok_to_submit') is not True)
+    release=load('hk3/current_release_assessment.json')
+    approved = (release.get('status') == 'approved' and release.get('ok_to_submit') is True
+                and selector.get('verdict') == 'candidate_approved_by_automated_gates'
+                and selector.get('ok_to_submit') is True)
+    assert ('OK TO SUBMIT: YES' in homepage) == approved
+    assert ('OK TO SUBMIT: NO' in homepage) == (not approved)
     assert card['raster']['sha256'] in homepage and card['submission']['name'] in homepage
 
 

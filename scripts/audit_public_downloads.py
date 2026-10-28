@@ -3,9 +3,10 @@
 
 This is an integrity and local-format audit of the published files, not a model
 evaluation. Research files need a negative run card. Any future upload candidate needs
-the common strict readiness contract and a selector bound to the saved bytes.
-No mandatory registry exception is allowed; HK3 is research-only. No TIFF is generated and no organizer
-template/receipt is authenticated here.
+the common strict readiness contract, a current hash-bound positive assessment with every
+release gate true, and a selector bound to the same saved bytes. No mandatory registry
+exception is allowed; HK3 is research-only. No TIFF is generated and no organizer
+portal receipt is authenticated here.
 """
 from __future__ import annotations
 
@@ -173,6 +174,23 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                                                          selector.get("slot_authorized") is False and
                                                          selector.get("source_run_card") == card_rel and
                                                          selector.get("raster_sha256") == actual_sha)
+                assessment_rel = selector.get("current_release_assessment")
+                try:
+                    assessment = json.loads((root / assessment_rel).read_text()) if assessment_rel else {}
+                    checks["current_assessment_bound"] = (
+                        assessment.get("status") == "approved"
+                        and assessment.get("ok_to_submit") is True
+                        and assessment.get("raster_sha256") == actual_sha
+                        and assessment.get("source_run_card") == card_rel)
+                    checks["current_assessment_approval_gates_pass"] = all(
+                        assessment.get(key) is True for key in (
+                            "preplacement_surface_clearance_passed", "final_dot_uniqueness_passed",
+                            "current_holdout_comparison_passed", "organizer_template_authenticated",
+                            "source_data_authenticated", "lane_assignment_authorized",
+                            "registry_scan_complete", "leakage_canary_passed"))
+                except (OSError, ValueError, TypeError, AttributeError):
+                    checks["current_assessment_bound"] = False
+                    checks["current_assessment_approval_gates_pass"] = False
             else:
                 checks["selector_explicit_negative"] = (selector.get("verdict") == "negative" and
                                                         selector.get("slot_authorized") is False and
