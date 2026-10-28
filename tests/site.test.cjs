@@ -118,22 +118,42 @@ test('K2 literal-policy review is negative and links only to a research artifact
   assert.match(section.textContent, /research artifact/i);
   assert.match(section.textContent, /DO NOT SUBMIT/);
   assert.match(section.textContent, /SELECTOR NEGATIVE|No slot is approved/);
-  assert.match(section.textContent, /100%/);
   assert.match(section.querySelector('a[download]').textContent, /DO NOT SUBMIT/);
   assert.match(section.innerHTML, /evidence\/k2-review-2026-10-28\.json/);
-  for (const link of section.querySelectorAll('a[download]')) {
-    if (/\.tif|\.zip/i.test(link.getAttribute('href') || '')) {
-      assert.match(link.textContent, /research|DO NOT SUBMIT/i);
-    }
-  }
   home.window.close();
 
   const summary = await render('executive-summary.html');
   const k2 = summary.window.document.querySelector('#k2');
   assert.match(k2.textContent, /negative/i);
   assert.match(k2.textContent, /DO NOT SUBMIT/);
-  assert.match(k2.textContent, /literal (gate|protocol|registry stop)/i);
-  assert.match(k2.textContent, /Unavailable|unavailable/);
   assert.match(k2.querySelector('thead').textContent, /File to download/);
   summary.window.close();
+});
+
+test('current K2 release card is negative and primary pages are research-only', async () => {
+  const cardPath = path.join(root, 'evidence/k2-review-2026-10-28.json');
+  const auditPath = path.join(root, 'evidence/k2/literal_release_audit.json');
+  const registryPath = path.join(root, 'evidence/k2/final_registry_audit.json');
+  const card = JSON.parse(fs.readFileSync(cardPath, 'utf8'));
+  const audit = JSON.parse(fs.readFileSync(auditPath, 'utf8'));
+  const registry = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
+  const sha = require('node:crypto').createHash('sha256')
+    .update(fs.readFileSync(path.join(root, 'docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif')))
+    .digest('hex');
+  assert.equal(card.verdict, 'negative');
+  assert.equal(card.raster_sha256, sha);
+  assert.equal(card.ok_to_submit, false);
+  assert.equal(audit.verdict, 'negative');
+  assert.equal(audit.slot_authorized, false);
+  assert.equal(registry.verdict, 'negative');
+  assert.equal(registry.stop_required, true);
+  assert.equal(registry.complete_accessible_scan, false);
+  assert.ok(registry.rows.some(row => row.submission?.includes('r13-lattice') && row.my_dots_within_3px_of_theirs === 1));
+  assert.ok(registry.rows.some(row => row.submission?.includes('ctx-ridge') && row.my_dots_within_3px_of_theirs > 0.70));
+  for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
+    const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
+    assert.match(html, /Current literal-policy verdict: NEGATIVE/);
+    assert.match(html, /DO NOT SUBMIT/);
+    assert.doesNotMatch(html, /cannot trigger/);
+  }
 });

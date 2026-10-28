@@ -10,11 +10,14 @@ import math
 
 
 def _finite_number(value: object) -> bool:
-    return (
-        isinstance(value, (int, float))
-        and not isinstance(value, bool)
-        and math.isfinite(value)
-    )
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return False
+    try:
+        return math.isfinite(value)
+    except OverflowError:
+        # Arbitrarily large JSON integers cannot be converted to a C double.
+        # Treat them as invalid evidence rather than crashing the selector.
+        return False
 
 
 def _sha256(value: object) -> bool:
@@ -95,6 +98,33 @@ def assess(card: object) -> dict:
     ):
         reasons.append("Has not beaten comparable current holdout best with paired 95% CI")
 
+    # A bare baseline number is not evidence that the comparison used the same
+    # folds and targets. These hashes identify frozen split and truth manifests;
+    # callers still have to authenticate their contents independently.
+    baseline_evidence = card.get("baseline_holdout")
+    if not isinstance(baseline_evidence, dict):
+        baseline_evidence = {}
+    if (
+        baseline_evidence.get("evidence_class") != "HOLDOUT-DTI"
+        or not _finite_number(baseline_evidence.get("dti"))
+        or baseline_evidence.get("dti") != baseline
+        or not _valid_interval(baseline_evidence.get("ci95"), lower=0, upper=1)
+        or not isinstance(baseline_evidence.get("withheld_positives"), int)
+        or isinstance(baseline_evidence.get("withheld_positives"), bool)
+        or baseline_evidence.get("evaluator_version") != holdout.get("evaluator_version")
+        or baseline_evidence.get("withheld_positives") != count
+        or not _sha256(holdout.get("split_manifest_sha256"))
+        or baseline_evidence.get("split_manifest_sha256") != holdout.get("split_manifest_sha256")
+        or not _sha256(holdout.get("truth_manifest_sha256"))
+        or baseline_evidence.get("truth_manifest_sha256") != holdout.get("truth_manifest_sha256")
+        or not _sha256(holdout.get("scoring_config_sha256"))
+        or baseline_evidence.get("scoring_config_sha256") != holdout.get("scoring_config_sha256")
+        or not _sha256(baseline_evidence.get("evidence_sha256"))
+    ):
+        reasons.append("Comparable baseline holdout provenance missing or mismatched")
+    if card.get("baseline_same_protocol_verified") is not True:
+        reasons.append("Comparable incumbent protocol not verified")
+
     if card.get("hide_recover_protocol_verified") is not True:
         reasons.append("Buffered whole-segment hide-and-recover not verified")
 
@@ -111,6 +141,8 @@ def assess(card: object) -> dict:
     registry = card.get("registry")
     if not isinstance(registry, dict):
         registry = {}
+    if registry.get("surface_pass_before_placement_verified") is not True:
+        reasons.append("Pre-placement surface pass and stop sequence not verified")
     if registry.get("coverage_complete") is not True or not _sha256(registry.get("snapshot_sha256")):
         reasons.append("Registry coverage incomplete or snapshot hash invalid")
     for stage in ("surface", "final_dots"):
@@ -154,6 +186,8 @@ def assess(card: object) -> dict:
     validator = card.get("validator")
     if not isinstance(validator, dict):
         validator = {}
+    if validator.get("organizer_template_authenticated") is not True:
+        reasons.append("Organizer template authentication not verified")
     required_checks = (
         "single_band",
         "finite_inside",
