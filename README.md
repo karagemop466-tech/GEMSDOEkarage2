@@ -12,6 +12,7 @@ authenticated organizer template. It does not independently verify those claims.
 See [the three-pass follow-up](research/release-gate-followup-2026-10-28.md)
 and the [K2 protocol correction](research/k2-protocol-review-2026-10-28.md).
 No new experiment or competition slot was used in this follow-up.
+Latest audit: [three-pass byte-bound raster review](research/review-sidecar-2026-10-28.md). No approved submission; K2 remains negative.
 
 ## Operating instruction
 

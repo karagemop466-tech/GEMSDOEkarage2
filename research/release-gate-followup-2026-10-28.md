@@ -53,3 +53,7 @@ conflict and are not current verified observations. Manual review links:
 [official reference code](https://github.com/drivendataorg/gems-prize-reference-solution),
 [GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and).
 Links are not a claim of direct access to restricted hosts.
+
+After integrating concurrent main changes, the full suite was rerun: 152 passed,
+7 skipped, 47 subtests passed, with 46 rasterio/affine deprecation warnings.
+The earlier counts describe the pre-integration tree.

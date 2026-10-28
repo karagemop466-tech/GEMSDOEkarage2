@@ -23,6 +23,7 @@ from scipy.stats import rankdata
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from restore_references import digest  # noqa: E402
+from raster_integrity import require_single_file_dataset  # noqa: E402
 
 
 def centered_ranks(values: np.ndarray) -> tuple[np.ndarray, float]:
@@ -58,6 +59,7 @@ def check_comparator(candidate_ranks: np.ndarray, candidate_norm: float,
 
 def read_tif(path: Path, expected_grid=None):
     with rasterio.open(path) as ds:
+        require_single_file_dataset(ds, path)
         if ds.count != 1 or ds.crs is None:
             raise ValueError(f"Expected single-band raster and CRS: {path}")
         grid = (ds.shape, ds.crs, ds.transform)
