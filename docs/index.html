@@ -8,41 +8,41 @@
 </head>
 <body>
 <header>
-  <h1>GEMSDOEkarage2<span class="badge no">OK TO SUBMIT: NO</span></h1>
-  <p class="subtitle">GEMS Prize Challenge — fault-detection research and independently audited results.</p>
-  <nav><a href="executive-summary.html">Executive summary</a> · <a href="submission-guide.html">How to submit</a> · <a href="hypotheses.html">Hypotheses</a> · <a href="audit.html">Nine-site audit</a></nav>
+  <h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
+  <p class="subtitle">GEMS Prize Challenge — fault-detection research GeoTIFF pipeline, focus-site audit, and submission receipts.</p>
 </header>
 
 <main>
   <section class="verdict-box">
-    <p class="verdict"><b>OK TO SUBMIT: NO.</b> No file has passed the scientific, full-registry, authenticated format and separate slot-selection gates. The latest tested surface failed holdout improvement and the surface uniqueness stop. A mirrored label file was previously restored, but it is not organizer-authenticated; data placement alone does not resolve the blockers.</p>
-    <button disabled>No approved submission TIF</button>
-    <p><a href="submission-guide.html">Submission instructions and release gates</a> · <a href="experiment-index.html">Measured experiment and audit</a></p>
+    <h2>NO APPROVED SUBMISSION — DO NOT UPLOAD</h2>
+    <p>There is no validated unique, high-scoring competition file. The selector is negative: an incomplete registry, an unassigned lane, a missing comparable incumbent, and a duplicate stop remain. A research download is available below, not for submission.</p>
+    <p><a href="executive-summary.html">Executive summary</a> · <a href="how-to-submit.html">Submission guide</a> · <a href="audit.html">Nine-site audit</a> · <a href="hypotheses.html">Research hypotheses</a> · <a href="evidence/selector_result.json">Selector receipt</a></p>
   </section>
 
   <section class="scorecard">
     <h2>Nine focus sites — reported best results (USER-REPORTED / UNVERIFIED)</h2>
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
-    <table>
+    <div class="table-scroll"><table>
       <thead>
-        <tr><th>Site</th><th>File</th><th>Reported score</th><th>Transfer estimate</th><th>Within 3 px of best historical</th><th>Research file</th></tr>
+        <tr><th>Site and historical file</th><th>Reported score</th><th>Transfer estimate</th><th>Uniqueness vs selected files</th><th>Research file</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
-    </table>
+    </table></div>
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
   </section>
 
   <section class="research-download" id="research-download">
-    <h2>Research download — not a submission</h2>
-    <p><b>DO NOT SUBMIT.</b> This H1 surface failed the required registry and HOLDOUT-DTI improvement gates; final dots were never placed. Its local format check used an unauthenticated mirror and does not establish portal acceptance.</p>
-    <p><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif" download>Download H1 research surface · DO NOT SUBMIT</a> · <a href="evidence/run_card.json">Run card and measured holdout</a></p>
-    <p>Estimated leaderboard score: unavailable. The older irregular-lattice artifact is archived, not a candidate and not shown as a submission download. Its own card records 100% lattice overlap versus the 70% limit.</p>
+    <h2>Research surface — DO NOT SUBMIT</h2>
+    <p>H1 recorded 100% overlap with a registry lattice, above the 70% limit, stopped at the surface uniqueness gate and did not beat its best primitive control. The file is a research surface, not a final dotted submission. Organizer acceptance and global uniqueness are not established.</p>
+    <p>HOLDOUT-DTI: 0.03367, 95% CI [0.02867, 0.03929], evaluator gems57-pooled-hide-v2, 58,259 withheld positives. This is not a leaderboard estimate. <a href="evidence/run_card.json">Experiment run card</a></p>
+    <p><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif" download>Download research TIF — DO NOT SUBMIT</a> · <a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.zip" download>Research ZIP — DO NOT SUBMIT</a></p>
+    <p><a href="experiment-index.html">Full experiment analysis</a> · <a href="evidence/validator.json">Local format receipt</a></p>
   </section>
 
   <section class="decision-card">
     <h2>Submission decision</h2>
-    <p>Holdout DTI with paired 95% CI &gt; 0 vs. repo best is required before any weekly slot is requested.</p>
-    <button disabled>Request weekly DrivenData submission slot</button>
+    <p>Passing format alone is not submission approval. An independent slot selector and current quota check are required after all scientific and uniqueness gates pass.</p>
+    <button disabled>No approved submission TIF</button>
   </section>
 </main>
 

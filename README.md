@@ -2,7 +2,7 @@
 
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Work on the Arena-assigned session branch; do not assume an older branch name.
+Branch: the active Arena session branch (see `git status -sb`)
 
 ## Operating instruction
 
@@ -42,9 +42,7 @@ pixel-wise probabilities/confidence scores in [0, 1].
 **Performance metric:** distance-weighted Tversky index, DTI(alpha=0.2, beta=0.8),
 triangular kernel k(d) = max(1 - d/R, 0) with R = 300 m (3 px at 100 m):
 
-TI = sum_x p(x) g(x) / ( sum_x p(x) g(x) + alpha sum_x p(x)(1-g(x)) + beta sum_x (1-p(x)) g(x) )
-
-with distance-weighted TPw / FPw / FNw terms per the problem description.
+DTI = TPw / (TPw + alpha × FPw + beta × FNw), with distinct distance-weighted sums over truth and prediction pixels. The ordinary pixelwise Tversky expression is not the distance-weighted metric. See `vendor/gems57/metric.py` and `research/independent-review.md`; the hidden scorer has not been authenticated in this session.
 
 **Prize structure:** Initial Prize Round scored on a private expert-labeled test set
 (top 5 -> $10,000 each); expert panel reviews submissions to expand the label set;
@@ -58,13 +56,11 @@ Competitors choose ONE submission for scoring in both rounds before the deadline
 - EPSG 32611: https://epsg.io/32611
 - Tversky index: https://en.wikipedia.org/wiki/Tversky_index
 
-**Data provenance blocker:** A prior session restored hash-pinned community mirrors of features, labels, faults and a template into disposable `.cache/`; these are not organizer-authenticated. The feature cache is not necessarily present in a new sandbox. The organizer data and portal require access not available here. Data placement alone does not establish eligibility. See `registry/core_data_manifest.json`, `evidence/input_restore.json` and `research/independent-three-pass-review.md`.
+**Data access:** competition data requires enrollment/login according to the prior audit. This session cannot access DrivenData or Dropbox from its shell. Prior sessions restored hash-pinned community mirrors (not authenticated organizer copies); their cache is not present in this checkout. See `evidence/input_restore.json` and `research/independent-review.md`. The actual shared derived cache, full registry, organizer receipts and same-fold incumbent remain unavailable. Data placement alone does not resolve these blockers.
 
-## Leaderboard status (historical observation, 2026-10-27)
+## Leaderboard status (historical snapshot, not a live read)
 
-A previous session reported a public leaderboard snapshot of 0.4544 (xiaofanhu) on 2026-10-27; it is not a current or file-linked organizer receipt. The prompt's earlier
-figures (0.4413 / 0.3195) are stale — flagged as an irregularity; always re-read
-the official leaderboard before claiming a target.
+A prior session reported a public leaderboard snapshot of 0.4544 on 2026-10-27; it is not a file-bound organizer receipt and was not rechecked in this session. The prompt’s 0.4413 / 0.3195 figures conflict. Consult the official leaderboard for the current ranking.
 
 ## Focus sites (nine)
 
@@ -82,7 +78,16 @@ Best supplied results (USER-REPORTED / UNVERIFIED; none linked to an organizer r
 - GEMSDOE24: h25-1-dotted-h19-5-d1-5 = 0.2477
 - GEMSDOE27: topo-gap-closure-t-v2-on-d1-5 = 0.2449
 
-**Critical finding:** the nine audited historical files have substantial pairwise dot overlap; the D2.8 / B2 relationships below were measured on pinned mirrors. The reported GEMSDOE32 best is the GEMSDOE31 solo dot set with 2,545 catalogue-adjacent dots removed; GEMSDOE25 and GEMSDOE30 have the same dot geography; GEMSDOE36 contains every B2 dot plus 1,200 extras. Each of the nine audited masks exceeds the literal directional overlap threshold against at least one of the others. A spacing-5 calibration lattice also covers nearly all of the mirrored footprint. The exact footprint and budget affect any geometric bound; see `docs/evidence/saturation_certificate.json` and `evidence/geometry-audit.json` for their different scopes. Neither proves a universal blocker for every possible budget. The local summaries mark all nine DO NOT SUBMIT.
+**Critical finding (pinned mirror audit):** the nine audited historical files have
+substantial pairwise dot overlap; not all are identical. The GEMSDOE32 B2 mask
+is the GEMSDOE31 solo dot set with 2,545 catalogue-adjacent dots removed;
+GEMSDOE25 and GEMSDOE30 have the same dot geography, and GEMSDOE36 contains every
+B2 dot plus 1,200 extras. Each of the nine exceeds the directional overlap limit
+against at least one of the other eight. The lattice covers almost all of the
+mirrored footprint; a bound at the H33 budget is not a universal impossibility
+proof. The footprint matters: see `evidence/geometry-audit.json` and
+`evidence/saturation_certificate.json` for their different scopes. The nine files
+are marked DO NOT SUBMIT here; their upstream sites were not modified.
 
 **No validated leaderboard estimate exists for any of them** ("Unavailable" — catalogue
 holdout cannot reliably estimate the expert-hidden private score).
@@ -145,7 +150,7 @@ holdout cannot reliably estimate the expert-hidden private score).
   R = 300 m) + spatially-blocked hide-and-recover holdout. Self-tested.
 - scripts/submission_writer.py — validated GeoTIFF writer + audit JSON receipt
   (CRS/shape/transform/dtype/range [0,1]/finite/uniqueness checks).
-- scripts/generate_submission.py — retired, fail-closed legacy generator; it cannot create or publish a TIF.
+- scripts/generate_submission.py — retired, fail-closed legacy generator; its historical uniqueness claims are contradicted by its own lattice-overlap receipt. It cannot create a candidate.
 - scripts/prepare_data.py      — validates data/ placement once competition data is
   staged (DrivenData login required).
 - scripts/download_competition_data.sh — data download documentation.
@@ -156,28 +161,16 @@ holdout cannot reliably estimate the expert-hidden private score).
   how-to-submit.html, research-hypotheses.html.
 - README.md                    — this file (the consolidated project prompt).
 
-## How to run and next steps
+## How to run (this sandbox)
 
-- `python scripts/assess_release.py` evaluates the existing stopped H1 evidence;
-  it does not independently authenticate inputs or authorize a slot.
-- `python scripts/preflight.py` records missing prerequisites and exits nonzero;
-  its default output is a historical evidence path, so pass `--output` to avoid
-  overwriting earlier records.
-- `python scripts/build_site.py` regenerates the experiment pages. See
-  `research/independent-three-pass-review.md` for the prior reproducibility work.
-- `python scripts/generate_submission.py` intentionally fails closed. The old
-  generator tried to evade a registry control, did not establish uniqueness or
-  performance, and must not place dots or publish a file.
+1. `python scripts/evaluate_holdout.py` — metric self-test.
+2. Review `evidence/selector_result.json` and `evidence/run_card.json`; no candidate is approved. The legacy generator is deliberately disabled.
+3. `python scripts/prepare_data.py` — after competition data is staged in data/.
 
-**No submission-ready TIFF exists.** H1 is a local research surface only, not a
-final dot submission; its measured holdout and collision are in
-`evidence/run_card.json`. A separate older irregular-lattice TIFF is archived,
-not approved or established unique. No hidden leaderboard estimate is justified.
+## Next steps / limitations
 
-Resolve the method-lane assignment and literal lattice-control policy across
-sessions; authenticate competition data/template and exterior nodata rules;
-restore the shared cache and independently complete registry; reconstruct a
-same-fold incumbent and obtain file-bound receipts. Only then can a new run
-apply canaries, the surface stop, buffered holdout, final-dot novelty and
-saved-byte validation. Promotion and a weekly slot remain separate decisions.
-A failed gate cannot be overcome by re-labeling or lattice avoidance.
+- Prior sessions restored hash-pinned community mirrors of the feature stack and mapped faults into ephemeral cache, not authenticated organizer data. The cache is absent from a fresh checkout; `evidence/input_restore.json` records prior restoration, not present-day file availability. Prior H1 holdout is recorded in `evidence/run_card.json`; no calibrated leaderboard estimate exists. The H1 research surface is downloadable for audit only and must NOT be submitted: it failed performance and uniqueness gates.
+- To promote: stage data in data/, run prepare_data.py, beat the repo holdout best
+  with paired 95% CI > 0, pass leakage canaries and uniqueness gates, then the
+  selector spends a weekly slot.
+- Current leaderboard and quota are unverified in this session. Best supplied focus-site claim is 0.2778 (GEMSDOE32, user-reported, no linked organizer receipt).

@@ -1,0 +1,33 @@
+{
+  "hypothesis": "No new assigned lane; prior H1 signed cross-field parity is stopped.",
+  "mechanism": "No new experiment. Prior H1 used elevation-depth gradient opposition and conductivity persistence.",
+  "named_non_fault_process": "Basin sedimentation and saline groundwater can mimic the prior H1 signature.",
+  "holdout": {
+    "status": "Not rerun in this session; prior result recorded in evidence/run_card.json",
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positives": 58259,
+    "dti": 0.03367297511935826,
+    "ci95": [0.028673795591260962, 0.03929480282078235]
+  },
+  "correlation_overlap_vs_registry": {
+    "status": "Not rerun; prior surface stop, no final-dot placement",
+    "surface_spearman": -0.000057022254782426125,
+    "surface_overlap_3px": 1.0,
+    "scope": "59 of 440 pinned focus-registry entries checked before stop; not global registry"
+  },
+  "raster_sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede",
+  "validator": {
+    "status": "Prior local mirror-based validation, not organizer acceptance",
+    "no_nan_inside_footprint": true,
+    "values_in_zero_one": true,
+    "crs_shape_transform_match_mirror": true,
+    "organizer_template_authenticated": false,
+    "exterior_nodata_policy": "Unresolved"
+  },
+  "submission_name": "gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface",
+  "note": "Research surface only; duplicate stop and no slot approval.",
+  "verdict": "negative",
+  "experiments_run_this_session": 0,
+  "slot_authorized": false
+}

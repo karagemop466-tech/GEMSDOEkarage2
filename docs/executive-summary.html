@@ -14,25 +14,26 @@
 
 <main>
   <section id="how-to-submit">
-    <h2>No submission is currently approved</h2>
-    <p><strong>DO NOT SUBMIT</strong> the research surfaces or historical files. No defensible estimate of a new leaderboard score is available. The previously tested H1 surface failed its performance and registry gates; the current data mirror is not authenticated by the organizer.</p>
+    <h2>How to submit (DrivenData form guide)</h2>
     <ol>
-      <li>Only after a separate selector approves a candidate and the weekly quota permits, download its approved single-band GeoTIFF from the release page.</li>
-      <li>Sign in to <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData</a>, open the competition submission form, and select the approved file.</li>
-      <li>Enter the candidate's unique submission name and short note supplied with its run card; submit and retain the organizer receipt.</li>
-      <li>If the portal rejects the range, preserve the error and run a saved-byte audit. Do not assume the cause or silently clip the file.</li>
+      <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
+      <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
+      <li>Use the official template for CRS, shape, geotransform and exterior/nodata requirements. Validate the full raster and investigate the organizer’s instructions on outside-footprint values before upload.</li>
+      <li>Only after every scientific and uniqueness gate passes and the separate selector authorizes a slot, upload that approved file with its short note.</li>
+      <li>Wait for the organizer result; local holdout DTI is not a leaderboard score.</li>
     </ol>
-    <p>The organizer's template and current rules control format; a local mirror check or format pass does not imply organizer acceptance. <a href="submission-guide.html">Detailed format and release instructions</a> · <a href="experiment-index.html">Experiment and holdout evidence</a> · <a href="audit.html">Independent nine-site audit</a></p>
+    <p class="warn"><b>NO FILE IS APPROVED TO SUBMIT.</b> The H1 surface failed the registry stop and a comparable control; the legacy irregular-dot prototype also records a lattice duplicate. The full registry and a compatible incumbent are unavailable.</p>
   </section>
+
   <section class="scorecard">
     <h2>Nine-site scorecard</h2>
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
-    <table>
+    <div class="table-scroll"><table>
       <thead>
-        <tr><th>Site</th><th>File</th><th>Reported score</th><th>Transfer estimate</th><th>Within 3 px of best historical</th><th>Research file</th></tr>
+        <tr><th>Site and historical file</th><th>Reported score</th><th>Transfer estimate</th><th>Uniqueness vs selected files</th><th>Research file</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
-    </table>
+    </table></div>
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
   </section>
 
