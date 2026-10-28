@@ -4,18 +4,6 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest independent release review — 2026-10-28
-
-**K2 current literal-policy verdict: NEGATIVE / DO NOT SUBMIT.** Its historical
-conditional experiment card is not clearance. The independent audit checks the
-committed TIFF/ZIP bytes and includes calibration entries without exemptions.
-See [current audit](evidence/k2/literal_release_audit.json) and
-[three-pass review](research/release-review-2026-10-28.md).
-Reproduce with `python scripts/audit_k2_release.py`; this performs no training,
-placement, upload or slot authorization. No new geological experiments were run.
-The existing five preregistered hypotheses and three completed experiments are
-preserved; do not restart their budget or tune a stopped candidate.
-
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated
@@ -179,26 +167,21 @@ positives, 95% CI [0.0286737956, 0.0392948028]); its paired difference against
 the best primitive is -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]).
 These are prior research results, not organizer scores or leaderboard estimates.
 
-### K2 supervised candidate — negative release review (2026-10-28)
+### K2 supervised candidate — protocol stop (2026-10-28)
 
-The earlier K2 card's conditional promotion is superseded: **DO NOT SUBMIT**.
-Its archived pre-placement positive-surface-support overlap with the registered
-lattice is 100%, exceeding the literal 70% gate; final-dot evidence also reports
-100% overlap and an incomplete scan. Placement should have stopped before writing
-its raster. A subset of submission comparisons cannot exempt registry entries.
-`scripts/k2.py final` is retired and cannot overwrite the artifact.
+**NEGATIVE — DO NOT SUBMIT.** The earlier K2 session generated a research TIFF
+and found a positive proxy holdout result, but its own pre-placement measurement
+exceeded the literal registry overlap threshold. The protocol required stopping
+before dot placement. No selector can silently waive that requirement. The TIFF
+is preserved as research evidence only. See
+[`research/k2-protocol-review-2026-10-28.md`](research/k2-protocol-review-2026-10-28.md)
+and its [run card](evidence/k2-protocol-review-2026-10-28.json). The prior K2
+run card has been amended while preserving the previous verdict for provenance.
+The reported HOLDOUT-DTI was 0.1581 (gems57-pooled-hide-v2, 58,258 withheld
+positives, 95% CI 0.1424–0.1742); it is not a leaderboard estimate. The file's
+whole-array range passes local readback but exterior policy and portal acceptance
+remain unverified. No new experiment or submission was performed in this review.
 
-The historical HOLDOUT-DTI was 0.1581 (95% CI 0.1424–0.1742,
-`gems57-pooled-hide-v2`, 58,258 withheld positives); it was not replayed in this
-review and is not an estimated leaderboard score. The saved raster is finite and
-in [0,1], but the historical strict NaN-outside validator fails, the footprint
-mirror is not organizer-authenticated, and portal acceptance is unknown. Earlier
-conditional promotion and projection claims remain archived for provenance only.
-The current machine-readable review is
-[`evidence/k2-review-2026-10-28.json`](evidence/k2-review-2026-10-28.json).
-Recheck bytes and the receipt with `python scripts/review_k2_release.py`.
-Do not repeat experiments without a new assigned lane, preregistration, and protocol
-resolution; never use a weekly slot as a format test.
 
 The nine-site scorecard contains **user-reported, unverified** results, not
 file-linked organizer receipts. No calibrated leaderboard estimate is available.
@@ -235,5 +218,10 @@ See [`research/independent-review.md`](research/independent-review.md),
 [`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
 [`research/hypotheses.md`](research/hypotheses.md), and the two distinct
 `evidence/run_card.json` / `evidence/run-card.json` records for prior work. See also
-[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md) for this
-checkout's release-path review.
+[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md),
+[`research/final-three-pass-review-2026-10-28.md`](research/final-three-pass-review-2026-10-28.md),
+and [`research/release-review-2026-10-28.md`](research/release-review-2026-10-28.md).
+The K2 download links on the site are **research-only / DO NOT SUBMIT**. The earlier
+conditional selector recommendation is superseded by the negative literal-policy
+decision at [`evidence/k2/selector_result.json`](evidence/k2/selector_result.json);
+no TIFF is approved for competition submission.

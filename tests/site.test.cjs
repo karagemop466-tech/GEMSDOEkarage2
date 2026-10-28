@@ -112,22 +112,28 @@ test('current download does not claim established uniqueness or submission readi
   dom.window.close();
 });
 
-test('K2 research download makes literal uniqueness failure and no-upload status obvious', async () => {
-  for (const page of ['index.html', 'executive-summary.html']) {
-    const dom = await render(page);
-    const section = dom.window.document.querySelector(page === 'index.html' ? '#k2-candidate' : '#k2');
-    assert.ok(section);
-    assert.match(section.textContent, /SELECTOR NEGATIVE|negative, DO NOT SUBMIT/i);
-    assert.match(section.textContent, /DO NOT SUBMIT/);
-    if (page === 'index.html') assert.match(section.textContent, /100%/);
-    else assert.match(section.textContent, /literal gate/i);
-    assert.match(section.textContent, /Unavailable|unavailable/);
-    assert.doesNotMatch(section.textContent, /conditional yes|pending selector ruling/);
-    for (const link of section.querySelectorAll('a[download]')) {
-      if (/\.tif|\.zip/i.test(link.getAttribute('href') || '')) {
-        assert.match(link.textContent, /research|DO NOT SUBMIT/i);
-      }
+test('K2 literal-policy review is negative and links only to a research artifact', async () => {
+  const home = await render('index.html');
+  const section = home.window.document.querySelector('#k2-candidate');
+  assert.match(section.textContent, /research artifact/i);
+  assert.match(section.textContent, /DO NOT SUBMIT/);
+  assert.match(section.textContent, /SELECTOR NEGATIVE|No slot is approved/);
+  assert.match(section.textContent, /100%/);
+  assert.match(section.querySelector('a[download]').textContent, /DO NOT SUBMIT/);
+  assert.match(section.innerHTML, /evidence\/k2-review-2026-10-28\.json/);
+  for (const link of section.querySelectorAll('a[download]')) {
+    if (/\.tif|\.zip/i.test(link.getAttribute('href') || '')) {
+      assert.match(link.textContent, /research|DO NOT SUBMIT/i);
     }
-    dom.window.close();
   }
+  home.window.close();
+
+  const summary = await render('executive-summary.html');
+  const k2 = summary.window.document.querySelector('#k2');
+  assert.match(k2.textContent, /negative/i);
+  assert.match(k2.textContent, /DO NOT SUBMIT/);
+  assert.match(k2.textContent, /literal (gate|protocol|registry stop)/i);
+  assert.match(k2.textContent, /Unavailable|unavailable/);
+  assert.match(k2.querySelector('thead').textContent, /File to download/);
+  summary.window.close();
 });

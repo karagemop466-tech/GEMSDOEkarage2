@@ -32,11 +32,12 @@ The repository already contains a preregistered set of five candidate hypotheses
 
 ## Verification performed in this checkout
 
-- Installed repository-pinned dependencies and ran `.venv/bin/pytest -q`: **126 passed, 7 skipped, 33 subtests passed**; Rasterio emitted 38 `PendingDeprecationWarning`s.
+- Installed repository-pinned dependencies and ran `.venv/bin/pytest -q` after merging current `origin/main` safeguards: **147 passed, 7 skipped, 34 subtests passed**; Rasterio emitted 38 `PendingDeprecationWarning`s.
 - `npm ci`: completed; 0 reported vulnerabilities.
 - `npm test`: **3 passed**.
 - `npm run test:site`: **8 passed** (includes the new K2 release-language regression).
 - `npm run test:browser`: passed at 1440 px, 390 px, and 320 px; release-lock and research-only download checks passed.
+- `.venv/bin/python scripts/review_k2_release.py` reproduced the archived negative release review without rerunning the model holdout or full registry comparison.
 - Independently read the committed K2 TIFF with Rasterio and NumPy: one GTiff band, float32, EPSG:32611, 3730×3292, transform [100, 0, 243350, 0, -100, 4508550], all pixels finite, min/max 0/1, only {0,1}, 54,491 positives. SHA-256 `504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb`, matching its saved local receipt. Grid comparison is only against the owner-mirror receipt; this local readback does not prove organizer acceptance or global uniqueness.
 
 ## Next work (must occur before any future upload)
