@@ -115,22 +115,35 @@ def test_shared_validator_passes_on_the_published_bytes(card):
     assert all(card["validator"]["shared_gems57"]["checks"].values())
 
 
-def test_desk_pages_are_generated_from_the_run_card(card):
+def test_desk_pages_are_generated_from_current_release_decision(card):
+    decision = load(EV / "current_release_decision.json")
+    assert decision["raster_sha256"] == card["raster"]["sha256"]
+    assert decision["verdict"] == "negative" and decision["ok_to_submit"] is False
+    assert decision["submission_note_chars"] == len(decision["submission_note"]) <= 140
+    assert decision["correlation_overlap_vs_registry"]["max_dots_within_3px_fraction"] > 0.70
+    assert decision["correlation_overlap_vs_registry"]["registry_scan_complete"] is False
     subprocess.run([sys.executable, str(ROOT / "scripts/build_hk3_pages.py"), "--check"], check=True, cwd=ROOT)
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
         assert "{BADGE" not in page
-        assert ("OK TO SUBMIT: YES" in page) == (card["verdict"] == "PROMOTE")
-        if name in ("index.html", "how-to-submit.html"):
+        assert "OK TO SUBMIT: NO" in page
+        assert "DO NOT SUBMIT" in page
+        assert "OK TO SUBMIT: YES" not in page
+        if name == "index.html":
             assert card["raster"]["sha256"] in page
+        if name == "how-to-submit.html":
+            assert card["raster"]["sha256"][:16] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
         for href in downloads:
             assert card["submission"]["name"] in href
             assert (DOCS / href).exists()
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "LEADERBOARD-CALIBRATED ESTIMATE" in home
-    assert "ORGANIZER-CONFIRMED" in home  # the label the page says it does *not* have
-    assert 'Literal 70 % rule vs all 450 non-degenerate registry rasters:</b> <b class="no">FAIL' in home
+    assert "ORGANIZER-CONFIRMED" in home
+    assert "current_release_decision.json" in home
+    assert "research artifact (not approved for submission)" in home
+    assert "literal registry-overlap stop" in (DOCS / "executive-summary.html").read_text()
+    assert "no file currently approved" in (DOCS / "how-to-submit.html").read_text().lower()
     assert "drivendata.org/competitions/306/competition-doe-gems/page/967/" in home
 
 

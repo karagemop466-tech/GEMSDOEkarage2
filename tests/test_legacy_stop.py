@@ -21,6 +21,9 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
     import json
     import re
     card = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
+    decision = json.loads((ROOT / 'evidence/hk3/current_release_decision.json').read_text())
+    assert decision['raster_sha256'] == card['raster']['sha256']
+    assert decision['ok_to_submit'] is False
     for name in ('index.html', 'executive-summary.html', 'how-to-submit.html'):
         text = (ROOT / 'docs' / name).read_text()
         assert 'unique research TIF' not in text
@@ -28,8 +31,6 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
         for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text):
             assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
             assert card['submission']['name'] in href
-        # the badge is derived from the run-card verdict, never hand-written
-        if card['verdict'] == 'PROMOTE':
-            assert 'OK TO SUBMIT: YES' in text
-        else:
-            assert 'OK TO SUBMIT: NO' in text
+        # Current release safety decision overrides historical experiment verdicts.
+        assert 'OK TO SUBMIT: NO' in text
+        assert 'OK TO SUBMIT: YES' not in text

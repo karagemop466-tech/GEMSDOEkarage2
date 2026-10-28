@@ -6,7 +6,8 @@ const {JSDOM, VirtualConsole} = require('jsdom');
 
 const root = path.join(__dirname, '..');
 const card = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/run_card.json')));
-const ok = card.verdict === 'PROMOTE';
+const releaseDecision = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/current_release_decision.json')));
+const ok = releaseDecision.ok_to_submit === true && releaseDecision.verdict === 'promote';
 
 function render(page) {
   const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
@@ -20,7 +21,7 @@ function render(page) {
 
 const pages = ['index.html', 'executive-summary.html', 'how-to-submit.html', 'submit.html'];
 
-test('every desk page carries the run-card verdict badge and no unresolved placeholder', () => {
+test('every desk page carries the current release-decision badge and no unresolved placeholder', () => {
   for (const page of pages) {
     const dom = render(page);
     const badge = dom.window.document.querySelector('.header .badge');
@@ -52,21 +53,25 @@ test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and 
   const text = dom.window.document.body.textContent;
   assert.match(text, new RegExp(card.raster.sha256));
   assert.match(text, /HOLDOUT-DTI/);
-  assert.match(text, /LEADERBOARD-CALIBRATED ESTIMATE/);
-  assert.match(text, /NOT ORGANIZER-CONFIRMED/);
-  assert.match(text, /Literal 70 % rule vs all 450 non-degenerate registry rasters:\s*FAIL/);
+  assert.match(text, /no validated leaderboard estimate/i);
+  assert.match(text, /historical exploratory projection.*NOT A SCORE/);
+  assert.match(text, /ORGANIZER-CONFIRMED/);
+  assert.match(text, /Literal 70 % rule:\s*FAIL/);
+  assert.match(text, /99\.9% of candidate dots within 3 px of the r13 lattice witness/);
+  assert.match(text, /Registry scan complete:\s*no/);
   const failures = card.registry_uniqueness.tiers.U2_literal_rule_vs_all_registry_rasters.failures;
   assert.ok(failures.length >= 1);
   for (const row of failures) {
     assert.match(text, new RegExp(path.basename(row.submission).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
-  // gate list mirrors the card: every gate key has a PASS/FAIL row
+  // Historical experiment gates plus current release-safety gates are visible.
   const booleanGates = Object.entries(card.gates).filter(([k, v]) => typeof v === 'boolean' && k !== 'literal_rule_exception_applied');
   const gateRows = [...dom.window.document.querySelectorAll('.gates li')];
-  assert.equal(gateRows.length, booleanGates.length);
+  assert.equal(gateRows.length, booleanGates.length + 5);
   const fails = gateRows.filter(li => li.querySelector('.pill.no'));
-  assert.equal(fails.length, booleanGates.filter(([, v]) => v === false).length);
-  assert.match(text, /Literal-rule exception applied:\s*yes/);
+  assert.equal(fails.length, booleanGates.filter(([, v]) => v === false).length + 5);
+  assert.match(text, /prior exception to the literal registry rule was invalid/);
+  assert.equal(releaseDecision.ok_to_submit, false);
   dom.window.close();
 });
 

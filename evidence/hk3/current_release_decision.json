@@ -1,0 +1,80 @@
+{
+  "schema": "gems.release_safety_decision.v1",
+  "reviewed_utc": "2026-10-28",
+  "candidate": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+  "raster_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+  "source_run_card": "evidence/hk3/run_card.json",
+  "supersedes": "evidence/hk3/selector_result.json (the historical recommendation applied a disclosed exception to the mandatory literal registry rule)",
+  "verdict": "negative",
+  "ok_to_download_for_research": true,
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "lane_assignment_identifiable": false,
+  "experiment_time_budget_2h_pass": false,
+  "beats_current_repo_holdout_best": false,
+  "organizer_inputs_authenticated": false,
+  "preplacement_surface_scan_verified": false,
+  "reason": "DO NOT SUBMIT. The binding parallel-run protocol says stop if any registry raster exceeds 0.90 rank-correlation or more than 70% of candidate dots fall within 3 px of one registry raster. The final-dot audit reports 99.8626% overlap with the r13 lattice witness and exceeds the limit against three additional recorded registry objects (70.976%, 73.348%, 74.940%). The historical run card marked the literal all-registry gate false and applied an exception; the protocol provides no exception for never-submitted or non-dot rasters. The registry scan also reports incomplete access (452 checked, 1 invalid/missing), so global uniqueness is not certified. The required pre-placement surface scan against the registry is not present in committed HK3 receipts and cannot be verified. The lane was self-declared rather than assigned by an identifiable method paragraph in the prompt. The candidate therefore fails closed regardless of its local format pass or holdout result.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI (historical run-card result; not rerun in this review)",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 58258,
+    "candidate_b110": {
+      "value": 0.18450466022225004,
+      "ci95": [0.16769141176106592, 0.2014839638261474]
+    },
+    "incumbent_refit_b110": {
+      "value": 0.15754959003555036,
+      "ci95": [0.14170257009635945, 0.1736811081974684]
+    },
+    "paired_delta_candidate_minus_incumbent": {
+      "value": 0.02695507018669968,
+      "ci95": [0.02058547798094026, 0.03368587636497091]
+    },
+    "qualification": "Catalogue hide-and-recover proxy only; not a leaderboard estimate and does not override the failed uniqueness stop."
+  },
+  "correlation_overlap_vs_registry": {
+    "evidence_class": "REGISTRY-MEASUREMENT (historical scan)",
+    "max_abs_rank_correlation": 0.11433925986987725,
+    "max_dots_within_3px_fraction": 0.9986255209718897,
+    "max_overlap_reference": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "blocking_overlaps_over_0_70": [
+      {
+        "reference": "inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+        "fraction": 0.7097632349028997
+      },
+      {
+        "reference": "docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+        "fraction": 0.7334840826460938
+      },
+      {
+        "reference": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+        "fraction": 0.7494014365522745
+      }
+    ],
+    "registry_scan_complete": false,
+    "registry_counts": {
+      "expected": 453,
+      "checked_by_registry_audit": 452,
+      "missing_or_invalid": 1
+    },
+    "qualification": "Prior saved audit evidence; one registry entry failed and the scan is not complete. No post-placement rerun was performed in this review."
+  },
+  "validator_output": {
+    "evidence_class": "LOCAL-FORMAT-AUDIT, not organizer acceptance",
+    "candidate_sha256_matches_run_card": true,
+    "no_nan_inside_footprint": true,
+    "whole_array_finite": true,
+    "values_in_0_1": true,
+    "single_band_float32": true,
+    "observed_crs_shape_transform": "EPSG:32611; 3730 x 3292; [100, 0, 243350, 0, -100, 4508550]",
+    "matches_reference": "Matches the hash-pinned owner-mirror template only; organizer-authenticated template/grid match is not established.",
+    "strict_nan_outside_check": false,
+    "organizer_portal_acceptance": "not tested"
+  },
+  "submission_name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
+  "submission_note": "HK3 literal registry overlap exceeds the protocol limit; research only, do not submit.",
+  "submission_note_chars": 86,
+  "verdict_scope": "Negative release-safety decision. The prior experiment result is retained as historical evidence; this review ran no geological experiment and spent no slot.",
+  "next_gate": "Resolve lane assignment, restore a complete registry, and prospectively pass the literal pre-placement and final-dot thresholds before any new placement or selector decision."
+}

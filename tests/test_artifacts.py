@@ -106,11 +106,11 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
     assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     card=load('hk3/run_card.json')
-    if card['verdict']=='PROMOTE':
-        assert 'OK TO SUBMIT: YES' in homepage and 'OK TO SUBMIT: NO' not in homepage
-        assert card['raster']['sha256'] in homepage and card['submission']['name'] in homepage
-    else:
-        assert 'OK TO SUBMIT: NO' in homepage and 'OK TO SUBMIT: YES' not in homepage
+    decision=load('hk3/current_release_decision.json')
+    assert decision['raster_sha256']==card['raster']['sha256']
+    assert decision['ok_to_submit'] is False
+    assert 'OK TO SUBMIT: NO' in homepage and 'OK TO SUBMIT: YES' not in homepage
+    assert card['raster']['sha256'] in homepage and card['submission']['name'] in homepage
 
 
 def test_shared_scientific_tools_unchanged():

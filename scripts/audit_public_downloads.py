@@ -2,10 +2,11 @@
 """Re-read every published TIFF/ZIP and fail closed on unexpected downloads.
 
 This is an integrity and local-format audit of the published files, not a model
-evaluation. Research files need a negative run card; the single upload candidate
-(HK3) needs a PROMOTE run card whose hard gates all pass plus an explicit selector
-receipt bound to the saved bytes. No TIFF is generated and no organizer
-template/receipt is authenticated here.
+evaluation. Research files need a negative run card. A historical candidate is
+research-only when the current hash-bound release decision is negative; the old
+PROMOTE card/selector cannot authorize it. A future upload candidate must have a
+current affirmative decision bound to the saved bytes. No TIFF is generated and
+no organizer template/receipt is authenticated here.
 """
 from __future__ import annotations
 
@@ -21,7 +22,8 @@ from rasterio.errors import RasterioError
 
 ROOT = Path(__file__).resolve().parents[1]
 # (stem, run card, selector, has_zip[, kind]); kind "research" = negative card required,
-# kind "candidate" = PROMOTE card + explicit selector required (HK3 lane, 2026-10-28).
+# kind "candidate" = current affirmative selector approval required,
+# kind "blocked_candidate" = historical candidate retained as research-only under a current negative decision.
 ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
@@ -37,7 +39,7 @@ ARTIFACTS = (
     ("gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "candidate"),
+     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "blocked_candidate"),
 )
 
 
@@ -120,6 +122,7 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                    has_zip: bool, grid: dict, kind: str = "research") -> dict:
     rel = f"docs/downloads/{stem}.tif"
     candidate = kind == "candidate"
+    blocked_candidate = kind == "blocked_candidate"
     tif = root / rel
     checks: dict[str, bool] = {"tif_exists": tif.is_file()}
     detail: dict = {}
@@ -146,6 +149,10 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 (gates.get("literal_rule_exception_applied") is True and
                  bool((card.get("registry_uniqueness") or {}).get("tiers", {}).get("U2_literal_rule_vs_all_registry_rasters", {}).get("failures"))))
             checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
+        elif blocked_candidate:
+            # The historical run card is intentionally retained; current release
+            # eligibility comes only from its separate hash-bound negative decision.
+            checks["historical_card_verdict_is_recorded"] = card.get("verdict") == "PROMOTE"
         else:
             checks["card_verdict_negative"] = card.get("verdict") == "negative"
         checks["card_has_same_filename"] = (card.get("raster", rel) == rel and
@@ -155,12 +162,11 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                                                 0 < len(card["note"]) <= 140)
     except (OSError, ValueError, TypeError, AttributeError):
         checks["card_readable"] = False
-    if selector_rel is not None:
+    if selector_rel is not None and not blocked_candidate:
         try:
             selector = json.loads((root / selector_rel).read_text())
             if candidate:
-                # the automated selector may approve the *download for upload*; the weekly slot
-                # itself is spent by the human selector, so slot_authorized stays False here
+                # The affirmative selector must be current and byte-bound.
                 checks["selector_explicit_candidate"] = (selector.get("verdict") == "candidate_approved_by_automated_gates" and
                                                          selector.get("ok_to_submit") is True and
                                                          selector.get("slot_authorized") is False and
@@ -172,6 +178,21 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                                                         selector.get("source_run_card") == card_rel)
         except (OSError, ValueError, TypeError, AttributeError):
             checks["selector_explicit_candidate" if candidate else "selector_explicit_negative"] = False
+    if blocked_candidate:
+        try:
+            decision = json.loads((root / "evidence/hk3/current_release_decision.json").read_text())
+            checks["current_release_decision_hash_bound"] = decision.get("raster_sha256") == actual_sha
+            checks["current_release_decision_negative"] = (decision.get("verdict") == "negative" and
+                                                            decision.get("ok_to_submit") is False and
+                                                            decision.get("slot_authorized") is False)
+            checks["literal_registry_stop_recorded"] = decision.get("correlation_overlap_vs_registry", {}).get("max_dots_within_3px_fraction", 0) > 0.70
+            checks["registry_incompleteness_disclosed"] = decision.get("correlation_overlap_vs_registry", {}).get("registry_scan_complete") is False
+            checks["historical_selector_marked_superseded"] = selector_rel in decision.get("supersedes", "")
+        except (OSError, ValueError, TypeError, AttributeError):
+            for key in ("current_release_decision_hash_bound", "current_release_decision_negative",
+                        "literal_registry_stop_recorded", "registry_incompleteness_disclosed",
+                        "historical_selector_marked_superseded"):
+                checks[key] = False
     if has_zip:
         try:
             checks["zip_contains_exact_saved_tif"] = bool(actual_sha and

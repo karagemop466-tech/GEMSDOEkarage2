@@ -40,22 +40,26 @@ def make_fixture(tmp_path):
     return args, card_path
 
 
-def test_current_saved_downloads_are_hash_bound_with_one_candidate():
+def test_current_saved_downloads_are_hash_bound_but_no_file_is_approved():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_ONE_CANDIDATE_FOR_UPLOAD'
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
+    assert result['verdict'] == 'negative'
+    assert result['downloadable_approved_submission'] is None
+    assert result['score_estimate'] is None
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert result['downloadable_approved_submission'] == hk3['raster']['file']
-    assert result['score_estimate']['label'].startswith('LEADERBOARD-CALIBRATED ESTIMATE')
     assert len(result['artifacts']) == 7
-    candidates = [r for r in result['artifacts'] if r['kind'] == 'candidate']
-    assert len(candidates) == 1 and candidates[0]['raster_sha256'] == hk3['raster']['sha256']
-    assert candidates[0]['ok_to_submit'] is True and candidates[0]['slot_authorized'] is False
-    assert candidates[0]['checks']['selector_explicit_candidate'] and candidates[0]['checks']['card_hard_gates_all_pass']
+    blocked = [r for r in result['artifacts'] if r['kind'] == 'blocked_candidate']
+    assert len(blocked) == 1 and blocked[0]['raster_sha256'] == hk3['raster']['sha256']
+    assert blocked[0]['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert blocked[0]['ok_to_submit'] is False and blocked[0]['slot_authorized'] is False
+    for key in ('current_release_decision_hash_bound', 'current_release_decision_negative',
+                'literal_registry_stop_recorded', 'registry_incompleteness_disclosed',
+                'historical_selector_marked_superseded'):
+        assert blocked[0]['checks'][key] is True
     for record in result['artifacts']:
-        if record['kind'] == 'research':
-            assert record['ok_to_submit'] is False
+        assert record['ok_to_submit'] is False
         assert record['slot_authorized'] is False
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
