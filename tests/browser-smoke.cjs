@@ -67,18 +67,25 @@ function chromeEnvironment() {
     const artifactHash = crypto.createHash('sha256').update(Buffer.from(await artifactResponse.arrayBuffer())).digest('hex');
     assert.equal(artifactHash, parallelCard.raster_sha256);
     assert.equal(parallelCard.approved_for_weekly_slot, false);
+    // the HK3 run card names the only file offered for upload; its served bytes must hash to the card
+    const hk3 = require('../evidence/hk3/run_card.json');
+    const hk3Response = await fetch(base + '/' + hk3.raster.file);
+    assert.equal(hk3Response.status, 200);
+    assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
+    const expectBadge = hk3.verdict === 'PROMOTE' ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
-      assert.ok(await page.getByRole('button', {name:'No approved submission TIF'}).isDisabled());
-      assert.ok((await page.locator('#research-download').innerText()).includes('DO NOT SUBMIT'));
+      assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
+      const primary = page.locator('a.btn.big[download]').first();
+      assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
+      assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('body').innerText()).includes('not unique'));
-      assert.ok((await page.locator('#research-download a[download]').first().getAttribute('href')).endsWith('.tif'));
-      await page.waitForFunction(() => document.querySelectorAll('#scorecard-body tr').length === 9);
+      assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);
       assert.ok(await page.locator('a[href="audit.html"]').count());
-      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Experiment overview overflow');
-      console.log(`PASS ${width}px: primary dashboard, release lock, research-only download`);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Desk overflow');
+      console.log(`PASS ${width}px: submission desk, verdict badge, single click-to-download file`);
     }
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);
@@ -86,7 +93,7 @@ function chromeEnvironment() {
       await page.waitForFunction(() => document.querySelector('[data-feed-summary]').textContent.includes('checked;'));
       assert.equal(await page.locator('tbody tr[data-site]').count(), 9);
       assert.equal(await page.locator('a[download]').count(), 0);
-      assert.ok((await page.locator('body').innerText()).includes('No approved file yet'));
+      assert.ok((await page.locator('body').innerText()).includes('The verdict lives on the submission desk'));
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Overview overflow');
       await page.locator('[data-site="GEMSDOE32"] .site-link').click();
       assert.ok(page.url().endsWith('/docs/sites/GEMSDOE32.html'));
@@ -104,10 +111,11 @@ function chromeEnvironment() {
     // Legacy and alternate routes must not revive the previously unsafe
     // invitation to download and submit a research-only TIFF.
     await page.goto(base + '/docs/how-to-submit.html', {waitUntil:'domcontentloaded'});
-    assert.ok((await page.locator('body').innerText()).includes('NO APPROVED FILE'));
+    assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
     assert.ok((await page.locator('body').innerText()).toLowerCase().includes('do not submit'));
     await page.goto(base + '/docs/executive-summary.html', {waitUntil:'domcontentloaded'});
-    assert.ok((await page.locator('body').innerText()).includes('NO APPROVED SUBMISSION'));
+    assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
+    assert.ok((await page.locator('body').innerText()).includes('0.2778'));
     await page.goto(base + '/docs/site-GEMSDOE32.html', {waitUntil:'domcontentloaded'});
     await page.waitForURL('**/docs/sites/GEMSDOE32.html');
     assert.ok((await page.locator('body').innerText()).includes('GEMSDOE32'));

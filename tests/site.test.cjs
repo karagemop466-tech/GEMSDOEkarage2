@@ -5,177 +5,116 @@ const path = require('node:path');
 const {JSDOM, VirtualConsole} = require('jsdom');
 
 const root = path.join(__dirname, '..');
-const app = fs.readFileSync(path.join(root, 'docs/assets/app.js'), 'utf8');
-const originalAudit = JSON.parse(fs.readFileSync(path.join(root, 'docs/data/focus_audit.json')));
-const originalMonitor = JSON.parse(fs.readFileSync(path.join(root, 'docs/data/monitor.json')));
+const card = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/run_card.json')));
+const ok = card.verdict === 'PROMOTE';
 
-async function render(page, audit = originalAudit, monitor = originalMonitor, hash = '') {
+function render(page) {
   const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
   const errors = [];
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', error => errors.push(error.message));
-  const dom = new JSDOM(html, {url: `https://example.test/${page}${hash}`, runScripts: 'outside-only', virtualConsole});
-  dom.window.fetch = async url => ({ok: true, json: async () => url.includes('focus_audit') ? audit : monitor});
-  dom.window.eval(app);
-  // The application only awaits two already-resolved fetch/json promises here.
-  await new Promise(resolve => setImmediate(resolve));
-  await new Promise(resolve => setImmediate(resolve));
+  const dom = new JSDOM(html, {url: `https://example.test/docs/${page}`, runScripts: 'outside-only', virtualConsole});
   assert.deepEqual(errors, []);
   return dom;
 }
 
-test('dashboard renders nine research rows and keeps submission disabled', async () => {
-  const dom = await render('index.html');
-  const doc = dom.window.document;
-  assert.equal(doc.querySelectorAll('#scorecard-body tr').length, 9);
-  assert.equal(doc.querySelectorAll('.research-link').length, 9);
-  assert.equal(doc.querySelector('.decision-card button').disabled, true);
-  assert.match(doc.querySelector('#scorecard-body').textContent, /0\.2778/);
-  assert.match(doc.querySelector('#scorecard-body').textContent, /USER-REPORTED/);
-  assert.match(doc.querySelector('#scorecard-body').textContent, /DO NOT SUBMIT/);
-  const research = doc.querySelector('#research-download');
-  assert.match(research.textContent, /DO NOT SUBMIT/);
-  assert.match(research.textContent, /HOLDOUT-DTI/);
-  assert.equal(research.querySelectorAll('a[download]').length, 2);
-  assert.match(research.querySelector('a[download]').getAttribute('href'), /DO-NOT-SUBMIT/);
-  assert.doesNotMatch(research.textContent, /unique research TIF/i);
-  for (const link of research.querySelectorAll('a[download]')) {
-    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
+const pages = ['index.html', 'executive-summary.html', 'how-to-submit.html', 'submit.html'];
+
+test('every desk page carries the run-card verdict badge and no unresolved placeholder', () => {
+  for (const page of pages) {
+    const dom = render(page);
+    const badge = dom.window.document.querySelector('.header .badge');
+    assert.ok(badge, `${page}: badge missing`);
+    assert.equal(badge.textContent, ok ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO');
+    assert.ok(badge.classList.contains(ok ? 'ok' : 'no'));
+    assert.doesNotMatch(dom.window.document.body.innerHTML, /\{BADGE/);
+    dom.window.close();
   }
-  dom.window.close();
 });
 
-test('site guide displays all nine detail cards even with a deep link', async () => {
-  const dom = await render('executive-summary.html', originalAudit, originalMonitor, '#GEMSDOE32');
-  assert.equal(dom.window.document.querySelectorAll('.site-detail').length, 9);
-  assert.ok(dom.window.document.querySelector('#GEMSDOE32'));
-  for (const link of dom.window.document.querySelectorAll('.site-detail a[href^="sites/"]')) {
-    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
-  }
-  assert.equal(dom.window.document.querySelectorAll('.site-detail a[href^="sites/"]').length, 9);
-  dom.window.close();
-});
-
-test('malformed score data fail closed rather than rendering zero', async () => {
-  const altered = structuredClone(originalAudit);
-  altered.sites[0].reported_score = null;
-  const dom = await render('index.html', altered);
-  const body = dom.window.document.querySelector('#scorecard-body');
-  assert.match(body.textContent, /could not be loaded/i);
-  assert.equal(body.querySelectorAll('.research-link').length, 0);
-  dom.window.close();
-});
-
-test('rendered filenames are text, not executable HTML', async () => {
-  const altered = structuredClone(originalAudit);
-  altered.sites[0].filename = '<img src=x onerror=alert(1)>';
-  const dom = await render('index.html', altered);
-  const file = dom.window.document.querySelector('#scorecard-body .file-name');
-  assert.equal(file.textContent, '<img src=x onerror=alert(1)>');
-  assert.equal(file.querySelector('img'), null);
-  dom.window.close();
-});
-
-test('a failed leaderboard refresh remains visibly stale while source status is shown', async () => {
-  const m = structuredClone(originalMonitor);
-  m.leaderboard = {status: 'unavailable', last_successful: {score_text: '0.4544', checked_utc: '2026-10-27T20:58:21Z'}};
-  const dom = await render('index.html', originalAudit, m);
-  const doc = dom.window.document;
-  assert.equal(doc.querySelector('#leaderboard-score').textContent, '0.4544');
-  assert.match(doc.querySelector('#leaderboard-status').textContent, /STALE/);
-  assert.match(doc.querySelector('#table-note').textContent, /Source-head check/);
-  dom.window.close();
-});
-
-test('dashboard table headers match every rendered row', async () => {
-  for (const page of ['index.html', 'executive-summary.html']) {
-    const dom = await render(page);
-    const doc = dom.window.document;
-    const headers = doc.querySelectorAll('.scorecard thead th').length;
-    assert.equal(headers, 5);
-    for (const row of doc.querySelectorAll('#scorecard-body tr')) {
-      assert.equal(row.children.length, headers);
+test('the only click-to-download links are the file named by the run card, and the bytes exist', () => {
+  for (const page of pages) {
+    const dom = render(page);
+    const links = [...dom.window.document.querySelectorAll('a[download]')];
+    if (page === 'index.html' || page === 'how-to-submit.html') assert.ok(links.length >= 1, `${page}: no download link`);
+    for (const link of links) {
+      const href = link.getAttribute('href');
+      assert.match(href, new RegExp(card.submission.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+      assert.doesNotMatch(href, /k2-hgbcont|h1-parity|hkarage1|DO-NOT-SUBMIT/);
+      assert.ok(fs.existsSync(path.join(root, 'docs', href)), `${page}: ${href} missing`);
     }
-    assert.doesNotMatch(doc.body.textContent, /labels\.tif requires DrivenData login/);
-    assert.match(doc.body.textContent, /negative|failed/);
-    assert.ok(doc.querySelector('a[href="experiment-executive-summary.html"]'));
     dom.window.close();
   }
 });
 
-test('current download does not claim established uniqueness or submission readiness', async () => {
-  const dom = await render('index.html');
-  const text = dom.window.document.querySelector('#research-download').textContent;
-  assert.match(text, /uniqueness not established/);
-  assert.match(text, /DO NOT SUBMIT/);
-  assert.doesNotMatch(text, /unique research TIF|\(submission raster\)/);
+test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and the literal failures are visible', () => {
+  const dom = render('index.html');
+  const text = dom.window.document.body.textContent;
+  assert.match(text, new RegExp(card.raster.sha256));
+  assert.match(text, /HOLDOUT-DTI/);
+  assert.match(text, /LEADERBOARD-CALIBRATED ESTIMATE/);
+  assert.match(text, /NOT ORGANIZER-CONFIRMED/);
+  assert.match(text, /Literal 70 % rule vs all 450 non-degenerate registry rasters:\s*FAIL/);
+  const failures = card.registry_uniqueness.tiers.U2_literal_rule_vs_all_registry_rasters.failures;
+  assert.ok(failures.length >= 1);
+  for (const row of failures) {
+    assert.match(text, new RegExp(path.basename(row.submission).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  // gate list mirrors the card: every gate key has a PASS/FAIL row
+  const booleanGates = Object.entries(card.gates).filter(([k, v]) => typeof v === 'boolean' && k !== 'literal_rule_exception_applied');
+  const gateRows = [...dom.window.document.querySelectorAll('.gates li')];
+  assert.equal(gateRows.length, booleanGates.length);
+  const fails = gateRows.filter(li => li.querySelector('.pill.no'));
+  assert.equal(fails.length, booleanGates.filter(([, v]) => v === false).length);
+  assert.match(text, /Literal-rule exception applied:\s*yes/);
   dom.window.close();
 });
 
-test('all public download links point to a negative saved-byte inventory', async () => {
-  const inventory = JSON.parse(fs.readFileSync(path.join(root, 'docs/evidence/public_downloads_audit.json')));
-  assert.equal(inventory.inventory_status, 'PASS_RESEARCH_ONLY');
-  assert.equal(inventory.downloadable_approved_submission, null);
-  assert.equal(inventory.artifacts.length, 6);
-  for (const record of inventory.artifacts) {
-    assert.equal(record.ok_to_submit, false);
-    assert.equal(record.slot_authorized, false);
-    assert.ok(record.checks.card_sha_matches_saved_bytes);
+test('homepage nine-site table lists all focus sites with user-reported scores and uniqueness verdicts', () => {
+  const dom = render('index.html');
+  const rows = [...dom.window.document.querySelectorAll('#nine-sites tbody tr')];
+  assert.equal(rows.length, 9);
+  const text = rows.map(r => r.textContent).join('\n');
+  assert.match(text, /0\.2778/);
+  assert.match(text, /USER-REPORTED/);
+  for (const site of ['GEMSDOE24', 'GEMSDOE25', 'GEMSDOE27', 'GEMSDOE28', 'GEMSDOE30', 'GEMSDOE31', 'GEMSDOE32', 'GEMSDOE33', 'GEMSDOE36']) {
+    assert.match(text, new RegExp(site));
   }
+  for (const row of rows) assert.equal(row.children.length, dom.window.document.querySelectorAll('#nine-sites thead th').length);
+  dom.window.close();
+});
+
+test('legacy artefacts stay quarantined with their receipts', () => {
   for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
-    const dom = await render(page);
-    assert.ok(dom.window.document.querySelector('a[href="evidence/public_downloads_audit.json"]'));
-    assert.match(dom.window.document.body.textContent, /DO NOT SUBMIT|DO NOT UPLOAD|NO APPROVED/i);
+    const dom = render(page);
+    const legacy = dom.window.document.querySelector('#legacy');
+    assert.ok(legacy, `${page}: legacy section missing`);
+    assert.match(legacy.textContent, /DO NOT SUBMIT/);
+    assert.match(legacy.textContent, /prior literal-policy verdict for K2: NEGATIVE/);
+    assert.match(legacy.textContent, /not unique/);
+    assert.equal(legacy.querySelectorAll('a[download]').length, 0);
+    assert.match(legacy.innerHTML, /evidence\/k2-review-2026-10-28\.json/);
     dom.window.close();
   }
 });
 
-test('K2 literal-policy review is negative and links only to a research artifact', async () => {
-  const home = await render('index.html');
-  const section = home.window.document.querySelector('#k2-candidate');
-  assert.match(section.textContent, /research artifact/i);
-  assert.match(section.textContent, /DO NOT SUBMIT/);
-  assert.match(section.textContent, /SELECTOR NEGATIVE|No slot is approved/);
-  assert.match(section.querySelector('a[download]').textContent, /DO NOT SUBMIT/);
-  assert.match(section.innerHTML, /evidence\/k2-review-2026-10-28\.json/);
-  home.window.close();
-
-  const summary = await render('executive-summary.html');
-  const k2 = summary.window.document.querySelector('#k2');
-  assert.match(k2.textContent, /negative/i);
-  assert.match(k2.textContent, /DO NOT SUBMIT/);
-  assert.match(k2.querySelector('thead').textContent, /File for research.*DO NOT SUBMIT/);
-  const b4 = summary.window.document.querySelector('#b4');
-  assert.match(b4.textContent, /literal registry DUPLICATE STOP/);
-  assert.match(b4.textContent, /Unique under the literal all-registry rule: NO/);
-  assert.ok(b4.querySelector('a[href="evidence/b4/literal_followup.json"]'));
-  summary.window.close();
+test('every relative link on the desk pages resolves to a published file', () => {
+  for (const page of pages) {
+    const dom = render(page);
+    for (const a of dom.window.document.querySelectorAll('a[href]')) {
+      const href = a.getAttribute('href');
+      if (/^(https?:|mailto:|#)/.test(href)) continue;
+      const target = href.split('#')[0];
+      assert.ok(fs.existsSync(path.join(root, 'docs', target)), `${page}: ${href}`);
+    }
+    dom.window.close();
+  }
 });
 
-test('current K2 release card is negative and primary pages are research-only', async () => {
-  const cardPath = path.join(root, 'evidence/k2-review-2026-10-28.json');
-  const auditPath = path.join(root, 'evidence/k2/literal_release_audit.json');
-  const registryPath = path.join(root, 'evidence/k2/final_registry_audit.json');
-  const card = JSON.parse(fs.readFileSync(cardPath, 'utf8'));
-  const audit = JSON.parse(fs.readFileSync(auditPath, 'utf8'));
-  const registry = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
-  const sha = require('node:crypto').createHash('sha256')
-    .update(fs.readFileSync(path.join(root, 'docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif')))
-    .digest('hex');
-  assert.equal(card.verdict, 'negative');
-  assert.equal(card.raster_sha256, sha);
-  assert.equal(card.ok_to_submit, false);
-  assert.equal(audit.verdict, 'negative');
-  assert.equal(audit.slot_authorized, false);
-  assert.equal(registry.verdict, 'negative');
-  assert.equal(registry.stop_required, true);
-  assert.equal(registry.complete_accessible_scan, false);
-  assert.ok(registry.rows.some(row => row.submission?.includes('r13-lattice') && row.my_dots_within_3px_of_theirs === 1));
-  assert.ok(registry.rows.some(row => row.submission?.includes('ctx-ridge') && row.my_dots_within_3px_of_theirs > 0.70));
-  for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
-    const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
-    assert.match(html, /Current literal-policy verdict: NEGATIVE/);
-    assert.match(html, /DO NOT SUBMIT/);
-    assert.doesNotMatch(html, /cannot trigger/);
-  }
+test('official sources are linked with the competition metric page', () => {
+  const dom = render('executive-summary.html');
+  const hrefs = [...dom.window.document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));
+  assert.ok(hrefs.includes('https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/'));
+  assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution'));
+  dom.window.close();
 });

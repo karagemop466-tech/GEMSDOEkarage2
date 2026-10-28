@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Re-read every published TIFF/ZIP and fail closed on unexpected downloads.
 
-This is an integrity and local-format audit of historical negative *research*
-files, not a model evaluation or a submission selector. No source is promoted,
-no TIFF is generated, and no organizer template/receipt is authenticated.
+This is an integrity and local-format audit of the published files, not a model
+evaluation. Research files need a negative run card; the single upload candidate
+(HK3) needs a PROMOTE run card whose hard gates all pass plus an explicit selector
+receipt bound to the saved bytes. No TIFF is generated and no organizer
+template/receipt is authenticated here.
 """
 from __future__ import annotations
 
@@ -18,6 +20,8 @@ import rasterio
 from rasterio.errors import RasterioError
 
 ROOT = Path(__file__).resolve().parents[1]
+# (stem, run card, selector, has_zip[, kind]); kind "research" = negative card required,
+# kind "candidate" = PROMOTE card + explicit selector required (HK3 lane, 2026-10-28).
 ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
@@ -32,7 +36,22 @@ ARTIFACTS = (
      "evidence/b4/run_card.json", None, True),
     ("gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
+    ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
+     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "candidate"),
 )
+
+
+def normalise_card(card: dict, rel: str, stem: str) -> dict:
+    """Map the HK3 card schema (raster{file,sha256}, submission{name,note}) onto the flat
+    schema the research cards use; other cards pass through unchanged."""
+    if isinstance(card, dict) and isinstance(card.get("raster"), dict):
+        flat = dict(card)
+        flat["raster"] = card["raster"].get("file")
+        flat["raster_sha256"] = card["raster"].get("sha256")
+        flat["submission_name"] = card.get("submission", {}).get("name")
+        flat["note"] = card.get("submission", {}).get("note")
+        return flat
+    return card
 
 
 def digest_file(path: Path) -> str:
@@ -98,8 +117,9 @@ def inspect_zip(path: Path, tif: Path, expected_sha256: str) -> bool:
 
 
 def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | None,
-                   has_zip: bool, grid: dict) -> dict:
+                   has_zip: bool, grid: dict, kind: str = "research") -> dict:
     rel = f"docs/downloads/{stem}.tif"
+    candidate = kind == "candidate"
     tif = root / rel
     checks: dict[str, bool] = {"tif_exists": tif.is_file()}
     detail: dict = {}
@@ -114,8 +134,20 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             checks["tif_readable"] = False
             detail = {"diagnostics": {"error_type": type(exc).__name__}}
     try:
-        card = json.loads((root / card_rel).read_text())
-        checks["card_verdict_negative"] = card.get("verdict") == "negative"
+        card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
+        if candidate:
+            checks["card_verdict_promote"] = card.get("verdict") == "PROMOTE"
+            gates = card.get("gates") or {}
+            checks["card_hard_gates_all_pass"] = bool(gates) and all(
+                v is True for k, v in gates.items()
+                if isinstance(v, bool) and k not in ("unique_literal_vs_all_registry_rasters", "literal_rule_exception_applied"))
+            checks["card_literal_rule_failures_disclosed"] = (
+                gates.get("unique_literal_vs_all_registry_rasters") is True or
+                (gates.get("literal_rule_exception_applied") is True and
+                 bool((card.get("registry_uniqueness") or {}).get("tiers", {}).get("U2_literal_rule_vs_all_registry_rasters", {}).get("failures"))))
+            checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
+        else:
+            checks["card_verdict_negative"] = card.get("verdict") == "negative"
         checks["card_has_same_filename"] = (card.get("raster", rel) == rel and
                                             card.get("submission_name") == stem)
         checks["card_sha_matches_saved_bytes"] = actual_sha is not None and card.get("raster_sha256") == actual_sha
@@ -126,50 +158,79 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
     if selector_rel is not None:
         try:
             selector = json.loads((root / selector_rel).read_text())
-            checks["selector_explicit_negative"] = (selector.get("verdict") == "negative" and
-                                                    selector.get("slot_authorized") is False and
-                                                    selector.get("source_run_card") == card_rel)
+            if candidate:
+                # the automated selector may approve the *download for upload*; the weekly slot
+                # itself is spent by the human selector, so slot_authorized stays False here
+                checks["selector_explicit_candidate"] = (selector.get("verdict") == "candidate_approved_by_automated_gates" and
+                                                         selector.get("ok_to_submit") is True and
+                                                         selector.get("slot_authorized") is False and
+                                                         selector.get("source_run_card") == card_rel and
+                                                         selector.get("raster_sha256") == actual_sha)
+            else:
+                checks["selector_explicit_negative"] = (selector.get("verdict") == "negative" and
+                                                        selector.get("slot_authorized") is False and
+                                                        selector.get("source_run_card") == card_rel)
         except (OSError, ValueError, TypeError, AttributeError):
-            checks["selector_explicit_negative"] = False
+            checks["selector_explicit_candidate" if candidate else "selector_explicit_negative"] = False
     if has_zip:
         try:
             checks["zip_contains_exact_saved_tif"] = bool(actual_sha and
                 inspect_zip(tif.with_suffix('.zip'), tif, actual_sha))
         except (OSError, ValueError, zipfile.BadZipFile, RuntimeError):
             checks["zip_contains_exact_saved_tif"] = False
+    ok = all(checks.values())
+    if candidate:
+        status = "VERIFIED_CANDIDATE_FOR_UPLOAD" if ok else "FAIL_CLOSED"
+    else:
+        status = "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED"
     return {
-        "file": rel, "raster_sha256": actual_sha, "run_card": card_rel,
+        "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
         "selector": selector_rel, "zip_file": f"docs/downloads/{stem}.zip" if has_zip else None,
         "checks": checks, "diagnostics": detail.get("diagnostics", {}),
-        "status": "VERIFIED_RESEARCH_ONLY" if all(checks.values()) else "FAIL_CLOSED",
-        "download_for_research": all(checks.values()),
-        "ok_to_submit": False, "slot_authorized": False,
+        "status": status,
+        "download_for_research": ok,
+        "ok_to_submit": bool(candidate and ok), "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-        "exterior_convention": "unverified; whole-array finiteness is not portal acceptance",
+        "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists",
     }
 
 
 def audit(root: Path = ROOT) -> dict:
     grid = json.loads((root / 'evidence/geometry-audit.json').read_text())["template"]
     downloads = root / 'docs/downloads'
-    expected_tifs = {f"{stem}.tif" for stem, _, _, _ in ARTIFACTS}
-    expected_zips = {f"{stem}.zip" for stem, _, _, has_zip in ARTIFACTS if has_zip}
+    expected_tifs = {f"{a[0]}.tif" for a in ARTIFACTS}
+    expected_zips = {f"{a[0]}.zip" for a in ARTIFACTS if a[3]}
     found_tifs = {p.name for suffix in ("*.tif", "*.tiff") for p in downloads.glob(suffix)}
     found_zips = {p.name for p in downloads.glob('*.zip')}
     unexpected = sorted((found_tifs - expected_tifs) | (found_zips - expected_zips))
     missing = sorted((expected_tifs - found_tifs) | (expected_zips - found_zips))
-    entries = [audit_artifact(root, stem, card, selector, has_zip, grid)
-               for stem, card, selector, has_zip in ARTIFACTS]
-    good = not unexpected and not missing and all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in entries)
+    entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
+               for a in ARTIFACTS]
+    good = (not unexpected and not missing and
+            all(row['status'] in ('VERIFIED_RESEARCH_ONLY', 'VERIFIED_CANDIDATE_FOR_UPLOAD') for row in entries))
+    approved = [row['file'] for row in entries if row['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD']
+    if good and len(approved) > 1:
+        good = False  # exactly one file may be offered for upload at a time
+    if good and approved:
+        status = "PASS_ONE_CANDIDATE_FOR_UPLOAD"
+    elif good:
+        status = "PASS_RESEARCH_ONLY"
+    else:
+        status = "FAIL_CLOSED"
+    estimate = None
+    if good and approved:
+        card = json.loads((root / 'evidence/hk3/run_card.json').read_text())
+        estimate = {"label": card["estimator"]["evidence_class"], "value": card["estimator"]["estimate"],
+                    "theta_sensitivity": card["estimator"]["estimate_theta"]}
     return {
-        "schema": "gems.published_downloads.v1",
+        "schema": "gems.published_downloads.v2",
         "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-        "inventory_status": "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED",
-        "verdict": "negative",
+        "inventory_status": status,
+        "verdict": "candidate_available" if (good and approved) else "negative",
         "unexpected_downloads": unexpected, "missing_downloads": missing,
         "artifacts": entries,
-        "downloadable_approved_submission": None,
-        "score_estimate": None,
+        "downloadable_approved_submission": approved[0] if (good and approved) else None,
+        "score_estimate": estimate,
         "organizer_template_authenticated": False,
         "format_note": "Each raster is read from disk, whole-array range and grid compared with an unauthenticated owner mirror. Footprint/exterior policy and portal acceptance require organizer evidence.",
         "slot_authorized": False,
@@ -192,9 +253,9 @@ def main() -> int:
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_text(text)
     print(json.dumps({"inventory_status": result['inventory_status'],
-                      "downloadable_approved_submission": None,
+                      "downloadable_approved_submission": result['downloadable_approved_submission'],
                       "artifacts": len(result['artifacts'])}))
-    return 0 if result['inventory_status'] == 'PASS_RESEARCH_ONLY' else 1
+    return 0 if result['inventory_status'].startswith('PASS') else 1
 
 
 if __name__ == '__main__':

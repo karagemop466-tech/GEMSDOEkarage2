@@ -1,0 +1,74 @@
+{
+  "evidence_class": "LEADERBOARD-CALIBRATED ESTIMATE vs OWNER-REPORTED score (out-of-sample checks of the transfer rule)",
+  "rows": {
+    "GEMSDOE24/inputs/calibration/gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif": {
+      "label": "gems10 h28 dotted ridge (69,281 dots; owner-reported 0.1839)",
+      "positive_px": 69281,
+      "scored_px_off_catalogue": 65236,
+      "holdout_dti": 0.3686052540284866,
+      "hit": {
+        "T": 23005.438576806668,
+        "M": 9608.794766384948,
+        "n": 65632,
+        "G": 58258
+      },
+      "cov_ratio": 2.607774130984157,
+      "hit_ratio": 1.674654887407469,
+      "estimate": 0.5288778334108435,
+      "components": {
+        "G": 12405.76810261941,
+        "T": 13229.98804642168,
+        "M": 3013.029560513224,
+        "F": 62222.97043948677
+      },
+      "owner_reported": 0.1839,
+      "ratio_reported_over_estimate": 0.3477173524441184
+    },
+    "GEMSDOE24/inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif": {
+      "label": "gems10 h25 ctx ridge surface (174,232 px; owner-reported 0.128)",
+      "positive_px": 174232,
+      "scored_px_off_catalogue": 161366,
+      "holdout_dti": 0.39624420972099944,
+      "hit": {
+        "T": 31560.0107935293,
+        "M": 30644.616762369777,
+        "n": 164292,
+        "G": 58258
+      },
+      "cov_ratio": 3.5774749282076304,
+      "hit_ratio": 2.133584366743514,
+      "estimate": 0.413159962099459,
+      "components": {
+        "G": 12405.76810261941,
+        "T": 18149.55903358785,
+        "M": 9495.385504146081,
+        "F": 151870.61449585392
+      },
+      "owner_reported": 0.128,
+      "ratio_reported_over_estimate": 0.3098073669809924
+    },
+    "GEMSDOE24/inputs/calibration/gemsdoe-ens12-adopted-7f00890a.tif": {
+      "label": "gemsdoe ens12 adopted (owner-reported 0.1563)",
+      "positive_px": 172974,
+      "scored_px_off_catalogue": 166519,
+      "holdout_dti": 0.22749060423437742,
+      "hit": {
+        "T": 18083.56133195694,
+        "M": 18756.23792254841,
+        "n": 165098,
+        "G": 58258
+      },
+      "cov_ratio": 2.049856310285069,
+      "hit_ratio": 1.2994990412151601,
+      "estimate": 0.23573792171976515,
+      "components": {
+        "G": 12405.76810261941,
+        "T": 10399.51050964631,
+        "M": 5968.02322766197,
+        "F": 160550.97677233804
+      },
+      "owner_reported": 0.1563,
+      "ratio_reported_over_estimate": 0.6630244250044868
+    }
+  }
+}

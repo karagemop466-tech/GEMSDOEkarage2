@@ -57,6 +57,8 @@ def test_k3_site_language_is_negative():
         text = (ROOT / "docs" / page).read_text()
         assert f"{STEM}.tif" in text
         assert "DO NOT SUBMIT" in text
-        assert "NO APPROVED" in text
         assert "CONDITIONAL YES" not in text
         assert "evidence/k3/run_card.json" in text
+        # K3 is the holdout-best file but uniqueness-negative: it must be named, never offered
+        assert f'{STEM}.tif" download' not in text
+        assert "holdout-best" in text

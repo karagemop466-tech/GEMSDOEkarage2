@@ -18,8 +18,18 @@ def test_legacy_generator_stops_before_modifying_outputs():
 
 
 def test_primary_pages_do_not_offer_legacy_file_for_upload():
+    import json
+    import re
+    card = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
     for name in ('index.html', 'executive-summary.html', 'how-to-submit.html'):
         text = (ROOT / 'docs' / name).read_text()
-        assert 'NO APPROVED' in text or 'NO FILE IS APPROVED' in text
         assert 'unique research TIF' not in text
-    assert 'Download the validated TIF' not in (ROOT / 'docs/how-to-submit.html').read_text()
+        assert 'DO NOT SUBMIT' in text
+        for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text):
+            assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
+            assert card['submission']['name'] in href
+        # the badge is derived from the run-card verdict, never hand-written
+        if card['verdict'] == 'PROMOTE':
+            assert 'OK TO SUBMIT: YES' in text
+        else:
+            assert 'OK TO SUBMIT: NO' in text
