@@ -21,6 +21,7 @@ import rasterio
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.readiness import assess
+from scripts.hk3_release_policy import publication_eligible
 from rasterio.errors import RasterioError
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -150,13 +151,7 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 and release.get("submission_note") == card.get("note"))
             # No private eligibility fork: the common strict evidence gate applies.
             checks["common_readiness_pass"] = assess(card.get("release_evidence"))["verdict"] == "promote"
-            gates = card.get("gates") or {}
-            checks["card_hard_gates_all_pass"] = (
-                gates.get("unique_literal_vs_all_registry_rasters") is True
-                and gates.get("literal_rule_exception_applied") is False
-                and card.get("protocol_stop_triggered") is False
-                and all(v is True for k, v in gates.items()
-                        if isinstance(v, bool) and k != "literal_rule_exception_applied"))
+            checks["card_hard_gates_all_pass"] = publication_eligible(card)
             checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
         else:
             checks["card_verdict_negative"] = card.get("verdict") == "negative"

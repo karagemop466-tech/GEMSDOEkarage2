@@ -789,9 +789,7 @@ def cmd_card(name):
                             "candidate_matched_to_D28_count": bridge["candidate_matched_to_D28_count"]},
         "estimator": {k: v for k, v in est.items() if k != "budget_table"},
         "registry_uniqueness": {
-            "tiers": tiers, "verdict_logic": ("PROMOTE requires U1, U3, U4 and rank-correlation to pass; the literal all-registry rule U2 may fail only "
-                                              "against never-submitted rasters or line/surface rasters > 100k positive px (disclosed deviation from "
-                                              "the pre-registered 'literal => stop'); literal failures are listed on every page"),
+            "tiers": tiers, "verdict_logic": "Mandatory all-registry failure is blocking; no density or submission-status exceptions.",
             "scope": audit["scope"], "rasters_checked": nd["checked"], "errors": nd["errors"],
             "degenerate_witnesses": audit["degenerate_witnesses"],
             "worst_overlap_nondegenerate": nd["worst_overlap"], "worst_overlap_submission": nd["worst_overlap_submission"],
@@ -817,7 +815,7 @@ def cmd_card(name):
                       "note": "The file writes 0 outside the footprint (the organizer-scored GEMSDOE32 champion is a -zeros file; the official reference notebook writes finite values everywhere). The historical strict validator's NaN-outside check is therefore expected to read false; every other check must pass."},
         "submission": {"name": name, "note": gen["note"], "note_chars": len(gen["note"])},
         "gates": gates, "verdict": verdict,
-        "verdict_meaning": "PROMOTE = every automated gate passed and the artifact may be offered for download; the selector/quota step is separate and is not performed here.",
+        "verdict_meaning": "NEGATIVE: retired duplicate lane. Research only; DO NOT SUBMIT.",
         "limitations": [
             "Leaderboard anchors are USER-REPORTED scores; no organizer receipt could be fetched (network allowlist).",
             "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",

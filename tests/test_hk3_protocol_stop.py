@@ -86,3 +86,36 @@ def test_protocol_review_is_reproducible_and_not_a_new_score():
     assert result['validator_output']['values_in_0_1'] is True
     assert result['validator_output']['organizer_crs_shape_transform_match'] is None
     assert len(result['submission_note']) <= 140
+
+
+def test_concurrent_publication_adapter_has_no_minimal_card_bypass():
+    from scripts.hk3_release_policy import publication_eligible, REQUIRED_GATES
+    from test_readiness import good
+    partial = dict(verdict='PROMOTE', protocol_stop_triggered=False,
+                   gates={key: True for key in REQUIRED_GATES})
+    partial['gates']['literal_rule_exception_applied'] = False
+    assert not publication_eligible(partial)
+    clean = copy.deepcopy(partial)
+    clean['release_evidence'] = good()
+    assert publication_eligible(clean)  # synthetic schema, not authenticated evidence
+    for key in REQUIRED_GATES:
+        for bad in (None, False, 1, 'true', [], {}):
+            changed = copy.deepcopy(clean)
+            changed['gates'][key] = bad
+            assert not publication_eligible(changed)
+        changed = copy.deepcopy(clean)
+        del changed['gates'][key]
+        assert not publication_eligible(changed)
+    for malformed in (None, [], True, {}, {'gates': []}):
+        assert not publication_eligible(malformed)
+    for key, value in (('protocol_stop_triggered', True), ('verdict', 'negative')):
+        assert not publication_eligible(dict(clean, **{key: value}))
+    clean['gates']['literal_rule_exception_applied'] = True
+    assert not publication_eligible(clean)
+
+
+def test_root_submission_status_does_not_reintroduce_retracted_approval():
+    text = (ROOT / 'SUBMISSION_STATUS.md').read_text()
+    assert 'NO APPROVED FILE' in text and 'DO NOT SUBMIT' in text
+    assert 'will **not** trigger' not in text
+    assert 'Verdict:** PROMOTE' not in text

@@ -81,6 +81,8 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     release.update(raster_sha256=card['raster_sha256'], submission_name=stem,
                    submission_note=card['note'])
     card.update(release_evidence=release, protocol_stop_triggered=False)
+    from scripts.hk3_release_policy import REQUIRED_GATES
+    card['gates'].update({key: True for key in REQUIRED_GATES})
     card['gates']['literal_rule_exception_applied'] = False
     card_path.write_text(json.dumps(card))
     validated = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')

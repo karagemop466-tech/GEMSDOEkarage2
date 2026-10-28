@@ -148,3 +148,15 @@ not newly generated HOLDOUT-DTI or ORGANIZER-CONFIRMED scores.
 * [Official problem/metric/format](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), [data](https://www.drivendata.org/competitions/306/competition-doe-gems/data/), [submission page](https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/), [leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/): primary review links; not freshly accessible here. No current quota or score certified.
 * [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and), [INGENIOUS](https://gbcge.org/current-projects/ingenious/): official geological context, not newly read literature in this session.
 * Local pinned manifests and saved receipts establish research-byte consistency, not organizer provenance or a geothermal discovery.
+
+### Concurrent-main reconciliation
+
+Before opening the PR, main advanced through PRs #45–47 with two independent HK3
+retractions and a root `SUBMISSION_STATUS.md`. The merge preserved those review
+receipts and their no-waiver policy. The root status file still contained an old
+PROMOTE recommendation and guaranteed portal-range acceptance despite those
+retractions; it is now corrected, with its original text archived. The concurrent
+`hk3_release_policy.py` is retained as the common publication adapter and now
+requires the existing full readiness evidence contract, not merely a short list
+of gate booleans. All current artifacts remain research-only. The stronger direct
+HK3 function guards remain; read-only saved-raster audit is not a new experiment.

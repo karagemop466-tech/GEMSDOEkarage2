@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from scripts.readiness import assess  # noqa: E402
+from scripts.hk3_release_policy import publication_eligible  # noqa: E402
 from scripts.build_site import METHODS  # noqa: E402
 
 DOCS = ROOT / "docs"
@@ -51,7 +51,7 @@ def gather():
 
 def eligible(card):
     # Do not accept PROMOTE alone. The full common evidence contract applies.
-    return card.get("verdict") == "promote" and assess(card)["verdict"] == "promote"
+    return publication_eligible(card)
 
 
 def shell(title, body, d, prefix=""):
