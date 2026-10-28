@@ -2,7 +2,7 @@
 
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Working branch for this review: `arena/a2ada8b3-gemsdoekarage2`
+Work on the Arena-assigned session branch; do not assume an older branch name.
 
 ## Operating instruction
 
@@ -58,7 +58,7 @@ Competitors choose ONE submission for scoring in both rounds before the deadline
 - EPSG 32611: https://epsg.io/32611
 - Tversky index: https://en.wikipedia.org/wiki/Tversky_index
 
-**Data access:** organizer-authenticated inputs are not present in this checkout. Previous sessions restored owner-mirrored core inputs and a scratch feature cache, but their organizer provenance is unverified and scratch files are not persistent. See `evidence/run-card.json`. The present sandbox permits outbound access only to specified package and GitHub hosts; it cannot access DrivenData or Dropbox directly.
+**Data provenance blocker:** A prior session restored hash-pinned community mirrors of features, labels, faults and a template into disposable `.cache/`; these are not organizer-authenticated. The feature cache is not necessarily present in a new sandbox. The organizer data and portal require access not available here. Data placement alone does not establish eligibility. See `registry/core_data_manifest.json`, `evidence/input_restore.json` and `research/independent-three-pass-review.md`.
 
 ## Current evidence status — reviewed 2026-10-28 UTC
 
@@ -94,9 +94,7 @@ Best supplied results (USER-REPORTED / UNVERIFIED; none linked to an organizer r
 - GEMSDOE24: h25-1-dotted-h19-5-d1-5 = 0.2477
 - GEMSDOE27: topo-gap-closure-t-v2-on-d1-5 = 0.2449
 
-**Critical finding (GEMSDOE28 S23 audit):** the nine audited historical files have substantial pairwise dot overlap; the D2.8 / B2 relationships below were measured on pinned mirrors. The 0.2778 champion is the GEMSDOE31 solo
-dot set with 2,545 catalogue-adjacent dots removed; GEMSDOE25 and GEMSDOE30 have the
-same dot geography; GEMSDOE36 contains every champion dot plus 1,200 extras. Each of the nine audited masks exceeds the literal directional overlap threshold against at least one of the others. A spacing-5 calibration lattice also covers nearly all of the mirrored footprint. The exact footprint and budget affect any geometric bound; see `docs/evidence/saturation_certificate.json` and `evidence/geometry-audit.json` for their different scopes. Neither proves a universal blocker for every possible budget. All nine are marked DO NOT SUBMIT on their sites.
+**Critical finding:** the nine audited historical files have substantial pairwise dot overlap; the D2.8 / B2 relationships below were measured on pinned mirrors. The reported GEMSDOE32 best is the GEMSDOE31 solo dot set with 2,545 catalogue-adjacent dots removed; GEMSDOE25 and GEMSDOE30 have the same dot geography; GEMSDOE36 contains every B2 dot plus 1,200 extras. Each of the nine audited masks exceeds the literal directional overlap threshold against at least one of the others. A spacing-5 calibration lattice also covers nearly all of the mirrored footprint. The exact footprint and budget affect any geometric bound; see `docs/evidence/saturation_certificate.json` and `evidence/geometry-audit.json` for their different scopes. Neither proves a universal blocker for every possible budget. The local summaries mark all nine DO NOT SUBMIT.
 
 **No validated leaderboard estimate exists for any of them** ("Unavailable" — catalogue
 holdout cannot reliably estimate the expert-hidden private score).
@@ -159,45 +157,39 @@ holdout cannot reliably estimate the expert-hidden private score).
   R = 300 m) + spatially-blocked hide-and-recover holdout. Self-tested.
 - scripts/submission_writer.py — validated GeoTIFF writer + audit JSON receipt
   (CRS/shape/transform/dtype/range [0,1]/finite/uniqueness checks).
-- scripts/generate_submission.py — generates the unique H-KARAGE-1 submission TIF
-  (submissions/) with run card + audit.
+- scripts/generate_submission.py — retired, fail-closed legacy generator; it cannot create or publish a TIF.
 - scripts/prepare_data.py      — validates data/ placement once competition data is
   staged (DrivenData login required).
 - scripts/download_competition_data.sh — data download documentation.
-- submissions/                 — the generated unique submission TIF + audit + run card.
+- docs/downloads/              — quarantined research artifacts; none is approved for submission.
 - reference/gemsdoe36/         — learning/education-only reference rasters fetched from
   the GEMSDOE36 source repo (never for submission).
 - docs/                        — GitHub Pages site: index.html, executive-summary.html,
   how-to-submit.html, research-hypotheses.html.
 - README.md                    — this file (the consolidated project prompt).
 
-## Historical entry points (not release authorization)
+## How to run and next steps
 
-1. `python scripts/evaluate_holdout.py` — metric self-test.
-2. `python scripts/generate_submission.py` — legacy research generator; do not run
-   as a new lane or submission recommendation. Format checks alone do not prove novelty.
-3. `python scripts/prepare_data.py` — after competition data is staged in data/.
+- `python scripts/assess_release.py` evaluates the existing stopped H1 evidence;
+  it does not independently authenticate inputs or authorize a slot.
+- `python scripts/preflight.py` records missing prerequisites and exits nonzero;
+  its default output is a historical evidence path, so pass `--output` to avoid
+  overwriting earlier records.
+- `python scripts/build_site.py` regenerates the experiment pages. See
+  `research/independent-three-pass-review.md` for the prior reproducibility work.
+- `python scripts/generate_submission.py` intentionally fails closed. The old
+  generator tried to evade a registry control, did not establish uniqueness or
+  performance, and must not place dots or publish a file.
 
-## Next steps / limitations
+**No submission-ready TIFF exists.** H1 is a local research surface only, not a
+final dot submission; its measured holdout and collision are in
+`evidence/run_card.json`. A separate older irregular-lattice TIFF is archived,
+not approved or established unique. No hidden leaderboard estimate is justified.
 
-1. Resolve the missing assigned method paragraph and the literal lattice-overlap
-   conflict without silently exempting any registry entry. Do not tune H1 after
-   its duplicate stop.
-2. Restore pinned mirror inputs and the shared prepared feature stack; authenticate
-   the organizer sample/footprint. Mirrors alone do not establish organizer provenance.
-3. Fix the known continuous-input behavior in the shared template upstream before
-   running continuous predictions; preserve unchanged shared evaluator/writer pins.
-4. Obtain a complete immutable cross-session registry and a frozen comparable
-   incumbent with identical buffered whole-segment folds.
-5. Only then run feature canaries and a preregistered experiment (maximum three
-   experiments or two hours), requiring paired HOLDOUT-DTI improvement, novelty
-   before placement and on final dots, and saved-byte format validation.
-6. A separate selector must check the authenticated current quota before any slot.
-
-Existing TIFF downloads are research artifacts, **not approved submissions**.
-There is no defensible estimate of their private leaderboard score. The source
-refresh is GitHub-only and does not authenticate portal acceptance or receipts.
-
-The consolidated prompt above is the standing project brief, not an assertion
-that every requested capability has been completed. Prior scripts and research
-artifacts may depend on disposable caches; consult their receipts and tests.
+Resolve the method-lane assignment and literal lattice-control policy across
+sessions; authenticate competition data/template and exterior nodata rules;
+restore the shared cache and independently complete registry; reconstruct a
+same-fold incumbent and obtain file-bound receipts. Only then can a new run
+apply canaries, the surface stop, buffered holdout, final-dot novelty and
+saved-byte validation. Promotion and a weekly slot remain separate decisions.
+A failed gate cannot be overcome by re-labeling or lattice avoidance.
