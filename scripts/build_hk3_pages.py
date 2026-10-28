@@ -68,7 +68,40 @@ def gather():
     geo = load(EV / "geometry-audit.json")
     sites = load(ROOT / "registry/focus_sites.json")
     aud = load(EV / "hk3/registry_audit.json")
-    return dict(rc=rc, cal=cal, bridge=bridge, e2=e2, geo=geo, sites=sites, aud=aud)
+    release = load(EV / "hk3/current_release_assessment.json")
+    selector = load(EV / "hk3/selector_result.json")
+    return dict(rc=rc, cal=cal, bridge=bridge, e2=e2, geo=geo, sites=sites, aud=aud,
+                release=release, selector=selector)
+
+
+def release_finding(release: dict, gate: str) -> dict:
+    return next(item for item in release.get("blocking_findings", []) if item.get("gate") == gate)
+
+
+def can_submit(d) -> bool:
+    """Fail closed on the current literal protocol, not the historical run-card verdict."""
+    rc, release, selector = d["rc"], d["release"], d["selector"]
+    gates = rc.get("gates", {})
+    return bool(
+        rc.get("verdict") == "PROMOTE"
+        and gates.get("unique_literal_vs_all_registry_rasters") is True
+        and gates.get("rank_correlation_below_0_90") is True
+        and gates.get("literal_rule_exception_applied") is not True
+        and release.get("status") == "approved"
+        and release.get("ok_to_submit") is True
+        and release.get("preplacement_surface_clearance_passed") is True
+        and release.get("final_dot_uniqueness_passed") is True
+        and release.get("current_holdout_comparison_passed") is True
+        and release.get("organizer_template_authenticated") is True
+        and release.get("source_data_authenticated") is True
+        and release.get("lane_assignment_authorized") is True
+        and release.get("registry_scan_complete") is True
+        and release.get("leakage_canary_passed") is True
+        and selector.get("verdict") == "candidate_approved_by_automated_gates"
+        and selector.get("ok_to_submit") is True
+        and selector.get("slot_authorized") is False
+        and selector.get("raster_sha256") == rc.get("raster", {}).get("sha256")
+    )
 
 
 def site_rows(d):
@@ -147,7 +180,7 @@ Official pages (not reachable from the build sandbox; verify manually): <a href=
 
 
 def badge_fill(page: str, d) -> str:
-    ok = d["rc"]["verdict"] == "PROMOTE"
+    ok = can_submit(d)
     # head() is an f-string, so its "{{BADGE}}" renders as the literal "{BADGE}"
     return page.replace("{BADGE}", "ok" if ok else "no").replace("{BADGE_TEXT}", "OK TO SUBMIT: YES" if ok else "OK TO SUBMIT: NO")
 
@@ -156,7 +189,7 @@ def gate_list(rc) -> str:
     labels = {
         "format_shared_validator_pass": "Format (shared gems57 validator): single band float32, finite, values in [0,1], zeros outside the footprint, no dots on mapped faults",
         "grid_matches_example_submission": "CRS / shape / transform identical to example_submission.tif (EPSG:32611, 3730 × 3292, 100 m)",
-        "whole_array_finite_in_0_1": "Whole array finite and inside [0,1] (no NaN anywhere — the earlier portal error “values must be in range [0,1]” cannot recur)",
+        "whole_array_finite_in_0_1": "Saved array contains no NaN/infinity and values are in [0,1]; this local check does not diagnose the earlier portal error or prove portal acceptance",
         "no_dots_on_mapped_catalogue": "No positive pixel on a mapped (excluded) fault pixel; 3 px apron kept clear",
         "leakage_canary_pass": "Leakage canary: every new feature alone has AUC &lt; 0.90",
         "holdout_beats_refit_incumbent_paired_ci_excludes_zero": "Beats the re-fitted incumbent on identical folds and budget (paired 95 % CI excludes 0)",
@@ -179,10 +212,12 @@ def gate_list(rc) -> str:
     return '<ul class="gates">' + "".join(items) + "</ul>" + budget
 
 
-def uniqueness_note(rc) -> str:
+def uniqueness_note(rc, release) -> str:
     t = rc["registry_uniqueness"]["tiers"]
     u1, u2, u3, u4 = (t["U1_unique_vs_nine_scored_site_files"], t["U2_literal_rule_vs_all_registry_rasters"],
                       t["U3_chance_corrected_overlap_vs_all"], t["U4_literal_rule_vs_dot_rasters_that_were_submitted"])
+    final_overlap = release["correlation_overlap_vs_registry"]["final_dots"]["max_within_3px_overlap"]
+    coverage = release_finding(release, "registry_coverage")
     rows = "".join(
         f'<tr><td><code class="cs">{esc(Path(f["submission"]).name)}</code><br><span class="sub-label">{esc(f["repo"])} · {esc(f["object"])} · {f["their_positive_px"]:,} positive px</span></td>'
         f'<td><b class="no">{pct(f["overlap_3px"])}</b></td><td>{pct(f["halo_fraction_of_footprint"]) if f["halo_fraction_of_footprint"] is not None else "—"}</td>'
@@ -191,12 +226,12 @@ def uniqueness_note(rc) -> str:
     per_site = ", ".join(f'{esc(k)} {pct(v["overlap_3px"])}' for k, v in sorted(u1["per_site"].items()))
     return f"""
 <div class="notice {'warn' if not u2['pass'] else 'ok'}">
-<h4>Uniqueness — read this before uploading</h4>
-<p><b>Vs the nine scored site files:</b> {'PASS' if u1['pass'] else 'FAIL'} — HK3 dots within 3 px of each: {per_site}; max rank-corr {u1['max_abs_rho']:.3f}. The dot sets differ from every scored file by more than half.</p>
-<p><b>Literal 70 % rule vs all {u2['rasters_checked']} non-degenerate registry rasters:</b> <b class="no">{'FAIL' if not u2['pass'] else 'PASS'}</b>{' against the ' + str(len(u2['failures'])) + ' rasters below, PASS against the other ' + str(u2['rasters_checked'] - len(u2['failures'])) if not u2['pass'] else ''}.
-<b>Chance-corrected rule vs all:</b> {'PASS' if u3['pass'] else 'FAIL'} (max {u3['max_corrected']:.2f}, limit 0.70). <b>Literal rule vs every dot raster that may have been submitted:</b> {'PASS' if u4['pass'] else 'FAIL'}.</p>
-{'<table><thead><tr><th>Raster</th><th>HK3 dots within 3 px</th><th>Chance level (its 3 px halo)</th><th>Chance-corrected</th><th>GEMSDOE32 champion within 3 px of the same raster</th><th>Status of that raster</th></tr></thead><tbody>' + rows + '</tbody></table>' if rows else ''}
-<p class="muted">The pre-registered note said a literal failure stops the lane. The lane is stopped (3 experiments used). The artifact is still offered because none of the flagged rasters is a scored dot submission: two were never submitted and the third is a 174 k-pixel ridge-line surface (owner-reported 0.128) whose 3 px halo covers a quarter of the footprint — the champion itself sits {pct(next((f['GEMSDOE32_champion_overlap_with_same_raster'] for f in u2['failures'] if 'ctx-ridge' in f['submission']), 0))} inside it. GEMSDOE32's own H45 audit hit the same wall (71.9 % vs one dense raster). This is a disclosed deviation, recorded in the run card; the selector (you) can still decline.</p>
+<h4>Registry duplicate check — DO NOT SUBMIT</h4>
+<p><b>Against the nine focus-site files only:</b> the narrower overlap check passes (HK3 dots within 3 px: {per_site}; maximum focus-site rank-correlation {u1['max_abs_rho']:.3f}). This is not the full registry scope.</p>
+<p><b>Literal 70 % rule:</b> FAIL. The U2 subset audit found {len(u2['failures'])} additional failures; the raw registry audit also reports {100 * final_overlap:.4f} % of final dots within 3 px of the r13 lattice. The threshold is 70 %. The chance-corrected metric and a submitted-only scope are diagnostic summaries, not waivers under the current protocol.</p>
+<p><b>Registry completeness:</b> {coverage['checked']} of {coverage['expected']} expected entries were checked. A partial scan cannot clear uniqueness. See the <a href="evidence/hk3/current_release_assessment.json">current release assessment</a> and <a href="evidence/hk3/registry_audit.json">raw registry audit</a>.</p>
+{'<table><thead><tr><th>Additional literal-rule witness</th><th>HK3 dots within 3 px</th><th>Halo diagnostic</th><th>Chance-corrected diagnostic (not a gate)</th><th>Champion overlap diagnostic</th><th>Recorded status</th></tr></thead><tbody>' + rows + '</tbody></table>' if rows else ''}
+<p class="muted">The current protocol says a literal duplicate witness means stop. This HK3 lane used its three-experiment budget and is closed. The TIFF is retained for research/reproduction only; no selector exception can convert this recorded failure to upload approval.</p>
 </div>
 """
 
@@ -235,8 +270,7 @@ def legacy_section(rc) -> str:
             f'Verdict {esc(k3["verdict"]).upper()}: its surface failed the pre-placement gate against K2 (top-support overlap '
             f'{cor["surface_before_placement"]["top_support_overlap_vs_K2_predecessor"]:.4f}) and its final dots exceed 70 % within 3 px of '
             f'{cor["final_dots"]["duplicates_primary_count"]} registry records (worst {worst:.3f}). HK3 keeps a 3 px catalogue apron and 3 px dot separation, '
-            f'which is why its overlap with every scored file stays ≤ {pct(hk3_u1)}. K3 is the holdout-best file in this repository but is not submittable; '
-            f'HK3 is the best <em>submittable</em> file. Protocol note: HK3 did not beat K3 on holdout, so the holdout incumbent for the next lane is K3&#8217;s {f4(h["candidate_dti"])}.',
+            f'which is why its overlap with every scored focus-site file stays ≤ {pct(hk3_u1)}. K3 is the holdout-best recorded file in the repository but also fails uniqueness; HK3 independently fails the literal all-registry rule and is research-only. Neither file is currently submittable. Protocol note: any next lane must compare against K3&#8217;s HOLDOUT-DTI {f4(h["candidate_dti"])} using the same folds and a paired interval.',
             '<a href="evidence/k3/run_card.json">k3/run_card.json</a> · <a href="evidence/k3/selector_result.json">k3/selector_result.json</a>')
     k2 = c["k2"]
     if k2:
@@ -278,7 +312,7 @@ def legacy_section(rc) -> str:
 <table>
 <thead><tr><th>File</th><th>Status</th><th>Why</th><th>Receipts</th></tr></thead>
 <tbody>{''.join(rows)}</tbody></table>
-<p class="muted">The only file offered for upload is the HK3 file at the top of the page.</p>
+<p class="muted">The HK3 TIFF at the top is a research-only download. The current inventory approves no file for competition upload.</p>
 </section>
 """
 
@@ -290,30 +324,28 @@ def page_index(d) -> str:
     hold = rc["holdout"]
     r = rc["raster"]
     sub = rc["submission"]
-    ok = rc["verdict"] == "PROMOTE"
+    ok = can_submit(d)
     tif = f"downloads/{sub['name']}.tif"
     zipf = f"downloads/{sub['name']}.zip"
     row = est["curve_row_used"]
     theta = est["estimate_theta"]
     ru = rc["registry_uniqueness"]
     failed = [k for k, v in rc["gates"].items() if v is False]
-    gate_sentence = ("Every automated gate passed (format, grid, range, uniqueness, leakage canary, holdout)."
+    gate_sentence = ("All current hard gates pass under the literal registry rule."
                      if not failed else
-                     f"{len([k for k, v in rc['gates'].items() if v is True and k != 'literal_rule_exception_applied'])} automated gates passed (format, grid, range, leakage canary, holdout, "
-                     f"uniqueness vs every scored GEMSDOE file and vs every submitted dot raster); "
-                     f"<b class=\"no\">{len(failed)} gate failed</b> — the literal 70 % rule against <em>all</em> registry rasters including never-submitted research files — "
-                     f"and the verdict applies the disclosed exception explained in the red uniqueness note below. Read it before uploading.")
+                     f"<b class=\"no\">{len(failed)} recorded gate(s) failed.</b> The current literal rule has no exception for research or lattice rasters. "
+                     "The historical experiment receipt applied an exception; this page does not treat that as clearance.")
     verdict_html = (
-        f'<p class="verdict"><b class="ok">OK TO SUBMIT.</b> {gate_sentence} '
-        f'This file is new: it was generated in this repository on 2026-10-28 and is not a copy or subset of any GEMSDOE site file.</p>'
+        f'<p class="verdict"><b class="ok">OK TO SUBMIT.</b> {gate_sentence}</p>'
         if ok else
-        '<p class="verdict"><b class="no">DO NOT SUBMIT.</b> At least one blocking automated gate failed; see the gate list.</p>')
+        f'<p class="verdict"><b class="no">DO NOT SUBMIT.</b> {gate_sentence} '
+        'The saved raster is offered only for research/reproduction. See the current release assessment for the stop reason.</p>')
     out = head("Download", "home")
     out += f"""
 <section class="hero">
-<h2>{'Approved submission file' if ok else 'No approved submission file'} — {esc(sub['name'])}.tif</h2>
+<h2>{'Approved submission file' if ok else 'Research artifact — not approved for submission'} — {esc(sub['name'])}.tif</h2>
 {verdict_html}
-<p><a class="btn big" href="{tif}" download>⬇ Download {esc(sub['name'])}.tif ({r['dots']:,} dots)</a>
+<p><a class="btn big" href="{tif}" download>⬇ Download {'approved submission' if ok else 'research-only — DO NOT SUBMIT'} TIF ({r['dots']:,} dots)</a>
 &nbsp; <a class="btn secondary" href="{zipf}" download>ZIP</a>
 &nbsp; <a class="btn secondary" href="evidence/hk3/run_card.json">Run card (JSON)</a></p>
 <div class="meta">
@@ -327,12 +359,14 @@ Sensitivity: θ&nbsp;=&nbsp;0.75 → {f4(theta['0.75'])}, θ&nbsp;=&nbsp;0.5 →
 Out-of-sample check of the same estimator on GEMSDOE24: {f4(est['GEMSDOE24_out_of_sample_check']['predicted'])} predicted vs {f4(est['GEMSDOE24_out_of_sample_check']['user_reported'])} reported. <b>NOT ORGANIZER-CONFIRMED.</b></td></tr>
 <tr><th>HOLDOUT-DTI</th><td><b>{f4(hold['candidate_same_budget_as_incumbent_b110']['dti'])}</b> [{f4(hold['candidate_same_budget_as_incumbent_b110']['ci95'][0])}, {f4(hold['candidate_same_budget_as_incumbent_b110']['ci95'][1])}] at the incumbent's budget (1.10 % of active px) vs re-fitted incumbent {f4(hold['incumbent_refit_b110']['dti'])}; paired Δ&nbsp;=&nbsp;+{f4(hold['paired_differences']['cand34_b110_minus_inc26_b110']['delta'])} [{f4(hold['paired_differences']['cand34_b110_minus_inc26_b110']['ci95'][0])}, {f4(hold['paired_differences']['cand34_b110_minus_inc26_b110']['ci95'][1])}].
 At the submitted rate ({row['rate']*100:.1f} % of active px): {f4(row['holdout_dti'])}. Evaluator <code>{esc(hold['evaluator_version'])}</code>, {fmt_int(hold['withheld_positive_pixels'])} withheld positive pixels. Holdout truth is the public catalogue, ≈ 5× denser than the hidden labels, so holdout numbers are not leaderboard numbers.</td></tr>
-<tr><th>Unique?</th><td><b>YES vs every scored GEMSDOE file</b> (max {pct(ru['tiers']['U1_unique_vs_nine_scored_site_files']['max_overlap'])} of dots within 3 px of any of the nine; rank-corr ≤ {ru['tiers']['U1_unique_vs_nine_scored_site_files']['max_abs_rho']:.3f}). Literal 70 % rule vs <em>all</em> {ru['rasters_checked']} registry rasters: <b class="no">{'fails vs ' + str(len(ru['tiers']['U2_literal_rule_vs_all_registry_rasters']['failures'])) + ' never-submitted / line-surface rasters' if not ru['tiers']['U2_literal_rule_vs_all_registry_rasters']['pass'] else 'PASS'}</b> — details in the uniqueness note below. Degenerate witnesses (3 px halo ≥ 95 % of the footprint): {', '.join(esc(Path(x).name) for x in ru['degenerate_witnesses']) or 'none'}.</td></tr>
+<tr><th>Unique?</th><td><b class="no">NO — STOP under the required literal rule.</b> Final dots have {pct(d['release']['correlation_overlap_vs_registry']['final_dots']['max_within_3px_overlap'])} within 3 px of the r13 lattice registry raster (limit 70 %); the registry audit is incomplete ({release_finding(d['release'], 'registry_coverage')['checked']} of {release_finding(d['release'], 'registry_coverage')['expected']} entries). It passes the narrower nine-scored-site comparison ({pct(ru['tiers']['U1_unique_vs_nine_scored_site_files']['max_overlap'])} max overlap), but that does not clear the full registry gate.</td></tr>
 <tr><th>Format</th><td>GeoTIFF, 1 band, float32, {esc(r['profile']['crs'])}, {r['profile']['shape'][0]} × {r['profile']['shape'][1]}, transform {esc(r['profile']['transform'])}; values ∈ {{0, 1}} inside the footprint, 0 outside (same convention as the user-reported-scored GEMSDOE32 champion file); no NaN.</td></tr>
 </table>
 <h3>Automated gates</h3>
 {gate_list(rc)}
-{uniqueness_note(rc)}
+<div class="notice warn"><h4>Current protocol decision: NEGATIVE — DO NOT SUBMIT</h4>
+<p>The saved final raster exceeds the literal 70 % / 3 px duplicate stop, and the registry scan is incomplete. The earlier experiment card's PROMOTE label used an exception that this prompt does not permit. No new submission raster was generated in this review. <a href="evidence/hk3/current_release_assessment.json">Current release assessment (JSON)</a> · <a href="evidence/hk3/registry_audit.json">Registry audit</a>.</p></div>
+{uniqueness_note(rc, d["release"])}
 </section>
 
 <section class="section">
@@ -341,7 +375,7 @@ At the submitted rate ({row['rate']*100:.1f} % of active px): {f4(row['holdout_d
 <thead><tr><th>File</th><th>Status</th><th>Estimate / holdout</th><th>Unique vs other GEMSDOE sites?</th></tr></thead>
 <tbody>
 <tr><td><a href="{tif}" download><code>{esc(sub['name'])}.tif</code></a></td><td><span class="pill {'ok' if ok else 'no'}">{'OK TO SUBMIT' if ok else 'DO NOT SUBMIT'}</span></td>
-<td>{f4(est['estimate'])} LEADERBOARD-CALIBRATED ESTIMATE · {f4(hold['candidate_same_budget_as_incumbent_b110']['dti'])} HOLDOUT-DTI</td><td>YES vs all scored files (max {pct(ru['tiers']['U1_unique_vs_nine_scored_site_files']['max_overlap'])}); literal all-registry rule: see note</td></tr>
+<td>{f4(est['estimate'])} LEADERBOARD-CALIBRATED ESTIMATE (not a score) · {f4(hold['candidate_same_budget_as_incumbent_b110']['dti'])} HOLDOUT-DTI</td><td>NO — {pct(d['release']['correlation_overlap_vs_registry']['final_dots']['max_within_3px_overlap'])} overlap with r13 lattice at 3 px; literal stop. DO NOT SUBMIT.</td></tr>
 <tr><td>K3, K2, B4, H2, H1 research files and the H-KARAGE-1 raster (<a href="#legacy">table below</a>)</td><td><span class="pill no">DO NOT SUBMIT</span></td><td>HOLDOUT-DTI only (K3 {f4(legacy_cards()["k3"]["holdout"]["candidate_dti"]) if legacy_cards()["k3"] else "—"} is the holdout-best but fails uniqueness; the rest are below the incumbent)</td><td>negative run cards; never offered for upload</td></tr>
 </tbody></table>
 <p>The other files remain on the server only as research evidence. Do not upload them.</p>
@@ -378,15 +412,15 @@ def page_summary(d) -> str:
     rc, cal, bridge, e2 = d["rc"], d["cal"], d["bridge"], d["e2"]
     est = rc["estimator"]; hold = rc["holdout"]; sub = rc["submission"]; r = rc["raster"]
     ru = rc["registry_uniqueness"]
-    ok = rc["verdict"] == "PROMOTE"
+    ok = can_submit(d)
     theta = est["estimate_theta"]
     ps = e2["pooled_summary"]["scores"]
     out = head("Executive summary", "summary")
     out += f"""
 <section class="hero">
-<h2>Executive summary — one file to download, labelled numbers, nothing hidden</h2>
-<p class="verdict">{'<b class="ok">Submit</b>' if ok else '<b class="no">Do not submit</b>'} <code>{esc(sub['name'])}.tif</code> — the only file on this site that is new, unique and validated. Every other GEMSDOE file listed below has already been scored and belongs to the same dot family; re-uploading one of them spends a slot for a known result.</p>
-<p><a class="btn big" href="downloads/{esc(sub['name'])}.tif" download>⬇ Download the approved TIF</a> &nbsp; <a class="btn secondary" href="how-to-submit.html">How to submit (step by step)</a></p>
+<h2>Executive summary — current decision: {'submission approved' if ok else 'NO APPROVED SUBMISSION'}</h2>
+<p class="verdict">{'<b class="ok">OK TO SUBMIT</b>' if ok else '<b class="no">DO NOT SUBMIT</b>'} <code>{esc(sub['name'])}.tif</code>. {'The current release assessment clears all literal gates.' if ok else 'This historical research raster fails the literal registry duplicate rule; it is not cleared for upload. The earlier run-card PROMOTE verdict applied an exception and is superseded for current guidance.'}</p>
+<p><a class="btn big" href="downloads/{esc(sub['name'])}.tif" download>⬇ Download {'approved submission' if ok else 'research-only (DO NOT SUBMIT)'} TIF</a> &nbsp; <a class="btn secondary" href="how-to-submit.html">Submission instructions and current gate status</a></p>
 </section>
 
 <section class="section">
@@ -397,8 +431,8 @@ def page_summary(d) -> str:
 <tr><td><a href="downloads/{esc(sub['name'])}.tif" download><code>{esc(sub['name'])}.tif</code></a><br><span class="sub-label">SHA-256 {esc(r['sha256'][:16])}…</span></td>
 <td><b>{f4(est['estimate'])}</b> LEADERBOARD-CALIBRATED ESTIMATE (θ = 1; θ = 0.75 → {f4(theta['0.75'])}; θ = 0.5 → {f4(theta['0.50'])}; anchor-floor {f4(est['estimate_if_no_better_than_anchor'])})<br>
 <b>{f4(hold['candidate_same_budget_as_incumbent_b110']['dti'])}</b> HOLDOUT-DTI [{f4(hold['candidate_same_budget_as_incumbent_b110']['ci95'][0])}, {f4(hold['candidate_same_budget_as_incumbent_b110']['ci95'][1])}], evaluator {esc(hold['evaluator_version'])}, {fmt_int(hold['withheld_positive_pixels'])} withheld positives (at the incumbent's 1.10 % budget; {f4(est['curve_row_used']['holdout_dti'])} at the submitted {est['curve_row_used']['rate']*100:.1f} %)</td>
-<td><b>YES vs every scored GEMSDOE file</b> (max {pct(ru['tiers']['U1_unique_vs_nine_scored_site_files']['max_overlap'])} within 3 px; |ρ| ≤ {ru['tiers']['U1_unique_vs_nine_scored_site_files']['max_abs_rho']:.3f}); chance-corrected overlap ≤ {ru['tiers']['U3_chance_corrected_overlap_vs_all']['max_corrected']:.2f} vs all {ru['rasters_checked']} registry rasters; literal 70 % rule fails vs {len(ru['tiers']['U2_literal_rule_vs_all_registry_rasters']['failures'])} never-submitted / line-surface rasters (see section 3)</td>
-<td><span class="pill {'ok' if ok else 'no'}">{rc['verdict']}</span></td></tr>
+<td><b class="no">NO — literal rule fails.</b> {pct(d['release']['correlation_overlap_vs_registry']['final_dots']['max_within_3px_overlap'])} of dots within 3 px of a registry raster, over the 70 % stop threshold. Scan coverage was {release_finding(d['release'], 'registry_coverage')['checked']}/{release_finding(d['release'], 'registry_coverage')['expected']}.</td>
+<td><span class="pill no">DO NOT SUBMIT</span></td></tr>
 </tbody></table>
 <p>Compared with the best user-reported result among the nine sites (GEMSDOE32, 0.2778): the calibrated estimate is higher at θ ≥ 0.75 and roughly equal at θ = 0.5. Compared with the user-cited leaderboard high (0.4544, later cited as 0.4413 / 0.3195 — all USER-REPORTED): <b>this file is not expected to reach it</b>; the calibration shows that score needs ≈ 1.7× the hit rate of this family, i.e. a different information source (see hypotheses HK3-c/HK3-e below).</p>
 </section>
@@ -424,7 +458,7 @@ def page_summary(d) -> str:
 </section>
 
 <section class="section">
-<h3>3. What HK3 did (the submitted file)</h3>
+<h3>3. Historical HK3 research experiment (not a submission)</h3>
 <ul>
 <li><b>Lane (single method):</b> {esc(rc['lane'])}.</li>
 <li><b>Hypothesis:</b> {esc(rc['hypothesis'])}</li>
@@ -451,7 +485,7 @@ def page_summary(d) -> str:
 <h4>Why no cross-family out-of-sample check is possible</h4>
 <p>Three further owner-reported files (gems10 ridge surface 0.128, gems10 dotted ridge 0.1839, ens12 0.1563; scores from GEMSDOE24's calibration manifest) were run through the same estimator and were over-predicted 1.5–2.9×. Every external file was built with the full catalogue visible, and a model that has seen the withheld segments gets <b>{d['rc']['estimator_out_of_sample_checks']['leakage_inflation_diagnostic']['pooled']['inflation_T']:.2f}×</b> the catalogue-holdout coverage of the clean per-fold model at the same dot count (<a href="evidence/hk3/leakage_inflation.json">leakage_inflation.json</a>). Those checks therefore cannot test the transfer rule; they are recorded in <a href="evidence/hk3/anchors_out_of_sample.json">anchors_out_of_sample.json</a> and not used. The HK3 holdout numbers are leakage-free by construction (per-fold refit; all canaries pass). If the D2.8 anchor is itself mildly leaked, the estimate above is conservative.</p>
 <h4>Uniqueness audit of the final dots</h4>
-{uniqueness_note(rc)}
+{uniqueness_note(rc, d["release"])}
 </section>
 
 <section class="section">
@@ -496,44 +530,49 @@ def page_summary(d) -> str:
 
 
 def page_howto(d) -> str:
-    rc = d["rc"]; sub = rc["submission"]; r = rc["raster"]; ok = rc["verdict"] == "PROMOTE"
+    rc = d["rc"]
+    release = d["release"]
+    sub = rc["submission"]
+    r = rc["raster"]
+    ok = can_submit(d)
     out = head("How to submit", "howto")
+    if ok:
+        decision = f'<p class="verdict"><b class="ok">OK TO SUBMIT (slot selection remains separate).</b> <code>{esc(sub["name"])}.tif</code>.</p>'
+        button = f'<a class="btn big" href="downloads/{esc(sub["name"])}.tif" download>⬇ Download approved TIF</a>'
+        upload = f"""<section class="section"><h3>Upload steps</h3>
+<ol><li>Download the approved TIF above and do not edit/resave it.</li>
+<li>Verify SHA-256: <code>{esc(r['sha256'])}</code>.</li>
+<li>Open the <a href="{OFFICIAL['submissions']}">official DrivenData submissions page</a> and verify account quota before spending a slot.</li>
+<li>Upload the TIF and enter name <code>{esc(sub['name'])}</code> and note <code>{esc(sub['note'])}</code> (≤140 characters).</li>
+<li>Retain the organizer receipt; only its receipt confirms score and acceptance.</li></ol></section>"""
+    else:
+        decision = f'<p class="verdict"><b class="no">DO NOT SUBMIT.</b> This research artifact fails the current literal registry stop. The historical experiment receipt is not current upload authorization. <a href="evidence/hk3/current_release_assessment.json">Read the current release assessment</a>.</p>'
+        button = f'<a class="btn big" href="downloads/{esc(sub["name"])}.tif" download>⬇ Download research copy — DO NOT SUBMIT</a>'
+        upload = f"""<section class="section notice warn"><h3>Upload is blocked</h3>
+<p>Do not upload this file or spend a weekly slot. A future candidate must first pass a literal pre-placement registry scan, then final-dot uniqueness, the current-best spatial holdout comparison and all format/provenance checks. No such approved file exists in this repository at this time.</p>
+<p>Once a future file is explicitly cleared, the general process is: download the approved TIF unchanged; open the <a href="{OFFICIAL['submissions']}">official submissions page</a>; check the account's remaining quota; upload the exact named raster with its ≤140-character note; save the organizer receipt. This is process guidance, not permission to upload the current artifact.</p></section>"""
     out += f"""
 <section class="hero">
-<h2>How to submit — exactly these steps</h2>
-<p class="verdict">{'<b class="ok">Approved file:</b>' if ok else '<b class="no">NO APPROVED FILE —</b>'} <code>{esc(sub['name'])}.tif</code> ({r['dots']:,} dots, SHA-256 <code>{esc(r['sha256'][:16])}…</code>).</p>
-<p><a class="btn big" href="downloads/{esc(sub['name'])}.tif" download>⬇ Download {esc(sub['name'])}.tif</a> &nbsp; <a class="btn secondary" href="downloads/{esc(sub['name'])}.zip" download>ZIP (same file)</a></p>
+<h2>Submission instructions and current gate status</h2>
+{decision}
+<p>{button} &nbsp; <a class="btn secondary" href="executive-summary.html">Executive summary</a></p>
+<p>Historical experiment filename: <code>{esc(sub['name'])}.tif</code>; historical note: <code>{esc(sub['note'])}</code>. These are identifiers for the research artifact, not current submission advice.</p>
 </section>
-
+{upload}
 <section class="section">
-<h3>Step by step</h3>
-<ol>
-<li><b>Download</b> the TIF with the button above (direct link: <code>docs/downloads/{esc(sub['name'])}.tif</code>). Do not open it in an image editor; do not re-save it.</li>
-<li><b>Verify the bytes</b> (optional but recommended): <code>sha256sum {esc(sub['name'])}.tif</code> must print <code>{esc(r['sha256'])}</code>.</li>
-<li><b>Sign in</b> to DrivenData and open the <a href="{OFFICIAL['submissions']}">GEMS Prize Challenge submissions page ↗</a>. Check that you still have a slot (the rules allow at most 3 submissions per week).</li>
-<li><b>Upload</b> the TIF as the prediction file. Use this name and note (≤ 140 characters):<br>
-<code>{esc(sub['name'])}</code><br>
-<code>{esc(sub['note'])}</code></li>
-<li><b>Record the receipt.</b> When the score appears, paste it into the repository issue tracker or README under “ORGANIZER-CONFIRMED”; nothing on this site is organizer-confirmed until then.</li>
-</ol>
-</section>
-
-<section class="section">
-<h3>Why this file will not trigger “Predicted values must be in range [0, 1]”</h3>
+<h3>Saved raster checks — local only, not organizer acceptance</h3>
 <ul>
-<li>Every pixel of the array is finite and equals 0.0 or 1.0 — there is no NaN or infinity anywhere, inside or outside the footprint (checked by two independent validators; receipts in the <a href="evidence/hk3/run_card.json">run card</a>).</li>
-<li>Outside the study footprint the file holds 0.0, the same convention as the user-reported-scored GEMSDOE32 champion file (<code>…-zeros</code>) and as the organizer reference notebook, which writes finite values everywhere. Files that hold NaN outside the footprint fail a naive <code>0 ≤ x ≤ 1</code> check — that is the most likely cause of the earlier rejection.</li>
-<li>CRS EPSG:32611, 3730 × 3292 pixels, 100 m north-up transform (243350, 4508550) — identical to <code>example_submission.tif</code>; single band, float32.</li>
+<li>Historical local validation reports one band, float32, no NaN/infinity, and values in [0,1] across the full array.</li>
+<li>The grid matches the pinned owner-mirror example template: EPSG:32611, 3730 × 3292, 100 m transform. Organizer authenticity for the mirrored template is not established.</li>
+<li>These checks address the portal's reported range message only at the byte/format level. The exact previously rejected upload and its receipt are unavailable, so its cause is unknown; this repository cannot claim portal acceptance.</li>
+<li>The current scientific release assessment is negative for uniqueness and incomplete registry coverage. A range-valid file is not automatically a valid or competitive submission.</li>
 </ul>
+<p>Saved TIFF SHA-256: <code>{esc(r['sha256'])}</code>. <a href="evidence/hk3/validate_tif_strict.json">Historical validator receipt</a> · <a href="evidence/hk3/current_release_assessment.json">Current release assessment</a> · <a href="{OFFICIAL['problem']}">Official problem description</a>.</p>
 </section>
-
 <section class="section">
-<h3>What not to upload</h3>
-<ul>
-<li>Any of the nine GEMSDOE site files — already scored; all one family; none unique.</li>
-<li><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code>, <code>gemsdoekarage2-h1-parity-…-surface.tif</code>, <code>gemsdoe-karage2-hkarage1-…-zeros.tif</code> — research artefacts kept for evidence; labelled DO NOT SUBMIT.</li>
-<li>A subset of GEMSDOE32 (the “B3” projection) — not unique by construction.</li>
-</ul>
+<h3>Research-only artifact and limits</h3>
+<p>Run card historical verdict: <b>{esc(rc['verdict'])}</b>, with a disclosed exception to the current literal rule. Current assessment: <b>{esc(release['verdict'].upper())} — DO NOT SUBMIT</b>. The unique-submission question must be decided from the live registry scope required by the protocol, not from score estimates or file format checks.</p>
+<p>Candidate estimated score in the historical run card is a <b>LEADERBOARD-CALIBRATED ESTIMATE</b>, not HOLDOUT-DTI and not ORGANIZER-CONFIRMED. The HOLDOUT-DTI values use evaluator {esc(rc['holdout']['evaluator_version'])} and {fmt_int(rc['holdout']['withheld_positive_pixels'])} withheld positives; neither estimate nor holdout is a private leaderboard score.</p>
 </section>
 """
     out += legacy_section(rc)

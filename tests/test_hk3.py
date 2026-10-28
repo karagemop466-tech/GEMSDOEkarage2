@@ -31,7 +31,8 @@ def card():
 def test_run_card_is_published_identically(card):
     for name in ("run_card.json", "e2.json", "bridge.json", "e3_generation.json",
                  "registry_audit.json", "anchors_out_of_sample.json", "leakage_inflation.json",
-                 "validate_tif_strict.json"):
+                 "validate_tif_strict.json", "current_release_assessment.json", "selector_result.json",
+                 "selector_result-historical-promote.json"):
         assert load(EV / name) == load(DOCS / "evidence" / "hk3" / name), name
 
 
@@ -120,7 +121,8 @@ def test_desk_pages_are_generated_from_the_run_card(card):
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
         assert "{BADGE" not in page
-        assert ("OK TO SUBMIT: YES" in page) == (card["verdict"] == "PROMOTE")
+        assert "OK TO SUBMIT: YES" not in page
+        assert "DO NOT SUBMIT" in page
         if name in ("index.html", "how-to-submit.html"):
             assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
@@ -130,7 +132,16 @@ def test_desk_pages_are_generated_from_the_run_card(card):
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "LEADERBOARD-CALIBRATED ESTIMATE" in home
     assert "ORGANIZER-CONFIRMED" in home  # the label the page says it does *not* have
-    assert 'Literal 70 % rule vs all 450 non-degenerate registry rasters:</b> <b class="no">FAIL' in home
+    assert 'Literal 70 % rule:</b> FAIL.' in home
+    assert '99.8626 % of final dots within 3 px of the r13 lattice' in home
+    assert '<b>Registry completeness:</b> 452 of 453 expected entries were checked' in home
+    assert "99.9% within 3 px of the r13 lattice" in home
+    assert "DO NOT SUBMIT" in home
+    assert "evidence/hk3/current_release_assessment.json" in home
+    assessment = load(EV / "current_release_assessment.json")
+    selector = load(EV / "selector_result.json")
+    assert assessment["status"] == "negative_research_only" and assessment["ok_to_submit"] is False
+    assert selector["verdict"] == "negative_research_only" and selector["ok_to_submit"] is False
     assert "drivendata.org/competitions/306/competition-doe-gems/page/967/" in home
 
 

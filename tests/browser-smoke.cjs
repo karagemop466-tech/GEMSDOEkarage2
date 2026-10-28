@@ -67,12 +67,14 @@ function chromeEnvironment() {
     const artifactHash = crypto.createHash('sha256').update(Buffer.from(await artifactResponse.arrayBuffer())).digest('hex');
     assert.equal(artifactHash, parallelCard.raster_sha256);
     assert.equal(parallelCard.approved_for_weekly_slot, false);
-    // the HK3 run card names the only file offered for upload; its served bytes must hash to the card
+    // HK3 is a research-only download under the current assessment; served bytes must hash to the historical run card
     const hk3 = require('../evidence/hk3/run_card.json');
+    const release = require('../evidence/hk3/current_release_assessment.json');
+    assert.equal(release.ok_to_submit, false);
     const hk3Response = await fetch(base + '/' + hk3.raster.file);
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
-    const expectBadge = hk3.verdict === 'PROMOTE' ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO';
+    const expectBadge = release.status === 'approved' && release.ok_to_submit === true ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});

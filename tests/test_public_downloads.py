@@ -40,22 +40,27 @@ def make_fixture(tmp_path):
     return args, card_path
 
 
-def test_current_saved_downloads_are_hash_bound_with_one_candidate():
+def test_current_saved_downloads_are_hash_bound_and_research_only():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_ONE_CANDIDATE_FOR_UPLOAD'
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
+    assert result['downloadable_approved_submission'] is None
+    assert result['score_estimate'] is None
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert result['downloadable_approved_submission'] == hk3['raster']['file']
-    assert result['score_estimate']['label'].startswith('LEADERBOARD-CALIBRATED ESTIMATE')
     assert len(result['artifacts']) == 7
     candidates = [r for r in result['artifacts'] if r['kind'] == 'candidate']
     assert len(candidates) == 1 and candidates[0]['raster_sha256'] == hk3['raster']['sha256']
-    assert candidates[0]['ok_to_submit'] is True and candidates[0]['slot_authorized'] is False
-    assert candidates[0]['checks']['selector_explicit_candidate'] and candidates[0]['checks']['card_hard_gates_all_pass']
+    assert candidates[0]['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert candidates[0]['ok_to_submit'] is False and candidates[0]['download_for_research'] is True
+    assert candidates[0]['slot_authorized'] is False
+    assert candidates[0]['checks']['selector_explicit_research_only']
+    assert candidates[0]['checks']['current_assessment_negative']
+    assert candidates[0]['checks']['card_hard_gates_all_pass'] is False
+    assert candidates[0]['checks']['card_literal_rule_clear'] is False
+    assert candidates[0]['checks']['candidate_beats_current_holdout_best'] is False
     for record in result['artifacts']:
-        if record['kind'] == 'research':
-            assert record['ok_to_submit'] is False
+        assert record['ok_to_submit'] is False
         assert record['slot_authorized'] is False
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
@@ -75,9 +80,24 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     card_path.write_text(json.dumps(card))
     still = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert still['status'] == 'FAIL_CLOSED' and still['checks']['selector_explicit_candidate'] is False
-    # matching selector bound to the saved bytes => verified candidate
+    # A synthetic future candidate requires every literal gate, a bound current
+    # assessment, and a same-protocol holdout comparison; this fixture is not the
+    # production HK3 artifact or a recommendation to submit it.
+    card.update(gates={'format': True, 'unique_literal_vs_all_registry_rasters': True,
+                       'literal_rule_exception_applied': False},
+                registry_uniqueness={'tiers': {'U2_literal_rule_vs_all_registry_rasters': {'failures': []}}})
+    card_path.write_text(json.dumps(card))
+    assessment_rel = 'evidence/assessment.json'
+    (root / assessment_rel).write_text(json.dumps(dict(status='approved', ok_to_submit=True,
+        preplacement_surface_clearance_passed=True, final_dot_uniqueness_passed=True,
+        current_holdout_comparison_passed=True, organizer_template_authenticated=True,
+        source_data_authenticated=True, lane_assignment_authorized=True,
+        registry_scan_complete=True, leakage_canary_passed=True,
+        raster_sha256=card['raster_sha256'], source_run_card=card_rel,
+        blocking_findings=[dict(gate='current_holdout_incumbent', passed=True)])))
     (root / selector_rel).write_text(json.dumps(dict(verdict='candidate_approved_by_automated_gates', ok_to_submit=True,
-        slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
+        slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'],
+        current_release_assessment=assessment_rel)))
     good = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert good['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD' and good['ok_to_submit'] is True
     # a second candidate in the inventory is refused
