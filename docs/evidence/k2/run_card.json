@@ -54,7 +54,8 @@
   "correlation_overlap_vs_registry": {
     "surface_before_placement": {
       "vs_9_focus_best": "Spearman rho <= 0.0917; literal positive-support overlap <= 0.1836",
-      "vs_r13_lattice": "rho 0.0001; literal overlap 1.0 (mathematically forced; see impossible_gate)"
+      "vs_r13_lattice": "rho 0.0001; literal overlap 1.0 (mathematically forced; see impossible_gate)",
+      "coverage_note": "Recorded surface check covers the nine focus best rasters and the spacing-5 lattice only; ctx-ridge pre-placement comparison is not evidenced."
     },
     "final_dots": {
       "vs_9_focus_best_max_overlap": 0.4268,
@@ -62,7 +63,8 @@
       "vs_all_submission_rasters_9_repos": "430 docs/downloads submission rasters successfully compared (420 pinned + 10 current-head delta, 2026-10-28): max overlap 0.6808 (< 0.70), max |Spearman| 0.1189 (< 0.90), 0 duplicates, byte- and pixel-unique. 435 rasters successfully compared in total when docs/research, archive, evidence, non-calibration inputs/ surfaces and the 2 prior local candidates are included (same maxima); 1 additional 32x48 format-test file is grid-incomparable.",
       "vs_calibration_inputs": "GEMSDOE24 inputs/calibration/gems10-h25-ctx-ridge overlap 0.7205 (> 0.70 LITERAL FAIL). This binary ridge mask (174,232 px) has a 3-px halo covering 26.31% of the footprint and 87.39% of the catalogue itself, i.e. real faults are more concentrated in its halo than this candidate is. It is a vendored GEMSDOE10 calibration surface, not a focus-site submission.",
       "incomparable_record": "GEMSDOE36 GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif is 32x48 px (grid mismatch, fail-closed error in scan); byte-distinct, cannot be a duplicate of a full-grid submission",
-      "scope_note": "440 hash-pinned rasters at 2026-10-27 refs + delta to current heads checked 2026-10-28 (451 enumerated). Not the organizer registry; other teams' submissions are unknowable."
+      "scope_note": "440 hash-pinned rasters at 2026-10-27 refs + delta to current heads checked 2026-10-28 (451 enumerated). Not the organizer registry; other teams' submissions are unknowable.",
+      "literal_registry_gate": "FAIL / STOP: 100% of candidate dots within 3 px of the spacing-5 calibration lattice and 72.0523% within 3 px of the GEMSDOE24 ctx-ridge calibration raster; both exceed the literal 70% threshold. Registry inventory is incomplete; see evidence/k2/final_registry_audit.json."
     },
     "impossible_gate": "The spacing-5 calibration lattice (nodes at indices = 0 mod 5) places every integer pixel within sqrt(8) = 2.83 px of a node; measured 99.8713% of footprint pixels within 3 px of a lattice dot. The 0.2778 champion itself has ~100% of its dots within 3 px of the lattice. Applied literally to this registry entry, the <=70% rule forbids every in-footprint candidate, including every historically scored file. Reported, not gamed."
   },
@@ -81,8 +83,8 @@
   "note_chars": 108,
   "experiments_run": 3,
   "submission_slots_used": 0,
-  "leaderboard_estimate": "UNAVAILABLE as a score. HOLDOUT-DTI measures recovery of withheld catalogue faults, not the expert-hidden private set (proof: the 0.2778-reported champion scores 0.0067 against the catalogue it was built to avoid). A labelled PROJECTION (not a score, not a promise) is derived in research/review-2026-10-28-k2.md: if the D2.8 family's contaminated transfer ratio (reported 0.2600 / descriptive holdout 0.1573 = 1.65) held, 0.1581 x 1.65 = 0.261, and with the family's B1->B2 apron gain, ~0.28; widened for budget-density and transfer uncertainty to ~0.24-0.29. Every input to that arithmetic is user-reported or leakage-contaminated.",
-  "verdict": "promote",
-  "verdict_scope": "PROMOTE TO SELECTOR, CONDITIONAL. All satisfiable automated gates pass (format, canary, holdout paired CI > 0 vs best primitive and vs the repo's prior candidates, uniqueness vs every checked submission raster from the nine focus repos). Conditions requiring a coordinator/selector ruling, none of which this session can resolve: (1) literal all-registry uniqueness scope fails against 2 non-submission calibration records (impossible lattice 1.0; h25-ctx-ridge 0.7205) - selector must rule on registry scope; if literal scope is enforced, verdict becomes negative; (2) weekly quota / final-selection status is account-side and unverifiable here; (3) competition inputs are hash-pinned owner mirrors, not organizer-authenticated bytes (grid nevertheless matches every historically reported scored file byte-for-byte in CRS/shape/transform).",
-  "download_policy": "OK TO DOWNLOAD: YES (this file). OK TO SUBMIT: CONDITIONAL YES subject to the 3 named selector conditions. Every other TIF in this repository: DO NOT SUBMIT."
+  "leaderboard_estimate": "UNAVAILABLE. The 0.2778 GEMSDOE32 value is USER-REPORTED / UNVERIFIED; this catalogue HOLDOUT-DTI does not estimate the private leaderboard score. No score projection is endorsed.",
+  "verdict": "negative",
+  "verdict_scope": "NEGATIVE — final-dot registry gate failed under the literal protocol. The final audit measured 100% overlap within 3 px against the spacing-5 lattice and 72.0523% against the GEMSDOE24 ctx-ridge calibration raster, both above the 70% stop threshold. Stop; do not submit, do not exempt registry records, and do not ask a selector to override the failed gate. Registry scan is incomplete (442/443 checked; one grid-incomparable test file), and the documented pre-placement check did not establish a ctx-ridge surface comparison.",
+  "download_policy": "OK TO DOWNLOAD: YES, for research/evidence inspection only. OK TO SUBMIT: NO — literal final-dot uniqueness stop failed. Do not upload this or any other repository TIFF."
 }

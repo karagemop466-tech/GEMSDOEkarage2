@@ -28,7 +28,11 @@ def test_k2_run_card_matches_raster_bytes():
     assert TIF.stat().st_size == c["raster_bytes"]
     assert len(c["note"]) <= 140 and len(c["submission_name"]) <= 140
     assert c["experiments_run"] == 3 and c["submission_slots_used"] == 0
-    assert c["verdict"] == "promote" and "CONDITIONAL" in c["verdict_scope"]
+    assert c["verdict"] == "negative"
+    assert "OK TO SUBMIT: NO" in c["download_policy"]
+    audit = load(K2 / "final_registry_audit.json")
+    assert audit["verdict"] == "negative" and audit["stop_required"] is True
+    assert "literal protocol" in c["verdict_scope"]
     with zipfile.ZipFile(TIF.with_suffix(".zip")) as z:
         assert z.namelist() == [TIF.name]
         assert z.read(TIF.name) == TIF.read_bytes()
@@ -87,9 +91,10 @@ def test_k2_uniqueness_scopes_are_as_reported():
     assert delta["duplicate_count"] == 0
 
 
-def test_homepage_names_exactly_one_conditional_candidate():
+def test_homepage_marks_k2_as_negative_research_only():
     home = (ROOT / "docs" / "index.html").read_text()
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
-    assert "CONDITIONAL" in home and "DO NOT SUBMIT" in home  # priors stay quarantined
-    assert "NO APPROVED" in home  # selector has not approved any file yet
+    assert "NEGATIVE" in home and "DO NOT SUBMIT" in home
+    assert "NO APPROVED SUBMISSION" in home
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
+    assert "72.0523%" in home and "100%" in home
