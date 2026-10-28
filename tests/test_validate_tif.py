@@ -88,3 +88,17 @@ def test_zero_nodata_masks_valid_predictions_and_is_rejected(inputs):
     result = validate(path / "masked.tif", template)
     assert result["checks"]["inside_no_masked_cells"] is False
     assert result["strict_format_pass"] is False
+
+
+@pytest.mark.parametrize("which", ["candidate", "template"])
+def test_rejects_external_mask_not_bound_by_tiff_hash(inputs, which):
+    path, template, candidate = inputs
+    candidate_path = path / "candidate.tif"
+    write(candidate_path, candidate)
+    target = candidate_path if which == "candidate" else template
+    with rasterio.Env(GDAL_TIFF_INTERNAL_MASK=False):
+        with rasterio.open(target, "r+") as ds:
+            ds.write_mask(np.ones(ds.shape, dtype="uint8") * 255)
+    assert Path(str(target) + ".msk").exists()
+    with pytest.raises(ValueError, match="external companion"):
+        validate(candidate_path, template)

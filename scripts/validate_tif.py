@@ -20,12 +20,14 @@ from rasterio.errors import RasterioError
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from restore_references import digest  # noqa: E402
+from raster_integrity import require_single_file_dataset  # noqa: E402
 
 
 def validate(candidate: Path, template: Path) -> dict:
     candidate_sha_before = digest(candidate)
     template_sha_before = digest(template)
     with rasterio.open(template) as ds:
+        require_single_file_dataset(ds, template)
         if ds.count != 1 or ds.crs is None:
             raise ValueError("Reference template must have one band and a CRS")
         template_grid = (ds.shape, ds.crs, ds.transform)
@@ -35,6 +37,7 @@ def validate(candidate: Path, template: Path) -> dict:
     if not foot.any():
         raise ValueError("Reference footprint is empty")
     with rasterio.open(candidate) as ds:
+        require_single_file_dataset(ds, candidate)
         data = ds.read(1)
         mask = ds.read_masks(1)
         same_shape = ds.shape == template_grid[0]

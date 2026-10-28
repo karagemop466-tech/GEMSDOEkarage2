@@ -93,3 +93,13 @@ those hosts are outside the runtime network allowlist:
    account quota; no automatic competition submission is authorized here.
 
 Run card: [session-76119165-run-card.json](../evidence/session-76119165-run-card.json).
+
+## Concurrent-main integration
+
+Before merge, main advanced with other safety reviews. Merged origin/main into
+the existing Arena branch (no branch switch), preserved their additional validator
+and attestation checks, and resolved the one heading conflict with explicit
+“File to download for research — DO NOT SUBMIT” wording. Strengthened the site
+assertion to require the full safety label rather than just download wording.
+Post-integration Python suite: 156 passed, 7 skipped, 65 subtests passed, 46
+deprecation warnings. The site suite now includes the concurrent ninth test.
