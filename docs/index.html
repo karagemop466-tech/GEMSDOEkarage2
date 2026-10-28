@@ -13,10 +13,11 @@
 </header>
 
 <main>
+  <nav aria-label="Research evidence"><a href="index.html">Dashboard</a> · <a href="executive-summary.html">Executive summary</a> · <a href="experiment-executive-summary.html">H1 measured negative result</a> · <a href="audit.html">Nine-site geometry audit</a> · <a href="field-notes/index.html">Independent audit and next steps</a></nav>
   <section class="verdict-box">
-    <p class="verdict"><b>OK TO DOWNLOAD: YES</b> — research / audit GeoTIFF, format-validated (13/13 checks PASS).
+    <p class="verdict"><b>OK TO DOWNLOAD: YES</b> — research / audit GeoTIFF only. H1 saved bytes are finite and in [0,1]; organizer-template authentication remains unresolved.
     <b>No approved submission TIF</b> — nothing here is approved for the weekly DrivenData slot.
-    <b>OK TO SUBMIT TO DRIVENDATA: NO</b> — holdout gate is open (labels.tif requires DrivenData login, unavailable in this sandbox). Verdict: negative until a fold-local HOLDOUT-DTI win with paired 95% CI &gt; 0 vs. the repo best is demonstrated.</p>
+    <b>OK TO SUBMIT TO DRIVENDATA: NO</b> — H1 has recorded mirrored-data HOLDOUT-DTI evidence but failed improvement and surface novelty; no compatible incumbent or complete registry is available. Restoring a cache does not clear these gates.</p>
   </section>
 
   <section class="scorecard">
@@ -24,7 +25,7 @@
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
     <table>
       <thead>
-        <tr><th>Site</th><th>File</th><th>Reported score</th><th>Transfer estimate</th><th>Within 3 px of best historical</th><th>Research file</th></tr>
+        <tr><th>Site / file</th><th>Reported score</th><th>Leaderboard estimate</th><th>Unique vs selected historical files?</th><th>Research download</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
     </table>
@@ -32,18 +33,18 @@
   </section>
 
   <section class="research-download" id="research-download">
-    <h2>This repo's unique research TIF</h2>
-    <p><b>DO NOT SUBMIT</b> — HOLDOUT-DTI gate not passed. Format-validated audit GeoTIFF for download and inspection only.</p>
+    <h2>H1 negative research surface — uniqueness not established</h2>
+    <p><b>DO NOT SUBMIT</b> — HOLDOUT-DTI improvement and surface-novelty gates failed. No final-dot submission was generated. Download the saved research surface and receipt below.</p>
     <ul>
-      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif" download>gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif</a> (submission raster)</li>
-      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-audit.json" download>…-zeros-audit.json</a> (validation receipt, PASS=True)</li>
+      <li><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif" download>gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif</a> (archived research raster, not approved)</li>
+      <li><a href="downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.json" download>H1 surface receipt</a> (research receipt; not submission approval)</li>
     </ul>
   </section>
 
   <section class="decision-card">
     <h2>Submission decision</h2>
     <p>Holdout DTI with paired 95% CI &gt; 0 vs. repo best is required before any weekly slot is requested.</p>
-    <button disabled>Request weekly DrivenData submission slot</button>
+    <button disabled>No approved submission TIF</button>
   </section>
 </main>
 

@@ -84,3 +84,28 @@ test('a failed leaderboard refresh remains visibly stale while source status is 
   assert.match(doc.querySelector('#table-note').textContent, /Source-head check/);
   dom.window.close();
 });
+
+test('dashboard table headers match every rendered row', async () => {
+  for (const page of ['index.html', 'executive-summary.html']) {
+    const dom = await render(page);
+    const doc = dom.window.document;
+    const headers = doc.querySelectorAll('.scorecard thead th').length;
+    assert.equal(headers, 5);
+    for (const row of doc.querySelectorAll('#scorecard-body tr')) {
+      assert.equal(row.children.length, headers);
+    }
+    assert.doesNotMatch(doc.body.textContent, /labels\.tif requires DrivenData login/);
+    assert.match(doc.body.textContent, /negative|failed/);
+    assert.ok(doc.querySelector('a[href="experiment-executive-summary.html"]'));
+    dom.window.close();
+  }
+});
+
+test('current download does not claim established uniqueness or submission readiness', async () => {
+  const dom = await render('index.html');
+  const text = dom.window.document.querySelector('#research-download').textContent;
+  assert.match(text, /uniqueness not established/);
+  assert.match(text, /DO NOT SUBMIT/);
+  assert.doesNotMatch(text, /unique research TIF|\(submission raster\)/);
+  dom.window.close();
+});

@@ -2,7 +2,7 @@
 
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Branch: `arena/044d7bda-gemsdoekarage2`
+Working branch for this review: `arena/a2ada8b3-gemsdoekarage2`
 
 ## Operating instruction
 
@@ -58,16 +58,28 @@ Competitors choose ONE submission for scoring in both rounds before the deadline
 - EPSG 32611: https://epsg.io/32611
 - Tversky index: https://en.wikipedia.org/wiki/Tversky_index
 
-**Known data-access blocker (verified):** drivendata.org/data/ redirects to login;
+**Historical data-access note:** drivendata.org/data/ redirects to login;
 training_features.tif, labels.tif, sample_submission.tif and 1m_DEM_links.csv cannot be
 auto-downloaded in this sandbox. Stage data on an unrestricted machine into data/ and
 run scripts/download_competition_data.sh + python scripts/prepare_data.py.
 
-## Leaderboard status (verified live read, 2026-10-27)
+## Current evidence status — reviewed 2026-10-28 UTC
 
-The live public leaderboard shows #1 = 0.4544 (xiaofanhu). The prompt's earlier
-figures (0.4413 / 0.3195) are stale — flagged as an irregularity; always re-read
-the official leaderboard before claiming a target.
+**OK TO SUBMIT: NO.** No new experiment or weekly submission slot was used in
+this review. Read `research/review-2026-10-28.md` before resuming.
+
+The previous session recorded a public leaderboard snapshot of 0.4544 on
+2026-10-27. It is **not live**, not a file-bound organizer receipt, and has not
+been reverified in this session. The prompt's 0.4413 and 0.3195 are historical
+claims, not current targets verified here.
+
+The checkout includes mirrored-data holdout evidence for H1 in
+`evidence/run_card.json`; H1 was negative and stopped at surface novelty.
+Disposable data and prepared caches are not present in a fresh checkout.
+Do not confuse absent local caches with absence of prior measured evidence,
+or public catalogue labels with hidden organizer truth. The method paragraph
+required for a new parallel lane is still missing. No global uniqueness or
+leaderboard-score estimate is established.
 
 ## Focus sites (nine)
 
@@ -167,22 +179,33 @@ holdout cannot reliably estimate the expert-hidden private score).
   how-to-submit.html, research-hypotheses.html.
 - README.md                    — this file (the consolidated project prompt).
 
-## How to run (this sandbox)
+## Historical entry points (not release authorization)
 
 1. `python scripts/evaluate_holdout.py` — metric self-test.
-2. `python scripts/generate_submission.py` — builds + validates the unique submission
-   TIF (requires reference/ gemsdoe36 rasters present).
+2. `python scripts/generate_submission.py` — legacy research generator; do not run
+   as a new lane or submission recommendation. Format checks alone do not prove novelty.
 3. `python scripts/prepare_data.py` — after competition data is staged in data/.
 
 ## Next steps / limitations
 
-- labels.tif / training_features.tif are not available in this sandbox
-  (DrivenData login required, network-blocked). Holdout DTI and a leaderboard score
-  estimate therefore CANNOT be computed yet. The generated TIF is:
-    OK TO DOWNLOAD: YES (research / audit only, format-validated)
-    OK TO SUBMIT TO DRIVENDATA: NO — pending holdout validation and selector approval.
-- To promote: stage data in data/, run prepare_data.py, beat the repo holdout best
-  with paired 95% CI > 0, pass leakage canaries and uniqueness gates, then the
-  selector spends a weekly slot.
-- Live leaderboard target to beat: 0.4544 (public #1). Best focus-site claim: 0.2778
-  (GEMSDOE32, owner-reported, unverified).
+1. Resolve the missing assigned method paragraph and the literal lattice-overlap
+   conflict without silently exempting any registry entry. Do not tune H1 after
+   its duplicate stop.
+2. Restore pinned mirror inputs and the shared prepared feature stack; authenticate
+   the organizer sample/footprint. Mirrors alone do not establish organizer provenance.
+3. Fix the known continuous-input behavior in the shared template upstream before
+   running continuous predictions; preserve unchanged shared evaluator/writer pins.
+4. Obtain a complete immutable cross-session registry and a frozen comparable
+   incumbent with identical buffered whole-segment folds.
+5. Only then run feature canaries and a preregistered experiment (maximum three
+   experiments or two hours), requiring paired HOLDOUT-DTI improvement, novelty
+   before placement and on final dots, and saved-byte format validation.
+6. A separate selector must check the authenticated current quota before any slot.
+
+Existing TIFF downloads are research artifacts, **not approved submissions**.
+There is no defensible estimate of their private leaderboard score. The source
+refresh is GitHub-only and does not authenticate portal acceptance or receipts.
+
+The consolidated prompt above is the standing project brief, not an assertion
+that every requested capability has been completed. Prior scripts and research
+artifacts may depend on disposable caches; consult their receipts and tests.

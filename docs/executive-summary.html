@@ -13,16 +13,17 @@
 </header>
 
 <main>
+  <nav aria-label="Research evidence"><a href="index.html">Dashboard</a> · <a href="executive-summary.html">Executive summary</a> · <a href="experiment-executive-summary.html">H1 measured negative result</a> · <a href="field-notes/index.html">Independent audit and next steps</a></nav>
   <section id="how-to-submit">
     <h2>How to submit (DrivenData form guide)</h2>
     <ol>
       <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
       <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
-      <li>Format contract: EPSG:32611, 100 m, bounds [243350, 4135550, 572550, 4508550], 3730×3292 pixels, values in [0,1], NaN outside the footprint.</li>
-      <li>Upload, confirm the [0,1] range (portal rejects out-of-range values), and submit.</li>
-      <li>Wait for the organizer DTI evaluation against holdout labels (α=0.2, β=0.8, R=300 m triangular kernel).</li>
+      <li>Pinned mirror geometry: EPSG:32611, 100 m, bounds [243350, 4135550, 572550, 4508550], 3730×3292 pixels. Match the authenticated organizer template exactly; exterior nodata remains unverified here. Require finite [0,1] predictions inside the footprint.</li>
+      <li>Only after all automated research gates pass and the separate selector authorizes a slot, attach the validated TIFF and its short note. No current file is approved.</li>
+      <li>Wait for the organizer evaluation against hidden labels; this is not our catalogue HOLDOUT-DTI (α=0.2, β=0.8, R=300 m triangular kernel).</li>
     </ol>
-    <p class="warn">This repo's H-KARAGE-1 TIF is <b>NOT approved to submit</b>: the holdout gate is open (labels.tif requires DrivenData login) and no fold-local HOLDOUT-DTI win with paired 95% CI &gt; 0 vs. the repo best has been demonstrated.</p>
+    <p class="warn">This repo's H-KARAGE-1 TIF is <b>NOT approved to submit</b>: no comparable incumbent win or full-registry novelty pass is established. A separate H1 experiment already has mirrored-data holdout evidence and a negative surface-novelty stop.</p>
   </section>
 
   <section class="scorecard">
@@ -30,7 +31,7 @@
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
     <table>
       <thead>
-        <tr><th>Site</th><th>File</th><th>Reported score</th><th>Transfer estimate</th><th>Within 3 px of best historical</th><th>Research file</th></tr>
+        <tr><th>Site / file</th><th>Reported score</th><th>Leaderboard estimate</th><th>Unique vs selected historical files?</th><th>Research download</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
     </table>
