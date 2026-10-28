@@ -1,0 +1,30 @@
+# Submission status — GEMS Prize Challenge
+
+## Current decision: NO APPROVED SUBMISSION — DO NOT UPLOAD
+
+The repository contains a historical HK3 GeoTIFF for research and reproducibility, but **it is not approved for the DrivenData competition**. The old `PROMOTE` decision was retracted after review; see [`evidence/hk3/approval-retracted-20261028.json`](evidence/hk3/approval-retracted-20261028.json) and the [three-pass repository review](research/repo-review-2026-10-28-final.md).
+
+| Item | Current status |
+|---|---|
+| Research artifact | [`docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`](docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif) |
+| Download status | Research-only; do not submit |
+| File SHA-256 | `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9` |
+| Historical HOLDOUT-DTI | 0.1845 [0.1677, 0.2015], evaluator `gems57-pooled-hide-v2`, 58,258 withheld positives; historical evidence only |
+| Historical leaderboard projection | 0.263–0.286, LEADERBOARD-CALIBRATED ESTIMATE, not a score; no private-label validation |
+| Literal registry uniqueness | FAIL: three recorded 3-pixel overlaps exceed 70% |
+| Method lane | Self-declared; no coordinator assignment receipt |
+| Registry coverage | No complete current accessible-scan certificate; do not assume the pinned snapshot is the fleet-wide registry |
+| Pre-placement surface gate | No verifiable surface-gate receipt bound to a surface hash in the release record |
+| Input/template provenance | Owner mirrors only; organizer authentication absent |
+| Budget/runtime | Historical run used 3 experiments and reports ~2 h 15 min; no machine-readable runtime receipt |
+| Organizer receipt / slot | None; no slot used; no score is ORGANIZER-CONFIRMED |
+
+**Why blocked:** the protocol states that a rank correlation above 0.90 or more than 70% of dots within 3 px of any one registry raster is a duplicate stop. The candidate's literal registry gate fails. Its prior exception is not authorized. A byte-valid GeoTIFF or a passing holdout does not waive the uniqueness, lane, provenance, or budget requirements.
+
+The website keeps the file available for audit and labels it **RESEARCH ONLY — DO NOT SUBMIT**. The submission guide blocks upload steps. Do not use a competition slot for this artifact.
+
+## Focus-site comparison
+
+The nine site results listed on the site are historical USER-REPORTED / UNVERIFIED values, not organizer receipts or predictions. Among those reported values, GEMSDOE32's B2 submission is listed at 0.2778. A plausible explanation is that pruning dots close to already mapped faults reduces false-positive mass where mapped faults are excluded from scoring; the available evidence does not establish that as the cause of the reported score. The historical calibrated estimate above does not prove that HK3 beats 0.2778.
+
+See the [executive summary](docs/executive-summary.html), [site-by-site table](docs/index.html#nine-sites), and [official competition leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) for review. Current leaderboard access and the submission portal require organizer access; no current score or quota is asserted here.

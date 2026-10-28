@@ -2,7 +2,7 @@
 
 ## Executive finding
 
-**No artifact is currently approved to upload.** The repository contained a dangerous contradiction: `evidence/hk3/run_card.json` says `PROMOTE` and the public pages said **OK TO SUBMIT**, but that same run card records a required literal-uniqueness failure against three registry rasters, an applied exception, and a self-declared (not coordinator-assigned) lane. The current prompt says any >70% overlap is a stop. Other prerequisites (a verifiable pre-placement surface-gate receipt, authenticated competition inputs/template, and a machine-readable runtime receipt) are also absent. The user-reported GEMSDOE32 result 0.2778 cannot be causally explained or exceeded with confidence from the evidence here.
+**No artifact is currently approved to upload.** The repository contained a dangerous contradiction: the historical HK3 run card said `PROMOTE` and public pages said **OK TO SUBMIT**, despite a required literal-uniqueness failure against three registry rasters. The prior exception is now recorded in [`evidence/hk3/approval-retracted-20261028.json`](../evidence/hk3/approval-retracted-20261028.json), and the current run card/selector are negative. The lane remains self-declared (not coordinator-assigned). The current prompt says any >70% overlap is a stop. Other prerequisites (a verifiable pre-placement surface-gate receipt, authenticated competition inputs/template, and a machine-readable runtime receipt) are also absent. The user-reported GEMSDOE32 result 0.2778 cannot be causally explained or exceeded with confidence from the evidence here.
 
 The old HK3 GeoTIFF remains in the repository for audit/reproducibility, but is now clearly downloadable **for research only — DO NOT SUBMIT**. The how-to page refuses to provide upload steps while gates fail. No competition slot was used and no new geological experiment was run.
 
@@ -11,7 +11,7 @@ The old HK3 GeoTIFF remains in the repository for audit/reproducibility, but is 
 Reviewed `README.md`, `AGENTS.md`, run cards and selector evidence, the shared evaluator/writer manifests, the nine-site registry audit, site generator, test suite, and existing hypotheses. Confirmed the following from committed repository artifacts:
 
 - Historical HK3 run card: candidate HOLDOUT-DTI **0.1845 [0.1677, 0.2015]**, versus refitted incumbent **0.1575 [0.1417, 0.1737]**; evaluator `gems57-pooled-hide-v2`; 58,258 withheld positive pixels; paired difference **+0.0270 [+0.0206, +0.0337]**. This is catalogue holdout evidence, not organizer scoring.
-- The HK3 registry audit fails the literal 70% overlap gate against three entries: **71.0%, 73.3%, and 74.9%** of final dots within 3 px. It records that the run applied an exception. Under the supplied protocol, that is a stop, not a pass. The separate U1 comparison against the nine named scored files passes; it does **not** cancel the broader registry failure.
+- The archived HK3 registry audit fails the literal 70% overlap gate against three entries: **71.0%, 73.3%, and 74.9%** of final dots within 3 px. The retraction receipt records that the former decision applied an exception. Under the supplied protocol, that is a stop, not a pass. The separate U1 comparison against the nine named scored files passes; it does **not** cancel the broader registry failure.
 - Its `lane` field says “self-declared; no coordinator paragraph supplied.” No coordinator assignment, surface-pre-placement gate receipt bound to a surface hash, authenticated competition input/template receipt, or machine-readable elapsed-time receipt is included. The run card reports 3 experiments and approximately 2 h 15 min, which exceeds the 2-hour cap. Do not run more HK3 experiments.
 - The claimed organizer estimate **0.263–0.286** in the historical run card is a LEADERBOARD-CALIBRATED ESTIMATE, not a score. It does not establish a score above 0.2778. The 0.2778, 0.3195, 0.4413 and other numbers typed in the prompt are USER-REPORTED / UNVERIFIED unless a submission-page receipt is attached.
 - The explanation for the high GEMSDOE32 score remains a hypothesis. Pinned-raster lineage suggests the B2 file pruned mapped-fault-adjacent dots from a related ridge-dot family, which could reduce false-positive mass where mapped faults are excluded. This is a plausible metric mechanism, not causal proof: the exact score is not receipt-verified here, private labels are unavailable, and no valid independent replay of the hidden scoring set exists.
@@ -21,24 +21,22 @@ Reviewed `README.md`, `AGENTS.md`, run cards and selector evidence, the shared e
 
 ### Implemented
 
-1. `scripts/build_hk3_pages.py` now derives current approval through a fail-closed `submission_ready()` check, rather than trusting a historical `PROMOTE` string. It requires all documented format, holdout, leakage, rank-correlation, and literal registry gates; no exception; a verified coordinator lane receipt; a passing pre-placement surface gate bound to a surface hash; no more than three experiments; a numeric runtime at or below 7,200 seconds; and organizer-authenticated inputs and template.
-2. Missing attestations are failures, not implicit passes. The function rejects a stale PROMOTE receipt with literal uniqueness failure and rejects incomplete future receipts.
+1. The main-branch release correction retracts the historical HK3 approval, sets the current run card and selector negative, and preserves the prior decision and reason in a separate retraction receipt. `scripts/build_hk3_pages.py` calls the shared fail-closed `publication_eligible()` policy rather than trusting the historical `PROMOTE` string.
+2. This review strengthened `scripts/hk3_release_policy.py`: in addition to the protocol stop and literal uniqueness gates, approval now requires complete accessible registry coverage with no reported errors, a coordinator-assignment receipt, a pre-placement surface-gate receipt bound to a surface hash, no more than three experiments, a numeric runtime at or below 7,200 seconds, and organizer-authenticated inputs/template attestations. Missing attestations fail closed. These are schema/attestation checks, not cryptographic authentication.
 3. Regenerated home, executive-summary, how-to-submit and submit pages show **NO APPROVED SUBMISSION**. The existing HK3 file is labelled **RESEARCH ONLY — DO NOT SUBMIT**. The guide explicitly blocks upload instructions and tells users not to spend a slot.
 4. Reframed the GEMSDOE32 discussion as a cautious explanation of a user-reported result, not an established causal finding. Clarified that the historical leaderboard estimate is not a score.
-5. Added regression tests for hard-stop handling, missing receipts, page status, and blocked upload instructions. Preserved historical evidence rather than rewriting its old run-card `PROMOTE` value.
+5. Added regression tests for hard-stop handling, missing receipts, incomplete registry coverage, page status, and blocked upload instructions. The current run card is negative; the former PROMOTE verdict and its exception rationale are preserved in the separate approval-retraction receipt.
 6. Updated the README's authoritative status and `AGENTS.md` so the next session does not encounter contradictory “approved” versus “not approved” instructions.
 
 ### Verification
 
 - `python scripts/build_hk3_pages.py --check`: pass; generated pages are synchronized.
-- `python -m pytest -q`: **201 passed, 7 skipped, 98 subtests passed** (86 Rasterio deprecation warnings; skips are optional/cache-dependent).
-- `python scripts/audit_public_downloads.py --check`: `PASS_RESEARCH_ONLY`; no approved download and no score estimate emitted.
-- `python scripts/build_audit_site.py --check`: pass; site artifact is current.
-- `scripts/assess_release.py`: negative, no slot authorized; the K2 release audit remains negative.
-- `python -m pytest -q tests/test_hk3.py`: **8 passed**.
-- `npm test`: **3 passed**.
-- `npm run test:site`: **7 passed**.
-- Initial full tests could not run before setup because pytest, Rasterio/Numpy and `jsdom` were not installed. Dependencies were installed from the repository's pinned lockfiles; this changed no tracked dependency versions.
+- `.venv/bin/python scripts/build_hk3_pages.py --check`: pass; generated pages are synchronized and display **NO APPROVED SUBMISSION**.
+- `.venv/bin/python scripts/audit_public_downloads.py --check`: `PASS_RESEARCH_ONLY`; no approved download and no score estimate emitted (7 artifacts).
+- `.venv/bin/python scripts/build_audit_site.py --check`: pass; audit site artifact is current.
+- `.venv/bin/python -m pytest -q`: **203 passed, 7 skipped, 98 subtests passed** (86 Rasterio deprecation warnings; skips are optional/cache-dependent).
+- `npm test`: **3 passed**; `npm run test:site`: **7 passed**; `npm run test:browser`: passed at desktop and 390/320-pixel widths and checked freshness states.
+- `git diff --check`: pass. Dependency installation used repository pins; no dependency manifest/lockfile was changed.
 
 ## Pass 3 — re-check against the request and protocol
 

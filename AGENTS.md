@@ -1,3 +1,10 @@
+# Latest release correction — takes precedence over historical HK3 status
+
+Read `research/release-correction-ab495106.md`. HK3 is NEGATIVE, research-only.
+The literal registry stop cannot be waived by chance correction or submission
+status. Historical PROMOTE and instructions to upload HK3 below are superseded.
+No new lane or budget is inferred from repeated prompts. Preserve saved bytes.
+
 # Starting point for future work
 
 Read `README.md`, `research/review.md`, `research/hypotheses.md`,
@@ -30,31 +37,27 @@ not regenerate K2 or infer a lane assignment, registry exemption, portal
 acceptance, or current leaderboard score. The prompt supplies no identifiable
 method paragraph, and the previous session exhausted its three-experiment budget.
 
-## 2026-10-28 HK3 — historical artifact; current status is blocked
+## 2026-10-28 HK3 lane — current state (read this first)
 
-Read the authoritative `README.md` status and `research/repo-review-2026-10-28-final.md`
-before working. HK3's old run card says PROMOTE, but its literal uniqueness gate failed,
-the lane was self-declared, and required surface-precheck, timing and provenance
-receipts are absent. It is not
-approved for competition submission. `scripts/build_hk3_pages.py` now applies a strict
-fail-closed check and the published pages label its TIF research-only / DO NOT SUBMIT.
-Do not modify the historical run card to erase the original decision; new authorization
-requires fresh verified evidence and a separate selector decision. Rules for future work:
+Read `README.md` ("Current status"), `research/hypotheses-2026-10-28-hk3.md` (§3b budget
+rule, §3c uniqueness rule, §4 outcome) and `evidence/hk3/run_card.json` before touching
+anything. HK3 is NEGATIVE: the earlier PROMOTE exception is retracted. The literal all-registry rule is binding; research downloads are not upload approval. See `research/session-635ee6a9-review.md` and `research/repo-review-2026-10-28-final.md`. The central publication policy also fails closed unless lane assignment, pre-placement surface, runtime/budget and organizer provenance attestations are present. Rules for the next session:
 
 * The four desk pages (`docs/index.html`, `executive-summary.html`, `how-to-submit.html`,
   `submit.html`) and `docs/assets/hk3.css` are **generated** by
   `scripts/build_hk3_pages.py` from `evidence/hk3/*.json` + `evidence/calibration/*.json`;
   CI runs `build_hk3_pages.py --check`. Change the evidence or the generator, never the HTML.
 * `scripts/hk3.py` is the lane runner (features / e2 / bridge / e3 / audit / anchors / card).
-  Its cache lives in `.cache/hk3/` (gitignored; rebuild with `hk3.py features`, ≈ 10 min).
+  Its historical cache lived in `.cache/hk3/` (gitignored). The CLI now blocks experiments and evidence rewrites after the stop.
   The lane's 3-experiment budget is used; a new experiment means a new lane and a new note.
 * Never pick a dot budget from holdout DTI; use the §3b maximin over θ. Never use a raster
   built on the whole catalogue as a transfer anchor (≈ 2.9× leakage inflation).
-* Uniqueness tiers U1–U4 are binding; any literal failure must stay visible. Re-run
+* The literal all-registry rule is binding; U3/U4 are diagnostic only. Any literal failure stops the lane. Re-run
   `hk3.py audit` if the pinned registry refs change.
-* If an organizer receipt ever becomes available, preserve it as a new dated evidence
-  record, label the value ORGANIZER-CONFIRMED, and independently verify its file/name
-  binding before updating any calibration. Do not treat a user-typed score as a receipt.
+* If the user reports an organizer score for the HK3 file, write it to
+  `evidence/hk3/run_card.json` under `organizer_confirmed` (value, date, submission name),
+  retain it as USER-REPORTED unless a file-bound organizer receipt is supplied; only then label it ORGANIZER-CONFIRMED. Rebuild the pages, and use it to calibrate θ before anything
+  else.
 * Legacy files (K2, H1, H-KARAGE-1) remain research-only; `scripts/k2.py` and
   `scripts/generate_submission.py` stay disabled.
 

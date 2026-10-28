@@ -35,7 +35,7 @@ def test_run_card_is_published_identically(card):
         assert load(EV / name) == load(DOCS / "evidence" / "hk3" / name), name
 
 
-def test_run_card_historical_receipt_is_not_current_submission_clearance(card):
+def test_run_card_gates_and_verdict_logic_agree(card):
     g = card["gates"]
     required = ["format_shared_validator_pass", "grid_matches_example_submission",
                 "whole_array_finite_in_0_1", "no_dots_on_mapped_catalogue", "leakage_canary_pass",
@@ -44,12 +44,11 @@ def test_run_card_historical_receipt_is_not_current_submission_clearance(card):
                 "rank_correlation_below_0_90", "lane_single_method"]
     assert all(g[k] is True for k in required), {k: g[k] for k in required}
     # the literal all-registry rule is the one disclosed deviation; it must be
-    # visible as a failed gate with the exception flag set, never silently passed
+    # visible as a failed gate without an exception, never silently passed
     assert g["unique_literal_vs_all_registry_rasters"] is False
-    assert g["literal_rule_exception_applied"] is True
-    # The old run-card PROMOTE label is contradicted by a failed literal gate,
-    # a disclosed exception, a self-declared lane and unauthenticated inputs.
-    assert card["verdict"] == "PROMOTE"  # preserve historical evidence verbatim
+    assert g["literal_rule_exception_applied"] is False
+    assert card["verdict"] == "NEGATIVE"
+    assert card["protocol_stop_triggered"] is True
     tiers = card["registry_uniqueness"]["tiers"]
     assert tiers["U1_unique_vs_nine_scored_site_files"]["pass"] and tiers["U1_unique_vs_nine_scored_site_files"]["max_overlap"] <= 0.70
     assert not tiers["U2_literal_rule_vs_all_registry_rasters"]["pass"]
@@ -118,84 +117,19 @@ def test_shared_validator_passes_on_the_published_bytes(card):
 
 
 def test_desk_pages_are_generated_from_the_run_card(card):
-    from build_hk3_pages import submission_ready
-    assert submission_ready(card) is False
-    assert submission_ready({
-        "verdict": "PROMOTE", "lane": "coordinator-assigned method lane",
-        "lane_assignment_receipt": {"status": "verified", "method_paragraph": "signed method assignment"},
-        "surface_preplacement_check": {"status": "pass", "checked_before_placement": True, "surface_sha256": "a" * 64},
-        "elapsed_seconds": 3600,
-        "provenance": {"organizer_authenticated_inputs": True, "organizer_authenticated_template": True},
-        "gates": {
-            "format_shared_validator_pass": True,
-            "grid_matches_example_submission": True,
-            "whole_array_finite_in_0_1": True,
-            "no_dots_on_mapped_catalogue": True,
-            "leakage_canary_pass": True,
-            "holdout_beats_refit_incumbent_paired_ci_excludes_zero": True,
-            "unique_vs_nine_scored_site_files": True,
-            "unique_literal_vs_all_registry_rasters": True,
-            "unique_chance_corrected_vs_all_registry_rasters": True,
-            "unique_literal_vs_submitted_dot_rasters": True,
-            "rank_correlation_below_0_90": True,
-            "lane_single_method": True,
-            "literal_rule_exception_applied": False,
-            "experiments_used": 1,
-        },
-    }) is True
-    valid_future_receipt = {
-        "verdict": "PROMOTE", "lane": "assigned",
-        "lane_assignment_receipt": {"status": "verified", "method_paragraph": "signed method assignment"},
-        "surface_preplacement_check": {"status": "pass", "checked_before_placement": True, "surface_sha256": "a" * 64},
-        "elapsed_seconds": 3600,
-        "provenance": {"organizer_authenticated_inputs": True, "organizer_authenticated_template": True},
-        "gates": {
-            "format_shared_validator_pass": True,
-            "grid_matches_example_submission": True,
-            "whole_array_finite_in_0_1": True,
-            "no_dots_on_mapped_catalogue": True,
-            "leakage_canary_pass": True,
-            "holdout_beats_refit_incumbent_paired_ci_excludes_zero": True,
-            "unique_vs_nine_scored_site_files": True,
-            "unique_literal_vs_all_registry_rasters": True,
-            "unique_chance_corrected_vs_all_registry_rasters": True,
-            "unique_literal_vs_submitted_dot_rasters": True,
-            "rank_correlation_below_0_90": True,
-            "lane_single_method": True,
-            "literal_rule_exception_applied": False,
-            "experiments_used": 1,
-        },
-    }
-    over_budget = {**valid_future_receipt, "elapsed_seconds": 7201}
-    assert submission_ready(over_budget) is False
-    unauthenticated = {**valid_future_receipt, "provenance": {}}
-    assert submission_ready(unauthenticated) is False
-    missing_assignment = {**valid_future_receipt, "lane_assignment_receipt": {}}
-    assert submission_ready(missing_assignment) is False
-    missing_surface_check = {**valid_future_receipt, "surface_preplacement_check": {}}
-    assert submission_ready(missing_surface_check) is False
     subprocess.run([sys.executable, str(ROOT / "scripts/build_hk3_pages.py"), "--check"], check=True, cwd=ROOT)
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
         assert "{BADGE" not in page
-        assert ("OK TO SUBMIT: YES" in page) == submission_ready(card)
-        assert "NO APPROVED SUBMISSION" in page
-        assert "DO NOT SUBMIT" in page
-        if name == "index.html":
+        assert ("OK TO SUBMIT: YES" in page) == (card["verdict"] == "PROMOTE")
+        if name in ("index.html", "how-to-submit.html"):
             assert card["raster"]["sha256"] in page
-        if name == "how-to-submit.html":
-            assert card["raster"]["sha256"][:16] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
         for href in downloads:
             assert card["submission"]["name"] in href
             assert (DOCS / href).exists()
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "LEADERBOARD-CALIBRATED ESTIMATE" in home
-    assert "RESEARCH ONLY — DO NOT SUBMIT" in home
-    howto = (DOCS / "how-to-submit.html").read_text()
-    assert "Submission instructions — blocked" in howto
-    assert "Do not upload this research artifact" in howto
-    assert "<b>Upload</b> the TIF" not in howto
     assert "ORGANIZER-CONFIRMED" in home  # the label the page says it does *not* have
     assert 'Literal 70 % rule vs all 450 non-degenerate registry rasters:</b> <b class="no">FAIL' in home
     assert "drivendata.org/competitions/306/competition-doe-gems/page/967/" in home
@@ -206,3 +140,69 @@ def test_literal_failures_on_the_desk_match_the_card(card):
     for row in card["registry_uniqueness"]["tiers"]["U2_literal_rule_vs_all_registry_rasters"]["failures"]:
         assert Path(row["submission"]).name in home
         assert f"{row['overlap_3px'] * 100:.1f}%" in home
+
+
+def test_publication_policy_rejects_waivers_and_incomplete_gates(card):
+    from copy import deepcopy
+    from scripts.hk3_release_policy import publication_eligible, REQUIRED_GATES
+    assert not publication_eligible(card)
+    clean = dict(
+        verdict="PROMOTE", protocol_stop_triggered=False,
+        gates={**{key: True for key in REQUIRED_GATES}, "experiments_used": 1,
+               "literal_rule_exception_applied": False},
+        registry_uniqueness={"complete_accessible_scan": True, "errors": [],
+                             "snapshot_sha256": "b" * 64},
+        lane_assignment_receipt={"status": "verified", "method_paragraph": "assigned method",
+                                 "receipt_path": "receipts/lane.json", "receipt_sha256": "c" * 64},
+        surface_preplacement_check={"status": "pass", "checked_before_placement": True,
+                                    "surface_sha256": "a" * 64, "receipt_sha256": "d" * 64},
+        elapsed_seconds=3600,
+        provenance={"organizer_authenticated_inputs": True,
+                    "organizer_authenticated_template": True, "organizer_receipt_id": "receipt-1",
+                    "input_manifest_sha256": "e" * 64, "template_sha256": "f" * 64},
+    )
+    assert publication_eligible(clean)  # necessary schema checks, not slot authorization
+    for key in REQUIRED_GATES:
+        for bad in (None, False, 1, "true", [], {}):
+            changed = deepcopy(clean)
+            changed["gates"][key] = bad
+            assert not publication_eligible(changed), (key, bad)
+        changed = deepcopy(clean)
+        del changed["gates"][key]
+        assert not publication_eligible(changed)
+    for key, value in (("protocol_stop_triggered", True), ("verdict", "NEGATIVE")):
+        assert not publication_eligible(dict(clean, **{key: value}))
+    waived = deepcopy(clean)
+    waived["gates"]["literal_rule_exception_applied"] = True
+    assert not publication_eligible(waived)
+    for key, invalid in (
+        ("lane_assignment_receipt", {}),
+        ("surface_preplacement_check", {}),
+        ("provenance", {}),
+        ("registry_uniqueness", {"complete_accessible_scan": False, "errors": ["missing raster"]}),
+        ("lane_assignment_receipt", {"status": "verified", "method_paragraph": "assigned method",
+                                      "receipt_path": "receipts/lane.json", "receipt_sha256": "invalid"}),
+        ("elapsed_seconds", 7201),
+        ("elapsed_seconds", None),
+    ):
+        changed = deepcopy(clean)
+        changed[key] = invalid
+        assert not publication_eligible(changed), key
+    over_experiment_budget = deepcopy(clean)
+    over_experiment_budget["gates"]["experiments_used"] = 4
+    assert not publication_eligible(over_experiment_budget)
+
+
+def test_negative_pages_never_offer_an_approved_download():
+    status_doc = (ROOT / "SUBMISSION_STATUS.md").read_text()
+    assert "NO APPROVED SUBMISSION" in status_doc
+    assert "DO NOT UPLOAD" in status_doc
+    for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
+        page = (DOCS / name).read_text()
+        assert "NO APPROVED SUBMISSION" in page
+        assert "Download the approved TIF" not in page
+        assert "Binding duplicate stop: DO NOT SUBMIT" in page or "NO APPROVED FILE" in page
+    guide = (DOCS / "how-to-submit.html").read_text()
+    assert "Submission blocked — no upload steps authorized" in guide
+    assert "Do not upload this file. Do not spend or select a competition slot." in guide
+    assert "Upload</b> the TIF as the prediction file" not in guide

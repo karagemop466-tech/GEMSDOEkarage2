@@ -1,0 +1,41 @@
+{
+  "hypothesis": "Audit HK3 readiness against the user literal all-registry stop; no new geological experiment.",
+  "mechanism": "Scarps are linear maxima of slope; range-front and intrabasin faults juxtapose density/magnetisation contrasts whose tilt-angle zero crossing sits over the edge independent of amplitude; 3 px catalogue apron and 3 px separation follow the calibrated metric geometry (E1).",
+  "mimicking_non_fault_process": "lithologic/intrusive contacts (same potential-field step), pluvial shorelines and terrace risers (linear slope maxima), survey flight-line striping",
+  "holdout": {
+    "new_measurement": null,
+    "prior_matched_budget_research_result": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.18450466022225004,
+      "ci95": [
+        0.16769141176106592,
+        0.2014839638261474
+      ],
+      "withheld_positive_pixels": 58258,
+      "tpw": 10835.89381129099,
+      "fpw": 49780.34787101455,
+      "fnw": 47422.10618870901
+    }
+  },
+  "correlation_overlap_vs_registry": {
+    "fresh_full_registry_check": false,
+    "prior_worst_abs_rho": 0.11433925986987725,
+    "prior_worst_overlap_nondegenerate": 0.7494014365522745,
+    "literal_gate_pass": false,
+    "exception_authorized": false
+  },
+  "raster_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+  "raster_status": "Existing research TIFF; no new TIFF generated",
+  "validator_output": {
+    "saved_byte_inventory": "PASS_RESEARCH_ONLY",
+    "finite_range_0_1": true,
+    "CRS_shape_transform_match_owner_mirror": true,
+    "organizer_template_authenticated": false
+  },
+  "submission_name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
+  "note": "HK3 approval retracted: literal registry duplicate. Research only; do not submit. No new experiment or slot used.",
+  "experiments_this_session": 0,
+  "slot_authorized": false,
+  "verdict": "negative"
+}

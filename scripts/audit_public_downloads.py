@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """Re-read every published TIFF/ZIP and fail closed on unexpected downloads.
 
-This is an integrity and local-format audit of published files, not a model
-evaluation. Candidate approval is delegated to the desk's strict current release
-gate, not the historical PROMOTE field. No TIFF is generated and this audit does
-not authenticate organizer inputs, template, or a submission receipt.
+This is an integrity and local-format audit of the published files, not a model
+evaluation. Research files need a negative run card; any future upload candidate
+needs a PROMOTE run card whose literal hard gates all pass plus an explicit selector
+receipt bound to the saved bytes. No TIFF is generated and no organizer
+template/receipt is authenticated here.
 """
 from __future__ import annotations
+
+try:
+    from .hk3_release_policy import publication_eligible
+except ImportError:
+    from hk3_release_policy import publication_eligible
 
 import argparse
 import hashlib
@@ -20,7 +26,7 @@ from rasterio.errors import RasterioError
 
 ROOT = Path(__file__).resolve().parents[1]
 # (stem, run card, selector, has_zip[, kind]); kind "research" = negative card required,
-# kind "candidate" = PROMOTE card + explicit selector required (HK3 lane, 2026-10-28).
+# kind "candidate" requires literal policy passage plus an explicit selector. HK3 is research-only.
 ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
@@ -36,7 +42,7 @@ ARTIFACTS = (
     ("gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "candidate"),
+     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "research"),
 )
 
 
@@ -132,12 +138,15 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         except (OSError, ValueError, RasterioError) as exc:
             checks["tif_readable"] = False
             detail = {"diagnostics": {"error_type": type(exc).__name__}}
-    card = None
-    selector = None
     try:
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
-        if not candidate:
-            checks["card_verdict_negative"] = card.get("verdict") == "negative"
+        if candidate:
+            checks["card_verdict_promote"] = card.get("verdict") == "PROMOTE"
+            checks["card_hard_gates_all_pass"] = publication_eligible(card)
+            checks["card_literal_rule_failures_disclosed"] = card.get("gates", {}).get("unique_literal_vs_all_registry_rasters") is True
+            checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
+        else:
+            checks["card_verdict_negative"] = card.get("verdict") in ("negative", "NEGATIVE")
         checks["card_has_same_filename"] = (card.get("raster", rel) == rel and
                                             card.get("submission_name") == stem)
         checks["card_sha_matches_saved_bytes"] = actual_sha is not None and card.get("raster_sha256") == actual_sha
@@ -148,51 +157,38 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
     if selector_rel is not None:
         try:
             selector = json.loads((root / selector_rel).read_text())
-            if not candidate:
+            if candidate:
+                # the automated selector may approve the *download for upload*; the weekly slot
+                # itself is spent by the human selector, so slot_authorized stays False here
+                checks["selector_explicit_candidate"] = (selector.get("verdict") == "candidate_approved_by_automated_gates" and
+                                                         selector.get("ok_to_submit") is True and
+                                                         selector.get("slot_authorized") is False and
+                                                         selector.get("source_run_card") == card_rel and
+                                                         selector.get("raster_sha256") == actual_sha)
+            else:
                 checks["selector_explicit_negative"] = (selector.get("verdict") == "negative" and
                                                         selector.get("slot_authorized") is False and
                                                         selector.get("source_run_card") == card_rel)
         except (OSError, ValueError, TypeError, AttributeError):
-            if not candidate:
-                checks["selector_explicit_negative"] = False
+            checks["selector_explicit_candidate" if candidate else "selector_explicit_negative"] = False
     if has_zip:
         try:
             checks["zip_contains_exact_saved_tif"] = bool(actual_sha and
                 inspect_zip(tif.with_suffix('.zip'), tif, actual_sha))
         except (OSError, ValueError, zipfile.BadZipFile, RuntimeError):
             checks["zip_contains_exact_saved_tif"] = False
-    integrity_ok = all(checks.values())
-    eligible = False
-    eligibility = None
+    ok = all(checks.values())
     if candidate:
-        try:
-            from scripts.build_hk3_pages import submission_ready
-        except ModuleNotFoundError:  # direct ``python scripts/audit_public_downloads.py`` execution
-            from build_hk3_pages import submission_ready
-        release_gate = bool(card and submission_ready(card))
-        selector_ok = bool(selector and selector.get("verdict") == "candidate_approved_by_automated_gates"
-                            and selector.get("ok_to_submit") is True
-                            and selector.get("slot_authorized") is False
-                            and selector.get("source_run_card") == card_rel
-                            and selector.get("raster_sha256") == actual_sha)
-        eligibility = {"current_release_gate_pass": release_gate,
-                       "selector_matches_saved_bytes": selector_ok,
-                       "note": "Historical selector approval cannot override a current hard-stop gate."}
-        eligible = integrity_ok and release_gate and selector_ok
-    ok = integrity_ok
-    if not ok:
-        status = "FAIL_CLOSED"
-    elif candidate and eligible:
-        status = "VERIFIED_CANDIDATE_FOR_UPLOAD"
+        status = "VERIFIED_CANDIDATE_FOR_UPLOAD" if ok else "FAIL_CLOSED"
     else:
-        status = "VERIFIED_RESEARCH_ONLY"
+        status = "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED"
     return {
         "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
         "selector": selector_rel, "zip_file": f"docs/downloads/{stem}.zip" if has_zip else None,
-        "checks": checks, "eligibility": eligibility, "diagnostics": detail.get("diagnostics", {}),
+        "checks": checks, "diagnostics": detail.get("diagnostics", {}),
         "status": status,
         "download_for_research": ok,
-        "ok_to_submit": bool(eligible), "slot_authorized": False,
+        "ok_to_submit": bool(candidate and ok), "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
         "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists",
     }
