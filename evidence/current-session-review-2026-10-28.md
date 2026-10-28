@@ -64,3 +64,14 @@ The nine-raster audit reproduced the published snapshot except creation time.
 Node feed and site tests and the desktop/mobile browser smoke checks passed.
 These are local software checks, not new geological experiments or portal
 acceptance. The mirrors remain unauthenticated organizer inputs.
+
+## Concurrent main integration
+
+During the pull request, other sessions merged a B4 research artifact. Its
+archived registry audit reports lattice overlap 1.0 and no passing pre-placement
+receipt was found in the committed B4 evidence. Its generator was able to write
+final dots without that required check. The historical artifact and receipts
+are preserved as negative evidence, while the CLI and direct final function now
+stop; the public pages no longer claim global uniqueness or a proven H33 causal
+explanation. Its historical holdout is not replayed here, and differing withheld
+positive counts prevent asserting exact fold identity with K2 without more evidence.

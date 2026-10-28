@@ -104,5 +104,5 @@ def test_external_mask_not_bound_by_tiff_hash_is_rejected(inputs, which):
             ds.write_mask(np.ones(ds.shape, dtype="uint8") * 255)
     assert target.read_bytes() == before
     assert Path(str(target) + ".msk").exists()
-    with pytest.raises(ValueError, match="external GDAL dependencies"):
+    with pytest.raises(ValueError, match="external companion"):
         validate(candidate_path, template)

@@ -53,7 +53,7 @@ def test_unbound_external_mask_cannot_change_registry_audit(tmp_path, which):
             ds.write_mask(np.ones(ds.shape, dtype="uint8") * 255)
     assert target.read_bytes() == before
     assert Path(str(target) + ".msk").exists()
-    with pytest.raises(ValueError, match="external GDAL dependencies"):
+    with pytest.raises(ValueError, match="external companion"):
         audit("surface", surface, template, manifest, support)
 
 
@@ -72,5 +72,5 @@ def test_final_tiff_external_mask_is_not_bound_by_receipt(tmp_path):
         with rasterio.open(final_path, "r+") as ds:
             ds.write_mask(np.ones(ds.shape, dtype="uint8") * 255)
     assert final_path.read_bytes() == before
-    with pytest.raises(ValueError, match="external GDAL dependencies"):
+    with pytest.raises(ValueError, match="external companion"):
         audit("final", final_path, template, manifest, support, receipt_path, surface)
