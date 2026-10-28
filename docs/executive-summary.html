@@ -19,10 +19,10 @@
       <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
       <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
       <li>Format contract: EPSG:32611, 100 m, bounds [243350, 4135550, 572550, 4508550], 3730×3292 pixels, values in [0,1], NaN outside the footprint.</li>
-      <li>Upload, confirm the [0,1] range (portal rejects out-of-range values), and submit.</li>
-      <li>Wait for the organizer DTI evaluation against holdout labels (α=0.2, β=0.8, R=300 m triangular kernel).</li>
+      <li>Only after all gates and the separate selector approve a future candidate, upload it and confirm the [0,1] range. No current artifact is approved.</li>
+      <li>Wait for the organizer DTI evaluation against organizer labels (α=0.2, β=0.8, R=300 m triangular kernel).</li>
     </ol>
-    <p class="warn">This repo's H-KARAGE-1 TIF is <b>NOT approved to submit</b>: the holdout gate is open (labels.tif requires DrivenData login) and no fold-local HOLDOUT-DTI win with paired 95% CI &gt; 0 vs. the repo best has been demonstrated.</p>
+    <p class="warn">This repo's H-KARAGE-1 TIF is <b>NOT approved to submit</b>: the recorded lattice overlap exceeds the uniqueness limit and no validated holdout improvement or selector approval exists. An owner-mirrored dataset was previously restored, but is not organizer-authenticated.</p>
   </section>
 
   <section class="scorecard">
