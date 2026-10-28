@@ -325,7 +325,6 @@ def cmd_e3():
             dots = emit(boosted, active, int(round(rate * base)))
             score_arm(terms, tag, dots, fold, valid)
         dvis = ndi.distance_transform_edt(~fold["visible"])
-        plain = {k: np.load(K2 / "terms_e2.npz")[k] for k in ()}  # placeholder no-op
         for rate, tag in ((0.0073, "hgb_buf2_b073"),):
             dots = emit(surf, active & (dvis > 2), int(round(rate * base)))
             score_arm(terms, tag, dots, fold, valid)
