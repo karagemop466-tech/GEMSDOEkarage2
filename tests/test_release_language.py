@@ -18,14 +18,14 @@ def test_historical_card_lattice_failure_is_visible():
 
 def test_h1_and_h2_remain_distinct_negative_receipts():
     h1 = json.loads((ROOT / 'docs/evidence/h1/run_card.json').read_text())
-    h2 = json.loads((ROOT / 'docs/evidence/run_card.json').read_text())
+    h2 = json.loads((ROOT / 'docs/evidence/run_card_h2.json').read_text())
     assert h1['verdict'] == h2['verdict'] == 'negative'
     assert not h1['approved_for_weekly_slot'] and not h2['approved_for_weekly_slot']
     assert h1['registry']['final_dot_check'].startswith('not run')
     assert h2['registry']['final_dot_check'].startswith('not run')
     assert h1['raster_sha256'] != h2['raster_sha256']
     home = (ROOT / 'docs/index.html').read_text()
-    assert 'evidence/h1/run_card.json' in home and 'evidence/run_card.json' in home
+    assert 'evidence/h1/run_card.json' in home and 'evidence/run_card_h2.json' in home
 
 
 def test_current_k2_release_card_is_negative_under_literal_registry_gate():

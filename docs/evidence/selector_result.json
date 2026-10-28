@@ -11,7 +11,7 @@
     "Feature leakage canary missing or failed, or feature inventory does not match",
     "Pre-placement surface pass and stop sequence not verified",
     "Registry coverage incomplete or snapshot hash invalid",
-    "surface: no registry measurements",
+    "surface: duplicate lane; stop",
     "final_dots: no registry measurements",
     "Organizer template authentication not verified",
     "Raster validation missing or failed"

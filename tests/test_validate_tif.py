@@ -90,15 +90,19 @@ def test_zero_nodata_masks_valid_predictions_and_is_rejected(inputs):
     assert result["strict_format_pass"] is False
 
 
-@pytest.mark.parametrize("which", ["candidate", "template"])
-def test_rejects_external_mask_not_bound_by_tiff_hash(inputs, which):
+@pytest.mark.parametrize("which", ["template", "candidate"])
+def test_external_mask_not_bound_by_tiff_hash_is_rejected(inputs, which):
     path, template, candidate = inputs
     candidate_path = path / "candidate.tif"
     write(candidate_path, candidate)
-    target = candidate_path if which == "candidate" else template
+    target = template if which == "template" else candidate_path
+    before = target.read_bytes()
+    # GDAL normally honors this sidecar over the raster's nodata mask, even
+    # though it is not part of the TIFF digest recorded by the receipt.
     with rasterio.Env(GDAL_TIFF_INTERNAL_MASK=False):
         with rasterio.open(target, "r+") as ds:
             ds.write_mask(np.ones(ds.shape, dtype="uint8") * 255)
+    assert target.read_bytes() == before
     assert Path(str(target) + ".msk").exists()
     with pytest.raises(ValueError, match="external companion"):
         validate(candidate_path, template)

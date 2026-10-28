@@ -2,7 +2,8 @@
 
 Read `README.md`, `research/review.md`, `research/hypotheses.md`,
 `knowledge/hypotheses.md`, `evidence/h1/run_card.json` (H1),
-`evidence/run_card.json` (H2), and the audit-session
+`evidence/run_card.json` (H1 restored root), `evidence/run_card_h2.json` (H2),
+and the audit-session
 `docs/data/run-card.json`, `docs/data/audit-run-card.json` and
 `research/independent-review.md` before changing scientific or submission workflows.
 The standing protocol in the README is binding. H1's verdict is negative;
@@ -44,5 +45,9 @@ new method as assigned or clear the lattice witness by gaming footprint edges.
 
 Read `research/release-gate-followup-2026-10-28.md`: the evidence schema now
 requires three additional attestations; schema passage is not evidence verification.
-Newer H2 and B4 artifacts merged on main are also negative research files; update
-the public inventory for all of them before using it to gate deployment.
+H2 and B4 artifacts merged from main are also negative research files and are
+included in the five-file public inventory. Read
+`evidence/current-session-review-2026-10-28.md` for the concurrent B4
+integration: its artifact is research-only, its registry scan fails the literal
+lattice stop, and its CLI/final generation are retired. Do not regenerate it or
+claim uniqueness or organizer approval.

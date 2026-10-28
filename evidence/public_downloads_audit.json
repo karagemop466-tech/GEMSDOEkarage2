@@ -48,8 +48,8 @@
     {
       "file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
       "raster_sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede",
-      "run_card": "evidence/h1/run_card.json",
-      "selector": null,
+      "run_card": "evidence/run_card.json",
+      "selector": "evidence/selector_result.json",
       "zip_file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.zip",
       "checks": {
         "tif_exists": true,
@@ -67,6 +67,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "selector_explicit_negative": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {
@@ -88,8 +89,8 @@
     {
       "file": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
       "raster_sha256": "313d207480fc7c8ac81d3cdf60fe5012d4c1ef778bb2600b7ac469ee104fc4f1",
-      "run_card": "evidence/run_card.json",
-      "selector": "evidence/selector_result.json",
+      "run_card": "evidence/run_card_h2.json",
+      "selector": null,
       "zip_file": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.zip",
       "checks": {
         "tif_exists": true,
@@ -107,7 +108,6 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
-        "selector_explicit_negative": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {

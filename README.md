@@ -4,6 +4,17 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest safety follow-up — 2026-10-28
+
+**No approved submission; do not upload the research TIFFs.** The latest follow-up
+ran no experiment and did not use a competition slot. All nine focus GitHub heads
+changed relative to the October 27 reviewed snapshot; this is not a new score or
+raster audit. See the [three-pass review](evidence/current-session-review-2026-10-28.md),
+[GitHub HEAD receipt](docs/evidence/source-head-review-2026-10-28.json), and
+[negative run card](docs/evidence/followup-session-run-card.json). The local raster
+audits reject external GDAL sidecars not covered by the TIFF hash; input placement
+and grid checks do not imply training readiness or submission authorization.
+
 ## Latest review — 2026-10-28 (d13851b5)
 
 **No approved submission; no new experiment or slot used.** Read the
@@ -210,7 +221,11 @@ candidate. These are geometry measurements, not DTI or organizer scores. Four
 ranked *untried local* proposals appear in
 [`research/2026-10-28-next-lane-slate.md`](research/2026-10-28-next-lane-slate.md).
 This branch ran zero additional geological experiments; concurrent H2 and B4
-negative research runs merged from main while this audit was in progress.
+negative research runs merged from main while this audit was in progress. A
+[dated GitHub HEAD-only check](docs/evidence/source-head-review-2026-10-28.json)
+reported nine changed focus repositories since the pinned review; it does not
+refresh their raster or score audits. Automated Pages refresh checks GitHub
+metadata only, not DrivenData or account quota.
 [Current negative run card](evidence/session-31569490-run-card.json) records null
 new-candidate score, raster hash and submission name rather than inventing one.
 The [three-pass review](research/31569490-three-pass-review.md) documents the
@@ -245,10 +260,11 @@ The recorded H2 HOLDOUT-DTI is 0.0172963 (95% CI [0.0145387, 0.0203584];
 against its best primitive is negative. Its surface registry receipt stops after
 one of 440 pinned comparisons, before final-dot checking. The new downloadable
 H2 TIFF is a **research-only surface**, not a unique or approved submission.
-See [`evidence/run_card.json`](evidence/run_card.json) and
-[`evidence/run_card_h2.json`](evidence/run_card_h2.json). Archived H1 receipts
-are retained under [`evidence/h1/`](evidence/h1/) because the root card now
-belongs to H2; do not label an H1 result with H2's hash or holdout.
+See [`evidence/run_card_h2.json`](evidence/run_card_h2.json). H1's current root
+card is [`evidence/run_card.json`](evidence/run_card.json); its identical
+archived receipts are also retained under [`evidence/h1/`](evidence/h1/) from
+when a concurrent merge briefly replaced the root card. Do not label an H1
+result with H2's hash or holdout.
 
 ### B4 scarp-step candidate — negative (concurrent main merge, 2026-10-28)
 
@@ -343,9 +359,9 @@ with seven input-dependent integration skips; feed, site and browser checks pass
 
 See [`research/independent-review.md`](research/independent-review.md),
 [`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
-[`research/hypotheses.md`](research/hypotheses.md), and the distinct `evidence/h1/run_card.json` (archived H1),
-`evidence/run_card.json` (H2) and `evidence/run-card.json` (unrun
-preflight) records for prior work. See also
+[`research/hypotheses.md`](research/hypotheses.md), and the distinct `evidence/run_card.json` / `evidence/h1/run_card.json`
+(H1, identical restored copies), `evidence/run_card_h2.json` (H2) and
+`evidence/run-card.json` (unrun preflight) records for prior work. See also
 [`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md),
 [`research/final-three-pass-review-2026-10-28.md`](research/final-three-pass-review-2026-10-28.md),
 and [`research/release-review-2026-10-28.md`](research/release-review-2026-10-28.md).
