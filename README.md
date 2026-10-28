@@ -150,6 +150,8 @@ holdout cannot reliably estimate the expert-hidden private score).
 
 ## Current safety status and next steps (2026-10-28)
 
+Latest follow-up: [`research/arena-review-2026-10-28.md`](research/arena-review-2026-10-28.md). The review ran no new experiment and did not approve any submission.
+
 **No TIFF is approved for submission.** The archived irregular-dot raster is
 not unique under the literal rule. A saved-byte recheck against the pinned
 owner-mirror footprint and lattice found 6,765 of 6,769 in-footprint dots

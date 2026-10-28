@@ -132,6 +132,19 @@ class GateTests(unittest.TestCase):
         card["registry"]["surface"][0]["reference"] = []
         self.assertEqual(assess(card)["verdict"], "negative")
 
+    def test_oversized_integer_evidence_fails_closed(self):
+        for section, key in (("holdout", "dti"), ("feature_auc", "magnetic")):
+            with self.subTest(section=section, key=key):
+                card = good()
+                card[section][key] = 10**1000
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["registry"]["surface"][0]["overlap_3px"] = 10**1000
+        self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["holdout"]["ci95"] = [0, 10**1000]
+        self.assertEqual(assess(card)["verdict"], "negative")
+
     def test_missing_outside_nodata_fails(self):
         card = good()
         del card["validator"]["outside_nodata"]

@@ -10,11 +10,14 @@ import math
 
 
 def _finite_number(value: object) -> bool:
-    return (
-        isinstance(value, (int, float))
-        and not isinstance(value, bool)
-        and math.isfinite(value)
-    )
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return False
+    try:
+        return math.isfinite(value)
+    except OverflowError:
+        # Arbitrarily large JSON integers cannot be converted to a C double.
+        # Treat them as invalid evidence rather than crashing the selector.
+        return False
 
 
 def _sha256(value: object) -> bool:
