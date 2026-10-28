@@ -20,8 +20,8 @@
       <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
       <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
       <li>Confirm the current format and exact grid against the authenticated organizer template. The exterior NaN versus zero encoding remains unresolved; do not infer portal acceptance from the community mirror.</li>
-      <li>Upload, confirm the [0,1] range (portal rejects out-of-range values), and submit.</li>
-      <li>Wait for the organizer DTI evaluation against holdout labels (α=0.2, β=0.8, R=300 m triangular kernel).</li>
+      <li>Only after all gates and a separate selector approve a future candidate, upload it and confirm the [0,1] range. No current artifact is approved.</li>
+      <li>Wait for the organizer DTI evaluation against organizer labels (α=0.2, β=0.8, R=300 m triangular kernel).</li>
     </ol>
     <p class="warn">The legacy H-KARAGE-1 raster is <b>NOT approved to submit</b>: it fails the lattice uniqueness gate and has positive pixels outside the mirrored footprint. There is no matched holdout win or selector approval.</p>
   </section>
