@@ -6,7 +6,8 @@ const {JSDOM, VirtualConsole} = require('jsdom');
 
 const root = path.join(__dirname, '..');
 const card = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/run_card.json')));
-const ok = card.verdict === 'PROMOTE';
+const witness = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/literal_recheck.json')));
+const pages = ['index.html', 'executive-summary.html', 'how-to-submit.html', 'submit.html'];
 
 function render(page) {
   const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
@@ -18,74 +19,69 @@ function render(page) {
   return dom;
 }
 
-const pages = ['index.html', 'executive-summary.html', 'how-to-submit.html', 'submit.html'];
-
-test('every desk page carries the run-card verdict badge and no unresolved placeholder', () => {
+test('all desk pages are fail-closed and visibly prohibit submission', () => {
+  assert.equal(card.verdict, 'negative');
+  assert.equal(witness.duplicate_stop, true);
   for (const page of pages) {
     const dom = render(page);
     const badge = dom.window.document.querySelector('.header .badge');
-    assert.ok(badge, `${page}: badge missing`);
-    assert.equal(badge.textContent, ok ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO');
-    assert.ok(badge.classList.contains(ok ? 'ok' : 'no'));
-    assert.doesNotMatch(dom.window.document.body.innerHTML, /\{BADGE/);
+    assert.equal(badge.textContent, 'OK TO SUBMIT: NO');
+    assert.ok(badge.classList.contains('no'));
+    assert.match(dom.window.document.body.textContent, /DO NOT SUBMIT/);
+    assert.doesNotMatch(dom.window.document.body.textContent, /OK TO SUBMIT:\s*YES/);
     dom.window.close();
   }
 });
 
-test('the only click-to-download links are the file named by the run card, and the bytes exist', () => {
+test('one-click research download is visibly labeled and the exact bytes exist', () => {
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
-    if (page === 'index.html' || page === 'how-to-submit.html') assert.ok(links.length >= 1, `${page}: no download link`);
-    for (const link of links) {
-      const href = link.getAttribute('href');
-      assert.match(href, new RegExp(card.submission.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-      assert.doesNotMatch(href, /k2-hgbcont|h1-parity|hkarage1|DO-NOT-SUBMIT/);
-      assert.ok(fs.existsSync(path.join(root, 'docs', href)), `${page}: ${href} missing`);
-    }
+    assert.equal(links.length, 1, `${page}: research link`);
+    const link = links[0];
+    assert.match(link.textContent, /RESEARCH ONLY/);
+    assert.match(link.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality/);
+    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
+    assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
     dom.window.close();
   }
 });
 
-test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and the literal failures are visible', () => {
+test('homepage shows the exact witness and no candidate leaderboard projection', () => {
   const dom = render('index.html');
   const text = dom.window.document.body.textContent;
-  assert.match(text, new RegExp(card.raster.sha256));
+  assert.ok(text.includes(card.raster.sha256));
   assert.match(text, /HOLDOUT-DTI/);
-  assert.match(text, /LEADERBOARD-CALIBRATED ESTIMATE/);
-  assert.match(text, /NOT ORGANIZER-CONFIRMED/);
-  assert.match(text, /Literal 70 % rule vs all 450 non-degenerate registry rasters:\s*FAIL/);
-  const failures = card.registry_uniqueness.tiers.U2_literal_rule_vs_all_registry_rasters.failures;
-  assert.ok(failures.length >= 1);
-  for (const row of failures) {
-    assert.match(text, new RegExp(path.basename(row.submission).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-  }
-  // gate list mirrors the card: every gate key has a PASS/FAIL row
-  const booleanGates = Object.entries(card.gates).filter(([k, v]) => typeof v === 'boolean' && k !== 'literal_rule_exception_applied');
-  const gateRows = [...dom.window.document.querySelectorAll('.gates li')];
-  assert.equal(gateRows.length, booleanGates.length);
-  const fails = gateRows.filter(li => li.querySelector('.pill.no'));
-  assert.equal(fails.length, booleanGates.filter(([, v]) => v === false).length);
-  assert.match(text, /Literal-rule exception applied:\s*yes/);
+  assert.match(text, /45,046 of 45,108 dots \(99\.86%\)/);
+  assert.match(text, /Leaderboard estimate\s*Unavailable/);
+  assert.match(text, /not a leaderboard estimate/i);
+  assert.match(text, /uncertified|unauthenticated/i);
+  assert.doesNotMatch(text, /Literal-rule exception applied:\s*yes/i);
+  assert.doesNotMatch(text, /0\.263\s*[–-]\s*0\.286/);
   dom.window.close();
 });
 
-test('homepage nine-site table lists all focus sites with user-reported scores and uniqueness verdicts', () => {
+test('nine-site table links pinned historical files and labels values unverified', () => {
   const dom = render('index.html');
   const rows = [...dom.window.document.querySelectorAll('#nine-sites tbody tr')];
   assert.equal(rows.length, 9);
   const text = rows.map(r => r.textContent).join('\n');
   assert.match(text, /0\.2778/);
-  assert.match(text, /USER-REPORTED/);
   for (const site of ['GEMSDOE24', 'GEMSDOE25', 'GEMSDOE27', 'GEMSDOE28', 'GEMSDOE30', 'GEMSDOE31', 'GEMSDOE32', 'GEMSDOE33', 'GEMSDOE36']) {
     assert.match(text, new RegExp(site));
   }
-  for (const row of rows) assert.equal(row.children.length, dom.window.document.querySelectorAll('#nine-sites thead th').length);
+  for (const row of rows) {
+    assert.equal(row.children.length, 6);
+    assert.match(row.textContent, /USER-REPORTED\s*\/\s*UNVERIFIED/);
+    assert.match(row.textContent, /DO NOT SUBMIT/);
+    assert.match(row.textContent, /Unavailable/);
+    assert.ok([...row.querySelectorAll('a')].some(a => a.href.includes('/raw/')));
+  }
   dom.window.close();
 });
 
 test('legacy artefacts stay quarantined with their receipts', () => {
-  for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
+  for (const page of pages) {
     const dom = render(page);
     const legacy = dom.window.document.querySelector('#legacy');
     assert.ok(legacy, `${page}: legacy section missing`);
@@ -111,10 +107,13 @@ test('every relative link on the desk pages resolves to a published file', () =>
   }
 });
 
-test('official sources are linked with the competition metric page', () => {
+test('official sources and complete holdout labels are linked on the summary', () => {
   const dom = render('executive-summary.html');
   const hrefs = [...dom.window.document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));
   assert.ok(hrefs.includes('https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/'));
   assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution'));
+  assert.match(dom.window.document.body.textContent, /gems57-pooled-hide-v2/);
+  assert.match(dom.window.document.body.textContent, /58,258 withheld positives/);
+  assert.match(dom.window.document.body.textContent, /95% CI/);
   dom.window.close();
 });

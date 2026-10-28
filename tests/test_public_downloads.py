@@ -40,60 +40,61 @@ def make_fixture(tmp_path):
     return args, card_path
 
 
-def test_current_saved_downloads_are_hash_bound_with_one_candidate():
+def test_current_saved_downloads_are_hash_bound_and_research_only():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_ONE_CANDIDATE_FOR_UPLOAD'
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
+    assert result['downloadable_approved_submission'] is None
+    assert result['score_estimate'] is None and result['slot_authorized'] is False
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert result['downloadable_approved_submission'] == hk3['raster']['file']
-    assert result['score_estimate']['label'].startswith('LEADERBOARD-CALIBRATED ESTIMATE')
     assert len(result['artifacts']) == 7
-    candidates = [r for r in result['artifacts'] if r['kind'] == 'candidate']
-    assert len(candidates) == 1 and candidates[0]['raster_sha256'] == hk3['raster']['sha256']
-    assert candidates[0]['ok_to_submit'] is True and candidates[0]['slot_authorized'] is False
-    assert candidates[0]['checks']['selector_explicit_candidate'] and candidates[0]['checks']['card_hard_gates_all_pass']
+    found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
+    assert len(found) == 1 and found[0]['kind'] == 'research'
     for record in result['artifacts']:
-        if record['kind'] == 'research':
-            assert record['ok_to_submit'] is False
-        assert record['slot_authorized'] is False
+        assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
+        assert record['ok_to_submit'] is False and record['slot_authorized'] is False
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
         assert record['checks']['mirror_transform_match']
 
 
-def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
-    import shutil
+def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):
     args, card_path = make_fixture(tmp_path)
     root, stem, card_rel, selector_rel, has_zip, grid = args
-    # research card + "candidate" kind => the PROMOTE requirement fails closed
-    bad = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
-    assert bad['status'] == 'FAIL_CLOSED' and bad['ok_to_submit'] is False
-    # a PROMOTE card whose selector is negative must also fail closed
-    card = json.loads(card_path.read_text())
-    card.update(verdict='PROMOTE', gates={'a': True, 'unique_literal_vs_all_registry_rasters': True}, holdout={'evidence_class': 'HOLDOUT-DTI'})
-    card_path.write_text(json.dumps(card))
-    still = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
-    assert still['status'] == 'FAIL_CLOSED' and still['checks']['selector_explicit_candidate'] is False
-    # matching selector bound to the saved bytes => verified candidate
-    (root / selector_rel).write_text(json.dumps(dict(verdict='candidate_approved_by_automated_gates', ok_to_submit=True,
-        slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
-    good = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
-    assert good['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD' and good['ok_to_submit'] is True
-    # a second candidate in the inventory is refused
-    second = tmp_path / 'docs/downloads/second.tif'
-    shutil.copyfile(root / f'docs/downloads/{stem}.tif', second)
-    with __import__('zipfile').ZipFile(second.with_suffix('.zip'), 'w') as out:
-        out.write(second, second.name)
-    import pytest
-    mp = pytest.MonkeyPatch()
-    try:
-        mp.setattr(mod, 'ARTIFACTS', ((stem, card_rel, selector_rel, True, 'candidate'), ('second', card_rel, selector_rel, True, 'candidate')))
-        mp.setattr(mod, 'ROOT', root)
-        result = mod.audit(root)
-    finally:
-        mp.undo()
-    assert result['inventory_status'] == 'FAIL_CLOSED' and result['downloadable_approved_submission'] is None
+    for gates in ({}, {'a': True}, {'unique_literal_vs_all_registry_rasters': True},
+                  {'unique_literal_vs_all_registry_rasters': False, 'literal_rule_exception_applied': True}):
+        card = json.loads(card_path.read_text())
+        card.update(verdict='PROMOTE', gates=gates, holdout={'evidence_class': 'HOLDOUT-DTI'})
+        card_path.write_text(json.dumps(card))
+        (root / selector_rel).write_text(json.dumps(dict(verdict='candidate_approved_by_automated_gates',
+            ok_to_submit=True, slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
+        result = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
+        assert result['status'] == 'FAIL_CLOSED' and result['ok_to_submit'] is False
+        assert result['checks']['independent_release_verification_implemented'] is False
+    monkeypatch.setattr(mod, 'ARTIFACTS', ((stem, card_rel, selector_rel, True, 'candidate'),))
+    result = mod.audit(root)
+    assert result['inventory_status'] == 'FAIL_CLOSED'
+    assert result['downloadable_approved_submission'] is None
+    assert result['slot_authorized'] is False
+
+
+def test_external_gdal_sidecar_is_rejected_even_if_tiff_hash_is_unchanged(tmp_path):
+    args, _ = make_fixture(tmp_path)
+    tif = tmp_path / 'docs/downloads/negative-research.tif'
+    before = mod.digest_file(tif)
+    # A sidecar not covered by the TIFF hash can change GDAL's interpreted mask.
+    with rasterio.Env(GDAL_TIFF_INTERNAL_MASK=False):
+        with rasterio.open(tif, 'r+') as ds:
+            mask = np.full((5, 6), 255, dtype=np.uint8)
+            mask[0, 0] = 0
+            ds.write_mask(mask)
+    assert tif.with_suffix('.tif.msk').is_file()
+    assert mod.digest_file(tif) == before
+    report = mod.audit_artifact(*args)
+    assert report['status'] == 'FAIL_CLOSED' and report['ok_to_submit'] is False
+    assert report['checks']['tif_readable'] is False
+    assert 'companion' in report['diagnostics']['error'].lower()
 
 
 def test_b4_literal_followup_is_bound_to_saved_tif_and_negative_registry():
@@ -118,6 +119,36 @@ def test_fixture_integrity_and_missing_selector_fail_closed(tmp_path):
     bad = mod.audit_artifact(*args)
     assert bad['status'] == 'FAIL_CLOSED' and bad['ok_to_submit'] is False
     assert bad['checks']['selector_explicit_negative'] is False
+    selector.write_text(json.dumps({'verdict': 'negative', 'slot_authorized': False,
+                                    'source_run_card': 'evidence/card.json', 'ok_to_submit': True}))
+    contradictory = mod.audit_artifact(*args)
+    assert contradictory['status'] == 'FAIL_CLOSED'
+    assert contradictory['checks']['selector_explicit_negative'] is False
+
+
+def test_negative_card_with_a_hidden_approval_flag_fails_closed(tmp_path):
+    args, card_path = make_fixture(tmp_path)
+    card = json.loads(card_path.read_text())
+    card['approved_for_weekly_slot'] = True
+    card_path.write_text(json.dumps(card))
+    result = mod.audit_artifact(*args)
+    assert result['status'] == 'FAIL_CLOSED'
+    assert result['checks']['card_verdict_negative'] is False
+
+
+def test_misleading_download_metadata_fails_closed(tmp_path):
+    args, _ = make_fixture(tmp_path)
+    tif = tmp_path / 'docs/downloads/negative-research.tif'
+    metadata = {'sha256': mod.digest_file(tif), 'promoted': False,
+                'approved_for_weekly_slot': False, 'ok_to_submit': False}
+    metadata_path = tif.with_suffix('.json')
+    metadata_path.write_text(json.dumps(metadata))
+    assert mod.audit_artifact(*args)['status'] == 'VERIFIED_RESEARCH_ONLY'
+    metadata['ok_to_submit'] = True
+    metadata_path.write_text(json.dumps(metadata))
+    result = mod.audit_artifact(*args)
+    assert result['status'] == 'FAIL_CLOSED'
+    assert result['checks']['metadata_research_only_and_hash_bound'] is False
 
 
 def test_tampered_tif_card_and_extra_zip_member_are_not_verified(tmp_path):

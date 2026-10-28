@@ -1,14 +1,16 @@
-"""HK3 (edge-centrality lane) — run card, published bytes and page consistency.
+"""Independent negative HK3 decision, saved bytes and fail-closed publication.
 
-Every assertion here is about the *saved* evidence; nothing is recomputed from
-the feature stack, so the tests run without the cached data.
+Mirror-dependent replays are skipped if the small hash-pinned inputs have not been
+bootstrapped. No test trains a model, writes a GeoTIFF or uses a submission slot.
 """
+import copy
 import hashlib
 import json
 import re
 import subprocess
 import sys
 from pathlib import Path
+import zipfile
 
 import numpy as np
 import pytest
@@ -28,114 +30,170 @@ def card():
     return load(EV / "run_card.json")
 
 
-def test_run_card_is_published_identically(card):
-    for name in ("run_card.json", "e2.json", "bridge.json", "e3_generation.json",
+def test_evidence_is_published_identically(card):
+    for name in ("run_card.json", "selector_result.json", "literal_recheck.json",
+                 "decision_correction.json", "e2.json", "bridge.json", "e3_generation.json",
                  "registry_audit.json", "anchors_out_of_sample.json", "leakage_inflation.json",
                  "validate_tif_strict.json"):
         assert load(EV / name) == load(DOCS / "evidence" / "hk3" / name), name
 
 
-def test_run_card_gates_and_verdict_logic_agree(card):
+def test_registry_stop_and_previous_unsafe_exception_are_not_promoted(card):
     g = card["gates"]
-    required = ["format_shared_validator_pass", "grid_matches_example_submission",
-                "whole_array_finite_in_0_1", "no_dots_on_mapped_catalogue", "leakage_canary_pass",
-                "holdout_beats_refit_incumbent_paired_ci_excludes_zero", "unique_vs_nine_scored_site_files",
-                "unique_chance_corrected_vs_all_registry_rasters", "unique_literal_vs_submitted_dot_rasters",
-                "rank_correlation_below_0_90", "lane_single_method"]
-    assert all(g[k] is True for k in required), {k: g[k] for k in required}
-    # the literal all-registry rule is the one disclosed deviation; it must be
-    # visible as a failed gate with the exception flag set, never silently passed
+    sel = load(EV / "selector_result.json")
+    receipt = load(EV / "literal_recheck.json")
+    assert card["verdict"] == sel["verdict"] == receipt["verdict"] == "negative"
     assert g["unique_literal_vs_all_registry_rasters"] is False
-    assert g["literal_rule_exception_applied"] is True
-    assert card["verdict"] == "PROMOTE"
-    tiers = card["registry_uniqueness"]["tiers"]
-    assert tiers["U1_unique_vs_nine_scored_site_files"]["pass"] and tiers["U1_unique_vs_nine_scored_site_files"]["max_overlap"] <= 0.70
-    assert not tiers["U2_literal_rule_vs_all_registry_rasters"]["pass"]
-    assert tiers["U3_chance_corrected_overlap_vs_all"]["pass"] and tiers["U3_chance_corrected_overlap_vs_all"]["max_corrected"] <= 0.70
-    assert tiers["U4_literal_rule_vs_dot_rasters_that_were_submitted"]["pass"]
-    # every literal failure is annotated with a submission status (owner-reported or never submitted)
-    for row in tiers["U2_literal_rule_vs_all_registry_rasters"]["failures"]:
-        assert row["overlap_3px"] > 0.70 and row["submission_status"]
-    assert card["registry_uniqueness"]["tiers"]["rank_correlation"]["pass"]
-    assert card["registry_uniqueness"]["worst_abs_rho"] < 0.90
+    assert g["literal_rule_exception_applied"] is False
+    assert g["assigned_lane_verified"] is False and g["registry_complete"] is False
+    assert card["registry_uniqueness"]["complete_accessible_scan"] is False
+    assert card["registry_uniqueness"]["preplacement_clearance_verified"] is False
+    assert receipt["matched_within_3_pixels"] == 45046
+    assert receipt["candidate_positive_inside_footprint"] == 45108
+    assert receipt["overlap_fraction"] == pytest.approx(45046 / 45108)
+    assert receipt["full_footprint_spearman_vs_lattice"] == pytest.approx(0.000317637408, abs=1e-12)
+    assert 10 * receipt["matched_within_3_pixels"] > 7 * receipt["candidate_positive_inside_footprint"]
+    assert receipt["duplicate_stop"] is True
+    assert receipt["preplacement_surface_rechecked"] is False
+    assert receipt["organizer_inputs_authenticated"] is False
+    assert receipt["portal_acceptance"] is None
+    assert sel["ok_to_submit"] is False and sel["slot_authorized"] is False
+    assert "WITHDRAWN" in card["estimator"]["status"]
+    assert "NOT AUTHORIZED" in card["submission"]["status"]
 
 
-def test_holdout_numbers_are_labelled_and_paired_delta_excludes_zero(card):
+def test_this_session_card_does_not_invent_candidate_evidence():
+    path = ROOT / "evidence/2026-10-28-independent-audit-run-card.json"
+    session = load(path)
+    assert session == load(DOCS / "evidence/2026-10-28-independent-audit-run-card.json")
+    for key in ("holdout_dti", "holdout_confidence_interval_95", "registry_correlation",
+                "registry_overlap_3px", "raster_sha256", "format_validator_results",
+                "submission_name", "note", "leaderboard_estimate", "organizer_receipt"):
+        assert session[key] is None
+    assert session["experiments_run"] == session["new_tiffs_created"] == session["submission_slots_used"] == 0
+    assert session["verdict"] == "negative" and session["slot_authorized"] is False
+    historical = session["historical_hk3_witness"]
+    receipt = load(EV / "literal_recheck.json")
+    assert historical["raster_sha256"] == receipt["candidate_sha256"]
+    assert historical["lattice_overlap_3px"] == receipt["overlap_fraction"]
+    assert historical["lattice_rank_correlation"] == receipt["full_footprint_spearman_vs_lattice"]
+
+
+def test_independent_recheck_when_pinned_mirrors_are_available():
+    if not (ROOT / ".cache/research/inputs/lattice.tif").is_file():
+        pytest.skip("run scripts/bootstrap_research.py to restore the small owner mirrors")
+    subprocess.run([sys.executable, "scripts/recheck_hk3.py", "--check"], cwd=ROOT, check=True, timeout=120)
+
+
+def test_prior_holdout_is_labelled_not_a_candidate_score(card):
     h = card["holdout"]
     assert h["evidence_class"] == "HOLDOUT-DTI"
-    assert h["evaluator_version"] and h["withheld_positive_pixels"] > 0
+    assert h["evaluator_version"] == "gems57-pooled-hide-v2"
+    assert h["withheld_positive_pixels"] == 58258
+    recorded = h["candidate_same_budget_as_incumbent_b110"]
+    assert recorded["ci95"][0] <= recorded["dti"] <= recorded["ci95"][1]
     d = h["paired_differences"]["cand34_b110_minus_inc26_b110"]
-    assert d["ci95"][0] > 0 and d["delta"] > 0
-    assert h["candidate_same_budget_as_incumbent_b110"]["dti"] > h["incumbent_refit_b110"]["dti"]
-    assert h["canary_all_pass"] and max(h["canary_max_auc_by_feature"].values()) < 0.90
-    # the estimate carries its own label and must never be presented as a score
-    est = card["estimator"]
-    assert est["evidence_class"].startswith("LEADERBOARD-CALIBRATED ESTIMATE")
-    assert "NOT ORGANIZER-CONFIRMED" in est["evidence_class"]
-    assert est["estimate_theta"]["0.00"] < est["estimate_theta"]["0.50"] < est["estimate_theta"]["0.75"] < est["estimate_theta"]["1.00"]
-    assert est["estimate"] == pytest.approx(est["estimate_theta"]["1.00"], abs=2e-5)  # rounding of the printed table
-    assert est["estimate_if_no_better_than_anchor"] <= est["estimate_theta"]["0.00"]  # pessimistic floor below the family baseline
+    assert d["ci95"][0] > 0 and d["delta"] > 0  # vs K2, NOT an HK3-vs-K3 paired test
+    # Only the eight new bands were tested; a 34-feature gate cannot be called passed.
+    assert len(h["canary_max_auc_by_feature"]) == 8
+    assert h["canary_eight_new_features_all_pass"] is True
+    assert max(h["canary_max_auc_by_feature"].values()) < 0.90
+    assert h["canary_all_pass"] is False and card["gates"]["leakage_canary_pass"] is False
 
 
-def test_published_raster_matches_run_card_and_is_in_range(card):
+def test_published_research_raster_hash_grid_range_and_zip(card):
     tif = ROOT / card["raster"]["file"]
-    assert tif.exists()
     assert hashlib.sha256(tif.read_bytes()).hexdigest() == card["raster"]["sha256"]
     with rasterio.open(tif) as src:
         assert src.count == 1 and src.dtypes[0] == "float32"
         assert (src.height, src.width) == (3730, 3292)
         assert src.crs.to_epsg() == 32611
-        assert list(tuple(src.transform)[:6]) == card["example_submission_profile"]["transform"] if "example_submission_profile" in card else True
-        assert list(tuple(src.transform)[:6]) == card["raster"]["example_submission_profile"]["transform"]
+        assert list(src.transform)[:6] == card["raster"]["example_submission_profile"]["transform"]
         arr = src.read(1)
     assert np.isfinite(arr).all() and arr.min() >= 0.0 and arr.max() <= 1.0
     assert int((arr > 0).sum()) == card["raster"]["dots"] == 45108
-    assert set(np.unique(arr)).issubset({0.0, 1.0})
-    # zip wraps the same bytes
-    import zipfile
     with zipfile.ZipFile(ROOT / card["raster"]["zip"]) as z:
-        names = z.namelist()
-        assert names == [tif.name]
-        assert hashlib.sha256(z.read(names[0])).hexdigest() == card["raster"]["sha256"]
+        assert z.namelist() == [tif.name]
+        assert hashlib.sha256(z.read(tif.name)).hexdigest() == card["raster"]["sha256"]
+    metadata = load(tif.with_suffix(".json"))
+    assert metadata["sha256"] == card["raster"]["sha256"]
+    assert metadata["ok_to_submit"] is False and metadata["promoted"] is False
+    assert "DO NOT SUBMIT" in metadata["status"]
+    assert "WITHDRAWN" in metadata["metadata"]["estimator"]["status"]
+    assert len(card["submission"]["note"]) <= 140  # historical, not a proposed new upload
 
 
-def test_submission_note_fits_portal_limit(card):
-    s = card["submission"]
-    assert len(s["note"]) <= 140 and s["note_chars"] == len(s["note"])
-    assert "gemsdoekarage2-hk3" in s["name"]
-    assert Path(card["raster"]["file"]).name == s["name"] + ".tif"
-
-
-def test_shared_validator_passes_on_the_published_bytes(card):
-    sys.path.insert(0, str(ROOT))
-    from vendor.gems57 import validate  # shared tool, pinned
+def test_shared_validator_is_only_a_local_format_check(card):
+    from vendor.gems57 import validate
     report = validate.validate(ROOT / card["raster"]["file"])
     assert all(report["checks"].values()), report["checks"]
     assert report["sha256"] == card["raster"]["sha256"]
-    assert all(card["validator"]["shared_gems57"]["checks"].values())
+    assert load(EV / "literal_recheck.json")["organizer_inputs_authenticated"] is False
 
 
-def test_desk_pages_are_generated_from_the_run_card(card):
-    subprocess.run([sys.executable, str(ROOT / "scripts/build_hk3_pages.py"), "--check"], check=True, cwd=ROOT)
+def test_retired_cli_and_direct_entry_points_never_write(card):
+    from scripts import hk3
+    files = [ROOT / card["raster"]["file"], EV / "registry_audit.json", EV / "run_card.json"]
+    before = [hashlib.sha256(p.read_bytes()).digest() for p in files]
+    for cmd in (hk3.cmd_features, hk3.cmd_e2, hk3.cmd_bridge, hk3.cmd_e3,
+                hk3.cmd_audit, hk3.cmd_anchors, hk3.cmd_card, hk3.emit):
+        with pytest.raises(RuntimeError, match="BLOCKED"):
+            cmd()
+    run = subprocess.run([sys.executable, "scripts/hk3.py", "e3"], cwd=ROOT,
+                         text=True, capture_output=True, timeout=30)
+    assert run.returncode != 0 and "BLOCKED" in run.stderr
+    assert before == [hashlib.sha256(p.read_bytes()).digest() for p in files]
+
+
+def test_desk_pages_are_explicitly_research_only(card):
+    subprocess.run([sys.executable, "scripts/build_hk3_pages.py", "--check"], check=True, cwd=ROOT)
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
-        assert "{BADGE" not in page
-        assert ("OK TO SUBMIT: YES" in page) == (card["verdict"] == "PROMOTE")
-        if name in ("index.html", "how-to-submit.html"):
-            assert card["raster"]["sha256"] in page
+        assert "OK TO SUBMIT: NO" in page and "OK TO SUBMIT: YES" not in page
+        assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
+        assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
-        for href in downloads:
-            assert card["submission"]["name"] in href
-            assert (DOCS / href).exists()
+        assert len(downloads) == 1
+        assert (DOCS / downloads[0]).resolve() == (ROOT / card["raster"]["file"]).resolve()
     home = (DOCS / "index.html").read_text()
-    assert "HOLDOUT-DTI" in home and "LEADERBOARD-CALIBRATED ESTIMATE" in home
-    assert "ORGANIZER-CONFIRMED" in home  # the label the page says it does *not* have
-    assert 'Literal 70 % rule vs all 450 non-degenerate registry rasters:</b> <b class="no">FAIL' in home
+    assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
+    assert "45,046 of 45,108" in home and "99.86%" in home
+    assert "exception applied" not in home.lower()
     assert "drivendata.org/competitions/306/competition-doe-gems/page/967/" in home
 
 
-def test_literal_failures_on_the_desk_match_the_card(card):
-    home = (DOCS / "index.html").read_text()
-    for row in card["registry_uniqueness"]["tiers"]["U2_literal_rule_vs_all_registry_rasters"]["failures"]:
-        assert Path(row["submission"]).name in home
-        assert f"{row['overlap_3px'] * 100:.1f}%" in home
+def test_page_builder_refuses_a_forged_promote_card_or_selector(monkeypatch):
+    from scripts import build_hk3_pages as builder
+    original = builder.load
+
+    def forged_card(path):
+        data = copy.deepcopy(original(path))
+        if path == builder.EV / "hk3/run_card.json":
+            data["verdict"] = "PROMOTE"
+            data["gates"]["unique_literal_vs_all_registry_rasters"] = True
+        return data
+
+    monkeypatch.setattr(builder, "load", forged_card)
+    with pytest.raises(ValueError, match="negative literal-registry"):
+        builder.gather()
+
+    def forged_selector(path):
+        data = copy.deepcopy(original(path))
+        if path == builder.EV / "hk3/selector_result.json":
+            data["ok_to_submit"] = True
+        return data
+
+    monkeypatch.setattr(builder, "load", forged_selector)
+    with pytest.raises(ValueError, match="negative literal-registry"):
+        builder.gather()
+
+    def forged_witness(path):
+        data = copy.deepcopy(original(path))
+        if path == builder.EV / "hk3/literal_recheck.json":
+            # Keep the boolean STOP but change the fraction shown to readers.
+            data["overlap_fraction"] = 0.01
+        return data
+
+    monkeypatch.setattr(builder, "load", forged_witness)
+    with pytest.raises(ValueError, match="witness counts"):
+        builder.gather()

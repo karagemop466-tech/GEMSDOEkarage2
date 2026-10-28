@@ -1,5 +1,17 @@
 # HK3 session (2026-10-28, branch `arena/fcccc3a7-gemsdoekarage2`) — calibration, hypotheses, lane
 
+> **2026-10-28 correction — NEGATIVE, DO NOT SUBMIT.** This is a historical research
+> note, not current operating guidance. Its earlier self-assigned lane, >2-hour run,
+> unsupported leaderboard transfer, exception to the literal registry rule, portal-error
+> causal claim and `PROMOTE` decision are withdrawn. The saved raster overlaps a
+> registered lattice at 45,046/45,108 = 99.862552% and other entries above 70%; no
+> exclusion is authorized. The organizer template, portal acceptance, complete registry
+> and file-linked scores were not authenticated. See
+> [`evidence/hk3/decision_correction.json`](../evidence/hk3/decision_correction.json)
+> and [`literal_recheck.json`](../evidence/hk3/literal_recheck.json). Assertions below are
+> retained as historical hypotheses or calculations, **not verified facts or release
+> instructions**. The hidden-score mechanism and the old range projection are unproven.
+
 Written before the HK3 holdout result was known (E2 was running when this file was
 drafted; it is not edited after the fact except in the clearly marked "Outcome" section).
 
@@ -20,7 +32,7 @@ computed from hash-pinned public bytes and the USER-REPORTED scores in the promp
 | Nested family | GEMSDOE25 ≡ GEMSDOE30 (44,090 dots); GEMSDOE31 = that minus 3,891 dots all ≤ 1 px from the catalogue; GEMSDOE32 = GEMSDOE31 minus 2,545 dots all in the 1–2 px band; GEMSDOE36 = GEMSDOE32 + 1,200 dots | exact set relations re-verified on the pinned bytes |
 | Zero-hit test | removing 3,891 dots ≤ 1 px: implied `T = 5,073` (5,027–5,121); removing 2,545 dots at 1–2 px: implied `T = 5,470` (5,393–5,549); adding 1,200 PINN dots: implied `T = 6,548` (6,322–6,791) | If a removed/added set carries **zero** truth credit, `1/DTI` changes by exactly `−0.2·Δn/T`. Three independent steps give `T` of the same order; the ≤ 1 px step is the cleanest. The 1–2 px band carried a *small* residual credit (its implied `T` is 8 % higher than the ≤ 1 px step, outside rounding). |
 | B2 operating point (GEMSDOE32, 37,654 dots, 0.2778) | `T ≈ 5,073` (41 % weighted coverage of `G`), dot hit-mass `M ≈ 1,038` (2.8 % of dots), `F ≈ 36,616` | solved from the metric identity |
-| Why B2 is the best of the nine | it deleted ~6,400 catalogue-adjacent dots that were almost pure false-positive mass from the shared D2.8 field; the surface is the same family | mechanism, verified |
+| Why B2 is the best of the nine | it deleted ~6,400 catalogue-adjacent dots that were almost pure false-positive mass from the shared D2.8 field; the surface is the same family | hypothesis, not causally verified |
 | What the 0.4544 public leader must be doing | at the same 37.6 k budget it needs `T ≈ 8,550` (≈ 69 % coverage): a surface with ~1.7× the hit rate, not a better emission trick | arithmetic on the same identity |
 | Marginal-dot rule | include a dot iff its expected truth share `dT/(dT+dF) > α·DTI ≈ 0.056` at the B2 point; the hidden corridor (≤ 3 px of hidden truth) is ≈ 1.75 % of the footprint, so a dot pays off above ≈ 3.2× base-rate enrichment | exact first-order condition of the ratio metric |
 | Educational projection (**not** a submission; strict subset of GEMSDOE32 = duplicate) | deleting GEMSDOE32's remaining 2,171 dots in the 2–3 px band would give ≈ 0.2846 if they are pure FP | same identity |
@@ -183,15 +195,15 @@ over the pre-registered θ grid is not worse than the 40 k alternative.
 * **U4 — literal rule vs every dot raster that may have been submitted:** PASS.
 * Rank correlation: worst |ρ| 0.114 ⇒ PASS.
 
-**Disclosed deviation from §3c.** §3c said "literal ⇒ stop". The literal failures are all
+**Historical unauthorized deviation from §3c (withdrawn).** §3c said "literal ⇒ stop". The literal failures are all
 against objects that are not competing submissions: a dense line/surface raster that is a
 *different kind of object* (any dot file that follows range fronts shares most of its dots
 with a ridge-line surface; the scored champion does so at 59 %), and two files that were
 never uploaded (one by its owner's own record, one ours). We therefore record U2 as FAIL,
 set `literal_rule_exception_applied = true`, print the three rows in red on every page, and
-promote on U1 + U3 + U4 + ρ. Had any *scored* raster crossed 70 %, or had the chance-corrected
-overlap crossed 70 %, the verdict would be NEGATIVE. The selector (the user) sees the
-failure before the download button; nothing is waived silently.
+the historical runner incorrectly promoted on U1 + U3 + U4 + ρ. This was not authorized:
+the actual rule covers any registry raster. The corrected verdict is NEGATIVE and the
+selector must not offer this file for a slot.
 
 ### 4.4 Why the cross-family out-of-sample checks fail, and what that says about the estimator
 
@@ -220,17 +232,17 @@ all current information sources. Beating 0.2778 by a large margin requires new i
 
 ### 4.5 Run card and files
 
-* Run card: `evidence/hk3/run_card.json` — verdict **PROMOTE** (meaning: passes every
-  automated gate except the literal all-registry rule, which failed with the exception above;
-  the file is offered to the selector; it is *not* a score claim).
+* Run card: `evidence/hk3/run_card.json` — corrected verdict **NEGATIVE**. The historical
+  `PROMOTE` decision is documented in `evidence/hk3/decision_correction.json`; the file is
+  research-only and is not offered to the selector.
 * File: `docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`
   (sha256 `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9`, 156,302 B;
   `.zip` of the same bytes; `.json` metadata). 45,108 dots, value 1.0, zeros elsewhere
   including outside the footprint, float32, EPSG:32611, 3730 × 3292, origin (243350, 4508550).
   Shared gems57 validator: all checks pass; the historical strict validator fails only its
-  `outside_is_nan` rule (the portal rejected NaN outside the footprint on 2026-10-27 with
-  "Predicted values must be in range [0, 1]", so zeros outside is deliberate).
-* Submission name `gemsdoekarage2-hk3-edgecentrality-apron3-20261028`; note (110 chars):
+  `outside_is_nan` rule. A prior portal range error was reported, but its file and cause
+  were not independently authenticated; neither exterior encoding has proven acceptance.
+* Historical proposed name (NOT AUTHORIZED) `gemsdoekarage2-hk3-edgecentrality-apron3-20261028`; note (110 chars):
   "HK3: 34-feature HGB with catalogue-free edge-centrality bands; dots sep 3px, >3px off
   catalogue; zeros outside".
 * Budget: 3 experiments (E1 calibration, E2 holdout, E3 generation) plus diagnostics

@@ -67,12 +67,13 @@ function chromeEnvironment() {
     const artifactHash = crypto.createHash('sha256').update(Buffer.from(await artifactResponse.arrayBuffer())).digest('hex');
     assert.equal(artifactHash, parallelCard.raster_sha256);
     assert.equal(parallelCard.approved_for_weekly_slot, false);
-    // the HK3 run card names the only file offered for upload; its served bytes must hash to the card
+    // HK3 is an existing research-only file, never an upload candidate.
     const hk3 = require('../evidence/hk3/run_card.json');
     const hk3Response = await fetch(base + '/' + hk3.raster.file);
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
-    const expectBadge = hk3.verdict === 'PROMOTE' ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO';
+    assert.equal(hk3.verdict, 'negative');
+    const expectBadge = 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
@@ -80,12 +81,17 @@ function chromeEnvironment() {
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
       const primary = page.locator('a.btn.big[download]').first();
       assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
+      assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
+      const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
+      assert.equal(download.suggestedFilename(), path.basename(hk3.raster.file));
+      const downloaded = fs.readFileSync(await download.path());
+      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), hk3.raster.sha256);
       assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('body').innerText()).includes('not unique'));
       assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);
       assert.ok(await page.locator('a[href="audit.html"]').count());
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Desk overflow');
-      console.log(`PASS ${width}px: submission desk, verdict badge, single click-to-download file`);
+      console.log(`PASS ${width}px: negative badge, research-only click/download, exact SHA-256`);
     }
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);

@@ -115,7 +115,7 @@
   "approved_for_weekly_slot": false,
   "promoted": false,
   "submission_slots_used": 0,
-  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "status": "RESEARCH ONLY \u2014 NEGATIVE LITERAL REGISTRY STOP; DO NOT SUBMIT",
   "metadata": {
     "name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
     "note": "HK3: 34-feature HGB with catalogue-free edge-centrality bands; dots sep 3px, >3px off catalogue; zeros outside",
@@ -725,9 +725,12 @@
         "candidate/anchor coverage and hit-mass ratios measured on catalogue holdout transfer to the expert hidden truth",
         "G and the anchor (T, M) come from the lattice-pinned calibration of USER-REPORTED scores",
         "the anchor's holdout number may be inflated by catalogue leakage, which makes this estimate conservative if so"
-      ]
+      ],
+      "status": "WITHDRAWN \u2014 historical projection based on unvalidated transfer, not a score or release criterion"
     },
     "dots_within_3px_of_catalogue": 0,
     "dots_on_catalogue": 0
-  }
+  },
+  "ok_to_submit": false,
+  "release_correction": "evidence/hk3/decision_correction.json"
 }

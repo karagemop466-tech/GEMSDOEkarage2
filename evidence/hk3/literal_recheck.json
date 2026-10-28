@@ -1,0 +1,61 @@
+{
+  "schema": "gems.hk3-literal-recheck.v1",
+  "evidence_class": "GEOMETRY AND LOCAL FORMAT AUDIT; NOT A SCORE",
+  "method": "Unchanged hash-pinned shared GEMSDOE24 novelty.dot_overlap and submission.check_variants; saved TIFF bytes re-read.",
+  "candidate_file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+  "candidate_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+  "mirror_sample_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+  "mirror_labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+  "witness_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+  "witness_source": "https://github.com/buffedlizard55-lab/13GEMSDOE",
+  "candidate_positive_inside_footprint": 45108,
+  "matched_within_3_pixels": 45046,
+  "overlap_fraction": 0.9986255209718897,
+  "full_footprint_spearman_vs_lattice": 0.000317637408,
+  "rank_correlation_scope": "Full mirrored footprint, saved binary raster values; not a complete registry scan",
+  "threshold_fraction_strictly_exceeded": 0.7,
+  "duplicate_stop": true,
+  "geometry": {
+    "is_space_filling_calibration_control": true,
+    "footprint_3px_covered_pixels": 5160724,
+    "footprint_3px_uncovered_pixels": 6649,
+    "footprint_3px_coverage": 0.9987132726822701,
+    "coverage_threshold": 0.7,
+    "pigeonhole_min_overlap_for_candidate_size": 0.8525982087434602
+  },
+  "candidate_budget_bound": {
+    "budget_dots": 45108,
+    "uncovered_footprint_cells": 6649,
+    "min_dots_within_3px": 38459,
+    "min_fraction_within_3px": 0.8525982087434602,
+    "forced_duplicate_stop": true,
+    "limit_fraction": 0.7
+  },
+  "validation": {
+    "single_band_float32": true,
+    "shape_crs_transform_match_owner_mirror": true,
+    "no_masked_pixels_inside_owner_footprint": true,
+    "no_nan_or_infinity_inside_owner_footprint": true,
+    "inside_values_in_0_1": true,
+    "whole_array_finite_in_0_1": true,
+    "outside_mirror_footprint_all_nan": false,
+    "positives_outside_mirror_footprint": 0,
+    "positives_on_mirrored_catalogue": 0,
+    "shared_variant_interior_format_valid": true
+  },
+  "original_registry_comparisons_with_same_witness": 2,
+  "original_registry_complete_accessible_scan": false,
+  "preplacement_surface_rechecked": false,
+  "preplacement_reason": "The original full surface/support and a valid prior surface receipt were not restored; final-dot failure alone requires STOP.",
+  "organizer_inputs_authenticated": false,
+  "organizer_receipt_available": false,
+  "portal_acceptance": null,
+  "slot_authorized": false,
+  "verdict": "negative",
+  "limitations": [
+    "The owner mirrors and footprint are hash-pinned but not authenticated against DrivenData.",
+    "This is one registered witness, not proof that the full registry was checked.",
+    "A dense witness can flag unrelated rasters; under the supplied literal rule it still requires a stop.",
+    "The official outside-footprint convention and portal behavior remain unresolved."
+  ]
+}

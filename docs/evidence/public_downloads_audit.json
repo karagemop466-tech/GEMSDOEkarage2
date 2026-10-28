@@ -1,8 +1,8 @@
 {
   "schema": "gems.published_downloads.v2",
   "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-  "inventory_status": "PASS_ONE_CANDIDATE_FOR_UPLOAD",
-  "verdict": "candidate_available",
+  "inventory_status": "PASS_RESEARCH_ONLY",
+  "verdict": "negative",
   "unexpected_downloads": [],
   "missing_downloads": [],
   "artifacts": [
@@ -69,6 +69,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "selector_explicit_negative": true,
         "zip_contains_exact_saved_tif": true
       },
@@ -111,6 +112,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {
@@ -152,6 +154,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "selector_explicit_negative": true,
         "zip_contains_exact_saved_tif": true
       },
@@ -194,6 +197,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {
@@ -235,6 +239,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
         "selector_explicit_negative": true,
         "zip_contains_exact_saved_tif": true
       },
@@ -258,7 +263,7 @@
       "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
       "raster_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
       "run_card": "evidence/hk3/run_card.json",
-      "kind": "candidate",
+      "kind": "research",
       "selector": "evidence/hk3/selector_result.json",
       "zip_file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.zip",
       "checks": {
@@ -273,14 +278,13 @@
         "range_0_1": true,
         "no_masked_pixels": true,
         "raster_unchanged_during_read": true,
-        "card_verdict_promote": true,
-        "card_hard_gates_all_pass": true,
-        "card_literal_rule_failures_disclosed": true,
-        "card_holdout_labelled": true,
+        "card_verdict_negative": true,
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
-        "selector_explicit_candidate": true,
+        "metadata_research_only_and_hash_bound": true,
+        "metadata_hk3_negative_status": true,
+        "selector_explicit_negative": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {
@@ -292,25 +296,16 @@
         "finite_max": 1.0,
         "whole_array_pixels": 12279160
       },
-      "status": "VERIFIED_CANDIDATE_FOR_UPLOAD",
+      "status": "VERIFIED_RESEARCH_ONLY",
       "download_for_research": true,
-      "ok_to_submit": true,
+      "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
     }
   ],
-  "downloadable_approved_submission": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
-  "score_estimate": {
-    "label": "LEADERBOARD-CALIBRATED ESTIMATE (ratio transfer from USER-REPORTED anchors; NOT a score; NOT ORGANIZER-CONFIRMED)",
-    "value": 0.2855148108330725,
-    "theta_sensitivity": {
-      "1.00": 0.28551616855930356,
-      "0.75": 0.27983826097656866,
-      "0.50": 0.2741525239914453,
-      "0.00": 0.26275749694768774
-    }
-  },
+  "downloadable_approved_submission": null,
+  "score_estimate": null,
   "organizer_template_authenticated": false,
   "format_note": "Each raster is read from disk, whole-array range and grid compared with an unauthenticated owner mirror. Footprint/exterior policy and portal acceptance require organizer evidence.",
   "slot_authorized": false
