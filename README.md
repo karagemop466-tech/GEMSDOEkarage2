@@ -218,5 +218,10 @@ See [`research/independent-review.md`](research/independent-review.md),
 [`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
 [`research/hypotheses.md`](research/hypotheses.md), and the two distinct
 `evidence/run_card.json` / `evidence/run-card.json` records for prior work. See also
-[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md) for this
-checkout's release-path review.
+[`research/repo-review-2026-10-28.md`](research/repo-review-2026-10-28.md),
+[`research/final-three-pass-review-2026-10-28.md`](research/final-three-pass-review-2026-10-28.md),
+and [`research/release-review-2026-10-28.md`](research/release-review-2026-10-28.md).
+The K2 download links on the site are **research-only / DO NOT SUBMIT**. The earlier
+conditional selector recommendation is superseded by the negative literal-policy
+decision at [`evidence/k2/selector_result.json`](evidence/k2/selector_result.json);
+no TIFF is approved for competition submission.

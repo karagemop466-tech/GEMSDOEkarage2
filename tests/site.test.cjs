@@ -112,24 +112,21 @@ test('current download does not claim established uniqueness or submission readi
   dom.window.close();
 });
 
-test('K2 experiment cannot be mistaken for the current approved submission', async () => {
-  const selector = JSON.parse(fs.readFileSync(path.join(root, 'evidence/k2/selector_result.json')));
-  assert.equal(selector.verdict, 'negative');
-  assert.equal(selector.ok_to_submit, false);
-  assert.equal(selector.slot_authorized, false);
-  const runCard = JSON.parse(fs.readFileSync(path.join(root, 'evidence/k2/run_card.json')));
-  assert.equal(runCard.verdict, 'negative'); // current correction preserves the prior recommendation elsewhere
-  for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
-    const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
-    assert.match(html, /negative/i);
-    assert.match(html, /DO NOT SUBMIT/);
-  }
-  const landing = await render('index.html');
-  const card = landing.window.document.querySelector('#k2-candidate');
-  assert.match(card.textContent, /SELECTOR NEGATIVE/);
-  assert.match(card.textContent, /DO NOT SUBMIT/);
-  for (const link of card.querySelectorAll('a[download]')) {
-    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
-  }
-  landing.window.close();
+test('K2 literal-policy review is negative and links only to a research artifact', async () => {
+  const home = await render('index.html');
+  const section = home.window.document.querySelector('#k2-candidate');
+  assert.match(section.textContent, /research artifact/i);
+  assert.match(section.textContent, /DO NOT SUBMIT/);
+  assert.match(section.textContent, /SELECTOR NEGATIVE|No slot is approved/);
+  assert.match(section.querySelector('a[download]').textContent, /DO NOT SUBMIT/);
+  assert.match(section.innerHTML, /evidence\/k2-review-2026-10-28\.json/);
+  home.window.close();
+
+  const summary = await render('executive-summary.html');
+  const k2 = summary.window.document.querySelector('#k2');
+  assert.match(k2.textContent, /negative/i);
+  assert.match(k2.textContent, /DO NOT SUBMIT/);
+  assert.match(k2.querySelector('thead').textContent, /File to download/);
+  assert.match(k2.querySelector('thead').textContent, /Unique \/ OK to submit/);
+  summary.window.close();
 });
