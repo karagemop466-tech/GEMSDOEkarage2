@@ -36,7 +36,9 @@ test('dashboard renders nine research rows and keeps submission disabled', async
   const research = doc.querySelector('#research-download');
   assert.match(research.textContent, /DO NOT SUBMIT/);
   assert.match(research.textContent, /HOLDOUT-DTI/);
-  assert.equal(research.querySelectorAll('a[download]').length, 2);
+  assert.equal(research.querySelectorAll('a[download]').length, 1);
+  assert.match(research.querySelector('a[download]').getAttribute('href'), /DO-NOT-SUBMIT/);
+  assert.doesNotMatch(research.textContent, /unique research TIF/i);
   for (const link of research.querySelectorAll('a[download]')) {
     assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
   }
@@ -47,10 +49,10 @@ test('site guide displays all nine detail cards even with a deep link', async ()
   const dom = await render('executive-summary.html', originalAudit, originalMonitor, '#GEMSDOE32');
   assert.equal(dom.window.document.querySelectorAll('.site-detail').length, 9);
   assert.ok(dom.window.document.querySelector('#GEMSDOE32'));
-  for (const link of dom.window.document.querySelectorAll('.site-detail a[href^="site-"]')) {
+  for (const link of dom.window.document.querySelectorAll('.site-detail a[href^="sites/"]')) {
     assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
   }
-  assert.equal(dom.window.document.querySelectorAll('.site-detail a[href^="site-"]').length, 9);
+  assert.equal(dom.window.document.querySelectorAll('.site-detail a[href^="sites/"]').length, 9);
   dom.window.close();
 });
 
