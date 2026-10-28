@@ -63,19 +63,21 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 4px; font-size: 12.
 .tag { font-weight: 700; }
 .tag.no { color: var(--no); } tag.yes { color: var(--ok); }
 .cs { white-space: nowrap; }
-/* The primary dashboard must remain readable even without JavaScript. */
-body > header:not(.header), body > main { max-width: 1120px; margin: 0 auto; padding: 24px 20px; }
-body > header:not(.header) { padding-bottom: 0; }
-body > main > section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-bottom: 20px; }
+
+/* Current dashboard: readable at desktop and narrow preview widths. */
+body > header, body > main { max-width: 1120px; margin: auto; padding: 20px; }
+body > header { padding-bottom: 0; }
+body > header h1 { font-size: clamp(1.4rem, 4vw, 2rem); }
+main nav { margin-bottom: 20px; line-height: 2; }
+main section { margin: 20px 0; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
 .verdict-box { border-left: 5px solid var(--no); }
-.verdict-box h2 { color: var(--no); }
-.table-scroll { max-width: 100%; overflow-x: auto; }
-.table-scroll table { min-width: 760px; }
-.file-name, .sub-label { display: block; overflow-wrap: anywhere; }
-.sub-label { color: var(--muted); font-size: 12px; }
-.site-name { font-weight: 700; }
-button:disabled { padding: 12px 18px; color: #475569; background: #e2e8f0; border: 0; border-radius: 6px; }
-code { overflow-wrap: anywhere; }
-.header a { color: #fff; }
-@media (max-width: 400px) { body > header:not(.header) h1 .badge { display: table; margin: 6px 0 0; } }
-body > header:not(.header) h1 { font-size: clamp(1.4rem, 7vw, 2rem); overflow-wrap: anywhere; }
+.subtitle, .muted, .sub-label { color: var(--muted); }
+.file-name, .sub-label { display: block; margin-top: 6px; }
+.file-name, .detail-file, .research-download a, code { overflow-wrap: anywhere; }
+.scorecard { overflow-x: auto; }
+.scorecard table { min-width: 700px; }
+.site-detail { padding: 16px 0; border-top: 1px solid var(--line); }
+.detail-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.detail-head span, .not-unique, .warn { color: var(--no); }
+button:disabled { padding: 12px 18px; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; }
+@media (max-width: 480px) { body > header, body > main { padding: 12px; } main section { padding: 12px; } }

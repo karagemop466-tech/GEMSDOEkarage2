@@ -13,27 +13,30 @@
 </header>
 
 <main>
+  <h2>NO APPROVED SUBMISSION — DO NOT UPLOAD</h2>
+  <nav aria-label="Research evidence"><a href="index.html">Dashboard</a> · <a href="executive-summary.html">Executive summary</a> · <a href="experiment-executive-summary.html">H1 measured negative result</a> · <a href="field-notes/index.html">Independent audit and next steps</a></nav>
+  <p><a href="experiment-executive-summary.html">H1 executive summary</a></p>
   <section id="how-to-submit">
     <h2>How to submit (DrivenData form guide)</h2>
     <ol>
       <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
       <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
-      <li>Use the official template for CRS, shape, geotransform and exterior/nodata requirements. Validate the full raster and investigate the organizer’s instructions on outside-footprint values before upload.</li>
-      <li>Only after every scientific and uniqueness gate passes and the separate selector authorizes a slot, upload that approved file with its short note.</li>
-      <li>Wait for the organizer result; local holdout DTI is not a leaderboard score.</li>
+      <li>Pinned mirror geometry: EPSG:32611, 100 m, bounds [243350, 4135550, 572550, 4508550], 3730×3292 pixels. Match the authenticated organizer template exactly; exterior nodata remains unverified here. Require finite [0,1] predictions inside the footprint.</li>
+      <li>Only after all automated research gates pass and the separate selector authorizes a slot, attach the validated TIFF and its short note. No current file is approved.</li>
+      <li>Wait for the organizer evaluation against hidden labels; this is not our catalogue HOLDOUT-DTI (α=0.2, β=0.8, R=300 m triangular kernel).</li>
     </ol>
-    <p class="warn"><b>NO FILE IS APPROVED TO SUBMIT.</b> The H1 surface failed the registry stop and a comparable control; the legacy irregular-dot prototype also records a lattice duplicate. The full registry and a compatible incumbent are unavailable.</p>
+    <p class="warn">This repo's H-KARAGE-1 TIF is <b>NOT approved to submit</b>: no comparable incumbent win or full-registry novelty pass is established. A separate H1 experiment already has mirrored-data holdout evidence and a negative surface-novelty stop.</p>
   </section>
 
   <section class="scorecard">
     <h2>Nine-site scorecard</h2>
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
-    <div class="table-scroll"><table>
+    <table>
       <thead>
-        <tr><th>Site and historical file</th><th>Reported score</th><th>Transfer estimate</th><th>Uniqueness vs selected files</th><th>Research file</th></tr>
+        <tr><th>Site / file</th><th>Reported score</th><th>Leaderboard estimate</th><th>Unique vs selected historical files?</th><th>Research download</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
-    </table></div>
+    </table>
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
   </section>
 
