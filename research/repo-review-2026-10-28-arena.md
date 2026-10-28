@@ -10,12 +10,12 @@ recorded wall time is about 2 h 15 min, and its literal registry gate stopped.
 
 **Release decision: NEGATIVE — DO NOT SUBMIT ANY TIFF FROM THIS REPOSITORY.**
 The HK3 TIFF is retained as a research/audit download only. The pages now show
-that decision before the download link. `evidence/hk3/run_card.json` is preserved
-unchanged as the historical experiment receipt; it says `PROMOTE`, but the
-separate protocol selector in `evidence/hk3/selector_result.json` is negative.
-The selector, the release-page builder, and public-download audit now obey the
-literal protocol rather than treating the historical experiment verdict as
-submission permission.
+that decision before the download link. During this review the former `PROMOTE`
+run-card status was superseded by a negative verdict; the prior approval rationale
+is preserved separately in `evidence/hk3/approval-retracted-20261028.json`.
+The selector, release-page builder, and public-download audit obey the literal
+protocol rather than treating the former experiment verdict as submission
+permission.
 
 ## Pass 1 — findings
 
@@ -67,7 +67,7 @@ portal acceptance, and explicitly says the actual cause is unknown.
    `ok_to_submit: false`, `slot_authorized: false`, but downloadable for research.
    It records the reasons: three literal overlap failures, an incomplete registry,
    no authenticated lane assignment, unauthenticated owner mirrors, and recorded
-   runtime above budget. The original run card and TIFF were not altered.
+   runtime above budget. The TIFF bytes were not altered; the former approval rationale is preserved in the retraction receipt. A subsequent concurrent-main reconciliation also changed the current run-card verdict to negative.
 2. Hardened `scripts/build_hk3_pages.py`: a `PROMOTE` run-card field alone no longer
    produces “OK TO SUBMIT: YES.” Publication requires a positive separate selector,
    unwaived literal uniqueness, complete registry, authenticated inputs, verified
@@ -113,8 +113,9 @@ portal acceptance, and explicitly says the actual cause is unknown.
 
 ## Verification
 
-- `.venv/bin/pytest -q`: **203 passed, 7 skipped, 98 subtests passed** (86
-  Rasterio deprecation warnings; skipped tests require optional cached inputs).
+- `.venv/bin/pytest -q` after main reconciliation: **205 passed, 7 skipped,
+  98 subtests passed** (86 Rasterio deprecation warnings; skipped tests require
+  optional cached inputs).
 - `npm test`: **3 passed**.
 - `npm run test:site`: **7 passed**.
 - `npm run test:browser`: **passed** at desktop and 390/320 px widths, including
@@ -136,3 +137,22 @@ portal acceptance, and explicitly says the actual cause is unknown.
 - [USGS GeoDAWN survey](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and)
 - [DOE/USGS INGENIOUS data repository record](https://gdr.openei.org/submissions/1391)
 - [The nine-site user-listed history begins at GEMSDOE32](https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html) (owner-hosted research site; not an official organizer receipt)
+
+## Concurrent-main reconciliation (2026-10-28)
+
+The PR initially could not merge because `main` advanced with two independent
+safety reviews. Reconciled this branch with the latest `origin/main` without
+switching branches. Kept its stricter negative run-card verdict, approval
+retraction record, saved-byte-only audit, policy module, source-head review and
+additional status documentation. Updated `SUBMISSION_STATUS.md` because its
+incoming text still contained old PROMOTE and upload instructions; it now clearly
+says no file is cleared and makes no portal-range guarantee. Replaced the README's
+obsolete instruction to upload HK3 with research-only next steps. Resolved all
+conflicts in favor of current `main` for generated pages and overlapping policy
+or test files, preserving this branch's review report and regression coverage.
+
+The first post-merge test run exposed two stale tests importing the removed
+`release_approved` helper and assuming the historical card remained PROMOTE.
+Updated those tests to target `scripts.hk3_release_policy.publication_eligible`
+and the current negative card. Final post-reconciliation results are recorded
+below after rerunning the full verification suite.

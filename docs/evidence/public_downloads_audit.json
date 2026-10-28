@@ -258,7 +258,7 @@
       "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
       "raster_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
       "run_card": "evidence/hk3/run_card.json",
-      "kind": "withheld",
+      "kind": "research",
       "selector": "evidence/hk3/selector_result.json",
       "zip_file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.zip",
       "checks": {
@@ -273,7 +273,7 @@
         "range_0_1": true,
         "no_masked_pixels": true,
         "raster_unchanged_during_read": true,
-        "card_historical_promotion_retained": true,
+        "card_verdict_negative": true,
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,

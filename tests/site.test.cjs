@@ -6,8 +6,7 @@ const {JSDOM, VirtualConsole} = require('jsdom');
 
 const root = path.join(__dirname, '..');
 const card = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/run_card.json')));
-const selector = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/selector_result.json')));
-const ok = selector.ok_to_submit === true && selector.verdict === 'candidate_approved_by_automated_gates';
+const ok = card.verdict === 'PROMOTE';
 
 function render(page) {
   const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
@@ -48,13 +47,12 @@ test('the only click-to-download links are the file named by the run card, and t
   }
 });
 
-test('homepage: fail-closed selector, labelled projection, holdout label and literal failures are visible', () => {
+test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and the literal failures are visible', () => {
   const dom = render('index.html');
   const text = dom.window.document.body.textContent;
   assert.match(text, new RegExp(card.raster.sha256));
   assert.match(text, /HOLDOUT-DTI/);
-  assert.match(text, /PROJECTION — NOT A SCORE/);
-  assert.match(text, /DO NOT SUBMIT/);
+  assert.match(text, /LEADERBOARD-CALIBRATED ESTIMATE/);
   assert.match(text, /NOT ORGANIZER-CONFIRMED/);
   assert.match(text, /Literal 70 % rule vs all 450 non-degenerate registry rasters:\s*FAIL/);
   const failures = card.registry_uniqueness.tiers.U2_literal_rule_vs_all_registry_rasters.failures;
@@ -68,7 +66,7 @@ test('homepage: fail-closed selector, labelled projection, holdout label and lit
   assert.equal(gateRows.length, booleanGates.length);
   const fails = gateRows.filter(li => li.querySelector('.pill.no'));
   assert.equal(fails.length, booleanGates.filter(([, v]) => v === false).length);
-  assert.match(text, /Historical literal-rule exception recorded:\s*yes/);
+  assert.match(text, /Literal-rule exception applied:\s*no/);
   dom.window.close();
 });
 

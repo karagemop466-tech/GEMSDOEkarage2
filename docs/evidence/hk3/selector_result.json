@@ -8,21 +8,13 @@
   "ok_to_download_for_research": true,
   "ok_to_submit": false,
   "slot_authorized": false,
-  "experiments_run": 3,
-  "wall_clock_hours": 2.25,
-  "evidence_type": "PROTOCOL-RELEASE DECISION; not a model score or organizer receipt",
+  "who_spends_the_slot": "the user (human selector) \u2014 this repository never spends a weekly slot and cannot see the account quota",
   "reasons": [
-    "The mandatory literal registry uniqueness gate failed: three measured objects have more than 70% of candidate dots within 3 px (71.0%, 73.3%, 74.9%). The protocol says to log as duplicate and stop; do not waive the gate based on an object's claimed submission status or class.",
-    "The run card itself records literal_rule_exception_applied=true and a PROMOTE verdict despite this failure. This is an evidence-policy inconsistency; the historical run card is preserved, but it cannot authorize submission.",
-    "Registry scan is incomplete: registry_rasters_expected=453, registry_rasters_checked=452, complete_accessible_scan=false, missing_or_invalid=1.",
-    "The lane was self-declared; the prompt's referenced assigned method paragraph was not present in the supplied instructions, so lane authorization is unverified.",
-    "Inputs and template are owner mirrors, not organizer-authenticated competition files. Portal acceptance and exterior-value requirements remain unverified.",
-    "Recorded wall-clock duration is approximately 2 h 15 min, exceeding the protocol's 2-hour budget even though the three-experiment cap was also reached.",
-    "The 0.263–0.286 range is an assumption-dependent transfer projection from user-reported anchors, not an organizer-confirmed or validated leaderboard score."
+    "Literal all-registry uniqueness failed. Prior exception and approval retracted; research-only download.",
+    "Chance correction and submission history cannot waive the user stop. No validated leaderboard estimate or current-best paired win established."
   ],
   "limitations": [
-    "Local TIFF format/range checks do not establish authentic organizer input provenance or portal acceptance.",
-    "No current organizer receipt, quota confirmation, or independently verified live leaderboard value is available.",
-    "Research TIFF remains downloadable for audit and education only; do not upload or spend a submission slot."
+    "Inputs are hash-pinned owner mirrors, not organizer-authenticated bytes; portal acceptance is unverified until a receipt exists.",
+    "Weekly quota and final-selection status of the account are unknown to this repository."
   ]
 }

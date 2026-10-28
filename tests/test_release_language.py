@@ -47,37 +47,37 @@ def test_current_k2_release_card_is_negative_under_literal_registry_gate():
 
 
 def test_current_hk3_is_not_approved_when_literal_registry_gate_failed():
-    from scripts.build_hk3_pages import gather, release_approved
-    data = gather()
-    assert data["rc"]["verdict"] == "PROMOTE"  # historical experiment card is retained
-    assert data["rc"]["gates"]["unique_literal_vs_all_registry_rasters"] is False
-    assert data["selector"]["verdict"] == "negative"
-    assert data["selector"]["ok_to_submit"] is False
-    assert release_approved(data) is False
+    from scripts.hk3_release_policy import publication_eligible
+
+    card = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
+    assert card['verdict'] == 'NEGATIVE'
+    assert card['gates']['unique_literal_vs_all_registry_rasters'] is False
+    assert card['protocol_stop_triggered'] is True
+    assert publication_eligible(card) is False
 
 
-def test_promote_label_cannot_override_missing_provenance_or_budget():
-    from scripts.build_hk3_pages import gather, release_approved
-    data = gather()
-    selector = dict(data["selector"])
-    selector.update(
-        verdict="candidate_approved_by_automated_gates",
-        ok_to_submit=True,
-        organizer_inputs_authenticated=True,
-        lane_assignment_verified=True,
-        registry_complete=True,
-        experiments_run=3,
-        wall_clock_hours=1.0,
-    )
-    data["selector"] = selector
-    # The literal registry gate and non-waiver are independently mandatory.
-    assert release_approved(data) is False
+def test_literal_release_policy_requires_complete_gates_and_rejects_waivers():
+    from scripts.hk3_release_policy import publication_eligible, REQUIRED_GATES
 
-    # Even after all saved run-card gates are hypothetically cleared, a missed
-    # time cap remains a hard release failure.
-    data["rc"]["gates"] = {key: True for key, value in data["rc"]["gates"].items()
-                            if isinstance(value, bool)}
-    data["rc"]["gates"]["literal_rule_exception_applied"] = False
-    data["rc"]["registry_uniqueness"]["complete_accessible_scan"] = True
-    selector["wall_clock_hours"] = 2.25
-    assert release_approved(data) is False
+    # Even a forged positive verdict cannot overcome the literal stop.
+    actual = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
+    forged = dict(actual, verdict='PROMOTE')
+    assert publication_eligible(forged) is False
+
+    # Isolate the policy's necessary schema conditions: every required literal
+    # gate must be exactly true, the stop must be absent, and no waiver is allowed.
+    clean = {
+        'verdict': 'PROMOTE',
+        'protocol_stop_triggered': False,
+        'gates': {**dict.fromkeys(REQUIRED_GATES, True),
+                  'literal_rule_exception_applied': False},
+    }
+    assert publication_eligible(clean) is True
+    stopped = {**clean, 'protocol_stop_triggered': True}
+    assert publication_eligible(stopped) is False
+    waived = {**clean, 'gates': {**clean['gates'],
+                                 'literal_rule_exception_applied': True}}
+    assert publication_eligible(waived) is False
+    for key in REQUIRED_GATES:
+        incomplete = {**clean, 'gates': {**clean['gates'], key: None}}
+        assert publication_eligible(incomplete) is False, key
