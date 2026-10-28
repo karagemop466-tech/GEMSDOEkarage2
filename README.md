@@ -4,6 +4,21 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest review
+
+No submission is approved. The release gate now requires matched baseline evidence
+and split, truth, and scoring-configuration hashes; it validates card structure,
+not the authenticity of those manifests. See [this review](research/release-gate-review-2026-10-28.md).
+## Latest release-gate follow-up (2026-10-28)
+
+**No TIFF is approved for upload.** The release schema now requires evidence
+attestations for a comparable baseline, a surface pass before placement, and an
+authenticated organizer template. It does not independently verify those claims.
+See [the three-pass follow-up](research/release-gate-followup-2026-10-28.md)
+and the [K2 protocol correction](research/k2-protocol-review-2026-10-28.md).
+No new experiment or competition slot was used in this follow-up.
+Latest audit: [three-pass byte-bound raster review](research/review-sidecar-2026-10-28.md). No approved submission; K2 remains negative.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated
@@ -154,6 +169,7 @@ The [selector evidence review](research/selector-evidence-review-2026-10-28.md)
 adds fail-closed checks for a matched incumbent/split, complete declared feature
 canaries, and pooled scoring. These validate card consistency only, not the
 underlying evidence or a competition slot. The review ran no new experiments.
+Latest follow-up: [`research/arena-review-2026-10-28.md`](research/arena-review-2026-10-28.md). The review ran no new experiment and did not approve any submission.
 
 **No TIFF is approved for submission.** The archived irregular-dot raster is
 not unique under the literal rule. A saved-byte recheck against the pinned

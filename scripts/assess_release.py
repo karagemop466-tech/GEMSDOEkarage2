@@ -30,7 +30,7 @@ def main():
                      withheld_positives=source['withheld_positive_pixels'],dti=source['dti'],ci95=source['ci95'],
                      paired_delta_ci95=None), # No compatible incumbent; do not substitute a primitive.
         baseline_holdout_dti=None,
-        baseline_evidence=None,  # No frozen, same-split incumbent receipt.
+        baseline_holdout=None,  # No frozen, same-split incumbent receipt.
         hide_recover_protocol_verified=all(f['shared_train_truth_components']==0 and f['buffer_px']==80 for f in hold['folds']),
         model_features=None,  # The recorded canary list is not a certified model-feature inventory.
         feature_auc=features,

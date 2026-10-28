@@ -40,3 +40,16 @@ def test_forged_passing_receipt_cannot_skip_surface_reaudit(tmp_path):
     write_tif(final_path, final)
     with pytest.raises(ValueError, match="surface fails re-audit"):
         audit("final", final_path, template, manifest, support, receipt_path, surface)
+
+
+@pytest.mark.parametrize("which", ["template", "reference"])
+def test_novelty_rejects_unhashed_external_mask(tmp_path, which):
+    import rasterio
+    template, ref, surface, support, manifest = create_set(tmp_path, True)
+    target = template if which == "template" else ref
+    with rasterio.Env(GDAL_TIFF_INTERNAL_MASK=False):
+        with rasterio.open(target, "r+") as ds:
+            ds.write_mask(np.ones(ds.shape, dtype="uint8") * 255)
+    assert Path(str(target) + ".msk").exists()
+    with pytest.raises(ValueError, match="external companion"):
+        audit("surface", surface, template, manifest, support)

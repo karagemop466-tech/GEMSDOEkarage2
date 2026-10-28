@@ -48,9 +48,10 @@ receipt are unavailable, so the reported range-error cause remains unknown.
   the nine-raster reference audit against the committed snapshot. Hashes prove
   agreement with the pinned mirrors, not official data provenance or a complete
   registry.
-- Python suite: 156 passed, including mirror-dependent checks; 54 subtests
-  passed. Node feed: 3 passed; site: 8 passed; browser smoke: desktop and mobile
-  viewport checks passed. Rasterio emitted pending-deprecation warnings.
+- After integrating concurrent main-branch safety changes: Python suite 164
+  passed, including mirror-dependent checks; 78 subtests passed. Node feed:
+  3 passed; site: 9 passed; browser smoke: desktop and mobile viewport checks
+  passed. Rasterio emitted pending-deprecation warnings.
 - K2's prior **HOLDOUT-DTI 0.1581207190**, 95% CI [0.1423739219,
   0.1741535541], `gems57-pooled-hide-v2`, 58,258 withheld positives, is a
   historical mirror-based proxy and was not independently rerun here. It is
