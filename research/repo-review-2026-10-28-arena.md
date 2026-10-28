@@ -113,9 +113,8 @@ portal acceptance, and explicitly says the actual cause is unknown.
 
 ## Verification
 
-- `.venv/bin/pytest -q` after main reconciliation: **205 passed, 7 skipped,
-  98 subtests passed** (86 Rasterio deprecation warnings; skipped tests require
-  optional cached inputs).
+- `.venv/bin/pytest -q` after both main reconciliations: **217 passed, 7 skipped,
+  98 subtests passed** (87 Rasterio warnings; skips require unavailable optional inputs).
 - `npm test`: **3 passed**.
 - `npm run test:site`: **7 passed**.
 - `npm run test:browser`: **passed** at desktop and 390/320 px widths, including
@@ -156,3 +155,13 @@ The first post-merge test run exposed two stale tests importing the removed
 Updated those tests to target `scripts.hk3_release_policy.publication_eligible`
 and the current negative card. Final post-reconciliation results are recorded
 below after rerunning the full verification suite.
+
+A second concurrent update landed on `main` during this PR. This reconciliation
+also retains its protocol-review receipt, geometry audit, explicit historical
+card/selector snapshots, nine focus-site pages, shared readiness integration,
+and retired-command safeguards. Its README and submission status replace the
+older mixed status copy. Updated two local assertions to match the more cautious
+published page (no score estimate) and nested shared readiness contract. The
+latest full local suite passes; protocol review still records zero new
+experiments or slots. No user data, raster bytes, or experiment results were
+changed in this reconciliation.
