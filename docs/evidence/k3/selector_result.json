@@ -1,0 +1,26 @@
+{
+  "schema": "gems.selector_decision.v1",
+  "date": "2026-10-28",
+  "candidate": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+  "raster_sha256": "d011e9e12ef3eb506c61bf81c88aa5c24a45532733bea4a9a2100d9df90dfc61",
+  "verdict": "negative",
+  "slot_authorized": false,
+  "ok_to_download_for_research": true,
+  "ok_to_submit": false,
+  "reasons": [
+    "Preregistered surface gate failed vs the quarantined K2 predecessor (top-support overlap 0.9922 > 0.70); placement ran only under disclosed research override.",
+    "Final-dot overlap exceeds 0.70 vs 10 primary-scope registry records including fleet submission rasters (worst 0.8862 vs K2 candidate; 0.8477 vs GEMSDOE32 h45-kernelspacing).",
+    "Literal all-records scope also fails (spacing-5 lattice 1.0; calibration masks 0.72-0.77).",
+    "Competition inputs and footprint are hash-pinned owner mirrors, not organizer-authenticated bytes; portal acceptance unverified.",
+    "Weekly quota and account-side final-selection status are unavailable."
+  ],
+  "passed_gates": {
+    "holdout_improvement": "HOLDOUT-DTI 0.19157, 95% CI [0.17474, 0.20880], gems57-pooled-hide-v2, 58258 withheld positives; paired +0.03402 vs replicated K2 incumbent, CI entirely > 0.",
+    "leakage_canaries": "53 of 53 feature-alone canaries passed; worst max(AUC, 1-AUC) = 0.6382.",
+    "nine_focus_best_uniqueness": "423 primary-scope rasters checked: max |Spearman| 0.1056; overlap vs nine focus best files 0.4475-0.5157.",
+    "saved_byte_format": "Single-band float32; EPSG:32611; 3730x3292; whole array finite exactly 0/1; zeros outside footprint; ZIP round-trips byte-identically."
+  },
+  "score_statement": "No leaderboard estimate is available. HOLDOUT-DTI is not an organizer score; the run card's labelled projection is scenario arithmetic, not a score.",
+  "decision_basis": "Preregistered gates are conjunctive: holdout improvement cannot override the failed uniqueness gates. Fail closed.",
+  "source_run_card": "evidence/k3/run_card.json"
+}

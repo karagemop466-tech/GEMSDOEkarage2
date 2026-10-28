@@ -98,7 +98,7 @@ unchanged, keep the negative result and do not advertise a download as ready.
 ## Concurrent experiment merged during this audit
 
 A different session merged the H1 signed cross-field parity experiment into
-`main`. Its [run card](../evidence/run_card.json) reports **HOLDOUT-DTI 0.03367**,
+`main`. Its [run card](../evidence/h1/run_card.json) reports **HOLDOUT-DTI 0.03367**,
 95% CI [0.02867, 0.03929], evaluator `gems57-pooled-hide-v2`, and 58,259
 withheld positives; it reports a negative paired comparison against its best
 primitive control and a literal lattice overlap stop. These are **source-recorded

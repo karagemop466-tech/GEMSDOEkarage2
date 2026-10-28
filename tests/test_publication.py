@@ -59,7 +59,7 @@ def test_current_negative_card_fails_prior_readiness_gate():
 
 def test_parallel_surface_recheck_is_a_negative_not_an_approval():
     report = json.loads((ROOT/'docs/data/parallel-surface-audit.json').read_text())
-    card = json.loads((ROOT/'evidence/run_card.json').read_text())
+    card = json.loads((ROOT/'evidence/h1/run_card.json').read_text())
     assert report['sha256'] == card['raster_sha256']
     assert report['support_overlap_fraction'] == 1.0
     assert report['single_band_float32'] and report['finite_whole_array']

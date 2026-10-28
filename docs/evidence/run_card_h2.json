@@ -1,0 +1,65 @@
+{
+  "hypothesis": "H2 dilational stepover / relay ramp detector",
+  "mechanism": "Gravity low (basin/stepover trap) x conductivity high (hydrothermal alteration) x magnetic edge (buried contact) x topographic gradient reversal at stepover jogs; no catalogue-derived predictor.",
+  "non_fault_mimic": "Sedimentary basin fill, saline groundwater, lithologic contacts, interpolation boundaries.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.01729626417392917,
+    "ci95": [
+      0.014538745970571762,
+      0.020358376888986195
+    ],
+    "withheld_positive_pixels": 58259,
+    "tpw": 1012.094792625132,
+    "fpw": 58528.0310249581,
+    "fnw": 57246.90520737489
+  },
+  "paired_delta_vs_best_primitive": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "delta": -0.04263174989027315,
+    "ci95": [
+      -0.05096118543300277,
+      -0.03470148592714335
+    ],
+    "withheld_positive_pixels": 58259
+  },
+  "registry": {
+    "phase": "surface-before-placement",
+    "compared": 1,
+    "expected": 440,
+    "rho": null,
+    "overlap": null,
+    "witness": "docs/downloads/24gems-blind-upwelling-20261026T162611Z-a23f2207f2c0-zeros.tif",
+    "scope": "nine focus repositories at pinned refs; not all sites named in the request",
+    "final_dot_check": "not run: no placement after stop"
+  },
+  "raster_sha256": "313d207480fc7c8ac81d3cdf60fe5012d4c1ef778bb2600b7ac469ee104fc4f1",
+  "raster": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
+  "validator": {
+    "ok": true,
+    "details": "evidence/validator_h2.json",
+    "nan_pixels": 0,
+    "range": [
+      0.0,
+      0.8522605299949646
+    ],
+    "crs_shape_transform_match": true
+  },
+  "submission_name": "gemsdoekarage2-h2-stepover-8d519ec5ec58",
+  "note": "H2 dilational stepover/relay ramp detector; gravity low x conductivity high x magnetic edge; research surface.",
+  "format_valid": true,
+  "unique_submission_verified": false,
+  "approved_for_weekly_slot": false,
+  "submission_slots_used": 0,
+  "experiments_run": 1,
+  "verdict": "negative",
+  "reasons": [
+    "Literal surface registry stop; no final dots generated.",
+    "No paired improvement established against the best primitive control.",
+    "Historical leaderboard receipts unavailable; no leaderboard score estimate is defensible."
+  ],
+  "download_policy": "Research surface download only. NOT a recommended submission.",
+  "current_review_note": "The saved registry row reports a missing file, not a measured duplicate. No full pre-placement comparison passed; do not submit. This run is closed and the original self-assigned lane was not supplied by the prompt."
+}

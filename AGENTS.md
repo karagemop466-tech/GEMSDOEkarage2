@@ -1,7 +1,9 @@
 # Starting point for future work
 
 Read `README.md`, `research/review.md`, `research/hypotheses.md`,
-`knowledge/hypotheses.md`, `evidence/run_card.json`, and the audit-session
+`knowledge/hypotheses.md`, `evidence/h1/run_card.json` (H1),
+`evidence/run_card.json` (H1 restored root), `evidence/run_card_h2.json` (H2),
+and the audit-session
 `docs/data/run-card.json`, `docs/data/audit-run-card.json` and
 `research/independent-review.md` before changing scientific or submission workflows.
 The standing protocol in the README is binding. H1's verdict is negative;
@@ -42,3 +44,25 @@ not treat the labelled projection as a score. Experiment budget for that
 session is exhausted. The next lane must differentiate dot geography from the
 fleet supervised consensus (preregistration slate C4/C5), with the same shared
 evaluator/writer and preregistered gates.
+
+## 2026-10-28 saved-byte/data preflight follow-up
+
+Read `research/2026-10-28-next-lane-slate.md`,
+`evidence/owner_mirror_preflight_2026-10-28.json` and
+`evidence/public_downloads_audit.json` and
+`evidence/session-31569490-run-card.json`. Every published TIFF is research-only;
+`PASS_RESEARCH_ONLY` means file/hash/ZIP integrity, not scientific or organizer
+approval. To repeat the GitHub-owner-mirror preflight without a human:
+`bash scripts/download_competition_data.sh --research-mirror` (ignored cache,
+NOT official inputs). Run `python scripts/audit_public_downloads.py --check`
+before publishing: any extra or changed public TIF/ZIP stops CI. Do not label a
+new method as assigned or clear the lattice witness by gaming footprint edges.
+
+Read `research/release-gate-followup-2026-10-28.md`: the evidence schema now
+requires three additional attestations; schema passage is not evidence verification.
+H2 and B4 artifacts merged from main are also negative research files and are
+included in the public research inventory (five files at that review; six after K3). Read
+`evidence/current-session-review-2026-10-28.md` for the concurrent B4
+integration: its artifact is research-only, its registry scan fails the literal
+lattice stop, and its CLI/final generation are retired. Do not regenerate it or
+claim uniqueness or organizer approval.

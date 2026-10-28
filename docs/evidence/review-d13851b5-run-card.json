@@ -1,0 +1,93 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "session_date": "2026-10-28",
+  "classification": "REVIEW of archived evidence; no holdout or registry replay",
+  "hypothesis": "B1+B2: Hidden Great Basin faults share the local multi-physics expression (magnetic/gravity potential-field edges, topographic break, basement-depth step, conductivity contrast at 150-600 m scales) of catalogue faults, learnable from the 19-band GeoDAWN stack without any catalogue-derived predictor; fault tips continue beyond mapped segment ends. Emitting the learned surface as binary dots (min separation 2.8 px, 1.10% budget, >2 px off the known catalogue) maximizes distance-weighted Tversky credit per dot on hidden faults.",
+  "mechanism": "HistGradientBoosting classifier (350 iterations, lr 0.06, 63 leaves, min-leaf 40, L2=1.0) on 26 features (14 raw bands + gradient magnitudes at sigma 1.5/4.0 px for rtp, det_elev, iso_grav, depth_to_base, cond_surf + 2 difference-of-Gaussians), fit per holdout fold on visible catalogue positives vs sampled unlabeled pixels >3 px from visible faults; tip-continuation corridors (visible components >=15 px, PCA strike, <=25 px, x2 surface boost); greedy descending-surface dot emission with 2.8 px minimum separation. Shared gems57-pooled-hide-v2 evaluator, label-blind quadrant whole-component folds, 8 km buffer, visible faults masked pixel-exactly in scoring.",
+  "named_non_fault_process": "Lithologic/intrusive contacts produce identical potential-field steps; alluvial-fan terrace risers and Lahontan shorelines mimic scarps; mapped-catalogue bias means the model learns 'faults that get mapped', which may differ systematically from the expert-hidden set (missing-not-at-random).",
+  "holdout": {
+    "classification": "HOLDOUT-DTI, prior run not independently replayed",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positives": 58258,
+    "dti": 0.15812071903309205,
+    "confidence_interval_95": [
+      0.14237392193985562,
+      0.17415355413093683
+    ],
+    "leaderboard_estimate": null
+  },
+  "correlation_overlap_vs_registry": {
+    "surface_lattice_spearman": 0.00014277117109167287,
+    "surface_lattice_positive_support_within_3px": 1.0,
+    "final_worst_overlap": 1.0,
+    "final_worst_overlap_reference": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "final_duplicate_count": 3,
+    "final_scan_complete": false,
+    "caveat": "Archived diagnostics; surface coverage is not the same complete registry as the final scan. Positive surface support is not a final dot set."
+  },
+  "raster": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "validator": {
+    "single_band": true,
+    "float32": true,
+    "crs_epsg_32611": true,
+    "shape_matches_recorded_mirror": true,
+    "transform_matches_recorded_mirror": true,
+    "all_cells_finite": true,
+    "all_cells_in_0_1": true,
+    "inside_footprint_no_nan": true,
+    "organizer_template_match": null,
+    "outside_is_nan_per_historical_strict_validator": false,
+    "historical_receipts_match_raster_sha": true,
+    "sha256_matches_prior_card": true
+  },
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "note": "K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue >2px; zeros outside footprint",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "weekly_slot_selected": false,
+  "experiments_run_this_review": 0,
+  "reasons": [
+    "Pre-placement lattice support overlap exceeded the literal threshold; prior final placement should have stopped.",
+    "Historical receipt hashes must match the raster; an absent or mismatched receipt cannot clear any gate.",
+    "Final registry audit reports duplicates and incomplete accessible scan.",
+    "Strict historical exterior-NaN check failed; organizer acceptance and template authenticity are unknown.",
+    "No assigned lane or independently validated current incumbent comparison."
+  ],
+  "prior_card_notice": "The prior conditional promotion and projected score are archived claims, not the present release decision.",
+  "review_id": "d13851b5",
+  "branch": "arena/d13851b5-gemsdoekarage2",
+  "review_hypothesis": "A stopped candidate must remain negative even when later measurements pass a narrower registry.",
+  "code_change": "Evidence-schema gate now requires explicit pre-placement clearance, no prior stop, and organizer input authenticity.",
+  "new_raster_generated": false,
+  "new_holdout_run": false,
+  "submission_slots_used": 0,
+  "verification": {
+    "python_tests_passed": 164,
+    "python_tests_skipped": 0,
+    "python_subtests_passed": 73,
+    "node_feed_tests_passed": 3,
+    "site_dom_tests_passed": 9,
+    "browser_smoke": "desktop and mobile release locks, navigation, and freshness passed",
+    "nine_site_audit": "replayed from hash-pinned owner mirrors; not organizer-authenticated",
+    "shared_evaluator_or_writer_changed": false
+  },
+  "official_source": {
+    "repo": "drivendataorg/gems-prize-reference-solution",
+    "commit": "aebe92f7c8a990f0e3443451b7a825d9afd6336b",
+    "path": "README.md",
+    "sha256": "cfa4d55559c9128313beb9417eae7e0a94c31677132afb1120f9e86222804239",
+    "verified_claim": "CPU-only execution supported; GPU speeds training but is not mandatory"
+  },
+  "verification_before_main_integration": {
+    "python_tests_passed": 155,
+    "python_tests_skipped": 0,
+    "python_subtests_passed": 48,
+    "node_feed_tests_passed": 3,
+    "site_dom_tests_passed": 8,
+    "browser_smoke": "desktop and mobile release locks, navigation, and freshness passed",
+    "nine_site_audit": "replayed from hash-pinned owner mirrors; not organizer-authenticated",
+    "shared_evaluator_or_writer_changed": false
+  },
+  "integration_note": "Concurrent main changes preserved, combined selector receipts regenerated; no shared evaluator/writer change."
+}

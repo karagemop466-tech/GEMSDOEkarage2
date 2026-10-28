@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Restore and SHA-256 verify all competition, external, and historical scored files in registry/data_manifest.json."""
+"""Restore SHA-pinned *owner mirrors* to an ignored cache, not official data.
+
+The default manifest contains four core rasters. Explicitly pass the upstream
+manifest and a group to restore additional assets. A matching hash verifies
+mirror bytes, not organizer authentication or permission to submit a file.
+"""
 
 from __future__ import annotations
 
@@ -74,7 +79,12 @@ def fetch(repo: str, ref: str, path: str, dest: Path) -> None:
 
 
 def restore_entry(entry: dict, root: Path) -> dict:
-    dest = root / entry["dest"]
+    # A manifest can be fetched from another project. Never permit a malicious
+    # path or a pre-existing symlink to write outside the chosen scratch cache.
+    root = root.resolve()
+    dest = (root / entry["dest"]).resolve()
+    if dest == root or not dest.is_relative_to(root):
+        raise ValueError(f"Unsafe mirror destination: {entry['dest']}")
     if dest.exists() and sha256_file(dest) == entry["sha256"]:
         return {
             "id": entry["id"],
@@ -85,20 +95,24 @@ def restore_entry(entry: dict, root: Path) -> dict:
             "sha256": entry["sha256"],
         }
     if "parts" in entry:
-        tmp = dest.with_suffix(".assembling")
+        tmp = dest.with_suffix(dest.suffix + ".assembling")
         tmp.parent.mkdir(parents=True, exist_ok=True)
-        with tmp.open("wb") as out:
-            for part in entry["parts"]:
-                p = root / "raw_parts" / Path(part).name
-                fetch(entry["repo"], entry["ref"], part, p)
-                with p.open("rb") as src:
-                    shutil.copyfileobj(src, out, 1 << 20)
-                p.unlink()
-        got = sha256_file(tmp)
-        if got != entry["sha256"]:
+        try:
+            with tmp.open("wb") as out:
+                for part in entry["parts"]:
+                    p = (root / "raw_parts" / Path(part).name).resolve()
+                    if not p.is_relative_to(root):
+                        raise ValueError(f"Unsafe mirror part destination: {part}")
+                    fetch(entry["repo"], entry["ref"], part, p)
+                    with p.open("rb") as src:
+                        shutil.copyfileobj(src, out, 1 << 20)
+                    p.unlink()
+            got = sha256_file(tmp)
+            if got != entry["sha256"]:
+                raise ValueError(f"HASH MISMATCH for {entry['id']}: {got} != {entry['sha256']}")
+            tmp.replace(dest)
+        finally:
             tmp.unlink(missing_ok=True)
-            raise SystemExit(f"HASH MISMATCH for {entry['id']}: {got} != {entry['sha256']}")
-        tmp.replace(dest)
     else:
         fetch(entry["repo"], entry["ref"], entry["path"], dest)
         got = sha256_file(dest)
@@ -117,9 +131,10 @@ def restore_entry(entry: dict, root: Path) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--group", default="all", choices=["core", "external", "scored", "all"])
-    ap.add_argument("--manifest", default=str(ROOT / "registry" / "data_manifest.json"))
-    ap.add_argument("--target-dir", default=None, help="Override destination directory")
+    ap.add_argument("--group", default="core", choices=["core", "external", "scored", "all"])
+    ap.add_argument("--manifest", default=str(ROOT / "registry" / "core_data_manifest.json"),
+                    help="Default: four SHA-pinned owner mirrors; use upstream_data_manifest.json explicitly for other groups")
+    ap.add_argument("--target-dir", default=None, help="Override ignored scratch cache destination")
     args = ap.parse_args()
 
     man = json.loads(Path(args.manifest).read_text())
@@ -138,14 +153,19 @@ def main() -> None:
     except ValueError:
         storage_root = str(root)
     receipt = {
-        "schema_version": 1,
+        "schema_version": 2,
+        "evidence_class": "OWNER-MIRROR-BYTE-INTEGRITY (not organizer authentication)",
+        "manifest": str(Path(args.manifest)),
         "verified_files_count": len(results),
         "storage_root": storage_root,
         "files": results,
+        "submission_authorized": False,
     }
-    (ROOT / "data").mkdir(parents=True, exist_ok=True)
-    (ROOT / "data" / "restore_receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
-    print(f"Verified {len(results)} files; receipt written to data/restore_receipt.json")
+    if not results:
+        raise ValueError(f"No {args.group} assets in the selected manifest; nothing was verified")
+    receipt_path = root / "restore_receipt.json"
+    receipt_path.write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
+    print(f"Verified {len(results)} owner-mirrored files; receipt written to {receipt_path}")
 
 
 if __name__ == "__main__":

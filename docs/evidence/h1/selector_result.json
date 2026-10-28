@@ -1,0 +1,14 @@
+{
+  "verdict": "negative",
+  "reasons": [
+    "Missing method lane or shared template pin",
+    "Has not beaten comparable current holdout best with paired 95% CI",
+    "Registry coverage incomplete or snapshot hash invalid",
+    "surface: duplicate lane; stop",
+    "final_dots: no registry measurements",
+    "Raster validation missing or failed"
+  ],
+  "slot_authorized": false,
+  "evidence_type": "EVIDENCE-SCHEMA-ASSESSMENT, not a model score",
+  "source_run_card": "evidence/run_card.json"
+}
