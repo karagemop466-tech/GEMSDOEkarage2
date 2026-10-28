@@ -1,0 +1,110 @@
+{
+  "evidence_class": "REGISTRY-MEASUREMENT (surface, before placement)",
+  "final_rate": 0.011,
+  "budget_from_allowed": 51914,
+  "primary_scope_definition": "docs/downloads submission rasters in 9 focus repos at pinned refs + 3 prior local candidates",
+  "primary_scope_count": 424,
+  "secondary_scope_count": 20,
+  "surface_rows_vs_focus_best_and_local": [
+    {
+      "site": "GEMSDOE24",
+      "file": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "spearman_on_dot_union": 0.0560394696023978,
+      "n_dot_union": 4730133,
+      "jaccard_dot_sets": 0.010440721222849336,
+      "spearman_full_footprint": 0.06214049246843121,
+      "top_support_overlap": 0.5216704549832415
+    },
+    {
+      "site": "GEMSDOE25",
+      "file": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "spearman_on_dot_union": 0.04603684674889987,
+      "n_dot_union": 4727271,
+      "jaccard_dot_sets": 0.007672291264875655,
+      "spearman_full_footprint": 0.051540497724821,
+      "top_support_overlap": 0.5085526062333859
+    },
+    {
+      "site": "GEMSDOE27",
+      "file": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "spearman_on_dot_union": 0.056850922696247946,
+      "n_dot_union": 4730270,
+      "jaccard_dot_sets": 0.0106776145970526,
+      "spearman_full_footprint": 0.06300913394991653,
+      "top_support_overlap": 0.538814192703317
+    },
+    {
+      "site": "GEMSDOE28",
+      "file": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "spearman_on_dot_union": 0.06127467318956953,
+      "n_dot_union": 4723117,
+      "jaccard_dot_sets": 0.007197153913400833,
+      "spearman_full_footprint": 0.06506442341839053,
+      "top_support_overlap": 0.4599915244442732
+    },
+    {
+      "site": "GEMSDOE30",
+      "file": "docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "spearman_on_dot_union": 0.04603684674889987,
+      "n_dot_union": 4727271,
+      "jaccard_dot_sets": 0.007672291264875655,
+      "spearman_full_footprint": 0.051540497724821,
+      "top_support_overlap": 0.5085526062333859
+    },
+    {
+      "site": "GEMSDOE31",
+      "file": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "spearman_on_dot_union": 0.06365353652426932,
+      "n_dot_union": 4723380,
+      "jaccard_dot_sets": 0.007678611502779789,
+      "spearman_full_footprint": 0.06751925261069372,
+      "top_support_overlap": 0.46632892861270564
+    },
+    {
+      "site": "GEMSDOE32",
+      "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "spearman_on_dot_union": 0.07621841269813347,
+      "n_dot_union": 4720835,
+      "jaccard_dot_sets": 0.007682751038746324,
+      "spearman_full_footprint": 0.07890987420038821,
+      "top_support_overlap": 0.4151673922256039
+    },
+    {
+      "site": "GEMSDOE33",
+      "file": "docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "spearman_on_dot_union": 0.05731654586820925,
+      "n_dot_union": 4724731,
+      "jaccard_dot_sets": 0.007743086325972844,
+      "spearman_full_footprint": 0.06183052096527438,
+      "top_support_overlap": 0.48067958546827444
+    },
+    {
+      "site": "GEMSDOE36",
+      "file": "docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "spearman_on_dot_union": 0.07633387369451512,
+      "n_dot_union": 4720836,
+      "jaccard_dot_sets": 0.007936729850390905,
+      "spearman_full_footprint": 0.07922122342475524,
+      "top_support_overlap": 0.4174018569172092
+    },
+    {
+      "site": "K2",
+      "file": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+      "spearman_on_dot_union": NaN,
+      "n_dot_union": 4719450,
+      "jaccard_dot_sets": 0.011546048798059096,
+      "spearman_full_footprint": 0.1499846962248069,
+      "top_support_overlap": 0.9921601109527295
+    },
+    {
+      "site": "H1",
+      "file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
+      "spearman_on_dot_union": 0.02217429659919314,
+      "n_dot_union": 4816317,
+      "jaccard_dot_sets": 0.3730962891354535,
+      "spearman_full_footprint": 0.099563159178682,
+      "top_support_overlap": 0.5333436067342143
+    }
+  ],
+  "surface_gate_pass": false
+}

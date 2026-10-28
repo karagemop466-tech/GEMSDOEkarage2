@@ -1,0 +1,24 @@
+{
+  "experiment": "K3 E3 DTI-aware placement (C2) + buf2 apron",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "folds": [
+    {
+      "fold": 0,
+      "seconds": 12.5
+    },
+    {
+      "fold": 1,
+      "seconds": 9.8
+    },
+    {
+      "fold": 2,
+      "seconds": 4.8
+    },
+    {
+      "fold": 3,
+      "seconds": 6.1
+    }
+  ],
+  "placement": "lazy greedy marginal expected kernel cover, metric offsets"
+}

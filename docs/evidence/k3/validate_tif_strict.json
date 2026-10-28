@@ -1,0 +1,37 @@
+{
+  "kind": "LOCAL-FORMAT-AUDIT (not a portal receipt or scientific approval)",
+  "candidate": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+  "candidate_sha256": "d011e9e12ef3eb506c61bf81c88aa5c24a45532733bea4a9a2100d9df90dfc61",
+  "reference_template": ".cache/gems_data/sample_submission.tif",
+  "template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+  "template_authenticity": "not established by this check",
+  "checks": {
+    "geotiff_driver": true,
+    "single_band": true,
+    "float32": true,
+    "crs_matches_template": true,
+    "crs_epsg_32611": true,
+    "shape_matches_template": true,
+    "transform_matches_template": true,
+    "north_up_100m_resolution": true,
+    "inside_no_masked_cells": true,
+    "inside_all_finite": true,
+    "inside_in_range_0_1": true,
+    "outside_is_nan": false
+  },
+  "diagnostics": {
+    "footprint_pixels": 5167373,
+    "inside_nan": 0,
+    "inside_inf": 0,
+    "inside_masked": 0,
+    "inside_below_zero": 0,
+    "inside_above_one": 0,
+    "inside_min": 0.0,
+    "inside_max": 1.0,
+    "outside_nan": 0,
+    "outside_finite": 7111787,
+    "whole_array_finite_in_range": true
+  },
+  "strict_format_pass": false,
+  "upload_authorized": false
+}

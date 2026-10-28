@@ -1,0 +1,6 @@
+{
+  "train_pos": 58258,
+  "train_neg": 300000,
+  "allowed_px": 4719450,
+  "eligible_px": 5011946
+}

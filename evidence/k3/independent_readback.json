@@ -1,0 +1,23 @@
+{
+  "evidence_class": "VALIDATOR-READBACK",
+  "file": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+  "sha256": "d011e9e12ef3eb506c61bf81c88aa5c24a45532733bea4a9a2100d9df90dfc61",
+  "bytes": 162047,
+  "cells": 12279160,
+  "finite": 12279160,
+  "min": 0.0,
+  "max": 1.0,
+  "unique_values": [
+    0.0,
+    1.0
+  ],
+  "dots": 51914,
+  "dots_on_catalogue": 0,
+  "dots_outside_footprint": 0,
+  "min_dot_to_catalogue_px": 2.23606797749979,
+  "nn_spacing_min_px": 1.0,
+  "zip_members": [
+    "gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif"
+  ],
+  "zip_roundtrip_sha256_match": true
+}

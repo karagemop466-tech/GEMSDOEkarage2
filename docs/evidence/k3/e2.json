@@ -1,0 +1,111 @@
+{
+  "experiment": "K3 E2 k2rep(26f) vs k3(53f) supervised HGB",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "folds": [
+    {
+      "fold": 0,
+      "k2rep": {
+        "pos": 27783,
+        "neg": 180000
+      },
+      "k3": {
+        "pos": 27783,
+        "neg": 180000
+      },
+      "seconds": 150.7
+    },
+    {
+      "fold": 1,
+      "k2rep": {
+        "pos": 43742,
+        "neg": 180000
+      },
+      "k3": {
+        "pos": 43742,
+        "neg": 180000
+      },
+      "seconds": 99.4
+    },
+    {
+      "fold": 2,
+      "k2rep": {
+        "pos": 46562,
+        "neg": 180000
+      },
+      "k3": {
+        "pos": 46562,
+        "neg": 180000
+      },
+      "seconds": 63.2
+    },
+    {
+      "fold": 3,
+      "k2rep": {
+        "pos": 46861,
+        "neg": 180000
+      },
+      "k3": {
+        "pos": 46861,
+        "neg": 180000
+      },
+      "seconds": 70.0
+    }
+  ],
+  "model": "HistGradientBoosting 350it lr.06 leaves63 minleaf40 L2=1",
+  "k3_features": [
+    "mag_anom",
+    "rtp",
+    "tmi_hg",
+    "grav_slope",
+    "tc",
+    "tmi_vg",
+    "grav_vg",
+    "det_elev",
+    "iso_grav",
+    "tmi",
+    "depth_base",
+    "cond_surf",
+    "grav_hg",
+    "elev_slope",
+    "g15_rtp",
+    "g15_det_elev",
+    "g15_iso_grav",
+    "g15_depth_base",
+    "g15_cond_surf",
+    "g40_rtp",
+    "g40_det_elev",
+    "g40_iso_grav",
+    "g40_depth_base",
+    "g40_cond_surf",
+    "dog_det_elev",
+    "dog_rtp",
+    "coh_rtp",
+    "coh_det_elev",
+    "coh_iso_grav",
+    "coh_depth_base",
+    "lin_rtp",
+    "lin_det_elev",
+    "lin_iso_grav",
+    "lin_depth_base",
+    "haniso_rtp",
+    "haniso_det_elev",
+    "haniso_iso_grav",
+    "haniso_depth_base",
+    "hridge_rtp",
+    "hridge_det_elev",
+    "hridge_iso_grav",
+    "hridge_depth_base",
+    "tex7_rtp",
+    "tex7_det_elev",
+    "tex7_cond_surf",
+    "tex15_rtp",
+    "tex15_det_elev",
+    "tex15_cond_surf",
+    "cos_er",
+    "cos_eg",
+    "agree_er",
+    "step2_elev",
+    "step4_elev"
+  ]
+}

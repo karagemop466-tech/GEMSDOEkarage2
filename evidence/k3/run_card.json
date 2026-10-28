@@ -1,0 +1,311 @@
+{
+  "session": "2026-10-28 K3 (branch arena/2f6b8533-gemsdoekarage2)",
+  "preregistration": "research/hypotheses-2026-10-28-k3-preregistration.md",
+  "lane": "SELF-ASSIGNED (no method paragraph supplied in prompt): orientation-aware supervised fault-likelihood surface (C1) -> DTI-disciplined dotted emission; C2 expected-DTI placement tested as placement variant",
+  "hypothesis": "Adding anisotropic lineament-context features (structure-tensor coherence, Hessian anisotropy/ridge, window texture, cross-field gradient agreement, oriented elevation step) to the K2 pointwise supervised surface recovers more withheld catalogue faults per dot; expected-DTI marginal-cover placement beats fixed 2.8px separation at matched budget.",
+  "mechanism": "Fold-local HistGradientBoosting on 53 features (K2 26 rebuilt exactly + 27 C1) from rtp/det_elev/iso_grav/depth_base/cond_surf and companions; lazy greedy placement maximising marginal expected 300m kernel cover; final off-catalogue >2px (B2 discipline), zeros outside footprint.",
+  "named_non_fault_mimic": "Flight-line levelling stripes, roads/canals and strike ridges of dipping strata produce coherent lineaments; Lahontan shorelines mimic elevation steps; lithologic/intrusive contacts mimic potential-field edges; mapper bias (learns what gets mapped).",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "triangular_radius_m": 300.0,
+    "candidate_arm": "k3dti_b110",
+    "candidate_dti": 0.19157277649309276,
+    "candidate_ci95": [
+      0.17473856601650986,
+      0.20879702016447013
+    ],
+    "withheld_positive_pixels": 58258,
+    "incumbent_arm": "k2rep_b110 (K2 26f recipe replicated this session; bit-faithful: 0.15755 vs K2 hgb_b110 0.15754959)",
+    "incumbent_dti": 0.15754959003555036,
+    "incumbent_ci95": [
+      0.14170257009635945,
+      0.1736811081974684
+    ],
+    "paired_delta_vs_incumbent": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 0.034023186457542404,
+      "ci95": [
+        0.02737707801456993,
+        0.040981579016367974
+      ],
+      "withheld_positive_pixels": 58258
+    },
+    "paired_delta_vs_best_primitive": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 0.11959695669444466,
+      "ci95": [
+        0.10156988204277963,
+        0.13830354202774206
+      ],
+      "withheld_positive_pixels": 58258
+    },
+    "paired_delta_dti_vs_fixed_placement": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 0.004775740755348451,
+      "ci95": [
+        0.001768612088879551,
+        0.007961959987270303
+      ],
+      "withheld_positive_pixels": 58258
+    },
+    "all_scores": {
+      "prim_elev_grad": {
+        "dti": 0.06879381048089939,
+        "ci95": [
+          0.05651137168511038,
+          0.08045152632641513
+        ]
+      },
+      "prim_grav_grad": {
+        "dti": 0.06548004994835746,
+        "ci95": [
+          0.049315559069371774,
+          0.08176146982218137
+        ]
+      },
+      "prim_ridge_coh": {
+        "dti": 0.0719758197986481,
+        "ci95": [
+          0.06145793803837352,
+          0.08281926252518164
+        ]
+      },
+      "k2rep_b073": {
+        "dti": 0.12607275525666492,
+        "ci95": [
+          0.11082673731239653,
+          0.14208354939926235
+        ]
+      },
+      "k2rep_b110": {
+        "dti": 0.15754959003555036,
+        "ci95": [
+          0.14170257009635945,
+          0.1736811081974684
+        ]
+      },
+      "k3_b073": {
+        "dti": 0.15507517033345805,
+        "ci95": [
+          0.13848523153200415,
+          0.17201906451370141
+        ]
+      },
+      "k3_b110": {
+        "dti": 0.1867970357377443,
+        "ci95": [
+          0.1696545687406766,
+          0.20350253574333485
+        ]
+      },
+      "k3dti_b110": {
+        "dti": 0.19157277649309276,
+        "ci95": [
+          0.17473856601650986,
+          0.20879702016447013
+        ]
+      },
+      "k3_buf2_b073": {
+        "dti": 0.15511144935888954,
+        "ci95": [
+          0.13849305035521278,
+          0.1720105251778556
+        ]
+      }
+    },
+    "bootstrap": {
+      "method": "paired physical spatial-cluster percentile",
+      "clusters": 158,
+      "draws": 2000,
+      "seed": 20261028,
+      "confidence": 0.95,
+      "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
+    }
+  },
+  "leakage_canary": {
+    "features_tested_alone": 53,
+    "worst_max_auc_or_1_minus_auc": 0.638154430048963,
+    "worst_feature": "lin_det_elev",
+    "all_pass_le_0.90": true
+  },
+  "correlation_overlap_vs_registry": {
+    "surface_before_placement": {
+      "gate_pass": false,
+      "spearman_vs_9_focus_best_max_abs": 0.07922122342475524,
+      "top_support_overlap_vs_9_focus_best_max": 0.538814192703317,
+      "top_support_overlap_vs_K2_predecessor": 0.9922,
+      "rows_file": "evidence/k3/surface_gate.json"
+    },
+    "final_dots": {
+      "scope_primary": "424 records attempted (423 checked + 1 grid-incomparable 32x48 format test, byte-distinct): docs/downloads in 9 focus repos + 3 prior local candidates",
+      "worst_abs_spearman_primary": 0.1056,
+      "duplicates_primary_count": 10,
+      "flagged_primary": [
+        {
+          "repo": "GEMSDOE28",
+          "submission": "docs/downloads/gems28-h37-1-probe-union-pool-r1-20261003-52a13184267e-allfinite.tif",
+          "overlap": 0.7118311052895173,
+          "spearman": 0.03192869126254069,
+          "their_dots": 38545
+        },
+        {
+          "repo": "GEMSDOE28",
+          "submission": "docs/downloads/gems28-h37-1-probe-union-pool-r1-20261003-52a13184267e-nan.tif",
+          "overlap": 0.7118311052895173,
+          "spearman": 0.03192869126254069,
+          "their_dots": 38545
+        },
+        {
+          "repo": "GEMSDOE30",
+          "submission": "docs/downloads/gems30-MSDB1-edge44090-20261025-e7856ec3f14a.tif",
+          "overlap": 0.77431906614786,
+          "spearman": 0.0408467578629027,
+          "their_dots": 44090
+        },
+        {
+          "repo": "GEMSDOE30",
+          "submission": "docs/downloads/gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif",
+          "overlap": 0.75636629810841,
+          "spearman": 0.10555323019784459,
+          "their_dots": 60000
+        },
+        {
+          "repo": "GEMSDOE30",
+          "submission": "docs/downloads/gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-zeros.tif",
+          "overlap": 0.75636629810841,
+          "spearman": 0.10555323019784459,
+          "their_dots": 60000
+        },
+        {
+          "repo": "GEMSDOE30",
+          "submission": "docs/downloads/gemsdoe30-g30s20-disc-60000dots-20261025T224159Z-24de17a6fa-nan.tif",
+          "overlap": 0.7482759949146666,
+          "spearman": 0.10104288070870951,
+          "their_dots": 60000
+        },
+        {
+          "repo": "GEMSDOE30",
+          "submission": "docs/downloads/gemsdoe30-g30s20-disc-60000dots-20261025T224159Z-24de17a6fa-zeros.tif",
+          "overlap": 0.7482759949146666,
+          "spearman": 0.10104288070870951,
+          "their_dots": 60000
+        },
+        {
+          "repo": "GEMSDOE32",
+          "submission": "docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+          "overlap": 0.8476518858111493,
+          "spearman": 0.07998504627846137,
+          "their_dots": 37654
+        },
+        {
+          "repo": "GEMSDOE36",
+          "submission": "docs/downloads/gemsdoe36-lane36-supgbm-68302-20261026T002651Z-f35cb3e4-zeros.tif",
+          "overlap": 0.7121393073159457,
+          "spearman": 0.07509759765105414,
+          "their_dots": 68302
+        },
+        {
+          "repo": "karage2-local",
+          "submission": "K2 candidate (prior session)",
+          "overlap": 0.8861578764880379,
+          "spearman": 0.05903492194919531,
+          "their_dots": 54491
+        }
+      ],
+      "vs_9_focus_best": [
+        {
+          "site": "GEMSDOE24",
+          "file": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+          "reported": 0.2477,
+          "k3_dots_within_3px": 0.5032361212774974,
+          "spearman": 0.03232422943867073
+        },
+        {
+          "site": "GEMSDOE25",
+          "file": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+          "reported": 0.26,
+          "k3_dots_within_3px": 0.4846476865585391,
+          "spearman": 0.025360834751878024
+        },
+        {
+          "site": "GEMSDOE27",
+          "file": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+          "reported": 0.2449,
+          "k3_dots_within_3px": 0.5156990407211928,
+          "spearman": 0.032377257852743355
+        },
+        {
+          "site": "GEMSDOE28",
+          "file": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+          "reported": 0.271,
+          "k3_dots_within_3px": 0.4669260700389105,
+          "spearman": 0.026501683092405626
+        },
+        {
+          "site": "GEMSDOE30",
+          "file": "docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+          "reported": 0.26,
+          "k3_dots_within_3px": 0.4846476865585391,
+          "spearman": 0.025360834751878024
+        },
+        {
+          "site": "GEMSDOE31",
+          "file": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+          "reported": 0.2708,
+          "k3_dots_within_3px": 0.4703355549562738,
+          "spearman": 0.027413196357055934
+        },
+        {
+          "site": "GEMSDOE32",
+          "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+          "reported": 0.2778,
+          "k3_dots_within_3px": 0.4475093423739261,
+          "spearman": 0.028900797902545926
+        },
+        {
+          "site": "GEMSDOE33",
+          "file": "docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+          "reported": 0.2632,
+          "k3_dots_within_3px": 0.4796586662557306,
+          "spearman": 0.025876511997107436
+        },
+        {
+          "site": "GEMSDOE36",
+          "file": "docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+          "reported": 0.275,
+          "k3_dots_within_3px": 0.4519397465038333,
+          "spearman": 0.028498000622630325
+        }
+      ],
+      "vs_champion_GEMSDOE32_overlap": 0.4475,
+      "secondary_all_records": "443 checked: lattice 1.0 x2 records (mathematically impossible gate; champion also fails), ctx-ridge calibration 0.7703, dotted-ridge calibration 0.7242 \u2014 see final_registry_audit.json",
+      "fixed_placement_diagnostic_only": "in-memory fixed-sep dots overlapped K2 0.8197 (also >0.70); placement choice does not rescue the gate",
+      "audit_file": "evidence/k3/final_registry_audit.json"
+    }
+  },
+  "raster": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+  "raster_sha256": "d011e9e12ef3eb506c61bf81c88aa5c24a45532733bea4a9a2100d9df90dfc61",
+  "raster_bytes": 162047,
+  "dots": 51914,
+  "validator": {
+    "shared_writer": "all_checks_passed=true (docs/downloads/*.json receipt); single band float32 3730x3292 EPSG:32611 transform matches mirrored sample; 0 NaN/Inf/sentinel",
+    "independent_readback": "evidence/k3/independent_readback.json: 12,279,160/12,279,160 finite, values exactly {0,1}, 0 dots on catalogue, 0 outside footprint, min dot-to-catalogue 2.236px, NN spacing min 1.0px (DTI placement has no min-separation), ZIP single-TIF round-trip sha256 match",
+    "repo_strict_validate_tif": "11/12 pass; sole fail outside_is_nan (zeros encoding; reported-scored champion -zeros fails identically). evidence/k3/validate_tif_strict.json",
+    "portal_acceptance": "UNVERIFIED \u2014 local readback only; inputs are owner mirrors, not organizer-authenticated"
+  },
+  "submission_name": "gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
+  "note": "K3 orientation-aware HGB 53f lineament-context, expected-DTI greedy placement off-catalogue>2px zeros",
+  "note_chars": 101,
+  "experiments_run": 3,
+  "submission_slots_used": 0,
+  "leaderboard_estimate": "UNAVAILABLE as a score. HOLDOUT-DTI recovers withheld mapped faults, not expert-hidden faults (reported 0.2778 champion scores 0.0067 vs catalogue). PROJECTION - NOT A SCORE: scaling by the D2.8 family's user-reported/contaminated transfer ratio 1.65 (as in K2 card) gives 0.1916*1.65=0.316; widened scenario range ~0.25-0.33. Every input is user-reported or leakage-contaminated; the current public #1 could not be re-read from this sandbox (prior snapshot 0.4544). Do not quote as a score.",
+  "verdict": "negative",
+  "verdict_scope": "NEGATIVE - DO NOT SUBMIT under the preregistered protocol: (1) surface gate failed vs quarantined K2 predecessor (top-support 0.9922); placement proceeded only under disclosed research override to measure final dots; (2) final dots exceed 70% within-3px overlap vs 10 primary-scope records including fleet submission rasters (worst vs GEMSDOE32 h45-kernelspacing 0.8477) \u2014 genuine lane convergence, Spearman passes everywhere (max |rho| 0.1056). HOLDOUT-DTI gain is real (+0.0340 vs replicated incumbent, paired CI >0) but uniqueness is binding. Selector questions that this session cannot resolve: predecessor supersession, fleet-lane convergence ruling, weekly quota, organizer authentication of mirrored inputs.",
+  "download_policy": "Research download only; DO NOT SUBMIT. If a selector nevertheless spends a slot, this is the scientifically strongest file in the repo \u2014 the risks above travel with it."
+}

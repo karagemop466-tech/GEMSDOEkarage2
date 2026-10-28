@@ -27,3 +27,18 @@ research-only and must not be submitted. Preserve historical measurements; do
 not regenerate K2 or infer a lane assignment, registry exemption, portal
 acceptance, or current leaderboard score. The prompt supplies no identifiable
 method paragraph, and the previous session exhausted its three-experiment budget.
+
+## 2026-10-28 K3 result
+
+Read `research/review-2026-10-28-k3.md`, `research/hypotheses-2026-10-28-k3-preregistration.md`
+and `evidence/k3/run_card.json`. K3 is holdout-best but NEGATIVE: HOLDOUT-DTI
+0.19157 (+0.03402 vs the replicated K2 incumbent, paired CI > 0), yet final
+dots exceed 70% within-3-px overlap vs 10 registry records including fleet
+submissions, and the surface gate failed vs the quarantined K2 predecessor
+(placement ran only under a disclosed research override). The K3 TIFF is a
+quarantined research artifact; do not submit it, do not regenerate it (writer
+refuses overwrite; surface gate fails closed without the override flag), and do
+not treat the labelled projection as a score. Experiment budget for that
+session is exhausted. The next lane must differentiate dot geography from the
+fleet supervised consensus (preregistration slate C4/C5), with the same shared
+evaluator/writer and preregistered gates.
