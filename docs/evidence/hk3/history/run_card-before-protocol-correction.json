@@ -1,0 +1,1824 @@
+{
+  "kind": "HK3 RUN CARD (single JSON per the parallel-run protocol)",
+  "generated_utc": "2026-10-28T17:40:28Z",
+  "lane": "HK3 (self-declared; no coordinator paragraph supplied): catalogue-free edge-centrality surface + calibrated off-catalogue dot emission",
+  "hypothesis": "Thin linear slope maxima of detrended elevation (gradient-ridge centrality, structure-tensor coherence) and amplitude-normalised potential-field edges (gravity/magnetic tilt-angle zero-crossing distance) mark fault scarps that 1:100k mapping missed; a per-fold HGB on 34 bands learns them from visible faults only.",
+  "mechanism": "Scarps are linear maxima of slope; range-front and intrabasin faults juxtapose density/magnetisation contrasts whose tilt-angle zero crossing sits over the edge independent of amplitude; 3 px catalogue apron and 3 px separation follow the calibrated metric geometry (E1).",
+  "mimicking_non_fault_process": "lithologic/intrusive contacts (same potential-field step), pluvial shorelines and terrace risers (linear slope maxima), survey flight-line striping",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 58258,
+    "folds": "K2 label-blind quadrant folds, 80 px buffer, visible faults masked pixel-exactly, model refit per fold",
+    "candidate_same_budget_as_incumbent_b110": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.18450466022225004,
+      "ci95": [
+        0.16769141176106592,
+        0.2014839638261474
+      ],
+      "withheld_positive_pixels": 58258,
+      "tpw": 10835.89381129099,
+      "fpw": 49780.34787101455,
+      "fnw": 47422.10618870901
+    },
+    "incumbent_refit_b110": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.15754959003555036,
+      "ci95": [
+        0.14170257009635945,
+        0.1736811081974684
+      ],
+      "withheld_positive_pixels": 58258,
+      "tpw": 9228.843747055602,
+      "fpw": 50626.10521209912,
+      "fnw": 49029.15625294442
+    },
+    "candidate_b150": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.20915374094469344,
+      "ci95": [
+        0.1925856143797099,
+        0.2254315837529169
+      ],
+      "withheld_positive_pixels": 58258,
+      "tpw": 13167.466446633567,
+      "fpw": 68580.13986496102,
+      "fnw": 45090.53355336642
+    },
+    "incumbent_refit_b150": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.18259694753938324,
+      "ci95": [
+        0.16674073377795678,
+        0.198039423051837
+      ],
+      "withheld_positive_pixels": 58258,
+      "tpw": 11466.823522784198,
+      "fpw": 69493.92600855685,
+      "fnw": 46791.176477215806
+    },
+    "all_arms": {
+      "inc26_b073": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.12607275525666492,
+        "ci95": [
+          0.11082673731239653,
+          0.14208354939926235
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 6888.784581161738,
+        "fpw": 33285.92717576067,
+        "fnw": 51369.21541883829
+      },
+      "cand34_b073": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.1545108009435548,
+        "ci95": [
+          0.13838525595075374,
+          0.17179170833059076
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 8467.28064650789,
+        "fpw": 32503.59147636456,
+        "fnw": 49790.71935349212
+      },
+      "inc26_b110": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.15754959003555036,
+        "ci95": [
+          0.14170257009635945,
+          0.1736811081974684
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 9228.843747055602,
+        "fpw": 50626.10521209912,
+        "fnw": 49029.15625294442
+      },
+      "cand34_b110": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.18450466022225004,
+        "ci95": [
+          0.16769141176106592,
+          0.2014839638261474
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 10835.89381129099,
+        "fpw": 49780.34787101455,
+        "fnw": 47422.10618870901
+      },
+      "inc26_b150": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.18259694753938324,
+        "ci95": [
+          0.16674073377795678,
+          0.198039423051837
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 11466.823522784198,
+        "fpw": 69493.92600855685,
+        "fnw": 46791.176477215806
+      },
+      "cand34_b150": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.20915374094469344,
+        "ci95": [
+          0.1925856143797099,
+          0.2254315837529169
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 13167.466446633567,
+        "fpw": 68580.13986496102,
+        "fnw": 45090.53355336642
+      }
+    },
+    "paired_differences": {
+      "cand34_b110_minus_inc26_b073": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.05843190496558512,
+        "ci95": [
+          0.05048626930933724,
+          0.06633427509627965
+        ],
+        "withheld_positive_pixels": 58258
+      },
+      "cand34_b110_minus_cand34_b073": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.029993859278695245,
+        "ci95": [
+          0.026621311802216552,
+          0.03321211133017709
+        ],
+        "withheld_positive_pixels": 58258
+      },
+      "cand34_b110_minus_inc26_b110": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.02695507018669968,
+        "ci95": [
+          0.02058547798094026,
+          0.03368587636497091
+        ],
+        "withheld_positive_pixels": 58258
+      },
+      "cand34_b110_minus_inc26_b150": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.0019077126828667967,
+        "ci95": [
+          -0.004508176925508906,
+          0.008016851361622198
+        ],
+        "withheld_positive_pixels": 58258
+      },
+      "cand34_b110_minus_cand34_b150": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": -0.0246490807224434,
+        "ci95": [
+          -0.027795092251021596,
+          -0.021471351486464972
+        ],
+        "withheld_positive_pixels": 58258
+      }
+    },
+    "bootstrap": {
+      "method": "paired physical spatial-cluster percentile",
+      "clusters": 158,
+      "draws": 2000,
+      "seed": 20261028,
+      "confidence": 0.95,
+      "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
+    },
+    "canary_max_auc_by_feature": {
+      "ec15_det_elev": 0.5621403222533382,
+      "ec30_det_elev": 0.5442561451284591,
+      "grav_tilt": 0.5576511678950792,
+      "grav_tilt_zero_dist": 0.524257463776939,
+      "mag_tilt_zero_dist": 0.5117784278712705,
+      "st_coh_det_elev": 0.5869801624305441,
+      "st_aniso_det_elev": 0.5964485429603474,
+      "rough5_det_elev": 0.5928508320142862
+    },
+    "canary_all_pass": true,
+    "note": "The submitted budget (rate over active px) is set by the calibrated rule, not by the holdout; the holdout number for the exact submitted rate is in estimator.curve_row_used.holdout_dti"
+  },
+  "transfer_anchor": {
+    "evidence_class": "HOLDOUT hit statistics of pinned external files on the same folds (bridge.json)",
+    "rows": {
+      "GEMSDOE25": {
+        "label": "dotted-h19-5-d2-8 (D2.8, reported 0.2600)",
+        "dots_total": 44090,
+        "holdout_dti": 0.15727371463219914,
+        "T": 8821.86777737709,
+        "F": 38608.375961442915,
+        "G": 58258.0,
+        "hit": {
+          "T": 8821.867777377087,
+          "M": 3698.6240385570945,
+          "n": 42307,
+          "G": 58258
+        },
+        "evidence_class": "HOLDOUT-DTI (external file; see caveats)"
+      },
+      "GEMSDOE32": {
+        "label": "h33-h33-2-b2 (B2, reported 0.2778)",
+        "dots_total": 37654,
+        "holdout_dti": 0.0066537934133847915,
+        "T": 358.49998661965503,
+        "F": 36004.688852949046,
+        "G": 58258.0,
+        "hit": {
+          "T": 358.4999866196549,
+          "M": 264.31114705095996,
+          "n": 36269,
+          "G": 58258
+        },
+        "evidence_class": "HOLDOUT-DTI (external file; see caveats)"
+      },
+      "GEMSDOE24": {
+        "label": "h25-1-dotted-h19-5-d1-5 (reported 0.2477)",
+        "dots_total": 60069,
+        "holdout_dti": 0.16731561402012815,
+        "T": 9887.606475867533,
+        "F": 52558.09098152714,
+        "G": 58258.0,
+        "hit": {
+          "T": 9887.60647586752,
+          "M": 5073.909018472859,
+          "n": 57632,
+          "G": 58258
+        },
+        "evidence_class": "HOLDOUT-DTI (external file; see caveats)"
+      },
+      "GEMSDOE33": {
+        "label": "h33d-analog-tip-stepover-r30 (reported 0.2632)",
+        "dots_total": 41865,
+        "holdout_dti": 0.0841726690065808,
+        "T": 4643.047180091197,
+        "F": 38129.86876763717,
+        "G": 58258.0,
+        "hit": {
+          "T": 4643.047180091202,
+          "M": 2121.1312323628167,
+          "n": 40251,
+          "G": 58258
+        },
+        "evidence_class": "HOLDOUT-DTI (external file; see caveats)"
+      },
+      "r13_lattice_nan": {
+        "label": "r13 lattice s5 (reported 0.0904)",
+        "dots_total": 206895,
+        "holdout_dti": 0.24316203336985087,
+        "T": 21764.05641876277,
+        "F": 192725.62525881027,
+        "G": 58258.0,
+        "hit": {
+          "T": 21764.056418762662,
+          "M": 8065.37474118974,
+          "n": 200791,
+          "G": 58258
+        },
+        "evidence_class": "HOLDOUT-DTI (external file; see caveats)"
+      }
+    },
+    "candidate_matched_to_D28_count": {
+      "k2emit": {
+        "T": 9302.560534810735,
+        "M": 4517.671247599414,
+        "n": 42307,
+        "G": 58258
+      },
+      "hk3emit": {
+        "T": 9446.74853388481,
+        "M": 4371.133350461028,
+        "n": 42307,
+        "G": 58258
+      }
+    }
+  },
+  "estimator": {
+    "evidence_class": "LEADERBOARD-CALIBRATED ESTIMATE (ratio transfer from USER-REPORTED anchors; NOT a score; NOT ORGANIZER-CONFIRMED)",
+    "anchor": "D2.8/B2 family operating point from evidence/calibration/leaderboard_calibration.json",
+    "curve_row_used": {
+      "rate": 0.009,
+      "holdout_n": 45107,
+      "holdout_T": 9824.613529506563,
+      "holdout_M": 4557.686073163861,
+      "holdout_dti": 0.17333112291767427,
+      "holdout_band_truth_share": 0.1343169827041889,
+      "cov_ratio": 1.1136659239782454,
+      "hit_ratio": 1.1557728998252321,
+      "family_cov_ratio": 1.0220723075978173,
+      "family_hit_ratio": 1.0012880884356352,
+      "n_full_map": 45108,
+      "estimate": 0.28551616855930356,
+      "estimate_theta": {
+        "1.00": 0.28551616855930356,
+        "0.75": 0.27983826097656866,
+        "0.50": 0.2741525239914453,
+        "0.00": 0.26275749694768774
+      },
+      "estimate_min_over_theta": 0.2741525239914453,
+      "estimate_pessimistic": 0.25737098634299993,
+      "components": {
+        "G": 12405.76810261941,
+        "T": 5649.947473165135,
+        "M": 1437.8452493281088,
+        "F": 43669.66875067189
+      }
+    },
+    "holdout_cov_ratio_cand_over_D28": 1.1136659239782454,
+    "holdout_hit_ratio_cand_over_D28": 1.1557728998252321,
+    "n_dots": 45108,
+    "estimate": 0.2855148108330725,
+    "estimate_if_no_better_than_anchor": 0.25736975225008335,
+    "estimate_scaled_by_GEMSDOE24_check": 0.2828542604334,
+    "GEMSDOE24_out_of_sample_check": {
+      "predicted": 0.25002988653941116,
+      "user_reported": 0.2477,
+      "ratio_reported_over_predicted": 0.9906815678251172
+    },
+    "components": {
+      "G": 12405.76810261941,
+      "T": 5649.947473165135,
+      "M": 1437.860741043994,
+      "F": 43670.139258956006
+    },
+    "rule_rate": 0.009,
+    "argmax_rate": 0.015,
+    "argmax_rate_pessimistic": 0.007,
+    "budget_rule": "maximin of the calibrated estimate over theta in (1, 0.75, 0.5); ties within 0.001 to the smaller budget (pre-registered, section 3b)",
+    "estimate_theta": {
+      "1.00": 0.28551616855930356,
+      "0.75": 0.27983826097656866,
+      "0.50": 0.2741525239914453,
+      "0.00": 0.26275749694768774
+    },
+    "assumptions": [
+      "candidate/anchor coverage and hit-mass ratios measured on catalogue holdout transfer to the expert hidden truth",
+      "G and the anchor (T, M) come from the lattice-pinned calibration of USER-REPORTED scores",
+      "the anchor's holdout number may be inflated by catalogue leakage, which makes this estimate conservative if so"
+    ]
+  },
+  "registry_uniqueness": {
+    "tiers": {
+      "U1_unique_vs_nine_scored_site_files": {
+        "pass": true,
+        "max_overlap": 0.4839274629777423,
+        "max_abs_rho": 0.03115271062727627,
+        "per_site": {
+          "GEMSDOE24": {
+            "overlap_3px": 0.4726877715704531,
+            "rho": 0.03104643183167668,
+            "jaccard": 0.020610753689848913
+          },
+          "GEMSDOE25": {
+            "overlap_3px": 0.4557728119180633,
+            "rho": 0.02529045884618526,
+            "jaccard": 0.017138947488454303
+          },
+          "GEMSDOE27": {
+            "overlap_3px": 0.4839274629777423,
+            "rho": 0.03115271062727627,
+            "jaccard": 0.020684893410945634
+          },
+          "GEMSDOE28": {
+            "overlap_3px": 0.43781590848629953,
+            "rho": 0.027277090303246262,
+            "jaccard": 0.017756135950027053
+          },
+          "GEMSDOE30": {
+            "overlap_3px": 0.4557728119180633,
+            "rho": 0.02529045884618526,
+            "jaccard": 0.017138947488454303
+          },
+          "GEMSDOE31": {
+            "overlap_3px": 0.4416733173716414,
+            "rho": 0.02728040188475737,
+            "jaccard": 0.017934704787360985
+          },
+          "GEMSDOE32": {
+            "overlap_3px": 0.42338387869114125,
+            "rho": 0.0287236792887958,
+            "jaccard": 0.01849641270505421
+          },
+          "GEMSDOE33": {
+            "overlap_3px": 0.44972067039106145,
+            "rho": 0.027211170431068576,
+            "jaccard": 0.018001989816819806
+          },
+          "GEMSDOE36": {
+            "overlap_3px": 0.42810587922319765,
+            "rho": 0.028292582042637928,
+            "jaccard": 0.018363089462449057
+          }
+        }
+      },
+      "U2_literal_rule_vs_all_registry_rasters": {
+        "pass": false,
+        "rasters_checked": 450,
+        "degenerate_excluded": [
+          "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+          "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif"
+        ],
+        "failures": [
+          {
+            "repo": "GEMSDOE24",
+            "submission": "inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+            "their_positive_px": 174232,
+            "overlap_3px": 0.7097632349028997,
+            "rho": 0.04621810667832535,
+            "halo_fraction_of_footprint": 0.263110481863802,
+            "chance_corrected_overlap": 0.6061325911770449,
+            "object": "line/surface raster (>100k positive px)",
+            "submission_status": "owner-reported score 0.128 (ridge-line surface used as a calibration input by GEMSDOE24)",
+            "GEMSDOE32_champion_overlap_with_same_raster": 0.5908270037711797
+          },
+          {
+            "repo": "GEMSDOE32",
+            "submission": "docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+            "their_positive_px": 37654,
+            "overlap_3px": 0.7334840826460938,
+            "rho": 0.046701911950219215,
+            "halo_fraction_of_footprint": 0.173403971418359,
+            "chance_corrected_overlap": 0.6775741618173247,
+            "object": "dot raster",
+            "submission_status": "GEMSDOE32 H45 KS0 control arm; its own site states DO NOT SUBMIT / no weekly slot spent (docs/research/h45-executive-summary-20261026.md @ 73485f27)",
+            "GEMSDOE32_champion_overlap_with_same_raster": 0.5041695437403728
+          },
+          {
+            "repo": "karage2-local",
+            "submission": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+            "their_positive_px": 54491,
+            "overlap_3px": 0.7494014365522745,
+            "rho": 0.06876401508800412,
+            "halo_fraction_of_footprint": 0.18519177926578942,
+            "chance_corrected_overlap": 0.692444728623485,
+            "object": "dot raster",
+            "submission_status": "this repository's own K2 research artefact; never submitted (selector negative)",
+            "GEMSDOE32_champion_overlap_with_same_raster": 0.38944069687151434
+          }
+        ]
+      },
+      "U3_chance_corrected_overlap_vs_all": {
+        "pass": true,
+        "max_corrected": 0.692444728623485
+      },
+      "U4_literal_rule_vs_dot_rasters_that_were_submitted": {
+        "pass": true,
+        "note": "dot rasters (<= 100k positive px) excluding the two files documented as never submitted"
+      },
+      "rank_correlation": {
+        "pass": true,
+        "max_abs_rho": 0.11433925986987725
+      }
+    },
+    "verdict_logic": "PROMOTE requires U1, U3, U4 and rank-correlation to pass; the literal all-registry rule U2 may fail only against never-submitted rasters or line/surface rasters > 100k positive px (disclosed deviation from the pre-registered 'literal => stop'); literal failures are listed on every page",
+    "scope": "440 hash-pinned rasters from the 9 focus repos at pinned refs + the 9 pinned best files + r13 lattice + prior local candidates. Not the organizer registry; repos may have gained rasters since the pinned refs.",
+    "rasters_checked": 450,
+    "errors": 1,
+    "degenerate_witnesses": [
+      "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif"
+    ],
+    "worst_overlap_nondegenerate": 0.7494014365522745,
+    "worst_overlap_submission": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+    "worst_abs_rho": 0.11433925986987725,
+    "worst_rho_submission": "docs/downloads/GEMSDOE30-nearslay-annulus-d3-offcat-20261025T235837Z-662af003-nan.tif",
+    "literal_duplicates": [
+      "inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+      "docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+      "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif"
+    ],
+    "dense_witness_detail": [
+      {
+        "repo": "karage2-local",
+        "submission": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+        "their_dots": 54491,
+        "halo_fraction_of_footprint": 0.18519177926578942,
+        "candidate_overlap_literal": 0.7494014365522745,
+        "candidate_overlap_chance_corrected": 0.692444728623485,
+        "GEMSDOE32_champion_overlap_literal": 0.38944069687151434,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.25067115476778024,
+        "literal_rule_would_flag_candidate": true,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE32",
+        "submission": "docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+        "their_dots": 37654,
+        "halo_fraction_of_footprint": 0.173403971418359,
+        "candidate_overlap_literal": 0.7334840826460938,
+        "candidate_overlap_chance_corrected": 0.6775741618173247,
+        "GEMSDOE32_champion_overlap_literal": 0.5041695437403728,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.4001538368017272,
+        "literal_rule_would_flag_candidate": true,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE24",
+        "submission": "inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+        "their_dots": 174232,
+        "halo_fraction_of_footprint": 0.263110481863802,
+        "candidate_overlap_literal": 0.7097632349028997,
+        "candidate_overlap_chance_corrected": 0.6061325911770449,
+        "GEMSDOE32_champion_overlap_literal": 0.5908270037711797,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.44472952028991464,
+        "literal_rule_would_flag_candidate": true,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE24",
+        "submission": "inputs/calibration/gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+        "their_dots": 69281,
+        "halo_fraction_of_footprint": 0.27203532626733157,
+        "candidate_overlap_literal": 0.6845570630486831,
+        "candidate_overlap_chance_corrected": 0.5666782354508079,
+        "GEMSDOE32_champion_overlap_literal": 0.61759706804058,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.47469575687150667,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE30",
+        "submission": "docs/research/2026-10-26-fflidar/gems30-FFL1-fusion_edge-44090-20261026-eacd73e854a3.tif",
+        "their_dots": 44090,
+        "halo_fraction_of_footprint": 0.19097943964950856,
+        "candidate_overlap_literal": 0.6641393987762703,
+        "candidate_overlap_chance_corrected": 0.5848552957934405,
+        "GEMSDOE32_champion_overlap_literal": 0.5875338609443884,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.4901660609503927,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE28",
+        "submission": "docs/downloads/gems28-h37-1-probe-union-pool-r1-20261003-52a13184267e-allfinite.tif",
+        "their_dots": 38545,
+        "halo_fraction_of_footprint": 0.19005459834232985,
+        "candidate_overlap_literal": 0.6409062693978895,
+        "candidate_overlap_chance_corrected": 0.5566445221280677,
+        "GEMSDOE32_champion_overlap_literal": 0.5155627556169331,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.401889012035137,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE28",
+        "submission": "docs/downloads/gems28-h37-1-probe-union-pool-r1-20261003-52a13184267e-nan.tif",
+        "their_dots": 38545,
+        "halo_fraction_of_footprint": 0.19005459834232985,
+        "candidate_overlap_literal": 0.6409062693978895,
+        "candidate_overlap_chance_corrected": 0.5566445221280677,
+        "GEMSDOE32_champion_overlap_literal": 0.5155627556169331,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.401889012035137,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE30",
+        "submission": "docs/downloads/gems30-MSDB1-edge44090-20261025-e7856ec3f14a.tif",
+        "their_dots": 44090,
+        "halo_fraction_of_footprint": 0.1827677235608887,
+        "candidate_overlap_literal": 0.6403742129999114,
+        "candidate_overlap_chance_corrected": 0.5599466671004851,
+        "GEMSDOE32_champion_overlap_literal": 0.49567111063897595,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.38288182698985757,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE28",
+        "submission": "docs/downloads/gems28-s19-radlin-cover-20261026-6fa38f9d317b-allfinite.tif",
+        "their_dots": 37654,
+        "halo_fraction_of_footprint": 0.18546348405659896,
+        "candidate_overlap_literal": 0.6306198457036446,
+        "candidate_overlap_chance_corrected": 0.5465149234365053,
+        "GEMSDOE32_champion_overlap_literal": 0.49925638710362774,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.3852410504685502,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE28",
+        "submission": "docs/downloads/gems28-s19-radlin-cover-20261026-6fa38f9d317b-nan.tif",
+        "their_dots": 37654,
+        "halo_fraction_of_footprint": 0.18546348405659896,
+        "candidate_overlap_literal": 0.6306198457036446,
+        "candidate_overlap_chance_corrected": 0.5465149234365053,
+        "GEMSDOE32_champion_overlap_literal": 0.49925638710362774,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.3852410504685502,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE30",
+        "submission": "docs/downloads/gemsdoe30-g30s20-disc-60000dots-20261025T224159Z-24de17a6fa-nan.tif",
+        "their_dots": 60000,
+        "halo_fraction_of_footprint": 0.15805361834727238,
+        "candidate_overlap_literal": 0.6267624368183028,
+        "candidate_overlap_chance_corrected": 0.5566967549061287,
+        "GEMSDOE32_champion_overlap_literal": 0.35600467413820575,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.2351112376091676,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE30",
+        "submission": "docs/downloads/gemsdoe30-g30s20-disc-60000dots-20261025T224159Z-24de17a6fa-zeros.tif",
+        "their_dots": 60000,
+        "halo_fraction_of_footprint": 0.15805361834727238,
+        "candidate_overlap_literal": 0.6267624368183028,
+        "candidate_overlap_chance_corrected": 0.5566967549061287,
+        "GEMSDOE32_champion_overlap_literal": 0.35600467413820575,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.2351112376091676,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE30",
+        "submission": "docs/downloads/gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif",
+        "their_dots": 60000,
+        "halo_fraction_of_footprint": 0.1545661596327573,
+        "candidate_overlap_literal": 0.6262303804203245,
+        "candidate_overlap_chance_corrected": 0.5578960744967152,
+        "GEMSDOE32_champion_overlap_literal": 0.3353428586604345,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.21382713867846923,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE30",
+        "submission": "docs/downloads/gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-zeros.tif",
+        "their_dots": 60000,
+        "halo_fraction_of_footprint": 0.1545661596327573,
+        "candidate_overlap_literal": 0.6262303804203245,
+        "candidate_overlap_chance_corrected": 0.5578960744967152,
+        "GEMSDOE32_champion_overlap_literal": 0.3353428586604345,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.21382713867846923,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE25",
+        "submission": "docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+        "their_dots": 54472,
+        "halo_fraction_of_footprint": 0.18859970046675553,
+        "candidate_overlap_literal": 0.6118648576749135,
+        "candidate_overlap_chance_corrected": 0.5216477704674745,
+        "GEMSDOE32_champion_overlap_literal": 0.3864662452860254,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.24385811162886187,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE25",
+        "submission": "docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-zeros.tif",
+        "their_dots": 54472,
+        "halo_fraction_of_footprint": 0.18859970046675553,
+        "candidate_overlap_literal": 0.6118648576749135,
+        "candidate_overlap_chance_corrected": 0.5216477704674745,
+        "GEMSDOE32_champion_overlap_literal": 0.3864662452860254,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.24385811162886187,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE25",
+        "submission": "docs/downloads/gems25-obj-bin-greedy-k3p5-20261026-3646faf70507-nan.tif",
+        "their_dots": 53522,
+        "halo_fraction_of_footprint": 0.1847654504522898,
+        "candidate_overlap_literal": 0.6110224350447814,
+        "candidate_overlap_chance_corrected": 0.522864229477244,
+        "GEMSDOE32_champion_overlap_literal": 0.38973283050937485,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.25142136109270685,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE25",
+        "submission": "docs/downloads/gems25-obj-bin-greedy-k3p5-20261026-3646faf70507-zeros.tif",
+        "their_dots": 53522,
+        "halo_fraction_of_footprint": 0.1847654504522898,
+        "candidate_overlap_literal": 0.6110224350447814,
+        "candidate_overlap_chance_corrected": 0.522864229477244,
+        "GEMSDOE32_champion_overlap_literal": 0.38973283050937485,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.25142136109270685,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE25",
+        "submission": "docs/downloads/gems25-h31-1-flank-subscarp-sapd24-20261025-40bfe1d5b1c5-nan.tif",
+        "their_dots": 49041,
+        "halo_fraction_of_footprint": 0.18772227203261696,
+        "candidate_overlap_literal": 0.602797729892702,
+        "candidate_overlap_chance_corrected": 0.5110018945105834,
+        "GEMSDOE32_champion_overlap_literal": 0.3938227014394221,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.25373147916112887,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "GEMSDOE25",
+        "submission": "docs/downloads/gems25-h31-1-flank-subscarp-sapd24-20261025-40bfe1d5b1c5-zeros.tif",
+        "their_dots": 49041,
+        "halo_fraction_of_footprint": 0.18772227203261696,
+        "candidate_overlap_literal": 0.602797729892702,
+        "candidate_overlap_chance_corrected": 0.5110018945105834,
+        "GEMSDOE32_champion_overlap_literal": 0.3938227014394221,
+        "GEMSDOE32_champion_overlap_chance_corrected": 0.25373147916112887,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      },
+      {
+        "repo": "karage2-local",
+        "submission": "gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
+        "their_dots": 1893817,
+        "halo_fraction_of_footprint": 0.5062560802171626,
+        "candidate_overlap_literal": 0.5083798882681564,
+        "candidate_overlap_chance_corrected": 0.004301436363870325,
+        "GEMSDOE32_champion_overlap_literal": 0.49694587560418546,
+        "GEMSDOE32_champion_overlap_chance_corrected": -0.01885634281242805,
+        "literal_rule_would_flag_candidate": false,
+        "literal_rule_would_flag_champion": false
+      }
+    ],
+    "rank_corr_limit": 0.9,
+    "overlap_limit": 0.7
+  },
+  "raster": {
+    "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+    "sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+    "dots": 45108,
+    "budget": 45108,
+    "rate_over_active_px": 0.009,
+    "apron_px": 3.0,
+    "sep_px": 3.0,
+    "profile": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null
+    },
+    "example_submission_profile": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    "zip": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.zip",
+    "writer_receipt": {
+      "file": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+      "sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+      "bytes": 156302,
+      "submission_name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
+      "note": "HK3: 34-feature HGB with catalogue-free edge-centrality bands; dots sep 3px, >3px off catalogue; zeros outside",
+      "note_chars": 110,
+      "validator": {
+        "file": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+        "bytes": 156302,
+        "sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+        "meta": {
+          "crs": "EPSG:32611",
+          "shape": [
+            3730,
+            3292
+          ],
+          "dtype": "float32",
+          "count": 1,
+          "nodata": null,
+          "transform": [
+            100.0,
+            0.0,
+            243350.0,
+            0.0,
+            -100.0,
+            4508550.0
+          ],
+          "profile_compress": "deflate"
+        },
+        "band_description": [
+          null
+        ],
+        "n_finite": 12279160,
+        "n_nan": 0,
+        "n_infinite": 0,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.0036735411267727613,
+        "emitted_positive_pixels": 45108,
+        "checks": {
+          "single_band": true,
+          "dtype_float32": true,
+          "dimensions_3730x3292": true,
+          "crs_epsg_32611": true,
+          "transform_matches_sample_submission": true,
+          "no_nan_anywhere": true,
+          "no_inf_anywhere": true,
+          "no_sentinel_values": true,
+          "range_0_1_guaranteed": true,
+          "min_ge_0": true,
+          "max_le_1": true,
+          "in_footprint_all_finite": true,
+          "in_footprint_range_0_1": true,
+          "outside_footprint_zero": true,
+          "zero_dots_on_mapped_catalogue": true
+        },
+        "all_checks_passed": true,
+        "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+        "on_catalogue_positive_pixels": 0,
+        "in_footprint_positive_pixels": 45108,
+        "footprint_fraction": 0.008729387253445802
+      },
+      "template_report": {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+        "bytes": 156302,
+        "sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+        "bands": 1,
+        "dtype": "float32",
+        "crs": "EPSG:32611",
+        "width": 3292,
+        "height": 3730,
+        "bounds": [
+          243350.0,
+          4135550.0,
+          572550.0,
+          4508550.0
+        ],
+        "ref_bounds": [
+          243350.0,
+          4135550.0,
+          572550.0,
+          4508550.0
+        ],
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "nodata": null,
+        "blocksize": [
+          256,
+          256
+        ],
+        "fixture_grid": false,
+        "has_validity_mask": false,
+        "nan_pixels": 0,
+        "infinity_pixels": 0,
+        "n_nan": 0,
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.0036735411267727613,
+        "n_nonzero": 45108,
+        "mass": 45108.0,
+        "mass_outside_footprint": 0,
+        "problems": [],
+        "ok": true,
+        "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+      },
+      "zip_file": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028.zip",
+      "zip_sha256": "3044479a035bf14fa72a4ad6c09f8b533ee13c3641d128c3ad8654f1649ed4d1",
+      "approved_for_weekly_slot": false,
+      "promoted": false,
+      "submission_slots_used": 0,
+      "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+      "metadata": {
+        "name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
+        "note": "HK3: 34-feature HGB with catalogue-free edge-centrality bands; dots sep 3px, >3px off catalogue; zeros outside",
+        "dots": 45108,
+        "budget": 45108,
+        "rate": 0.009,
+        "apron_px": 3.0,
+        "sep_px": 3.0,
+        "surface_sha256": "8e0f43c3cb8011f94bb436d9dd5342e68041ef6a1de21b0b1135b6553fa31af6",
+        "train": {
+          "pos": 58258,
+          "neg": 360000
+        },
+        "estimator": {
+          "evidence_class": "LEADERBOARD-CALIBRATED ESTIMATE (ratio transfer from USER-REPORTED anchors; NOT a score; NOT ORGANIZER-CONFIRMED)",
+          "anchor": "D2.8/B2 family operating point from evidence/calibration/leaderboard_calibration.json",
+          "curve_row_used": {
+            "rate": 0.009,
+            "holdout_n": 45107,
+            "holdout_T": 9824.613529506563,
+            "holdout_M": 4557.686073163861,
+            "holdout_dti": 0.17333112291767427,
+            "holdout_band_truth_share": 0.1343169827041889,
+            "cov_ratio": 1.1136659239782454,
+            "hit_ratio": 1.1557728998252321,
+            "family_cov_ratio": 1.0220723075978173,
+            "family_hit_ratio": 1.0012880884356352,
+            "n_full_map": 45108,
+            "estimate": 0.28551616855930356,
+            "estimate_theta": {
+              "1.00": 0.28551616855930356,
+              "0.75": 0.27983826097656866,
+              "0.50": 0.2741525239914453,
+              "0.00": 0.26275749694768774
+            },
+            "estimate_min_over_theta": 0.2741525239914453,
+            "estimate_pessimistic": 0.25737098634299993,
+            "components": {
+              "G": 12405.76810261941,
+              "T": 5649.947473165135,
+              "M": 1437.8452493281088,
+              "F": 43669.66875067189
+            }
+          },
+          "holdout_cov_ratio_cand_over_D28": 1.1136659239782454,
+          "holdout_hit_ratio_cand_over_D28": 1.1557728998252321,
+          "n_dots": 45108,
+          "estimate": 0.2855148108330725,
+          "estimate_if_no_better_than_anchor": 0.25736975225008335,
+          "estimate_scaled_by_GEMSDOE24_check": 0.2828542604334,
+          "GEMSDOE24_out_of_sample_check": {
+            "predicted": 0.25002988653941116,
+            "user_reported": 0.2477,
+            "ratio_reported_over_predicted": 0.9906815678251172
+          },
+          "components": {
+            "G": 12405.76810261941,
+            "T": 5649.947473165135,
+            "M": 1437.860741043994,
+            "F": 43670.139258956006
+          },
+          "budget_table": [
+            {
+              "rate": 0.002,
+              "holdout_n": 10023,
+              "holdout_T": 3630.758884006671,
+              "holdout_M": 1591.3205212361338,
+              "holdout_dti": 0.07406856941063451,
+              "holdout_band_truth_share": 0.30099709319242046,
+              "cov_ratio": 0.4115635119036171,
+              "hit_ratio": 1.8160674544002604,
+              "family_cov_ratio": 0.7455062933971655,
+              "family_hit_ratio": 0.9851483403371264,
+              "n_full_map": 10024,
+              "estimate": 0.17049500436416137,
+              "estimate_theta": {
+                "1.00": 0.17049500436416137,
+                "0.75": 0.20348161330997916,
+                "0.50": 0.23595802738671126,
+                "0.00": 0.29942689606274486
+              },
+              "estimate_min_over_theta": 0.17049500436416137,
+              "estimate_pessimistic": 0.16986913603906367,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 2087.98004326137,
+                "M": 502.0640227781115,
+                "F": 9521.827977221888
+              }
+            },
+            {
+              "rate": 0.003,
+              "holdout_n": 15035,
+              "holdout_T": 4808.848550692274,
+              "holdout_M": 2135.858973510965,
+              "holdout_dti": 0.09589313134297715,
+              "holdout_band_truth_share": 0.20867575581963096,
+              "cov_ratio": 0.5451054892280462,
+              "hit_ratio": 1.6249544210785407,
+              "family_cov_ratio": 0.7850157239972585,
+              "family_hit_ratio": 0.9874540186369134,
+              "n_full_map": 15036,
+              "estimate": 0.20715014223712197,
+              "estimate_theta": {
+                "1.00": 0.20715014223712197,
+                "0.75": 0.2286738948509746,
+                "0.50": 0.24996141444674538,
+                "0.00": 0.291843142288733
+              },
+              "estimate_min_over_theta": 0.20715014223712197,
+              "estimate_pessimistic": 0.20634899142473234,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 2765.4768949656814,
+                "M": 673.8443152271484,
+                "F": 14361.993684772851
+              }
+            },
+            {
+              "rate": 0.004,
+              "holdout_n": 20049,
+              "holdout_T": 5855.151721093518,
+              "holdout_M": 2636.556677970529,
+              "holdout_dti": 0.11422475560502496,
+              "holdout_band_truth_share": 0.18819737781951082,
+              "cov_ratio": 0.6637088504215112,
+              "hit_ratio": 1.5042375942776236,
+              "family_cov_ratio": 0.8245409205313501,
+              "family_hit_ratio": 0.9897606169998686,
+              "n_full_map": 20048,
+              "estimate": 0.23316417633098743,
+              "estimate_theta": {
+                "1.00": 0.23316417633098743,
+                "0.75": 0.24635086696705305,
+                "0.50": 0.259437836337153,
+                "0.00": 0.28531710203179395
+              },
+              "estimate_min_over_theta": 0.23316417633098743,
+              "estimate_pessimistic": 0.2322673563945965,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 3367.1858513555503,
+                "M": 831.7131348477341,
+                "F": 19216.070865152265
+              }
+            },
+            {
+              "rate": 0.005,
+              "holdout_n": 25061,
+              "holdout_T": 6763.305331144343,
+              "holdout_M": 3066.0485832316735,
+              "holdout_dti": 0.12917412235202042,
+              "holdout_band_truth_share": 0.16539966562839106,
+              "cov_ratio": 0.7666523123921956,
+              "hit_ratio": 1.399434828527588,
+              "family_cov_ratio": 0.8640503511314432,
+              "family_hit_ratio": 0.9920662952996556,
+              "n_full_map": 25060,
+              "estimate": 0.25059245674294806,
+              "estimate_theta": {
+                "1.00": 0.25059245674294806,
+                "0.75": 0.25790702197302084,
+                "0.50": 0.265185213723948,
+                "0.00": 0.27963355667492396
+              },
+              "estimate_min_over_theta": 0.25059245674294806,
+              "estimate_pessimistic": 0.24970417868232056,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 3889.447635897232,
+                "M": 967.2078505729107,
+                "F": 24092.522149427088
+              }
+            },
+            {
+              "rate": 0.006,
+              "holdout_n": 30072,
+              "holdout_T": 7584.482513282343,
+              "holdout_M": 3462.9835011670143,
+              "holdout_dti": 0.14191165403976813,
+              "holdout_band_truth_share": 0.15108382335528978,
+              "cov_ratio": 0.8597365891985016,
+              "hit_ratio": 1.3172255687989902,
+              "family_cov_ratio": 0.9035518987645372,
+              "family_hit_ratio": 0.9943715135678585,
+              "n_full_map": 30072,
+              "estimate": 0.26286656983347084,
+              "estimate_theta": {
+                "1.00": 0.26286656983347084,
+                "0.75": 0.26582318704638647,
+                "0.50": 0.2687710978714018,
+                "0.00": 0.27464095373294584
+              },
+              "estimate_min_over_theta": 0.26286656983347084,
+              "estimate_pessimistic": 0.2620355960509174,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 4361.690939036555,
+                "M": 1092.4675177263266,
+                "F": 28979.208482273672
+              }
+            },
+            {
+              "rate": 0.007,
+              "holdout_n": 35084,
+              "holdout_T": 8385.073822487046,
+              "holdout_M": 3844.9701828494317,
+              "holdout_dti": 0.15376647928574114,
+              "holdout_band_truth_share": 0.1474221314413701,
+              "cov_ratio": 0.9504873609633823,
+              "hit_ratio": 1.2535911470752352,
+              "family_cov_ratio": 0.9430613293646304,
+              "family_hit_ratio": 0.9966771918676454,
+              "n_full_map": 35084,
+              "estimate": 0.2730029484343622,
+              "estimate_theta": {
+                "1.00": 0.2730029484343622,
+                "0.75": 0.27230713403359436,
+                "0.50": 0.27161214951116935,
+                "0.00": 0.2702246641697865
+              },
+              "estimate_min_over_theta": 0.27161214951116935,
+              "estimate_pessimistic": 0.27224654560557277,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 4822.095700088388,
+                "M": 1212.9728686185488,
+                "F": 33870.649131381455
+              }
+            },
+            {
+              "rate": 0.008,
+              "holdout_n": 40096,
+              "holdout_T": 9101.844195299851,
+              "holdout_M": 4204.988585981088,
+              "holdout_dti": 0.16368759863847904,
+              "holdout_band_truth_share": 0.13350782022723515,
+              "cov_ratio": 1.0317366372958727,
+              "hit_ratio": 1.199598225077221,
+              "family_cov_ratio": 0.9825707599647234,
+              "family_hit_ratio": 0.9989828701674324,
+              "n_full_map": 40096,
+              "estimate": 0.27953105364668535,
+              "estimate_theta": {
+                "1.00": 0.27953105364668535,
+                "0.75": 0.2762212413156256,
+                "0.50": 0.2729109412985253,
+                "0.00": 0.2662888777749895
+              },
+              "estimate_min_over_theta": 0.2729109412985253,
+              "estimate_pessimistic": 0.2707598829116641,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 5234.296642603908,
+                "M": 1326.5478859619734,
+                "F": 38769.02011403802
+              }
+            },
+            {
+              "rate": 0.009,
+              "holdout_n": 45107,
+              "holdout_T": 9824.613529506563,
+              "holdout_M": 4557.686073163861,
+              "holdout_dti": 0.17333112291767427,
+              "holdout_band_truth_share": 0.1343169827041889,
+              "cov_ratio": 1.1136659239782454,
+              "hit_ratio": 1.1557728998252321,
+              "family_cov_ratio": 1.0220723075978173,
+              "family_hit_ratio": 1.0012880884356352,
+              "n_full_map": 45108,
+              "estimate": 0.28551616855930356,
+              "estimate_theta": {
+                "1.00": 0.28551616855930356,
+                "0.75": 0.27983826097656866,
+                "0.50": 0.2741525239914453,
+                "0.00": 0.26275749694768774
+              },
+              "estimate_min_over_theta": 0.2741525239914453,
+              "estimate_pessimistic": 0.25737098634299993,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 5649.947473165135,
+                "M": 1437.8452493281088,
+                "F": 43669.66875067189
+              }
+            },
+            {
+              "rate": 0.01,
+              "holdout_n": 50119,
+              "holdout_T": 10428.81397655986,
+              "holdout_M": 4872.643317594755,
+              "holdout_dti": 0.18061231303601533,
+              "holdout_band_truth_share": 0.11397335001616477,
+              "cov_ratio": 1.1821548723846946,
+              "hit_ratio": 1.1120754850888461,
+              "family_cov_ratio": 1.0615817381979105,
+              "family_hit_ratio": 1.0035937667354222,
+              "n_full_map": 50119,
+              "estimate": 0.28777609782435254,
+              "estimate_theta": {
+                "1.00": 0.28777609782435254,
+                "0.75": 0.2807492311976187,
+                "0.50": 0.2737067610541687,
+                "0.00": 0.2595748018640206
+              },
+              "estimate_min_over_theta": 0.2737067610541687,
+              "estimate_pessimistic": 0.24524384111216832,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 5997.411602808662,
+                "M": 1537.2036163188943,
+                "F": 48582.2563836811
+              }
+            },
+            {
+              "rate": 0.011,
+              "holdout_n": 55131,
+              "holdout_T": 11108.58641969301,
+              "holdout_M": 5211.788613322207,
+              "holdout_dti": 0.18888312007559205,
+              "holdout_band_truth_share": 0.12699790671252356,
+              "cov_ratio": 1.259210260233101,
+              "hit_ratio": 1.0813417350716503,
+              "family_cov_ratio": 1.1010911687980036,
+              "family_hit_ratio": 1.005899445035209,
+              "n_full_map": 55131,
+              "estimate": 0.29170850156048117,
+              "estimate_theta": {
+                "1.00": 0.29170850156048117,
+                "0.75": 0.28299522610068073,
+                "0.50": 0.27425451192753586,
+                "0.00": 0.25669024736490076
+              },
+              "estimate_min_over_theta": 0.27425451192753586,
+              "estimate_pessimistic": 0.23420811459055613,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 6388.33574306849,
+                "M": 1644.192946169906,
+                "F": 53487.21305383009
+              }
+            },
+            {
+              "rate": 0.012,
+              "holdout_n": 60144,
+              "holdout_T": 11732.843426363865,
+              "holdout_M": 5522.658818878511,
+              "holdout_dti": 0.19594831073695634,
+              "holdout_band_truth_share": 0.11720083989022874,
+              "cov_ratio": 1.3299727135393846,
+              "hit_ratio": 1.050335267483731,
+              "family_cov_ratio": 1.1406084823650962,
+              "family_hit_ratio": 1.0082055833665802,
+              "n_full_map": 60143,
+              "estimate": 0.2939463430805431,
+              "estimate_theta": {
+                "1.00": 0.2939463430805431,
+                "0.75": 0.284034317019097,
+                "0.50": 0.2740836742288442,
+                "0.00": 0.2540656322389354
+              },
+              "estimate_min_over_theta": 0.2740836742288442,
+              "estimate_pessimistic": 0.2241228131144071,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 6747.334016827842,
+                "M": 1742.2333571835968,
+                "F": 58401.1186428164
+              }
+            },
+            {
+              "rate": 0.013,
+              "holdout_n": 65155,
+              "holdout_T": 12298.85276560265,
+              "holdout_M": 5817.169807528234,
+              "holdout_dti": 0.20183979275768066,
+              "holdout_band_truth_share": 0.10714803899099547,
+              "cov_ratio": 1.3941325211359423,
+              "hit_ratio": 1.021259324354029,
+              "family_cov_ratio": 1.18011002999819,
+              "family_hit_ratio": 1.010510801634783,
+              "n_full_map": 65155,
+              "estimate": 0.29466209202471594,
+              "estimate_theta": {
+                "1.00": 0.29466209202471594,
+                "0.75": 0.2839840937814496,
+                "0.50": 0.27325844054934645,
+                "0.00": 0.25166288731733294
+              },
+              "estimate_min_over_theta": 0.27325844054934645,
+              "estimate_pessimistic": 0.2148702259004963,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 7072.835170274298,
+                "M": 1835.1709141509198,
+                "F": 63320.127085849075
+              }
+            },
+            {
+              "rate": 0.014,
+              "holdout_n": 70167,
+              "holdout_T": 12840.06883906018,
+              "holdout_M": 6099.404339832321,
+              "holdout_dti": 0.20713819994297902,
+              "holdout_band_truth_share": 0.10267842321813488,
+              "cov_ratio": 1.4554818960206388,
+              "hit_ratio": 0.9943208776788349,
+              "family_cov_ratio": 1.219619460598283,
+              "family_hit_ratio": 1.01281647993457,
+              "n_full_map": 70167,
+              "estimate": 0.2947731382546563,
+              "estimate_theta": {
+                "1.00": 0.2947731382546563,
+                "0.75": 0.28352850056061935,
+                "0.50": 0.2722282689414984,
+                "0.00": 0.24945936658288878
+              },
+              "estimate_min_over_theta": 0.2722282689414984,
+              "estimate_pessimistic": 0.20633286272419468,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 7384.078190417943,
+                "M": 1924.2067082865663,
+                "F": 68243.03729171344
+              }
+            },
+            {
+              "rate": 0.015,
+              "holdout_n": 75179,
+              "holdout_T": 13407.192152950574,
+              "holdout_M": 6391.844357364108,
+              "holdout_dti": 0.2126597641140816,
+              "holdout_band_truth_share": 0.10727393378775311,
+              "cov_ratio": 1.5197679778574955,
+              "hit_ratio": 0.972527048908873,
+              "family_cov_ratio": 1.2591288911983762,
+              "family_hit_ratio": 1.015122158234357,
+              "n_full_map": 75179,
+              "estimate": 0.2954197360555845,
+              "estimate_theta": {
+                "1.00": 0.2954197360555845,
+                "0.75": 0.28351985616701747,
+                "0.50": 0.27155531006905415,
+                "0.00": 0.24743009927376527
+              },
+              "estimate_min_over_theta": 0.27155531006905415,
+              "estimate_pessimistic": 0.19839370212040036,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 7710.219969396295,
+                "M": 2016.4621690647537,
+                "F": 73162.72783093526
+              }
+            },
+            {
+              "rate": 0.016,
+              "holdout_n": 80190,
+              "holdout_T": 13879.593676136803,
+              "holdout_M": 6641.10038803561,
+              "holdout_dti": 0.21655701665007948,
+              "holdout_band_truth_share": 0.09025380052232078,
+              "cov_ratio": 1.573316901408318,
+              "hit_ratio": 0.9473094598894266,
+              "family_cov_ratio": 1.2986304388314702,
+              "family_hit_ratio": 1.0174273765025599,
+              "n_full_map": 80191,
+              "estimate": 0.29409843723412143,
+              "estimate_theta": {
+                "1.00": 0.29409843723412143,
+                "0.75": 0.28206647218594344,
+                "0.50": 0.26996545784001746,
+                "0.00": 0.24555388996222105
+              },
+              "estimate_min_over_theta": 0.26996545784001746,
+              "estimate_pessimistic": 0.19102329987830075,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 7981.889056860079,
+                "M": 2095.12040798027,
+                "F": 78096.01559201973
+              }
+            },
+            {
+              "rate": 0.017,
+              "holdout_n": 85203,
+              "holdout_T": 14455.314459015643,
+              "holdout_M": 6933.940010842113,
+              "holdout_dti": 0.2218730866510706,
+              "holdout_band_truth_share": 0.10871104646747319,
+              "cov_ratio": 1.6385775465922352,
+              "hit_ratio": 0.9308875801381911,
+              "family_cov_ratio": 1.3381477523985625,
+              "family_hit_ratio": 1.0197335148339308,
+              "n_full_map": 85203,
+              "estimate": 0.2948874620343944,
+              "estimate_theta": {
+                "1.00": 0.2948874620343944,
+                "0.75": 0.2822382123984697,
+                "0.50": 0.2695107230674702,
+                "0.00": 0.24381810362187228
+              },
+              "estimate_min_over_theta": 0.2695107230674702,
+              "estimate_pessimistic": 0.18419922765157523,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 8312.975075939175,
+                "M": 2187.4759541010503,
+                "F": 83015.60604589895
+              }
+            },
+            {
+              "rate": 0.018,
+              "holdout_n": 90215,
+              "holdout_T": 14949.71839718071,
+              "holdout_M": 7198.641248490439,
+              "holdout_dti": 0.22582787377440003,
+              "holdout_band_truth_share": 0.09432124758169279,
+              "cov_ratio": 1.6946205468549373,
+              "hit_ratio": 0.9127331405609351,
+              "family_cov_ratio": 1.3776571829986557,
+              "family_hit_ratio": 1.0220391931337178,
+              "n_full_map": 90215,
+              "estimate": 0.29409679555863744,
+              "estimate_theta": {
+                "1.00": 0.29409679555863744,
+                "0.75": 0.2812491410200675,
+                "0.50": 0.26831832641885006,
+                "0.00": 0.2422039663258148
+              },
+              "estimate_min_over_theta": 0.26831832641885006,
+              "estimate_pessimistic": 0.17783486653538225,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 8597.29733174794,
+                "M": 2270.980761459821,
+                "F": 87944.04723854017
+              }
+            },
+            {
+              "rate": 0.019,
+              "holdout_n": 95227,
+              "holdout_T": 15490.330960187683,
+              "holdout_M": 7470.925667609115,
+              "holdout_dti": 0.23032003715359514,
+              "holdout_band_truth_share": 0.10238238008611332,
+              "cov_ratio": 1.7559015110055594,
+              "hit_ratio": 0.8974005993524821,
+              "family_cov_ratio": 1.4171666135987488,
+              "family_hit_ratio": 1.0243448714335048,
+              "n_full_map": 95227,
+              "estimate": 0.2941913196724994,
+              "estimate_theta": {
+                "1.00": 0.2941913196724994,
+                "0.75": 0.28095496794333175,
+                "0.50": 0.2676283100739983,
+                "0.00": 0.24070035379220947
+              },
+              "estimate_min_over_theta": 0.2676283100739983,
+              "estimate_pessimistic": 0.17189840060052242,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 8908.193284565737,
+                "M": 2356.877913150131,
+                "F": 92870.09608684987
+              }
+            },
+            {
+              "rate": 0.02,
+              "holdout_n": 100239,
+              "holdout_T": 16048.19013502354,
+              "holdout_M": 7755.084018860716,
+              "holdout_dti": 0.23492208120904975,
+              "holdout_band_truth_share": 0.10554119377070056,
+              "cov_ratio": 1.8191374593232659,
+              "hit_ratio": 0.8849562981839596,
+              "family_cov_ratio": 1.456676044198842,
+              "family_hit_ratio": 1.0266505497332918,
+              "n_full_map": 100239,
+              "estimate": 0.29458451083420567,
+              "estimate_theta": {
+                "1.00": 0.29458451083420567,
+                "0.75": 0.2809106211080271,
+                "0.50": 0.26713867615071274,
+                "0.00": 0.23929637115600788
+              },
+              "estimate_min_over_theta": 0.26713867615071274,
+              "estimate_pessimistic": 0.1663495588274751,
+              "components": {
+                "G": 12405.76810261941,
+                "T": 9229.007434229714,
+                "M": 2446.5210142527017,
+                "F": 97792.39898574729
+              }
+            }
+          ],
+          "rule_rate": 0.009,
+          "argmax_rate": 0.015,
+          "argmax_rate_pessimistic": 0.007,
+          "budget_rule": "maximin of the calibrated estimate over theta in (1, 0.75, 0.5); ties within 0.001 to the smaller budget (pre-registered, section 3b)",
+          "estimate_theta": {
+            "1.00": 0.28551616855930356,
+            "0.75": 0.27983826097656866,
+            "0.50": 0.2741525239914453,
+            "0.00": 0.26275749694768774
+          },
+          "assumptions": [
+            "candidate/anchor coverage and hit-mass ratios measured on catalogue holdout transfer to the expert hidden truth",
+            "G and the anchor (T, M) come from the lattice-pinned calibration of USER-REPORTED scores",
+            "the anchor's holdout number may be inflated by catalogue leakage, which makes this estimate conservative if so"
+          ]
+        },
+        "dots_within_3px_of_catalogue": 0,
+        "dots_on_catalogue": 0
+      }
+    }
+  },
+  "estimator_out_of_sample_checks": {
+    "within_family_GEMSDOE24": {
+      "predicted": 0.25002988653941116,
+      "user_reported": 0.2477,
+      "ratio_reported_over_predicted": 0.9906815678251172
+    },
+    "cross_family_external_files": {
+      "evidence_class": "LEADERBOARD-CALIBRATED ESTIMATE vs OWNER-REPORTED score (out-of-sample checks of the transfer rule)",
+      "rows": {
+        "GEMSDOE24/inputs/calibration/gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif": {
+          "label": "gems10 h28 dotted ridge (69,281 dots; owner-reported 0.1839)",
+          "positive_px": 69281,
+          "scored_px_off_catalogue": 65236,
+          "holdout_dti": 0.3686052540284866,
+          "hit": {
+            "T": 23005.438576806668,
+            "M": 9608.794766384948,
+            "n": 65632,
+            "G": 58258
+          },
+          "cov_ratio": 2.607774130984157,
+          "hit_ratio": 1.674654887407469,
+          "estimate": 0.5288778334108435,
+          "components": {
+            "G": 12405.76810261941,
+            "T": 13229.98804642168,
+            "M": 3013.029560513224,
+            "F": 62222.97043948677
+          },
+          "owner_reported": 0.1839,
+          "ratio_reported_over_estimate": 0.3477173524441184
+        },
+        "GEMSDOE24/inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif": {
+          "label": "gems10 h25 ctx ridge surface (174,232 px; owner-reported 0.128)",
+          "positive_px": 174232,
+          "scored_px_off_catalogue": 161366,
+          "holdout_dti": 0.39624420972099944,
+          "hit": {
+            "T": 31560.0107935293,
+            "M": 30644.616762369777,
+            "n": 164292,
+            "G": 58258
+          },
+          "cov_ratio": 3.5774749282076304,
+          "hit_ratio": 2.133584366743514,
+          "estimate": 0.413159962099459,
+          "components": {
+            "G": 12405.76810261941,
+            "T": 18149.55903358785,
+            "M": 9495.385504146081,
+            "F": 151870.61449585392
+          },
+          "owner_reported": 0.128,
+          "ratio_reported_over_estimate": 0.3098073669809924
+        },
+        "GEMSDOE24/inputs/calibration/gemsdoe-ens12-adopted-7f00890a.tif": {
+          "label": "gemsdoe ens12 adopted (owner-reported 0.1563)",
+          "positive_px": 172974,
+          "scored_px_off_catalogue": 166519,
+          "holdout_dti": 0.22749060423437742,
+          "hit": {
+            "T": 18083.56133195694,
+            "M": 18756.23792254841,
+            "n": 165098,
+            "G": 58258
+          },
+          "cov_ratio": 2.049856310285069,
+          "hit_ratio": 1.2994990412151601,
+          "estimate": 0.23573792171976515,
+          "components": {
+            "G": 12405.76810261941,
+            "T": 10399.51050964631,
+            "M": 5968.02322766197,
+            "F": 160550.97677233804
+          },
+          "owner_reported": 0.1563,
+          "ratio_reported_over_estimate": 0.6630244250044868
+        }
+      }
+    },
+    "leakage_inflation_diagnostic": {
+      "purpose": "leakage inflation of catalogue-holdout hit statistics when the model has seen the withheld segments (HK3 HGB fit on the full catalogue vs per-fold clean fits; same emission; 0.9% of active px per fold)",
+      "per_fold": {
+        "0": {
+          "clean_fold_model": {
+            "T": 4449.0522283000655,
+            "M": 2053.2190356357783,
+            "n": 21636,
+            "G": 28701
+          },
+          "full_fit_model_leaky": {
+            "T": 13883.16062868281,
+            "M": 6642.002841766218,
+            "n": 21636,
+            "G": 28701
+          }
+        },
+        "1": {
+          "clean_fold_model": {
+            "T": 2796.7878147588126,
+            "M": 1372.2156343663326,
+            "n": 11886,
+            "G": 12118
+          },
+          "full_fit_model_leaky": {
+            "T": 6249.174147031424,
+            "M": 3116.5667247545903,
+            "n": 11886,
+            "G": 12118
+          }
+        },
+        "2": {
+          "clean_fold_model": {
+            "T": 1099.4897793188989,
+            "M": 490.8984006156202,
+            "n": 4789,
+            "G": 8213
+          },
+          "full_fit_model_leaky": {
+            "T": 3706.183199696008,
+            "M": 1699.3221740929903,
+            "n": 4789,
+            "G": 8213
+          }
+        },
+        "3": {
+          "clean_fold_model": {
+            "T": 1479.2837071287868,
+            "M": 641.3530025461296,
+            "n": 6796,
+            "G": 9226
+          },
+          "full_fit_model_leaky": {
+            "T": 4591.569527539172,
+            "M": 2093.9293860930366,
+            "n": 6796,
+            "G": 9226
+          }
+        }
+      },
+      "pooled": {
+        "clean_fold_model": {
+          "T": 9824.613529506563,
+          "M": 4557.686073163861,
+          "n": 45107,
+          "G": 58258
+        },
+        "full_fit_model_leaky": {
+          "T": 28430.087502949413,
+          "M": 13551.821126706836,
+          "n": 45107,
+          "G": 58258
+        },
+        "inflation_T": 2.8937614103154754,
+        "inflation_M": 2.9733994200481244
+      },
+      "evidence_class": "HOLDOUT diagnostic (not a score)"
+    },
+    "reading": "The within-family check (budget extension D2.8 -> GEMSDOE24) reproduces the reported score to -0.9 %. The three cross-family external files are over-predicted by 1.5-2.9x, but every external file was built with the full catalogue visible: a model that has seen the withheld segments gets 2.9x the catalogue-holdout coverage of the clean per-fold model (leakage_inflation.json), so those checks cannot test the transfer rule. They are reported, not used. If the D2.8 anchor itself is mildly leaked, the candidate's estimate is conservative."
+  },
+  "validator": {
+    "shared_gems57": {
+      "file": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+      "bytes": 156302,
+      "sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+      "meta": {
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "count": 1,
+        "nodata": null,
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "profile_compress": "deflate"
+      },
+      "band_description": [
+        null
+      ],
+      "n_finite": 12279160,
+      "n_nan": 0,
+      "n_infinite": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.0036735411267727613,
+      "emitted_positive_pixels": 45108,
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "dimensions_3730x3292": true,
+        "crs_epsg_32611": true,
+        "transform_matches_sample_submission": true,
+        "no_nan_anywhere": true,
+        "no_inf_anywhere": true,
+        "no_sentinel_values": true,
+        "range_0_1_guaranteed": true,
+        "min_ge_0": true,
+        "max_le_1": true,
+        "in_footprint_all_finite": true,
+        "in_footprint_range_0_1": true,
+        "outside_footprint_zero": true,
+        "zero_dots_on_mapped_catalogue": true
+      },
+      "all_checks_passed": true,
+      "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+      "on_catalogue_positive_pixels": 0,
+      "in_footprint_positive_pixels": 45108,
+      "footprint_fraction": 0.008729387253445802
+    },
+    "historical_strict_nan_outside": {
+      "kind": "LOCAL-FORMAT-AUDIT (not a portal receipt or scientific approval)",
+      "candidate": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+      "candidate_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+      "reference_template": "/home/user/GEMSDOEkarage2/.cache/gems_data/sample_submission.tif",
+      "template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "template_authenticity": "not established by this check",
+      "checks": {
+        "geotiff_driver": true,
+        "single_band": true,
+        "float32": true,
+        "crs_matches_template": true,
+        "crs_epsg_32611": true,
+        "shape_matches_template": true,
+        "transform_matches_template": true,
+        "north_up_100m_resolution": true,
+        "inside_no_masked_cells": true,
+        "inside_all_finite": true,
+        "inside_in_range_0_1": true,
+        "outside_is_nan": false
+      },
+      "diagnostics": {
+        "footprint_pixels": 5167373,
+        "inside_nan": 0,
+        "inside_inf": 0,
+        "inside_masked": 0,
+        "inside_below_zero": 0,
+        "inside_above_one": 0,
+        "inside_min": 0.0,
+        "inside_max": 1.0,
+        "outside_nan": 0,
+        "outside_finite": 7111787,
+        "whole_array_finite_in_range": true
+      },
+      "strict_format_pass": false,
+      "upload_authorized": false
+    },
+    "note": "The file writes 0 outside the footprint (the organizer-scored GEMSDOE32 champion is a -zeros file; the official reference notebook writes finite values everywhere). The historical strict validator's NaN-outside check is therefore expected to read false; every other check must pass."
+  },
+  "submission": {
+    "name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
+    "note": "HK3: 34-feature HGB with catalogue-free edge-centrality bands; dots sep 3px, >3px off catalogue; zeros outside",
+    "note_chars": 110
+  },
+  "gates": {
+    "format_shared_validator_pass": true,
+    "grid_matches_example_submission": true,
+    "whole_array_finite_in_0_1": true,
+    "no_dots_on_mapped_catalogue": true,
+    "leakage_canary_pass": true,
+    "holdout_beats_refit_incumbent_paired_ci_excludes_zero": true,
+    "unique_vs_nine_scored_site_files": true,
+    "unique_literal_vs_all_registry_rasters": false,
+    "unique_chance_corrected_vs_all_registry_rasters": true,
+    "unique_literal_vs_submitted_dot_rasters": true,
+    "rank_correlation_below_0_90": true,
+    "lane_single_method": true,
+    "experiments_used": 3,
+    "time_budget_note": "E1 calibration, E2 holdout, E3 generation; ~2 h 15 min wall-clock including the artifact write",
+    "literal_rule_exception_applied": true
+  },
+  "verdict": "PROMOTE",
+  "verdict_meaning": "PROMOTE = every automated gate passed and the artifact may be offered for download; the selector/quota step is separate and is not performed here.",
+  "limitations": [
+    "Leaderboard anchors are USER-REPORTED scores; no organizer receipt could be fetched (network allowlist).",
+    "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",
+    "Registry = 440 + 9 + lattice pinned rasters; repositories may contain newer files."
+  ]
+}

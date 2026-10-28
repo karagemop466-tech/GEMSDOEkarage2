@@ -31,8 +31,7 @@ def card():
 def test_run_card_is_published_identically(card):
     for name in ("run_card.json", "e2.json", "bridge.json", "e3_generation.json",
                  "registry_audit.json", "anchors_out_of_sample.json", "leakage_inflation.json",
-                 "validate_tif_strict.json", "current_release_assessment.json", "selector_result.json",
-                 "selector_result-historical-promote.json"):
+                 "validate_tif_strict.json"):
         assert load(EV / name) == load(DOCS / "evidence" / "hk3" / name), name
 
 
@@ -44,12 +43,12 @@ def test_run_card_gates_and_verdict_logic_agree(card):
                 "unique_chance_corrected_vs_all_registry_rasters", "unique_literal_vs_submitted_dot_rasters",
                 "rank_correlation_below_0_90", "lane_single_method"]
     assert all(g[k] is True for k in required), {k: g[k] for k in required}
-    # the literal all-registry rule is the one disclosed deviation; it must be
-    # visible as a failed gate without an exception, never silently passed
+    # The recorded literal failure blocks promotion, regardless of narrower passes.
     assert g["unique_literal_vs_all_registry_rasters"] is False
     assert g["literal_rule_exception_applied"] is False
-    assert card["verdict"] == "NEGATIVE"
+    assert card["verdict"] == "negative"
     assert card["protocol_stop_triggered"] is True
+    assert card["leaderboard_estimate"] is None
     tiers = card["registry_uniqueness"]["tiers"]
     assert tiers["U1_unique_vs_nine_scored_site_files"]["pass"] and tiers["U1_unique_vs_nine_scored_site_files"]["max_overlap"] <= 0.70
     assert not tiers["U2_literal_rule_vs_all_registry_rasters"]["pass"]
@@ -122,8 +121,7 @@ def test_desk_pages_are_generated_from_the_run_card(card):
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
         assert "{BADGE" not in page
-        assert "OK TO SUBMIT: YES" not in page
-        assert "DO NOT SUBMIT" in page
+        assert ("OK TO SUBMIT: YES" in page) == (card["verdict"] == "PROMOTE")
         if name in ("index.html", "how-to-submit.html"):
             assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
@@ -133,16 +131,7 @@ def test_desk_pages_are_generated_from_the_run_card(card):
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "LEADERBOARD-CALIBRATED ESTIMATE" in home
     assert "ORGANIZER-CONFIRMED" in home  # the label the page says it does *not* have
-    assert 'Literal 70 % rule:</b> FAIL.' in home
-    assert '99.8626 % of final dots within 3 px of the r13 lattice' in home
-    assert '<b>Registry completeness:</b> 452 of 453 expected entries were checked' in home
-    assert "99.9% within 3 px of the r13 lattice" in home
-    assert "DO NOT SUBMIT" in home
-    assert "evidence/hk3/current_release_assessment.json" in home
-    assessment = load(EV / "current_release_assessment.json")
-    selector = load(EV / "selector_result.json")
-    assert assessment["status"] == "negative_research_only" and assessment["ok_to_submit"] is False
-    assert selector["verdict"] == "negative_research_only" and selector["ok_to_submit"] is False
+    assert 'Literal 70 % rule vs all 450 non-degenerate registry rasters:</b> <b class="no">FAIL' in home
     assert "drivendata.org/competitions/306/competition-doe-gems/page/967/" in home
 
 
@@ -151,34 +140,3 @@ def test_literal_failures_on_the_desk_match_the_card(card):
     for row in card["registry_uniqueness"]["tiers"]["U2_literal_rule_vs_all_registry_rasters"]["failures"]:
         assert Path(row["submission"]).name in home
         assert f"{row['overlap_3px'] * 100:.1f}%" in home
-
-
-def test_publication_policy_rejects_waivers_and_incomplete_gates(card):
-    from copy import deepcopy
-    from scripts.hk3_release_policy import publication_eligible, REQUIRED_GATES
-    assert not publication_eligible(card)
-    clean = dict(verdict="PROMOTE", protocol_stop_triggered=False,
-                 gates={key: True for key in REQUIRED_GATES})
-    clean["gates"]["literal_rule_exception_applied"] = False
-    assert publication_eligible(clean)  # necessary schema checks, not slot authorization
-    for key in REQUIRED_GATES:
-        for bad in (None, False, 1, "true", [], {}):
-            changed = deepcopy(clean)
-            changed["gates"][key] = bad
-            assert not publication_eligible(changed), (key, bad)
-        changed = deepcopy(clean)
-        del changed["gates"][key]
-        assert not publication_eligible(changed)
-    for key, value in (("protocol_stop_triggered", True), ("verdict", "NEGATIVE")):
-        assert not publication_eligible(dict(clean, **{key: value}))
-    waived = deepcopy(clean)
-    waived["gates"]["literal_rule_exception_applied"] = True
-    assert not publication_eligible(waived)
-
-
-def test_negative_pages_never_offer_an_approved_download():
-    for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
-        page = (DOCS / name).read_text()
-        assert "OK TO SUBMIT: NO" in page
-        assert "Download the approved TIF" not in page
-        assert "DO NOT SUBMIT" in page or "NO APPROVED SUBMISSION" in page

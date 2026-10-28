@@ -7,7 +7,18 @@ const {JSDOM, VirtualConsole} = require('jsdom');
 const root = path.join(__dirname, '..');
 const card = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/run_card.json')));
 const release = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/current_release_assessment.json')));
-const ok = release.status === 'approved' && release.ok_to_submit === true;
+const selector = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/selector_result.json')));
+const requiredReleaseGates = ['preplacement_surface_clearance_passed', 'final_dot_uniqueness_passed',
+  'current_holdout_comparison_passed', 'organizer_template_authenticated', 'source_data_authenticated',
+  'lane_assignment_authorized', 'registry_scan_complete', 'leakage_canary_passed'];
+const ok = card.verdict === 'PROMOTE' && card.protocol_stop_triggered === false &&
+  card.gates.unique_literal_vs_all_registry_rasters === true &&
+  card.gates.rank_correlation_below_0_90 === true &&
+  card.gates.literal_rule_exception_applied === false &&
+  release.status === 'approved' && release.ok_to_submit === true &&
+  requiredReleaseGates.every(key => release[key] === true) &&
+  selector.verdict === 'candidate_approved_by_automated_gates' && selector.ok_to_submit === true &&
+  selector.slot_authorized === false && selector.raster_sha256 === card.raster.sha256;
 
 function render(page) {
   const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
@@ -118,6 +129,6 @@ test('official sources are linked with the competition metric page', () => {
   const dom = render('executive-summary.html');
   const hrefs = [...dom.window.document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));
   assert.ok(hrefs.includes('https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/'));
-  assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution'));
+  assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution/tree/aebe92f7c8a990f0e3443451b7a825d9afd6336b'));
   dom.window.close();
 });

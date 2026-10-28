@@ -1,0 +1,79 @@
+{
+  "evidence_class": "SOFTWARE AND SAVED-BYTE VERIFICATION, NOT A COMPETITION SCORE",
+  "verified_at": "2026-10-28T22:45:24.680312+00:00",
+  "new_geological_experiments": 0,
+  "competition_slots_used": 0,
+  "commands": [
+    {
+      "command": ".venv/bin/python -m pytest -q",
+      "exit_code": 0,
+      "stdout_tail": "........................................................................ [ 32%]\n...................................................................................................................... [ 85%]\n................................                                         [100%]\n=============================== warnings summary ===============================\n.venv/lib/python3.11/site-packages/rasterio/transform.py:178: 2 warnings\ntests/test_artifacts.py: 1 warning\ntests/test_data_preflight.py: 1 warning\ntests/test_prepare_data_safety.py: 30 warnings\ntests/test_public_downloads.py: 6 warnings\ntests/test_uniqueness.py: 8 warnings\ntests/test_uniqueness_safety.py: 10 warnings\ntests/test_validate_tif.py: 29 warnings\n  /home/user/GEMSDOEkarage2/.venv/lib/python3.11/site-packages/rasterio/transform.py:178: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication\n    return Affine.translation(west, north) * Affine.scale(xsize, -ysize)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n222 passed, 87 warnings, 98 subtests passed in 40.98s\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": "npm test",
+      "exit_code": 0,
+      "stdout_tail": "\n> test\n> node --test tests/feed.test.cjs\n\nTAP version 13\n# Subtest: classifies unchanged, changed and invalid hashes without guessing\nok 1 - classifies unchanged, changed and invalid hashes without guessing\n  ---\n  duration_ms: 1.354352\n  type: 'test'\n  ...\n# Subtest: fetches only the allowed public repository for a pinned reference\nok 2 - fetches only the allowed public repository for a pinned reference\n  ---\n  duration_ms: 1.046628\n  type: 'test'\n  ...\n# Subtest: network, authorization and invalid data fail to unavailable\nok 3 - network, authorization and invalid data fail to unavailable\n  ---\n  duration_ms: 0.588076\n  type: 'test'\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 3\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 69.930949\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": "npm run test:site",
+      "exit_code": 0,
+      "stdout_tail": "\n> test:site\n> node --test tests/site.test.cjs\n\nTAP version 13\n# Subtest: every desk page carries the run-card verdict badge and no unresolved placeholder\nok 1 - every desk page carries the run-card verdict badge and no unresolved placeholder\n  ---\n  duration_ms: 302.250191\n  type: 'test'\n  ...\n# Subtest: the only click-to-download links are the file named by the run card, and the bytes exist\nok 2 - the only click-to-download links are the file named by the run card, and the bytes exist\n  ---\n  duration_ms: 129.755472\n  type: 'test'\n  ...\n# Subtest: homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and the literal failures are visible\nok 3 - homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and the literal failures are visible\n  ---\n  duration_ms: 32.777312\n  type: 'test'\n  ...\n# Subtest: homepage nine-site table lists all focus sites with user-reported scores and uniqueness verdicts\nok 4 - homepage nine-site table lists all focus sites with user-reported scores and uniqueness verdicts\n  ---\n  duration_ms: 45.384005\n  type: 'test'\n  ...\n# Subtest: legacy artefacts stay quarantined with their receipts\nok 5 - legacy artefacts stay quarantined with their receipts\n  ---\n  duration_ms: 95.855245\n  type: 'test'\n  ...\n# Subtest: every relative link on the desk pages resolves to a published file\nok 6 - every relative link on the desk pages resolves to a published file\n  ---\n  duration_ms: 92.240664\n  type: 'test'\n  ...\n# Subtest: official sources are linked with the competition metric page\nok 7 - official sources are linked with the competition metric page\n  ---\n  duration_ms: 29.062148\n  type: 'test'\n  ...\n1..7\n# tests 7\n# suites 0\n# pass 7\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 1416.601843\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": "npm run test:browser",
+      "exit_code": 0,
+      "stdout_tail": "\n> test:browser\n> node tests/browser-smoke.cjs\n\nPASS 1440px: submission desk, verdict badge, single click-to-download file\nPASS 390px: submission desk, verdict badge, single click-to-download file\nPASS 320px: submission desk, verdict badge, single click-to-download file\nPASS 1440px: navigation, 9 rows, release lock, no viewport overflow\nPASS 390px: navigation, 9 rows, release lock, no viewport overflow\nPASS freshness: current, changed and unavailable fail-safe states\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": ".venv/bin/python scripts/audit_public_downloads.py --check",
+      "exit_code": 0,
+      "stdout_tail": "{\"inventory_status\": \"PASS_RESEARCH_ONLY\", \"downloadable_approved_submission\": null, \"artifacts\": 7}\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": ".venv/bin/python scripts/review_hk3_protocol.py --check",
+      "exit_code": 0,
+      "stdout_tail": "HK3 protocol correction verified: negative; research only; zero new experiments or slots\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": ".venv/bin/python scripts/build_hk3_pages.py --check",
+      "exit_code": 0,
+      "stdout_tail": "pages up to date\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": ".venv/bin/python scripts/build_audit_site.py --check",
+      "exit_code": 0,
+      "stdout_tail": "",
+      "stderr_tail": ""
+    },
+    {
+      "command": ".venv/bin/python scripts/compare_audit.py docs/data/reference-audit.json /tmp/gems-nine-review.json",
+      "exit_code": 0,
+      "stdout_tail": "Audit reproduction matches the published snapshot (except creation time).\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": ".venv/bin/python -m compileall -q scripts vendor",
+      "exit_code": 0,
+      "stdout_tail": "",
+      "stderr_tail": ""
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "stdout_tail": "",
+      "stderr_tail": ""
+    }
+  ],
+  "official_reference_readme": {
+    "ref": "aebe92f7c8a990f0e3443451b7a825d9afd6336b",
+    "sha256": "cfa4d55559c9128313beb9417eae7e0a94c31677132afb1120f9e86222804239",
+    "matches_saved_readme": true
+  }
+}
