@@ -82,14 +82,7 @@ Best supplied results (USER-REPORTED / UNVERIFIED; none linked to an organizer r
 - GEMSDOE24: h25-1-dotted-h19-5-d1-5 = 0.2477
 - GEMSDOE27: topo-gap-closure-t-v2-on-d1-5 = 0.2449
 
-**Critical finding:** the nine audited historical masks are highly overlapping;
-several have exact parent/child relationships in the D2.8 / B2 family. The 0.2778 champion is the GEMSDOE31 solo
-dot set with 2,545 catalogue-adjacent dots removed; GEMSDOE25 and GEMSDOE30 have the
-same dot geography; GEMSDOE36 contains every champion dot plus 1,200 extras. Every one
-fails the literal uniqueness gate (100% / 98% / 99.7% within 3 px of each other vs the
-requested 70% cap) against the spacing-5 calibration lattice, which covers 99.8713% of
-the footprint within 3 px; at the 37,654-dot budget at least 82.34% of any candidate's
-dots fall within 3 px of the lattice. All nine are marked DO NOT SUBMIT on their sites.
+**Critical finding:** the nine audited historical files have substantial pairwise dot overlap; the D2.8 / B2 relationships below were measured on pinned mirrors. The reported GEMSDOE32 best is the GEMSDOE31 solo dot set with 2,545 catalogue-adjacent dots removed; GEMSDOE25 and GEMSDOE30 have the same dot geography; GEMSDOE36 contains every B2 dot plus 1,200 extras. Each of the nine audited masks exceeds the literal directional overlap threshold against at least one of the others. A spacing-5 calibration lattice also covers nearly all of the mirrored footprint. The exact footprint and budget affect any geometric bound; see `docs/evidence/saturation_certificate.json` and `evidence/geometry-audit.json` for their different scopes. Neither proves a universal blocker for every possible budget. The local summaries mark all nine DO NOT SUBMIT.
 
 **No validated leaderboard estimate exists for any of them** ("Unavailable" — catalogue
 holdout cannot reliably estimate the expert-hidden private score).
