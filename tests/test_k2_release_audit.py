@@ -42,5 +42,5 @@ def test_current_audit_is_reproducible_and_not_authorized():
 def test_public_current_verdict_is_explicit(page):
     text = (ROOT / 'docs' / page).read_text()
     assert 'literal_release_audit.json' in text
-    assert 'Current literal-policy verdict: NEGATIVE' in text
+    assert 'prior literal-policy verdict for K2: NEGATIVE' in text
     assert 'cannot trigger' not in text

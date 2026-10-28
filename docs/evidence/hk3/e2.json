@@ -1,0 +1,439 @@
+{
+  "experiment": "HK3-E2 canaries + paired incumbent(26f) vs candidate(34f) HGB",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "folds": [
+    {
+      "fold": 0,
+      "train": {
+        "pos": 27783,
+        "neg": 180000
+      },
+      "active_px": 2403945,
+      "seconds": 126.9
+    },
+    {
+      "fold": 1,
+      "train": {
+        "pos": 43742,
+        "neg": 180000
+      },
+      "active_px": 1320715,
+      "seconds": 79.7
+    },
+    {
+      "fold": 2,
+      "train": {
+        "pos": 46562,
+        "neg": 180000
+      },
+      "active_px": 532155,
+      "seconds": 52.5
+    },
+    {
+      "fold": 3,
+      "train": {
+        "pos": 46861,
+        "neg": 180000
+      },
+      "active_px": 755131,
+      "seconds": 64.7
+    }
+  ],
+  "canaries": [
+    {
+      "fold": 0,
+      "positives": 28701,
+      "unlabeled_sample": 60000,
+      "features": {
+        "ec15_det_elev": {
+          "auc": 0.50247202478427,
+          "canary_max_auc_1m": 0.50247202478427,
+          "pass": true
+        },
+        "ec30_det_elev": {
+          "auc": 0.5111761889829622,
+          "canary_max_auc_1m": 0.5111761889829622,
+          "pass": true
+        },
+        "grav_tilt": {
+          "auc": 0.5216241588562536,
+          "canary_max_auc_1m": 0.5216241588562536,
+          "pass": true
+        },
+        "grav_tilt_zero_dist": {
+          "auc": 0.47715654971371496,
+          "canary_max_auc_1m": 0.5228434502862851,
+          "pass": true
+        },
+        "mag_tilt_zero_dist": {
+          "auc": 0.4882215721287296,
+          "canary_max_auc_1m": 0.5117784278712705,
+          "pass": true
+        },
+        "st_coh_det_elev": {
+          "auc": 0.5614424061879377,
+          "canary_max_auc_1m": 0.5614424061879377,
+          "pass": true
+        },
+        "st_aniso_det_elev": {
+          "auc": 0.5638798447789275,
+          "canary_max_auc_1m": 0.5638798447789275,
+          "pass": true
+        },
+        "rough5_det_elev": {
+          "auc": 0.5634223386525441,
+          "canary_max_auc_1m": 0.5634223386525441,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 1,
+      "positives": 12118,
+      "unlabeled_sample": 60000,
+      "features": {
+        "ec15_det_elev": {
+          "auc": 0.5252473874951863,
+          "canary_max_auc_1m": 0.5252473874951863,
+          "pass": true
+        },
+        "ec30_det_elev": {
+          "auc": 0.5442561451284591,
+          "canary_max_auc_1m": 0.5442561451284591,
+          "pass": true
+        },
+        "grav_tilt": {
+          "auc": 0.5361273112999945,
+          "canary_max_auc_1m": 0.5361273112999945,
+          "pass": true
+        },
+        "grav_tilt_zero_dist": {
+          "auc": 0.487633487374154,
+          "canary_max_auc_1m": 0.512366512625846,
+          "pass": true
+        },
+        "mag_tilt_zero_dist": {
+          "auc": 0.5058688885679705,
+          "canary_max_auc_1m": 0.5058688885679705,
+          "pass": true
+        },
+        "st_coh_det_elev": {
+          "auc": 0.5869801624305441,
+          "canary_max_auc_1m": 0.5869801624305441,
+          "pass": true
+        },
+        "st_aniso_det_elev": {
+          "auc": 0.5657534961764867,
+          "canary_max_auc_1m": 0.5657534961764867,
+          "pass": true
+        },
+        "rough5_det_elev": {
+          "auc": 0.5716498865324311,
+          "canary_max_auc_1m": 0.5716498865324311,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 2,
+      "positives": 8213,
+      "unlabeled_sample": 60000,
+      "features": {
+        "ec15_det_elev": {
+          "auc": 0.4378596777466618,
+          "canary_max_auc_1m": 0.5621403222533382,
+          "pass": true
+        },
+        "ec30_det_elev": {
+          "auc": 0.45586999269450873,
+          "canary_max_auc_1m": 0.5441300073054913,
+          "pass": true
+        },
+        "grav_tilt": {
+          "auc": 0.526352408782824,
+          "canary_max_auc_1m": 0.526352408782824,
+          "pass": true
+        },
+        "grav_tilt_zero_dist": {
+          "auc": 0.47574253622306095,
+          "canary_max_auc_1m": 0.524257463776939,
+          "pass": true
+        },
+        "mag_tilt_zero_dist": {
+          "auc": 0.49390072953447783,
+          "canary_max_auc_1m": 0.5060992704655222,
+          "pass": true
+        },
+        "st_coh_det_elev": {
+          "auc": 0.4880379601444864,
+          "canary_max_auc_1m": 0.5119620398555136,
+          "pass": true
+        },
+        "st_aniso_det_elev": {
+          "auc": 0.5964485429603474,
+          "canary_max_auc_1m": 0.5964485429603474,
+          "pass": true
+        },
+        "rough5_det_elev": {
+          "auc": 0.5928508320142862,
+          "canary_max_auc_1m": 0.5928508320142862,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 3,
+      "positives": 9226,
+      "unlabeled_sample": 60000,
+      "features": {
+        "ec15_det_elev": {
+          "auc": 0.5105841543825421,
+          "canary_max_auc_1m": 0.5105841543825421,
+          "pass": true
+        },
+        "ec30_det_elev": {
+          "auc": 0.5316875081292001,
+          "canary_max_auc_1m": 0.5316875081292001,
+          "pass": true
+        },
+        "grav_tilt": {
+          "auc": 0.5576511678950792,
+          "canary_max_auc_1m": 0.5576511678950792,
+          "pass": true
+        },
+        "grav_tilt_zero_dist": {
+          "auc": 0.4822104514415782,
+          "canary_max_auc_1m": 0.5177895485584219,
+          "pass": true
+        },
+        "mag_tilt_zero_dist": {
+          "auc": 0.5040787800780404,
+          "canary_max_auc_1m": 0.5040787800780404,
+          "pass": true
+        },
+        "st_coh_det_elev": {
+          "auc": 0.5633731284774911,
+          "canary_max_auc_1m": 0.5633731284774911,
+          "pass": true
+        },
+        "st_aniso_det_elev": {
+          "auc": 0.5731011281523231,
+          "canary_max_auc_1m": 0.5731011281523231,
+          "pass": true
+        },
+        "rough5_det_elev": {
+          "auc": 0.5739959823686682,
+          "canary_max_auc_1m": 0.5739959823686682,
+          "pass": true
+        }
+      }
+    }
+  ],
+  "worst_canary_by_feature": {
+    "ec15_det_elev": 0.5621403222533382,
+    "ec30_det_elev": 0.5442561451284591,
+    "grav_tilt": 0.5576511678950792,
+    "grav_tilt_zero_dist": 0.524257463776939,
+    "mag_tilt_zero_dist": 0.5117784278712705,
+    "st_coh_det_elev": 0.5869801624305441,
+    "st_aniso_det_elev": 0.5964485429603474,
+    "rough5_det_elev": 0.5928508320142862
+  },
+  "canary_all_pass": true,
+  "emission": "K2 emit: greedy descending surface, min separation 2.8 px, budgets 0.73/1.10/1.50% of active px",
+  "model": "HistGradientBoosting 350it lr.06 leaves63 minleaf40 L2=1 (K2 hyperparameters, unchanged)",
+  "pooled_summary": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "triangular_radius_m": 300.0,
+    "pooled": true,
+    "scores": {
+      "inc26_b073": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.12607275525666492,
+        "ci95": [
+          0.11082673731239653,
+          0.14208354939926235
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 6888.784581161738,
+        "fpw": 33285.92717576067,
+        "fnw": 51369.21541883829
+      },
+      "cand34_b073": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.1545108009435548,
+        "ci95": [
+          0.13838525595075374,
+          0.17179170833059076
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 8467.28064650789,
+        "fpw": 32503.59147636456,
+        "fnw": 49790.71935349212
+      },
+      "inc26_b110": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.15754959003555036,
+        "ci95": [
+          0.14170257009635945,
+          0.1736811081974684
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 9228.843747055602,
+        "fpw": 50626.10521209912,
+        "fnw": 49029.15625294442
+      },
+      "cand34_b110": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.18450466022225004,
+        "ci95": [
+          0.16769141176106592,
+          0.2014839638261474
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 10835.89381129099,
+        "fpw": 49780.34787101455,
+        "fnw": 47422.10618870901
+      },
+      "inc26_b150": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.18259694753938324,
+        "ci95": [
+          0.16674073377795678,
+          0.198039423051837
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 11466.823522784198,
+        "fpw": 69493.92600855685,
+        "fnw": 46791.176477215806
+      },
+      "cand34_b150": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.20915374094469344,
+        "ci95": [
+          0.1925856143797099,
+          0.2254315837529169
+        ],
+        "withheld_positive_pixels": 58258,
+        "tpw": 13167.466446633567,
+        "fpw": 68580.13986496102,
+        "fnw": 45090.53355336642
+      }
+    },
+    "best_comparable_control": "cand34_b150",
+    "paired_differences": {
+      "inc26_b073": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.05843190496558512,
+        "ci95": [
+          0.05048626930933724,
+          0.06633427509627965
+        ],
+        "withheld_positive_pixels": 58258
+      },
+      "cand34_b073": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.029993859278695245,
+        "ci95": [
+          0.026621311802216552,
+          0.03321211133017709
+        ],
+        "withheld_positive_pixels": 58258
+      },
+      "inc26_b110": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.02695507018669968,
+        "ci95": [
+          0.02058547798094026,
+          0.03368587636497091
+        ],
+        "withheld_positive_pixels": 58258
+      },
+      "inc26_b150": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.0019077126828667967,
+        "ci95": [
+          -0.004508176925508906,
+          0.008016851361622198
+        ],
+        "withheld_positive_pixels": 58258
+      },
+      "cand34_b150": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": -0.0246490807224434,
+        "ci95": [
+          -0.027795092251021596,
+          -0.021471351486464972
+        ],
+        "withheld_positive_pixels": 58258
+      }
+    },
+    "bootstrap": {
+      "method": "paired physical spatial-cluster percentile",
+      "clusters": 158,
+      "draws": 2000,
+      "seed": 20261028,
+      "confidence": 0.95,
+      "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
+    },
+    "implementation_sha256": {
+      "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+      "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+      "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+      "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+    }
+  },
+  "hit_stats_by_arm": {
+    "inc26_b073": {
+      "T": 6888.784581161731,
+      "M": 3301.072824239321,
+      "n": 36587,
+      "G": 58258
+    },
+    "cand34_b073": {
+      "T": 8467.280646507881,
+      "M": 4083.4085236354285,
+      "n": 36587,
+      "G": 58258
+    },
+    "inc26_b110": {
+      "T": 9228.84374705559,
+      "M": 4504.894787900857,
+      "n": 55131,
+      "G": 58258
+    },
+    "cand34_b110": {
+      "T": 10835.893811290973,
+      "M": 5350.652128985448,
+      "n": 55131,
+      "G": 58258
+    },
+    "inc26_b150": {
+      "T": 11466.82352278418,
+      "M": 5685.073991443141,
+      "n": 75179,
+      "G": 58258
+    },
+    "cand34_b150": {
+      "T": 13167.46644663355,
+      "M": 6598.860135038975,
+      "n": 75179,
+      "G": 58258
+    }
+  }
+}

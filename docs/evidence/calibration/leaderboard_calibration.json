@@ -1,0 +1,262 @@
+{
+  "evidence_class": "LEADERBOARD-CALIBRATED ESTIMATE (derived from USER-REPORTED values; not ORGANIZER-CONFIRMED; not HOLDOUT-DTI; never a score)",
+  "generated_by": "scripts/calibrate_leaderboard.py",
+  "inputs": {
+    "footprint_px": 5167373,
+    "catalogue_px": 60988,
+    "scored_domain_px": 5106385,
+    "lattice_file": "r13_lattice_nan.tif",
+    "lattice_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "focus_files_sha256": {
+      "GEMSDOE24": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+      "GEMSDOE25": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "GEMSDOE27": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+      "GEMSDOE28": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+      "GEMSDOE30": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "GEMSDOE31": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+      "GEMSDOE32": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "GEMSDOE33": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "GEMSDOE36": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a"
+    },
+    "reported_scores": {
+      "r13_lattice": {
+        "site": "13GEMSDOE",
+        "submission": "20261001_r13-lattice-s5_v2_nan-outside",
+        "score": 0.0904,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      },
+      "GEMSDOE24": {
+        "site": "GEMSDOE24",
+        "submission": "h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan",
+        "score": 0.2477,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      },
+      "GEMSDOE25": {
+        "site": "GEMSDOE25",
+        "submission": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan",
+        "score": 0.26,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      },
+      "GEMSDOE27": {
+        "site": "GEMSDOE27",
+        "submission": "topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan",
+        "score": 0.2449,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      },
+      "GEMSDOE28": {
+        "site": "GEMSDOE28",
+        "submission": "h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan",
+        "score": 0.271,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      },
+      "GEMSDOE30": {
+        "site": "GEMSDOE30",
+        "submission": "d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca",
+        "score": 0.26,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      },
+      "GEMSDOE31": {
+        "site": "GEMSDOE31",
+        "submission": "h27-4-solo-d28-20261004-8acb75e1-nan",
+        "score": 0.2708,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      },
+      "GEMSDOE32": {
+        "site": "GEMSDOE32",
+        "submission": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
+        "score": 0.2778,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      },
+      "GEMSDOE33": {
+        "site": "GEMSDOE33",
+        "submission": "h33d-analog-tip-stepover-r30-20261004-cb490425926e",
+        "score": 0.2632,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      },
+      "GEMSDOE36": {
+        "site": "GEMSDOE36",
+        "submission": "anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros",
+        "score": 0.275,
+        "evidence_class": "USER-REPORTED / UNVERIFIED"
+      }
+    }
+  },
+  "lattice_geometry": {
+    "dots_total": 206895,
+    "dots_on_catalogue_excluded": 2391,
+    "dots_scored": 204504,
+    "footprint_fraction_within_3px_of_a_lattice_dot": 0.9888473311293766,
+    "mean_kernel_credit_per_truth_pixel_c_all_offcatalogue": 0.3717529686840718,
+    "mean_kernel_credit_per_truth_pixel_c_beyond_2px": 0.3746339251339436,
+    "kernel_mass_per_truth_pixel_kappa": 3.4538193756778317
+  },
+  "hidden_truth_estimate": {
+    "G_point_px": 12405.76810261941,
+    "G_rounding_interval_px": [
+      12397.144394770015,
+      12414.394262337632
+    ],
+    "G_if_c_all_px": 12524.646157385465,
+    "G_as_fraction_of_catalogue": 0.20341326330785417,
+    "G_km_of_trace_if_1px_wide": 1240.576810261941,
+    "assumption": "hidden truth is a line set with catalogue-like perpendicular geometry located >2 px from the catalogue (see nested-family test); lattice phase is uniform relative to it"
+  },
+  "focus_dot_counts": {
+    "GEMSDOE24": 60069,
+    "GEMSDOE25": 44090,
+    "GEMSDOE27": 61328,
+    "GEMSDOE28": 37660,
+    "GEMSDOE30": 44090,
+    "GEMSDOE31": 40199,
+    "GEMSDOE32": 37654,
+    "GEMSDOE33": 41865,
+    "GEMSDOE36": 38854
+  },
+  "catalogue_apron_counts": {
+    "GEMSDOE24": {
+      "on_catalogue": 0,
+      "le1px": 5355,
+      "le2px": 8769,
+      "le3px": 11938
+    },
+    "GEMSDOE25": {
+      "on_catalogue": 0,
+      "le1px": 3891,
+      "le2px": 6436,
+      "le3px": 8607
+    },
+    "GEMSDOE27": {
+      "on_catalogue": 0,
+      "le1px": 5413,
+      "le2px": 8875,
+      "le3px": 12187
+    },
+    "GEMSDOE28": {
+      "on_catalogue": 0,
+      "le1px": 0,
+      "le2px": 2353,
+      "le3px": 4377
+    },
+    "GEMSDOE30": {
+      "on_catalogue": 0,
+      "le1px": 3891,
+      "le2px": 6436,
+      "le3px": 8607
+    },
+    "GEMSDOE31": {
+      "on_catalogue": 0,
+      "le1px": 0,
+      "le2px": 2545,
+      "le3px": 4716
+    },
+    "GEMSDOE32": {
+      "on_catalogue": 0,
+      "le1px": 0,
+      "le2px": 0,
+      "le3px": 2171
+    },
+    "GEMSDOE33": {
+      "on_catalogue": 0,
+      "le1px": 1377,
+      "le2px": 3894,
+      "le3px": 6024
+    },
+    "GEMSDOE36": {
+      "on_catalogue": 0,
+      "le1px": 0,
+      "le2px": 0,
+      "le3px": 2281
+    }
+  },
+  "nested_family_relations": {
+    "GEMSDOE25_equals_GEMSDOE30": true,
+    "GEMSDOE31_subset_of_GEMSDOE25": true,
+    "GEMSDOE32_subset_of_GEMSDOE31": true,
+    "GEMSDOE32_subset_of_GEMSDOE36": true,
+    "removed_25_to_31": 3891,
+    "removed_31_to_32": 2545,
+    "added_32_to_36": 1200,
+    "removed_25_to_31_all_within_1px_of_catalogue": true,
+    "removed_31_to_32_all_within_2px_of_catalogue": true,
+    "removed_31_to_32_all_beyond_1px": true
+  },
+  "nested_family_zero_hit_test": [
+    {
+      "step": "D2.8 -> B1: remove dots <=1 px from catalogue",
+      "from": "GEMSDOE25",
+      "to": "GEMSDOE31",
+      "dots_from": 44090,
+      "dots_to": 40199,
+      "reported_from": 0.26,
+      "reported_to": 0.2708,
+      "zero_hit_implied_T": 5073.287555555577,
+      "rounding_interval_T": [
+        5026.70490151377,
+        5120.740549766366
+      ],
+      "evidence_class": "LEADERBOARD-CALIBRATED ESTIMATE (USER-REPORTED inputs)"
+    },
+    {
+      "step": "B1 -> B2: remove dots 1-2 px from catalogue",
+      "from": "GEMSDOE31",
+      "to": "GEMSDOE32",
+      "dots_from": 40199,
+      "dots_to": 37654,
+      "reported_from": 0.2708,
+      "reported_to": 0.2778,
+      "zero_hit_implied_T": 5470.167737142842,
+      "rounding_interval_T": [
+        5393.097850352107,
+        5549.471164855063
+      ],
+      "evidence_class": "LEADERBOARD-CALIBRATED ESTIMATE (USER-REPORTED inputs)"
+    },
+    {
+      "step": "B2 -> GEMSDOE36: add 1,200 'anderson-geothermal-pinn' dots",
+      "from": "GEMSDOE32",
+      "to": "GEMSDOE36",
+      "dots_from": 37654,
+      "dots_to": 38854,
+      "reported_from": 0.2778,
+      "reported_to": 0.275,
+      "zero_hit_implied_T": 6548.142857142881,
+      "rounding_interval_T": [
+        6322.333034482828,
+        6790.678888888888
+      ],
+      "evidence_class": "LEADERBOARD-CALIBRATED ESTIMATE (USER-REPORTED inputs)"
+    }
+  ],
+  "b2_operating_point": {
+    "dots": 37654,
+    "T_truth_credit": 5073.287555555577,
+    "M_dot_hit_mass": 1038.48891571688,
+    "F_false_positive_mass": 36615.51108428312,
+    "weighted_coverage_T_over_G": 0.40894586401984895,
+    "hit_mass_fraction_M_over_n": 0.027579776802381686,
+    "reproduced_dti_from_components": 0.27780000000000005,
+    "predicted_B2_from_B1_under_zero_hit": 0.27836289924342644,
+    "reported_B2": 0.2778
+  },
+  "projections_not_submissions": {
+    "B3_remove_remaining_2to3px_band": {
+      "dots_removed": 2171,
+      "projected_dti_if_pure_FP": 0.284565738239865,
+      "note": "educational only; a strict subset of GEMSDOE32 would be a duplicate"
+    },
+    "marginal_dot_rule": {
+      "include_dot_iff_expected_truth_share_exceeds": 0.05556,
+      "formula": "dT/(dT+dF) > alpha*DTI (exact first-order condition of the ratio metric)",
+      "catalogue_corridor_fraction_within_3px_of_footprint": 0.08607739367759981,
+      "corridor_px_per_truth_px": 7.293139634026366,
+      "implied_hidden_corridor_fraction": 0.01750928354499543
+    }
+  },
+  "conclusions": [
+    "The r13 lattice pins the public hidden-truth size at roughly G ~ 12406 px (interval 12397-12414 from score rounding).",
+    "The three nested steps are consistent with the removed/added catalogue-adjacent dots carrying essentially zero truth credit; the B1->B2 and B2->36 steps imply slightly larger T than the D2.8->B1 step, i.e. a small residual hit rate in the 1-2 px band.",
+    "GEMSDOE32 scored highest among the nine because it deleted ~6,400 pure-false-positive dots within 2 px of the known catalogue from the shared D2.8 dot field; its surface was not demonstrably better.",
+    "Hidden (expert) faults are therefore located away from the mapped catalogue: a >=3 px catalogue apron is justified for any new candidate.",
+    "At the B2 operating point roughly 41% of hidden-truth credit is captured with 3% of dots within kernel reach; the leaderboard leader must roughly double the hit rate at the same budget."
+  ]
+}

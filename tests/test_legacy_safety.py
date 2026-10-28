@@ -33,4 +33,6 @@ def test_legacy_audit_published_identically_and_not_promoted():
     assert local == published
     assert local['verdict'] == 'negative' and not local['submission_authorized']
     assert 'not unique' in (ROOT / 'docs/index.html').read_text().lower()
-    assert 'NO APPROVED FILE' in (ROOT / 'docs/how-to-submit.html').read_text()
+    howto = (ROOT / 'docs/how-to-submit.html').read_text()
+    assert 'hkarage1' in howto and 'DO NOT SUBMIT' in howto
+    assert 'hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif" download' not in howto

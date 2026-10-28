@@ -29,6 +29,7 @@ jobs:
       - run: python scripts/build_site.py
       - run: python scripts/build_field_notes.py
       - run: python scripts/build_audit_site.py --check
+      - run: python scripts/build_hk3_pages.py --check
       - run: git diff --exit-code -- docs evidence
       - run: python -m pytest -q
       - uses: actions/setup-node@v4

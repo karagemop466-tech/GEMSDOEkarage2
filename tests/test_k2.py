@@ -87,13 +87,20 @@ def test_k2_uniqueness_scopes_are_as_reported():
     assert delta["duplicate_count"] == 0
 
 
-def test_homepage_names_exactly_one_conditional_candidate():
+def test_homepage_keeps_k2_quarantined_and_offers_only_the_run_card_file():
     home = (ROOT / "docs" / "index.html").read_text()
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
-    assert "SELECTOR NEGATIVE" in home and "DO NOT SUBMIT" in home
+    assert "prior literal-policy verdict for K2: NEGATIVE" in home and "DO NOT SUBMIT" in home
     assert "evidence/k2/selector_result.json" in home
-    assert "NO APPROVED" in home  # selector has not approved any file yet
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
+    # the only click-to-download links are the file named by the HK3 run card
+    card = load(ROOT / "evidence/hk3/run_card.json")
+    import re
+    downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', home)
+    assert downloads, "the desk must offer a click-to-download link"
+    for href in downloads:
+        assert card["submission"]["name"] in href
+        assert not any(x in href for x in ("k2-hgbcont", "h1-parity", "hkarage1"))
 
 
 def test_k2_preplacement_stop_and_cli_are_fail_closed(tmp_path):
@@ -138,5 +145,7 @@ def test_k2_release_pages_do_not_promote_or_promise_portal_acceptance():
         page = (ROOT / "docs" / name).read_text()
         assert "DO NOT SUBMIT" in page
         assert "evidence/k2-review-2026-10-28.json" in page
+        # the K2 file must never sit next to a download attribute
+        assert "k2-hgbcont-b110-20261028-zeros.tif\" download" not in page
         assert "cannot trigger" not in page
         assert "CONDITIONAL YES" not in page

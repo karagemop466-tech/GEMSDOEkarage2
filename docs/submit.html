@@ -1,3 +1,79 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Submission requirements and the current release decision for the GEMS research workspace."><title>Submission guide · GEMS Field Intelligence</title><link rel="stylesheet" href="assets/audit.css"></head><body><a class="skip-link" href="#main">Skip to content</a>
-<header class="topbar"><div class="container nav"><a class="brand" href="audit.html"><span class="brand-mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 17c4-8 6-8 9-2 3-8 5-8 9-2M3 21c4-8 6-8 9-2 3-8 5-8 9-2M3 13c4-8 6-8 9-2 3-8 5-8 9-2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span><span class="brand-copy"><strong>GEMS</strong><small>Field intelligence</small></span></a><nav class="nav-links" aria-label="Main navigation"><a href="index.html">Project home</a><a href="audit.html#comparison">Site comparison</a><a href="audit-research.html">Research</a><a class="current" href="submit.html">Submission guide</a></nav><span class="live-pill"><span class="dot"></span> Submission locked</span></div></header>
-<main id="main"><div class="page-hero"><div class="container"><div class="eyebrow">Release protocol &nbsp; / &nbsp; Status: negative</div><h1>Before you submit.</h1><p>The purpose of this page is to protect the next slot. There is no authorized candidate or download today; the steps below apply only after a later run passes every gate.</p></div></div><section class="section"><div class="container page-layout"><article class="content-panel"><div class="callout"><strong>Do not submit</strong>No approved candidate exists. A separate parallel session produced a research-only surface that failed the required gates; do not submit it. A local format check is not a scientific holdout, a full novelty pass, an organizer receipt, or slot authorization.</div><h2>What a safe release requires</h2><p>These requirements are sequential. Stop if any gate fails; do not replace a failed candidate with an old research raster.</p><ol><li><strong>Establish the lane and registry.</strong> Confirm the assigned method paragraph, resolve the calibration-lattice policy explicitly, and obtain the complete current registry and the frozen, same-evaluator best. Under the current literal rule, the H33-sized budget is already a duplicate stop.</li><li><strong>Validate the science.</strong> Run the shared segment-held-out, buffer-aware pooled evaluator; derive catalogue features only from visible labels. Test every feature alone for leakage, and report HOLDOUT-DTI, evaluator version, withheld positives and a 95% confidence interval. Do not extrapolate it to a public score.</li><li><strong>Screen for duplication.</strong> Compare surface rank correlation before placement and final-dot overlap after placement against <em>every</em> registry raster. Stop when rank correlation exceeds 0.90 or more than 70% of dots are within 3 pixels of any one reference.</li><li><strong>Write and validate the exact file.</strong> Use the shared writer and validator. Verify single-band float32, EPSG:32611, expected shape and transform, finite values in [0,1] inside the footprint, and the official outside-footprint convention. Save and verify the SHA-256 of the exact final file.</li><li><strong>Wait for the separate selector.</strong> A scientifically qualified candidate is not automatically an authorized competition entry. The selector must compare it to the best matched holdout, check available slots and decide whether to promote it.</li></ol><div class="divider"></div><h2>Format: the earlier [0,1] rejection</h2><p>The <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/#submission-format" target="_blank" rel="noopener noreferrer">published format</a> requires values within [0,1] and null/NaN outside the training data bounds. The mirrored sample uses NaN outside its irregular footprint; the organizer's treatment of those cells is not independently established here. The mirror contains 60,988 positive pixels, although the organizer describes its sample as predicting total fault absence. Its identity as the official sample is unverified. The cause of your earlier rejection is not known: we did not have that file or a portal receipt. Do not assume that setting every exterior pixel to zero is correct; it differs from the sample-mirror exterior convention and may conflict with the published bounds requirement. The local shared validator reports both the official-text exterior check and a stricter whole-array diagnostic separately. Neither proves portal acceptance.</p><p>For a future local file, after bootstrapping the pinned tools, run <code class="mono">.venv/bin/python scripts/check_submission.py path/to/file.tif</code>. Any interior non-finite value, negative value, value above one or grid mismatch must be fixed in the shared workflow before a candidate can advance.</p><div class="divider"></div><h2>When a candidate is actually authorized</h2><ol><li>Confirm that the exact selected TIFF’s SHA-256 matches the run card. The selector will assign an unused filename and a note of at most 140 characters. There is no filename or note to copy now.</li><li>Sign in to the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/" target="_blank" rel="noopener noreferrer">official submissions page</a>, check the quota shown there, and follow its upload controls for the selected TIFF. We could not inspect the authenticated page, so field labels are not assumed.</li><li>Record the resulting organizer receipt, file hash, timestamp, name and score together. A public team leaderboard row alone does not prove which file received a result.</li></ol><p>For the organizer’s actual rules and current limits, use the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener noreferrer">competition page</a>. No upload is performed by this website.</p></article><aside class="sidebar"><div class="sidebar-card"><div class="eyebrow-sm">Current release</div><h3>No file to download</h3><p>Estimated score: unavailable.<br>Submission name: not assigned.<br>Note: not assigned.<br>Slot selected: no.</p><a href="data/audit-run-card.json">Open the negative run card →</a></div><div class="sidebar-card"><div class="eyebrow-sm">Research record</div><h3>Reproduce the decision</h3><p>Inspect the pinned references, format diagnostics and geometric lower bound.</p><a href="data/reference-audit.json">View audit JSON →</a><a href="../README.md">Setup and commands →</a></div></aside></div></section></main><footer class="footer"><div class="container"><span>GEMS FIELD INTELLIGENCE &nbsp; / &nbsp; Built for evidence-led decisions</span><span><a href="data/audit-run-card.json">Run card</a> &nbsp; · &nbsp; <a href="../research/independent-sources.md">Sources</a> &nbsp; · &nbsp; <a href="index.html">Project home</a></span></div></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Submit · GEMSDOEkarage2</title>
+<meta name="description" content="GEMS Prize Challenge (DOE / DrivenData) fault-detection submission desk: validated unique GeoTIFF download, labelled estimates, nine-site audit.">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/hk3.css">
+</head>
+<body>
+<header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES</span></h1>
+<div class="sub">GEMS Prize Challenge · fault-detection GeoTIFF desk · generated by <code>scripts/build_hk3_pages.py</code> from the evidence JSON files</div></div></div></header>
+<div class="container">
+<nav class="topnav"><a href="index.html">Download</a> · <a href="executive-summary.html">Executive summary</a> · <a href="how-to-submit.html" aria-current=page>How to submit</a> · <a href="audit.html">Nine-site audit</a> · <a href="hypotheses.html">Earlier research</a> · <a href="sources.html">Sources</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
+
+<section class="hero">
+<h2>How to submit — exactly these steps</h2>
+<p class="verdict"><b class="ok">Approved file:</b> <code>gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif</code> (45,108 dots, SHA-256 <code>064d70e8c949cbc1…</code>).</p>
+<p><a class="btn big" href="downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif" download>⬇ Download gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif</a> &nbsp; <a class="btn secondary" href="downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.zip" download>ZIP (same file)</a></p>
+</section>
+
+<section class="section">
+<h3>Step by step</h3>
+<ol>
+<li><b>Download</b> the TIF with the button above (direct link: <code>docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif</code>). Do not open it in an image editor; do not re-save it.</li>
+<li><b>Verify the bytes</b> (optional but recommended): <code>sha256sum gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif</code> must print <code>064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9</code>.</li>
+<li><b>Sign in</b> to DrivenData and open the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">GEMS Prize Challenge submissions page ↗</a>. Check that you still have a slot (the rules allow at most 3 submissions per week).</li>
+<li><b>Upload</b> the TIF as the prediction file. Use this name and note (≤ 140 characters):<br>
+<code>gemsdoekarage2-hk3-edgecentrality-apron3-20261028</code><br>
+<code>HK3: 34-feature HGB with catalogue-free edge-centrality bands; dots sep 3px, &gt;3px off catalogue; zeros outside</code></li>
+<li><b>Record the receipt.</b> When the score appears, paste it into the repository issue tracker or README under “ORGANIZER-CONFIRMED”; nothing on this site is organizer-confirmed until then.</li>
+</ol>
+</section>
+
+<section class="section">
+<h3>Why this file will not trigger “Predicted values must be in range [0, 1]”</h3>
+<ul>
+<li>Every pixel of the array is finite and equals 0.0 or 1.0 — there is no NaN or infinity anywhere, inside or outside the footprint (checked by two independent validators; receipts in the <a href="evidence/hk3/run_card.json">run card</a>).</li>
+<li>Outside the study footprint the file holds 0.0, the same convention as the user-reported-scored GEMSDOE32 champion file (<code>…-zeros</code>) and as the organizer reference notebook, which writes finite values everywhere. Files that hold NaN outside the footprint fail a naive <code>0 ≤ x ≤ 1</code> check — that is the most likely cause of the earlier rejection.</li>
+<li>CRS EPSG:32611, 3730 × 3292 pixels, 100 m north-up transform (243350, 4508550) — identical to <code>example_submission.tif</code>; single band, float32.</li>
+</ul>
+</section>
+
+<section class="section">
+<h3>What not to upload</h3>
+<ul>
+<li>Any of the nine GEMSDOE site files — already scored; all one family; none unique.</li>
+<li><code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code>, <code>gemsdoekarage2-h1-parity-…-surface.tif</code>, <code>gemsdoe-karage2-hkarage1-…-zeros.tif</code> — research artefacts kept for evidence; labelled DO NOT SUBMIT.</li>
+<li>A subset of GEMSDOE32 (the “B3” projection) — not unique by construction.</li>
+</ul>
+</section>
+
+<section class="section" id="legacy">
+<h3>Legacy research artefacts on this server — DO NOT SUBMIT</h3>
+<table>
+<thead><tr><th>File</th><th>Status</th><th>Why</th><th>Receipts</th></tr></thead>
+<tbody>
+<tr><td><code class="cs">gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code><br><span class="sub-label">SHA-256 504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</span></td><td><span class="pill no">DO NOT SUBMIT</span></td>
+<td>K2 (26-feature HGB, 54,491 dots): HOLDOUT-DTI 0.1581 [0.1424, 0.1742]; prior literal-policy verdict for K2: NEGATIVE (pre-placement lattice overlap 100 % against the 70 % limit; the lattice is now classified as a degenerate witness, but the file is superseded by HK3 and was never submitted).</td>
+<td><a href="evidence/k2-review-2026-10-28.json">k2-review-2026-10-28.json</a> · <a href="evidence/k2-protocol-review.json">k2-protocol-review.json</a> · <a href="evidence/k2/literal_release_audit.json">literal_release_audit.json</a> · <a href="evidence/k2/selector_result.json">selector_result.json</a></td></tr>
+<tr><td><code class="cs">gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif</code></td><td><span class="pill no">DO NOT SUBMIT</span></td>
+<td>H1 signed-downthrow-parity surface (not dots): HOLDOUT-DTI 0.0337 [0.0287, 0.0393] — worse than its primitive controls; verdict NEGATIVE.</td><td><a href="evidence/run_card.json">run_card.json</a></td></tr>
+<tr><td><code class="cs">gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif</code></td><td><span class="pill no">DO NOT SUBMIT</span></td>
+<td>H-KARAGE-1 irregular raster: <b>not unique</b> — 100% of its in-footprint positives lie within 3 px of the r13 lattice (6,765 of 6,769; the rule's limit is 70%), and 5,426 positives fall outside the footprint. NO.</td><td><a href="evidence/legacy-dot-audit-2026-10-28.json">legacy-dot-audit-2026-10-28.json</a></td></tr>
+</tbody></table>
+<p class="muted">These files stay published only so that the receipts above remain verifiable. The only file offered for upload is the HK3 file at the top of the page.</p>
+</section>
+
+<p class="footnote">Labels: <b>ORGANIZER-CONFIRMED</b> = a DrivenData receipt (none exist in this repository);
+<b>USER-REPORTED / UNVERIFIED</b> = values typed by the user from other sites' pages;
+<b>HOLDOUT-DTI</b> = our spatially-blocked hide-and-recover evaluation (evaluator <code>gems57-pooled-hide-v2</code>,
+58,258 withheld positive pixels, 95&nbsp;% paired block-bootstrap CI);
+<b>LEADERBOARD-CALIBRATED ESTIMATE</b> = ratio transfer from user-reported anchors — never a score.
+Run card generated 2026-10-28T17:40:28Z. <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Source repository</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/README.md">README (standing instructions)</a>.<br>
+Official pages (not reachable from the build sandbox; verify manually): <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">competition ↗</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem description &amp; metric ↗</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/">about ↗</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">data ↗</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">submissions ↗</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard ↗</a> · <a href="https://github.com/drivendataorg/gems-prize-reference-solution">official reference solution (GitHub, verified) ↗</a>.</p>
+</div>
+</body>
+</html>

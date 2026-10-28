@@ -1,0 +1,78 @@
+{
+  "purpose": "leakage inflation of catalogue-holdout hit statistics when the model has seen the withheld segments (HK3 HGB fit on the full catalogue vs per-fold clean fits; same emission; 0.9% of active px per fold)",
+  "per_fold": {
+    "0": {
+      "clean_fold_model": {
+        "T": 4449.0522283000655,
+        "M": 2053.2190356357783,
+        "n": 21636,
+        "G": 28701
+      },
+      "full_fit_model_leaky": {
+        "T": 13883.16062868281,
+        "M": 6642.002841766218,
+        "n": 21636,
+        "G": 28701
+      }
+    },
+    "1": {
+      "clean_fold_model": {
+        "T": 2796.7878147588126,
+        "M": 1372.2156343663326,
+        "n": 11886,
+        "G": 12118
+      },
+      "full_fit_model_leaky": {
+        "T": 6249.174147031424,
+        "M": 3116.5667247545903,
+        "n": 11886,
+        "G": 12118
+      }
+    },
+    "2": {
+      "clean_fold_model": {
+        "T": 1099.4897793188989,
+        "M": 490.8984006156202,
+        "n": 4789,
+        "G": 8213
+      },
+      "full_fit_model_leaky": {
+        "T": 3706.183199696008,
+        "M": 1699.3221740929903,
+        "n": 4789,
+        "G": 8213
+      }
+    },
+    "3": {
+      "clean_fold_model": {
+        "T": 1479.2837071287868,
+        "M": 641.3530025461296,
+        "n": 6796,
+        "G": 9226
+      },
+      "full_fit_model_leaky": {
+        "T": 4591.569527539172,
+        "M": 2093.9293860930366,
+        "n": 6796,
+        "G": 9226
+      }
+    }
+  },
+  "pooled": {
+    "clean_fold_model": {
+      "T": 9824.613529506563,
+      "M": 4557.686073163861,
+      "n": 45107,
+      "G": 58258
+    },
+    "full_fit_model_leaky": {
+      "T": 28430.087502949413,
+      "M": 13551.821126706836,
+      "n": 45107,
+      "G": 58258
+    },
+    "inflation_T": 2.8937614103154754,
+    "inflation_M": 2.9733994200481244
+  },
+  "evidence_class": "HOLDOUT diagnostic (not a score)"
+}

@@ -100,11 +100,17 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'unverified' in text.lower()
         assert 'READ' in text
     homepage=(ROOT/'docs/index.html').read_text()
-    # K2 crossed the literal pre-placement stop and remains quarantined.
-    assert 'NEGATIVE' in homepage
+    # K2 crossed the literal pre-placement stop and remains quarantined; the
+    # HK3 verdict on the homepage must match the HK3 run card byte-for-byte.
+    assert 'prior literal-policy verdict for K2: NEGATIVE' in homepage
     assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
-    assert 'NO APPROVED SUBMISSION' in homepage
+    card=load('hk3/run_card.json')
+    if card['verdict']=='PROMOTE':
+        assert 'OK TO SUBMIT: YES' in homepage and 'OK TO SUBMIT: NO' not in homepage
+        assert card['raster']['sha256'] in homepage and card['submission']['name'] in homepage
+    else:
+        assert 'OK TO SUBMIT: NO' in homepage and 'OK TO SUBMIT: YES' not in homepage
 
 
 def test_shared_scientific_tools_unchanged():

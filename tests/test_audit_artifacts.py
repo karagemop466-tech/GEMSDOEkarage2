@@ -76,7 +76,8 @@ def test_website_is_derived_from_audit_and_has_no_download_link():
     subprocess.run([sys.executable, str(ROOT / "scripts/build_audit_site.py"), "--check"], check=True, cwd=ROOT)
     page = (ROOT / "docs/audit.html").read_text()
     assert page.count('<tr data-site="GEMSDOE') == 9
-    assert "Download unavailable" in page and "No approved file yet" in page
+    assert "Download unavailable" not in page and "No approved file yet" not in page
+    assert 'href="index.html"' in page and "DO NOT RESUBMIT" in page
     parser = Links()
     parser.feed(page)
     assert parser.downloads == []
