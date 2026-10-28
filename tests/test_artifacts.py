@@ -100,8 +100,8 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'unverified' in text.lower()
         assert 'READ' in text
     homepage=(ROOT/'docs/index.html').read_text()
-    # K2 also failed the literal registry stop and must remain quarantined.
-    assert 'K2 research raster' in homepage and 'NEGATIVE' in homepage
+    # K2 conditional promotion was superseded by a negative release review.
+    assert 'K2 research artifact' in homepage
     assert 'DO NOT SUBMIT' in homepage
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     assert 'NO APPROVED SUBMISSION' in homepage

@@ -18,7 +18,7 @@
    withheld positives, 95% CI [0.1424, 0.1742]. It does not establish a private
    leaderboard score or an uncontaminated win over the current best submission.
 5. The prior conditional promotion is retained as historical evidence only. The
-   current machine-readable negative card is `docs/evidence/k2-protocol-review.json`.
+   current machine-readable negative card is `docs/evidence/k2-independent-readback.json`.
    `scripts/k2.py final` is retired to prevent repeating the stopped run.
 
 ## Three passes

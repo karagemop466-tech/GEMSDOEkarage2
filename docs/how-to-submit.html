@@ -2,6 +2,13 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Submission guide · GEMS research</title><link rel="stylesheet" href="assets/style.css"></head>
 <body><header class="header"><div class="inner"><div><h1>Submission guide <span class="badge no">NO APPROVED FILE</span></h1><p class="sub"><a href="index.html">Back to the executive summary</a></p></div></div></header>
 <main class="container">
+<section class="verdict-box" aria-label="Current K2 release audit">
+    <h2>Current literal-policy verdict: NEGATIVE — DO NOT SUBMIT K2</h2>
+    <p>The historical K2 card's conditional promotion is experimental provenance, not clearance.
+    The binding all-registry gate fails; no calibration exemption or assigned lane has been authorized.
+    Download is for research only. No competition slot was used. A locally finite TIFF does not prove portal acceptance.</p>
+    <p><a href="evidence/k2/literal_release_audit.json">Current independent K2 release audit (saved-byte validation and literal registry failures)</a></p>
+  </section>
 <section class="hero"><h2>Do not submit a research file</h2><p>There is currently <strong>no unique, holdout-validated file approved for a competition slot</strong>. A successful local format check is not an organizer acceptance receipt or a scientific validation.</p><p><a href="evidence/selector_result.json">See the automated negative selector assessment</a> · <a href="experiment-index.html">Review the failed H1 experiment</a></p></section>
 <section class="section"><h3>When a future file is approved</h3><ol>
 <li>Check the run card and the separate selector decision. Confirm the assigned lane, holdout improvement with a paired confidence interval against the matching incumbent, per-feature leakage canaries, and both surface and final-dot registry checks.</li>
@@ -10,18 +17,9 @@
 <li>Enter the file’s short run-card note (at most 140 characters under this project’s protocol), submit only if the separate selector approves a slot, and keep the organizer’s receipt with the file hash. A unique filename alone does not prove a unique prediction.</li>
 </ol><p>The form description supplied in the request mentions a file and optional note, not a separate name field; use a distinct filename.</p></section>
 <section class="section"><h3>If the portal rejects the value range</h3><p>Check the actual rejected file: inspect all pixels, including exterior cells and nodata sentinels, for NaN, infinity or values outside [0,1]; check the organizer’s current instructions. The error text alone does not establish its cause. A finite all-array test is conservative, but the exterior convention remains unresolved; do not silently clip or substitute values and claim approval.</p></section>
-<section class="section"><h3>K2 candidate: selector negative (2026-10-28)</h3>
-<p>The K2 research candidate is
-<code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code> (SHA-256
-<code>504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</code>, 54,491 dots).
-Measured gates: whole-array values exactly 0/1; 26/26 leakage canaries pass; HOLDOUT-DTI 0.1581
-(95% CI 0.1424–0.1742; gems57-pooled-hide-v2; 58,258 withheld); unique versus 430 checked
-<code>docs/downloads</code> submission rasters. However, literal all-registry scope fails on the spacing-5
-lattice (100%) and a calibration ridge mask (72.1%). The selector therefore applied the prompt’s
-“any registry raster” stop and returned <strong>negative — do not upload this file</strong>.</p>
-<p>The leaderboard estimate remains Unavailable; HOLDOUT-DTI is not an organizer score.
-<a href="evidence/k2/run_card.json">K2 run card</a> ·
-<a href="evidence/k2/selector_result.json">Negative selector decision</a>.</p></section>
+<section class="section"><h3>K2 research artifact — DO NOT SUBMIT</h3>
+<p>The prior conditional-promotion claim is superseded by a negative review: surface support and final dots failed the literal lattice proximity gate, final registry coverage is incomplete, and the strict historical exterior-NaN check failed. Finite [0,1] values do not prove portal acceptance. No slot is authorized. <a href="evidence/k2-review-2026-10-28.json">Current review run card</a> · <a href="evidence/k2-protocol-review.json">Protocol review</a> · <a href="index.html#k2-candidate">Research-only file</a>.</p>
+<p>The archived name and optional note are in the run card for provenance, not instructions to upload.</p></section>
 <section class="section"><h3>Evidence and limits</h3><ul>
 <li>H1’s saved surface is format-checked against a community mirror, not an authenticated organizer template. It fails a registry proximity stop and is not a dotted submission. <a href="evidence/run_card.json">H1 run card</a>.</li>
 <li>The older irregular-dot prototype’s own receipt records 100% overlap with a reconstructed lattice, exceeding the 70% limit, contradicting its “unique by construction” language. The saved-byte pinned-mirror recheck found 99.94% overlap and 5,426 positive cells outside that mirrored footprint. It is disabled and must not be submitted. <a href="evidence/legacy-dot-audit-2026-10-28.json">Saved-byte audit</a>. <a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json">Historical receipt</a>.</li>

@@ -34,9 +34,14 @@ do not spend a slot from an agent session, and do not tune it further without a
 new preregistration. H-KARAGE-1 is defective (dots outside footprint); H1 stays
 negative. Preserve all prior negative evidence.
 
-## Current K2 safety correction
+## K2 release correction (2026-10-28)
 
-The prior conditional K2 promotion is superseded by the negative run card
-`docs/evidence/k2-protocol-review.json`. Literal registry surface stop was
-exceeded before placement, and final-dot uniqueness failed. Do not submit or
-regenerate K2; its prior card is historical, not authorization.
+The conditional promotion recorded in the earlier K2 addendum is superseded: K2
+is **negative, DO NOT SUBMIT**. Pre-placement surface support exceeded the literal
+lattice threshold and final placement should not have proceeded. The historical
+strict exterior check fails and registry scan is incomplete. The new review card
+is `evidence/k2-review-2026-10-28.json`; no new experiments or slot were used.
+`scripts/k2.py final` is disabled. Do not narrow the registry to bypass the stop.
+
+See also `evidence/k2-protocol-review.json` and
+`research/review-2026-10-28-safety-followup.md` from concurrent audits.

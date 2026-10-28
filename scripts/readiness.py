@@ -98,7 +98,8 @@ def assess(card: object) -> dict:
     if card.get("hide_recover_protocol_verified") is not True:
         reasons.append("Buffered whole-segment hide-and-recover not verified")
 
-    # An inverted feature is equally predictive; reject either AUC tail.
+    # Either direction can leak: AUC near zero is equivalent to a near-one AUC
+    # after reversing feature sign. Accept raw AUC or max(AUC, 1-AUC).
     canaries = card.get("feature_auc")
     if (
         not isinstance(canaries, dict)

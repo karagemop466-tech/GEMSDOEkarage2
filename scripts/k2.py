@@ -359,8 +359,13 @@ FINAL_RATE = 0.0110
 
 
 def cmd_final():
-    """Retired: the recorded surface exceeded the literal registry stop."""
-    raise RuntimeError("K2 final generation is retired: prior surface registry stop; no TIFF generated")
+    """Retired: the archived K2 surface failed the literal pre-placement gate.
+
+    Keep the earlier artifact and receipts for audit only. Re-running a stopped
+    experiment or silently narrowing its registry would violate the protocol.
+    """
+    raise SystemExit("K2 final placement is disabled: surface registry stop; "
+                     "no candidate will be written. See evidence/k2-review-2026-10-28.json")
 
 
 def cmd_audit():
