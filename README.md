@@ -192,6 +192,21 @@ positives, 95% CI [0.0286737956, 0.0392948028]); its paired difference against
 the best primitive is -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]).
 These are prior research results, not organizer scores or leaderboard estimates.
 
+### B4 scarp-step candidate — negative (2026-10-28, this session)
+
+**NEGATIVE — DO NOT SUBMIT.** New lane tested: paired-flank step asymmetry
+(elev/basement/gravity/RTP, 8 orientations) in `scripts/b4_step.py`.
+HOLDOUT-DTI (gems57-pooled-hide-v2, 58,259 withheld): 0.0981 @1.10%
+(CI 0.0850–0.1125), 0.1206 @1.50%; paired Δ vs gradient control +0.0040
+(CI >0) — real but below the K2 incumbent 0.1581 on identical folds.
+Canaries pass (worst 0.622). The generated TIF
+(`docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif`,
+sha256 2f553692…) is unique vs all checked submission rasters (max overlap
+0.228 vs the nine focus bests) and format-valid on the mirror grid, but it
+fails the beat-holdout-best gate. Research download only. See
+`research/b4-step-review-2026-10-28.md` and `evidence/b4/run_card.json`.
+No leaderboard estimate exists for any repo file (Unavailable).
+
 ### K2 supervised candidate — protocol stop (2026-10-28)
 
 **NEGATIVE — DO NOT SUBMIT.** The earlier K2 session generated a research TIFF
