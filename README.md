@@ -189,8 +189,8 @@ mirror data (`scripts/restore_k2_inputs.py`, `scripts/k2.py`) reusing the shared
   max dot-overlap 68.1% (< 70%), max |Spearman| 0.119 (< 0.90); vs the reported
   0.2778 champion only 33.7% within 3 px. Byte/pixel-unique.
 - Literal all-registry scope still fails on two **non-submission calibration**
-  records: the spacing-5 lattice (100% overlap — mathematically impossible for
-  any in-footprint file, champion included) and a vendored ctx-ridge mask
+  records: the spacing-5 lattice (100% overlap for this candidate; edge
+  exceptions prevent a blanket impossibility claim) and a vendored ctx-ridge mask
   (72.05%; its halo covers 87.4% of the catalogue itself). A future protocol revision would be required before any exemption; weekly quota is account-side; mirrored inputs are not
   organizer-authenticated. Leaderboard estimate: **Unavailable** (a labelled
   projection, not a score, is in the run card).
