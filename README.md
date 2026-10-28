@@ -42,9 +42,7 @@ pixel-wise probabilities/confidence scores in [0, 1].
 **Performance metric:** distance-weighted Tversky index, DTI(alpha=0.2, beta=0.8),
 triangular kernel k(d) = max(1 - d/R, 0) with R = 300 m (3 px at 100 m):
 
-TI = sum_x p(x) g(x) / ( sum_x p(x) g(x) + alpha sum_x p(x)(1-g(x)) + beta sum_x (1-p(x)) g(x) )
-
-with distance-weighted TPw / FPw / FNw terms per the problem description.
+DTI = TPw / (TPw + alpha × FPw + beta × FNw), with distinct distance-weighted sums over truth and prediction pixels. The ordinary pixelwise Tversky expression is not the distance-weighted metric. See `research/independent-review.md`; the hidden scorer has not been authenticated in this session.
 
 **Prize structure:** Initial Prize Round scored on a private expert-labeled test set
 (top 5 -> $10,000 each); expert panel reviews submissions to expand the label set;

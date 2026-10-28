@@ -14,27 +14,26 @@
 
 <main>
   <section id="how-to-submit">
-    <h2>How to submit (only after separate approval)</h2>
-    <p class="warn"><b>NO FILE IS CURRENTLY APPROVED. DO NOT UPLOAD.</b> The legacy raster fails the lattice uniqueness gate; its local range receipt is not competition approval. <a href="evidence/legacy-dot-audit-2026-10-28.json">Read the recheck</a>.</p>
+    <h2>How to submit (DrivenData form guide)</h2>
     <ol>
       <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
       <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
-      <li>Confirm the current format and exact grid against the authenticated organizer template. The exterior NaN versus zero encoding remains unresolved; do not infer portal acceptance from the community mirror.</li>
-      <li>Only after all gates and a separate selector approve a future candidate, upload it and confirm the [0,1] range. No current artifact is approved.</li>
-      <li>Wait for the organizer DTI evaluation against organizer labels (α=0.2, β=0.8, R=300 m triangular kernel).</li>
+      <li>Use the official template for CRS, shape, geotransform and exterior/nodata requirements. Validate the full raster and investigate the organizer’s instructions on outside-footprint values before upload.</li>
+      <li>Only after every scientific and uniqueness gate passes and the separate selector authorizes a slot, upload that approved file with its short note.</li>
+      <li>Wait for the organizer result; local holdout DTI is not a leaderboard score.</li>
     </ol>
-    <p class="warn">The legacy H-KARAGE-1 raster is <b>NOT approved to submit</b>: it fails the lattice uniqueness gate and has positive pixels outside the mirrored footprint. There is no matched holdout win or selector approval.</p>
+    <p class="warn"><b>NO FILE IS APPROVED TO SUBMIT.</b> The H1 surface failed the registry stop and a comparable control; the legacy irregular-dot prototype also records a lattice duplicate. The full registry and a compatible incumbent are unavailable.</p>
   </section>
 
   <section class="scorecard">
     <h2>Nine-site scorecard</h2>
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
-    <table>
+    <div class="table-scroll"><table>
       <thead>
-        <tr><th>Site</th><th>File</th><th>Reported score</th><th>Transfer estimate</th><th>Within 3 px of best historical</th><th>Research file</th></tr>
+        <tr><th>Site and historical file</th><th>Reported score</th><th>Transfer estimate</th><th>Uniqueness vs selected files</th><th>Research file</th></tr>
       </thead>
       <tbody id="scorecard-body"></tbody>
-    </table>
+    </table></div>
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
   </section>
 

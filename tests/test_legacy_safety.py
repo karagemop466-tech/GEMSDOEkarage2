@@ -12,8 +12,8 @@ def test_legacy_generator_fails_closed():
     result = subprocess.run([sys.executable, str(ROOT / 'scripts/generate_submission.py')],
                             cwd=ROOT, capture_output=True, text=True, timeout=20)
     assert result.returncode != 0
-    assert 'DISABLED' in result.stderr
-    assert 'DO NOT GENERATE OR SUBMIT' in result.stderr
+    assert 'BLOCKED' in result.stderr
+    assert 'No TIFF generated or published' in result.stderr
 
 
 def test_legacy_audit_reproduces_committed_receipt():
@@ -33,4 +33,4 @@ def test_legacy_audit_published_identically_and_not_promoted():
     assert local == published
     assert local['verdict'] == 'negative' and not local['submission_authorized']
     assert 'not unique' in (ROOT / 'docs/index.html').read_text().lower()
-    assert 'NO FILE APPROVED' in (ROOT / 'docs/how-to-submit.html').read_text()
+    assert 'NO APPROVED FILE' in (ROOT / 'docs/how-to-submit.html').read_text()

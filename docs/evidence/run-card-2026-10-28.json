@@ -1,36 +1,33 @@
 {
-  "scope": "Three-pass review and saved-byte legacy raster audit; no new experiment or TIFF was generated.",
-  "hypothesis": "No method lane was assigned; previously proposed cross-scale geophysical profile displacement remains untested backlog.",
-  "mechanism": "A buried fault may displace magnetic and gravity gradient profiles relative to each other; this has not been tested in this session.",
-  "named_non_fault_process": "An intrusive lithological contact can also create magnetic and gravity gradients.",
-  "holdout_dti": {
-    "value": null,
-    "evaluator_version": null,
-    "withheld_positives": null,
-    "confidence_interval_95": null,
-    "reason": "No experiment performed and no matched incumbent available."
+  "hypothesis": "No new assigned lane; prior H1 signed cross-field parity is stopped.",
+  "mechanism": "No new experiment. Prior H1 used elevation-depth gradient opposition and conductivity persistence.",
+  "named_non_fault_process": "Basin sedimentation and saline groundwater can mimic the prior H1 signature.",
+  "holdout": {
+    "status": "Not rerun in this session; prior result recorded in evidence/run_card.json",
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positives": 58259,
+    "dti": 0.03367297511935826,
+    "ci95": [0.028673795591260962, 0.03929480282078235]
   },
-  "registry_comparison": {
-    "surface_rank_correlation": null,
-    "surface_overlap": null,
-    "final_rank_correlation": null,
-    "legacy_final_overlap_with_lattice": 0.999409070763776,
-    "scope": "One pinned lattice against the previously generated raster, inside an unauthenticated mirror footprint; not the complete registry or a new candidate."
+  "correlation_overlap_vs_registry": {
+    "status": "Not rerun; prior surface stop, no final-dot placement",
+    "surface_spearman": -0.000057022254782426125,
+    "surface_overlap_3px": 1.0,
+    "scope": "59 of 440 pinned focus-registry entries checked before stop; not global registry"
   },
-  "raster_sha256": "28451a64b659b4e206bb483140fac169987db2edea7dc6a2cdc54f1c0f5fbfff",
-  "validator_output": {
-    "single_band_float32": true,
-    "whole_array_finite_range_0_1": true,
-    "mirror_grid_match": true,
-    "outside_mirror_positive_pixels": 5426,
+  "raster_sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede",
+  "validator": {
+    "status": "Prior local mirror-based validation, not organizer acceptance",
+    "no_nan_inside_footprint": true,
+    "values_in_zero_one": true,
+    "crs_shape_transform_match_mirror": true,
     "organizer_template_authenticated": false,
-    "organizer_acceptance": "unknown",
-    "evidence": "evidence/legacy-dot-audit-2026-10-28.json",
-    "no_nan_inside_mirrored_footprint": true
+    "exterior_nodata_policy": "Unresolved"
   },
-  "submission_name": null,
-  "submission_note": "No approved candidate; legacy raster fails the duplicate gate. Do not submit.",
+  "submission_name": "gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface",
+  "note": "Research surface only; duplicate stop and no slot approval.",
   "verdict": "negative",
-  "experiments_run": 0,
-  "weekly_slots_used": 0
+  "experiments_run_this_session": 0,
+  "slot_authorized": false
 }

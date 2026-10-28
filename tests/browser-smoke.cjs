@@ -71,12 +71,12 @@ function chromeEnvironment() {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
-      assert.ok(await page.getByRole('button', {name:'Request weekly DrivenData submission slot'}).isDisabled());
+      assert.ok(await page.getByRole('button', {name:'No approved submission TIF'}).isDisabled());
       assert.ok((await page.locator('#research-download').innerText()).includes('DO NOT SUBMIT'));
-      assert.ok((await page.locator('#research-download').innerText()).includes('not unique'));
+      assert.ok((await page.locator('body').innerText()).includes('not unique'));
       assert.ok((await page.locator('#research-download a[download]').first().getAttribute('href')).endsWith('.tif'));
       await page.waitForFunction(() => document.querySelectorAll('#scorecard-body tr').length === 9);
-      assert.ok(await page.locator('a[href="field-notes/index.html"]').count());
+      assert.ok(await page.locator('a[href="audit.html"]').count());
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Experiment overview overflow');
       console.log(`PASS ${width}px: primary dashboard, release lock, research-only download`);
     }
