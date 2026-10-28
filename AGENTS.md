@@ -33,3 +33,12 @@ fails on the impossible spacing-5 lattice and one calibration ridge mask
 do not spend a slot from an agent session, and do not tune it further without a
 new preregistration. H-KARAGE-1 is defective (dots outside footprint); H1 stays
 negative. Preserve all prior negative evidence.
+
+## K2 release correction (2026-10-28)
+
+The conditional promotion recorded in the earlier K2 addendum is superseded: K2
+is **negative, DO NOT SUBMIT**. Pre-placement surface support exceeded the literal
+lattice threshold and final placement should not have proceeded. The historical
+strict exterior check fails and registry scan is incomplete. The new review card
+is `evidence/k2-review-2026-10-28.json`; no new experiments or slot were used.
+`scripts/k2.py final` is disabled. Do not narrow the registry to bypass the stop.

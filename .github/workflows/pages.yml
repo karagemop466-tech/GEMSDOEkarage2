@@ -24,6 +24,7 @@ jobs:
           cache: pip
       - run: python -m pip install -r requirements.lock.txt
       - run: python scripts/assess_release.py
+      - run: python scripts/review_k2_release.py
       - run: python scripts/build_site.py
       - run: python scripts/build_field_notes.py
       - run: python scripts/build_audit_site.py --check

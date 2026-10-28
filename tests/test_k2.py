@@ -87,9 +87,41 @@ def test_k2_uniqueness_scopes_are_as_reported():
     assert delta["duplicate_count"] == 0
 
 
-def test_homepage_names_exactly_one_conditional_candidate():
+def test_homepage_names_k2_research_artifact_as_not_submittable():
     home = (ROOT / "docs" / "index.html").read_text()
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
-    assert "CONDITIONAL" in home and "DO NOT SUBMIT" in home  # priors stay quarantined
+    assert "DO NOT SUBMIT" in home and "negative" in home.lower()
     assert "NO APPROVED" in home  # selector has not approved any file yet
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
+
+
+def test_k2_final_is_retired_without_touching_artifact():
+    import subprocess
+    import sys
+    before = hashlib.sha256(TIF.read_bytes()).hexdigest()
+    result = subprocess.run([sys.executable, "scripts/k2.py", "final"], cwd=ROOT, capture_output=True, text=True)
+    assert result.returncode != 0
+    assert "disabled" in result.stderr
+    assert hashlib.sha256(TIF.read_bytes()).hexdigest() == before
+
+
+def test_current_k2_review_and_saved_bytes_agree():
+    from scripts.review_k2_release import review
+    report = review()
+    for path in (ROOT / "evidence/k2-review-2026-10-28.json", ROOT / "docs/evidence/k2-review-2026-10-28.json"):
+        assert load(path) == report
+    assert report["verdict"] == "negative" and not report["ok_to_submit"]
+    assert report["correlation_overlap_vs_registry"]["surface_lattice_positive_support_within_3px"] > 0.70
+    assert report["correlation_overlap_vs_registry"]["final_worst_overlap"] > 0.70
+    assert report["validator"]["all_cells_in_0_1"]
+    assert not report["validator"]["outside_is_nan_per_historical_strict_validator"]
+    assert report["validator"]["organizer_template_match"] is None
+
+
+def test_k2_release_pages_do_not_promote_or_promise_portal_acceptance():
+    for name in ("index.html", "executive-summary.html", "how-to-submit.html"):
+        page = (ROOT / "docs" / name).read_text()
+        assert "DO NOT SUBMIT" in page
+        assert "evidence/k2-review-2026-10-28.json" in page
+        assert "cannot trigger" not in page
+        assert "CONDITIONAL YES" not in page
