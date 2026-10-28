@@ -87,17 +87,21 @@ def test_k2_uniqueness_scopes_are_as_reported():
     assert delta["duplicate_count"] == 0
 
 
-def test_homepage_keeps_k2_quarantined_and_offers_no_unapproved_file():
+def test_homepage_keeps_k2_quarantined_and_labels_only_hk3_research_download():
     home = (ROOT / "docs" / "index.html").read_text()
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
     assert "prior literal-policy verdict for K2: NEGATIVE" in home and "DO NOT SUBMIT" in home
     assert "evidence/k2/selector_result.json" in home
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
-    # No artifact has cleared the current binding release protocol.
+    # The HK3 bytes may be downloaded for research only; the visible controls
+    # must say DO NOT SUBMIT, and no legacy candidate may be linked.
     import re
     downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', home)
-    assert downloads == []
+    assert len(downloads) == 2
+    assert all("gemsdoekarage2-hk3-edgecentrality-apron3-20261028" in href for href in downloads)
+    assert "Download research TIF — DO NOT SUBMIT" in home and "Research ZIP" in home
     assert "OK TO SUBMIT: NO" in home and "No approved submission file" in home
+    assert "Download approved TIF" not in home
 
 
 def test_k2_preplacement_stop_and_cli_are_fail_closed(tmp_path):

@@ -371,7 +371,8 @@
       "candidate/anchor coverage and hit-mass ratios measured on catalogue holdout transfer to the expert hidden truth",
       "G and the anchor (T, M) come from the lattice-pinned calibration of USER-REPORTED scores",
       "the anchor's holdout number may be inflated by catalogue leakage, which makes this estimate conservative if so"
-    ]
+    ],
+    "status": "ARCHIVED UNVALIDATED SCENARIO; not an eligible score estimate or confidence interval"
   },
   "registry_uniqueness": {
     "tiers": {
@@ -486,7 +487,7 @@
         "max_abs_rho": 0.11433925986987725
       }
     },
-    "verdict_logic": "All-registry literal overlap is binding. Chance correction and submission status cannot waive a failure.",
+    "verdict_logic": "Literal all-registry failure is blocking. U1/U3/U4 diagnostics cannot waive U2, the lattice, or a prior mandatory stop.",
     "scope": "440 hash-pinned rasters from the 9 focus repos at pinned refs + the 9 pinned best files + r13 lattice + prior local candidates. Not the organizer registry; repos may have gained rasters since the pinned refs.",
     "rasters_checked": 450,
     "errors": 1,
@@ -1694,7 +1695,7 @@
       },
       "evidence_class": "HOLDOUT diagnostic (not a score)"
     },
-    "reading": "The within-family check (budget extension D2.8 -> GEMSDOE24) reproduces the reported score to -0.9 %. The three cross-family external files are over-predicted by 1.5-2.9x, but every external file was built with the full catalogue visible: a model that has seen the withheld segments gets 2.9x the catalogue-holdout coverage of the clean per-fold model (leakage_inflation.json), so those checks cannot test the transfer rule. They are reported, not used. If the D2.8 anchor itself is mildly leaked, the candidate's estimate is conservative."
+    "reading": "Historical cross-family checks overpredict user reports by 1.5\u20132.9x. Full-catalogue external anchors and unverified receipts do not validate cross-family transfer or a conservative estimate."
   },
   "validator": {
     "shared_gems57": {
@@ -1794,8 +1795,8 @@
   },
   "submission": {
     "name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-    "note": "HK3: 34-feature HGB with catalogue-free edge-centrality bands; dots sep 3px, >3px off catalogue; zeros outside",
-    "note_chars": 110
+    "note": "RESEARCH ONLY; DO NOT SUBMIT. HK3 failed mandatory registry overlap; no organizer acceptance or validated leaderboard estimate.",
+    "note_chars": 127
   },
   "gates": {
     "format_shared_validator_pass": true,
@@ -1812,41 +1813,33 @@
     "lane_single_method": true,
     "experiments_used": 3,
     "time_budget_note": "E1 calibration, E2 holdout, E3 generation; ~2 h 15 min wall-clock including the artifact write",
-    "literal_rule_exception_applied": false,
-    "wall_clock_minutes": 135
+    "literal_rule_exception_applied": false
   },
-  "verdict": "NEGATIVE",
-  "verdict_meaning": "NEGATIVE: literal all-registry duplicate gate failed; research only, DO NOT SUBMIT. No exception authorized.",
+  "verdict": "negative",
+  "verdict_meaning": "NEGATIVE: mandatory all-registry rule failed. No exception is authorized by the prompt. Research download only; DO NOT SUBMIT.",
   "limitations": [
     "Leaderboard anchors are USER-REPORTED scores; no organizer receipt could be fetched (network allowlist).",
     "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",
     "Registry = 440 + 9 + lattice pinned rasters; repositories may contain newer files."
   ],
   "protocol_stop_triggered": true,
-  "historical_release_decision": {
-    "verdict": "PROMOTE",
-    "literal_rule_exception_applied": true,
-    "status": "superseded: exception not authorized by user protocol"
-  },
+  "organizer_inputs_authenticated": false,
   "slot_authorized": false,
-  "release_review": {
-    "reason": "Literal all-registry overlap gate failed; chance correction and submission status cannot override the mandatory stop. Lane self-declared, budget exhausted; no organizer authentication or receipt.",
-    "new_experiments": 0
-  },
-  "historical_verdict_before_protocol_review": "PROMOTE",
-  "protocol_review_override": {
-    "review_date_utc": "2026-10-28",
-    "review_source": "research/repo-review-2026-10-28-agent.md",
-    "decision": "negative",
-    "release_eligible": false,
-    "submission_authorized": false,
+  "leaderboard_estimate": null,
+  "protocol_correction": {
+    "date": "2026-10-28",
+    "source": "research/hk3-protocol-correction-2026-10-28.md",
+    "historical_card": "evidence/hk3/history/run_card-before-protocol-correction.json",
+    "measurements_rerun": false,
+    "historical_exception_rejected": true,
     "reasons": [
-      "Binding literal overlap rule failed against three registry rasters; the historical selector applied an unauthorized exception.",
-      "The registry audit is incomplete and records an error.",
-      "No coordinator-assigned method paragraph is present; the lane was self-declared.",
-      "Organizer-authenticated input/template provenance is absent.",
-      "The run card records approximately 2 hours 15 minutes, exceeding the two-hour protocol budget."
-    ],
-    "scope": "Release decision correction only. No model, feature stack, evaluator, writer, raster bytes, holdout result or organizer score was changed or rerun."
+      "Literal all-registry overlap exceeds 70%; research and dense rasters cannot be exempted by this session.",
+      "Spacing-5 lattice was excluded as a degenerate witness; the prompt authorizes no such exclusion.",
+      "No assigned single-method paragraph or passing pre-placement receipt established.",
+      "Canaries cover eight new features, not the entire 34-feature model inventory.",
+      "Win over refitted K2 is not a demonstrated win over current K3 holdout best.",
+      "Organizer input/template authenticity, exterior convention, current registry and portal quota are unverified.",
+      "Historical budget receipt records three experiments and about 2h15m; do not extend this stopped lane."
+    ]
   }
 }

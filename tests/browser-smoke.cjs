@@ -78,7 +78,9 @@ function chromeEnvironment() {
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
-      assert.equal(await page.locator('a[download]').count(), 0, 'No artifact may be offered while release gates fail');
+      const researchDownloads = page.locator('a[download]');
+      assert.equal(await researchDownloads.count(), 2, 'Only the explicitly research-only TIFF and ZIP are offered');
+      assert.ok((await researchDownloads.nth(0).innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('body').innerText()).includes('No approved submission file'));
       assert.ok((await page.locator('body').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));

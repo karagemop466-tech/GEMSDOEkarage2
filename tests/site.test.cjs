@@ -32,12 +32,15 @@ test('every desk page carries the run-card verdict badge and no unresolved place
   }
 });
 
-test('desk pages do not offer the blocked research artifact as a download', () => {
+test('desk pages offer only clearly labelled research downloads, never an approved submission', () => {
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
-    assert.equal(links.length, 0, `${page}: blocked research artifact must not have a download attribute`);
-    assert.match(dom.window.document.body.textContent, /NO APPROVED|DO NOT SUBMIT|RESEARCH ONLY/);
+    assert.equal(links.length, 2, `${page}: only the research TIFF and its ZIP may be offered`);
+    for (const link of links) assert.match(link.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality-apron3-20261028/);
+    assert.match(dom.window.document.body.textContent, /Download research TIF — DO NOT SUBMIT/);
+    assert.match(dom.window.document.body.textContent, /No approved submission file/);
+    assert.doesNotMatch(dom.window.document.body.textContent, /Download approved TIF/);
     dom.window.close();
   }
 });
@@ -47,8 +50,8 @@ test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and 
   const text = dom.window.document.body.textContent;
   assert.match(text, new RegExp(card.raster.sha256));
   assert.match(text, /HOLDOUT-DTI/);
-  assert.match(text, /Leaderboard score estimate unavailable/);
-  assert.match(text, /none exist in this repository/);
+  assert.match(text, /no validated leaderboard estimate|Leaderboard score estimate unavailable/i);
+  assert.match(text, /ORGANIZER-CONFIRMED:\s*none/);
   assert.match(text, /Literal 70 % rule vs all 450 non-degenerate registry rasters:\s*FAIL/);
   const failures = card.registry_uniqueness.tiers.U2_literal_rule_vs_all_registry_rasters.failures;
   assert.ok(failures.length >= 1);
@@ -110,6 +113,6 @@ test('official sources are linked with the competition metric page', () => {
   const dom = render('executive-summary.html');
   const hrefs = [...dom.window.document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));
   assert.ok(hrefs.includes('https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/'));
-  assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution'));
+  assert.ok(hrefs.includes('https://github.com/drivendataorg/gems-prize-reference-solution/tree/aebe92f7c8a990f0e3443451b7a825d9afd6336b'));
   dom.window.close();
 });

@@ -6,9 +6,10 @@
 No experiment or raster generation was performed during this review, and no
 competition slot was used. The previously displayed HK3 “OK TO SUBMIT: YES”
 status contradicted the binding literal uniqueness stop. I corrected the release
-classification to **negative / research-only**, removed submission download
-buttons from the generated desk pages, and made the saved-download inventory
-report `PASS_RESEARCH_ONLY` with no approved candidate.
+classification to **negative / research-only**, removed any submission-approved
+download action, and made the saved-download inventory report
+`PASS_RESEARCH_ONLY` with no approved candidate. The current Pages retain links
+only for reproducible research, explicitly labeled **DO NOT SUBMIT**.
 
 This is not a claim that no unique raster could ever be created. It means the
 existing evidence cannot authorize one: the specified coordinator-assigned
@@ -96,10 +97,11 @@ that requires literal uniqueness, no exception, an assigned method paragraph,
 a complete error-free registry scan, authenticated inputs, and explicit
 within-budget evidence. The current run fails these checks. The homepage,
 executive summary, submission guide, and submit page show **OK TO SUBMIT: NO**;
-no `download` links are emitted for the HK3 artifact. `scripts/audit_public_downloads.py`
-classifies every present TIFF as research-only and returns no approved submission.
-Tests now require this behavior and verify a matching selector cannot override
-missing protocol evidence.
+the only HK3 file controls are explicitly labeled for research and **DO NOT
+SUBMIT**. `scripts/audit_public_downloads.py` classifies every present TIFF as
+research-only and returns no approved submission. Tests require that exact
+research-only boundary and verify a matching selector cannot override missing
+protocol evidence.
 
 ### 3. Numerical score explanation was overstated — high
 
@@ -159,12 +161,12 @@ Rebuilt generated pages and the saved-byte audit. A first test pass after the
 changes identified three remaining issues: legacy negative-evidence links were
 missing from the how-to page; a generated review link did not yet have its
 report file; and old tests expected a K3 “holdout-best” label or a download
-button. The how-to page now includes the quarantined evidence table, and tests
-were revised to require no download and to describe the recorded K3 point
-measurement without claiming it is a submission candidate. The review file is
-now present and the generated report link resolves. The full Python, Node, site,
-browser, generated-page, public-download, and whitespace checks all pass (see
-final verification below).
+button. The how-to page includes the quarantined evidence table. Tests now require
+research downloads to be explicitly labeled DO NOT SUBMIT, forbid approved
+submission downloads, and describe K3's highest recorded HOLDOUT-DTI as historical
+rather than as a submission candidate. The review file is now present and linked from `SUBMISSION_STATUS.md`. The full
+Python, Node, site, browser, generated-page, public-download, and whitespace
+checks are rerun against the latest main-branch integration below.
 
 ## Remaining blockers / next session
 
@@ -184,10 +186,10 @@ final verification below).
 
 ## Final verification
 
-- `.venv/bin/python -m pytest -q`: **203 passed, 7 skipped**, 98 subtests; Rasterio emitted 86 pending-deprecation warnings.
+- `.venv/bin/python -m pytest -q`: **215 passed, 7 skipped**, 98 subtests; Rasterio emitted 87 pending-deprecation warnings.
 - `npm test`: **3 passed**.
 - `npm run test:site`: **7 passed**.
-- `npm run test:browser`: passed at 1440, 390, and 320 px, including the blocked-download release status and navigation/freshness states.
+- `npm run test:browser`: passed at 1440, 390, and 320 px, including explicitly research-only download controls, navigation, and freshness fail-safe states.
 - `scripts/build_hk3_pages.py --check`: pages up to date.
 - `scripts/audit_public_downloads.py --check`: **PASS_RESEARCH_ONLY**, seven artifacts, no approved downloadable submission.
 - `python -m compileall -q scripts vendor`, JavaScript syntax checks, and `git diff --check`: passed.

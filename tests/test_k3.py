@@ -61,5 +61,6 @@ def test_k3_site_language_is_negative():
         assert "evidence/k3/run_card.json" in text
         # K3 is a historical research file, never offered; no repository file is approved.
         assert f'{STEM}.tif" download' not in text
-        assert "repository's largest recorded point HOLDOUT-DTI" in text
-        assert "No candidate is approved" in text
+        assert "recorded holdout-best" in text
+        assert "uniqueness-negative" in text
+        assert "DO NOT SUBMIT" in text
