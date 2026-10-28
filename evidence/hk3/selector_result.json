@@ -4,16 +4,13 @@
   "candidate": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
   "raster_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
   "source_run_card": "evidence/hk3/run_card.json",
-  "verdict": "candidate_approved_by_automated_gates",
+  "verdict": "negative",
   "ok_to_download_for_research": true,
-  "ok_to_submit": true,
+  "ok_to_submit": false,
   "slot_authorized": false,
-  "who_spends_the_slot": "the user (human selector) — this repository never spends a weekly slot and cannot see the account quota",
+  "who_spends_the_slot": "the user (human selector) \u2014 this repository never spends a weekly slot and cannot see the account quota",
   "reasons": [
-    "Every hard automated gate passes: shared gems57 validator, grid identical to example_submission.tif, whole array finite in [0,1], no dots on or within 3 px of the mapped catalogue, leakage canary (max AUC 0.596), paired holdout win over the re-fitted incumbent (+0.0270, 95% CI [+0.0206, +0.0337]), uniqueness U1 vs the nine scored files (max 48.4% within 3 px), U3 chance-corrected vs all 450 registry rasters (max 0.692), U4 literal vs every submitted dot raster, rank correlation (max |rho| 0.114), single lane.",
-    "Disclosed deviation: the literal 70% rule against ALL registry rasters fails against three objects that are not competing submissions (a 174k-px ridge-line surface that the GEMSDOE32 champion itself overlaps at 59%, the never-submitted GEMSDOE32 h45 KS0 control arm, and this repository's never-submitted K2 artefact). The failures are printed in red on every page; literal_rule_exception_applied=true in the run card.",
-    "K3 (concurrent lane) has a higher HOLDOUT-DTI (0.1916 vs 0.1845 at the same budget; intervals overlap) but is uniqueness-negative and therefore not submittable; HK3 is the best submittable file.",
-    "Estimate 0.263-0.286 is a LEADERBOARD-CALIBRATED ESTIMATE from user-reported anchors (theta sensitivity in the run card); nothing is ORGANIZER-CONFIRMED."
+    "Literal all-registry overlap gate failed. Previous exception and upload approval are superseded. No slot authorized."
   ],
   "limitations": [
     "Inputs are hash-pinned owner mirrors, not organizer-authenticated bytes; portal acceptance is unverified until a receipt exists.",

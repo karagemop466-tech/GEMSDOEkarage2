@@ -146,8 +146,19 @@ Official pages (not reachable from the build sandbox; verify manually): <a href=
 """
 
 
+def release_allowed(rc) -> bool:
+    """Fail closed: a verdict or a chance-correction exception cannot waive a stop."""
+    gates = rc.get("gates", {})
+    return (rc.get("verdict") == "PROMOTE"
+            and gates.get("unique_literal_vs_all_registry_rasters") is True
+            and not gates.get("literal_rule_exception_applied", False)
+            and all(value is True for key, value in gates.items()
+                    if key not in {"experiments_used", "time_budget_note", "literal_rule_exception_applied"})
+            and rc.get("slot_authorized") is True)
+
+
 def badge_fill(page: str, d) -> str:
-    ok = d["rc"]["verdict"] == "PROMOTE"
+    ok = release_allowed(d["rc"])
     # head() is an f-string, so its "{{BADGE}}" renders as the literal "{BADGE}"
     return page.replace("{BADGE}", "ok" if ok else "no").replace("{BADGE_TEXT}", "OK TO SUBMIT: YES" if ok else "OK TO SUBMIT: NO")
 
@@ -156,7 +167,7 @@ def gate_list(rc) -> str:
     labels = {
         "format_shared_validator_pass": "Format (shared gems57 validator): single band float32, finite, values in [0,1], zeros outside the footprint, no dots on mapped faults",
         "grid_matches_example_submission": "CRS / shape / transform identical to example_submission.tif (EPSG:32611, 3730 × 3292, 100 m)",
-        "whole_array_finite_in_0_1": "Whole array finite and inside [0,1] (no NaN anywhere — the earlier portal error “values must be in range [0,1]” cannot recur)",
+        "whole_array_finite_in_0_1": "Whole array finite and inside [0,1] (no NaN anywhere — local byte check, not a guarantee of portal acceptance)",
         "no_dots_on_mapped_catalogue": "No positive pixel on a mapped (excluded) fault pixel; 3 px apron kept clear",
         "leakage_canary_pass": "Leakage canary: every new feature alone has AUC &lt; 0.90",
         "holdout_beats_refit_incumbent_paired_ci_excludes_zero": "Beats the re-fitted incumbent on identical folds and budget (paired 95 % CI excludes 0)",
@@ -196,7 +207,7 @@ def uniqueness_note(rc) -> str:
 <p><b>Literal 70 % rule vs all {u2['rasters_checked']} non-degenerate registry rasters:</b> <b class="no">{'FAIL' if not u2['pass'] else 'PASS'}</b>{' against the ' + str(len(u2['failures'])) + ' rasters below, PASS against the other ' + str(u2['rasters_checked'] - len(u2['failures'])) if not u2['pass'] else ''}.
 <b>Chance-corrected rule vs all:</b> {'PASS' if u3['pass'] else 'FAIL'} (max {u3['max_corrected']:.2f}, limit 0.70). <b>Literal rule vs every dot raster that may have been submitted:</b> {'PASS' if u4['pass'] else 'FAIL'}.</p>
 {'<table><thead><tr><th>Raster</th><th>HK3 dots within 3 px</th><th>Chance level (its 3 px halo)</th><th>Chance-corrected</th><th>GEMSDOE32 champion within 3 px of the same raster</th><th>Status of that raster</th></tr></thead><tbody>' + rows + '</tbody></table>' if rows else ''}
-<p class="muted">The pre-registered note said a literal failure stops the lane. The lane is stopped (3 experiments used). The artifact is still offered because none of the flagged rasters is a scored dot submission: two were never submitted and the third is a 174 k-pixel ridge-line surface (owner-reported 0.128) whose 3 px halo covers a quarter of the footprint — the champion itself sits {pct(next((f['GEMSDOE32_champion_overlap_with_same_raster'] for f in u2['failures'] if 'ctx-ridge' in f['submission']), 0))} inside it. GEMSDOE32's own H45 audit hit the same wall (71.9 % vs one dense raster). This is a disclosed deviation, recorded in the run card; the selector (you) can still decline.</p>
+<p class="muted"><b>Mandatory stop: DO NOT SUBMIT.</b> The literal all-registry rule failed. Neither chance correction, dense-raster exclusions nor a previous submission status authorizes an exception. Historical measurements are preserved for research only; no new placement is permitted.</p>
 </div>
 """
 
@@ -290,7 +301,7 @@ def page_index(d) -> str:
     hold = rc["holdout"]
     r = rc["raster"]
     sub = rc["submission"]
-    ok = rc["verdict"] == "PROMOTE"
+    ok = release_allowed(rc)
     tif = f"downloads/{sub['name']}.tif"
     zipf = f"downloads/{sub['name']}.zip"
     row = est["curve_row_used"]
@@ -313,7 +324,7 @@ def page_index(d) -> str:
 <section class="hero">
 <h2>{'Approved submission file' if ok else 'No approved submission file'} — {esc(sub['name'])}.tif</h2>
 {verdict_html}
-<p><a class="btn big" href="{tif}" download>⬇ Download {esc(sub['name'])}.tif ({r['dots']:,} dots)</a>
+<p><a class="btn big" href="{tif}" download>⬇ Download research-only {esc(sub['name'])}.tif ({r['dots']:,} dots)</a>
 &nbsp; <a class="btn secondary" href="{zipf}" download>ZIP</a>
 &nbsp; <a class="btn secondary" href="evidence/hk3/run_card.json">Run card (JSON)</a></p>
 <div class="meta">
@@ -378,15 +389,15 @@ def page_summary(d) -> str:
     rc, cal, bridge, e2 = d["rc"], d["cal"], d["bridge"], d["e2"]
     est = rc["estimator"]; hold = rc["holdout"]; sub = rc["submission"]; r = rc["raster"]
     ru = rc["registry_uniqueness"]
-    ok = rc["verdict"] == "PROMOTE"
+    ok = release_allowed(rc)
     theta = est["estimate_theta"]
     ps = e2["pooled_summary"]["scores"]
     out = head("Executive summary", "summary")
     out += f"""
 <section class="hero">
 <h2>Executive summary — one file to download, labelled numbers, nothing hidden</h2>
-<p class="verdict">{'<b class="ok">Submit</b>' if ok else '<b class="no">Do not submit</b>'} <code>{esc(sub['name'])}.tif</code> — the only file on this site that is new, unique and validated. Every other GEMSDOE file listed below has already been scored and belongs to the same dot family; re-uploading one of them spends a slot for a known result.</p>
-<p><a class="btn big" href="downloads/{esc(sub['name'])}.tif" download>⬇ Download the approved TIF</a> &nbsp; <a class="btn secondary" href="how-to-submit.html">How to submit (step by step)</a></p>
+<p class="verdict">{'<b class="ok">Submit</b>' if ok else '<b class="no">Do not submit</b>'} <code>{esc(sub['name'])}.tif</code> — research only; not cleared by the all-registry uniqueness rule. Every other GEMSDOE file listed below has already been scored and belongs to the same dot family; re-uploading one of them spends a slot for a known result.</p>
+<p><a class="btn big" href="downloads/{esc(sub['name'])}.tif" download>⬇ Download research-only TIF — DO NOT SUBMIT</a> &nbsp; <a class="btn secondary" href="how-to-submit.html">How to submit (step by step)</a></p>
 </section>
 
 <section class="section">
@@ -496,21 +507,22 @@ def page_summary(d) -> str:
 
 
 def page_howto(d) -> str:
-    rc = d["rc"]; sub = rc["submission"]; r = rc["raster"]; ok = rc["verdict"] == "PROMOTE"
+    rc = d["rc"]; sub = rc["submission"]; r = rc["raster"]; ok = release_allowed(rc)
     out = head("How to submit", "howto")
     out += f"""
 <section class="hero">
 <h2>How to submit — exactly these steps</h2>
 <p class="verdict">{'<b class="ok">Approved file:</b>' if ok else '<b class="no">NO APPROVED FILE —</b>'} <code>{esc(sub['name'])}.tif</code> ({r['dots']:,} dots, SHA-256 <code>{esc(r['sha256'][:16])}…</code>).</p>
-<p><a class="btn big" href="downloads/{esc(sub['name'])}.tif" download>⬇ Download {esc(sub['name'])}.tif</a> &nbsp; <a class="btn secondary" href="downloads/{esc(sub['name'])}.zip" download>ZIP (same file)</a></p>
+<p><a class="btn big" href="downloads/{esc(sub['name'])}.tif" download>⬇ Download research-only {esc(sub['name'])}.tif</a> &nbsp; <a class="btn secondary" href="downloads/{esc(sub['name'])}.zip" download>ZIP (same file)</a></p>
 </section>
 
 <section class="section">
-<h3>Step by step</h3>
+<h3>Future submission procedure — blocked for all current files</h3>
+<p><b>DO NOT execute the upload steps below for HK3.</b> A future candidate must pass every mandatory gate and an independent quota-aware selector first.</p>
 <ol>
 <li><b>Download</b> the TIF with the button above (direct link: <code>docs/downloads/{esc(sub['name'])}.tif</code>). Do not open it in an image editor; do not re-save it.</li>
 <li><b>Verify the bytes</b> (optional but recommended): <code>sha256sum {esc(sub['name'])}.tif</code> must print <code>{esc(r['sha256'])}</code>.</li>
-<li><b>Sign in</b> to DrivenData and open the <a href="{OFFICIAL['submissions']}">GEMS Prize Challenge submissions page ↗</a>. Check that you still have a slot (the rules allow at most 3 submissions per week).</li>
+<li><b>Sign in</b> to DrivenData and open the <a href="{OFFICIAL['submissions']}">GEMS Prize Challenge submissions page ↗</a>. Check the current weekly cap and remaining quota on the authenticated page; they were not verified here.</li>
 <li><b>Upload</b> the TIF as the prediction file. Use this name and note (≤ 140 characters):<br>
 <code>{esc(sub['name'])}</code><br>
 <code>{esc(sub['note'])}</code></li>
@@ -519,10 +531,10 @@ def page_howto(d) -> str:
 </section>
 
 <section class="section">
-<h3>Why this file will not trigger “Predicted values must be in range [0, 1]”</h3>
+<h3>Local range check — not portal acceptance</h3>
 <ul>
 <li>Every pixel of the array is finite and equals 0.0 or 1.0 — there is no NaN or infinity anywhere, inside or outside the footprint (checked by two independent validators; receipts in the <a href="evidence/hk3/run_card.json">run card</a>).</li>
-<li>Outside the study footprint the file holds 0.0, the same convention as the user-reported-scored GEMSDOE32 champion file (<code>…-zeros</code>) and as the organizer reference notebook, which writes finite values everywhere. Files that hold NaN outside the footprint fail a naive <code>0 ≤ x ≤ 1</code> check — that is the most likely cause of the earlier rejection.</li>
+<li>Outside the study footprint the file holds 0.0, the same convention as the user-reported-scored GEMSDOE32 champion file (<code>…-zeros</code>) and as the organizer reference notebook, which writes finite values everywhere. Files that hold NaN outside the footprint fail a naive <code>0 ≤ x ≤ 1</code> check — the rejected bytes and portal receipt are unavailable, so its cause is not established.</li>
 <li>CRS EPSG:32611, 3730 × 3292 pixels, 100 m north-up transform (243350, 4508550) — identical to <code>example_submission.tif</code>; single band, float32.</li>
 </ul>
 </section>
