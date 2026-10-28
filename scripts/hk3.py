@@ -84,6 +84,7 @@ def _zero_cross_distance(a, valid, sigma):
 
 
 def cmd_features():
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     grid, valid, eligible = k2.grid_and_masks()
     if not k2.feat_path().exists():
         k2.cmd_features()
@@ -212,6 +213,7 @@ def hit_stats(dots, fold, valid):
 
 # ----------------------------------------------------------------------------- E2
 def cmd_e2():
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     from sklearn.metrics import roc_auc_score
     grid, valid, eligible, folds, F = load_ctx()
     canaries, terms, receipts, hits = [], {}, [], {}
@@ -277,6 +279,7 @@ def cmd_bridge():
     (b) the candidate emitted at exactly the D2.8 per-fold dot count (equal-n ratios);
     (c) the candidate's cumulative T/M by rank band (5k-dot bands up to 2% of active px)
         for the calibrated budget rule in E3."""
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     from gems57 import metric
     grid, valid, eligible, folds, _ = load_ctx()
     rows, d28_per_fold = {}, {}
@@ -431,6 +434,7 @@ FULL_ACTIVE_PX = 5_011_946  # eligible px on the full map; equals the pooled hol
 
 # ----------------------------------------------------------------------------- E3
 def cmd_e3(name, note, rate, write=True, reuse_surface=False):
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     global FULL_ACTIVE_PX
     grid, valid, eligible = k2.grid_and_masks()
     F = open_features(grid.shape)
@@ -632,6 +636,7 @@ EXTRA_ANCHORS = [
 def cmd_anchors():
     """Out-of-sample checks of the transfer estimator on owner-reported files outside the
     D2.8 family (same folds, same hit statistics, same ratio transfer vs D2.8)."""
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     grid, valid, eligible, folds, _ = load_ctx()
     bridge = json.loads((EV / "bridge.json").read_text())
     calib = json.loads((ROOT / "evidence/calibration/leaderboard_calibration.json").read_text())
@@ -666,6 +671,7 @@ def cmd_anchors():
 # ----------------------------------------------------------------------------- run card
 def cmd_card(name):
     """Assemble the single JSON run card from the per-step evidence files."""
+    raise RuntimeError("HK3 is retired: mandatory registry stop and exhausted experiment budget. Research only; DO NOT SUBMIT.")
     import subprocess
     grid = load_grid(DATA)
     e2 = json.loads((EV / "e2.json").read_text())
@@ -753,8 +759,8 @@ def cmd_card(name):
     }
     d = paired["cand34_b110_minus_inc26_b110"]          # same budget, same folds, same emission
     gates["holdout_beats_refit_incumbent_paired_ci_excludes_zero"] = bool(d["ci95"][0] > 0)
-    # Literal registry failures cannot be waived by raster density or submission status.
-    verdict = "NEGATIVE"  # This retired lane already triggered a binding duplicate stop.
+    # Historical exceptions are forbidden. This stopped lane cannot be promoted.
+    verdict = "negative"
     gates["literal_rule_exception_applied"] = False
     card = {
         "kind": "HK3 RUN CARD (single JSON per the parallel-run protocol)",
@@ -783,7 +789,7 @@ def cmd_card(name):
                             "candidate_matched_to_D28_count": bridge["candidate_matched_to_D28_count"]},
         "estimator": {k: v for k, v in est.items() if k != "budget_table"},
         "registry_uniqueness": {
-            "tiers": tiers, "verdict_logic": "Literal all-registry failure is binding; no density or submission-status exception.",
+            "tiers": tiers, "verdict_logic": "Mandatory all-registry failure is blocking; no density or submission-status exceptions.",
             "scope": audit["scope"], "rasters_checked": nd["checked"], "errors": nd["errors"],
             "degenerate_witnesses": audit["degenerate_witnesses"],
             "worst_overlap_nondegenerate": nd["worst_overlap"], "worst_overlap_submission": nd["worst_overlap_submission"],
@@ -808,8 +814,8 @@ def cmd_card(name):
         "validator": {"shared_gems57": v_shared, "historical_strict_nan_outside": strict,
                       "note": "The file writes 0 outside the footprint (the organizer-scored GEMSDOE32 champion is a -zeros file; the official reference notebook writes finite values everywhere). The historical strict validator's NaN-outside check is therefore expected to read false; every other check must pass."},
         "submission": {"name": name, "note": gen["note"], "note_chars": len(gen["note"])},
-        "gates": gates, "verdict": verdict, "protocol_stop_triggered": True,
-        "verdict_meaning": "NEGATIVE: retired duplicate lane; research only, DO NOT SUBMIT.",
+        "gates": gates, "verdict": verdict,
+        "verdict_meaning": "NEGATIVE: retired duplicate lane. Research only; DO NOT SUBMIT.",
         "limitations": [
             "Leaderboard anchors are USER-REPORTED scores; no organizer receipt could be fetched (network allowlist).",
             "The estimate assumes the candidate/anchor ratios measured on catalogue holdout transfer to the 1 m lidar hidden labels; theta grid shows the sensitivity.",
@@ -829,8 +835,6 @@ def main():
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--reuse-surface", action="store_true", help="reuse .cache/hk3/surface_full.npy from a previous e3 run (same model, same seed)")
     a = ap.parse_args()
-    if a.cmd != "audit":
-        ap.error("HK3 is retired after a literal duplicate stop; experiments, placement and evidence rewrites are disabled. Read-only saved-raster audit remains available.")
     if a.cmd == "features":
         cmd_features()
     elif a.cmd == "e2":
