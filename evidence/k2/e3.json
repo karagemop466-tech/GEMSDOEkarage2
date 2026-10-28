@@ -1,0 +1,24 @@
+{
+  "experiment": "E3 continuation (B1+B2) + buf2 apron arm",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "folds": [
+    {
+      "fold": 0,
+      "corridor_px_in_active": 399
+    },
+    {
+      "fold": 1,
+      "corridor_px_in_active": 290
+    },
+    {
+      "fold": 2,
+      "corridor_px_in_active": 898
+    },
+    {
+      "fold": 3,
+      "corridor_px_in_active": 151
+    }
+  ],
+  "continuation": "visible comps>=15px, PCA strike, <=25px, x2 boost"
+}

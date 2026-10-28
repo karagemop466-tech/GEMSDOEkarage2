@@ -2,7 +2,34 @@
 
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Branch: `arena/044d7bda-gemsdoekarage2`
+Branch: `arena/16a88539-gemsdoekarage2`
+
+## Current status — 2026-10-28 session (read first)
+
+**One submittable candidate exists (conditional):**
+[`docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif`](docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif)
+SHA-256 `504be458…8dfb` · 54,491 dots · supervised HGB (26 label-blind features)
++ tip continuation + dotted emission at 1.10%, >2 px off-catalogue.
+
+- **OK TO DOWNLOAD: YES. OK TO SUBMIT: CONDITIONAL YES** — all satisfiable
+  automated gates pass: format/range (whole array finite in [0,1]), 26/26 leakage
+  canaries, HOLDOUT-DTI **0.1581** (95% CI 0.1424–0.1742, gems57-pooled-hide-v2,
+  58,258 withheld positives; paired Δ +0.0861 vs best primitive), uniqueness vs
+  all 430 checked docs/downloads submission rasters from the nine focus repos (435 rasters compared in total outside calibration inputs) (max overlap
+  68.1% ≤ 70%, max |ρ| 0.119; vs the 0.2778 champion only 33.7%).
+  Conditions needing a selector: literal all-registry scope fails on 2
+  non-submission calibration records (spacing-5 lattice = mathematically
+  impossible gate; ctx-ridge mask 0.7205); weekly quota is account-side;
+  inputs are hash-pinned owner mirrors (now restorable:
+  `python scripts/restore_k2_inputs.py`), not organizer-authenticated.
+  Full review: [`research/review-2026-10-28.md`](research/review-2026-10-28.md);
+  run card: [`evidence/k2/run_card.json`](evidence/k2/run_card.json).
+  Leaderboard estimate: **Unavailable** (labelled projection ~0.24–0.29, not a score).
+- **Every other TIF in this repo is DO NOT SUBMIT**, including H-KARAGE-1
+  (found defective 2026-10-28: 5,426 of its 12,195 dots are outside the footprint)
+  and the H1 parity research surface (HOLDOUT-DTI 0.0337, negative).
+- Live public leaderboard #1 re-read 2026-10-28: **0.4544**. No file here is
+  claimed to beat it; the only ORGANIZER-CONFIRMED number comes from a receipt.
 
 ## Operating instruction
 
@@ -169,20 +196,28 @@ holdout cannot reliably estimate the expert-hidden private score).
 
 ## How to run (this sandbox)
 
-1. `python scripts/evaluate_holdout.py` — metric self-test.
-2. `python scripts/generate_submission.py` — builds + validates the unique submission
-   TIF (requires reference/ gemsdoe36 rasters present).
-3. `python scripts/prepare_data.py` — after competition data is staged in data/.
+1. `python scripts/restore_k2_inputs.py` — restore + SHA-256-verify the pinned
+   owner-mirrored competition files, the 9 focus best rasters, and the 440-raster
+   focus registry from GitHub (DrivenData originals still need a team login).
+2. `python scripts/k2.py features && python scripts/k2.py e1 && python scripts/k2.py e2 && python scripts/k2.py e3 && python scripts/k2.py combine`
+   — reproduce the 3 preregistered experiments and the pooled HOLDOUT-DTI table.
+3. `python scripts/k2.py final && python scripts/k2.py audit` — regenerate the
+   candidate via the shared writer and re-run the 443-raster uniqueness audit
+   (writer refuses to overwrite; see run card for the canonical artifact).
+4. Legacy: `python scripts/evaluate_holdout.py` (metric self-test),
+   `python scripts/generate_submission.py` (superseded H-KARAGE-1; DO NOT SUBMIT
+   its output), `python scripts/prepare_data.py` (organizer-data placement check).
 
 ## Next steps / limitations
 
-- labels.tif / training_features.tif are not available in this sandbox
-  (DrivenData login required, network-blocked). Holdout DTI and a leaderboard score
-  estimate therefore CANNOT be computed yet. The generated TIF is:
-    OK TO DOWNLOAD: YES (research / audit only, format-validated)
-    OK TO SUBMIT TO DRIVENDATA: NO — pending holdout validation and selector approval.
-- To promote: stage data in data/, run prepare_data.py, beat the repo holdout best
-  with paired 95% CI > 0, pass leakage canaries and uniqueness gates, then the
-  selector spends a weekly slot.
-- Live leaderboard target to beat: 0.4544 (public #1). Best focus-site claim: 0.2778
-  (GEMSDOE32, owner-reported, unverified).
+- The K2 candidate is **CONDITIONAL** (see status block): selector must rule on
+  the literal registry scope (G8) and spend the weekly slot; capture the
+  organizer receipt and replace the labelled projection with evidence.
+- Authenticate inputs against a real DrivenData download (team login) and diff
+  hashes vs `registry/core_data_manifest.json`.
+- Catalogue holdout cannot estimate the expert-hidden private score; transfer
+  risk (mapped-fault bias) is the dominant uncertainty. Fallback config if the
+  first receipt is weak: 0.73% budget arm (HOLDOUT-DTI 0.1265) via the same
+  `scripts/k2.py` path + fresh uniqueness scan.
+- Live leaderboard target: 0.4544 (public #1, 2026-10-28). Best focus-site
+  claim: 0.2778 (GEMSDOE32, user-reported, unverified).

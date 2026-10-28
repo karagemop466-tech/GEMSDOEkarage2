@@ -27,70 +27,75 @@
   </div>
 
   <div class="section">
-    <h3>&#128215; Step-by-step</h3>
+    <h3>&#128215; Step-by-step (2026-10-28 candidate)</h3>
     <ol>
-      <li><b>Log in</b> to DrivenData and accept the GEMS Prize Challenge rules.</li>
+      <li><b>Log in</b> to DrivenData and accept the GEMS Prize Challenge rules. Check your remaining weekly quota on the submission page (this project cannot see it).</li>
       <li><b>Download the validated TIF</b> from the <a href="index.html">home page</a>:
-        <code>gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif</code> (SHA-256: 28451a64…5fbfff).</li>
-      <li><b>Verify locally before uploading</b> (this is what the project does automatically):
+        <code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code> and verify SHA-256 =
+        <code>504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</code>.
+        <b>Do not use any older file from this site</b> (the earlier H-KARAGE-1 file named on previous versions of this page was found defective on 2026-10-28 and must not be submitted).</li>
+      <li><b>Verify locally before uploading</b> (already done automatically by the project; receipts beside the download):
         <ul>
           <li>single band, float32;</li>
           <li>CRS = EPSG:32611, 3730×3292 pixels, 100 m resolution;</li>
           <li>geotransform = (100, 0, 243350; 0, -100, 4508550);</li>
-          <li>every cell finite and in [0, 1] — this is what causes the portal error <i>"Predicted values must be in range [0, 1]"</i>; our TIF is byte-verified finite in range;</li>
-          <li>no NaN inside the footprint.</li>
+          <li>every cell finite and in [0, 1] — values outside [0,1] or NaN/Inf cause the portal error <i>"Predicted values must be in range [0, 1]"</i>; this TIF's cells are exactly 0.0/1.0, read-back verified;</li>
+          <li>no NaN anywhere; outside-footprint cells are 0.</li>
         </ul>
       </li>
-      <li><b>Name it uniquely</b> on the form, e.g. <code>gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros</code>.</li>
-      <li><b>Add a short note</b> (&lt;=140 chars), e.g. <code>GEMSDOE H-KARAGE-1 irregular submodular 15k dots | lattice-avoid placement | 6a3f542a | research DO-NOT-SUBMIT-yet</code>.</li>
-      <li><b>Submit.</b> One submission is scored in both the Initial Prize Round (private expert-labeled test set) and the Final Prize Round (expanded label set after expert review) — choose it before the deadline.</li>
+      <li><b>Attach the file</b> (the .tif, or the .zip containing the identical single .tif).</li>
+      <li><b>Add the Note</b> (108 chars): <code>K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue &gt;2px; zeros outside footprint</code></li>
+      <li><b>Submit.</b> Save the organizer's receipt and score — it becomes the project's first ORGANIZER-CONFIRMED number. Remember one chosen submission is scored in both prize rounds; confirm final-selection rules on the official page before the deadline.</li>
     </ol>
   </div>
 
   <div class="section">
-    <h3>&#128205; Verdict on this repo's generated TIF</h3>
+    <h3>&#128205; Automated verdict on this repo's generated TIF (2026-10-28)</h3>
     <table>
       <thead><tr><th style="width:44%">Gate</th><th style="width:28%">Result</th><th style="width:28%">Status</th></tr></thead>
       <tbody>
-        <tr><td>Format validator receipt (13 checks)</td><td>PASS — CRS, shape, transform, dtype float32, single band, bounds</td><td><span class="badge ok">PASS</span></td></tr>
-        <tr><td>Value range [0, 1]</td><td>min 0.0 / max 1.0, all 12,279,160 cells finite</td><td><span class="badge ok">PASS</span></td></tr>
-        <tr><td>NaN inside footprint</td><td>0 cells</td><td><span class="badge ok">PASS</span></td></tr>
-        <tr><td>Uniqueness vs registry (TCD-36 / Anderson)</td><td>rho 0.0011 / 0.0008 (&lt;= 0.90); overlap 6.6% / 8.6% (&lt;= 70%)</td><td><span class="badge ok">PASS</span></td></tr>
-        <tr><td>Holdout DTI (HOLDOUT-DTI + 95% CI)</td><td>Not measurable — labels.tif requires DrivenData login, unavailable in this sandbox</td><td><span class="badge no">GATE OPEN</span></td></tr>
-        <tr><td>Leaderboard score estimate</td><td>Not a projection — never written as a score</td><td><span class="badge warn">NOT ESTIMABLE</span></td></tr>
+        <tr><td>Format validator (shared writer receipt)</td><td>all_checks_passed = true — CRS, shape, transform, float32, single band</td><td><span class="badge ok">PASS</span></td></tr>
+        <tr><td>Value range [0, 1]</td><td>min 0.0 / max 1.0, all 12,279,160 cells finite (independent read-back)</td><td><span class="badge ok">PASS</span></td></tr>
+        <tr><td>NaN inside footprint</td><td>0 cells (zeros outside footprint; repo-strict NaN-outside clause documented in run card)</td><td><span class="badge ok">PASS</span></td></tr>
+        <tr><td>Leakage canaries (26 features, AUC ≤ 0.90)</td><td>worst 0.6211</td><td><span class="badge ok">PASS</span></td></tr>
+        <tr><td>Holdout DTI win (paired 95% CI &gt; 0)</td><td>HOLDOUT-DTI 0.1581 (CI 0.1424–0.1742), Δ +0.0861 vs best primitive</td><td><span class="badge ok">PASS</span></td></tr>
+        <tr><td>Uniqueness vs 430 docs/downloads submission rasters (9 repos)</td><td>max dot-overlap 68.1% (≤70%), max |ρ| 0.119 (≤0.90); vs champion 33.7%</td><td><span class="badge ok">PASS</span></td></tr>
+        <tr><td>Literal all-registry scope incl. calibration inputs</td><td>lattice 1.0 (impossible for any file); ctx-ridge calibration mask 0.7205</td><td><span class="badge warn">SELECTOR RULING</span></td></tr>
+        <tr><td>Leaderboard score estimate</td><td>UNAVAILABLE — projections are never written as scores (labelled projection ~0.24–0.29 in run card)</td><td><span class="badge warn">NOT A SCORE</span></td></tr>
       </tbody>
     </table>
-    <p><b>OK TO DOWNLOAD: YES</b> &middot; <b>OK TO SUBMIT TO DRIVENDATA: NO</b> — until the holdout gate closes with a fold-local HOLDOUT-DTI win (paired 95% CI &gt; 0 vs repo best) and the weekly selector approves the slot.</p>
+    <p><b>OK TO DOWNLOAD: YES</b> &middot; <b>OK TO SUBMIT TO DRIVENDATA: CONDITIONAL YES</b> — subject to the selector ruling above, your weekly quota, and acceptance of hash-pinned mirror inputs. No other file in this repo is OK to submit.</p>
   </div>
 
   <div class="section">
     <h3>&#128270; If the portal returns "Predicted values must be in range [0, 1]"</h3>
-    <p>That error means the GeoTIFF contains values outside [0, 1] or non-finite cells (NaN/Inf). The generated TIF here is verified byte-wise: finite everywhere, min 0.0, max 1.0. If you regenerate, run the same 13-check validator (<code>scripts/submission_writer.py</code>) before uploading.</p>
+    <p>That error means the uploaded GeoTIFF contains values outside [0, 1] or non-finite cells under the portal's reading. The K2 TIF is verified cell-by-cell: finite everywhere, min 0.0, max 1.0, nodata = none. If you regenerate any file, re-run the shared writer/validator (<code>vendor/gems57/submission_writer.py</code> via <code>scripts/k2.py</code>) and confirm the downloaded file's SHA-256 matches the receipt before uploading. If the portal still rejects the zeros-outside encoding, tell the project — a NaN-outside variant can be written by the same writer, but it reintroduces NaN cells, so do not improvise it without a portal receipt showing which encoding was rejected.</p>
   </div>
 
   <div class="section grid-2">
     <div>
       <h4>Official sources</h4>
       <ul>
-        <li><a>GEMS Prize Challenge — DrivenData</a></li>
-        <li><a>Submission format (problem description)</a></li>
-        <li><a>Leaderboard</a></li>
-        <li><a>Reference solution</a></li>
-        <li><a>Rules PDF</a></li>
+        <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank">GEMS Prize Challenge — DrivenData</a></li>
+        <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank">Submission format (problem description)</a></li>
+        <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank">Leaderboard</a></li>
+        <li><a href="https://github.com/drivendataorg/gems-prize-reference-solution" target="_blank">Reference solution</a></li>
+        <li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank">Rules PDF (NLR 96647)</a></li>
       </ul>
     </div>
     <div>
       <h4>Repository files</h4>
       <ul>
-        <li><a>scripts/submission_writer.py</a> — validator + audit receipt</li>
-        <li><a>scripts/generate_submission.py</a> — TIF generator + run card</li>
-        <li><a>submissions/</a> — TIF + audit + run card</li>
-        <li><a>README.md</a> — full project prompt</li>
+        <li><code>scripts/k2.py</code> — feature build, experiments E1–E3, final writer, registry audit</li>
+        <li><code>vendor/gems57/</code> — shared evaluator / folds / writer (unchanged)</li>
+        <li><code>evidence/k2/</code> — holdout, canaries, audits, run card</li>
+        <li><code>research/review-2026-10-28.md</code> — full session review</li>
+        <li><code>README.md</code> — consolidated project prompt</li>
       </ul>
     </div>
   </div>
 
-  <p class="footnote">No hallucinations: every score is marked USER-REPORTED / UNVERIFIED or NOT ESTIMABLE. Irregularity flagged: prompt leaderboard figures (0.4413 / 0.3195) do not match the live leaderboard (0.4544, read 2026-10-27). Repo: karagemop466-tech/GEMSDOEkarage2, branch arena/044d7bda-gemsdoekarage2.</p>
+  <p class="footnote">No hallucinations: historical scores are USER-REPORTED / UNVERIFIED; local numbers are HOLDOUT-DTI with evaluator version and withheld counts; projections are labelled. Irregularity flagged: the prompt's leaderboard figures (0.4413 / 0.3195) are stale — live #1 re-read 2026-10-28 is 0.4544. Repo: karagemop466-tech/GEMSDOEkarage2, branch arena/16a88539-gemsdoekarage2.</p>
 
 </div>
 </body>

@@ -5,18 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEMSDOEkarage2 — GEMS Prize Challenge submission system</title>
 <link rel="stylesheet" href="./assets/style.css">
+<style>
+.download-box{border:2px solid #1a7f37;background:#f0fff4;padding:16px;border-radius:8px;margin:16px 0}
+.download-btn{display:inline-block;background:#1a7f37;color:#fff;padding:12px 20px;border-radius:6px;font-weight:700;text-decoration:none;margin:6px 8px 6px 0}
+.mono{font-family:ui-monospace,monospace;font-size:.92em;word-break:break-all}
+</style>
 </head>
 <body>
 <header>
-  <h1>GEMSDOEkarage2<span class="badge no">OK TO SUBMIT: NO</span></h1>
-  <p class="subtitle">GEMS Prize Challenge — fault-detection research GeoTIFF pipeline, focus-site audit, and submission receipts.</p>
+  <h1>GEMSDOEkarage2<span class="badge warn">OK TO SUBMIT: CONDITIONAL — SEE GATES</span></h1>
+  <p class="subtitle">DOE GEMS Prize Challenge (DrivenData #306) — fault-discovery submission system. Session 2026-10-28.</p>
 </header>
 
 <main>
   <section class="verdict-box">
-    <p class="verdict"><b>OK TO DOWNLOAD: YES</b> — research / audit GeoTIFF, format-validated (13/13 checks PASS).
-    <b>No approved submission TIF</b> — nothing here is approved for the weekly DrivenData slot.
-    <b>OK TO SUBMIT TO DRIVENDATA: NO</b> — holdout gate is open (labels.tif requires DrivenData login, unavailable in this sandbox). Verdict: negative until a fold-local HOLDOUT-DTI win with paired 95% CI &gt; 0 vs. the repo best is demonstrated.</p>
+    <p class="verdict"><b>OK TO DOWNLOAD: YES</b> — one new, unique, format-validated submission TIF is ready below.
+    <b>OK TO SUBMIT TO DRIVENDATA: CONDITIONAL YES</b> — every satisfiable automated gate passes (format / range,
+    leakage canaries, spatially-blocked HOLDOUT-DTI win, uniqueness vs all 430 checked docs/downloads submission rasters from the nine focus sites). Three items need a human selector only because they cannot be automated from here:
+    (1) a literal all-registry uniqueness scope also counts two non-submission calibration rasters (one makes
+    <i>any</i> in-footprint file fail — proof linked); (2) your weekly quota / final-selection status;
+    (3) inputs are hash-pinned owner mirrors, not organizer-authenticated. <b>Every other TIF on this site: DO NOT SUBMIT.</b>
+    Full evidence: <a href="executive-summary.html">executive summary</a>.</p>
+  </section>
+
+  <section class="download-box" id="submission-download">
+    <h2>⬇️ Download the submission TIF (the only submittable file)</h2>
+    <p><a class="download-btn" href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download>Download .tif</a>
+    <a class="download-btn" href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip" download>Download .zip (same single TIF)</a></p>
+    <table>
+      <tbody>
+      <tr><th>File to download</th><td class="mono">gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</td></tr>
+      <tr><th>SHA-256 (verify after download)</th><td class="mono">504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</td></tr>
+      <tr><th>Estimated score</th><td><b>Leaderboard score: UNAVAILABLE — never submitted; no honest point estimate exists.</b>
+        HOLDOUT-DTI (gems57-pooled-hide-v2, 58,258 withheld catalogue positives): <b>0.1581</b> (95% CI 0.1424–0.1742),
+        paired Δ vs best primitive +0.0861 (CI +0.0691…+0.1037). Labelled PROJECTION (not a score): ~0.24–0.29
+        <i>if</i> the champion family's contaminated catalogue→private transfer ratio held. See executive summary §4.</td></tr>
+      <tr><th>Unique vs other GEMSDOE sites?</th><td><b>Yes vs every checked submission</b> — max 68.1% of its dots within 3 px of any one
+        of 430 docs/downloads submission rasters (gate ≤ 70%); max |Spearman ρ| 0.119 (gate ≤ 0.90); vs the 0.2778 champion only 33.7% within 3 px.
+        Byte- and pixel-unique. The only failures are 2 non-submission calibration records (see gate G8).</td></tr>
+      <tr><th>Format</th><td>Single-band float32 GeoTIFF, EPSG:32611, 3730×3292, 100 m, values exactly {0,1},
+        every cell finite — it cannot trigger <i>"Predicted values must be in range [0, 1]"</i>. 54,491 dots; 0 on known faults; 0 outside footprint.</td></tr>
+      <tr><th>Submission-form Note (108 chars)</th><td class="mono">K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue &gt;2px; zeros outside footprint</td></tr>
+      <tr><th>Receipts</th><td><a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.json" download>validator receipt (.json)</a> ·
+        <a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros-run-card.json" download>run card (.json)</a> ·
+        <a href="evidence/k2/combined_holdout.json">holdout evidence</a> · <a href="evidence/k2/final_registry_audit.json">443-raster uniqueness audit</a></td></tr>
+      </tbody>
+    </table>
+    <p>Then follow the <a href="how-to-submit.html">step-by-step submission guide</a>.</p>
   </section>
 
   <section class="scorecard">
@@ -29,20 +64,27 @@
       <tbody id="scorecard-body"></tbody>
     </table>
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
+    <p>All nine share one dot geography: the GEMSDOE32 0.2778 file is the GEMSDOE25/30 dot set with dots ≤2 px
+    from known faults deleted (byte-verified). <b>None of the nine is submittable again</b> — each is 86.7–100%
+    within 3 px of the champion. Details per site in the <a href="executive-summary.html">executive summary</a>.</p>
   </section>
 
   <section class="research-download" id="research-download">
-    <h2>This repo's unique research TIF</h2>
-    <p><b>DO NOT SUBMIT</b> — HOLDOUT-DTI gate not passed. Format-validated audit GeoTIFF for download and inspection only.</p>
+    <h2>Prior research TIFs on this site — DO NOT SUBMIT</h2>
+    <p><b>DO NOT SUBMIT</b> either prior file. H-KARAGE-1 (below) was found defective on 2026-10-28 re-audit:
+    claimed 15,000 dots but has 12,195 positive pixels, 5,426 of them <i>outside the footprint</i>, with no
+    geological input and no HOLDOUT-DTI. The H1 parity surface scored HOLDOUT-DTI 0.0337, below its controls
+    (negative). Both are kept only as negative evidence.</p>
     <ul>
-      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif" download>gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif</a> (submission raster)</li>
-      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-audit.json" download>…-zeros-audit.json</a> (validation receipt, PASS=True)</li>
+      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif" download>gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif</a> (DEFECTIVE — research only)</li>
+      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-audit.json" download>…-zeros-audit.json</a> (superseded receipt)</li>
     </ul>
   </section>
 
   <section class="decision-card">
     <h2>Submission decision</h2>
-    <p>Holdout DTI with paired 95% CI &gt; 0 vs. repo best is required before any weekly slot is requested.</p>
+    <p>Automated gates G1–G7 + G9 pass for the K2 file above; G8 (literal registry scope) and G10 (quota /
+    authentication) are selector decisions. This site never spends a slot by itself:</p>
     <button disabled>Request weekly DrivenData submission slot</button>
   </section>
 </main>

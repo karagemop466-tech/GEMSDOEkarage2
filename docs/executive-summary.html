@@ -5,28 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEMSDOEkarage2 — executive summary &amp; how to submit</title>
 <link rel="stylesheet" href="./assets/style.css">
+<style>
+.download-box{border:2px solid #1a7f37;background:#f0fff4;padding:16px;border-radius:8px;margin:16px 0}
+.download-btn{display:inline-block;background:#1a7f37;color:#fff;padding:12px 20px;border-radius:6px;font-weight:700;text-decoration:none;margin:6px 8px 6px 0}
+.mono{font-family:ui-monospace,monospace;font-size:.92em;word-break:break-all}
+</style>
 </head>
 <body>
 <header>
-  <h1>Executive summary — GEMSDOE sites 24/25/27/28/30/31/32/33/36</h1>
-  <p class="subtitle">How to submit to the DOE GEMS Prize Challenge via DrivenData, plus the nine-site scorecard.</p>
+  <h1>Executive summary — GEMSDOE sites 24/25/27/28/30/31/32/33/36 + new K2 candidate</h1>
+  <p class="subtitle">Session 2026-10-28. Every number is labelled HOLDOUT-DTI, USER-REPORTED, or PROJECTION — never an unlabelled score.</p>
 </header>
 
 <main>
+  <section class="download-box" id="download">
+    <h2>⬇️ The one file to download and (conditionally) submit</h2>
+    <p><a class="download-btn" href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download>Download .tif</a>
+    <a class="download-btn" href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.zip" download>Download .zip</a></p>
+    <table>
+      <thead><tr><th>File to download</th><th>Estimated score</th><th>Unique submission?</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="mono">gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif<br>SHA-256 504be458…8dfb · 54,491 dots</td>
+        <td><b>Leaderboard: UNAVAILABLE (never submitted).</b><br>HOLDOUT-DTI <b>0.1581</b> (95% CI 0.1424–0.1742; gems57-pooled-hide-v2; 58,258 withheld).<br>
+          PROJECTION — NOT A SCORE: ~0.24–0.29 if the D2.8 family's contaminated transfer held (§4 below).</td>
+        <td><b>Yes vs every checked submission raster</b> (430 docs/downloads rasters, 9 repos incl. 2026-10-28 heads, 435 compared in total; max overlap 68.1% ≤ 70%; max |ρ| 0.119 ≤ 0.90; vs champion 33.7%). Literal all-registry scope fails only on 2 non-submission calibration records (G8).</td>
+      </tr>
+      </tbody>
+    </table>
+    <p class="warn"><b>OK TO SUBMIT: CONDITIONAL YES.</b> Conditions (selector, not science): rule on the G8 registry
+    scope; confirm remaining weekly quota / final selection; accept hash-pinned owner-mirror inputs (grid matches
+    every historically reported scored file). If literal G8 scope is enforced, the answer is NO — that scope also
+    retroactively forbids the 0.2778 champion itself. <b>All other TIFs in this repo: DO NOT SUBMIT.</b></p>
+  </section>
+
   <section id="how-to-submit">
-    <h2>How to submit (DrivenData form guide)</h2>
+    <h2>How to submit (exactly)</h2>
     <ol>
-      <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
-      <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
-      <li>Format contract: EPSG:32611, 100 m, bounds [243350, 4135550, 572550, 4508550], 3730×3292 pixels, values in [0,1], NaN outside the footprint.</li>
-      <li>Upload, confirm the [0,1] range (portal rejects out-of-range values), and submit.</li>
-      <li>Wait for the organizer DTI evaluation against holdout labels (α=0.2, β=0.8, R=300 m triangular kernel).</li>
+      <li>Download the .tif above and verify its SHA-256 equals <span class="mono">504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</span>.</li>
+      <li>Log in at <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData — GEMS Prize Challenge</a>; open <b>Make a Submission</b> ("New submission" form).</li>
+      <li><b>File to submit:</b> attach the .tif (or the .zip containing the same single .tif). Format: single-band float32, EPSG:32611, 3730×3292, transform (100, 0, 243350; 0, −100, 4508550), all values exactly 0/1 — no cell can trigger "Predicted values must be in range [0, 1]".</li>
+      <li><b>Note</b> (paste, 108 chars): <span class="mono">K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue &gt;2px; zeros outside footprint</span></li>
+      <li>Submit, then <b>save the organizer receipt/score</b> — that becomes this project's first ORGANIZER-CONFIRMED number. Report it back so the projection can be replaced by evidence.</li>
     </ol>
-    <p class="warn">This repo's H-KARAGE-1 TIF is <b>NOT approved to submit</b>: the holdout gate is open (labels.tif requires DrivenData login) and no fold-local HOLDOUT-DTI win with paired 95% CI &gt; 0 vs. the repo best has been demonstrated.</p>
+    <p>Full walkthrough with the 10-gate table: <a href="how-to-submit.html">how-to-submit.html</a>.</p>
   </section>
 
   <section class="scorecard">
-    <h2>Nine-site scorecard</h2>
+    <h2>1 · Nine-site scorecard — best file per site (all DO NOT RESUBMIT)</h2>
     <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
     <table>
       <thead>
@@ -37,12 +63,78 @@
     <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
   </section>
 
+  <section id="champion">
+    <h2>2 · Why GEMSDOE32's 0.2778 is the family best (byte-verified)</h2>
+    <p>GEMSDOE25 and GEMSDOE30 have <b>identical decoded dot sets</b> ("D2.8"). GEMSDOE31 = D2.8 minus dots ≤1 px
+    from known faults. <b>GEMSDOE32 = D2.8 minus dots ≤2 px</b> (6,436 deleted). GEMSDOE36 = all of GEMSDOE32 + 1,200 dots.
+    Each site's dots are 86.7–100% within 3 px of the champion's. Because organizers exclude known-fault pixels from
+    scoring (<a href="https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516/2">staff clarification</a>),
+    apron dots mostly pay false-positive cost (α = 0.2) for credit a neighbour dot already earns under the 300 m
+    max-kernel — deleting them raises DTI mechanically. The champion is an <i>emission</i> improvement on one shared
+    geography, not a new detector. Beating it needs a better surface with the same emission discipline.</p>
+  </section>
+
+  <section id="holdout">
+    <h2>3 · New candidate — holdout evidence (3 preregistered experiments)</h2>
+    <p>Method: supervised gradient-boosted fault-likelihood from 26 label-blind geophysics features (no
+    catalogue-derived predictors), fold-local training on visible faults only, tip-continuation boost, dotted
+    emission (≥2.8 px spacing). Evaluator gems57-pooled-hide-v2 (α 0.2, β 0.8, 300 m triangular kernel),
+    whole-component quadrant holdout, 58,258 withheld positives. All 26 leakage canaries ≤ 0.6211 AUC (pass ≤ 0.90).</p>
+    <table>
+      <thead><tr><th>Arm</th><th>HOLDOUT-DTI</th><th>95% CI</th></tr></thead>
+      <tbody>
+        <tr><td><b>hgbcont_b110 (submitted file's config)</b></td><td><b>0.1581</b></td><td>0.1424–0.1742</td></tr>
+        <tr><td>hgb_b110 (no continuation)</td><td>0.1576</td><td>0.1417–0.1736</td></tr>
+        <tr><td>hgbcont_b073 (champion-density budget)</td><td>0.1265</td><td>0.1108–0.1421</td></tr>
+        <tr><td>best unsupervised primitive (ridge coherence)</td><td>0.0720</td><td>0.0618–0.0835</td></tr>
+        <tr><td>prior session H1 candidate</td><td>0.0337</td><td>0.0287–0.0393</td></tr>
+      </tbody>
+    </table>
+    <p>Paired Δ(candidate − best primitive) = <b>+0.0861</b> (CI +0.0691…+0.1037). Per-fold DTI 0.139 / 0.220 / 0.133 / 0.154.
+    Evidence: <a href="evidence/k2/combined_holdout.json">combined_holdout.json</a>.</p>
+  </section>
+
+  <section id="estimate">
+    <h2>4 · Score estimate — labelled, with its limits</h2>
+    <p><b>Leaderboard estimate: UNAVAILABLE.</b> Catalogue hide-and-recover measures recovery of <i>mapped</i> faults;
+    the private set is <i>unmapped</i> expert faults. Proof they differ: the 0.2778-reported champion scores 0.0067
+    against the catalogue it avoids. <b>PROJECTION — NOT A SCORE:</b> the champion family's parent file scores a
+    (leakage-contaminated) 0.1573 on these folds vs a user-reported 0.2600 privately (ratio 1.65). Scaling our clean
+    0.1581 by 1.65 → 0.261; with the family's apron-pruning gain → ~0.28; widened for budget/transfer uncertainty →
+    <b>~0.24–0.29</b>. Every input is user-reported or contaminated; the true value is knowable only from an
+    organizer receipt. Current public #1 is 0.4544 — nobody should claim this file beats it.</p>
+  </section>
+
+  <section id="gates">
+    <h2>5 · Automated validation gates (no human inspector)</h2>
+    <table>
+      <thead><tr><th>Gate</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>G1 Format &amp; range (CRS/shape/transform/float32/finite/[0,1])</td><td><b>PASS</b></td></tr>
+        <tr><td>G2 Outside-footprint = 0 (champion -zeros precedent; strict-NaN clause documented)</td><td><b>PASS*</b></td></tr>
+        <tr><td>G3 Leakage canaries (26 features)</td><td><b>PASS</b> (worst 0.6211)</td></tr>
+        <tr><td>G4 Holdout win, paired CI &gt; 0</td><td><b>PASS</b> (+0.0861)</td></tr>
+        <tr><td>G5/G6 Uniqueness surface + final dots vs 9 focus best</td><td><b>PASS</b> (ρ ≤ 0.092; dots ≤ 42.7%)</td></tr>
+        <tr><td>G7 Uniqueness vs all 430 docs/downloads submission rasters (9 repos, current heads)</td><td><b>PASS</b> (max 68.1%; max |ρ| 0.119)</td></tr>
+        <tr><td>G8 Literal all-registry incl. calibration inputs</td><td><b>FAIL</b> — lattice 1.0 (impossible for any file), ctx-ridge calibration mask 0.7205 → selector ruling</td></tr>
+        <tr><td>G9 Name/note ≤ 140 chars, SHA-256, single-TIF ZIP</td><td><b>PASS</b></td></tr>
+        <tr><td>G10 Quota / final selection / organizer authentication</td><td><b>UNVERIFIABLE here</b></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section id="site-detail-list">
     <h2>Per-site detail cards</h2>
     <p>Click a site below for its detailed review.</p>
   </section>
 
-  <p class="muted">Full per-site reviews: <a href="research-hypotheses.html">research hypotheses (H-KARAGE-2…6)</a> &nbsp;|&nbsp; <a href="how-to-submit.html">submission walkthrough &amp; 7-gate verdict table</a> &nbsp;|&nbsp; <a href="index.html">homepage &amp; download</a>.</p>
+  <p class="muted">Sources: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem description</a> ·
+  <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard</a> ·
+  <a href="https://github.com/drivendataorg/gems-prize-reference-solution">reference solution</a> ·
+  <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">rules PDF</a> ·
+  <a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN</a> ·
+  <a href="https://gbcge.org/current-projects/ingenious/">INGENIOUS</a> ·
+  <a href="evidence/k2/run_card.json">run card (JSON)</a></p>
 </main>
 
 <script src="./assets/app.js"></script>

@@ -1,0 +1,585 @@
+{
+  "experiment": "E1 canaries + primitives",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "canaries": [
+    {
+      "fold": 0,
+      "positives": 28701,
+      "unlabeled_sample": 60000,
+      "features": {
+        "mag_anom": {
+          "auc": 0.4982916475035713,
+          "canary_max_auc_1m": 0.5017083524964288,
+          "pass": true
+        },
+        "rtp": {
+          "auc": 0.5055488261152341,
+          "canary_max_auc_1m": 0.5055488261152341,
+          "pass": true
+        },
+        "tmi_hg": {
+          "auc": 0.5251026340545626,
+          "canary_max_auc_1m": 0.5251026340545626,
+          "pass": true
+        },
+        "grav_slope": {
+          "auc": 0.5305747894963009,
+          "canary_max_auc_1m": 0.5305747894963009,
+          "pass": true
+        },
+        "tc": {
+          "auc": 0.46433736426140787,
+          "canary_max_auc_1m": 0.5356626357385921,
+          "pass": true
+        },
+        "tmi_vg": {
+          "auc": 0.4949192876554824,
+          "canary_max_auc_1m": 0.5050807123445176,
+          "pass": true
+        },
+        "grav_vg": {
+          "auc": 0.5140139934148636,
+          "canary_max_auc_1m": 0.5140139934148636,
+          "pass": true
+        },
+        "det_elev": {
+          "auc": 0.4994380097093017,
+          "canary_max_auc_1m": 0.5005619902906984,
+          "pass": true
+        },
+        "iso_grav": {
+          "auc": 0.45838512827659894,
+          "canary_max_auc_1m": 0.5416148717234011,
+          "pass": true
+        },
+        "tmi": {
+          "auc": 0.49871191509006657,
+          "canary_max_auc_1m": 0.5012880849099335,
+          "pass": true
+        },
+        "depth_base": {
+          "auc": 0.5175321643845162,
+          "canary_max_auc_1m": 0.5175321643845162,
+          "pass": true
+        },
+        "cond_surf": {
+          "auc": 0.5027880837485337,
+          "canary_max_auc_1m": 0.5027880837485337,
+          "pass": true
+        },
+        "grav_hg": {
+          "auc": 0.4689692301661963,
+          "canary_max_auc_1m": 0.5310307698338037,
+          "pass": true
+        },
+        "elev_slope": {
+          "auc": 0.5472871058499703,
+          "canary_max_auc_1m": 0.5472871058499703,
+          "pass": true
+        },
+        "g15_rtp": {
+          "auc": 0.5271020925519436,
+          "canary_max_auc_1m": 0.5271020925519436,
+          "pass": true
+        },
+        "g15_det_elev": {
+          "auc": 0.5677671988780878,
+          "canary_max_auc_1m": 0.5677671988780878,
+          "pass": true
+        },
+        "g15_iso_grav": {
+          "auc": 0.5317826196532061,
+          "canary_max_auc_1m": 0.5317826196532061,
+          "pass": true
+        },
+        "g15_depth_base": {
+          "auc": 0.5279679157520645,
+          "canary_max_auc_1m": 0.5279679157520645,
+          "pass": true
+        },
+        "g15_cond_surf": {
+          "auc": 0.5022778866590014,
+          "canary_max_auc_1m": 0.5022778866590014,
+          "pass": true
+        },
+        "g40_rtp": {
+          "auc": 0.5297521895288201,
+          "canary_max_auc_1m": 0.5297521895288201,
+          "pass": true
+        },
+        "g40_det_elev": {
+          "auc": 0.5745701708999686,
+          "canary_max_auc_1m": 0.5745701708999686,
+          "pass": true
+        },
+        "g40_iso_grav": {
+          "auc": 0.5307276860272,
+          "canary_max_auc_1m": 0.5307276860272,
+          "pass": true
+        },
+        "g40_depth_base": {
+          "auc": 0.527525776976412,
+          "canary_max_auc_1m": 0.527525776976412,
+          "pass": true
+        },
+        "g40_cond_surf": {
+          "auc": 0.5003906341823166,
+          "canary_max_auc_1m": 0.5003906341823166,
+          "pass": true
+        },
+        "dog_det_elev": {
+          "auc": 0.4387643232523838,
+          "canary_max_auc_1m": 0.5612356767476162,
+          "pass": true
+        },
+        "dog_rtp": {
+          "auc": 0.49349247209737174,
+          "canary_max_auc_1m": 0.5065075279026283,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 1,
+      "positives": 12118,
+      "unlabeled_sample": 60000,
+      "features": {
+        "mag_anom": {
+          "auc": 0.516899743494526,
+          "canary_max_auc_1m": 0.516899743494526,
+          "pass": true
+        },
+        "rtp": {
+          "auc": 0.4976559780216757,
+          "canary_max_auc_1m": 0.5023440219783243,
+          "pass": true
+        },
+        "tmi_hg": {
+          "auc": 0.4854450782582384,
+          "canary_max_auc_1m": 0.5145549217417615,
+          "pass": true
+        },
+        "grav_slope": {
+          "auc": 0.5737510734719701,
+          "canary_max_auc_1m": 0.5737510734719701,
+          "pass": true
+        },
+        "tc": {
+          "auc": 0.43086602712218736,
+          "canary_max_auc_1m": 0.5691339728778126,
+          "pass": true
+        },
+        "tmi_vg": {
+          "auc": 0.4867378637839027,
+          "canary_max_auc_1m": 0.5132621362160973,
+          "pass": true
+        },
+        "grav_vg": {
+          "auc": 0.5346389943334984,
+          "canary_max_auc_1m": 0.5346389943334984,
+          "pass": true
+        },
+        "det_elev": {
+          "auc": 0.45447716619904277,
+          "canary_max_auc_1m": 0.5455228338009572,
+          "pass": true
+        },
+        "iso_grav": {
+          "auc": 0.4833057029487814,
+          "canary_max_auc_1m": 0.5166942970512186,
+          "pass": true
+        },
+        "tmi": {
+          "auc": 0.5070030698135005,
+          "canary_max_auc_1m": 0.5070030698135005,
+          "pass": true
+        },
+        "depth_base": {
+          "auc": 0.5186841888100348,
+          "canary_max_auc_1m": 0.5186841888100348,
+          "pass": true
+        },
+        "cond_surf": {
+          "auc": 0.47344613935192825,
+          "canary_max_auc_1m": 0.5265538606480717,
+          "pass": true
+        },
+        "grav_hg": {
+          "auc": 0.5752257447598613,
+          "canary_max_auc_1m": 0.5752257447598613,
+          "pass": true
+        },
+        "elev_slope": {
+          "auc": 0.5531588999834957,
+          "canary_max_auc_1m": 0.5531588999834957,
+          "pass": true
+        },
+        "g15_rtp": {
+          "auc": 0.4924291742311712,
+          "canary_max_auc_1m": 0.5075708257688287,
+          "pass": true
+        },
+        "g15_det_elev": {
+          "auc": 0.5889502482532871,
+          "canary_max_auc_1m": 0.5889502482532871,
+          "pass": true
+        },
+        "g15_iso_grav": {
+          "auc": 0.5775710884634428,
+          "canary_max_auc_1m": 0.5775710884634428,
+          "pass": true
+        },
+        "g15_depth_base": {
+          "auc": 0.553690626203444,
+          "canary_max_auc_1m": 0.553690626203444,
+          "pass": true
+        },
+        "g15_cond_surf": {
+          "auc": 0.4964929581339055,
+          "canary_max_auc_1m": 0.5035070418660945,
+          "pass": true
+        },
+        "g40_rtp": {
+          "auc": 0.49893777782362325,
+          "canary_max_auc_1m": 0.5010622221763767,
+          "pass": true
+        },
+        "g40_det_elev": {
+          "auc": 0.601585732656654,
+          "canary_max_auc_1m": 0.601585732656654,
+          "pass": true
+        },
+        "g40_iso_grav": {
+          "auc": 0.5768712830775156,
+          "canary_max_auc_1m": 0.5768712830775156,
+          "pass": true
+        },
+        "g40_depth_base": {
+          "auc": 0.5547376217197557,
+          "canary_max_auc_1m": 0.5547376217197557,
+          "pass": true
+        },
+        "g40_cond_surf": {
+          "auc": 0.4954008822963085,
+          "canary_max_auc_1m": 0.5045991177036915,
+          "pass": true
+        },
+        "dog_det_elev": {
+          "auc": 0.37893756670517686,
+          "canary_max_auc_1m": 0.6210624332948231,
+          "pass": true
+        },
+        "dog_rtp": {
+          "auc": 0.48329722657754304,
+          "canary_max_auc_1m": 0.516702773422457,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 2,
+      "positives": 8213,
+      "unlabeled_sample": 60000,
+      "features": {
+        "mag_anom": {
+          "auc": 0.47284583586996226,
+          "canary_max_auc_1m": 0.5271541641300377,
+          "pass": true
+        },
+        "rtp": {
+          "auc": 0.5588655677990179,
+          "canary_max_auc_1m": 0.5588655677990179,
+          "pass": true
+        },
+        "tmi_hg": {
+          "auc": 0.5532043335768497,
+          "canary_max_auc_1m": 0.5532043335768497,
+          "pass": true
+        },
+        "grav_slope": {
+          "auc": 0.46533684199845776,
+          "canary_max_auc_1m": 0.5346631580015422,
+          "pass": true
+        },
+        "tc": {
+          "auc": 0.4255778187020578,
+          "canary_max_auc_1m": 0.5744221812979422,
+          "pass": true
+        },
+        "tmi_vg": {
+          "auc": 0.47688779881488697,
+          "canary_max_auc_1m": 0.523112201185113,
+          "pass": true
+        },
+        "grav_vg": {
+          "auc": 0.5235417072527294,
+          "canary_max_auc_1m": 0.5235417072527294,
+          "pass": true
+        },
+        "det_elev": {
+          "auc": 0.5551873574414545,
+          "canary_max_auc_1m": 0.5551873574414545,
+          "pass": true
+        },
+        "iso_grav": {
+          "auc": 0.4764218535654856,
+          "canary_max_auc_1m": 0.5235781464345144,
+          "pass": true
+        },
+        "tmi": {
+          "auc": 0.48426146657737734,
+          "canary_max_auc_1m": 0.5157385334226227,
+          "pass": true
+        },
+        "depth_base": {
+          "auc": 0.4775916301392102,
+          "canary_max_auc_1m": 0.5224083698607898,
+          "pass": true
+        },
+        "cond_surf": {
+          "auc": 0.4700707415073664,
+          "canary_max_auc_1m": 0.5299292584926336,
+          "pass": true
+        },
+        "grav_hg": {
+          "auc": 0.496386084053736,
+          "canary_max_auc_1m": 0.503613915946264,
+          "pass": true
+        },
+        "elev_slope": {
+          "auc": 0.5864028055115873,
+          "canary_max_auc_1m": 0.5864028055115873,
+          "pass": true
+        },
+        "g15_rtp": {
+          "auc": 0.5710621311741548,
+          "canary_max_auc_1m": 0.5710621311741548,
+          "pass": true
+        },
+        "g15_det_elev": {
+          "auc": 0.5866686482811803,
+          "canary_max_auc_1m": 0.5866686482811803,
+          "pass": true
+        },
+        "g15_iso_grav": {
+          "auc": 0.47009272494825277,
+          "canary_max_auc_1m": 0.5299072750517473,
+          "pass": true
+        },
+        "g15_depth_base": {
+          "auc": 0.4706349892446934,
+          "canary_max_auc_1m": 0.5293650107553066,
+          "pass": true
+        },
+        "g15_cond_surf": {
+          "auc": 0.5032153181947319,
+          "canary_max_auc_1m": 0.5032153181947319,
+          "pass": true
+        },
+        "g40_rtp": {
+          "auc": 0.5749727961767929,
+          "canary_max_auc_1m": 0.5749727961767929,
+          "pass": true
+        },
+        "g40_det_elev": {
+          "auc": 0.5925351962336134,
+          "canary_max_auc_1m": 0.5925351962336134,
+          "pass": true
+        },
+        "g40_iso_grav": {
+          "auc": 0.46861539226429644,
+          "canary_max_auc_1m": 0.5313846077357036,
+          "pass": true
+        },
+        "g40_depth_base": {
+          "auc": 0.4715568448394821,
+          "canary_max_auc_1m": 0.5284431551605179,
+          "pass": true
+        },
+        "g40_cond_surf": {
+          "auc": 0.5017964436462519,
+          "canary_max_auc_1m": 0.5017964436462519,
+          "pass": true
+        },
+        "dog_det_elev": {
+          "auc": 0.41308209241446486,
+          "canary_max_auc_1m": 0.5869179075855351,
+          "pass": true
+        },
+        "dog_rtp": {
+          "auc": 0.47798254697836756,
+          "canary_max_auc_1m": 0.5220174530216324,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 3,
+      "positives": 9226,
+      "unlabeled_sample": 60000,
+      "features": {
+        "mag_anom": {
+          "auc": 0.509484705361659,
+          "canary_max_auc_1m": 0.509484705361659,
+          "pass": true
+        },
+        "rtp": {
+          "auc": 0.5070309695425971,
+          "canary_max_auc_1m": 0.5070309695425971,
+          "pass": true
+        },
+        "tmi_hg": {
+          "auc": 0.5017237173928752,
+          "canary_max_auc_1m": 0.5017237173928752,
+          "pass": true
+        },
+        "grav_slope": {
+          "auc": 0.5596460392730689,
+          "canary_max_auc_1m": 0.5596460392730689,
+          "pass": true
+        },
+        "tc": {
+          "auc": 0.38256181624394825,
+          "canary_max_auc_1m": 0.6174381837560518,
+          "pass": true
+        },
+        "tmi_vg": {
+          "auc": 0.48402599176241057,
+          "canary_max_auc_1m": 0.5159740082375894,
+          "pass": true
+        },
+        "grav_vg": {
+          "auc": 0.561306019221042,
+          "canary_max_auc_1m": 0.561306019221042,
+          "pass": true
+        },
+        "det_elev": {
+          "auc": 0.47888925952019656,
+          "canary_max_auc_1m": 0.5211107404798034,
+          "pass": true
+        },
+        "iso_grav": {
+          "auc": 0.48906412222703954,
+          "canary_max_auc_1m": 0.5109358777729605,
+          "pass": true
+        },
+        "tmi": {
+          "auc": 0.5033266520341065,
+          "canary_max_auc_1m": 0.5033266520341065,
+          "pass": true
+        },
+        "depth_base": {
+          "auc": 0.5315335446925356,
+          "canary_max_auc_1m": 0.5315335446925356,
+          "pass": true
+        },
+        "cond_surf": {
+          "auc": 0.5430386182166341,
+          "canary_max_auc_1m": 0.5430386182166341,
+          "pass": true
+        },
+        "grav_hg": {
+          "auc": 0.5146651582484283,
+          "canary_max_auc_1m": 0.5146651582484283,
+          "pass": true
+        },
+        "elev_slope": {
+          "auc": 0.5710494842474167,
+          "canary_max_auc_1m": 0.5710494842474167,
+          "pass": true
+        },
+        "g15_rtp": {
+          "auc": 0.5090937495483778,
+          "canary_max_auc_1m": 0.5090937495483778,
+          "pass": true
+        },
+        "g15_det_elev": {
+          "auc": 0.590187116121107,
+          "canary_max_auc_1m": 0.590187116121107,
+          "pass": true
+        },
+        "g15_iso_grav": {
+          "auc": 0.5569972107811259,
+          "canary_max_auc_1m": 0.5569972107811259,
+          "pass": true
+        },
+        "g15_depth_base": {
+          "auc": 0.5701072729243442,
+          "canary_max_auc_1m": 0.5701072729243442,
+          "pass": true
+        },
+        "g15_cond_surf": {
+          "auc": 0.5069310418021533,
+          "canary_max_auc_1m": 0.5069310418021533,
+          "pass": true
+        },
+        "g40_rtp": {
+          "auc": 0.508801492159838,
+          "canary_max_auc_1m": 0.508801492159838,
+          "pass": true
+        },
+        "g40_det_elev": {
+          "auc": 0.5905768055856637,
+          "canary_max_auc_1m": 0.5905768055856637,
+          "pass": true
+        },
+        "g40_iso_grav": {
+          "auc": 0.5581510098272996,
+          "canary_max_auc_1m": 0.5581510098272996,
+          "pass": true
+        },
+        "g40_depth_base": {
+          "auc": 0.5717294990606258,
+          "canary_max_auc_1m": 0.5717294990606258,
+          "pass": true
+        },
+        "g40_cond_surf": {
+          "auc": 0.5070241798540357,
+          "canary_max_auc_1m": 0.5070241798540357,
+          "pass": true
+        },
+        "dog_det_elev": {
+          "auc": 0.4172210880482694,
+          "canary_max_auc_1m": 0.5827789119517306,
+          "pass": true
+        },
+        "dog_rtp": {
+          "auc": 0.48373345798106804,
+          "canary_max_auc_1m": 0.516266542018932,
+          "pass": true
+        }
+      }
+    }
+  ],
+  "worst_canary_by_feature": {
+    "mag_anom": 0.5271541641300377,
+    "rtp": 0.5588655677990179,
+    "tmi_hg": 0.5532043335768497,
+    "grav_slope": 0.5737510734719701,
+    "tc": 0.6174381837560518,
+    "tmi_vg": 0.523112201185113,
+    "grav_vg": 0.561306019221042,
+    "det_elev": 0.5551873574414545,
+    "iso_grav": 0.5416148717234011,
+    "tmi": 0.5157385334226227,
+    "depth_base": 0.5315335446925356,
+    "cond_surf": 0.5430386182166341,
+    "grav_hg": 0.5752257447598613,
+    "elev_slope": 0.5864028055115873,
+    "g15_rtp": 0.5710621311741548,
+    "g15_det_elev": 0.590187116121107,
+    "g15_iso_grav": 0.5775710884634428,
+    "g15_depth_base": 0.5701072729243442,
+    "g15_cond_surf": 0.5069310418021533,
+    "g40_rtp": 0.5749727961767929,
+    "g40_det_elev": 0.601585732656654,
+    "g40_iso_grav": 0.5768712830775156,
+    "g40_depth_base": 0.5717294990606258,
+    "g40_cond_surf": 0.5070241798540357,
+    "dog_det_elev": 0.6210624332948231,
+    "dog_rtp": 0.5220174530216324
+  },
+  "canary_all_pass": true,
+  "budget_rule": "0.73% of eligible region px, min-sep 2.8px"
+}
