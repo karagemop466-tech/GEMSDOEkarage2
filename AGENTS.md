@@ -27,3 +27,6 @@ research-only and must not be submitted. Preserve historical measurements; do
 not regenerate K2 or infer a lane assignment, registry exemption, portal
 acceptance, or current leaderboard score. The prompt supplies no identifiable
 method paragraph, and the previous session exhausted its three-experiment budget.
+
+Read `research/release-gate-followup-2026-10-28.md`: the evidence schema now
+requires three additional attestations; schema passage is not evidence verification.

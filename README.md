@@ -13,14 +13,28 @@ requires explicit pre-placement clearance, no prior mandatory stop, and
 organizer-authenticated inputs/template. These evidence-schema assertions do not
 independently prove provenance or authorize a slot. A later narrower passing
 scan cannot clear a prior protocol stop. The executive summary labels its file
-column **research — DO NOT SUBMIT**. All 155 Python tests passed with pinned
-mirror inputs restored, plus 48 subtests; Node feed/site and browser checks passed.
+column **research — DO NOT SUBMIT**. All 163 Python tests passed after main integration with pinned
+mirror inputs restored, plus 73 subtests; Node feed/site and browser checks passed.
 
 The [official reference README](https://github.com/drivendataorg/gems-prize-reference-solution/blob/aebe92f7c8a990f0e3443451b7a825d9afd6336b/README.md)
 explicitly supports CPU-only execution: a GPU is useful, not mandatory. Network,
 authenticity, lane, registry and validation blockers remain; placing data alone
 does not make this pipeline submission-ready. Existing five-hypothesis research
 slates are preserved, not reauthorized or presented as newly tested.
+## Latest review
+
+No submission is approved. The release gate now requires matched baseline evidence
+and split, truth, and scoring-configuration hashes; it validates card structure,
+not the authenticity of those manifests. See [this review](research/release-gate-review-2026-10-28.md).
+## Latest release-gate follow-up (2026-10-28)
+
+**No TIFF is approved for upload.** The release schema now requires evidence
+attestations for a comparable baseline, a surface pass before placement, and an
+authenticated organizer template. It does not independently verify those claims.
+See [the three-pass follow-up](research/release-gate-followup-2026-10-28.md)
+and the [K2 protocol correction](research/k2-protocol-review-2026-10-28.md).
+No new experiment or competition slot was used in this follow-up.
+Latest audit: [three-pass byte-bound raster review](research/review-sidecar-2026-10-28.md). No approved submission; K2 remains negative.
 
 ## Operating instruction
 
@@ -167,6 +181,8 @@ holdout cannot reliably estimate the expert-hidden private score).
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
 ## Current safety status and next steps (2026-10-28)
+
+Latest follow-up: [`research/arena-review-2026-10-28.md`](research/arena-review-2026-10-28.md). The review ran no new experiment and did not approve any submission.
 
 **No TIFF is approved for submission.** The archived irregular-dot raster is
 not unique under the literal rule. A saved-byte recheck against the pinned

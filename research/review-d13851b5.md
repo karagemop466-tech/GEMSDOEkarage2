@@ -111,3 +111,16 @@ persist. No concurrent workflow or other session's PR was changed here.
    preregister a genuinely distinct operator within the assigned lane.
 4. Only after every research gate passes consider quota-aware selection. Keep
    projections, HOLDOUT-DTI, and file-linked organizer receipts separate.
+
+## Concurrent-main integration
+
+Before merging PR #36, main advanced with other sessions' baseline-manifest,
+pre-placement/template-attestation, and byte-bound raster checks. Integrated
+those changes on the assigned branch without discarding them. Kept the explicit
+prior-stop prohibition and input-authenticity assertion from this review.
+Resolved the executive-summary heading to **File to download for research — DO
+NOT SUBMIT**, matching the newer site test while preserving the safety label.
+Post-integration Python verification: **163 passed, zero skipped, 73 subtests
+passed**, with 46 Rasterio/Affine warnings. Earlier counts above describe the
+pre-integration tree. Node site now includes nine tests, all passing after the
+heading reconciliation. Rebuilt the selector receipts under the combined schema.

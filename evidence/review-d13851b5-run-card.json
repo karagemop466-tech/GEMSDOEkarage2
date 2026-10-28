@@ -63,11 +63,11 @@
   "new_holdout_run": false,
   "submission_slots_used": 0,
   "verification": {
-    "python_tests_passed": 155,
+    "python_tests_passed": 163,
     "python_tests_skipped": 0,
-    "python_subtests_passed": 48,
+    "python_subtests_passed": 73,
     "node_feed_tests_passed": 3,
-    "site_dom_tests_passed": 8,
+    "site_dom_tests_passed": 9,
     "browser_smoke": "desktop and mobile release locks, navigation, and freshness passed",
     "nine_site_audit": "replayed from hash-pinned owner mirrors; not organizer-authenticated",
     "shared_evaluator_or_writer_changed": false
@@ -78,5 +78,16 @@
     "path": "README.md",
     "sha256": "cfa4d55559c9128313beb9417eae7e0a94c31677132afb1120f9e86222804239",
     "verified_claim": "CPU-only execution supported; GPU speeds training but is not mandatory"
-  }
+  },
+  "verification_before_main_integration": {
+    "python_tests_passed": 155,
+    "python_tests_skipped": 0,
+    "python_subtests_passed": 48,
+    "node_feed_tests_passed": 3,
+    "site_dom_tests_passed": 8,
+    "browser_smoke": "desktop and mobile release locks, navigation, and freshness passed",
+    "nine_site_audit": "replayed from hash-pinned owner mirrors; not organizer-authenticated",
+    "shared_evaluator_or_writer_changed": false
+  },
+  "integration_note": "Concurrent main changes preserved, combined selector receipts regenerated; no shared evaluator/writer change."
 }
