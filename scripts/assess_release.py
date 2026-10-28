@@ -22,14 +22,17 @@ def main():
     features={name:max(max(f['features'][name]['auc'], 1-f['features'][name]['auc']) for f in hold['canaries']) for name in hold['canaries'][0]['features']}
     adapted=dict(
         lane='',  # Prompt had no actual assigned lane paragraph. Provisional H1 is not a supplied assignment.
+        lane_assignment=None,
         proposed_lane=run['hypothesis'],
         template_commit='73485f27cf230af770167397c2b72cb9ce3b3f25',
-        metric=dict(alpha=.2,beta=.8,kernel_radius_m=300,kernel='triangular'),
+        metric=dict(alpha=.2,beta=.8,kernel_radius_m=300,kernel='triangular',pooled=hold.get('pooled')),
         holdout=dict(evidence_class='HOLDOUT-DTI',evaluator_version=source['evaluator_version'],
                      withheld_positives=source['withheld_positive_pixels'],dti=source['dti'],ci95=source['ci95'],
                      paired_delta_ci95=None), # No compatible incumbent; do not substitute a primitive.
         baseline_holdout_dti=None,
+        baseline_holdout=None,  # No frozen, same-split incumbent receipt.
         hide_recover_protocol_verified=all(f['shared_train_truth_components']==0 and f['buffer_px']==80 for f in hold['folds']),
+        model_features=None,  # The recorded canary list is not a certified model-feature inventory.
         feature_auc=features,
         registry=dict(coverage_complete=False,
                       snapshot_sha256=hashlib.sha256((ROOT/'registry/focus_registry_manifest.json').read_bytes()).hexdigest(),
