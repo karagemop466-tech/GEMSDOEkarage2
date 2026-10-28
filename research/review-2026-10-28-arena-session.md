@@ -36,9 +36,9 @@ The method-lane instruction does not supply an assigned method paragraph. K2 pre
 
 ## Pass 2 — release and code review
 
-The current mainline includes the critical release correction: homepage and guide consistently say K2 is negative and DO NOT SUBMIT; the historical conditional recommendation is preserved only as historical evidence. It also disables the K2 final export path, adds a fail-closed K2 review/selector receipt, and fixes a readiness-gate bug where a strongly inverse AUC could look harmless if only the maximum raw AUC were considered. These are preferable to silently exempting registry entries or reusing the candidate.
+The current mainline includes the critical release correction: homepage and guide consistently say K2 is negative and DO NOT SUBMIT; the historical conditional recommendation is preserved only as evidence. It disables the K2 final export path, adds fail-closed release/selector receipts, and hardens the readiness and raster-integrity checks. Concurrent B4 and H2 experiments are also now present in mainline as **negative, research-only** results: B4's best documented HOLDOUT-DTI remains below K2's archived incumbent, and H2 is explicitly not approved. These later experiments are prior work from other sessions, not experiments run here. The current public pages keep the no-submit state.
 
-This session's branch changes were reconciled with the concurrently advanced mainline before PR review; the mainline's later safety evidence and selector changes were retained. The report, tests, and merged implementation should be judged against that newer state, not the original stale checkout.
+This session's branch changes were reconciled with the concurrently advanced mainline before PR review; the mainline's later safety evidence and selector changes were retained. The report and tests should be judged against that newer state, not the original stale checkout.
 
 ## Pass 3 — verification and original-request check
 
@@ -46,9 +46,9 @@ All current downloads are research evidence only. The nine-site scores remain vi
 
 Final verification on the reconciled tree:
 
-- `.venv/bin/pytest -q` — final merged-tree run: **158 passed, 7 skipped**, 78 subtests passed; 46 non-failing Rasterio `PendingDeprecationWarning`s.
-- `.venv/bin/python scripts/assess_release.py`, `scripts/audit_k2_release.py`, and `scripts/build_site.py` — completed; generated-documents check (`git diff --exit-code -- docs`) passed.
-- `npm test` — **3 passed**; `npm run test:site` — **9 passed** after the final header assertion is reconciled; `npm run test:browser` — passed desktop and 390/320 px mobile checks, release lock and freshness states.
+- `.venv/bin/pytest -q` — final merged-tree run: **176 passed, 7 skipped**, 98 subtests passed; 79 non-failing Rasterio `PendingDeprecationWarning`s.
+- `.venv/bin/python scripts/assess_release.py`, `scripts/audit_k2_release.py`, `scripts/review_k2_release.py`, `scripts/build_site.py`, `scripts/build_field_notes.py`, and `scripts/build_audit_site.py --check` — completed; generated-artifact check (`git diff --exit-code -- docs evidence`) passed.
+- `npm test` — **3 passed**; `npm run test:site` — **9 passed**; the browser smoke suite passed on desktop and 390/320 px mobile widths, release lock and freshness states.
 - `git diff --check` — passed.
 
 No new geological experiment, TIF generation, promotion or upload was performed. The K2 run is not re-labeled as a new experiment.

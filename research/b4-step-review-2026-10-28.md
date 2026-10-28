@@ -1,5 +1,12 @@
 # B4 scarp-step session review — 2026-10-28 (verdict: NEGATIVE)
 
+**Later integration review:** The archived final audit reports lattice overlap
+1.0, exceeding the literal registry stop; no passing pre-placement receipt is
+recorded. Its final placement must not be repeated. The uniqueness and causal
+interpretations below are historical claims, not clearance or proof of the
+H33 score. Exact paired comparison to K2 is unverified, including different
+withheld-positive totals. See `evidence/current-session-review-2026-10-28.md`.
+
 Lane (self-assigned; prompt supplied no method paragraph — carried irregularity):
 paired-flank step asymmetry. See `scripts/b4_step.py`, `evidence/b4/run_card.json`.
 

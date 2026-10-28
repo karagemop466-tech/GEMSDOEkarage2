@@ -4,6 +4,34 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest safety follow-up — 2026-10-28
+
+**No approved submission; do not upload the research TIFFs.** The latest follow-up
+ran no experiment and did not use a competition slot. All nine focus GitHub heads
+changed relative to the October 27 reviewed snapshot; this is not a new score or
+raster audit. See the [three-pass review](evidence/current-session-review-2026-10-28.md),
+[GitHub HEAD receipt](docs/evidence/source-head-review-2026-10-28.json), and
+[negative run card](docs/evidence/followup-session-run-card.json). The local raster
+audits reject external GDAL sidecars not covered by the TIFF hash; input placement
+and grid checks do not imply training readiness or submission authorization.
+
+## Latest review — 2026-10-28 (d13851b5)
+
+**No approved submission; no new experiment or slot used.** Read the
+[three-pass review](research/review-d13851b5.md) and
+[run card](evidence/review-d13851b5-run-card.json). The generic research gate now
+requires explicit pre-placement clearance, no prior mandatory stop, and
+organizer-authenticated inputs/template. These evidence-schema assertions do not
+independently prove provenance or authorize a slot. A later narrower passing
+scan cannot clear a prior protocol stop. The executive summary labels its file
+column **research — DO NOT SUBMIT**. All 164 Python tests passed after main integration with pinned
+mirror inputs restored, plus 73 subtests; Node feed/site and browser checks passed.
+
+The [official reference README](https://github.com/drivendataorg/gems-prize-reference-solution/blob/aebe92f7c8a990f0e3443451b7a825d9afd6336b/README.md)
+explicitly supports CPU-only execution: a GPU is useful, not mandatory. Network,
+authenticity, lane, registry and validation blockers remain; placing data alone
+does not make this pipeline submission-ready. Existing five-hypothesis research
+slates are preserved, not reauthorized or presented as newly tested.
 ## Latest review and release status
 
 **No approved submission TIFF. Do not submit the existing research artifacts.**
@@ -243,6 +271,15 @@ not current values. Consult the official leaderboard directly.
    downloads and are not the complete registry.
 4. `python scripts/audit_legacy_dots.py` rechecks saved bytes, grid, range,
    footprint and the lattice duplicate witness. No candidate TIFF is generated.
+
+### Latest regression review — session 76119165 (2026-10-28)
+
+The [three-pass review](research/session-76119165-review.md) fixed the executive
+summary's research-download heading and hardened the readiness schema gate against
+overriding an explicitly recorded negative verdict or protocol stop. No new
+experiments or TIFFs were generated; no slot is authorized. See the
+[review run card](evidence/session-76119165-run-card.json). Python tests passed
+with seven input-dependent integration skips; feed, site and browser checks passed.
 
 ### Remaining work
 

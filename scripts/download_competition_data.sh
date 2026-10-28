@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # download_competition_data.sh
 #
-# Place GEMS Prize Challenge competition data into data/ so that
-#   python scripts/prepare_data.py
-# makes the full train -> inference -> validate pipeline ready.
+# Describe the local data-placement convention. This script does not download
+# data, train a model, or make a submission pipeline ready. The legacy generator
+# is retired; see README.md for the remaining protocol and access blockers.
 #
 # IMPORTANT: DrivenData requires authentication for the competition data tab.
 #   https://www.drivendata.org/competitions/306/competition-doe-gems/data/
@@ -32,7 +32,7 @@ echo "       labels.tif              ground-truth fault raster (training labels)
 echo "       sample_submission.tif   official submission format template (all zeros)"
 echo "       existing_faults.tif     catalogue faults (USGS + INGENIOUS)"
 echo "       1m_DEM_links.csv        links to 1 m DEM tiles (USGS 3DEP)"
-echo "  3. Run: python scripts/prepare_data.py"
+echo "  3. Run: python scripts/prepare_data.py (local placement/grid diagnostic only)"
 echo
 echo "Public mirrors reported in competition issue attachments (unverified,"
 echo "do not substitute for organizer-provided data; hashes not available):"

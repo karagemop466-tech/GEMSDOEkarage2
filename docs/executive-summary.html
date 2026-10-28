@@ -14,6 +14,7 @@
 
 <main>
   <h2>NO APPROVED SUBMISSION — DO NOT UPLOAD</h2>
+  <p>Latest three-pass review: <a href="../research/review-d13851b5.md">findings and next steps</a> · <a href="evidence/review-d13851b5-run-card.json">machine-readable run card</a>. Promotion now requires explicit pre-placement clearance, no earlier mandatory stop, and organizer input authenticity. No new experiment or slot was used.</p>
   <nav aria-label="Research evidence"><a href="index.html">Dashboard</a> · <a href="executive-summary.html">Executive summary</a> · <a href="experiment-executive-summary.html">H1 measured negative result</a> · <a href="field-notes/index.html">Independent audit and next steps</a></nav>
   <p><a href="experiment-executive-summary.html">H1 executive summary</a></p>
   <section id="how-to-submit">
@@ -31,7 +32,7 @@
   <section id="k2">
     <h2>K2 — research-only, DO NOT SUBMIT</h2>
     <p>The prior session's pre-placement registry check measured 100% support overlap with a lattice, exceeding the mandatory 70% stop. Dots were nevertheless placed. Under the literal protocol the verdict is negative; narrowing the registry after the fact cannot authorize this file.</p>
-    <div class="table-scroll"><table><thead><tr><th>File to download for research only — do not submit</th><th>Estimated leaderboard score</th><th>Unique / OK to submit?</th></tr></thead><tbody><tr>
+    <div class="table-scroll"><table><thead><tr><th>File to download for research — DO NOT SUBMIT</th><th>Estimated leaderboard score</th><th>Unique / OK to submit?</th></tr></thead><tbody><tr>
     <td><a href="downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" download>K2 research TIFF — DO NOT SUBMIT</a></td>
     <td>Unavailable. Historical HOLDOUT-DTI 0.1581, 95% CI 0.1424–0.1742, gems57-pooled-hide-v2, 58,258 withheld positives. This proxy is not a leaderboard score.</td>
     <td>No: literal registry stop failed before placement; incomplete inventory. Format was checked against a mirror, not authenticated organizer inputs.</td>
@@ -41,15 +42,15 @@
 
   <section id="champion">
     <h2>Why GEMSDOE32 (0.2778, USER-REPORTED) leads the nine — and what beating it requires</h2>
-    <p>Byte-verified in <a href="evidence/nine_site_best_files_audit.json">evidence/nine_site_best_files_audit.json</a>: all nine best files are one D2.8 dotted-ridge family (pairwise within-3px overlap 86.7–100% vs GEMSDOE32; GEMSDOE25 ≡ GEMSDOE30 dot-for-dot). GEMSDOE32 B2 = that family minus dots ≤2px from the known catalogue (37,654 dots). Organizer staff state known-fault pixels are excluded from scoring, so near-catalogue dots pay α=0.2 FP mass for ~no TP credit; dotted emission (~2.8px spacing) also buys most of the 300m triangular-kernel cover at ~⅓ the FP cost of a solid line. Conclusion: 0.2778 is best explained by the <em>least wasteful emission of the same geography</em>, not a better detector. Beating it needs a better surface at equal emission discipline — which is exactly what the holdout gates below test. The prompt's 0.4413 / leaderboard 0.3195 / 0.4544 figures are stale snapshots, not verified current values.</p>
+    <p>Audited masks show a shared dotted-ridge family: GEMSDOE25 and GEMSDOE30 have identical dot masks, while GEMSDOE32 removes dots within two pixels of the known catalogue. Sparse placement and pruning may affect distance-weighted coverage and false-positive mass, but the hidden score has no file-bound receipt here and the cause is unproven. See the <a href="../research/independent-review.md">independent review</a>. A catalogue holdout does not estimate the leaderboard.</p>
   </section>
 
   <section id="b4">
-    <h2>NEW this session — B4 scarp-step candidate: UNIQUE but HOLDOUT-WEAKER — DO NOT SUBMIT</h2>
+    <h2>B4 scarp-step research artifact — NEGATIVE / DO NOT SUBMIT</h2>
     <div class="table-scroll"><table><thead><tr><th>File to download</th><th>Estimated leaderboard score</th><th>Unique vs the nine focus sites? / OK to submit?</th></tr></thead><tbody><tr>
     <td><a href="downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif" download>gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif — RESEARCH ONLY</a> (<a href="downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.zip" download>ZIP</a>)<br>Note (113 chars): “B4 paired-flank scarp-step asymmetry (elev/basement/gravity/RTP), dotted 1.10%, &gt;2px off catalogue; zeros outside”</td>
-    <td><strong>Unavailable</strong> (no calibrated estimator exists). HOLDOUT-DTI (gems57-pooled-hide-v2, 58,259 withheld positives): 0.0981 @1.10% budget, 95% CI [0.0850, 0.1125]; 0.1206 @1.50%, CI [0.1063, 0.1356]. Paired Δ vs gradient control +0.0040, CI [+0.0011, +0.0070] — real but small, and below the K2 incumbent's HOLDOUT-DTI 0.1581 on identical folds.</td>
-    <td><strong>Unique vs submission rasters: YES</strong> (max within-3px overlap 0.228 vs the nine; max |Spearman| 0.005; 0.239 vs K2; sha256 2f553692…). <strong>OK to submit: NO</strong> — fails the “beat current holdout best” gate; literal lattice clause (1.0) is mathematically forced for every candidate and is reported, not gamed. Validator: single-band float32, EPSG:32611, 3730×3292, whole array finite in [0,1] — local range check passes; portal acceptance still unverified on mirror inputs.</td>
+    <td><strong>Unavailable</strong> (no calibrated estimator exists). HOLDOUT-DTI (gems57-pooled-hide-v2, 58,259 withheld positives): 0.0981 @1.10% budget, 95% CI [0.0850, 0.1125]; 0.1206 @1.50%, CI [0.1063, 0.1356]. Paired Δ vs gradient control +0.0040, CI [+0.0011, +0.0070] — prior reported evidence, not independently replayed; the comparator uses different withheld-positive totals, so exact matched comparison is unestablished.</td>
+    <td><strong>Unique under the literal registry rule: NO</strong> — recorded final overlap with the lattice is 1.0. The archived scan covers only nine focus bests and three local candidates, not all submissions. No passing pre-placement receipt is recorded. <strong>OK to submit: NO.</strong> Validator: single-band float32, EPSG:32611, 3730×3292, whole array finite in [0,1] — local range check passes; portal acceptance still unverified on mirror inputs.</td>
     </tr></tbody></table></div>
     <p>Canaries: worst AUC-derived canary 0.622 ≤ 0.90 (no leakage flag). <a href="evidence/b4/run_card.json">B4 run card (verdict: negative)</a> · <a href="evidence/b4/holdout.json">holdout E1</a> · <a href="evidence/b4/holdout_e2.json">holdout E2</a> · <a href="evidence/b4/final_registry_audit.json">registry audit</a></p>
   </section>
@@ -57,9 +58,9 @@
   <section id="hypotheses">
     <h2>Candidate hypotheses ranked (expected DTI gain ÷ cost)</h2>
     <table><thead><tr><th>#</th><th>Hypothesis (layers → signature)</th><th>Why it catches catalogue-missing faults</th><th>Non-fault mimic</th><th>Status</th></tr></thead><tbody>
-    <tr><td>B1</td><td>Supervised multi-physics HGB (14 bands + multi-scale gradients/DoG)</td><td>Potential fields see through basin fill; hidden faults share mapped faults' local expression</td><td>Lithologic/intrusive contacts; mapper bias</td><td>RUN (K2): HOLDOUT-DTI 0.1581 — incumbent best, selector-negative on literal registry scope</td></tr>
-    <tr><td>B2</td><td>Fault-tip continuation ≤25px along PCA strike, ×2 boost</td><td>Catalogues truncate at cover/tips; displacement tapers past mapped ends</td><td>True segment termination; en-échelon offset</td><td>RUN (K2 E3): +0.0006 paired, negligible</td></tr>
-    <tr><td>B4</td><td>Paired-flank step asymmetry, 8 orientations, elev/basement/gravity/RTP</td><td>Step survives scarp erosion; potential-field steps persist under cover</td><td>Terrace risers, Lahontan shorelines, contacts</td><td>RUN this session: 0.098–0.121 — negative vs incumbent</td></tr>
+    <tr><td>B1</td><td>Supervised multi-physics HGB (14 bands + multi-scale gradients/DoG)</td><td>Potential fields see through basin fill; hidden faults share mapped faults' local expression</td><td>Lithologic/intrusive contacts; mapper bias</td><td>RUN (K2): HOLDOUT-DTI 0.1581, 95% CI 0.1424–0.1742, gems57-pooled-hide-v2, 58,258 withheld — selector-negative</td></tr>
+    <tr><td>B2</td><td>Fault-tip continuation ≤25px along PCA strike, ×2 boost</td><td>Catalogues truncate at cover/tips; displacement tapers past mapped ends</td><td>True segment termination; en-échelon offset</td><td>RUN (K2 E3): paired delta +0.00057, 95% CI 0.00020–0.00105, HOLDOUT-DTI gems57-pooled-hide-v2, 58,258 withheld</td></tr>
+    <tr><td>B4</td><td>Paired-flank step asymmetry, 8 orientations, elev/basement/gravity/RTP</td><td>Step survives scarp erosion; potential-field steps persist under cover</td><td>Terrace risers, Lahontan shorelines, contacts</td><td>Prior run: HOLDOUT-DTI 0.0981 (95% CI 0.0850–0.1125), gems57-pooled-hide-v2, 58,259 withheld — negative; matched incumbent not established</td></tr>
     <tr><td>B3</td><td>Structure-tensor ridge coherence × gradient magnitude</td><td>Linearity suppresses isotropic contacts/noise label-free</td><td>Roads, canals, flight-line striping, dipping strata</td><td>RUN (K2 E1 primitive): best primitive, below B1</td></tr>
     <tr><td>B5</td><td>Seismicity alignment (deq/ieq bands)</td><td>Active unmapped faults may host micro-seismicity</td><td>Mining blasts; production seismicity; ~100km bands vs 100m grid</td><td>Not run — expected weak; bands already in stack, no new data needed</td></tr>
     </tbody></table>

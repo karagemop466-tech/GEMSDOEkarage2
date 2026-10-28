@@ -30,6 +30,7 @@ method paragraph, and the previous session exhausted its three-experiment budget
 
 Read `research/release-gate-followup-2026-10-28.md`: the evidence schema now
 requires three additional attestations; schema passage is not evidence verification.
-
-For the session inventory and protocol-constrained hypothesis review, also read
-`research/review-2026-10-28-arena-session.md`.
+Read `evidence/current-session-review-2026-10-28.md` for the concurrent B4
+integration: its artifact is research-only, its registry scan fails the literal
+lattice stop, and its CLI/final generation are retired. Do not regenerate it or
+claim uniqueness or organizer approval.
