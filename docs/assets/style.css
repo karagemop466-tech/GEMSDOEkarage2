@@ -63,3 +63,12 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 4px; font-size: 12.
 .tag { font-weight: 700; }
 .tag.no { color: var(--no); } tag.yes { color: var(--ok); }
 .cs { white-space: nowrap; }
+
+/* Keep long artifact names and the scorecard usable on small screens. */
+header, main { max-width: 1200px; margin-inline: auto; padding: 16px; }
+.scorecard { overflow-x: auto; }
+.scorecard table { min-width: 740px; }
+.research-download, .verdict-box, .decision-card { overflow-wrap: anywhere; }
+
+header h1 { overflow-wrap: anywhere; }
+@media (max-width: 400px) { header h1 { font-size: 1.55rem; } }

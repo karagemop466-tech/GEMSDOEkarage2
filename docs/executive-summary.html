@@ -14,15 +14,16 @@
 
 <main>
   <section id="how-to-submit">
-    <h2>How to submit (DrivenData form guide)</h2>
+    <h2>How to submit (only after separate approval)</h2>
+    <p class="warn"><b>NO FILE IS CURRENTLY APPROVED. DO NOT UPLOAD.</b> The legacy raster fails the lattice uniqueness gate; its local range receipt is not competition approval. <a href="evidence/legacy-dot-audit-2026-10-28.json">Read the recheck</a>.</p>
     <ol>
       <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
       <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
-      <li>Format contract: EPSG:32611, 100 m, bounds [243350, 4135550, 572550, 4508550], 3730×3292 pixels, values in [0,1], NaN outside the footprint.</li>
+      <li>Confirm the current format and exact grid against the authenticated organizer template. The exterior NaN versus zero encoding remains unresolved; do not infer portal acceptance from the community mirror.</li>
       <li>Upload, confirm the [0,1] range (portal rejects out-of-range values), and submit.</li>
       <li>Wait for the organizer DTI evaluation against holdout labels (α=0.2, β=0.8, R=300 m triangular kernel).</li>
     </ol>
-    <p class="warn">This repo's H-KARAGE-1 TIF is <b>NOT approved to submit</b>: the holdout gate is open (labels.tif requires DrivenData login) and no fold-local HOLDOUT-DTI win with paired 95% CI &gt; 0 vs. the repo best has been demonstrated.</p>
+    <p class="warn">The legacy H-KARAGE-1 raster is <b>NOT approved to submit</b>: it fails the lattice uniqueness gate and has positive pixels outside the mirrored footprint. There is no matched holdout win or selector approval.</p>
   </section>
 
   <section class="scorecard">

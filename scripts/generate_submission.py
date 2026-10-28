@@ -1,4 +1,11 @@
-"""generate_submission.py
+"""ARCHIVED UNSAFE PROTOTYPE — DO NOT GENERATE OR SUBMIT.
+
+The historical claims below are preserved for audit only and are incorrect.
+A pinned-mirror recheck found lattice overlap above the duplicate threshold
+and positive pixels outside the mirrored footprint. main() is disabled.
+See evidence/legacy-dot-audit-2026-10-28.json.
+
+generate_submission.py
 ----------------------
 
 Generates the GEMSDOEkarage2 unique competition submission GeoTIFF.
@@ -305,6 +312,7 @@ def run_card(name, note, sha, receipt, validation, uniqueness, version, grid):
 
 
 def main():
+    raise SystemExit("DISABLED: legacy artifact fails the registry gate; DO NOT GENERATE OR SUBMIT. See evidence/legacy-dot-audit-2026-10-28.json")
     import rasterio
     from scipy import ndimage
     from submission_writer import _spearman, _dot_overlap_3px
