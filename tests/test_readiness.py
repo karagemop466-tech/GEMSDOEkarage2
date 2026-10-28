@@ -8,12 +8,14 @@ def good():
     rows = [{"reference": "pinned-reference", "rank_correlation": 0.5, "overlap_3px": 0.6}]
     return {
         "lane": "assigned-method",
+        "lane_assignment": {"source": "coordinator-assignment.json", "sha256": "d" * 64},
         "template_commit": "pinned-template-commit",
         "metric": {
             "alpha": 0.2,
             "beta": 0.8,
             "kernel_radius_m": 300,
             "kernel": "triangular",
+            "pooled": True,
         },
         "holdout": {
             "evidence_class": "HOLDOUT-DTI",
@@ -22,9 +24,18 @@ def good():
             "dti": 0.20,
             "ci95": [0.16, 0.24],
             "paired_delta_ci95": [0.005, 0.02],
+            "split_sha256": "c" * 64,
         },
         "baseline_holdout_dti": 0.19,
+        "baseline_evidence": {
+            "incumbent_id": "frozen-incumbent",
+            "evidence_class": "HOLDOUT-DTI",
+            "evaluator_version": "shared-v1",
+            "withheld_positives": 100,
+            "split_sha256": "c" * 64,
+        },
         "hide_recover_protocol_verified": True,
+        "model_features": ["magnetic", "terrain"],
         "feature_auc": {"magnetic": 0.7, "terrain": 0.82},
         "registry": {
             "coverage_complete": True,
@@ -70,7 +81,7 @@ class GateTests(unittest.TestCase):
                 self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_wrong_metric_configuration_fails(self):
-        for key, value in (("alpha", 0.5), ("beta", 0.2), ("kernel_radius_m", 200), ("kernel", "gaussian")):
+        for key, value in (("alpha", 0.5), ("beta", 0.2), ("kernel_radius_m", 200), ("kernel", "gaussian"), ("pooled", False), ("pooled", 1)):
             with self.subTest(key=key):
                 card = good()
                 card["metric"][key] = value
@@ -130,6 +141,37 @@ class GateTests(unittest.TestCase):
         self.assertEqual(assess(card)["verdict"], "negative")
         card = good()
         card["registry"]["surface"][0]["reference"] = []
+        self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_lane_assignment_receipt_is_required(self):
+        for assignment in (None, {}, {"source": "", "sha256": "a" * 64},
+                           {"source": "claim", "sha256": "bad"}):
+            with self.subTest(assignment=assignment):
+                card = good()
+                card["lane_assignment"] = assignment
+                self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_feature_inventory_must_match_canaries(self):
+        for features in (["magnetic", "terrain", "unexamined"], ["magnetic"],
+                         ["magnetic", "magnetic"], ["magnetic", []], []):
+            with self.subTest(features=features):
+                card = good()
+                card["model_features"] = features
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        del card["feature_auc"]["terrain"]
+        self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_incumbent_must_be_matched_on_identified_holdout(self):
+        for key, value in (("split_sha256", "d" * 64), ("split_sha256", None),
+                           ("evaluator_version", "other"), ("withheld_positives", 99),
+                           ("evidence_class", "projection"), ("incumbent_id", "")):
+            with self.subTest(key=key, value=value):
+                card = good()
+                card["baseline_evidence"][key] = value
+                self.assertEqual(assess(card)["verdict"], "negative")
+        card = good()
+        card["holdout"]["split_sha256"] = None
         self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_missing_outside_nodata_fails(self):

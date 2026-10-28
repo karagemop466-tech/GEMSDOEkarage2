@@ -2,7 +2,10 @@
   "verdict": "negative",
   "reasons": [
     "Missing method lane or shared template pin",
+    "Lane assignment receipt missing or invalid",
+    "Comparable incumbent evidence or matched holdout split missing",
     "Has not beaten comparable current holdout best with paired 95% CI",
+    "Feature leakage canary missing or failed, or feature inventory does not match",
     "Registry coverage incomplete or snapshot hash invalid",
     "surface: duplicate lane; stop",
     "final_dots: no registry measurements",

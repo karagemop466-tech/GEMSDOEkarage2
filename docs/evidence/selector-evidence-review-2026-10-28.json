@@ -1,0 +1,36 @@
+{
+  "classification": "Review of existing experiment and release software; no new model experiment",
+  "hypothesis": "Prior K2: multiphysics fault likelihood with mapped-tip continuation",
+  "mechanism": "Predict fault-like potential-field and terrain signatures and extend visible mapped tips; previous run emitted sparse dots.",
+  "named_non_fault_process": "Lithologic contacts and alluvial terrace risers",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positives": 58258,
+    "dti": 0.15812071903309205,
+    "ci95": [0.14237392193985562, 0.17415355413093683],
+    "scope": "Prior K2 mirror-based result, not rerun; not a leaderboard estimate"
+  },
+  "registry_comparison": {
+    "surface_lattice_spearman": 0.00014277117109167287,
+    "surface_lattice_support_overlap_3px": 1.0,
+    "final_worst_overlap_3px": 1.0,
+    "scope": "Archived K2 measurements, incomplete registry; not rerun in this review"
+  },
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "validator": {
+    "scope": "K2 saved-byte readback; grid compared to recorded owner mirror, not authenticated organizer template",
+    "single_band_float32": true,
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match_mirror": true,
+    "crs_shape_transform_match_organizer_template": null,
+    "historical_exterior_nan_check": false,
+    "organizer_acceptance": null
+  },
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "note": "Research only; duplicate stop and unassigned lane. Do not submit.",
+  "verdict": "negative",
+  "new_experiments": 0,
+  "weekly_slots_used": 0
+}

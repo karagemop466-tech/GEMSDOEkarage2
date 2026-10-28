@@ -150,6 +150,11 @@ holdout cannot reliably estimate the expert-hidden private score).
 
 ## Current safety status and next steps (2026-10-28)
 
+The [selector evidence review](research/selector-evidence-review-2026-10-28.md)
+adds fail-closed checks for a matched incumbent/split, complete declared feature
+canaries, and pooled scoring. These validate card consistency only, not the
+underlying evidence or a competition slot. The review ran no new experiments.
+
 **No TIFF is approved for submission.** The archived irregular-dot raster is
 not unique under the literal rule. A saved-byte recheck against the pinned
 owner-mirror footprint and lattice found 6,765 of 6,769 in-footprint dots
