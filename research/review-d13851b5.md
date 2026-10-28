@@ -124,3 +124,8 @@ Post-integration Python verification: **163 passed, zero skipped, 73 subtests
 passed**, with 46 Rasterio/Affine warnings. Earlier counts above describe the
 pre-integration tree. Node site now includes nine tests, all passing after the
 heading reconciliation. Rebuilt the selector receipts under the combined schema.
+
+A second concurrent-main integration preserved the newly archived B4 research
+artifacts without running or approving that method. Combined-tree verification:
+164 Python tests passed, zero skipped, 73 subtests; nine site tests and browser
+smoke passed. This session still generated no candidate TIFF or holdout result.
