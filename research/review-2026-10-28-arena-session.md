@@ -46,7 +46,7 @@ All current downloads are research evidence only. The nine-site scores remain vi
 
 Final verification on the reconciled tree:
 
-- `.venv/bin/pytest -q` — **131 passed, 7 skipped**, 34 subtests passed; 38 non-failing Rasterio `PendingDeprecationWarning`s.
+- `.venv/bin/pytest -q` — **146 passed, 7 skipped**, 34 subtests passed; 38 non-failing Rasterio `PendingDeprecationWarning`s.
 - `npm test` — **3 passed**; `npm run test:site` — **8 passed**, including regression protection for the negative K2 selector; `npm run test:browser` — passed desktop and 390/320 px mobile checks, release lock and freshness states.
 - `git diff --check` — passed.
 

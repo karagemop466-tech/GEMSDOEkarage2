@@ -17,6 +17,7 @@ jobs:
           cache: pip
       - run: pip install -r requirements.lock.txt
       - run: python scripts/assess_release.py
+      - run: python scripts/audit_k2_release.py
       - run: python scripts/build_site.py
       - run: git diff --exit-code -- docs
       - run: pytest -q

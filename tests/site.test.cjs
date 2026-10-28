@@ -118,7 +118,7 @@ test('K2 experiment cannot be mistaken for the current approved submission', asy
   assert.equal(selector.ok_to_submit, false);
   assert.equal(selector.slot_authorized, false);
   const runCard = JSON.parse(fs.readFileSync(path.join(root, 'evidence/k2/run_card.json')));
-  assert.equal(runCard.verdict, 'promote'); // archived experiment recommendation, superseded by selector
+  assert.equal(runCard.verdict, 'negative'); // current correction preserves the prior recommendation elsewhere
   for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html']) {
     const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
     assert.match(html, /negative/i);

@@ -1,0 +1,109 @@
+{
+  "scope": "Repository safety review of a prior K2 experiment; no experiment or slot used",
+  "hypothesis": "B1+B2: Hidden Great Basin faults share the local multi-physics expression (magnetic/gravity potential-field edges, topographic break, basement-depth step, conductivity contrast at 150-600 m scales) of catalogue faults, learnable from the 19-band GeoDAWN stack without any catalogue-derived predictor; fault tips continue beyond mapped segment ends. Emitting the learned surface as binary dots (min separation 2.8 px, 1.10% budget, >2 px off the known catalogue) maximizes distance-weighted Tversky credit per dot on hidden faults.",
+  "mechanism": "HistGradientBoosting classifier (350 iterations, lr 0.06, 63 leaves, min-leaf 40, L2=1.0) on 26 features (14 raw bands + gradient magnitudes at sigma 1.5/4.0 px for rtp, det_elev, iso_grav, depth_to_base, cond_surf + 2 difference-of-Gaussians), fit per holdout fold on visible catalogue positives vs sampled unlabeled pixels >3 px from visible faults; tip-continuation corridors (visible components >=15 px, PCA strike, <=25 px, x2 surface boost); greedy descending-surface dot emission with 2.8 px minimum separation. Shared gems57-pooled-hide-v2 evaluator, label-blind quadrant whole-component folds, 8 km buffer, visible faults masked pixel-exactly in scoring.",
+  "named_non_fault_mimic": "Lithologic/intrusive contacts produce identical potential-field steps; alluvial-fan terrace risers and Lahontan shorelines mimic scarps; mapped-catalogue bias means the model learns 'faults that get mapped', which may differ systematically from the expert-hidden set (missing-not-at-random).",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "kernel": "triangular, R = 300 m",
+    "candidate_arm": "hgbcont_b110",
+    "dti": 0.15812071903309205,
+    "ci95": [
+      0.14237392193985562,
+      0.17415355413093683
+    ],
+    "withheld_positive_pixels": 58258,
+    "tpw": 9262.96209671478,
+    "fpw": 50612.95513759131,
+    "fnw": 48995.03790328523,
+    "per_fold_dti": {
+      "fold0": 0.1386,
+      "fold1": 0.2198,
+      "fold2": 0.1328,
+      "fold3": 0.1541
+    },
+    "paired_delta_vs_best_primitive_ridge_coh": {
+      "delta": 0.08614,
+      "ci95": [
+        0.06914,
+        0.10369
+      ]
+    },
+    "paired_delta_vs_plain_hgb_same_budget": {
+      "delta": 0.00057,
+      "ci95": [
+        0.0002,
+        0.00105
+      ]
+    },
+    "bootstrap": "paired physical spatial-cluster percentile, 156 clusters, 2000 draws, seed 20261028; conditional on folds/catalogue/budgets, NOT a leaderboard interval"
+  },
+  "holdout_caveat": "Historical receipt, not rerun; not an estimate of the private leaderboard score.",
+  "registry": {
+    "surface_before_placement": {
+      "spearman_on_dot_union": -0.010223540203065012,
+      "n_dot_union": 5018050,
+      "jaccard_dot_sets": 0.04001375036119608,
+      "spearman_full_footprint": 0.00014277117109167287,
+      "literal_support_overlap_gt0": 1.0
+    },
+    "surface_stop_exceeded": true,
+    "final_max_overlap": 1.0,
+    "final_max_rho": 0.11893667579631634,
+    "final_witness": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "complete_accessible_scan": false,
+    "unique": false,
+    "scope_caveat": "Prior saved audit; inventory incomplete and excludes other teams/private history."
+  },
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "validator_output": {
+    "hash_matches_prior": true,
+    "current_whole_array_finite_in_range": true,
+    "current_metadata": {
+      "single_band": true,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    "prior_mirror_template_checks": {
+      "geotiff_driver": true,
+      "single_band": true,
+      "float32": true,
+      "crs_matches_template": true,
+      "crs_epsg_32611": true,
+      "shape_matches_template": true,
+      "transform_matches_template": true,
+      "north_up_100m_resolution": true,
+      "inside_no_masked_cells": true,
+      "inside_all_finite": true,
+      "inside_in_range_0_1": true,
+      "outside_is_nan": false
+    },
+    "prior_strict_format_pass": false,
+    "template_authenticity": "not established by this check",
+    "portal_acceptance": "Not verified"
+  },
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "note": "K2 supervised HGB 26f + tip continuation, dotted emission 1.10%, off-catalogue >2px; zeros outside footprint",
+  "leaderboard_estimate": null,
+  "experiments_run_this_review": 0,
+  "weekly_slots_used_this_review": 0,
+  "verdict": "negative",
+  "submission_approved": false,
+  "reason": "Literal surface stop exceeded before placement; final dots also exceed overlap limit. Registry incomplete; lane not supplied; official template and portal acceptance not authenticated.",
+  "historical_record": "evidence/k2/run_card.json: original conditional promotion is superseded, not authorization."
+}
