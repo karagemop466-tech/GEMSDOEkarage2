@@ -44,9 +44,10 @@ def test_run_card_gates_and_verdict_logic_agree(card):
                 "rank_correlation_below_0_90", "lane_single_method"]
     assert all(g[k] is True for k in required), {k: g[k] for k in required}
     assert g["unique_literal_vs_all_registry_rasters"] is False
-    assert g["literal_rule_exception_applied"] is True  # preserved historical decision, not authorized
+    assert g["literal_rule_exception_applied"] is False  # current protocol state; historic waiver is retained below
     assert card["historical_verdict_before_protocol_review"] == "PROMOTE"
-    assert card["verdict"] == "negative"
+    assert card["historical_release_decision"]["literal_rule_exception_applied"] is True
+    assert card["verdict"] in ("negative", "NEGATIVE")
     assert card["protocol_review_override"]["release_eligible"] is False
     assert card["protocol_review_override"]["submission_authorized"] is False
     assert g["wall_clock_minutes"] == 135

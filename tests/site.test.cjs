@@ -61,7 +61,7 @@ test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and 
   assert.equal(gateRows.length, booleanGates.length);
   const fails = gateRows.filter(li => li.querySelector('.pill.no'));
   assert.equal(fails.length, booleanGates.filter(([, v]) => v === false).length);
-  assert.match(text, /Literal-rule exception applied:\s*yes/);
+  assert.match(text, /Literal-rule exception applied:\s*no/);
   dom.window.close();
 });
 

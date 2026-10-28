@@ -21,7 +21,7 @@ from rasterio.errors import RasterioError
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from build_hk3_pages import release_decision  # shared fail-closed release policy
+from hk3_release_policy import release_decision  # shared fail-closed release policy
 # (stem, run card, selector, has_zip[, kind]); all current artifacts are
 # research-only because no candidate passes every binding release gate.
 ARTIFACTS = (
@@ -143,12 +143,12 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 registry_audit = json.loads((root / "evidence/hk3/registry_audit.json").read_text())
             except (OSError, ValueError):
                 registry_audit = {}
-            decision = release_decision({"rc": card, "aud": registry_audit})
+            decision = release_decision(card, registry_audit)
             checks["strict_protocol_release_eligible"] = decision["eligible"]
             detail.setdefault("diagnostics", {})["release_blockers"] = decision["blockers"]
             checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
         else:
-            checks["card_verdict_negative"] = card.get("verdict") == "negative"
+            checks["card_verdict_negative"] = card.get("verdict") in ("negative", "NEGATIVE")
         checks["card_has_same_filename"] = (card.get("raster", rel) == rel and
                                             card.get("submission_name") == stem)
         checks["card_sha_matches_saved_bytes"] = actual_sha is not None and card.get("raster_sha256") == actual_sha

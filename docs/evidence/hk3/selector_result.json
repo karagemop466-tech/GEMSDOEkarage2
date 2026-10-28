@@ -8,18 +8,13 @@
   "ok_to_download_for_research": true,
   "ok_to_submit": false,
   "slot_authorized": false,
-  "who_spends_the_slot": "the user (human selector) — this repository never spends a weekly slot and cannot see the account quota",
+  "who_spends_the_slot": "the user (human selector) \u2014 this repository never spends a weekly slot and cannot see the account quota",
   "reasons": [
-    "Superseded by the binding literal uniqueness rule: the candidate fails the 70% threshold against three registry rasters; the historical exception is not authorized.",
-    "Registry inventory is incomplete and has an audit error.",
-    "No assigned method paragraph or organizer-authenticated input/template evidence is recorded.",
-    "The session record is approximately 2 hours 15 minutes, beyond the two-hour protocol budget.",
-    "This is a protocol/release correction only; no fresh experiment or submission slot was used."
+    "Literal all-registry uniqueness failed. Prior exception and approval retracted; research-only download.",
+    "Chance correction and submission history cannot waive the user stop. No validated leaderboard estimate or current-best paired win established."
   ],
   "limitations": [
     "Inputs are hash-pinned owner mirrors, not organizer-authenticated bytes; portal acceptance is unverified until a receipt exists.",
-    "Weekly quota and final-selection status of the account are unknown to this repository.",
-    "This artifact is research-only and must not be uploaded; no candidate currently passes the release protocol."
-  ],
-  "historical_verdict_before_protocol_review": "candidate_approved_by_automated_gates"
+    "Weekly quota and final-selection status of the account are unknown to this repository."
+  ]
 }

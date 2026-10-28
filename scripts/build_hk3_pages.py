@@ -13,6 +13,11 @@ Usage:  python scripts/build_hk3_pages.py [--check]
 """
 from __future__ import annotations
 
+if __package__:
+    from .hk3_release_policy import release_decision
+else:
+    from hk3_release_policy import release_decision
+
 import argparse
 import html
 import json
@@ -69,7 +74,7 @@ def gather():
     sites = load(ROOT / "registry/focus_sites.json")
     aud = load(EV / "hk3/registry_audit.json")
     data = dict(rc=rc, cal=cal, bridge=bridge, e2=e2, geo=geo, sites=sites, aud=aud)
-    data["release"] = release_decision(data)
+    data["release"] = release_decision(rc, aud)
     return data
 
 
@@ -146,49 +151,6 @@ Official pages (not reachable from the build sandbox; verify manually): <a href=
 </body>
 </html>
 """
-
-
-def release_decision(d: dict) -> dict:
-    """Fail closed unless every protocol gate is explicitly satisfied.
-
-    A historical PROMOTE label is not sufficient: the binding parallel protocol
-    requires literal registry thresholds, an assigned lane, a complete registry,
-    organizer-authenticated inputs, and the experiment/time budget. Missing
-    evidence is a blocker, never an implicit pass.
-    """
-    rc = d["rc"]
-    gates = rc.get("gates") if isinstance(rc.get("gates"), dict) else {}
-    audit = d.get("aud") if isinstance(d.get("aud"), dict) else {}
-    blockers = []
-    required = (
-        "format_shared_validator_pass", "grid_matches_example_submission",
-        "whole_array_finite_in_0_1", "no_dots_on_mapped_catalogue",
-        "leakage_canary_pass", "holdout_beats_refit_incumbent_paired_ci_excludes_zero",
-        "unique_vs_nine_scored_site_files", "unique_literal_vs_all_registry_rasters",
-        "unique_chance_corrected_vs_all_registry_rasters",
-        "unique_literal_vs_submitted_dot_rasters", "rank_correlation_below_0_90",
-    )
-    for key in required:
-        if gates.get(key) is not True:
-            blockers.append(f"gate not passed: {key}")
-    if gates.get("literal_rule_exception_applied") is not False:
-        blockers.append("literal uniqueness exception is recorded or not explicitly false")
-    assignment = rc.get("lane_assignment")
-    if not isinstance(assignment, dict) or not assignment.get("paragraph") or not assignment.get("sha256"):
-        blockers.append("coordinator-assigned method paragraph is absent")
-    if audit.get("complete_accessible_scan") is not True or audit.get("errors", 1) != 0:
-        blockers.append("registry scan is incomplete or has errors")
-    if rc.get("organizer_inputs_authenticated") is not True:
-        blockers.append("competition inputs/template are not organizer-authenticated")
-    used = gates.get("experiments_used")
-    if type(used) is not int or not 0 <= used <= 3:
-        blockers.append("experiment budget evidence is missing or exceeds three experiments")
-    minutes = gates.get("wall_clock_minutes")
-    if type(minutes) is not int or not 0 <= minutes <= 120:
-        blockers.append("two-hour budget evidence is missing or exceeded")
-    if rc.get("verdict") != "PROMOTE":
-        blockers.append("run card does not record PROMOTE")
-    return {"eligible": not blockers, "blockers": blockers}
 
 
 def badge_fill(page: str, d) -> str:

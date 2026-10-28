@@ -184,7 +184,7 @@ final verification below).
 
 ## Final verification
 
-- `.venv/bin/python -m pytest -q`: **201 passed, 7 skipped**, 98 subtests; Rasterio emitted 86 pending-deprecation warnings.
+- `.venv/bin/python -m pytest -q`: **203 passed, 7 skipped**, 98 subtests; Rasterio emitted 86 pending-deprecation warnings.
 - `npm test`: **3 passed**.
 - `npm run test:site`: **7 passed**.
 - `npm run test:browser`: passed at 1440, 390, and 320 px, including the blocked-download release status and navigation/freshness states.
