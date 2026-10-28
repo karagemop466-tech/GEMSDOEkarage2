@@ -168,10 +168,11 @@ holdout cannot reliably estimate the expert-hidden private score).
 **NO APPROVED SUBMISSION — DO NOT SUBMIT any TIFF currently in `docs/downloads/`.**
 The HK3 raster remains available only as a research/reproduction artifact:
 `docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`
-(SHA-256 `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9`). Its
-historical run card still records the earlier experiment's PROMOTE verdict; it applied an
-exception to the literal 70% / 3 px rule. That exception is not allowed by the current
-parallel-run protocol. The current, controlling assessment is
+(SHA-256 `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9`). The current run card now records NEGATIVE; the archived pre-correction decision is
+summarized in [`evidence/hk3/approval-retracted-20261028.json`](evidence/hk3/approval-retracted-20261028.json)
+and its historical selector receipt. The earlier PROMOTE applied an exception to the literal
+70% / 3 px rule, which is not allowed by the current parallel-run protocol. The current,
+controlling assessment is
 [`evidence/hk3/current_release_assessment.json`](evidence/hk3/current_release_assessment.json);
 the generated Pages badge and download guidance derive from this assessment and the current
 negative selector result. The earlier selector receipt is preserved at

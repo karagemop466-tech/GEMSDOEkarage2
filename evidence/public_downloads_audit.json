@@ -273,7 +273,7 @@
         "range_0_1": true,
         "no_masked_pixels": true,
         "raster_unchanged_during_read": true,
-        "card_verdict_promote": true,
+        "card_verdict_promote": false,
         "card_hard_gates_all_pass": false,
         "card_literal_rule_clear": false,
         "card_holdout_labelled": true,

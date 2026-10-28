@@ -70,7 +70,7 @@
       "result": "The local checks use hash-pinned public owner mirrors, not authenticated DrivenData input bytes; no organizer receipt or portal acceptance is present."
     }
   ],
-  "historical_record_note": "The original HK3 experiment run card remains preserved with its historical PROMOTE verdict. That verdict applied an exception to the literal 70% registry rule; this current assessment supersedes it for download/upload guidance under the stricter rule in this session's prompt. No raster bytes or historical measurements were changed.",
+  "historical_record_note": "The current HK3 run card is NEGATIVE. The pre-correction PROMOTE decision and its unauthorized exception to the literal 70% registry rule are preserved in evidence/hk3/approval-retracted-20261028.json and evidence/hk3/selector_result-historical-promote.json; the original state is also in Git history. This assessment controls download/upload guidance. No raster bytes or historical measurements were changed.",
   "research_download_note": "The TIFF may be downloaded only to inspect/reproduce the recorded research result. It is not approved for competition submission.",
   "hypothesis": "No new geological experiment was run in this review because the existing final raster has a literal registry duplicate witness and the experiment budget in the prior HK3 lane is exhausted.",
   "mechanism": "No new mechanism evaluated.",

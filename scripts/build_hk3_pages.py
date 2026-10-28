@@ -365,7 +365,7 @@ At the submitted rate ({row['rate']*100:.1f} % of active px): {f4(row['holdout_d
 <h3>Automated gates</h3>
 {gate_list(rc)}
 <div class="notice warn"><h4>Current protocol decision: NEGATIVE — DO NOT SUBMIT</h4>
-<p>The saved final raster exceeds the literal 70 % / 3 px duplicate stop, and the registry scan is incomplete. The earlier experiment card's PROMOTE label used an exception that this prompt does not permit. No new submission raster was generated in this review. <a href="evidence/hk3/current_release_assessment.json">Current release assessment (JSON)</a> · <a href="evidence/hk3/registry_audit.json">Registry audit</a>.</p></div>
+<p>The saved final raster exceeds the literal 70 % / 3 px duplicate stop, and the registry scan is incomplete. The archived pre-correction PROMOTE decision used an exception that this prompt does not permit; the current run card is NEGATIVE. No new submission raster was generated in this review. <a href="evidence/hk3/current_release_assessment.json">Current release assessment (JSON)</a> · <a href="evidence/hk3/registry_audit.json">Registry audit</a>.</p></div>
 {uniqueness_note(rc, d["release"])}
 </section>
 
@@ -419,7 +419,7 @@ def page_summary(d) -> str:
     out += f"""
 <section class="hero">
 <h2>Executive summary — current decision: {'submission approved' if ok else 'NO APPROVED SUBMISSION'}</h2>
-<p class="verdict">{'<b class="ok">OK TO SUBMIT</b>' if ok else '<b class="no">DO NOT SUBMIT</b>'} <code>{esc(sub['name'])}.tif</code>. {'The current release assessment clears all literal gates.' if ok else 'This historical research raster fails the literal registry duplicate rule; it is not cleared for upload. The earlier run-card PROMOTE verdict applied an exception and is superseded for current guidance.'}</p>
+<p class="verdict">{'<b class="ok">OK TO SUBMIT</b>' if ok else '<b class="no">DO NOT SUBMIT</b>'} <code>{esc(sub['name'])}.tif</code>. {'The current release assessment clears all literal gates.' if ok else 'This historical research raster fails the literal registry duplicate rule; it is not cleared for upload. The archived pre-correction PROMOTE decision applied an exception and is preserved separately, not as current guidance.'}</p>
 <p><a class="btn big" href="downloads/{esc(sub['name'])}.tif" download>⬇ Download {'approved submission' if ok else 'research-only (DO NOT SUBMIT)'} TIF</a> &nbsp; <a class="btn secondary" href="how-to-submit.html">Submission instructions and current gate status</a></p>
 </section>
 

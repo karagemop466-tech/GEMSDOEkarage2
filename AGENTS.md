@@ -36,9 +36,10 @@ Read `README.md` ("Current status"), `research/hypotheses-2026-10-28-hk3.md`,
 `evidence/hk3/run_card.json`, `evidence/hk3/current_release_assessment.json`,
 `evidence/hk3/selector_result.json`, and
 `research/repo-review-2026-10-28-strict-gate.md` before changing anything.
-**NO APPROVED TIFF — DO NOT SUBMIT.** The historical HK3 experiment card retains a
-PROMOTE verdict that applied an exception to the literal registry rule. The current
-assessment supersedes that exception for guidance: 99.8626% of final dots fall within
+**NO APPROVED TIFF — DO NOT SUBMIT.** The current HK3 run card is NEGATIVE. Its archived
+pre-correction PROMOTE decision and exception to the literal registry rule are documented in
+`evidence/hk3/approval-retracted-20261028.json` and the historical selector receipt. The current
+assessment supersedes that decision for guidance: 99.8626% of final dots fall within
 3 px of the r13 lattice, and the registry audit checked only 452/453 expected entries.
 The existing raster is for research/reproduction only; no slot was spent.
 
