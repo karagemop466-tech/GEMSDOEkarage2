@@ -30,29 +30,34 @@ not regenerate K2 or infer a lane assignment, registry exemption, portal
 acceptance, or current leaderboard score. The prompt supplies no identifiable
 method paragraph, and the previous session exhausted its three-experiment budget.
 
-## 2026-10-28 HK3 lane — current state (read this first)
+## 2026-10-28 HK3 strict disposition — current state (read this first)
 
-Read `README.md` ("Current status"), `research/hypotheses-2026-10-28-hk3.md` (§3b budget
-rule, §3c uniqueness rule, §4 outcome) and `evidence/hk3/run_card.json` before touching
-anything. One file is approved by the automated gates (verdict PROMOTE with one disclosed
-literal-rule exception printed in red on every page); the user is the selector and no slot
-has been spent. Rules for the next session:
+Read `README.md` ("Current status"), `research/strict-protocol-review-2026-10-28.md`,
+`evidence/hk3/strict_disposition.json`, and `evidence/hk3/strict_selector_result.json` before
+changing anything. **No TIFF is approved for submission.** The old
+`evidence/hk3/run_card.json` (`PROMOTE`) and `evidence/hk3/selector_result.json` remain
+unchanged historical evidence only; the strict negative disposition controls current release.
+The HK3 file is research-only and no slot was spent.
 
 * The four desk pages (`docs/index.html`, `executive-summary.html`, `how-to-submit.html`,
   `submit.html`) and `docs/assets/hk3.css` are **generated** by
-  `scripts/build_hk3_pages.py` from `evidence/hk3/*.json` + `evidence/calibration/*.json`;
-  CI runs `build_hk3_pages.py --check`. Change the evidence or the generator, never the HTML.
-* `scripts/hk3.py` is the lane runner (features / e2 / bridge / e3 / audit / anchors / card).
-  Its cache lives in `.cache/hk3/` (gitignored; rebuild with `hk3.py features`, ≈ 10 min).
-  The lane's 3-experiment budget is used; a new experiment means a new lane and a new note.
-* Never pick a dot budget from holdout DTI; use the §3b maximin over θ. Never use a raster
-  built on the whole catalogue as a transfer anchor (≈ 2.9× leakage inflation).
-* Uniqueness tiers U1–U4 are binding; any literal failure must stay visible. Re-run
-  `hk3.py audit` if the pinned registry refs change.
-* If the user reports an organizer score for the HK3 file, write it to
-  `evidence/hk3/run_card.json` under `organizer_confirmed` (value, date, submission name),
-  label it ORGANIZER-CONFIRMED, rebuild the pages, and use it to calibrate θ before anything
-  else.
+  `scripts/build_hk3_pages.py`; CI runs `build_hk3_pages.py --check`. Change the evidence or
+  generator, never generated HTML.
+* The prior HK3 run used three experiments and records about 2 h 15 min. Do not run another
+  experiment in that lane. No coordinator-assigned next lane is documented; research slates are
+  proposals, not authorization.
+* Apply the literal rule to **every** registry raster. A rank correlation >0.90 or >70% of
+  final dots within 3 px of any single raster is a stop. Do not exempt unsubmitted, dense, or
+  “degenerate” witnesses. HK3 has 99.8626% overlap with the r13 lattice; the scan is also
+  incomplete (452/453), and no pre-placement surface audit was saved.
+* The saved HK3 TIFF writes zeros outside the bounds; the official problem page specifies
+  null/NaN there and the strict local receipt fails `outside_is_nan`. Do not claim that the
+  whole-array [0,1] check proves portal acceptance or resolves the prior range error.
+* Keep the historical positive card intact. New current release decisions must use
+  `strict_disposition.json` and `strict_selector_result.json`; `scripts/audit_public_downloads.py`
+  must remain fail-closed with zero upload candidates.
+* Preserve negative evidence. Do not privately modify shared evaluators/writers, regenerate the
+  blocked HK3 candidate, select lattice holes to evade the rule, or spend a competition slot.
 * Legacy files (K2, H1, H-KARAGE-1) remain research-only; `scripts/k2.py` and
   `scripts/generate_submission.py` stay disabled.
 

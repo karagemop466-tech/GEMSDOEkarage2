@@ -1,0 +1,33 @@
+{
+  "schema": "gems.selector_decision.v1",
+  "date": "2026-10-28",
+  "candidate": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+  "raster_sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+  "source_run_card": "evidence/hk3/strict_disposition.json",
+  "verdict": "negative",
+  "ok_to_download_for_research": true,
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "who_spends_the_slot": "No selector step is authorized by this disposition; no slot was used.",
+  "reasons": [
+    "Literal all-registry rule: final dots have 99.8626% within-3-pixel overlap with the r13 spacing-5 lattice; the same raster is represented by two registry entries, and neither is exempt.",
+    "Three additional final-dot records exceed 70%: GEMSDOE24 ctx-ridge surface 70.9763%, GEMSDOE32 H45 KS0 73.3484%, and local K2 74.9401%.",
+    "Registry scan is incomplete (452 of 453 expected; one missing/invalid), and no complete-inventory certificate exists.",
+    "No saved pre-placement surface-versus-registry audit was found.",
+    "The TIFF writes zeros outside bounds while the official problem page specifies null/NaN; strict local check outside_is_nan is false and strict_format_pass is false.",
+    "The prior HK3 record is self-declared, no assigned method paragraph is documented, three experiments were used, and elapsed time is recorded at about 2 hours 15 minutes.",
+    "No organizer submission receipt or portal acceptance is available."
+  ],
+  "limitations": [
+    "The registry and template are owner mirrors rather than an authenticated complete organizer inventory/template.",
+    "The previous HOLDOUT-DTI and LEADERBOARD-CALIBRATED ESTIMATE remain historical experiment evidence, not an organizer score.",
+    "Research download verifies access to the saved artifact only; it does not imply format approval, uniqueness, or submission eligibility."
+  ],
+  "historical_decision_preserved": {
+    "source_run_card": "evidence/hk3/run_card.json",
+    "source_selector": "evidence/hk3/selector_result.json",
+    "historical_run_card_verdict": "PROMOTE",
+    "historical_selector_verdict": "candidate_approved_by_automated_gates",
+    "current_authority": "superseded by this strict negative disposition"
+  }
+}

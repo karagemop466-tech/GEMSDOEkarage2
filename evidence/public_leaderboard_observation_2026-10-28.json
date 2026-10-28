@@ -1,0 +1,14 @@
+{
+  "schema": "gems.public_leaderboard_page_observation.v1",
+  "captured_date": "2026-10-28",
+  "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "observed_rank": 1,
+  "observed_score": 0.4544,
+  "evidence_class": "PUBLIC-LEADERBOARD-OBSERVATION; not a submission-page receipt and not a score for this repository's raster",
+  "method": "Direct page fetch during review; visible public leaderboard row",
+  "limitations": [
+    "Time-sensitive page observation; later leaderboard state may differ.",
+    "No submission name, file hash, or receipt is bound to this observation.",
+    "This is not ORGANIZER-CONFIRMED for any local candidate."
+  ]
+}

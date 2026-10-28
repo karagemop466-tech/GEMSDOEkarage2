@@ -22,8 +22,8 @@ Subcommands
   e2         canaries for the 8 new bands + paired incumbent(26f) vs candidate(34f)
              HistGradientBoosting on the identical label-blind quadrant folds
   bridge     score the pinned D2.8 (GEMSDOE25) dot file on the same folds (transfer anchor)
-  e3         full-catalogue fit, apron+budget emission, estimator, validation,
-             registry audit, shared-writer output
+  e3         full-catalogue fit and surface audit; literal, complete-registry
+             pre-placement gate must pass before apron+budget dot emission
 """
 from __future__ import annotations
 
@@ -60,6 +60,37 @@ NF_ALL = len(ALL_NAMES)  # 34
 APRON_PX = 3.0           # from evidence/calibration/leaderboard_calibration.json (E1)
 SEP_PX = 3.0             # minimum dot separation (metric-motivated; not the family's 2.8)
 _DISC3 = [(dy, dx) for dy in range(-3, 4) for dx in range(-3, 4) if (dy * dy + dx * dx) < SEP_PX * SEP_PX]
+
+
+def literal_duplicate_rows(rows):
+    """Return every literal duplicate, without status/density exceptions."""
+    return [row for row in rows if "error" not in row and
+            (row.get("duplicate_by_rho") is True or row.get("duplicate_by_overlap") is True)]
+
+
+def strict_run_card_verdict(gates):
+    """A disclosed exception never changes the result of a failed hard gate."""
+    hard_gates = [value for key, value in gates.items()
+                  if isinstance(value, bool) and key != "literal_rule_exception_applied"]
+    exception = gates.get("literal_rule_exception_applied", False)
+    return "PROMOTE" if hard_gates and all(hard_gates) and exception is False else "NEGATIVE"
+
+
+def registry_records(exclude_candidate_name=None):
+    """Collect the same pinned registry and local raster rows for both uniqueness phases."""
+    man = json.loads((ROOT / "registry/focus_registry_manifest.json").read_text())
+    records = [{"repo": r["repo"], "submission": r["path"], "file": r["local"], "sha256": r["sha256"]}
+               for r in man["rasters"] if r["status"] == "ok"]
+    pinned = json.loads((ROOT / "registry/pinned_assets.json").read_text())
+    for x in pinned["assets"]:
+        if x["role"] in ("focus", "lattice"):
+            records.append({"repo": x["repo"].split("/")[-1], "submission": x["path"],
+                            "file": f".cache/registry_focus/{x['cache_name']}", "sha256": x["sha256"]})
+    for local in sorted((ROOT / "docs/downloads").glob("*.tif")):
+        if local.name != exclude_candidate_name:
+            records.append({"repo": "karage2-local", "submission": local.name,
+                            "file": str(local), "sha256": None})
+    return records
 
 
 # ----------------------------------------------------------------------------- features
@@ -429,6 +460,25 @@ def choose_rate(table):
 FULL_ACTIVE_PX = 5_011_946  # eligible px on the full map; equals the pooled holdout active total (bridge.json) - set at runtime
 
 
+def audit_preplacement_surface(name, surface, grid):
+    """Record and enforce the literal all-registry gate before any dot placement."""
+    receipt_path = EV / "preplacement_surface_registry_audit.json"
+    surface_sha = hashlib.sha256(np.ascontiguousarray(surface).tobytes()).hexdigest()
+    try:
+        report = uniq.compare_array_to_registry(
+            surface, registry_records(exclude_candidate_name=f"{name}.tif"), grid.footprint,
+            include_reverse=False, expected_grid=(grid.shape, grid.crs, grid.transform))
+        report.update(phase="surface", candidate_name=name, surface_sha256=surface_sha,
+                      literal_policy="every raster in scope; rho > 0.90 or >70% forward 3px overlap stops; no exceptions")
+    except Exception as exc:
+        report = {"phase": "surface", "candidate_name": name, "surface_sha256": surface_sha,
+                  "unique": False, "stop_required": True,
+                  "error": f"{type(exc).__name__}: {exc}",
+                  "literal_policy": "every raster in scope; rho > 0.90 or >70% forward 3px overlap stops; no exceptions"}
+    receipt_path.write_text(json.dumps(report, indent=2, default=str) + "\n")
+    return report
+
+
 # ----------------------------------------------------------------------------- E3
 def cmd_e3(name, note, rate, write=True, reuse_surface=False):
     global FULL_ACTIVE_PX
@@ -474,6 +524,9 @@ def cmd_e3(name, note, rate, write=True, reuse_surface=False):
             chunk = idx[s:s + 400_000]
             surf.ravel()[chunk] = model.predict_proba(gather(F, chunk, NF_ALL))[:, 1]
         np.save(surf_path, surf)
+    preplacement = audit_preplacement_surface(name, surf, grid)
+    if not preplacement.get("unique") or preplacement.get("stop_required"):
+        raise SystemExit("HK3 pre-placement surface registry gate stopped; no dots placed. See evidence/hk3/preplacement_surface_registry_audit.json")
     budget = int(round(rate * FULL_ACTIVE_PX))   # rate over active px, placed inside the apron-free allowed set
     dots = emit(surf, allowed, budget, _DISC3)
     n = int(dots.sum())
@@ -510,6 +563,13 @@ def cmd_e3(name, note, rate, write=True, reuse_surface=False):
     result = {"name": name, "note": note, "dots": n, "budget": budget, "rate": rate, "apron_px": APRON_PX,
               "sep_px": SEP_PX, "surface_sha256": hashlib.sha256(surf.tobytes()).hexdigest(),
               "train": {"pos": int(len(pos)), "neg": int(len(neg))}, "estimator": estimator,
+              "preplacement_surface_registry_audit": {
+                  "file": "evidence/hk3/preplacement_surface_registry_audit.json",
+                  "surface_sha256": preplacement.get("surface_sha256"),
+                  "unique": preplacement.get("unique") is True,
+                  "complete_accessible_scan": preplacement.get("complete_accessible_scan") is True,
+                  "duplicate_count": preplacement.get("duplicate_count"),
+              },
               "dots_within_3px_of_catalogue": int((dots & (dcat <= 3)).sum()),
               "dots_on_catalogue": int((dots & cat).sum())}
     if not write:
@@ -531,17 +591,7 @@ def cmd_audit(name):
     with rasterio.open(tif) as ds:
         mine = ds.read(1)
     file_sha = hashlib.sha256(tif.read_bytes()).hexdigest()
-    man = json.loads((ROOT / "registry/focus_registry_manifest.json").read_text())
-    records = [{"repo": r["repo"], "submission": r["path"], "file": r["local"], "sha256": r["sha256"]}
-               for r in man["rasters"] if r["status"] == "ok"]
-    pinned = json.loads((ROOT / "registry/pinned_assets.json").read_text())
-    for x in pinned["assets"]:
-        if x["role"] in ("focus", "lattice"):
-            records.append({"repo": x["repo"].split("/")[-1], "submission": x["path"],
-                            "file": f".cache/registry_focus/{x['cache_name']}", "sha256": x["sha256"]})
-    for local in sorted((ROOT / "docs/downloads").glob("*.tif")):
-        if local.name != tif.name:
-            records.append({"repo": "karage2-local", "submission": local.name, "file": str(local), "sha256": None})
+    records = registry_records(exclude_candidate_name=tif.name)
     audit = uniq.compare_array_to_registry(mine, records, grid.footprint, file_sha256=file_sha,
                                            include_reverse=False,
                                            expected_grid=(grid.shape, grid.crs, grid.transform))
@@ -568,7 +618,7 @@ def cmd_audit(name):
     # 3 px halo covers >= 50 % of the footprint, or whose literal overlap exceeds 60 %, report the
     # halo fraction (= chance overlap of a random dot set), the chance-corrected excess
     # (overlap - halo) / (1 - halo), and the same literal overlap for the organizer-scored
-    # GEMSDOE32 champion dots.  Nothing is waived: the literal verdict stays in `nondegenerate`.
+    # GEMSDOE32 champion dots. These are descriptive diagnostics only; no row is excluded from the literal gate.
     champ_path = ROOT / ".cache/registry_focus" / next(x["cache_name"] for x in pinned["assets"] if x.get("site") == "GEMSDOE32")
     with rasterio.open(champ_path) as ds:
         champ = ds.read(1)
@@ -692,17 +742,37 @@ def cmd_card(name):
     anchors = json.loads((EV / "anchors_out_of_sample.json").read_text()) if (EV / "anchors_out_of_sample.json").exists() else None
     leak = json.loads((EV / "leakage_inflation.json").read_text()) if (EV / "leakage_inflation.json").exists() else None
     # --- uniqueness tiers -----------------------------------------------------------------
-    rows = [r for r in audit["rows"] if "error" not in r and r["submission"] not in audit["degenerate_witnesses"]]
+    # The literal rule evaluates every valid registry row. The degenerate and
+    # unsubmitted labels below are descriptive metadata only, never exemptions.
+    rows = [r for r in audit["rows"] if "error" not in r]
+    registry_errors = [r for r in audit["rows"] if "error" in r]
     pinned = json.loads((ROOT / "registry/pinned_assets.json").read_text())
     scored_paths = {x["path"] for x in pinned["assets"] if x["role"] == "focus"}
     scored_rows = [r for r in rows if r["submission"] in scored_paths and "registry_focus" in str(r["file"])]
-    dot_rows = [r for r in rows if r["their_dots"] <= 100_000]          # comparable objects: dot rasters
-    dense_rows = [r for r in rows if r["their_dots"] > 100_000]         # line/surface rasters: chance-corrected
+    dot_rows = [r for r in rows if r["their_dots"] <= 100_000]          # descriptive comparable-object subset
+    dense_rows = [r for r in rows if r["their_dots"] > 100_000]         # descriptive line/surface subset
     dense_detail = {d["submission"]: d for d in audit.get("dense_witnesses", [])}
     def corrected(r):
         d = dense_detail.get(r["submission"])
         return d["candidate_overlap_chance_corrected"] if d else None
-    literal_fail = [r for r in rows if r["duplicate_by_rho"] or r["duplicate_by_overlap"]]
+    literal_fail = literal_duplicate_rows(rows)
+    rank_rows = [r for r in rows if r.get("spearman_full_footprint") is not None]
+    worst_rho_all = max(rank_rows, key=lambda r: abs(r["spearman_full_footprint"]), default=None)
+    max_abs_rho_all = abs(worst_rho_all["spearman_full_footprint"]) if worst_rho_all else None
+    preplacement = gen.get("preplacement_surface_registry_audit") or {}
+    preplacement_receipt_path = EV / "preplacement_surface_registry_audit.json"
+    if preplacement_receipt_path.is_file():
+        preplacement_receipt = json.loads(preplacement_receipt_path.read_text())
+    else:
+        preplacement_receipt = {}
+    preplacement_pass = (
+        preplacement.get("surface_sha256") == gen.get("surface_sha256") and
+        preplacement_receipt.get("candidate_name") == name and
+        preplacement_receipt.get("phase") == "surface" and
+        preplacement_receipt.get("surface_sha256") == gen.get("surface_sha256") and
+        preplacement_receipt.get("unique") is True and
+        preplacement_receipt.get("complete_accessible_scan") is True and
+        preplacement_receipt.get("duplicate_count") == 0)
     never_submitted = {"gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif": "this repository's own K2 research artefact; never submitted (selector negative)",
                        "docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif":
                            "GEMSDOE32 H45 KS0 control arm; its own site states DO NOT SUBMIT / no weekly slot spent (docs/research/h45-executive-summary-20261026.md @ 73485f27)"}
@@ -713,7 +783,10 @@ def cmd_card(name):
             "max_abs_rho": max(abs(r["spearman_full_footprint"] or 0) for r in scored_rows),
             "per_site": {r["repo"]: {"overlap_3px": r["my_dots_within_3px_of_theirs"], "rho": r["spearman_full_footprint"], "jaccard": r["jaccard_dot_sets"]} for r in scored_rows}},
         "U2_literal_rule_vs_all_registry_rasters": {
-            "pass": not literal_fail, "rasters_checked": len(rows), "degenerate_excluded": audit["degenerate_witnesses"],
+            "pass": not literal_fail, "rasters_checked": len(rows),
+            "registry_rasters_expected": audit.get("registry_rasters_expected"),
+            "registry_raster_errors": len(registry_errors),
+            "degenerate_witnesses_reported_not_excluded": audit["degenerate_witnesses"],
             "failures": [{"repo": r["repo"], "submission": r["submission"], "their_positive_px": r["their_dots"],
                           "overlap_3px": r["my_dots_within_3px_of_theirs"], "rho": r["spearman_full_footprint"],
                           "halo_fraction_of_footprint": r.get("their_halo_fraction_of_footprint"),
@@ -723,12 +796,14 @@ def cmd_card(name):
                           "GEMSDOE32_champion_overlap_with_same_raster": dense_detail.get(r["submission"], {}).get("GEMSDOE32_champion_overlap_literal")}
                          for r in literal_fail]},
         "U3_chance_corrected_overlap_vs_all": {
-            "pass": all((corrected(r) if corrected(r) is not None else r["my_dots_within_3px_of_theirs"]) <= 0.70 for r in rows),
-            "max_corrected": max(c for c in (corrected(r) for r in rows) if c is not None)},
+            "pass": bool(rows) and all((corrected(r) if corrected(r) is not None else r["my_dots_within_3px_of_theirs"]) <= 0.70 for r in rows),
+            "max_corrected": max((c for c in (corrected(r) for r in rows) if c is not None), default=None)},
         "U4_literal_rule_vs_dot_rasters_that_were_submitted": {
             "pass": all(not (r["duplicate_by_rho"] or r["duplicate_by_overlap"]) for r in dot_rows if r["submission"] not in never_submitted),
-            "note": "dot rasters (<= 100k positive px) excluding the two files documented as never submitted"},
-        "rank_correlation": {"pass": nd["worst_abs_rho"] <= 0.90, "max_abs_rho": nd["worst_abs_rho"]},
+            "note": "descriptive dot-raster subset only; it never overrides the literal all-registry rule"},
+        "rank_correlation": {"pass": max_abs_rho_all is not None and max_abs_rho_all <= 0.90,
+                             "max_abs_rho": max_abs_rho_all,
+                             "worst_submission": worst_rho_all["submission"] if worst_rho_all else None},
     }
     ps = e2["pooled_summary"]
     scores = ps["scores"]
@@ -748,21 +823,24 @@ def cmd_card(name):
         "unique_chance_corrected_vs_all_registry_rasters": tiers["U3_chance_corrected_overlap_vs_all"]["pass"],
         "unique_literal_vs_submitted_dot_rasters": tiers["U4_literal_rule_vs_dot_rasters_that_were_submitted"]["pass"],
         "rank_correlation_below_0_90": tiers["rank_correlation"]["pass"],
+        "registry_inventory_complete": (audit.get("complete_accessible_scan") is True and
+                                         not registry_errors and not audit.get("source_errors")),
+        "preplacement_surface_registry_audit_present": bool(preplacement.get("surface_sha256")),
+        "preplacement_surface_registry_gate_pass": preplacement_pass,
+        "strict_format_pass": strict.get("strict_format_pass") is True,
+        "official_exterior_null_nan_pass": strict.get("checks", {}).get("outside_is_nan") is True,
+        "organizer_template_authenticated": strict.get("template_authenticity") == "organizer-authenticated",
         "lane_single_method": True,
-        "experiments_used": 3, "time_budget_note": "E1 calibration, E2 holdout, E3 generation; ~2 h 15 min wall-clock including the artifact write",
+        "assigned_method_lane_documented": False,
+        "experiment_limit_3_respected": True,
+        "two_hour_limit_respected": False,
+        "experiments_used": 3,
+        "time_budget_note": "Historical HK3 used three experiments and approximately 2 h 15 min; no further experiment is authorized.",
     }
     d = paired["cand34_b110_minus_inc26_b110"]          # same budget, same folds, same emission
     gates["holdout_beats_refit_incumbent_paired_ci_excludes_zero"] = bool(d["ci95"][0] > 0)
-    # Verdict logic (stated, not hidden): every gate must pass except that the *literal* all-registry
-    # rule (U2) may fail only against rasters that were never submitted or that are line/surface
-    # rasters with > 100k positive pixels, provided U1, U3, U4 and the rank-correlation gate pass.
-    # The pre-registered note (section 3c) said "literal => stop"; this is a disclosed deviation and
-    # the literal failures are printed on every page.  The selector/quota step remains separate.
-    u2 = tiers["U2_literal_rule_vs_all_registry_rasters"]
-    u2_excusable = all(f["submission"] in never_submitted or f["their_positive_px"] > 100_000 for f in u2["failures"])
-    hard = {k: v for k, v in gates.items() if isinstance(v, bool) and k != "unique_literal_vs_all_registry_rasters"}
-    verdict = "PROMOTE" if all(hard.values()) and (u2["pass"] or u2_excusable) else "NEGATIVE"
-    gates["literal_rule_exception_applied"] = (not u2["pass"]) and u2_excusable and verdict == "PROMOTE"
+    gates["literal_rule_exception_applied"] = False
+    verdict = strict_run_card_verdict(gates)
     card = {
         "kind": "HK3 RUN CARD (single JSON per the parallel-run protocol)",
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -790,14 +868,18 @@ def cmd_card(name):
                             "candidate_matched_to_D28_count": bridge["candidate_matched_to_D28_count"]},
         "estimator": {k: v for k, v in est.items() if k != "budget_table"},
         "registry_uniqueness": {
-            "tiers": tiers, "verdict_logic": ("PROMOTE requires U1, U3, U4 and rank-correlation to pass; the literal all-registry rule U2 may fail only "
-                                              "against never-submitted rasters or line/surface rasters > 100k positive px (disclosed deviation from "
-                                              "the pre-registered 'literal => stop'); literal failures are listed on every page"),
-            "scope": audit["scope"], "rasters_checked": nd["checked"], "errors": nd["errors"],
-            "degenerate_witnesses": audit["degenerate_witnesses"],
-            "worst_overlap_nondegenerate": nd["worst_overlap"], "worst_overlap_submission": nd["worst_overlap_submission"],
-            "worst_abs_rho": nd["worst_abs_rho"], "worst_rho_submission": nd["worst_rho_submission"],
-            "literal_duplicates": nd["duplicates"], "dense_witness_detail": audit.get("dense_witnesses"),
+            "tiers": tiers,
+            "verdict_logic": "Every automated hard gate must pass. Any rho > 0.90 or >70% forward 3px overlap against any registry raster is a stop; no status, density, or degenerate-witness exception. The registry scan must also be complete and the pre-placement surface receipt must pass.",
+            "scope": audit["scope"], "rasters_checked": len(audit["rows"]), "errors": len(registry_errors),
+            "complete_accessible_scan": audit.get("complete_accessible_scan") is True,
+            "degenerate_witnesses_reported_not_excluded": audit["degenerate_witnesses"],
+            "preplacement_surface_audit": gen.get("preplacement_surface_registry_audit"),
+            "worst_overlap_nondegenerate_diagnostic": nd["worst_overlap"],
+            "worst_overlap_submission_nondegenerate_diagnostic": nd["worst_overlap_submission"],
+            "worst_abs_rho_all_registry": max_abs_rho_all,
+            "worst_rho_submission_all_registry": worst_rho_all["submission"] if worst_rho_all else None,
+            "literal_duplicates_all_registry": [r["submission"] for r in literal_fail],
+            "dense_witness_detail": audit.get("dense_witnesses"),
             "rank_corr_limit": 0.90, "overlap_limit": 0.70,
         },
         "raster": {"file": f"docs/downloads/{name}.tif", "sha256": file_sha, "dots": gen["dots"], "budget": gen["budget"],

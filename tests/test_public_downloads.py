@@ -29,8 +29,22 @@ def make_fixture(tmp_path):
     (tmp_path / 'evidence').mkdir()
     (tmp_path / 'evidence/geometry-audit.json').write_text(json.dumps({'template': grid}))
     card_path = tmp_path / 'evidence/card.json'
-    card = dict(raster=f'docs/downloads/{stem}.tif', raster_sha256=mod.digest_file(tif),
-                submission_name=stem, note='Negative research only', verdict='negative')
+    file_sha = mod.digest_file(tif)
+    card = dict(raster=f'docs/downloads/{stem}.tif', raster_sha256=file_sha,
+                submission_name=stem, note='Negative research only', verdict='negative',
+                organizer_template_authenticated=True,
+                strict_format_receipt={
+                    'candidate_sha256': file_sha,
+                    'template_sha256': 'a' * 64,
+                    'template_authenticity': 'organizer-authenticated',
+                    'strict_format_pass': True,
+                    'checks': {
+                        'single_band': True, 'float32': True, 'crs_matches_template': True,
+                        'shape_matches_template': True, 'transform_matches_template': True,
+                        'inside_no_masked_cells': True, 'inside_all_finite': True,
+                        'inside_in_range_0_1': True, 'outside_is_nan': True,
+                    },
+                })
     card_path.write_text(json.dumps(card))
     (tmp_path / 'evidence/selector.json').write_text(json.dumps(dict(verdict='negative',
         slot_authorized=False, source_run_card='evidence/card.json')))
@@ -40,22 +54,33 @@ def make_fixture(tmp_path):
     return args, card_path
 
 
-def test_current_saved_downloads_are_hash_bound_with_one_candidate():
+def test_current_saved_downloads_are_hash_bound_and_research_only():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_ONE_CANDIDATE_FOR_UPLOAD'
-    hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert result['downloadable_approved_submission'] == hk3['raster']['file']
-    assert result['score_estimate']['label'].startswith('LEADERBOARD-CALIBRATED ESTIMATE')
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
+    assert result['verdict'] == 'negative'
+    assert result['downloadable_approved_submission'] is None
+    assert result['score_estimate'] is None
     assert len(result['artifacts']) == 7
-    candidates = [r for r in result['artifacts'] if r['kind'] == 'candidate']
-    assert len(candidates) == 1 and candidates[0]['raster_sha256'] == hk3['raster']['sha256']
-    assert candidates[0]['ok_to_submit'] is True and candidates[0]['slot_authorized'] is False
-    assert candidates[0]['checks']['selector_explicit_candidate'] and candidates[0]['checks']['card_hard_gates_all_pass']
+    assert not [r for r in result['artifacts'] if r['kind'] == 'candidate']
+
+    historical = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
+    strict = json.loads((ROOT / 'evidence/hk3/strict_disposition.json').read_text())
+    hk3 = next(r for r in result['artifacts'] if r['file'].endswith('gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif'))
+    assert strict['verdict'] == 'negative' and historical['verdict'] == 'PROMOTE'
+    assert hk3['kind'] == 'research' and hk3['raster_sha256'] == historical['raster']['sha256']
+    assert hk3['run_card'] == 'evidence/hk3/strict_disposition.json'
+    assert hk3['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert hk3['ok_to_submit'] is False and hk3['download_for_research'] is True
+    assert hk3['slot_authorized'] is False
+    for key in ('selector_explicit_negative', 'card_currently_research_only',
+                'card_literal_stop_has_no_exception', 'card_registry_incomplete_disclosed',
+                'card_strict_exterior_failure_disclosed'):
+        assert hk3['checks'][key] is True, key
+    assert 'null/NaN outside bounds' in hk3['exterior_convention']
     for record in result['artifacts']:
-        if record['kind'] == 'research':
-            assert record['ok_to_submit'] is False
+        assert record['ok_to_submit'] is False
         assert record['slot_authorized'] is False
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
@@ -69,9 +94,25 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     # research card + "candidate" kind => the PROMOTE requirement fails closed
     bad = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert bad['status'] == 'FAIL_CLOSED' and bad['ok_to_submit'] is False
-    # a PROMOTE card whose selector is negative must also fail closed
+    # A disclosed exception can never convert a literal duplicate into a pass.
     card = json.loads(card_path.read_text())
-    card.update(verdict='PROMOTE', gates={'a': True, 'unique_literal_vs_all_registry_rasters': True}, holdout={'evidence_class': 'HOLDOUT-DTI'})
+    card.update(verdict='PROMOTE', gates={'a': True, 'unique_literal_vs_all_registry_rasters': False,
+                                         'literal_rule_exception_applied': True},
+                holdout={'evidence_class': 'HOLDOUT-DTI'})
+    card_path.write_text(json.dumps(card))
+    exception = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
+    assert exception['status'] == 'FAIL_CLOSED'
+    assert exception['checks']['card_hard_gates_all_pass'] is False
+    assert exception['checks']['card_literal_rule_passed_without_exception'] is False
+    # A genuinely passing literal card still fails while the selector is negative.
+    card['gates'] = {'a': True, 'unique_literal_vs_all_registry_rasters': True,
+                     'literal_rule_exception_applied': False}
+    card['strict_format_receipt']['checks']['outside_is_nan'] = False
+    card_path.write_text(json.dumps(card))
+    bad_exterior = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
+    assert bad_exterior['status'] == 'FAIL_CLOSED'
+    assert bad_exterior['checks']['card_strict_format_receipt_bound_to_saved_bytes'] is False
+    card['strict_format_receipt']['checks']['outside_is_nan'] = True
     card_path.write_text(json.dumps(card))
     still = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert still['status'] == 'FAIL_CLOSED' and still['checks']['selector_explicit_candidate'] is False
@@ -80,6 +121,8 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
         slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
     good = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
     assert good['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD' and good['ok_to_submit'] is True
+    assert good['checks']['card_strict_format_receipt_bound_to_saved_bytes'] is True
+    assert good['non_gating_diagnostics'] == []
     # a second candidate in the inventory is refused
     second = tmp_path / 'docs/downloads/second.tif'
     shutil.copyfile(root / f'docs/downloads/{stem}.tif', second)
@@ -94,6 +137,37 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     finally:
         mp.undo()
     assert result['inventory_status'] == 'FAIL_CLOSED' and result['downloadable_approved_submission'] is None
+
+
+def test_candidate_null_exterior_requires_hash_bound_strict_receipt(tmp_path):
+    args, card_path = make_fixture(tmp_path)
+    root, stem, card_rel, selector_rel, has_zip, grid = args
+    tif = root / f'docs/downloads/{stem}.tif'
+    with rasterio.open(tif, 'r+') as ds:
+        pixels = ds.read(1)
+        pixels[0, 0] = np.nan
+        ds.write(pixels, 1)
+    file_sha = mod.digest_file(tif)
+    card = json.loads(card_path.read_text())
+    card.update(verdict='PROMOTE', raster_sha256=file_sha,
+                gates={'feature': True, 'unique_literal_vs_all_registry_rasters': True,
+                       'literal_rule_exception_applied': False},
+                holdout={'evidence_class': 'HOLDOUT-DTI'})
+    card['strict_format_receipt']['candidate_sha256'] = file_sha
+    card_path.write_text(json.dumps(card))
+    with zipfile.ZipFile(tif.with_suffix('.zip'), 'w') as out:
+        out.write(tif, tif.name)
+    (root / selector_rel).write_text(json.dumps(dict(
+        verdict='candidate_approved_by_automated_gates', ok_to_submit=True,
+        slot_authorized=False, source_run_card=card_rel, raster_sha256=file_sha)))
+
+    record = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
+    assert record['checks']['whole_array_finite'] is False
+    assert record['checks']['range_0_1'] is False
+    assert record['checks']['card_strict_format_receipt_bound_to_saved_bytes'] is True
+    assert record['non_gating_diagnostics'] == ['range_0_1', 'whole_array_finite']
+    assert record['status'] == 'VERIFIED_CANDIDATE_FOR_UPLOAD'
+    assert record['ok_to_submit'] is True
 
 
 def test_b4_literal_followup_is_bound_to_saved_tif_and_negative_registry():

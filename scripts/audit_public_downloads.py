@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Re-read every published TIFF/ZIP and fail closed on unexpected downloads.
 
-This is an integrity and local-format audit of the published files, not a model
-evaluation. Research files need a negative run card; the single upload candidate
-(HK3) needs a PROMOTE run card whose hard gates all pass plus an explicit selector
-receipt bound to the saved bytes. No TIFF is generated and no organizer
-template/receipt is authenticated here.
+This is an integrity and local-format audit, not a model evaluation. The current
+HK3 artifact is governed by the strict negative disposition and is research-only;
+the earlier PROMOTE card remains historical evidence, not current clearance. The
+generic candidate path is retained for tests/future authorized work, but this
+inventory currently has no upload candidate. No TIFF is generated and no
+organizer template/receipt is authenticated here.
 """
 from __future__ import annotations
 
@@ -20,8 +21,8 @@ import rasterio
 from rasterio.errors import RasterioError
 
 ROOT = Path(__file__).resolve().parents[1]
-# (stem, run card, selector, has_zip[, kind]); kind "research" = negative card required,
-# kind "candidate" = PROMOTE card + explicit selector required (HK3 lane, 2026-10-28).
+# (stem, current disposition card, selector, has_zip[, kind]); kind "research" = negative card required,
+# kind "candidate" = PROMOTE card + explicit selector required (kept for future authorized work).
 ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
@@ -37,7 +38,7 @@ ARTIFACTS = (
     ("gemsdoekarage2-k3-linctxdti-b110-20261028-zeros",
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
-     "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True, "candidate"),
+     "evidence/hk3/strict_disposition.json", "evidence/hk3/strict_selector_result.json", True, "research"),
 )
 
 
@@ -140,14 +141,43 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             gates = card.get("gates") or {}
             checks["card_hard_gates_all_pass"] = bool(gates) and all(
                 v is True for k, v in gates.items()
-                if isinstance(v, bool) and k not in ("unique_literal_vs_all_registry_rasters", "literal_rule_exception_applied"))
-            checks["card_literal_rule_failures_disclosed"] = (
-                gates.get("unique_literal_vs_all_registry_rasters") is True or
-                (gates.get("literal_rule_exception_applied") is True and
-                 bool((card.get("registry_uniqueness") or {}).get("tiers", {}).get("U2_literal_rule_vs_all_registry_rasters", {}).get("failures"))))
+                if isinstance(v, bool) and k != "literal_rule_exception_applied")
+            # A disclosed literal failure is still a stop. The old exception path
+            # was the defect this strict review closes; disclosure never equals clearance.
+            checks["card_literal_rule_passed_without_exception"] = (
+                gates.get("unique_literal_vs_all_registry_rasters") is True and
+                gates.get("literal_rule_exception_applied") is False)
             checks["card_holdout_labelled"] = (card.get("holdout") or {}).get("evidence_class") == "HOLDOUT-DTI"
+            strict_receipt = card.get("strict_format_receipt") or {}
+            strict_checks = strict_receipt.get("checks") or {}
+            required_strict_checks = (
+                "single_band", "float32", "crs_matches_template", "shape_matches_template",
+                "transform_matches_template", "inside_no_masked_cells", "inside_all_finite",
+                "inside_in_range_0_1", "outside_is_nan")
+            template_sha = strict_receipt.get("template_sha256")
+            checks["card_strict_format_receipt_bound_to_saved_bytes"] = (
+                strict_receipt.get("candidate_sha256") == actual_sha and
+                strict_receipt.get("strict_format_pass") is True and
+                strict_receipt.get("template_authenticity") == "organizer-authenticated" and
+                isinstance(template_sha, str) and len(template_sha) == 64 and
+                all(c in "0123456789abcdef" for c in template_sha) and
+                card.get("organizer_template_authenticated") is True and
+                all(strict_checks.get(name) is True for name in required_strict_checks))
         else:
             checks["card_verdict_negative"] = card.get("verdict") == "negative"
+            if card.get("current_disposition"):
+                checks["card_currently_research_only"] = card.get("current_disposition") == "DO NOT SUBMIT; research-only download"
+                checks["card_literal_stop_has_no_exception"] = (
+                    card.get("gates", {}).get("unique_literal_vs_all_registry_rasters") is False and
+                    card.get("gates", {}).get("literal_rule_exception_applied") is False and
+                    card.get("registry_uniqueness", {}).get("literal_rule_exception_applied") is False)
+                checks["card_registry_incomplete_disclosed"] = (
+                    card.get("registry_uniqueness", {}).get("registry_rasters_checked") == 452 and
+                    card.get("registry_uniqueness", {}).get("registry_rasters_expected") == 453 and
+                    card.get("registry_uniqueness", {}).get("complete_registry_inventory") is False)
+                checks["card_strict_exterior_failure_disclosed"] = (
+                    card.get("strict_review", {}).get("strict_outside_is_nan") is False and
+                    card.get("gates", {}).get("strict_format_pass") is False)
         checks["card_has_same_filename"] = (card.get("raster", rel) == rel and
                                             card.get("submission_name") == stem)
         checks["card_sha_matches_saved_bytes"] = actual_sha is not None and card.get("raster_sha256") == actual_sha
@@ -159,8 +189,8 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         try:
             selector = json.loads((root / selector_rel).read_text())
             if candidate:
-                # the automated selector may approve the *download for upload*; the weekly slot
-                # itself is spent by the human selector, so slot_authorized stays False here
+                # Candidate clearance is distinct from a weekly slot; only a separate human
+                # selector can authorize that slot. This branch is not used by current inventory.
                 checks["selector_explicit_candidate"] = (selector.get("verdict") == "candidate_approved_by_automated_gates" and
                                                          selector.get("ok_to_submit") is True and
                                                          selector.get("slot_authorized") is False and
@@ -178,20 +208,33 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 inspect_zip(tif.with_suffix('.zip'), tif, actual_sha))
         except (OSError, ValueError, zipfile.BadZipFile, RuntimeError):
             checks["zip_contains_exact_saved_tif"] = False
-    ok = all(checks.values())
+    # The official exterior convention is null/NaN, so a fully compliant raster
+    # may fail whole-array finiteness/range diagnostics outside the footprint. For
+    # candidate clearance, those two global diagnostics are informational only;
+    # the hash-bound strict receipt must separately prove in-footprint range and
+    # null/NaN exterior against an authenticated official template.
+    non_gating_names = {"whole_array_finite", "range_0_1"} if candidate else set()
+    non_gating_diagnostics = sorted(name for name in non_gating_names if checks.get(name) is False)
+    ok = all(value for key, value in checks.items() if key not in non_gating_names)
     if candidate:
         status = "VERIFIED_CANDIDATE_FOR_UPLOAD" if ok else "FAIL_CLOSED"
     else:
         status = "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED"
+    if stem == "gemsdoekarage2-hk3-edgecentrality-apron3-20261028":
+        exterior_note = ("Saved exterior is zero-valued and finite; the official problem text requires null/NaN outside bounds, "
+                         "the strict outside_is_nan check fails, and no portal acceptance or organizer receipt is available. Research-only.")
+    else:
+        exterior_note = "Research artifact; exterior bytes are preserved as saved. No official template or portal acceptance is authenticated."
     return {
         "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
         "selector": selector_rel, "zip_file": f"docs/downloads/{stem}.zip" if has_zip else None,
         "checks": checks, "diagnostics": detail.get("diagnostics", {}),
+        "non_gating_diagnostics": sorted(non_gating_diagnostics),
         "status": status,
         "download_for_research": ok,
         "ok_to_submit": bool(candidate and ok), "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-        "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists",
+        "exterior_convention": exterior_note,
     }
 
 
@@ -232,7 +275,7 @@ def audit(root: Path = ROOT) -> dict:
         "downloadable_approved_submission": approved[0] if (good and approved) else None,
         "score_estimate": estimate,
         "organizer_template_authenticated": False,
-        "format_note": "Each raster is read from disk, whole-array range and grid compared with an unauthenticated owner mirror. Footprint/exterior policy and portal acceptance require organizer evidence.",
+        "format_note": "Each raster is read from saved bytes and checked for local grid/range integrity against an unauthenticated owner mirror. HK3 is research-only: its zero exterior conflicts with the official null/NaN bounds instruction, its strict outside check fails, and portal acceptance is unverified.",
         "slot_authorized": False,
     }
 
