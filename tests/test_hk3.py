@@ -35,7 +35,7 @@ def test_run_card_is_published_identically(card):
         assert load(EV / name) == load(DOCS / "evidence" / "hk3" / name), name
 
 
-def test_run_card_gates_and_verdict_logic_agree(card):
+def test_run_card_historical_receipt_is_not_current_submission_clearance(card):
     g = card["gates"]
     required = ["format_shared_validator_pass", "grid_matches_example_submission",
                 "whole_array_finite_in_0_1", "no_dots_on_mapped_catalogue", "leakage_canary_pass",
@@ -47,7 +47,9 @@ def test_run_card_gates_and_verdict_logic_agree(card):
     # visible as a failed gate with the exception flag set, never silently passed
     assert g["unique_literal_vs_all_registry_rasters"] is False
     assert g["literal_rule_exception_applied"] is True
-    assert card["verdict"] == "PROMOTE"
+    # The old run-card PROMOTE label is contradicted by a failed literal gate,
+    # a disclosed exception, a self-declared lane and unauthenticated inputs.
+    assert card["verdict"] == "PROMOTE"  # preserve historical evidence verbatim
     tiers = card["registry_uniqueness"]["tiers"]
     assert tiers["U1_unique_vs_nine_scored_site_files"]["pass"] and tiers["U1_unique_vs_nine_scored_site_files"]["max_overlap"] <= 0.70
     assert not tiers["U2_literal_rule_vs_all_registry_rasters"]["pass"]
@@ -116,19 +118,84 @@ def test_shared_validator_passes_on_the_published_bytes(card):
 
 
 def test_desk_pages_are_generated_from_the_run_card(card):
+    from build_hk3_pages import submission_ready
+    assert submission_ready(card) is False
+    assert submission_ready({
+        "verdict": "PROMOTE", "lane": "coordinator-assigned method lane",
+        "lane_assignment_receipt": {"status": "verified", "method_paragraph": "signed method assignment"},
+        "surface_preplacement_check": {"status": "pass", "checked_before_placement": True, "surface_sha256": "a" * 64},
+        "elapsed_seconds": 3600,
+        "provenance": {"organizer_authenticated_inputs": True, "organizer_authenticated_template": True},
+        "gates": {
+            "format_shared_validator_pass": True,
+            "grid_matches_example_submission": True,
+            "whole_array_finite_in_0_1": True,
+            "no_dots_on_mapped_catalogue": True,
+            "leakage_canary_pass": True,
+            "holdout_beats_refit_incumbent_paired_ci_excludes_zero": True,
+            "unique_vs_nine_scored_site_files": True,
+            "unique_literal_vs_all_registry_rasters": True,
+            "unique_chance_corrected_vs_all_registry_rasters": True,
+            "unique_literal_vs_submitted_dot_rasters": True,
+            "rank_correlation_below_0_90": True,
+            "lane_single_method": True,
+            "literal_rule_exception_applied": False,
+            "experiments_used": 1,
+        },
+    }) is True
+    valid_future_receipt = {
+        "verdict": "PROMOTE", "lane": "assigned",
+        "lane_assignment_receipt": {"status": "verified", "method_paragraph": "signed method assignment"},
+        "surface_preplacement_check": {"status": "pass", "checked_before_placement": True, "surface_sha256": "a" * 64},
+        "elapsed_seconds": 3600,
+        "provenance": {"organizer_authenticated_inputs": True, "organizer_authenticated_template": True},
+        "gates": {
+            "format_shared_validator_pass": True,
+            "grid_matches_example_submission": True,
+            "whole_array_finite_in_0_1": True,
+            "no_dots_on_mapped_catalogue": True,
+            "leakage_canary_pass": True,
+            "holdout_beats_refit_incumbent_paired_ci_excludes_zero": True,
+            "unique_vs_nine_scored_site_files": True,
+            "unique_literal_vs_all_registry_rasters": True,
+            "unique_chance_corrected_vs_all_registry_rasters": True,
+            "unique_literal_vs_submitted_dot_rasters": True,
+            "rank_correlation_below_0_90": True,
+            "lane_single_method": True,
+            "literal_rule_exception_applied": False,
+            "experiments_used": 1,
+        },
+    }
+    over_budget = {**valid_future_receipt, "elapsed_seconds": 7201}
+    assert submission_ready(over_budget) is False
+    unauthenticated = {**valid_future_receipt, "provenance": {}}
+    assert submission_ready(unauthenticated) is False
+    missing_assignment = {**valid_future_receipt, "lane_assignment_receipt": {}}
+    assert submission_ready(missing_assignment) is False
+    missing_surface_check = {**valid_future_receipt, "surface_preplacement_check": {}}
+    assert submission_ready(missing_surface_check) is False
     subprocess.run([sys.executable, str(ROOT / "scripts/build_hk3_pages.py"), "--check"], check=True, cwd=ROOT)
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
         assert "{BADGE" not in page
-        assert ("OK TO SUBMIT: YES" in page) == (card["verdict"] == "PROMOTE")
-        if name in ("index.html", "how-to-submit.html"):
+        assert ("OK TO SUBMIT: YES" in page) == submission_ready(card)
+        assert "NO APPROVED SUBMISSION" in page
+        assert "DO NOT SUBMIT" in page
+        if name == "index.html":
             assert card["raster"]["sha256"] in page
+        if name == "how-to-submit.html":
+            assert card["raster"]["sha256"][:16] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
         for href in downloads:
             assert card["submission"]["name"] in href
             assert (DOCS / href).exists()
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "LEADERBOARD-CALIBRATED ESTIMATE" in home
+    assert "RESEARCH ONLY — DO NOT SUBMIT" in home
+    howto = (DOCS / "how-to-submit.html").read_text()
+    assert "Submission instructions — blocked" in howto
+    assert "Do not upload this research artifact" in howto
+    assert "<b>Upload</b> the TIF" not in howto
     assert "ORGANIZER-CONFIRMED" in home  # the label the page says it does *not* have
     assert 'Literal 70 % rule vs all 450 non-degenerate registry rasters:</b> <b class="no">FAIL' in home
     assert "drivendata.org/competitions/306/competition-doe-gems/page/967/" in home

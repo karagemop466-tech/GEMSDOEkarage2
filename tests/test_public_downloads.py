@@ -40,19 +40,21 @@ def make_fixture(tmp_path):
     return args, card_path
 
 
-def test_current_saved_downloads_are_hash_bound_with_one_candidate():
+def test_current_saved_downloads_are_hash_bound_but_not_submission_approved():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_ONE_CANDIDATE_FOR_UPLOAD'
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert result['downloadable_approved_submission'] == hk3['raster']['file']
-    assert result['score_estimate']['label'].startswith('LEADERBOARD-CALIBRATED ESTIMATE')
+    assert result['downloadable_approved_submission'] is None
+    assert result['score_estimate'] is None
     assert len(result['artifacts']) == 7
     candidates = [r for r in result['artifacts'] if r['kind'] == 'candidate']
     assert len(candidates) == 1 and candidates[0]['raster_sha256'] == hk3['raster']['sha256']
-    assert candidates[0]['ok_to_submit'] is True and candidates[0]['slot_authorized'] is False
-    assert candidates[0]['checks']['selector_explicit_candidate'] and candidates[0]['checks']['card_hard_gates_all_pass']
+    assert candidates[0]['ok_to_submit'] is False and candidates[0]['slot_authorized'] is False
+    assert candidates[0]['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert candidates[0]['eligibility']['current_release_gate_pass'] is False
+    assert candidates[0]['eligibility']['selector_matches_saved_bytes'] is True
     for record in result['artifacts']:
         if record['kind'] == 'research':
             assert record['ok_to_submit'] is False
@@ -68,14 +70,30 @@ def test_candidate_fails_closed_when_selector_or_card_disagree(tmp_path):
     root, stem, card_rel, selector_rel, has_zip, grid = args
     # research card + "candidate" kind => the PROMOTE requirement fails closed
     bad = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
-    assert bad['status'] == 'FAIL_CLOSED' and bad['ok_to_submit'] is False
-    # a PROMOTE card whose selector is negative must also fail closed
+    assert bad['status'] == 'VERIFIED_RESEARCH_ONLY' and bad['ok_to_submit'] is False
+    # A complete, strictly-cleared receipt still requires an explicit selector.
     card = json.loads(card_path.read_text())
-    card.update(verdict='PROMOTE', gates={'a': True, 'unique_literal_vs_all_registry_rasters': True}, holdout={'evidence_class': 'HOLDOUT-DTI'})
+    required = {
+        'format_shared_validator_pass': True, 'grid_matches_example_submission': True,
+        'whole_array_finite_in_0_1': True, 'no_dots_on_mapped_catalogue': True,
+        'leakage_canary_pass': True, 'holdout_beats_refit_incumbent_paired_ci_excludes_zero': True,
+        'unique_vs_nine_scored_site_files': True, 'unique_literal_vs_all_registry_rasters': True,
+        'unique_chance_corrected_vs_all_registry_rasters': True, 'unique_literal_vs_submitted_dot_rasters': True,
+        'rank_correlation_below_0_90': True, 'lane_single_method': True,
+        'literal_rule_exception_applied': False, 'experiments_used': 1,
+    }
+    card.update(verdict='PROMOTE', lane='assigned', gates=required,
+                lane_assignment_receipt={'status': 'verified', 'method_paragraph': 'signed'},
+                surface_preplacement_check={'status': 'pass', 'checked_before_placement': True, 'surface_sha256': 'a' * 64},
+                elapsed_seconds=3600,
+                provenance={'organizer_authenticated_inputs': True, 'organizer_authenticated_template': True},
+                holdout={'evidence_class': 'HOLDOUT-DTI'})
     card_path.write_text(json.dumps(card))
     still = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
-    assert still['status'] == 'FAIL_CLOSED' and still['checks']['selector_explicit_candidate'] is False
-    # matching selector bound to the saved bytes => verified candidate
+    assert still['status'] == 'VERIFIED_RESEARCH_ONLY' and still['ok_to_submit'] is False
+    assert still['eligibility']['current_release_gate_pass'] is True
+    assert still['eligibility']['selector_matches_saved_bytes'] is False
+    # Matching selector bound to the exact saved bytes satisfies both separate gates.
     (root / selector_rel).write_text(json.dumps(dict(verdict='candidate_approved_by_automated_gates', ok_to_submit=True,
         slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
     good = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')

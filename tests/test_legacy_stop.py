@@ -28,8 +28,6 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
         for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text):
             assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
             assert card['submission']['name'] in href
-        # the badge is derived from the run-card verdict, never hand-written
-        if card['verdict'] == 'PROMOTE':
-            assert 'OK TO SUBMIT: YES' in text
-        else:
-            assert 'OK TO SUBMIT: NO' in text
+        # Historical PROMOTE is superseded by the current hard-stop gate.
+        assert 'NO APPROVED SUBMISSION' in text
+        assert 'OK TO SUBMIT: YES' not in text

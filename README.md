@@ -163,44 +163,59 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
-## Current status (2026-10-28, lane HK3 — edge-centrality) — read before doing anything
+## Current status (2026-10-28 repository review — authoritative; read first)
 
-**One file is approved by every automated gate and offered to the selector (the user):**
-`docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif`
-(sha256 `064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9`; `.zip` of the
-same bytes; 45,108 dots at 1.0, zeros elsewhere including outside the footprint; float32,
-EPSG:32611, 3730 × 3292, origin (243350, 4508550)). Run card:
-[`evidence/hk3/run_card.json`](evidence/hk3/run_card.json) — verdict **PROMOTE**. The site
-badge "OK TO SUBMIT: YES / NO" is generated from that card by `scripts/build_hk3_pages.py`;
-never hand-edit `docs/index.html`, `executive-summary.html`, `how-to-submit.html`,
-`submit.html`. No submission slot has been spent by this repository; no number here is
-ORGANIZER-CONFIRMED (DrivenData is unreachable from the sandbox).
+**NO TIFF IS APPROVED FOR COMPETITION SUBMISSION.** The historical HK3 GeoTIFF
+`docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif` exists and
+passes the saved-byte format/grid/range checks, but is a research artifact only.
+The historical run card says `PROMOTE`; that label is superseded for current use by
+[`research/repo-review-2026-10-28-final.md`](research/repo-review-2026-10-28-final.md)
+and the fail-closed publishing gate in `scripts/build_hk3_pages.py`.
 
-| Quantity | Value | Label |
-|---|---|---|
-| Holdout, candidate vs re-fitted incumbent at the same 1.10 % budget | **0.1845** [0.1677, 0.2015] vs 0.1575 [0.1417, 0.1737]; paired Δ +0.0270 [+0.0206, +0.0337] | HOLDOUT-DTI, `gems57-pooled-hide-v2`, 58,258 withheld positives |
-| Holdout at the submitted 0.9 % rate | 0.1733 (T 9,825 of 58,258) | HOLDOUT-DTI |
-| Estimated organizer score | **0.263 – 0.286** (θ = 0 → 0.2628, θ = 0.5 → 0.2742, θ = 0.75 → 0.2798, θ = 1 → 0.2855; pessimistic floor 0.2574) | LEADERBOARD-CALIBRATED ESTIMATE — never a score |
-| Best user-reported focus-site result | 0.2778 (GEMSDOE32 B2) | USER-REPORTED / UNVERIFIED |
-| Uniqueness U1 vs the nine scored files | max 48.4 % of dots within 3 px, \|ρ\| ≤ 0.031 | PASS |
-| U2 literal 70 % rule vs all 450 registry rasters | **FAIL ×3** — ctx-ridge *surface* 71.0 % (owner-reported 0.128; champion overlaps it 59 %), GEMSDOE32 h45 KS0 73.3 % (owner: DO NOT SUBMIT, never submitted), own K2 74.9 % (never submitted) | disclosed deviation, exception applied |
-| U3 chance-corrected overlap vs all | max 0.692 | PASS |
-| U4 literal rule vs every submitted dot raster | — | PASS |
-| Leakage canary (max single-feature AUC) | 0.596 | PASS |
+Blocking reasons (evidence in [`evidence/hk3/run_card.json`](evidence/hk3/run_card.json)):
 
-**Concurrent K3 lane (merged from main, 2026-10-28):** K3 (`gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif`,
-53-feature lineament-context HGB) reached HOLDOUT-DTI **0.1916** [0.1747, 0.2088] at the same
-1.10 % budget — *higher than HK3's 0.1845* (intervals overlap; same folds/evaluator; no paired
-test across sessions) — but its verdict is NEGATIVE: the surface failed the pre-placement gate
-against K2 (0.9922 top-support overlap) and its final dots exceed 70 % within 3 px of ten
-registry records (worst 0.886). HK3's 3 px catalogue apron and 3 px dot separation are what
-keep its overlaps ≤ 48.4 %. So: K3 is the holdout-best file in the repository, HK3 is the best
-*submittable* file, and the holdout incumbent for any next lane is K3's 0.1916, not HK3's.
+- The required literal uniqueness rule fails against three registry rasters:
+  71.0%, 73.3%, and 74.9% overlap within 3 px (limit 70%). The historical exception
+  does not waive the current rule. Stop; no placement or experiment may continue.
+- The method field is explicitly self-declared; there is no coordinator-assignment
+  receipt or a verifiable pre-placement surface-gate receipt bound to a surface hash.
+  Competition inputs/template are owner mirrors and are not organizer-authenticated.
+  Machine-readable elapsed-time and provenance attestations are absent.
+- The prior lane reports 3 experiments and approximately 2 h 15 min; the specified
+  cap is 3 experiments or 2 hours, whichever comes first. Do not rerun that lane.
+- The portal has not accepted this artifact; no ORGANIZER-CONFIRMED receipt exists,
+  and no weekly submission slot has been spent by this repository.
 
-θ = the fraction of the candidate's holdout advantage over the D2.8 anchor (coverage ×1.114,
-hit ×1.156 at equal dots) that transfers to the hidden 1 m-lidar labels; the file beats
-0.2778 only if ≳ ⅔ of that advantage transfers. One organizer score of this file calibrates
-θ for the whole lane (≈0.286 ⇒ θ≈1; ≈0.274 ⇒ θ≈0.5; ≈0.263 ⇒ θ≈0 ⇒ abandon the lane).
+Historical research values only: candidate **0.1845 [0.1677, 0.2015]** versus the
+re-fitted incumbent **0.1575 [0.1417, 0.1737]** are HOLDOUT-DTI (`gems57-pooled-hide-v2`,
+58,258 withheld positives, 95% spatial-block bootstrap CI). The candidate's
+**0.263–0.286** is a LEADERBOARD-CALIBRATED ESTIMATE, not a score; it is not validated
+against private labels and does not establish that it exceeds GEMSDOE32's
+user-reported 0.2778. The user's 0.2778, 0.3195, and 0.4413 leaderboard references
+are USER-REPORTED / UNVERIFIED here. The nine-site table is a historical snapshot and
+its exact-file uniqueness audit does not imply fleet-wide uniqueness.
+
+The web desk still provides a **research-only download**, prominently marked
+**DO NOT SUBMIT**. The submission guide blocks upload instructions until all mandatory
+gates and provenance receipts pass. See the three-pass review for defects found,
+fixes, tests, scientific hypotheses already preregistered in the repository, and the
+remaining prerequisites. Never hand-edit the generated `docs/index.html`,
+`executive-summary.html`, `how-to-submit.html`, or `submit.html`; rebuild with
+`scripts/build_hk3_pages.py` and check with `--check`.
+
+### Historical HK3 evidence (preserved; not current authorization)
+
+The following are historical metrics, not approval. The 1.10% matched-budget
+HOLDOUT-DTI comparison and intervals above are copied from the HK3 run card. The
+old calibrated estimate varied with transfer parameter θ; no submission-page
+receipt exists to calibrate θ. The HK3 file's 45,108 binary dots, float32 format,
+EPSG:32611 grid, and SHA-256 are tracked in the run card. Format validity does not
+override uniqueness or lane-assignment failure.
+
+**Concurrent K3 historical evidence:** K3 reached HOLDOUT-DTI 0.1916 [0.1747, 0.2088]
+under the same named evaluator and budget, but its run card records a negative
+uniqueness result. It is not submission-approved and is not a safe replacement.
+The best holdout result is not automatically the best eligible upload.
 
 ### What the 19 official bands are and what HK3 adds
 
@@ -225,7 +240,7 @@ shared writer (dots ≥ 3 px apart, ≥ 3 px off the catalogue, zeros outside).
 * **Uniqueness tiers (§3c + §4.3):** U1 scored files, U2 literal vs all, U3 chance-corrected
   `(overlap − halo)/(1 − halo)`, U4 literal vs submitted dot rasters; witnesses whose 3 px halo
   covers ≥ 95 % of the footprint (the r13 lattice) are degenerate and reported, not used.
-  Any literal failure is printed in red on every page; PROMOTE requires U1 + U3 + U4 + ρ.
+  Any literal failure is a hard stop; no category exception or chance correction waives the user-specified 70% rule. A current release also requires a verified coordinator lane, budget/runtime, and organizer-input/template provenance.
 * **Leakage rule for external files:** holdout statistics of rasters built with the whole
   catalogue are inflated ≈ 2.9× (`evidence/hk3/leakage_inflation.json`); never use such
   files as transfer anchors; only clean per-fold refits may be compared.
@@ -288,7 +303,7 @@ Research notes: [`research/hypotheses-2026-10-28-hk3.md`](research/hypotheses-20
 [`research/findings-2026-10-27.md`](research/findings-2026-10-27.md),
 [`research/hypotheses.md`](research/hypotheses.md).
 
-## Earlier 2026-10-28 session notes (concurrent branches, merged; superseded by the HK3 status above)
+## Earlier 2026-10-28 session notes (historical; superseded by the authoritative status above)
 
 These sections were written by concurrent sessions before the HK3 lane produced an
 approved file. Their *negative* findings (H1, H2, B4, K2, K3 all DO NOT SUBMIT) remain

@@ -6,7 +6,7 @@ const {JSDOM, VirtualConsole} = require('jsdom');
 
 const root = path.join(__dirname, '..');
 const card = JSON.parse(fs.readFileSync(path.join(root, 'evidence/hk3/run_card.json')));
-const ok = card.verdict === 'PROMOTE';
+const approved = false; // current hard-stop policy rejects the historical PROMOTE card
 
 function render(page) {
   const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
@@ -20,13 +20,14 @@ function render(page) {
 
 const pages = ['index.html', 'executive-summary.html', 'how-to-submit.html', 'submit.html'];
 
-test('every desk page carries the run-card verdict badge and no unresolved placeholder', () => {
+test('every desk page carries the fail-closed current status and no unresolved placeholder', () => {
   for (const page of pages) {
     const dom = render(page);
     const badge = dom.window.document.querySelector('.header .badge');
     assert.ok(badge, `${page}: badge missing`);
-    assert.equal(badge.textContent, ok ? 'OK TO SUBMIT: YES' : 'OK TO SUBMIT: NO');
-    assert.ok(badge.classList.contains(ok ? 'ok' : 'no'));
+    assert.equal(badge.textContent, approved ? 'OK TO SUBMIT: YES' : 'NO APPROVED SUBMISSION');
+    assert.ok(badge.classList.contains(approved ? 'ok' : 'no'));
+    assert.match(dom.window.document.body.textContent, /DO NOT SUBMIT/);
     assert.doesNotMatch(dom.window.document.body.innerHTML, /\{BADGE/);
     dom.window.close();
   }
@@ -63,10 +64,12 @@ test('homepage: SHA-256, labelled estimate, holdout label, uniqueness tiers and 
   // gate list mirrors the card: every gate key has a PASS/FAIL row
   const booleanGates = Object.entries(card.gates).filter(([k, v]) => typeof v === 'boolean' && k !== 'literal_rule_exception_applied');
   const gateRows = [...dom.window.document.querySelectorAll('.gates li')];
-  assert.equal(gateRows.length, booleanGates.length);
+  assert.equal(gateRows.length, booleanGates.length + 4); // lane, pre-placement, runtime budget, and input provenance receipts are required
   const fails = gateRows.filter(li => li.querySelector('.pill.no'));
   assert.equal(fails.length, booleanGates.filter(([, v]) => v === false).length);
   assert.match(text, /Literal-rule exception applied:\s*yes/);
+  assert.match(text, /NO APPROVED SUBMISSION/);
+  assert.match(text, /RESEARCH ONLY — DO NOT SUBMIT/);
   dom.window.close();
 });
 

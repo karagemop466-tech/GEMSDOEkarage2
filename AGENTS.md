@@ -30,13 +30,16 @@ not regenerate K2 or infer a lane assignment, registry exemption, portal
 acceptance, or current leaderboard score. The prompt supplies no identifiable
 method paragraph, and the previous session exhausted its three-experiment budget.
 
-## 2026-10-28 HK3 lane — current state (read this first)
+## 2026-10-28 HK3 — historical artifact; current status is blocked
 
-Read `README.md` ("Current status"), `research/hypotheses-2026-10-28-hk3.md` (§3b budget
-rule, §3c uniqueness rule, §4 outcome) and `evidence/hk3/run_card.json` before touching
-anything. One file is approved by the automated gates (verdict PROMOTE with one disclosed
-literal-rule exception printed in red on every page); the user is the selector and no slot
-has been spent. Rules for the next session:
+Read the authoritative `README.md` status and `research/repo-review-2026-10-28-final.md`
+before working. HK3's old run card says PROMOTE, but its literal uniqueness gate failed,
+the lane was self-declared, and required surface-precheck, timing and provenance
+receipts are absent. It is not
+approved for competition submission. `scripts/build_hk3_pages.py` now applies a strict
+fail-closed check and the published pages label its TIF research-only / DO NOT SUBMIT.
+Do not modify the historical run card to erase the original decision; new authorization
+requires fresh verified evidence and a separate selector decision. Rules for future work:
 
 * The four desk pages (`docs/index.html`, `executive-summary.html`, `how-to-submit.html`,
   `submit.html`) and `docs/assets/hk3.css` are **generated** by
@@ -49,10 +52,9 @@ has been spent. Rules for the next session:
   built on the whole catalogue as a transfer anchor (≈ 2.9× leakage inflation).
 * Uniqueness tiers U1–U4 are binding; any literal failure must stay visible. Re-run
   `hk3.py audit` if the pinned registry refs change.
-* If the user reports an organizer score for the HK3 file, write it to
-  `evidence/hk3/run_card.json` under `organizer_confirmed` (value, date, submission name),
-  label it ORGANIZER-CONFIRMED, rebuild the pages, and use it to calibrate θ before anything
-  else.
+* If an organizer receipt ever becomes available, preserve it as a new dated evidence
+  record, label the value ORGANIZER-CONFIRMED, and independently verify its file/name
+  binding before updating any calibration. Do not treat a user-typed score as a receipt.
 * Legacy files (K2, H1, H-KARAGE-1) remain research-only; `scripts/k2.py` and
   `scripts/generate_submission.py` stay disabled.
 
