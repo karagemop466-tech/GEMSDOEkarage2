@@ -42,3 +42,6 @@ lattice threshold and final placement should not have proceeded. The historical
 strict exterior check fails and registry scan is incomplete. The new review card
 is `evidence/k2-review-2026-10-28.json`; no new experiments or slot were used.
 `scripts/k2.py final` is disabled. Do not narrow the registry to bypass the stop.
+
+See also `evidence/k2-protocol-review.json` and
+`research/review-2026-10-28-safety-followup.md` from concurrent audits.
