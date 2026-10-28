@@ -85,7 +85,7 @@ class GateTests(unittest.TestCase):
                     self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_canaries_reject_nonfinite_or_high_auc(self):
-        for value in (float("nan"), float("inf"), 0.91, -0.1):
+        for value in (float("nan"), float("inf"), 0.91, 0.09, -0.1):
             with self.subTest(value=value):
                 card = good()
                 card["feature_auc"]["magnetic"] = value

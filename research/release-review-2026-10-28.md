@@ -104,3 +104,19 @@ sandbox allowlist):
 
 Current machine-readable run card:
 [`evidence/k2/literal_release_audit.json`](../evidence/k2/literal_release_audit.json).
+
+## Concurrent-main reconciliation before merge
+
+The first PR merge attempt found conflicts because main advanced to `bd8b477`
+with a parallel K2 protocol correction. Merged main into this same Arena branch,
+retained its stronger negative K2 pages, corrected historical cards, selector
+review and generator stop, and kept this independent byte/literal-policy audit
+and banner. Both audit commands now run in Pages CI. The earlier statements
+about immutable conditional cards describe this review's initial implementation;
+the parallel main correction explicitly supersedes those cards. No conflicting
+conditional approval copy was restored.
+
+Rechecked the combined tree: **142 passed, 7 skipped, 34 subtests passed**;
+feed 3 passed; site 7 passed; browser desktop/mobile checks passed; deterministic
+site builders and whitespace checks passed. This is the final combined-tree
+verification, superseding the pre-merge counts above.

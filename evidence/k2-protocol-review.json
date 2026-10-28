@@ -1,0 +1,39 @@
+{
+  "hypothesis": "K2 supervised multi-physics fault likelihood and visible-tip continuation; previous experiment, not rerun.",
+  "mechanism": "Learn from visible catalogue faults and geophysical features, then place separated dots beyond known faults.",
+  "named_non_fault_process": "Lithological contacts and alluvial-fan terrace risers can mimic fault signatures.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positives": 58258,
+    "value": 0.15812071903309205,
+    "confidence_interval_95": [
+      0.14237392193985562,
+      0.17415355413093683
+    ],
+    "qualification": "Historical K2 evidence; not a leaderboard estimate."
+  },
+  "correlation_and_overlap_vs_registry": {
+    "surface": {
+      "reported_lattice_overlap_3px": 1.0,
+      "status": "duplicate: mandatory stop"
+    },
+    "final_dots": {
+      "worst_overlap_3px": 1.0,
+      "status": "duplicate; 442/443 records checked; inventory not certified complete"
+    }
+  },
+  "raster_sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+  "validator_output": {
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match": "matches unauthenticated mirrored template, not confirmed organizer template",
+    "exterior": "strict outside-is-NaN check fails; portal policy unresolved"
+  },
+  "submission_name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros",
+  "submission_note": "Research only: K2 failed the mandatory registry stop. Do not submit.",
+  "verdict": "negative",
+  "slot_authorized": false,
+  "experiments_this_session": 0,
+  "supersedes": "Prior K2 conditional promotion; historical receipts retained for audit."
+}
