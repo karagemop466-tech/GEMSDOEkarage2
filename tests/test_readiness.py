@@ -10,6 +10,11 @@ def good():
         "lane": "assigned-method",
         "lane_assignment": {"source": "coordinator-assignment.json", "sha256": "d" * 64},
         "template_commit": "pinned-template-commit",
+        "protocol": {
+            "preplacement_passed_before_emission": True,
+            "stop_triggered": False,
+        },
+        "organizer_inputs_authenticated": True,
         "metric": {
             "alpha": 0.2,
             "beta": 0.8,
@@ -105,6 +110,31 @@ class GateTests(unittest.TestCase):
                 card = good()
                 del card[key]
                 self.assertEqual(assess(card)["verdict"], "negative")
+
+    def test_prior_stop_cannot_be_erased_by_later_passing_measurements(self):
+        card = good()
+        card["protocol"]["stop_triggered"] = True
+        result = assess(card)
+        self.assertEqual(result["verdict"], "negative")
+        self.assertFalse(result["slot_authorized"])
+        self.assertTrue(any("protocol stop" in reason for reason in result["reasons"]))
+
+    def test_sequence_and_authenticity_require_explicit_booleans(self):
+        for key, expected in (("preplacement_passed_before_emission", True),
+                              ("stop_triggered", False)):
+            for value in (None, "true", "false", 0, 1, not expected):
+                with self.subTest(key=key, value=value):
+                    card = good()
+                    card["protocol"][key] = value
+                    self.assertEqual(assess(card)["verdict"], "negative")
+        for value in (None, False, 1, "verified"):
+            card = good()
+            card["organizer_inputs_authenticated"] = value
+            self.assertEqual(assess(card)["verdict"], "negative")
+        for protocol in (None, [], {}, {"stop_triggered": False}):
+            card = good()
+            card["protocol"] = protocol
+            self.assertEqual(assess(card)["verdict"], "negative")
 
     def test_wrong_metric_configuration_fails(self):
         for key, value in (("alpha", 0.5), ("beta", 0.2), ("kernel_radius_m", 200), ("kernel", "gaussian"), ("pooled", False), ("pooled", 1)):

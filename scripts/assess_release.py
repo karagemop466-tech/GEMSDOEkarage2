@@ -24,6 +24,8 @@ def main():
         lane='',  # Prompt had no actual assigned lane paragraph. Provisional H1 is not a supplied assignment.
         lane_assignment=None,
         proposed_lane=run['hypothesis'],
+        protocol=dict(preplacement_passed_before_emission=False, stop_triggered=True),
+        organizer_inputs_authenticated=False,  # Hash-verified owner mirrors are not organizer provenance.
         template_commit='73485f27cf230af770167397c2b72cb9ce3b3f25',
         metric=dict(alpha=.2,beta=.8,kernel_radius_m=300,kernel='triangular',pooled=hold.get('pooled')),
         holdout=dict(evidence_class='HOLDOUT-DTI',evaluator_version=source['evaluator_version'],
