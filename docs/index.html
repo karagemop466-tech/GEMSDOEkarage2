@@ -14,10 +14,12 @@
 
 <main>
   <section class="verdict-box">
-    <p class="verdict"><b>OK TO DOWNLOAD: YES</b> — research / audit GeoTIFF, format-validated (13/13 checks PASS).
+    <p class="verdict"><b>OK TO DOWNLOAD: YES</b> — research-only GeoTIFFs are available, not approved submissions.
     <b>No approved submission TIF</b> — nothing here is approved for the weekly DrivenData slot.
-    <b>OK TO SUBMIT TO DRIVENDATA: NO</b> — holdout gate is open (labels.tif requires DrivenData login, unavailable in this sandbox). Verdict: negative until a fold-local HOLDOUT-DTI win with paired 95% CI &gt; 0 vs. the repo best is demonstrated.</p>
+    <b>OK TO SUBMIT TO DRIVENDATA: NO</b> — the historical irregular raster failed the lattice uniqueness gate; the H1 surface also failed its registry and holdout comparisons. No compatible incumbent, complete registry, or selector approval is available.</p>
   </section>
+
+  <p><a href="executive-summary.html">Executive summary and site comparisons</a> · <a href="how-to-submit.html">Submission guide and gate status</a> · <a href="evidence/run_card.json">H1 negative run card</a></p>
 
   <section class="scorecard">
     <h2>Nine focus sites — reported best results (USER-REPORTED / UNVERIFIED)</h2>
@@ -32,11 +34,11 @@
   </section>
 
   <section class="research-download" id="research-download">
-    <h2>This repo's unique research TIF</h2>
-    <p><b>DO NOT SUBMIT</b> — HOLDOUT-DTI gate not passed. Format-validated audit GeoTIFF for download and inspection only.</p>
+    <h2>Research artifact — uniqueness gate failed</h2>
+    <p><b>DO NOT SUBMIT</b> — The recorded lattice overlap is 100%, exceeding the 70% limit. HOLDOUT-DTI is unavailable for this artifact; its partial format audit does not establish organizer acceptance.</p>
     <ul>
-      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif" download>gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif</a> (submission raster)</li>
-      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-audit.json" download>…-zeros-audit.json</a> (validation receipt, PASS=True)</li>
+      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif" download>gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif</a> (research-only raster)</li>
+      <li><a href="downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-audit.json" download>…-zeros-audit.json</a> (historical partial audit; not a uniqueness clearance)</li>
     </ul>
   </section>
 
