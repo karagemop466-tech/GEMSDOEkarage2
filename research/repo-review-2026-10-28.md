@@ -2,12 +2,13 @@
 
 ## Scope and disposition
 
-This was a documentation, release-path, and regression review of the checkout at
-`690d7dd51ae458969e82fb62855babcf90a55437` on the active Arena branch. No new
-geological experiment, parameter tuning, point placement, submission-slot request,
-or upload was performed. The standing lane assignment is absent; the completed
-H1 evidence is negative and its pre-placement registry scan stopped. Those
-protocol stops remain binding.
+This began as a documentation, release-path, and regression review of the checkout
+at `690d7dd51ae458969e82fb62855babcf90a55437` on the active Arena branch. While
+this work was underway, main advanced with additional release-safety changes; those
+were merged into this branch and retained. No new geological experiment, parameter
+tuning, point placement, submission-slot request, or upload was performed. The
+standing lane assignment is absent; the completed H1 evidence is negative and its
+pre-placement registry scan stopped. Those protocol stops remain binding.
 
 **Release verdict: negative / do not submit.** There is no eligible unique,
 high-scoring final-dot TIFF. A format-valid research raster is not a competition
@@ -23,22 +24,24 @@ unauthorized in `evidence/selector_result.json`.
 
 ### Fixed in this review
 
-1. **High severity — stale landing page was unsafe and contradictory.** The
-   repository root redirected to `docs/index.html`, whose older copy called a
-   historical H-KARAGE-1 raster a “submission raster.” The legacy
-   `docs/how-to-submit.html` explicitly instructed visitors to download and
-   submit that raster and represented limited historical comparisons as a
-   uniqueness pass. This contradicted the negative current run card and could
-   cause an invalid/duplicate upload. The root and `docs/index.html` now route
-   to `docs/experiment-index.html`; the stale executive-summary and submission
-   guide URLs route to the current detailed pages, which clearly say DO NOT
-   SUBMIT. Browser regression checks cover those legacy routes.
+1. **High severity — stale landing and submission copy was unsafe and
+   contradictory in the starting commit.** The repository root redirected to
+   `docs/index.html`, whose older copy called a historical H-KARAGE-1 raster a
+   “submission raster.” The old `docs/how-to-submit.html` instructed visitors
+   to download and submit it and represented limited historical comparisons as
+   a uniqueness pass. Main was updated concurrently to replace those pages with
+   an explicit negative release banner, a research-only H1 download, and a
+   guarded submission guide; those changes are retained in the merged branch.
+   This review adds tests for the canonical landing page and for redirects from
+   duplicate legacy per-site and research paths. The current site clearly says
+   DO NOT SUBMIT.
 
-2. **Medium severity — browser smoke test targeted the stale page.** The test
-   waited for `docs/index.html` and a DOM section/button belonging to an older
-   version. It failed against the current release page. The test now exercises
-   the canonical executive summary, checks its nine-site table and quarantined
-   download, and verifies redirects and the locked status on desktop and mobile.
+2. **Medium severity — browser smoke test no longer matched the canonical
+   page.** The test had drifted to an older `experiment-index.html` layout while
+   the published front door is `docs/index.html`. Its first run failed on stale
+   selectors. It now checks the actual nine-row dashboard, research-only
+   download and disabled submission state, plus current guide and old-path
+   behavior, at desktop and mobile widths.
 
 3. **Medium severity — README release state overstated and confused evidence.**
    It named a different, inactive branch; called the Oct 27 public leaderboard
@@ -73,11 +76,11 @@ unauthorized in `evidence/selector_result.json`.
 
 ## Verification performed
 
-- Locked Python environment: `pytest -q` — 113 passed, 6 skipped, 33 subtests
+- Locked Python environment: `pytest -q` — 119 passed, 6 skipped, 33 subtests
   passed. 38 Rasterio `PendingDeprecationWarning`s remain (not test failures).
 - `npm test` — 3 passed; `npm run test:site` — 5 passed.
 - `npm run test:browser` — passed at widths 1440, 390 and 320 px; passed nine-site
-  audit navigation, legacy redirects, release lock, and freshness fail-safe states.
+  audit navigation, legacy-path safety, release lock, and freshness fail-safe states.
 - `scripts/assess_release.py` — negative, slot unauthorized. Reasons include no
   assigned lane, no paired incumbent improvement, incomplete registry,
   duplicate surface witness, no final-dot measurements, and incomplete raster

@@ -2,7 +2,7 @@
 
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Work only on the Arena-assigned branch for the active session; do not hard-code or rename its branch.
+Branch: the active Arena session branch (see `git status -sb`)
 
 ## Operating instruction
 
@@ -43,9 +43,7 @@ pixel-wise probabilities/confidence scores in [0, 1].
 **Performance metric:** distance-weighted Tversky index, DTI(alpha=0.2, beta=0.8),
 triangular kernel k(d) = max(1 - d/R, 0) with R = 300 m (3 px at 100 m):
 
-TI = sum_x p(x) g(x) / ( sum_x p(x) g(x) + alpha sum_x p(x)(1-g(x)) + beta sum_x (1-p(x)) g(x) )
-
-with distance-weighted TPw / FPw / FNw terms per the problem description.
+DTI = TPw / (TPw + alpha × FPw + beta × FNw), with distinct distance-weighted sums over truth and prediction pixels. The ordinary pixelwise Tversky expression is not the distance-weighted metric. See `vendor/gems57/metric.py` and `research/independent-review.md`; the hidden scorer has not been authenticated in this session.
 
 **Prize structure:** Initial Prize Round scored on a private expert-labeled test set
 (top 5 -> $10,000 each); expert panel reviews submissions to expand the label set;
@@ -59,18 +57,11 @@ Competitors choose ONE submission for scoring in both rounds before the deadline
 - EPSG 32611: https://epsg.io/32611
 - Tversky index: https://en.wikipedia.org/wiki/Tversky_index
 
-**Known data-access blocker (verified):** drivendata.org/data/ redirects to login;
-training_features.tif, labels.tif, sample_submission.tif and 1m_DEM_links.csv cannot be
-auto-downloaded in this sandbox. Stage data on an unrestricted machine into data/ and
-run scripts/download_competition_data.sh + python scripts/prepare_data.py.
+**Data access:** competition data requires enrollment/login according to the prior audit. This session cannot access DrivenData or Dropbox from its shell. Prior sessions restored hash-pinned community mirrors (not authenticated organizer copies); their cache is not present in this checkout. See `evidence/input_restore.json` and `research/independent-review.md`. The actual shared derived cache, full registry, organizer receipts and same-fold incumbent remain unavailable. Data placement alone does not resolve these blockers.
 
-## Leaderboard status (last recorded public snapshot: 2026-10-27)
+## Leaderboard status (historical snapshot, not a live read)
 
-The saved public-board snapshot recorded #1 = 0.4544 (xiaofanhu) on 2026-10-27
-(`docs/data/monitor.json`). This session has not refreshed the DrivenData page, so
-treat 0.4544 as a dated snapshot, not today's verified leaderboard. The prompt's
-0.4413 and 0.3195 figures conflict with each other and with that snapshot; flag them
-as historical claims and refresh the official leaderboard before using any target.
+A prior session reported a public leaderboard snapshot of 0.4544 on 2026-10-27; it is not a file-bound organizer receipt and was not rechecked in this session. The prompt’s 0.4413 / 0.3195 figures conflict. Consult the official leaderboard for the current ranking.
 
 ## Focus sites (nine)
 
@@ -88,14 +79,16 @@ Best supplied results (USER-REPORTED / UNVERIFIED; none linked to an organizer r
 - GEMSDOE24: h25-1-dotted-h19-5-d1-5 = 0.2477
 - GEMSDOE27: topo-gap-closure-t-v2-on-d1-5 = 0.2449
 
-**Critical finding (GEMSDOE28 S23 audit):** all nine historical files share one dot
-geography (D2.8 dotted-ridge / B2 family). The 0.2778 champion is the GEMSDOE31 solo
-dot set with 2,545 catalogue-adjacent dots removed; GEMSDOE25 and GEMSDOE30 have the
-same dot geography; GEMSDOE36 contains every champion dot plus 1,200 extras. Every one
-fails the literal uniqueness gate (100% / 98% / 99.7% within 3 px of each other vs the
-requested 70% cap) against the spacing-5 calibration lattice, which covers 99.8713% of
-the footprint within 3 px; at the 37,654-dot budget at least 82.34% of any candidate's
-dots fall within 3 px of the lattice. All nine are marked DO NOT SUBMIT on their sites.
+**Critical finding (pinned mirror audit):** the nine audited historical files have
+substantial pairwise dot overlap; not all are identical. The GEMSDOE32 B2 mask
+is the GEMSDOE31 solo dot set with 2,545 catalogue-adjacent dots removed;
+GEMSDOE25 and GEMSDOE30 have the same dot geography, and GEMSDOE36 contains every
+B2 dot plus 1,200 extras. Each of the nine exceeds the directional overlap limit
+against at least one of the other eight. The lattice covers almost all of the
+mirrored footprint; a bound at the H33 budget is not a universal impossibility
+proof. The footprint matters: see `evidence/geometry-audit.json` and
+`evidence/saturation_certificate.json` for their different scopes. The nine files
+are marked DO NOT SUBMIT here; their upstream sites were not modified.
 
 **No validated leaderboard estimate exists for any of them** ("Unavailable" — catalogue
 holdout cannot reliably estimate the expert-hidden private score).
@@ -158,46 +151,30 @@ holdout cannot reliably estimate the expert-hidden private score).
   R = 300 m) + spatially-blocked hide-and-recover holdout. Self-tested.
 - scripts/submission_writer.py — validated GeoTIFF writer + audit JSON receipt
   (CRS/shape/transform/dtype/range [0,1]/finite/uniqueness checks).
-- scripts/generate_submission.py — legacy H-KARAGE-1 prototype generator. Its
-  synthetic lattice-avoidance raster is a research artifact, not a geological
-  submission; do not run it to create a competition entry or infer eligibility.
-- scripts/prepare_data.py — validates data placement after inputs are staged;
-  DrivenData authentication is required for the official download.
-- scripts/download_competition_data.sh — documents the authenticated data dependency.
-- docs/downloads/ — quarantined historical research rasters, never approved entries.
-- reference/gemsdoe36/ — learning/education-only reference rasters; never for submission.
-- docs/experiment-index.html — current executive summary / release decision.
-  `index.html` and legacy `docs/index.html` route to this page. `docs/submission-guide.html`
-  is the current upload walkthrough; obsolete pages route to current equivalents.
-- research/repo-review-2026-10-28.md — this session's release-path review, tests,
-  blockers, and priority next steps.
+- scripts/generate_submission.py — retired, fail-closed legacy generator; its historical uniqueness claims are contradicted by its own lattice-overlap receipt. It cannot create a candidate.
+- scripts/prepare_data.py      — validates data/ placement once competition data is
+  staged (DrivenData login required).
+- scripts/download_competition_data.sh — data download documentation.
+- docs/downloads/              — quarantined research artifacts; none is approved for submission.
+- reference/gemsdoe36/         — learning/education-only reference rasters fetched from
+  the GEMSDOE36 source repo (never for submission).
+- docs/index.html — current GitHub Pages executive summary and negative release
+  status; `index.html` routes directly to it. Historical site pages remain available
+  only as explicit audited detail pages or redirects to current reviews.
+- research/repo-review-2026-10-28.md — this session's checkout review and test results.
 - README.md — this file (the consolidated project prompt).
 
-## Safe checks (this checkout)
+## How to run (this sandbox)
 
-1. `.venv/bin/pytest -q` — Python regression suite (install the locked requirements first).
-2. `npm test && npm run test:site && npm run test:browser` — dashboard checks after `npm ci`.
-3. Do **not** run `scripts/generate_submission.py` as a submission workflow. It is a
-   legacy research prototype and its output is not cleared by this release.
-4. `python scripts/prepare_data.py` is only an input-format check after authenticated
-   official files are staged in `data/`; it does not authorize training or upload.
+1. `.venv/bin/pytest -q` — Python regression suite after installing `requirements.lock.txt`.
+2. `npm ci && npm test && npm run test:site && npm run test:browser` — feed, site and browser checks.
+3. Review `evidence/selector_result.json` and `evidence/run_card.json`; no candidate is approved. The legacy generator is deliberately disabled.
+4. `python scripts/prepare_data.py` — only after authenticated competition data is staged in `data/`; this is not submission authorization.
 
 ## Next steps / limitations
 
-- No organizer-authenticated training inputs, submission template, or private labels are
-  present in this checkout; DrivenData's data tab requires an authenticated account.
-  A recorded mirror-based experiment exists: H1 HOLDOUT-DTI = 0.03367 (evaluator
-  `gems57-pooled-hide-v2`, 58,259 withheld positive pixels, 95% CI [0.02867, 0.03929]);
-  it lost to its best primitive control (paired delta -0.03092, 95% CI [-0.03761,
-  -0.02358]). This is a research holdout result from owner-mirrored inputs, not an
-  organizer score or a leaderboard estimate. No estimate is defensible for the
-  historical focus-site reports.
-- Research artifacts are available to download for audit only; **OK TO SUBMIT:
-  NO**. H1 is negative, its pre-placement novelty check stopped at a registered
-  lattice, and no final-dot file was made. Do not use the older H-KARAGE-1 raster.
-- Before another experiment: resolve the missing assigned method lane, restore and
-  authenticate shared inputs/tools, obtain a complete registry and compatible frozen
-  holdout incumbent, then run canaries and surface novelty before placement. Keep the
-  separate selector and weekly-slot decision out of the experiment runner.
-- The last recorded public leaderboard snapshot was 0.4544 on 2026-10-27; not refreshed
-  this session. The highest focus-site value 0.2778 is owner-reported and unverified.
+- Prior sessions restored hash-pinned community mirrors of the feature stack and mapped faults into ephemeral cache, not authenticated organizer data. The cache is absent from a fresh checkout; `evidence/input_restore.json` records prior restoration, not present-day file availability. Prior H1 HOLDOUT-DTI is recorded in `evidence/run_card.json`: 0.0336729751, evaluator `gems57-pooled-hide-v2`, 58,259 withheld positives, 95% CI [0.0286737956, 0.0392948028]. Its paired difference vs. best primitive was -0.0309244756 (95% CI [-0.0376108572, -0.0235755843]). This is mirror-based research, not an organizer score or leaderboard estimate. The H1 surface is downloadable for audit only and must NOT be submitted: it failed performance and uniqueness gates.
+- To promote: stage data in data/, run prepare_data.py, beat the repo holdout best
+  with paired 95% CI > 0, pass leakage canaries and uniqueness gates, then the
+  selector spends a weekly slot.
+- Current leaderboard and quota are unverified in this session. Best supplied focus-site claim is 0.2778 (GEMSDOE32, user-reported, no linked organizer receipt).

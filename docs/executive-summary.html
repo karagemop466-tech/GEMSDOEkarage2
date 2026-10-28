@@ -1,13 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=experiment-executive-summary.html">
-  <link rel="canonical" href="experiment-executive-summary.html">
-  <title>GEMS discovery lab — executive summary</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GEMSDOEkarage2 — executive summary &amp; how to submit</title>
+<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
-  <p><a href="experiment-executive-summary.html">Open the current executive summary and release decision</a></p>
+<header>
+  <h1>Executive summary — GEMSDOE sites 24/25/27/28/30/31/32/33/36</h1>
+  <p class="subtitle">How to submit to the DOE GEMS Prize Challenge via DrivenData, plus the nine-site scorecard.</p>
+</header>
+
+<main>
+  <section id="how-to-submit">
+    <h2>How to submit (DrivenData form guide)</h2>
+    <ol>
+      <li>Log in to DrivenData and enter the GEMS Prize Challenge competition page.</li>
+      <li>Open "Make a Submission" and attach a single-band float32 GeoTIFF.</li>
+      <li>Use the official template for CRS, shape, geotransform and exterior/nodata requirements. Validate the full raster and investigate the organizer’s instructions on outside-footprint values before upload.</li>
+      <li>Only after every scientific and uniqueness gate passes and the separate selector authorizes a slot, upload that approved file with its short note.</li>
+      <li>Wait for the organizer result; local holdout DTI is not a leaderboard score.</li>
+    </ol>
+    <p class="warn"><b>NO FILE IS APPROVED TO SUBMIT.</b> The H1 surface failed the registry stop and a comparable control; the legacy irregular-dot prototype also records a lattice duplicate. The full registry and a compatible incumbent are unavailable.</p>
+  </section>
+
+  <section class="scorecard">
+    <h2>Nine-site scorecard</h2>
+    <p id="table-note">Nine historical files only; not the full registry. Source-head check: loading…</p>
+    <div class="table-scroll"><table>
+      <thead>
+        <tr><th>Site and historical file</th><th>Reported score</th><th>Transfer estimate</th><th>Uniqueness vs selected files</th><th>Research file</th></tr>
+      </thead>
+      <tbody id="scorecard-body"></tbody>
+    </table></div>
+    <p class="muted">Leaderboard #1 (public snapshot): <span id="leaderboard-score">—</span> &nbsp;<span id="leaderboard-status">loading…</span></p>
+  </section>
+
+  <section id="site-detail-list">
+    <h2>Per-site detail cards</h2>
+    <p>Click a site below for its detailed review.</p>
+  </section>
+
+  <p class="muted">Full per-site reviews: <a href="research-hypotheses.html">research hypotheses (H-KARAGE-2…6)</a> &nbsp;|&nbsp; <a href="how-to-submit.html">submission walkthrough &amp; 7-gate verdict table</a> &nbsp;|&nbsp; <a href="index.html">homepage &amp; download</a>.</p>
+</main>
+
+<script src="./assets/app.js"></script>
 </body>
 </html>

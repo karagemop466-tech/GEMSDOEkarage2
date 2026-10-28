@@ -99,11 +99,11 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
         assert 'DO NOT RESUBMIT' in text and 'Not estimable' in text
         assert 'unverified' in text.lower()
         assert 'READ' in text
-    homepage=(ROOT/'docs/experiment-index.html').read_text()
+    homepage=(ROOT/'docs/index.html').read_text()
     assert 'No approved submission TIF' in homepage
     assert 'DO NOT SUBMIT' in homepage
-    assert 'experiment-index.html' in (ROOT/'index.html').read_text()
-    assert 'experiment-index.html' in (ROOT/'docs/index.html').read_text()
+    assert 'docs/index.html' in (ROOT/'index.html').read_text()
+    assert 'NO APPROVED SUBMISSION' in homepage
 
 
 def test_shared_scientific_tools_unchanged():
