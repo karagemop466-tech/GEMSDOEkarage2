@@ -77,7 +77,7 @@ function chromeEnvironment() {
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
-      await page.waitForURL('**/docs/index.html');
+      await page.waitForURL('**/docs/executive-summary.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
       const primary = page.locator('a.btn.big[download]').first();
       assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
