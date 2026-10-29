@@ -3,6 +3,10 @@
 **Updated 2026-10-29:** still no approved file. The saved TIFFs use finite zeros outside the footprint, but the official
 wording and the organizer sample use NaN there (the repo's strict format check fails for HK3). Live leaderboard top is 0.4544;
 kpomazi is at rank 47 with 0.3195. See [the 2026-10-29 review](research/2026-10-29-verification-and-blocker-review.md).
+**Gate detail, 2026-10-29:** all nine focus files stop at the shared uniqueness gate against the
+13GEMSDOE lattice witness (99.91–99.92% dot overlap). This is one explicitly incomplete
+registry witness—not full-registry clearance. The protocol owner must decide the policy; see the executive summary and
+[`research/2026-10-29-focus-audit-and-next-hypotheses.md`](research/2026-10-29-focus-audit-and-next-hypotheses.md).
 
 **HK3 and every other published TIFF are research-only. DO NOT SUBMIT.**
 This corrects the earlier upload recommendation. The literal registry failure

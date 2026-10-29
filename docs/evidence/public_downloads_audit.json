@@ -29,7 +29,8 @@
         "card_verdict_negative": true,
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
-        "card_note_within_140_chars": true
+        "card_note_within_140_chars": true,
+        "audit_sidecar_hash_bound": true
       },
       "diagnostics": {
         "nan_pixels": 0,
@@ -335,6 +336,7 @@
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
+        "audit_sidecar_hash_bound": true,
         "audit_sidecar_negative_and_hash_bound": true
       },
       "diagnostics": {

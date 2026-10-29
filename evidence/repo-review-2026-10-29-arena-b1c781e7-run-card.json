@@ -36,13 +36,15 @@
     "Documented four ranked hypotheses and their mimics/data blockers; did not test any candidate.",
     "Indexed H-A as research-only and quarantined GW-NFS and H-Rank-4 artifacts outside the Pages downloads directory.",
     "Retracted H-Rank-4's inherited promote verdict and disabled its synthetic-data generator.",
+    "Recorded the subsequent shared-gate DUPLICATE_STOP against one incomplete lattice witness (4,684/4,685 dots within 3 px); kept this explicitly short of full-registry clearance.",
+    "Kept the eight-artifact public inventory hash-bound, including H-A's negative audit sidecar; quarantined HR4 is absent from public downloads.",
     "Corrected README leaderboard rank wording; preserved the executive-summary root route.",
-    "Added regression tests for research slate, negative inventory and public messaging."
+    "Added regression tests for the retired generator, quarantine/hash countermand, research slate, negative inventory and public messaging."
   ],
   "tests": {
-    "python_pytest": "235 passed, 8 skipped, 98 subtests passed",
+    "python_pytest": "242 passed, 8 skipped, 98 subtests passed",
     "node_feed": "3 passed",
-    "node_site": "9 passed",
+    "node_site": "10 passed",
     "browser_smoke": "passed at 1440, 390 and 320 px plus freshness/navigation checks",
     "generated_pages_check": "passed",
     "audit_site_check": "passed",

@@ -25,6 +25,10 @@ metadata are not evidence of scientific validity or uniqueness.
   and withheld-positive count; it says feature-alone leakage tests cannot run; its
   uniqueness comparison names only two local rasters; and it checks the final dots
   after placement. These fail the required evidence and pre-placement gates.
+- A later pinned-byte surface audit records `DUPLICATE_STOP`: 4,684 of 4,685
+  support dots (99.9787%) lie within 3 px of one 13GEMSDOE lattice witness. Its
+  manifest explicitly declares itself incomplete, so this is a strong single-witness
+  duplicate stop—not a claim of full-registry clearance.
 - The local float32/range/CRS/grid report is not proof of scientific validity,
   uniqueness against a complete registry, organizer-template match, or portal
   acceptance. The bytes and sidecars are retained unchanged, but the TIFF is outside

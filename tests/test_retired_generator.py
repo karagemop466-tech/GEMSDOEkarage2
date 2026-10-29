@@ -43,5 +43,8 @@ def test_h_rank_4_promote_is_countermanded_and_tiff_is_quarantined():
     assert correction['holdout_dti'] is None and correction['holdout_ci95'] is None
     assert correction['leakage_canary'] == 'not run'
     assert correction['slot_authorized'] is False
+    witness = correction['single_witness_followup']
+    assert witness['status'] == 'DUPLICATE_STOP' and witness['registry_declared_complete'] is False
+    assert witness['within_3px'] / witness['support_pixels'] > 0.70
     assert original['holdout']['candidate_dti'] is None
     assert original['verdict'] == 'promote'  # retained as historical evidence, not authorization

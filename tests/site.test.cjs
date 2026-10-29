@@ -106,6 +106,21 @@ test('legacy artefacts stay quarantined with their receipts', () => {
   }
 });
 
+test('H-Rank-4 stays visible as a quarantined stop with no TIFF download link', () => {
+  const dom = render('executive-summary.html');
+  const row = [...dom.window.document.querySelectorAll('#published-tifs tr')]
+    .find(tr => tr.textContent.includes('gemsdoe-karage2-hr4-intersection-20261029-nan'));
+  assert.ok(row);
+  assert.match(row.textContent, /DUPLICATE_STOP/);
+  assert.match(row.textContent, /QUARANTINED · NO DOWNLOAD/);
+  assert.doesNotMatch(row.innerHTML, /downloads\/gemsdoe-karage2-hr4-intersection-20261029-nan\.tif/);
+  assert.ok(fs.existsSync(path.join(root, 'evidence/quarantine/gemsdoe-karage2-hr4-intersection-20261029-nan.tif')));
+  const correction = JSON.parse(fs.readFileSync(path.join(root, 'evidence/quarantine/gemsdoe-karage2-hr4-intersection-20261029-nan-countermand.json')));
+  assert.equal(correction.original_run_card_verdict, 'promote (RETRACTED)');
+  assert.equal(correction.slot_authorized, false);
+  dom.window.close();
+});
+
 test('every relative link on the desk pages resolves to a published file', () => {
   for (const page of pages) {
     const dom = render(page);

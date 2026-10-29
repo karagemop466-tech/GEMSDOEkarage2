@@ -11,6 +11,7 @@
     "The included generator uses a synthetic fault-mask placeholder and an all-true placeholder footprint when competition data are absent.",
     "The source places/selects the final dots before its registry check, so it did not satisfy the required pre-placement surface gate.",
     "The run card's uniqueness comparison covers only two local rasters, not a complete immutable registry.",
+    "A later pinned-byte surface audit found a DUPLICATE_STOP against the 13GEMSDOE lattice witness: 4,684 of 4,685 support dots (0.9997866) lie within 3 px. The witness manifest explicitly says it is incomplete, so this strengthens the negative decision but does not claim a full-registry comparison.",
     "No assigned method paragraph authorizes this method; format validation and two-reference comparison cannot authorize promotion."
   ],
   "holdout_dti": null,
@@ -18,6 +19,15 @@
   "withheld_positive_count": null,
   "leakage_canary": "not run",
   "correlation_or_overlap_vs_complete_registry": null,
+  "single_witness_followup": {
+    "receipt": "evidence/lattice-gate/published-gemsdoe-karage2-hr4-intersection-20261029-nan.json",
+    "status": "DUPLICATE_STOP",
+    "registry_declared_complete": false,
+    "comparison_count": 1,
+    "overlap_fraction": 0.9997865528281751,
+    "within_3px": 4684,
+    "support_pixels": 4685
+  },
   "organizer_template_authenticated": false,
   "slot_authorized": false,
   "submission_name": null,

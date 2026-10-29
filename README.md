@@ -6,7 +6,7 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29, current Arena branch)
 
-This branch's three-pass scorecard/source review is [`research/2026-10-29-scorecard-and-monitor-review.md`](research/2026-10-29-scorecard-and-monitor-review.md), with the [official-format/blocker review](research/2026-10-29-verification-and-blocker-review.md) and this branch's [repository review](research/repo-review-2026-10-29-arena-b1c781e7.md) plus [negative run card](evidence/repo-review-2026-10-29-arena-b1c781e7-run-card.json). **No submission is approved; do not submit any existing TIFF.** This review generated no TIFF, experiment, upload, slot, or candidate score estimate. It corrected misleading submission-page copy, quarantined artifacts, and retracted a concurrently merged H-Rank-4 `promote` decision with no holdout, leakage canary, or complete pre-placement registry check; the original run card is preserved as retracted history. Owner mirrors are not authenticated organizer data. These reviews do not supersede the binding protocol or prior negative evidence.
+This branch's three-pass scorecard/source review is [`research/2026-10-29-scorecard-and-monitor-review.md`](research/2026-10-29-scorecard-and-monitor-review.md), with the [official-format/blocker review](research/2026-10-29-verification-and-blocker-review.md) and this branch's [repository review](research/repo-review-2026-10-29-arena-b1c781e7.md) plus [negative run card](evidence/repo-review-2026-10-29-arena-b1c781e7-run-card.json). **No submission is approved; do not submit any existing TIFF.** This review generated no TIFF, experiment, upload, slot, or candidate score estimate. It corrected misleading submission-page copy, quarantined artifacts, and retracted a concurrently merged H-Rank-4 `promote` decision with no holdout, leakage canary, or complete pre-placement registry check; a follow-up against one explicitly incomplete lattice witness also returned `DUPLICATE_STOP` (4,684/4,685 dots within 3 px). The original run card is preserved as retracted history. Owner mirrors are not authenticated organizer data. These reviews do not supersede the binding protocol or prior negative evidence.
 
 ## Operating instruction
 
@@ -181,6 +181,41 @@ holdout cannot reliably estimate the expert-hidden private score).
 - **Research slate:** four ranked hypotheses remain untested proposals, not an assigned lane. The missing method paragraph, complete literal registry, authenticated organizer inputs/template/exterior handling, and a frozen matched baseline remain blockers. No new holdout result or submission is authorized.
 
 Read the [2026-10-29 verification/blocker review](research/2026-10-29-verification-and-blocker-review.md), [scorecard/source-refresh review](research/2026-10-29-scorecard-and-monitor-review.md), and [current-session review](research/repo-review-2026-10-29-current-session.md). The review cards are [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) and [`evidence/2026-10-29-repo-review-run-card.json`](evidence/2026-10-29-repo-review-run-card.json); both record zero experiments and a negative verdict. Full source claims and limitations are in [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json). Keep all downloads research-only.
+
+## Focus-site audit 2026-10-29 — pinned bytes, gate receipts, policy request
+
+**NO FILE IS APPROVED. NO NEW TIFF WAS GENERATED. DO NOT DOWNLOAD OR SUBMIT ANY RESEARCH FILE.**
+
+- **Why no file:** every one of the nine focus files stops as `DUPLICATE_STOP` against the
+  13GEMSDOE lattice witness, with 99.91–99.92% of its dots within 3 px (shared
+  `scripts/check_uniqueness.py`, receipts in `evidence/lattice-gate/`). The historical audit also
+  measured nine other candidate rasters; eight remain public research references and H-Rank-4 is
+  quarantined after its promote verdict was retracted. All nine hit `DUPLICATE_STOP`; HR4 alone
+  had 4,684/4,685 dots (99.9787%) within 3 px. This is one explicitly incomplete witness, not a
+  complete-registry clearance. The footprint is very densely covered, but no candidate may game
+  the gate by targeting uncovered cells.
+- **Best reported file:** GEMSDOE32 at 0.2778 (USER-REPORTED / UNVERIFIED). Not eligible.
+  Its dots are GEMSDOE25 minus 6,436 catalogue-adjacent dots (measured, pinned bytes).
+- **Policy decision needed from the protocol owner** (executive summary, "Policy decision"):
+  (1) keep the literal rule, which means no eligible file; (2) rule on whether the lattice
+  witness stays in the registry and whether the 70% clause suits a dense witness; (3) approve a
+  calibrated similarity clause in advance. Agents will not choose any of these.
+- **Leaderboard, fetched 2026-10-29:** #1 xiaofanhu 0.4544; kpomazi 0.3195 is at #47, so the
+  prompt's "highest 0.3195" is incorrect. The 0.4413 figure does not appear.
+- **Official rules, verified:** single float32 GeoTIFF; values in [0,1]; three submissions per week;
+  generative-AI use must be disclosed in the narrative. The written format and the template use NaN outside
+  the footprint. Four of the nine pinned focus files write zeros there (GEMSDOE30, 32, 33, 36), which departs
+  from that convention; see the per-site pages. The cause of the portal's range error is unresolved.
+- **Irregularities for review:** mirror `sample_submission.tif` is not the all-absence sample
+  described officially (60,988 positives); the registry manifest covers nine repos only (440 rasters)
+  and declares no completeness; two focus files share one dot set; some cache paths map to the wrong
+  site folder (hashes still match). Full list: [`research/2026-10-29-focus-audit-and-next-hypotheses.md`](research/2026-10-29-focus-audit-and-next-hypotheses.md).
+- **Experiments:** none run. The lane was unassigned, the candidate set is empty, and the policy
+  decision blocks any upload. Budget used: 0 of 3.
+- **Reproduce:** `.venv/bin/python scripts/audit_focus_gate.py` (needs
+  `scripts/restore_registry_snapshot.py`, `scripts/bootstrap_research.py`, and
+  `bash scripts/download_competition_data.sh --research-mirror`).
+  Then `.venv/bin/python scripts/build_hk3_pages.py --check`.
 
 ## Current status — 2026-10-28 independent correction
 
