@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-29T18:15:33.747719+00:00",
+  "generated_utc": "2026-10-29T18:20:03.519632+00:00",
   "scope": "Measurements on SHA-256-pinned owner-mirror bytes. Not HOLDOUT-DTI, not an organizer score, not a leaderboard estimate. Reported scores are USER-REPORTED / UNVERIFIED.",
   "template": {
     "path": ".cache/competition_data/sample_submission.tif",
@@ -85,6 +85,9 @@
       "dots_in_footprint": 60069,
       "dots_total_raster": 60069,
       "outside_footprint_nonzero": 0,
+      "outside_footprint_nan": 7111787,
+      "outside_footprint_finite_zero": 0,
+      "exterior_convention": "NaN",
       "values_unique_in_footprint": [
         0.0,
         1.0
@@ -101,6 +104,9 @@
       "dots_in_footprint": 44090,
       "dots_total_raster": 44090,
       "outside_footprint_nonzero": 0,
+      "outside_footprint_nan": 7111787,
+      "outside_footprint_finite_zero": 0,
+      "exterior_convention": "NaN",
       "values_unique_in_footprint": [
         0.0,
         1.0
@@ -117,6 +123,9 @@
       "dots_in_footprint": 61328,
       "dots_total_raster": 61328,
       "outside_footprint_nonzero": 0,
+      "outside_footprint_nan": 7111787,
+      "outside_footprint_finite_zero": 0,
+      "exterior_convention": "NaN",
       "values_unique_in_footprint": [
         0.0,
         1.0
@@ -133,6 +142,9 @@
       "dots_in_footprint": 37660,
       "dots_total_raster": 37660,
       "outside_footprint_nonzero": 0,
+      "outside_footprint_nan": 7111787,
+      "outside_footprint_finite_zero": 0,
+      "exterior_convention": "NaN",
       "values_unique_in_footprint": [
         0.0,
         1.0
@@ -149,6 +161,9 @@
       "dots_in_footprint": 44090,
       "dots_total_raster": 44090,
       "outside_footprint_nonzero": 0,
+      "outside_footprint_nan": 0,
+      "outside_footprint_finite_zero": 7111787,
+      "exterior_convention": "finite zeros",
       "values_unique_in_footprint": [
         0.0,
         1.0
@@ -165,6 +180,9 @@
       "dots_in_footprint": 40199,
       "dots_total_raster": 40199,
       "outside_footprint_nonzero": 0,
+      "outside_footprint_nan": 7111787,
+      "outside_footprint_finite_zero": 0,
+      "exterior_convention": "NaN",
       "values_unique_in_footprint": [
         0.0,
         1.0
@@ -181,6 +199,9 @@
       "dots_in_footprint": 37654,
       "dots_total_raster": 37654,
       "outside_footprint_nonzero": 0,
+      "outside_footprint_nan": 0,
+      "outside_footprint_finite_zero": 7111787,
+      "exterior_convention": "finite zeros",
       "values_unique_in_footprint": [
         0.0,
         1.0
@@ -197,6 +218,9 @@
       "dots_in_footprint": 41865,
       "dots_total_raster": 41865,
       "outside_footprint_nonzero": 0,
+      "outside_footprint_nan": 0,
+      "outside_footprint_finite_zero": 7111787,
+      "exterior_convention": "finite zeros",
       "values_unique_in_footprint": [
         0.0,
         1.0
@@ -213,6 +237,9 @@
       "dots_in_footprint": 38854,
       "dots_total_raster": 38854,
       "outside_footprint_nonzero": 0,
+      "outside_footprint_nan": 0,
+      "outside_footprint_finite_zero": 7111787,
+      "exterior_convention": "finite zeros",
       "values_unique_in_footprint": [
         0.0,
         1.0

@@ -152,6 +152,11 @@ def main() -> int:
             "reported_score_user_unverified": p["reported"], "dots_in_footprint": n,
             "dots_total_raster": int((field > 0).sum()),
             "outside_footprint_nonzero": int(((field > 0) & ~foot).sum()),
+            "outside_footprint_nan": int(np.isnan(field[~foot]).sum()),
+            "outside_footprint_finite_zero": int(((field == 0) & ~foot).sum()),
+            "exterior_convention": ("NaN" if np.isnan(field[~foot]).all() else
+                                    "finite zeros" if ((field == 0) | ~np.isfinite(field))[~foot].all() and
+                                    np.isfinite(field[~foot]).all() else "mixed"),
             "values_unique_in_footprint": sorted(float(v) for v in np.unique(field[foot])[:3]),
             "frac_dots_within_3px_of_lattice": round(in_lat / n, 6),
             "frac_dots_within_3px_of_catalogue": round(near_cat / n, 6),

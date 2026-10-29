@@ -36,6 +36,7 @@ Scope: `scripts/audit_focus_gate.py`, `scripts/build_hk3_pages.py` (new decision
 | Leaderboard: #1 0.4544; 0.3195 at #47 | DrivenData leaderboard, fetched 2026-10-29 | Verified; the prompt's "highest 0.3195" is wrong |
 | Private test set is non-catalogue faults | Problem page 967, "Problem description" | Verified |
 | Mirror sample has 60,988 positives (not all-absence) | Pinned mirror template and mirrored existing faults | Verified; flagged as an irregularity |
+| Exterior convention per site (new check after merging `main`) | Measured: NaN for GEMSDOE24, 25, 27, 28, 31; finite zeros for GEMSDOE30, 32, 33, 36. The written format and template use NaN. | Verified. Flagged as a deviation, not fixed; the saved bytes are not regenerated. |
 | Registry manifest is nine repos, 440 rasters, no completeness declared | `registry/focus_registry_manifest.json` | Verified |
 
 Claims not made: no HOLDOUT-DTI, no organizer score, no leaderboard estimate for any file, and no
