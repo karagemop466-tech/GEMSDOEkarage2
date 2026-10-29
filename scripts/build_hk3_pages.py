@@ -102,7 +102,16 @@ def gather() -> dict:
         row = measured[record["site"]]
         if record["sha256"] != row["sha256"] or row["max_focus_overlap_fraction"] <= 0.70:
             raise ValueError("Nine-site row does not match the pinned negative audit")
-
+    profile = load(EV / "focus-profile-2026-10-29.json")
+    pinned = {r["site"]: r for r in profile["sites"]}
+    if (len(pinned) != 9 or set(pinned) != {r["site"] for r in records}
+            or any(pinned[r["site"]]["pinned_sha256"] != r["sha256"] for r in records)
+            or any(g["status"] != "DUPLICATE_STOP" for g in profile["gate_results"])
+            or profile["lattice_witness"]["sha256"] != witness["witness_sha256"]):
+        raise ValueError("Pinned-byte focus profile disagrees with the scorecard or the lattice witness")
+    for cand in profile.get("other_candidates", []):
+        if cand["gate_status"] != "DUPLICATE_STOP":
+            raise ValueError(f"Gate result for {cand['name']} is not DUPLICATE_STOP; re-review the page text before publishing")
     leaderboard = next((item for item in official.get("sources", [])
                         if item.get("url") == LEADERBOARD), None)
     first_place = leaderboard.get("first_place", {}) if leaderboard else {}
@@ -133,7 +142,7 @@ def gather() -> dict:
         raise ValueError("Current public leaderboard snapshot or GitHub freshness feed is inconsistent")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official,
-            "monitor": monitor, "k3": k3}
+            "monitor": monitor, "k3": k3, "profile": profile}
 
 
 def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
@@ -244,12 +253,159 @@ def legacy() -> str:
 def guide(d: dict) -> str:
     return f'''<section class="section"><h3>How to submit, when an eligible file exists</h3>
 <p><b class="no">Do not upload any current file.</b> These instructions are conditional; neither inspection nor a format pass bypasses the literal duplicate stop.</p>
+<p><b>Official rules, verified 2026-10-29</b> (<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NLR rules PDF</a>, §1.1 and §3.2): one entry per competitor; a <em>single</em> GeoTIFF with a single raster layer at 100 m; submission limit <em>three submissions per week</em>; generative-AI use must be described in the narrative. The problem page (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>) specifies values between 0 and 1, float32, and null or NaN outside the bounds.</p>
 <ol><li>Run a newly assigned lane using the shared feature stack, evaluator and writer. Stop immediately if the pre-placement surface is a duplicate. Test every input feature alone for leakage; AUC over 0.90 is suspect.</li>
 <li>Use buffered whole-segment hide-and-recover; build all catalogue features from visible faults only and mask visible faults pixel-exactly. Compare pooled DTI against the current same-fold incumbent with a paired 95% interval. An uncalibrated holdout is not a leaderboard estimate.</li>
 <li>Recheck the exact final TIFF against the complete current registry and authenticate the organizer sample. Verify a single float32 band, matching CRS/shape/transform, and no non-finite or out-of-range values inside the actual footprint. Reconcile the official null/NaN exterior guidance with the portal range behavior; neither convention is assumed accepted.</li>
 <li>Only after every automated gate passes, a separate selector checks the account quota. The <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules</a> describe up to three scored attempts per week and one final selection per participating entity.</li>
 <li>Then download the approved <code>.tif</code>, verify its SHA-256, sign in to the <a href="{SUBMISSIONS}">DrivenData submissions page</a>, choose the file, and use the recorded unique name and a short note no longer than 140 characters. The official problem page specifies a GeoTIFF; ZIP upload acceptance was not verified. Save the actual organizer receipt; do not promote a projection into a score.</li></ol>
 <p>Our checks require no human inspector. The current blocker is missing/contradictory evidence and an unassigned lane, not a request to waive a gate. No account credentials are stored by this project.</p></section>'''
+
+
+def decision_section(d: dict) -> str:
+    """Headline answer for every focus site: best file, estimate, uniqueness, download decision."""
+    prof = {r["site"]: r for r in d["profile"]["sites"]}
+    lat = d["profile"]["lattice_witness"]
+    records = sorted(d["focus"], key=lambda r: -r["owner_reported_unverified"])
+    best = records[0]
+    rows = []
+    for rec in records:
+        site = rec["site"]
+        pr = prof[site]
+        source = f'https://github.com/buffedlizard55-lab/{site}/raw/{rec["ref"]}/docs/downloads/{rec["file"]}'
+        rows.append(
+            f'<tr><td><a href="focus/{esc(site)}.html">{esc(site)}</a></td>'
+            f'<td><a href="{esc(source)}">{esc(rec["file"])}</a></td>'
+            f'<td><b>{rec["owner_reported_unverified"]:.4f}</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>'
+            '<td>Unavailable<span class="sub-label">no validated estimator</span></td>'
+            f'<td><b class="no">NO</b><span class="sub-label">{pr["frac_dots_within_3px_of_lattice"] * 100:.2f}% of '
+            f'{pr["dots_in_footprint"]:,} dots within 3 px of the lattice witness</span></td>'
+            '<td><b class="no">NO · DO NOT SUBMIT</b><span class="sub-label">shared gate: DUPLICATE_STOP</span></td></tr>'
+        )
+    best_pct = prof[best["site"]]["frac_dots_within_3px_of_lattice"] * 100
+    return (
+        '<section class="hero" id="decision">\n'
+        '<h2>Which file to submit? None is approved.</h2>\n'
+        f'<p class="verdict"><b class="no">Best reported file: {esc(best["site"])} at {best["owner_reported_unverified"]:.4f}</b> '
+        '(USER-REPORTED / UNVERIFIED). It is <b class="no">not eligible</b>: the shared uniqueness gate stops it against the '
+        f'13GEMSDOE lattice, with <b>{best_pct:.2f}%</b> of its dots within three pixels. The gate allows at most 70%.</p>\n'
+        '<p><b>Every</b> one of the nine focus files fails the same gate, so this is a property of the lattice witness, not a '
+        'defect of one file. Changing the file name, the exterior value, or a few dots does not change this. The decision '
+        'needs a policy answer before any file can be eligible; see <a href="#policy">the policy decision</a>.</p>\n'
+        f'<p class="muted">Lattice coverage: {lat["footprint_cover_within_3px"] * 100:.2f}% of the template footprint lies within '
+        '3 px of the witness. Dots placed in the uncovered cells would be gaming the gate and are not used here.</p>\n'
+        '</section>\n'
+        '<section class="section"><h3>Submission decision table · nine focus sites</h3>\n'
+        '<p>Every number is a measurement on the pinned bytes, or a copied user report. <b>No estimated leaderboard score exists.</b> '
+        'Download links are research references, not submissions.</p>\n'
+        '<table id="decision-table"><thead><tr><th>Site</th><th>Pinned file (research reference)</th><th>Reported score</th>'
+        '<th>Estimated score</th><th>Unique vs lattice witness?</th><th>Download and submit?</th></tr></thead>\n'
+        f'<tbody>{"".join(rows)}</tbody></table>\n'
+        '<p class="muted">Gate receipts: <a href="evidence/lattice-gate/GEMSDOE32.json">GEMSDOE32</a> · '
+        '<a href="evidence/lattice-gate/summary.json">summary</a> · full pinned profile '
+        '<a href="evidence/focus-profile-2026-10-29.json">focus-profile-2026-10-29.json</a>.</p>\n'
+        '</section>'
+    )
+
+
+def nested_section(d: dict) -> str:
+    rep = {r["site"]: r["reported_score_user_unverified"] for r in d["profile"]["sites"]}
+    rows = []
+    wins = 0
+    total = 0
+    for claim in d["profile"]["exact_subset_relations"]:
+        small, big = claim["subset"], claim["of"]
+        if rep[small] == rep[big]:
+            outcome = "identical reported score"
+        else:
+            total += 1
+            wins += rep[small] > rep[big]
+            outcome = "smaller subset scored higher" if rep[small] > rep[big] else "larger set scored higher"
+        removed = next((r for r in d["profile"]["removed_dot_catalogue_profile"]
+                        if r["removed_from"] == big and r["to"] == small), None)
+        if removed is None:
+            near = "no dots removed (identical dot set)"
+        else:
+            near = (f"{removed['frac_within_3px_of_catalogue'] * 100:.1f}% within 3 px of the mirrored catalogue; "
+                    f"median {removed['median_distance_px']:.1f} px")
+        rows.append(
+            f'<tr><td>{esc(small)} ⊂ {esc(big)}</td><td>{claim["removed_dots"]:,} dots removed</td>'
+            f'<td>{rep[small]:.4f} vs {rep[big]:.4f} <span class="sub-label">USER-REPORTED</span></td>'
+            f'<td>{esc(outcome)}</td><td>{esc(near)}</td></tr>'
+        )
+    corr = d["profile"]["correlations_nine_sites_user_reported_vs_measured"]
+    rho = corr["spearman_reported_vs_frac_within_3px_catalogue"]["rho"]
+    near_vs_dots = corr.get("spearman_catalogue_vs_dots_in_footprint", {}).get("rho", float("nan"))
+    return (
+        '<section class="section"><h3>Why the leader is the leader: nested dot sets</h3>\n'
+        '<p>Several focus files are exact subsets of one another: no dot is added, only dots are removed. These pairs isolate '
+        f'the effect of removing dots. The reported scores move in the same direction in <b>{wins} of {total}</b> non-identical pairs. '
+        'This is <b>not an independent statistical test</b>: the files share lineage, GEMSDOE25 and GEMSDOE30 repeat one dot set '
+        '(their pairs count twice), and the scores are user reports.</p>\n'
+        '<table><thead><tr><th>Nested pair</th><th>Removed</th><th>Reported scores</th><th>Direction</th>'
+        f'<th>What the removed dots look like</th></tr></thead><tbody>{"".join(rows)}</tbody></table>\n'
+        '<p><b>Interpretation, not established:</b> the official metric weights false positives at 0.2 and misses at 0.8, and the '
+        'official problem page says the private test set is faults <em>not</em> contained in the public USGS database. Dots that sit '
+        'on mapped catalogue faults therefore add false-positive mass unless a new fault lies within three pixels. Dot count and '
+        f'catalogue proximity are <b>confounded</b>: the two predictors are themselves strongly correlated (Spearman {near_vs_dots:.3f}), and both '
+        f'track the reported scores at Spearman {rho:.3f} (n = 9; the two values match exactly by coincidence of rank structure). '
+        'A controlled submission pair would separate them, but that needs an organizer receipt, and no nested file can be submitted '
+        'under the current gate.</p>\n'
+        f'<p>The <a href="{LEADERBOARD}">official public leaderboard</a>, fetched 2026-10-29, lists xiaofanhu first at 0.4544 and '
+        'kpomazi at #47 with 0.3195. A 0.2778 score would rank below #50 on that board, but no account or receipt links any local file to it.</p>\n'
+        '</section>'
+    )
+
+
+def candidate_section(d: dict) -> str:
+    """Every published TIFF outside the nine pinned sites, with its shared-gate result. All are NOT ELIGIBLE."""
+    rows = []
+    for c in d["profile"].get("other_candidates", []):
+        fmt = c["format"]
+        frac = c["frac_dots_within_3px_of_lattice"]
+        frac_txt = "n/a" if frac is None else f"{frac * 100:.2f}%"
+        rows.append(
+            f'<tr><td><code>{esc(c["name"])}</code><span class="sub-label">{esc(c["sha256"][:16])}…</span></td>'
+            f'<td>{c["dots_in_footprint"]:,} positive cells</td>'
+            f'<td><b class="no">{esc(c["gate_status"])}</b><span class="sub-label">{frac_txt} within 3 px of the lattice witness (limit 70%)</span></td>'
+            f'<td><b class="no">NO · DO NOT SUBMIT</b><span class="sub-label">exterior: {esc(c["exterior_convention"])}; '
+            f'<a href="{esc(c["file"].replace("docs/", "", 1))}">research reference</a> · <a href="{esc(c["receipt"].replace("evidence/", "evidence/", 1))}">receipt</a></span></td></tr>'
+        )
+    if not rows:
+        return ""
+    return (
+        '<section class="section" id="published-tifs"><h3>Every published TIFF · shared gate · NOT ELIGIBLE</h3>\n'
+        '<p>Other sessions committed new GeoTIFFs to <code>main</code>, some described as "unique" with a one-click download. '
+        'The shared gate was run on every published TIFF in <code>docs/downloads/</code> against the pinned 13GEMSDOE lattice witness, '
+        'a raster the repository itself pins. <b>Each one stops at the same gate.</b> The "unique" claims are withdrawn for the gate. '
+        'The listed files are research references only, and nothing should be uploaded on the basis of any of them.</p>\n'
+        f'<table><thead><tr><th>File</th><th>Dots</th><th>Shared gate</th><th>Decision</th></tr></thead><tbody>{"".join(rows)}</tbody></table>\n'
+        '</section>'
+    )
+
+
+def policy_section(d: dict) -> str:
+    lat = d["profile"]["lattice_witness"]
+    return (
+        '<section class="section" id="policy"><h3>Policy decision needed before any file can be eligible</h3>\n'
+        '<p>The written rule has two clauses. A file stops if its Spearman with any registry raster exceeds 0.90, <em>or</em> if more '
+        'than 70% of its dots lie within three pixels of one registry raster\'s dots. Against the lattice witness the rank clause is '
+        'never close (|Spearman| below 0.001 for all nine files), but the dot-overlap clause fails for every file. The witness is dense: '
+        f'{lat["positive_pixels"]:,} dots on a five-pixel grid, covering {lat["footprint_cover_within_3px"] * 100:.2f}% of the footprint '
+        'within three pixels.</p>\n'
+        '<ol><li><b>Keep the literal rule.</b> Then no dot-based file on this footprint can be eligible, including the 0.2778 file and any '
+        'future one. The project stays research-only.</li>\n'
+        '<li><b>Ask the protocol owner to rule on the lattice witness.</b> The lattice is one historical submission from the 13GEMSDOE '
+        'site. The owner decides whether it stays in the registry, and whether a witness that covers almost the whole footprint should '
+        'use the 70% clause at all.</li>\n'
+        '<li><b>Replace the clause with a calibrated similarity measure</b> approved in advance by the owner. Agents must not choose a '
+        'threshold after seeing a result.</li></ol>\n'
+        '<p>Agents will not waive the gate, exclude the witness, or place dots in the uncovered cells. Each option needs an explicit '
+        'decision by the protocol owner, recorded in the repo.</p>\n'
+        '<p><b>Generative-AI disclosure:</b> the official rules require finalists to state in the narrative how generative AI was used '
+        '(<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">rules §3.2</a>). This project\'s work is AI-assisted and must be disclosed.</p>\n'
+        '</section>'
+    )
 
 
 CSS = '''/* Current evidence desk: generated by scripts/build_hk3_pages.py. */
@@ -268,29 +424,32 @@ code, .container, .hero { overflow-wrap: anywhere; word-break: break-word; }
 '''
 
 
-def focus_detail(record: dict, geo: dict) -> str:
+def focus_detail(record: dict, geo: dict, pinned: dict) -> str:
     site = record["site"]
     source = f'https://github.com/buffedlizard55-lab/{site}/raw/{record["ref"]}/docs/downloads/{record["file"]}'
     return f'''<section class="hero"><h2>{esc(site)} executive summary — DO NOT RESUBMIT</h2>
 <p><b>Historical file:</b> <a href="{esc(source)}">{esc(record['file'])}</a> · research reference only.<br>
 <b>Historical report:</b> {record['owner_reported_unverified']:.4f} — USER-REPORTED / UNVERIFIED, not an organizer receipt.</p>
 <p><b>Estimated leaderboard score:</b> unavailable. <b>Unique:</b> NO — {geo['max_focus_overlap_fraction'] * 100:.1f}% of its dots are within 3 px of {esc(geo['closest_focus_site'])}. <b>Upload:</b> not approved.</p>
+<p><b>Exterior convention (pinned bytes):</b> {esc(pinned['exterior_convention'])} outside the footprint. The written format and the organizer template use NaN; finite zeros depart from that convention (strict format check not met).</p>
+<p><b>Shared gate on pinned bytes:</b> DUPLICATE_STOP against the lattice witness, with {pinned['frac_dots_within_3px_of_lattice'] * 100:.2f}% of {pinned['dots_in_footprint']:,} dots within 3 px. <b>Catalogue proximity:</b> {pinned['frac_dots_within_3px_of_catalogue'] * 100:.1f}% of dots within 3 px of the mirrored catalogue (not organizer-authenticated).</p>
 <p><b>SHA-256:</b> <code>{esc(record['sha256'])}</code><br><b>Pinned revision:</b> <code>{esc(record['ref'])}</code><br><b>Method / interpretation:</b> {esc(METHODS[site])}</p>
 <p>Research downloads are for inspection only, not new submissions. This pinned snapshot does not establish the independently maintained site's current best. <a href="{esc(record['site_url'])}">Original site ↗</a> · <a href="sites/{esc(site)}.html">Detailed prior summary</a> · <a href="executive-summary.html">Nine-site comparison</a>.</p></section>'''
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = hero(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
+    desk = decision_section(d) + candidate_section(d) + hero(d) + policy_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     pages = {"index.html": shell("Submission desk", "desk", desk),
              "executive-summary.html": shell("Executive summary", "summary", desk),
              "how-to-submit.html": shell("How to submit", "guide", how),
              "submit.html": shell("How to submit", "guide", how), "assets/hk3.css": CSS}
     geometry = {row["site"]: row for row in d["geometry"]["historical_final_dots"]}
+    pinned = {row["site"]: row for row in d["profile"]["sites"]}
     for record in d["focus"]:
         site = record["site"]
         pages[f"focus/{site}.html"] = shell(f"{site} executive summary", "summary",
-            focus_detail(record, geometry[site]), base_href="../")
+            focus_detail(record, geometry[site], pinned[site]), base_href="../")
     return pages
 
 
@@ -302,9 +461,11 @@ def main() -> int:
     mirrors = [(f, DOCS / "evidence/hk3" / f.name) for f in sorted((EV / "hk3").glob("*.json"))]
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
                 (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
-                (EV / "official-review-2026-10-29.json", DOCS / "evidence/official-review-2026-10-29.json"),
                 (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json"),
-                (EV / "2026-10-29-repo-review-run-card.json", DOCS / "evidence/2026-10-29-repo-review-run-card.json")]
+                (EV / "2026-10-29-repo-review-run-card.json", DOCS / "evidence/2026-10-29-repo-review-run-card.json"),
+                (EV / "official-review-2026-10-29.json", DOCS / "evidence/official-review-2026-10-29.json"),
+                (EV / "focus-profile-2026-10-29.json", DOCS / "evidence/focus-profile-2026-10-29.json")]
+    mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
     stale = []
     for src, dst in mirrors:
         if args.check:
