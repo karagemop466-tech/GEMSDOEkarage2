@@ -1,0 +1,87 @@
+{
+  "kind": "LOCAL-FORMAT-AUDIT (not a portal receipt or scientific approval)",
+  "file": "gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+  "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+  "reference_template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+  "template_authenticity": "not established; owner mirror only",
+  "validation_passed": false,
+  "validation_message": "FAIL: strict outside_is_nan check failed; all 7,111,787 outside pixels are finite and 1,076 positive pixels lie outside the owner-mirror footprint.",
+  "checks": [
+    {
+      "check": "geotiff_driver",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "single_band",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "float32",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "crs_matches_template",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "crs_epsg_32611",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "shape_matches_template",
+      "passed": true,
+      "detail": "candidate/reference 5,167,373 footprint pixels; shape 3730x3292"
+    },
+    {
+      "check": "transform_matches_template",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "north_up_100m_resolution",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "inside_no_masked_cells",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "inside_all_finite",
+      "passed": true,
+      "detail": "0 NaN, 0 Inf inside"
+    },
+    {
+      "check": "inside_in_range_0_1",
+      "passed": true,
+      "detail": "range 0.0 to 1.0"
+    },
+    {
+      "check": "outside_is_nan",
+      "passed": false,
+      "detail": "0 NaN of 7,111,787 outside pixels; 1,076 positive cells outside"
+    }
+  ],
+  "diagnostics": {
+    "footprint_pixels": 5167373,
+    "inside_nan": 0,
+    "inside_inf": 0,
+    "inside_masked": 0,
+    "inside_below_zero": 0,
+    "inside_above_one": 0,
+    "inside_min": 0.0,
+    "inside_max": 1.0,
+    "outside_nan": 0,
+    "outside_finite": 7111787,
+    "whole_array_finite_in_range": true
+  },
+  "strict_format_pass": false,
+  "upload_authorized": false,
+  "re_audit_record": "evidence/hr4-main-merge-reaudit-2026-10-29.json"
+}

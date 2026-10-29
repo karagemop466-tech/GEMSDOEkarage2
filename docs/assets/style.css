@@ -31,6 +31,21 @@ a:hover { text-decoration: underline; }
 .badge.ok { background: #ecfdf5; color: var(--ok); border: 1px solid #bbf7d0; }
 .badge.no { background: #fef2f2; color: var(--no); border: 1px solid #fecaca; }
 .badge.warn { background: #fffbeb; color: var(--warn); border: 1px solid #fcd34d; }
+.badge.promote { background: #ecfdf5; color: var(--ok); border: 1px solid #bbf7d0; }
+.verdict-box.warn { border-left: 5px solid var(--warn); background: #fffbeb; padding: 14px; border-radius: 8px; margin: 14px 0; }
+.verdict-box { border-left: 5px solid var(--no); background: #fef2f2; padding: 14px; border-radius: 8px; margin: 14px 0; }
+.kv-table table, .hypothesis-box table { margin: 14px 0; }
+.kv-table th, .hypothesis-box th { background: #f8fafc; }
+.hypothesis-box { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 18px; margin: 18px 0; }
+.hypothesis-box h4 { margin: 0 0 10px 0; font-size: 16px; color: var(--brand); }
+.sha { font-size: 12px; color: var(--muted); word-break: break-all; }
+.note { color: var(--muted); font-size: 12.5px; margin-top: 6px; }
+.btn.secondary {
+  display: inline-block; background: #f1f5f9; color: var(--ink); padding: 10px 18px;
+  border-radius: 8px; font-weight: 600; font-size: 14px; margin-left: 8px; border: 1px solid var(--line);
+}
+.btn.secondary:hover { background: #e2e8f0; }
+.hero .btn.big { padding: 16px 28px; font-size: 17px; }
 .container { max-width: 980px; margin: 26px auto; padding: 0 16px; }
 .hero {
   border: 2px solid var(--brand); background: #e7f5fa; border-radius: 12px; padding: 26px; margin-bottom: 26px;

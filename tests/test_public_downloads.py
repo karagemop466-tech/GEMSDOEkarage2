@@ -48,10 +48,24 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 7
+    assert len(result['artifacts']) == 9
     found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
     assert len(found) == 1 and found[0]['kind'] == 'research'
     assert found[0]['checks']['current_assessment_negative_and_hash_bound'] is True
+    h_a = [r for r in result['artifacts'] if 'hA-intersection-propensity' in r['file']]
+    assert len(h_a) == 1 and h_a[0]['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert h_a[0]['checks']['card_verdict_negative'] is True
+    assert h_a[0]['checks']['audit_sidecar_negative_and_hash_bound'] is True
+    hr4 = [r for r in result['artifacts'] if 'hr4-intersection' in r['file']]
+    assert len(hr4) == 1 and hr4[0]['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert hr4[0]['checks']['card_verdict_negative'] is True
+    assert hr4[0]['checks']['card_sha_matches_saved_bytes'] is True
+    assert hr4[0]['ok_to_submit'] is False and hr4[0]['slot_authorized'] is False
+    hr4_card = json.loads((ROOT / 'docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan-run-card.json').read_text())
+    assert hr4_card['verdict'] == 'negative'
+    assert hr4_card['uniqueness']['passed'] is False
+    assert hr4_card['validator']['strict_format_pass'] is False
+    assert hr4_card['re_audit']['audit_record'] == 'evidence/hr4-main-merge-reaudit-2026-10-29.json'
     assessment = json.loads((ROOT / 'evidence/hk3/current_release_assessment.json').read_text())
     assert assessment == json.loads((ROOT / 'docs/evidence/hk3/current_release_assessment.json').read_text())
     assert assessment['leakage_canary_passed'] is False
@@ -63,6 +77,27 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
         assert record['checks']['mirror_transform_match']
+
+
+def test_hr4_independent_reaudit_is_hash_bound_and_negative():
+    audit = json.loads((ROOT / 'evidence/hr4-main-merge-reaudit-2026-10-29.json').read_text())
+    tif = ROOT / 'docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif'
+    assert audit['candidate']['sha256'] == mod.digest_file(tif)
+    card_path = ROOT / 'docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan-run-card.json'
+    audit_path = ROOT / 'docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan-audit.json'
+    assert audit['source']['corrected_run_card_sha256'] == mod.digest_file(card_path)
+    assert audit['source']['corrected_format_audit_sha256'] == mod.digest_file(audit_path)
+    assert audit['candidate']['positive_pixels']['whole_grid'] == 5761
+    assert audit['candidate']['positive_pixels']['outside_owner_mirror_footprint'] == 1076
+    gate = audit['literal_uniqueness_gate']
+    assert gate['full_grid_overlap']['fraction'] > 0.70
+    assert gate['in_footprint_overlap']['fraction'] > 0.70
+    assert gate['preplacement_surface_available_or_checked'] is False
+    assert gate['complete_live_registry_checked'] is False
+    assert audit['strict_format_audit']['strict_format_pass'] is False
+    assert audit['decision']['verdict'] == 'negative'
+    assert audit['decision']['ok_to_submit'] is False
+    assert audit['decision']['slot_authorized'] is False
 
 
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):

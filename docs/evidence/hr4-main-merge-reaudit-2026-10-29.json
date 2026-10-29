@@ -1,0 +1,122 @@
+{
+  "schema": "gems.main_merge_reaudit.v1",
+  "reviewed_utc": "2026-10-29T18:46:23Z",
+  "scope": "Independent saved-byte and source-code re-audit of the research-only H-Rank-4 artifact merged by PR #74. This is not a model experiment, holdout evaluation, score, organizer receipt, or submission authorization.",
+  "source": {
+    "pull_request": 74,
+    "merge_commit": "72e9572fd0dd555d06b994f1b7fb7657f822d1e8",
+    "original_generator": "scripts/generate_unique_submission_v2.py",
+    "original_generator_sha256": "91a99ba23d54fe9ada8a95637de768adb18fccc028d091dc595292783339ddb4",
+    "original_run_card": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan-run-card.json",
+    "original_run_card_sha256": "2334135f1a3f73a675be78761119a6153761640e69bfaabee512b012a6a7e2d4",
+    "corrected_run_card_sha256": "fc32aa9c50966fce673979c0731c5de7251665675fb7fd7de778c2ffb65ccc6f",
+    "corrected_format_audit_sha256": "3cbe6c217d66b41f8752a737f2fa027929afe480b7eb0fcedfa602af7eb005d3",
+    "original_format_audit_sha256": "9714c65335d76bed1b54a8c9ceaa10f51838bea8d189764b304db36220583ee0"
+  },
+  "candidate": {
+    "file": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+    "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+    "sha256_matches_original_run_card": true,
+    "grid": {
+      "driver": "GTiff",
+      "bands": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "shape": [3730, 3292],
+      "transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0],
+      "nodata": "NaN"
+    },
+    "positive_pixels": {
+      "whole_grid": 5761,
+      "inside_owner_mirror_footprint": 4685,
+      "outside_owner_mirror_footprint": 1076,
+      "outside_pixels_total": 7111787,
+      "outside_pixels_nan": 0,
+      "outside_pixels_finite": 7111787
+    }
+  },
+  "reference_data": {
+    "footprint_file": ".cache/research/inputs/sample.tif",
+    "footprint_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+    "footprint_authenticity": "Owner-mirror only; organizer authentication is not established.",
+    "lattice_file": ".cache/research/inputs/lattice.tif",
+    "lattice_authenticity": "Pinned local registered reference only; this is not a complete or organizer-authenticated live registry.",
+    "lattice_positive_pixels": 206895
+  },
+  "literal_uniqueness_gate": {
+    "rule": "Stop if more than 70% of final dots lie within 3 px of any one registered raster; correlation and overlap must be checked on the pre-placement surface and final dots.",
+    "full_grid_overlap": {
+      "reference": "pinned lattice",
+      "dots_within_3px": 4685,
+      "dot_count": 5761,
+      "fraction": 0.8132268703350113,
+      "percent": 81.32268703350113,
+      "passed": false
+    },
+    "in_footprint_overlap": {
+      "reference": "pinned lattice",
+      "dots_within_3px": 4684,
+      "dot_count": 4685,
+      "fraction": 0.9997865528281751,
+      "percent": 99.97865528281751,
+      "passed": false
+    },
+    "preplacement_surface_available_or_checked": false,
+    "complete_live_registry_checked": false,
+    "disposition": "STOP: the literal >70% overlap rule is exceeded against the pinned lattice even when counting all 5,761 file positives; the in-footprint-only result is 99.9787%. No exception or exemption is applied."
+  },
+  "strict_format_audit": {
+    "tool": "scripts/validate_tif.py",
+    "template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+    "template_authenticity": "not established",
+    "checks": {
+      "geotiff_driver": true,
+      "single_band": true,
+      "float32": true,
+      "crs_matches_template": true,
+      "crs_epsg_32611": true,
+      "shape_matches_template": true,
+      "transform_matches_template": true,
+      "north_up_100m_resolution": true,
+      "inside_no_masked_cells": true,
+      "inside_all_finite": true,
+      "inside_in_range_0_1": true,
+      "outside_is_nan": false
+    },
+    "strict_format_pass": false,
+    "upload_authorized": false
+  },
+  "validator_discrepancy": {
+    "original_generator": "Reported outside_footprint_is_nan=true after passing an all-true footprint; this did not test the actual owner-mirror footprint.",
+    "check_submission_py": "Reported format_valid=true but also outside_is_nan_official_text=false and ok_to_upload=false; outside-NaN is not marked a hard requirement by that compatibility report.",
+    "strict_validate_tif_py": "Failed outside_is_nan: 0 of 7,111,787 outside pixels are NaN.",
+    "interpretation": "The strict local result is a format diagnostic against an unauthenticated owner mirror, not an organizer ruling. The contradictory permissive status is not submission approval."
+  },
+  "generator_and_run_card_review": {
+    "fault_mask_source": "The generator calls synthesize_fault_mask; it creates synthetic line segments rather than loading authenticated competition faults or the organizer catalogue.",
+    "footprint_source": "The generator sets footprint = np.ones((H, W), dtype=bool), so it treats the entire raster as in-footprint and writes finite values everywhere.",
+    "holdout_dti": null,
+    "holdout_ci95": null,
+    "withheld_positive_pixels": null,
+    "leakage_canary": "not run",
+    "initial_uniqueness_scope": "Only two locally cached GEMSDOE36 rasters; no lattice or complete registry. The reported correlations were computed on the final raster, not a saved pre-placement surface.",
+    "run_card_dot_claim": "The original how_it_differs_from_repo field claimed 30,000 dots; the saved TIFF contains 5,761 positive cells across the whole grid.",
+    "original_verdict": "promote",
+    "original_verdict_supported": false
+  },
+  "decision": {
+    "verdict": "negative",
+    "research_only": true,
+    "ok_to_submit": false,
+    "slot_authorized": false,
+    "organizer_confirmed_score": null,
+    "candidate_score_estimate": null,
+    "reason": [
+      "Synthetic placeholder input; no competition geology or holdout DTI.",
+      "No leakage canary, withheld-positive count, or confidence interval.",
+      "Strict local exterior check fails against the pinned owner-mirror footprint.",
+      "The >70% literal overlap stop is exceeded against the pinned lattice.",
+      "The complete current registry, organizer template, and pre-placement surface are unavailable."
+    ]
+  }
+}
