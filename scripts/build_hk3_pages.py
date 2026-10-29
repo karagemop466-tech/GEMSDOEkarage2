@@ -151,7 +151,7 @@ def evidence_summary(d: dict) -> str:
 <tr><th>Leaderboard estimate</th><td><b>Unavailable.</b> Transfer from catalogue holdout to the hidden expert labels is not validated. A prior speculative estimate is retained as historical evidence, not a score or a release criterion.</td></tr>
 </tbody></table>
 <p class="muted">The lattice is nearly space-filling; its overlap can flag unrelated maps and does not establish copying. Nevertheless, the specified literal rule requires a stop. At the historical 37,654-dot budget, at least 82.34% of in-footprint dots must lie in its 3-pixel halo. This bound does not rule out every smaller map.</p>
-<p><a href="evidence/2026-10-28-independent-audit-run-card.json">This audit's run card</a> · <a href="evidence/hk3/decision_correction.json">Original decision and correction</a> · <a href="evidence/hk3/run_card.json">Corrected HK3 card</a> · <a href="evidence/hk3/current_release_assessment.json">Current no-submit assessment</a> · <a href="evidence/hk3/registry_audit.json">Original registry scan</a> · <a href="evidence/public_downloads_audit.json">Saved-byte inventory</a></p>
+<p><a href="evidence/2026-10-28-independent-audit-run-card.json">HK3 audit run card</a> · <a href="evidence/session-02fe9ab0-review-run-card-2026-10-29.json">Current review run card</a> · <a href="../research/repo-review-2026-10-29-arena-current.md">Current three-pass repository review</a> · <a href="evidence/hk3/decision_correction.json">Original decision and correction</a> · <a href="evidence/hk3/run_card.json">Corrected HK3 card</a> · <a href="evidence/hk3/current_release_assessment.json">Current no-submit assessment</a> · <a href="evidence/hk3/registry_audit.json">Original registry scan</a> · <a href="evidence/public_downloads_audit.json">Saved-byte inventory</a></p>
 </section>'''
 
 
@@ -262,7 +262,8 @@ def main() -> int:
     mirrors = [(f, DOCS / "evidence/hk3" / f.name) for f in sorted((EV / "hk3").glob("*.json"))]
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
                 (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
-                (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json")]
+                (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json"),
+                (EV / "session-02fe9ab0-review-run-card-2026-10-29.json", DOCS / "evidence/session-02fe9ab0-review-run-card-2026-10-29.json")]
     stale = []
     for src, dst in mirrors:
         if args.check:

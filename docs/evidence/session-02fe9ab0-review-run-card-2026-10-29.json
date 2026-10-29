@@ -1,0 +1,60 @@
+{
+  "schema": "parallel-run-card-v1",
+  "card_type": "review-only; no experiment or candidate generated",
+  "session_date_utc": "2026-10-29",
+  "branch": "arena/02fe9ab0-gemsdoekarage2",
+  "hypothesis": null,
+  "mechanism": null,
+  "named_non_fault_process_that_could_mimic_it": null,
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI",
+    "value": null,
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "ci95": null,
+    "reason": "No experiment was run and no candidate was emitted. Existing historical HOLDOUT-DTI values are not new results and are not leaderboard scores."
+  },
+  "correlation_overlap_vs_registry": {
+    "candidate_surface_before_placement": null,
+    "candidate_final_dots": null,
+    "reason": "No new candidate surface or dots exist. Existing HK3 evidence is a prior, negative result and is recorded separately in evidence/hk3/literal_recheck.json."
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_generated": false,
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "reason": "No candidate raster exists to validate. Existing research files remain separately assessed and are not upload-approved."
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative",
+  "experiments_run": 0,
+  "weekly_slots_used": 0,
+  "protocol_stop": {
+    "stop": true,
+    "reason": [
+      "The request does not identify one coordinator-assigned method paragraph; the four-candidate slate is research-only, not lane authorization.",
+      "The previous HK3 lane is retired and exhausted its recorded experiment/time budget.",
+      "A prior final-dot raster has a literal >70% proximity duplicate witness; the complete all-registry scan and new candidate pre-placement clearance are unavailable.",
+      "The current checkout lacks the cached feature stack and authenticated organizer template/data needed for an authorized experiment."
+    ]
+  },
+  "review_findings": {
+    "historical_best_of_nine": {
+      "site": "GEMSDOE32",
+      "value": 0.2778,
+      "evidence_class": "USER-REPORTED / UNVERIFIED",
+      "why_not_score": "No submission-page receipt links the value to this raster hash."
+    },
+    "new_leaderboard_estimate": null,
+    "downloadable_approved_submission": null,
+    "quarantined_unverified_raster": {
+      "path": "evidence/quarantine/gw-nfs-h1-unverified-original.tif",
+      "sha256": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85",
+      "reason": "It was in the public downloads folder without a matching run card, audit receipt, or pre-placement clearance; it has been removed from the public download set without altering its bytes."
+    }
+  },
+  "score_labeling_note": "All historical score claims are USER-REPORTED / UNVERIFIED; no ORGANIZER-CONFIRMED receipt was found. No score projection is reported."
+}

@@ -33,6 +33,21 @@ test('all desk pages are fail-closed and visibly prohibit submission', () => {
   }
 });
 
+test('root and executive summary fail closed and never link the orphaned TIFF', () => {
+  const rootIndex = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  assert.match(rootIndex, /docs\/index\.html/);
+  const orphanName = 'gemsdoe-karage2-gw-nfs-h1-20261029-zeros';
+  for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html', 'submit.html']) {
+    const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
+    assert.match(html, /OK TO SUBMIT: NO/);
+    assert.doesNotMatch(html, new RegExp(orphanName));
+    assert.doesNotMatch(html, /File ready for download/i);
+    assert.doesNotMatch(html, /class="[^"]*\bpromote\b/i);
+  }
+  assert.ok(fs.existsSync(path.join(root, 'evidence/quarantine/gw-nfs-h1-unverified-original.tif')));
+  assert.ok(!fs.existsSync(path.join(root, 'docs/downloads', `${orphanName}.tif`)));
+});
+
 test('one-click research download is visibly labeled and the exact bytes exist', () => {
   for (const page of pages) {
     const dom = render(page);

@@ -1,8 +1,6 @@
 # Submission status — NO APPROVED FILE
 
-**Updated 2026-10-29:** still no approved file. The saved TIFFs use finite zeros outside the footprint, but the official
-wording and the organizer sample use NaN there (the repo's strict format check fails for HK3). Live leaderboard top is 0.4544;
-kpomazi is at rank 47 with 0.3195. See [the 2026-10-29 review](research/2026-10-29-verification-and-blocker-review.md).
+**Updated 2026-10-29:** still no approved file. A previous generated executive summary incorrectly described an orphaned raster as ready; it was quarantined and removed from published downloads, and the current generated pages now reflect the negative release decision. The saved research TIFFs use finite zeros outside the footprint, but the official wording and owner-mirror sample use NaN there (the repo's strict check fails for HK3). See [the current Arena review](research/repo-review-2026-10-29-arena-current.md) and [the prior source-verification review](research/2026-10-29-verification-and-blocker-review.md).
 
 **HK3 and every other published TIFF are research-only. DO NOT SUBMIT.**
 This corrects the earlier upload recommendation. The literal registry failure

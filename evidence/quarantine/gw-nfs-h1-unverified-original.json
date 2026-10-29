@@ -1,0 +1,17 @@
+{
+  "schema": "quarantined-unverified-raster-v1",
+  "original_path": "docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif",
+  "quarantine_path": "evidence/quarantine/gw-nfs-h1-unverified-original.tif",
+  "sha256": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85",
+  "size_bytes": 762402,
+  "status": "quarantined; not a submission candidate",
+  "reason": [
+    "The file was present in the checkout but absent from the current approved artifact inventory.",
+    "No matching run card, audit receipt, or pre-placement all-registry clearance is available.",
+    "The current project protocol says no new TIF was generated in the latest review and the HK3 lane is retired.",
+    "A file hash establishes byte identity only; it does not establish method provenance, uniqueness, validation, holdout performance, or organizer acceptance."
+  ],
+  "score": null,
+  "ok_to_submit": false,
+  "downloadable_from_site": false
+}

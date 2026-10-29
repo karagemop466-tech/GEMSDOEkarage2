@@ -6,7 +6,7 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29, current Arena session)
 
-The current three-pass review is [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md). **No submission is approved; do not submit any existing TIFF.** This session created no experiment, TIFF, upload, or score estimate. Tests passed locally; eight optional mirror-backed Python tests were skipped because their owner-mirror inputs are absent and are not authenticated organizer data. The review does not supersede the binding protocol below or prior negative evidence.
+The current three-pass review is [`research/repo-review-2026-10-29-arena-current.md`](research/repo-review-2026-10-29-arena-current.md), with the review-only run card at [`evidence/session-02fe9ab0-review-run-card-2026-10-29.json`](evidence/session-02fe9ab0-review-run-card-2026-10-29.json). **No submission is approved; do not submit any existing TIFF.** This session ran no experiment, generated no TIFF, used no upload slot, and has no leaderboard estimate. A stale public page advertised an orphaned TIFF as ready; that file was moved outside `docs/` into `evidence/quarantine/`, the generated executive summary was refreshed to the controlling negative evidence, and the root route now points to `docs/index.html`. Python/site tests now pass; eight optional mirror-backed Python tests remain skipped because their owner-mirror inputs are absent and are not authenticated organizer data. The review does not supersede the binding protocol below or prior negative evidence.
 
 ## Operating instruction
 
