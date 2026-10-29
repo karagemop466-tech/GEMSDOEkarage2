@@ -28,6 +28,13 @@ test('all desk pages are fail-closed and visibly prohibit submission', () => {
     assert.equal(badge.textContent, 'OK TO SUBMIT: NO');
     assert.ok(badge.classList.contains('no'));
     assert.match(dom.window.document.body.textContent, /DO NOT SUBMIT/);
+    if (page === 'how-to-submit.html') {
+      const guideText = dom.window.document.body.textContent;
+      assert.match(guideText, /Current writer blocker/);
+      assert.ok(guideText.includes('vendor/gems57/submission_writer.py'));
+      assert.match(guideText, /all-finite output with zero exterior cells/);
+      assert.match(guideText, /Do not create a candidate through the active path/);
+    }
     assert.doesNotMatch(dom.window.document.body.textContent, /OK TO SUBMIT:\s*YES/);
     dom.window.close();
   }
@@ -56,6 +63,9 @@ test('homepage shows the exact witness and no candidate leaderboard projection',
   assert.match(text, /Leaderboard estimate\s*Unavailable/);
   assert.match(text, /not a leaderboard estimate/i);
   assert.match(text, /uncertified|unauthenticated/i);
+  assert.match(text, /Active writer path/);
+  assert.match(text, /all-finite output with zeros outside/i);
+  assert.match(text, /Do not create or submit a candidate through that path/i);
   assert.doesNotMatch(text, /Literal-rule exception applied:\s*yes/i);
   assert.doesNotMatch(text, /0\.263\s*[–-]\s*0\.286/);
   dom.window.close();
@@ -105,6 +115,19 @@ test('every relative link on the desk pages resolves to a published file', () =>
     }
     dom.window.close();
   }
+});
+
+test('latest saved official leaderboard evidence is dated and linked', () => {
+  const dom = render('index.html');
+  const text = dom.window.document.body.textContent;
+  const hrefs = [...dom.window.document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));
+  assert.match(text, /latest saved verification dated 2026-10-29/i);
+  assert.match(text, /xiaofanhu: 0\.4544/);
+  assert.ok(hrefs.includes('evidence/official-verification-2026-10-29.json'));
+  assert.ok(hrefs.includes('evidence/repo-review-3983c87b-2026-10-29-run-card.json'));
+  assert.equal(fs.existsSync(path.join(root, 'docs/evidence/session-2026-10-29-run-card.json')), false);
+  assert.doesNotMatch(text, /On 2026-10-28, the official public leaderboard/);
+  dom.window.close();
 });
 
 test('official sources and complete holdout labels are linked on the summary', () => {

@@ -1,0 +1,144 @@
+{
+  "schema": "official-verification-2026-10-29",
+  "verified_on": "2026-10-29",
+  "verified_by": "agent, fetch_page and gh API reads in this session",
+  "rule": "Every claim is VERIFIED only if a quoted source was read in this session; otherwise it is labelled.",
+  "claims": [
+    {
+      "id": "OV-01",
+      "topic": "metric",
+      "claim": "Distance-weighted Tversky index with alpha=0.2, beta=0.8 and a triangular kernel with 300 m range (3 px at 100 m).",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "status": "VERIFIED",
+      "quote": "For this competition, we set 𝛼=0.2 and 𝛽=0.8 ... where the range 𝑅 is 300 meters (i.e., 3 pixels at 100m resolution)."
+    },
+    {
+      "id": "OV-02",
+      "topic": "format",
+      "claim": "Single layer, float32, values between 0 and 1.",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "status": "VERIFIED",
+      "quote": "Your submission contains a single layer with datatype of 32-bit float (`float32`) with values between 0 and 1"
+    },
+    {
+      "id": "OV-03",
+      "topic": "format",
+      "claim": "Same CRS (EPSG:32611), 100 m resolution, and same bounds as training data; data outside bounds is null or NaN.",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "status": "VERIFIED",
+      "quote": "Your submission has the same bounds as the training data, and data outside the bounds is null or nan."
+    },
+    {
+      "id": "OV-04",
+      "topic": "limits",
+      "claim": "Three submissions per week for automated scoring; exactly one final submission.",
+      "source": "https://docs.nlr.gov/docs/fy26osti/96647.pdf (Official Rules, sections 3.2 and 3.4)",
+      "status": "VERIFIED",
+      "quote": "You can make multiple submissions, subject to the limits specified on the competition website (three submissions per week). / Multiple finalized submissions are not allowed."
+    },
+    {
+      "id": "OV-05",
+      "topic": "finalist requirements",
+      "claim": "Finalists must also submit complete code assets and documentation that can reproduce the results.",
+      "source": "https://docs.nlr.gov/docs/fy26osti/96647.pdf (section 3.5)",
+      "status": "VERIFIED",
+      "quote": "For this algorithm, competitors will need to submit: Their solution's complete code assets and documentation"
+    },
+    {
+      "id": "OV-06",
+      "topic": "AI disclosure",
+      "claim": "Generative-AI use must be disclosed in the narrative (not counted in word count).",
+      "source": "https://docs.nlr.gov/docs/fy26osti/96647.pdf (section 3.2)",
+      "status": "VERIFIED",
+      "quote": "you must indicate in the narrative (not included in the word count) the extent to which, if any, you used generative AI technology"
+    },
+    {
+      "id": "OV-07",
+      "topic": "scoring",
+      "claim": "Public leaderboard scores may differ from the private-set final scores; first-round prizes use the private test set.",
+      "source": "https://docs.nlr.gov/docs/fy26osti/96647.pdf (section 3.2) and https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "status": "VERIFIED",
+      "quote": "Scores displayed on the public leaderboard while the competition is running may not be the same as the final scores on the private leaderboard"
+    },
+    {
+      "id": "OV-08",
+      "topic": "leaderboard",
+      "claim": "Leaderboard rank 1 is xiaofanhu with best public DW-Tversky 0.4544 (not 0.4413 as cited by the user).",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "status": "VERIFIED (snapshot 2026-10-29)",
+      "quote": "| #1 ... xiaofanhu ... 34 submissions | 0.4544 |"
+    },
+    {
+      "id": "OV-09",
+      "topic": "leaderboard",
+      "claim": "Rank 2 cfld__ 0.3916; rank 27 jay398144 0.3326; rank 47 kpomazi 0.3195; rank 50 kinneso_outlook 0.3167.",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "status": "VERIFIED (snapshot 2026-10-29)",
+      "quote": "| #47 ... kpomazi ... 35 submissions | 0.3195 |"
+    },
+    {
+      "id": "OV-10",
+      "topic": "irregularity",
+      "claim": "README and SUBMISSION_STATUS cited kpomazi at rank 27 with 0.3195; the live page shows kpomazi at rank 47 with 0.3195. Rank 27 is 0.3326. The earlier rank observation cannot be reproduced from this snapshot.",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "status": "CONTRADICTED by live page (flagged)"
+    },
+    {
+      "id": "OV-11",
+      "topic": "irregularity",
+      "claim": "User message stated 0.3195 is the highest score. The live top score is 0.4544; 0.3195 is rank 47.",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "status": "CONTRADICTED by live page (flagged)"
+    },
+    {
+      "id": "SS-01",
+      "topic": "0.2778 provenance",
+      "claim": "GEMSDOE32 site labels the 0.2778 raster as an OWNER-REPORT with no submission-page receipt linking the raster hash to the score, and says it is already submitted and must not be resubmitted.",
+      "source": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html",
+      "status": "VERIFIED (owner site statement)",
+      "quote": "0.2778 OWNER-REPORT (owner-provided submission-log claim; no submission-page receipt linking this raster hash to the score is present in this repository) ... already submitted - do not resubmit"
+    },
+    {
+      "id": "SS-02",
+      "topic": "0.2778 provenance",
+      "claim": "Repo audit: the 0.2778 raster (gemsdoe32 ...e5eb6e7e-zeros) is a D2.8 dot set with 6,436 dots removed (within the catalogue apron, pruning B2 from D2.8). Interpretation recorded as not causal.",
+      "source": "evidence/champion_forensics.json (removed_d28_to_b2 = 6436; removed_b1_to_b2 = 2545)",
+      "status": "REPO AUDIT (reproduced from repo file; not an organizer result)"
+    },
+    {
+      "id": "TP-01",
+      "topic": "training template",
+      "claim": "Organizer sample template (sample_submission.tif) from the pinned owner mirror: NaN outside footprint (7,111,787 cells), finite 0/1 inside (5,167,373 cells), 60,988 positive cells.",
+      "source": "owner mirror https://github.com/buffedlizard55-lab/GEMSDOE24 at ref a73f9ffba29260cc7708e8e0557c84c5bea7d47b, path data/bridge/sample_submission.tif; sha256 2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc (matches registry/pinned_assets.json)",
+      "status": "VERIFIED sha256 against repo pin; NOT organizer-authenticated"
+    },
+    {
+      "id": "IR-01",
+      "topic": "irregularity",
+      "claim": "Repo's saved TIFFs (HK3, K2, K3, B4, H2, H1, irregular) are finite zeros outside the footprint (NaN count 0). The official text and the organizer sample use NaN outside. The strict validator records strict_format_pass = false for HK3.",
+      "source": "evidence/hk3/validate_tif_strict.json (outside_finite 7,111,787; strict_format_pass false)",
+      "status": "FLAGGED; active runner path unresolved; saved bytes NOT regenerated"
+    },
+    {
+      "id": "IR-02",
+      "topic": "irregularity",
+      "claim": "The local scripts/submission_writer.py helper has footprint-based validation, but active experiment runners import the pinned vendor/gems57 writer and grid, which still require all-finite output with zero exterior cells. The active writer path has not been fixed.",
+      "source": "scripts/submission_writer.py; vendor/gems57/submission_writer.py; vendor/gems57/grid.py; scripts/run_experiment.py; scripts/run_h2_experiment.py; scripts/k3.py; tests/test_writer_exterior_convention.py",
+      "status": "CORRECTED after execution-path inspection (2026-10-29); local helper only; active writer unresolved"
+    },
+    {
+      "id": "IR-03",
+      "topic": "irregularity",
+      "claim": "Cause of the portal error 'Predicted values must be in range [0, 1]' is not established. NaN outside is official; a NaN-containing or otherwise different upload could be the cause but this is unverified. The user should state which file was uploaded.",
+      "source": "user message; https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "status": "UNRESOLVED"
+    },
+    {
+      "id": "IR-04",
+      "topic": "irregularity",
+      "claim": "The official problem page says the training template predicts total absence, but the sample has 60,988 positive cells. This matches the existing README flag.",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/ and the TP-01 sample",
+      "status": "FLAGGED (unresolved)"
+    }
+  ]
+}

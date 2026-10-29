@@ -6,7 +6,7 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29)
 
-The latest three-pass repository review is [`research/repo-review-2026-10-29.md`](research/repo-review-2026-10-29.md). **No submission is approved; do not submit any existing TIFF.** The review ran code/site tests only; it created no experiment, TIFF, upload, or score estimate. The eight skipped Python checks require missing pinned mirror inputs, which are not authenticated organizer data. This dated review does not supersede the stricter operating rules below or earlier negative evidence.
+The latest three-pass repository review on this Arena branch is [`research/repo-review-3983c87b-2026-10-29.md`](research/repo-review-3983c87b-2026-10-29.md). **No submission is approved; do not submit any existing TIFF.** This review created no experiment, TIFF, upload, or score estimate. The eight skipped Python checks require missing pinned mirror inputs, which are not authenticated organizer data. It also corrects an earlier overstatement: the active pinned `vendor/gems57` writer still enforces all-finite/zero-exterior output; the local footprint-aware helper is not used by the runners. This review does not supersede the stricter operating rules below or earlier negative evidence.
 
 ## Operating instruction
 
@@ -68,13 +68,15 @@ for research, but are not authenticated organizer inputs. The mirror sample cont
 positive cells even though the official description says it predicts total absence;
 its provenance/footprint and exterior handling therefore remain unresolved.
 
-## Leaderboard status (public observation, 2026-10-28)
+## Leaderboard status (latest saved public observation, 2026-10-29)
 
-The public organizer page showed **0.4544** for xiaofanhu in first place, and
-**0.3195** for kpomazi at rank 27 on 2026-10-28. This is an organizer-published
-public snapshot, not a file-linked submission receipt; it can change. The earlier
-user-cited figures are not a current target. Re-read the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-before comparing; see [`evidence/official-review-2026-10-28.json`](evidence/official-review-2026-10-28.json).
+The latest saved official-page verification records **0.4544** for xiaofanhu in first place,
+and **0.3195** for kpomazi at rank 47; rank 27 is jay398144 at 0.3326. This is an
+organizer-published public snapshot, not a file-linked submission receipt or private-round
+result; it can change. The earlier README claim that kpomazi was rank 27 is contradicted by
+the dated snapshot. Re-read the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
+before comparing; see the [2026-10-29 verification record](evidence/official-verification-2026-10-29.json)
+and [earlier context snapshot](evidence/official-review-2026-10-28.json).
 
 ## Focus sites (nine)
 
@@ -182,16 +184,11 @@ holdout cannot reliably estimate the expert-hidden private score).
 - **Official format, verified:** float32, single band, values in [0, 1], EPSG:32611, 100 m, and
   "data outside the bounds is null or nan" (https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/).
   The organizer sample template is NaN outside its footprint (sha256 matches the pin; not organizer-authenticated).
-- **Defect found and fixed:** every saved TIFF uses finite zeros outside the footprint, so the repo's strict format check
-  fails for them (HK3: `strict_format_pass: false`). The shared writer's "all cells finite" gate enforced the
-  wrong convention; it is now footprint-based and tested (`tests/test_writer_exterior_convention.py`).
-  The saved TIFFs were **not** regenerated; they still fail the uniqueness gate.
-- **Why 0.2778 might score well (labelled USER-REPORTED / UNVERIFIED):** under the official metric with α + β = 1, a dot
-  adds value only if its hit probability exceeds α × DTI (≈ 0.056 at DTI 0.2778). The 0.2778 file is the D2.8 set with 6,436
-  dots removed, so the removed dots were probably below that hit rate. This is a derived, conditional inference, not an established cause.
-- **Full review:** [`research/2026-10-29-verification-and-blocker-review.md`](research/2026-10-29-verification-and-blocker-review.md),
-  claim table [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json),
-  run card [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) (0 experiments, verdict negative).
+- **Writer-path correction (2026-10-29 review):** every saved TIFF uses finite zeros outside the footprint, so the strict format check fails (HK3: `strict_format_pass: false`). The footprint-aware change in `scripts/submission_writer.py` is a local helper only; the active experiment runners import the hash-pinned `vendor/gems57/submission_writer.py` and `vendor/gems57/grid.py`, which still enforce all-finite arrays and zero exterior cells. Those pinned shared files were not changed because a private fork is prohibited. The executable writer path therefore remains unresolved against the official null/NaN wording; no TIFF was regenerated, and every existing candidate remains research-only.
+- **Why 0.2778 might score well (labelled USER-REPORTED / UNVERIFIED):** in a first-order linear-counting approximation of the official α + β = 1 objective, the break-even hit probability is α × DTI (≈ 0.056 at DTI 0.2778). This is not the kernel-exact marginal condition. The 0.2778 file is the D2.8 set with 6,436 dots removed, so pruning low-yield positives could improve the balance; the removed dots' hidden-label hit rate and the score-to-file link are unknown. This is a conditional mechanism, not an established cause or score estimate.
+- **Full review:** current branch audit [`research/repo-review-3983c87b-2026-10-29.md`](research/repo-review-3983c87b-2026-10-29.md),
+  current read-only run card [`evidence/repo-review-3983c87b-2026-10-29-run-card.json`](evidence/repo-review-3983c87b-2026-10-29-run-card.json),
+  and the earlier claim table [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json). The separate earlier scientific review is [`research/2026-10-29-verification-and-blocker-review.md`](research/2026-10-29-verification-and-blocker-review.md).
 
 ## Current status — 2026-10-28 independent correction
 

@@ -12,7 +12,9 @@ import argparse
 import hashlib
 import html
 import json
+from datetime import date
 from pathlib import Path
+import re
 import sys
 
 try:
@@ -41,6 +43,89 @@ def load(path: Path) -> dict:
     return value
 
 
+def latest_official_verification() -> tuple[dict, Path]:
+    """Load the newest validly dated official-page verification snapshot."""
+    dated = []
+    for path in EV.glob("official-verification-????-??-??.json"):
+        match = re.fullmatch(r"official-verification-(20\d{2}-\d{2}-\d{2})", path.stem)
+        if not match:
+            continue
+        observed = match.group(1)
+        try:
+            date.fromisoformat(observed)
+        except ValueError as exc:
+            raise ValueError(f"Invalid official-verification filename date: {path.name}") from exc
+        dated.append((observed, path))
+    if not dated:
+        raise ValueError("No dated official-page verification snapshot is available")
+    latest_date = max(observed for observed, _ in dated)
+    latest = [(observed, path) for observed, path in dated if observed == latest_date]
+    if len(latest) != 1:
+        raise ValueError(f"Multiple official-page verifications exist for {latest_date}")
+    observed, path = latest[0]
+    verification = load(path)
+    if verification.get("verified_on") != observed:
+        raise ValueError(f"Verification filename/date mismatch: {path.name}")
+    return verification, path
+
+
+def parse_current_leaderboard_snapshot(verification: dict, evidence_path: Path) -> dict:
+    """Extract the rank-one public snapshot only from a dated verified claim.
+
+    The desk does not scrape DrivenData. It renders the latest committed source
+    snapshot, and fails closed if the verification date, source, claim or quote
+    do not agree. A public leaderboard observation is not a file-linked score
+    receipt or a projection for this project.
+    """
+    observed = verification.get("verified_on")
+    if not isinstance(observed, str) or not re.fullmatch(r"20\d{2}-\d{2}-\d{2}", observed):
+        raise ValueError("Current official verification has no valid observation date")
+    try:
+        date.fromisoformat(observed)
+    except ValueError as exc:
+        raise ValueError("Current official verification has an invalid observation date") from exc
+    if evidence_path.name != f"official-verification-{observed}.json":
+        raise ValueError("Current official verification filename/date mismatch")
+    claims = verification.get("claims")
+    if not isinstance(claims, list):
+        raise ValueError("Current official verification claims must be a list")
+    expected_status = f"VERIFIED (snapshot {observed})"
+    rows = [
+        claim for claim in claims
+        if isinstance(claim, dict)
+        and claim.get("topic") == "leaderboard"
+        and claim.get("source") == LEADERBOARD
+        and claim.get("status") == expected_status
+        and isinstance(claim.get("claim"), str)
+        and claim.get("claim", "").startswith("Leaderboard rank 1 is ")
+    ]
+    if len(rows) != 1:
+        raise ValueError("Expected exactly one current verified rank-one leaderboard claim")
+    row = rows[0]
+    match = re.match(
+        r"^Leaderboard rank 1 is ([A-Za-z0-9_.-]+) with best public DW-Tversky "
+        r"(0(?:\.\d+)?|1(?:\.0+)?)\b",
+        row["claim"],
+    )
+    if match is None:
+        raise ValueError("Verified rank-one claim has an unsupported format")
+    participant, score_text = match.groups()
+    score = float(score_text)
+    quote = row.get("quote")
+    if (not isinstance(quote, str) or "#1" not in quote
+            or participant not in quote or score_text not in quote
+            or not 0.0 <= score <= 1.0):
+        raise ValueError("Rank-one claim and quoted organizer observation disagree")
+    return {
+        "observed_date": observed,
+        "participant": participant,
+        "value": score,
+        "source": LEADERBOARD,
+        "evidence_file": evidence_path.relative_to(ROOT).as_posix(),
+        "evidence_class": "ORGANIZER-PUBLISHED PUBLIC SNAPSHOT (not a file-linked receipt)",
+    }
+
+
 def gather() -> dict:
     card = load(EV / "hk3/run_card.json")
     selector = load(EV / "hk3/selector_result.json")
@@ -50,7 +135,9 @@ def gather() -> dict:
     inventory = load(EV / "public_downloads_audit.json")
     focus = load(ROOT / "registry/focus_sites.json")
     geometry = load(EV / "geometry-audit.json")
-    official = load(EV / "official-review-2026-10-28.json")
+    official = load(EV / "official-review-2026-10-28.json")  # archived source/context snapshot
+    current_verification, current_verification_path = latest_official_verification()
+    leaderboard = parse_current_leaderboard_snapshot(current_verification, current_verification_path)
     k3 = load(EV / "k3/run_card.json")
     filename = card["raster"]["file"]
     candidate = (ROOT / filename).resolve()
@@ -102,10 +189,13 @@ def gather() -> dict:
         if record["sha256"] != row["sha256"] or row["max_focus_overlap_fraction"] <= 0.70:
             raise ValueError("Nine-site row does not match the pinned negative audit")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
-            "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3}
+            "inventory": inventory, "focus": records, "geometry": geometry,
+            "official": official, "leaderboard": leaderboard, "current_verification_path": current_verification_path,
+            "k3": k3}
 
 
-def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
+def shell(title: str, active: str, body: str, *, base_href: str | None = None,
+          latest_source: str = "evidence/official-verification-2026-10-29.json") -> str:
     items = [("index.html", "desk", "Submission desk"), ("executive-summary.html", "summary", "Executive summary"),
              ("how-to-submit.html", "guide", "How to submit"), ("audit.html", "audit", "Nine-site audit"),
              ("hypotheses.html", "research", "Earlier research"), ("sources.html", "sources", "Sources")]
@@ -121,7 +211,7 @@ def shell(title: str, active: str, body: str, *, base_href: str | None = None) -
 <main class="container"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
 {body}
 <footer class="footnote"><p><b>Evidence labels:</b> HOLDOUT-DTI is a local, catalogue-based proxy with its evaluator, withheld count and interval; it is not a leaderboard result. Historical values are USER-REPORTED / UNVERIFIED unless linked to an actual organizer receipt. The leaderboard observation is an organizer-published public snapshot, not a receipt for any local TIFF.</p>
-<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="evidence/official-review-2026-10-28.json">Source observations</a></p></footer>
+<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="{esc(latest_source)}">Latest saved official-page verification</a> · <a href="evidence/official-review-2026-10-28.json">Earlier context snapshot (2026-10-28)</a></p></footer>
 </main></body></html>'''
 
 
@@ -147,11 +237,12 @@ def evidence_summary(d: dict) -> str:
 <tr><th>Current recorded point-best</th><td>K3 HOLDOUT-DTI <b>{k['candidate_dti']:.4f}</b>, 95% CI [{k['candidate_ci95'][0]:.4f}, {k['candidate_ci95'][1]:.4f}], <code>{esc(k['evaluator_version'])}</code>, {k['withheld_positive_pixels']:,} withheld positives. K3 is also negative; no paired HK3-versus-K3 test has been established.</td></tr>
 <tr><th>Uniqueness</th><td>HK3 is below the overlap threshold against the nine pinned historical files (maximum {c['registry_uniqueness']['tiers']['U1_unique_vs_nine_scored_site_files']['max_overlap'] * 100:.1f}%). <b>FAIL against the lattice: {w['overlap_fraction'] * 100:.2f}%.</b> Full-footprint Spearman vs that lattice is {w['full_footprint_spearman_vs_lattice']:.6f}; low correlation cannot cancel the independent overlap stop. The previous broader audit also records other failures and {audit['missing_or_invalid']} invalid reference; its registry was incomplete. The original pre-placement surface was not independently rechecked.</td></tr>
 <tr><th>Saved bytes &amp; range</th><td>Single float32 band; no NaN or infinity inside the owner-mirror footprint; all saved values in [0,1]. CRS, shape and transform match the <b>unauthenticated owner mirror</b>. Outside its footprint HK3 uses finite zeros (7,111,787 cells), not NaN. The official sample template is NaN there (verified 2026-10-29 against its pinned sha256), so the repository's strict format check FAILS for this file (<code>evidence/hk3/validate_tif_strict.json</code>: strict_format_pass = false). Organizer acceptance and the exact cause of the earlier range error are unknown.</td></tr>
+<tr><th>Active writer path</th><td>The current runners import the hash-pinned <code>vendor/gems57/submission_writer.py</code>, which delegates to <code>vendor/gems57/grid.py</code> and still enforces all-finite output with zeros outside. The footprint-aware <code>scripts/submission_writer.py</code> helper is separate and is not used by those runners. The pinned shared writer has not been changed; its exterior behavior remains an unresolved release blocker. Do not create or submit a candidate through that path.</td></tr>
 <tr><th>Leakage check</th><td>Eight newly engineered features passed recorded feature-alone canaries, but the full 34-feature input inventory was not tested. The full leakage gate is <b>not established</b>.</td></tr>
 <tr><th>Leaderboard estimate</th><td><b>Unavailable.</b> Transfer from catalogue holdout to the hidden expert labels is not validated. A prior speculative estimate is retained as historical evidence, not a score or a release criterion.</td></tr>
 </tbody></table>
 <p class="muted">The lattice is nearly space-filling; its overlap can flag unrelated maps and does not establish copying. Nevertheless, the specified literal rule requires a stop. At the historical 37,654-dot budget, at least 82.34% of in-footprint dots must lie in its 3-pixel halo. This bound does not rule out every smaller map.</p>
-<p><a href="evidence/2026-10-28-independent-audit-run-card.json">This audit's run card</a> · <a href="evidence/hk3/decision_correction.json">Original decision and correction</a> · <a href="evidence/hk3/run_card.json">Corrected HK3 card</a> · <a href="evidence/hk3/current_release_assessment.json">Current no-submit assessment</a> · <a href="evidence/hk3/registry_audit.json">Original registry scan</a> · <a href="evidence/public_downloads_audit.json">Saved-byte inventory</a></p>
+<p><a href="evidence/2026-10-28-independent-audit-run-card.json">Prior scientific audit's run card</a> · <a href="evidence/repo-review-3983c87b-2026-10-29-run-card.json">Current branch review run card (no experiment)</a> · <a href="evidence/hk3/decision_correction.json">Original decision and correction</a> · <a href="evidence/hk3/run_card.json">Corrected HK3 card</a> · <a href="evidence/hk3/current_release_assessment.json">Current no-submit assessment</a> · <a href="evidence/hk3/registry_audit.json">Original registry scan</a> · <a href="evidence/public_downloads_audit.json">Saved-byte inventory</a></p>
 </section>'''
 
 
@@ -175,22 +266,22 @@ def nine_site_table(d: dict) -> str:
 
 
 def science_and_sources(d: dict) -> str:
-    lead = d["official"]["sources"][1]["first_place"]
+    lead = d["leaderboard"]
     return f'''<section class="section"><h3>Why the reported GEMSDOE32 result leads this group</h3>
 <p>GEMSDOE32 is <b>0.2778 USER-REPORTED / UNVERIFIED</b>, the highest of the supplied nine claims, not an organizer-confirmed score for these bytes. The pinned raster is the GEMSDOE25 D2.8 dot set with 6,436 catalogue-near dots removed; no dots were added. GEMSDOE25 and GEMSDOE30 have identical in-footprint predictions despite different file bytes.</p>
 <p>The official distance-weighted Tversky metric credits predictions near truth and penalizes unsupported positives. Removing near-catalogue dots <em>could</em> improve the balance, but the hidden labels and a file-linked receipt are unavailable, so the actual causal explanation is not established. A higher result is possible, not demonstrated. Fault evidence alone does not prove a geothermal vent.</p>
-<p>On 2026-10-28, the <a href="{LEADERBOARD}">official public leaderboard</a> showed <b>{esc(lead['participant'])}: {lead['value']:.4f}</b> in first place. This is an ORGANIZER-PUBLISHED PUBLIC SNAPSHOT, not a submission receipt or a private-round result; it can change.</p>
+<p>In the latest saved verification dated {esc(lead['observed_date'])}, the <a href="{esc(lead['source'])}">official public leaderboard</a> recorded <b>{esc(lead['participant'])}: {lead['value']:.4f}</b> in first place. This is an ORGANIZER-PUBLISHED PUBLIC SNAPSHOT, not a submission receipt or a private-round result; it can change. <a href="{esc(lead['evidence_file'])}">Open the dated verification record ↗</a>.</p>
 </section>
 <section class="section"><h3>Next research slate · not tested or assigned</h3>
 <p>Rank is a qualitative research priority, not a score prediction or a claim of fleet-wide novelty. Similar ingredients exist in other projects.</p>
-<table><thead><tr><th>Priority / cost</th><th>Layers and falsifiable signal</th><th>Why a mapped fault might be missed / confounder</th></tr></thead><tbody>
-<tr><td>1 · medium</td><td>Gravity anomaly and gradient + detrended elevation/slope: block-fitted terrain-residualized signed gravity step, with shoreline null.</td><td>Buried density offsets may continue beneath cover. Unfaulted lithologic contacts and terrace risers mimic the signature; compare terrain and contour controls.</td></tr>
-<tr><td>2 · medium/high</td><td>Conductivity + gravity anomaly and gradient: cross-profile conductivity saddle at an independently located gravity break.</td><td>A covered structure may juxtapose conductive materials. Saline groundwater and inversion seams mimic it; ablate conductivity.</td></tr>
-<tr><td>3 · medium</td><td>Shear and dilatation + magnetic edge persistence: use strain-regime change only as a coarse interaction.</td><td>A covered strand may coincide with regional strain change. Interpolation seams and intrusive contacts mimic it; shuffle the strain field.</td></tr>
-<tr><td>4 · low</td><td>Earthquake density/distance + gravity gradient: test flank asymmetry around independent edges.</td><td>Active, unmapped structures may cluster seismicity. Mining/production effects or smoothing can mimic it; use a shuffled-seismicity control.</td></tr>
+<table><thead><tr><th>Priority / cost</th><th>Layers and falsifiable signal</th><th>Why a mapped fault might be missed / confounder</th><th>Data availability / limit</th></tr></thead><tbody>
+<tr><td>1 · medium</td><td>Gravity anomaly and gradient + detrended elevation/slope: block-fitted terrain-residualized signed gravity step, with shoreline null.</td><td>Buried density offsets may continue beneath cover. Unfaulted lithologic contacts and terrace risers mimic the signature; compare terrain and contour controls.</td><td>No new external layer needed in principle; named bands occur in prior owner-mirror evidence only. No complete authenticated competition stack/template in <code>data/</code>; units need verification.</td></tr>
+<tr><td>2 · medium/high</td><td>Conductivity + gravity anomaly and gradient: cross-profile conductivity saddle at an independently located gravity break.</td><td>A covered structure may juxtapose conductive materials. Saline groundwater and inversion seams mimic it; ablate conductivity.</td><td>Bands 17/13/18 are named in the prior mirror inventory; exclude band 15 pending metadata reconciliation. No authenticated inputs/template here.</td></tr>
+<tr><td>3 · medium</td><td>Shear and dilatation + magnetic edge persistence: use strain-regime change only as a coarse interaction.</td><td>A covered strand may coincide with regional strain change. Interpolation seams and intrusive contacts mimic it; shuffle the strain field.</td><td>Listed bands require no new external file for the proposed test, but remain unauthenticated and the strain field is coarse.</td></tr>
+<tr><td>4 · low</td><td>Earthquake density/distance + gravity gradient: test flank asymmetry around independent edges.</td><td>Active, unmapped structures may cluster seismicity. Mining/production effects or smoothing can mimic it; use a shuffled-seismicity control.</td><td>Prior mirror bands have unverified metadata/units; no external mining/production context was obtained.</td></tr>
 </tbody></table>
-<p>These exact proposed tests are not implemented in this repository; they reuse nominal bands from owner-mirrored features, whose provenance and units still need authentication. The first has conceptual overlap with the prior B4 lane, but adds a block-fitted terrain residual and a shoreline null. <a href="../research/2026-10-28-next-lane-slate.md">Full slate, controls and prior-art limitations</a>.</p>
-<p><a href="{PROBLEM}">Official problem &amp; metric</a> · <a href="{REFERENCE}">Official reference solution</a> · <a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN</a> · <a href="https://gdr.openei.org/submissions/1391">DOE GDR INGENIOUS dataset</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules PDF</a></p>
+<p>These exact proposed tests are not implemented in this repository; they reuse nominal bands from owner-mirrored features, whose provenance and units still need authentication. The full slate records each method's difference from local and sibling methods, its negative controls and data limits. The first has conceptual overlap with the prior B4 lane, but adds a block-fitted terrain residual and a shoreline null. <a href="../research/2026-10-28-next-lane-slate.md">Full slate, controls and prior-art limitations</a>.</p>
+<p><a href="{PROBLEM}">Official problem &amp; metric</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">Official participant data tab</a> · <a href="{REFERENCE}">Official reference solution</a> · <a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN</a> · <a href="https://gdr.openei.org/submissions/1391">DOE GDR INGENIOUS dataset</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules PDF</a></p>
 </section>'''
 
 
@@ -204,7 +295,8 @@ def legacy() -> str:
 def guide(d: dict) -> str:
     return f'''<section class="section"><h3>How to submit, when an eligible file exists</h3>
 <p><b class="no">Do not upload any current file.</b> These instructions are conditional; neither inspection nor a format pass bypasses the literal duplicate stop.</p>
-<ol><li>Run a newly assigned lane using the shared feature stack, evaluator and writer. Stop immediately if the pre-placement surface is a duplicate. Test every input feature alone for leakage; AUC over 0.90 is suspect.</li>
+<p><b class="no">Current writer blocker:</b> active experiment runners import <code>vendor/gems57/submission_writer.py</code> and <code>vendor/gems57/grid.py</code>, which require all-finite output with zero exterior cells. That conflicts with the official null/NaN wording. The local footprint-aware <code>scripts/submission_writer.py</code> helper is not used by those runners. Do not create a candidate through the active path until the shared template is corrected through its source of truth or the organizer resolves the policy; do not patch the pinned vendor copy privately.</p>
+<ol><li>After that shared-writer correction and an explicit lane assignment, run the assigned method with the shared feature stack and evaluator. Stop immediately if the pre-placement surface is a duplicate. Test every input feature alone for leakage; AUC over 0.90 is suspect.</li>
 <li>Use buffered whole-segment hide-and-recover; build all catalogue features from visible faults only and mask visible faults pixel-exactly. Compare pooled DTI against the current same-fold incumbent with a paired 95% interval. An uncalibrated holdout is not a leaderboard estimate.</li>
 <li>Recheck the exact final TIFF against the complete current registry and authenticate the organizer sample. Verify a single float32 band, matching CRS/shape/transform, and no non-finite or out-of-range values inside the actual footprint. Reconcile the official null/NaN exterior guidance with the portal range behavior; neither convention is assumed accepted.</li>
 <li>Only after every automated gate passes, a separate selector checks the account quota. The <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules</a> describe up to three scored attempts per week and one final selection per participating entity.</li>
@@ -242,15 +334,17 @@ def focus_detail(record: dict, geo: dict) -> str:
 def render_all(d: dict) -> dict[str, str]:
     desk = hero(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
-    pages = {"index.html": shell("Submission desk", "desk", desk),
-             "executive-summary.html": shell("Executive summary", "summary", desk),
-             "how-to-submit.html": shell("How to submit", "guide", how),
-             "submit.html": shell("How to submit", "guide", how), "assets/hk3.css": CSS}
+    latest_source = d["leaderboard"]["evidence_file"]
+    pages = {"index.html": shell("Submission desk", "desk", desk, latest_source=latest_source),
+             "executive-summary.html": shell("Executive summary", "summary", desk, latest_source=latest_source),
+             "how-to-submit.html": shell("How to submit", "guide", how, latest_source=latest_source),
+             "submit.html": shell("How to submit", "guide", how, latest_source=latest_source),
+             "assets/hk3.css": CSS}
     geometry = {row["site"]: row for row in d["geometry"]["historical_final_dots"]}
     for record in d["focus"]:
         site = record["site"]
         pages[f"focus/{site}.html"] = shell(f"{site} executive summary", "summary",
-            focus_detail(record, geometry[site]), base_href="../")
+            focus_detail(record, geometry[site]), base_href="../", latest_source=latest_source)
     return pages
 
 
@@ -258,10 +352,14 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    pages = render_all(gather())
+    data = gather()
+    pages = render_all(data)
     mirrors = [(f, DOCS / "evidence/hk3" / f.name) for f in sorted((EV / "hk3").glob("*.json"))]
+    current_verification = data["current_verification_path"]
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
                 (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
+                (current_verification, DOCS / "evidence" / current_verification.name),
+                (EV / "repo-review-3983c87b-2026-10-29-run-card.json", DOCS / "evidence/repo-review-3983c87b-2026-10-29-run-card.json"),
                 (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json")]
     stale = []
     for src, dst in mirrors:

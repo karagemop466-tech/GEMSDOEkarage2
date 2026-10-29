@@ -1,0 +1,71 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "session_date_utc": "2026-10-29",
+  "branch": "arena/3983c87b-gemsdoekarage2",
+  "classification": "READ-ONLY REPOSITORY REVIEW / NO NEW EXPERIMENT OR SUBMISSION",
+  "hypothesis": "No method paragraph is assigned to this lane. Four hypotheses remain untested proposals; no geological experiment was selected.",
+  "mechanism": "None tested. This session inspected the repository, evidence wiring, generated site and validation code only.",
+  "named_non_fault_process": "Not applicable: no candidate surface was generated, so no geological fault/mimic contrast was tested.",
+  "holdout_dti": null,
+  "holdout_confidence_interval_95": null,
+  "holdout_evaluator_version": null,
+  "holdout_withheld_positives": null,
+  "registry_correlation": null,
+  "registry_overlap_3px": null,
+  "registry_complete": false,
+  "preplacement_surface_check": "not run; no candidate surface",
+  "final_dot_check": "not run; no candidate dots",
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_created": false,
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "scope_note": "No candidate raster existed to validate. The repository inventory below validates only the integrity of historical research downloads.",
+    "public_download_inventory": {
+      "status": "PASS_RESEARCH_ONLY",
+      "artifact_count": 7,
+      "downloadable_approved_submission": null,
+      "organizer_template_authenticated": false,
+      "slot_authorized": false
+    },
+    "active_writer_path": {
+      "writer": "vendor/gems57/submission_writer.py",
+      "grid_writer": "vendor/gems57/grid.py",
+      "exterior_behavior": "all-finite output with zero exterior cells",
+      "official_null_nan_policy_reconciled": false,
+      "shared_copy_modified": false
+    }
+  },
+  "submission_name": null,
+  "note": null,
+  "leaderboard_estimate": null,
+  "organizer_receipt": null,
+  "slot_authorized": false,
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "software_verification": {
+    "classification": "TEST COUNTS, NOT SCORES",
+    "python": "229 passed, 8 skipped, 98 subtests passed, 95 pending-deprecation warnings",
+    "node_feed": "3 passed",
+    "node_site": "8 passed",
+    "browser": "passed at 1440px, 390px, 320px; no horizontal overflow; research download hash verified",
+    "generated_pages_check": "passed",
+    "download_inventory_check": "PASS_RESEARCH_ONLY"
+  },
+  "current_public_leaderboard_observation": {
+    "evidence_class": "ORGANIZER-PUBLISHED PUBLIC SNAPSHOT, NOT A FILE-LINKED SCORE RECEIPT",
+    "observed_date_utc": "2026-10-29",
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "evidence_file": "evidence/official-verification-2026-10-29.json"
+  },
+  "verdict": "negative",
+  "reasons": [
+    "The prompt did not assign a single method paragraph; the top ranked proposal was not authorized for testing.",
+    "No authenticated organizer data/template or complete, current all-registry snapshot is available in this checkout.",
+    "The active hash-pinned runner writer still enforces all-finite output and zero exterior cells; the official null/NaN wording remains unresolved for that path.",
+    "No scientific holdout was run, so no HOLDOUT-DTI or defensible leaderboard estimate exists for a new candidate.",
+    "No candidate raster, submission name, note, organizer receipt or weekly slot was created or authorized."
+  ]
+}

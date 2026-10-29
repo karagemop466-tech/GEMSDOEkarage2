@@ -29,10 +29,15 @@ No new experiment, TIFF or slot was used for the correction.
   an authenticated template, a portal acceptance, or an independent paired improvement.
   Schema consistency is not evidence verification or a slot authorization.
 * Use the shared template's cached stack, evaluator and writer for a future, explicitly
-  assigned lane; fix shared tools only in the shared template. Whole fault segments and
-  buffers must be withheld; catalogue-derived features must use visible faults only,
-  visible faults must be masked pixel-exactly, and pooled DTI uses alpha .2, beta .8 and
-  the 300 m triangular kernel. Test each feature alone for AUC >.90 leakage.
+  assigned lane; fix shared tools only in the shared template. In this checkout, active
+  experiment runners import the pinned `vendor/gems57/submission_writer.py` and
+  `vendor/gems57/grid.py`; they still require all-finite predictions and zero exterior
+  cells. The footprint-aware `scripts/submission_writer.py` helper is not used by those
+  runners. Do not claim the shared writer was fixed or patch the pinned copy privately;
+  the output/exterior policy remains a release blocker. Whole fault segments and buffers
+  must be withheld; catalogue-derived features must use visible faults only, visible faults
+  must be masked pixel-exactly, and pooled DTI uses alpha .2, beta .8 and the 300 m
+  triangular kernel. Test each feature alone for AUC >.90 leakage.
 * Enforce >.90 rank correlation or >70% 3 px overlap vs **any** registry raster before
   placement and on final saved dots. Invalid, missing or inaccessible inputs fail closed.
   No edge-hole gaming or changed definition creates clearance. Run no more than three

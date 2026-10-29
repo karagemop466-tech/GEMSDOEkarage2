@@ -117,14 +117,14 @@
       "topic": "irregularity",
       "claim": "Repo's saved TIFFs (HK3, K2, K3, B4, H2, H1, irregular) are finite zeros outside the footprint (NaN count 0). The official text and the organizer sample use NaN outside. The strict validator records strict_format_pass = false for HK3.",
       "source": "evidence/hk3/validate_tif_strict.json (outside_finite 7,111,787; strict_format_pass false)",
-      "status": "FLAGGED; FIXED in shared writer tests; saved bytes NOT regenerated"
+      "status": "FLAGGED; active runner path unresolved; saved bytes NOT regenerated"
     },
     {
       "id": "IR-02",
       "topic": "irregularity",
-      "claim": "Shared writer validate_geotiff required every cell to be finite, which rejects the official NaN-outside convention. Changed to footprint-based gates that fail closed without a footprint.",
-      "source": "scripts/submission_writer.py; tests/test_writer_exterior_convention.py",
-      "status": "FIXED (shared tool) and regression-tested"
+      "claim": "The local scripts/submission_writer.py helper has footprint-based validation, but active experiment runners import the pinned vendor/gems57 writer and grid, which still require all-finite output with zero exterior cells. The active writer path has not been fixed.",
+      "source": "scripts/submission_writer.py; vendor/gems57/submission_writer.py; vendor/gems57/grid.py; scripts/run_experiment.py; scripts/run_h2_experiment.py; scripts/k3.py; tests/test_writer_exterior_convention.py",
+      "status": "CORRECTED after execution-path inspection (2026-10-29); local helper only; active writer unresolved"
     },
     {
       "id": "IR-03",

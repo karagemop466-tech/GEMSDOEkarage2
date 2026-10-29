@@ -40,7 +40,11 @@ def main():
     # Field Notes publishes its own distinct follow-on receipts under
     # docs/field-notes/data; do not duplicate or confuse them with H1's card.
     for p in (ROOT/'evidence').glob('*.json'):
-        if p.name not in {'geometry-audit.json', 'preparation.json', 'run-card.json'}:
+        # This historical card belongs to a different Arena branch and its
+        # writer-fix claim was later corrected. Keep the root evidence archive,
+        # but do not republish it as current public desk evidence.
+        if p.name not in {'geometry-audit.json', 'preparation.json', 'run-card.json',
+                          'session-2026-10-29-run-card.json'}:
             shutil.copyfile(p, DOCS/'evidence'/p.name)
     shutil.copyfile(ROOT/'knowledge/hypotheses.md', DOCS/'evidence/hypotheses.md')
     shutil.copyfile(ROOT/'knowledge/champion_explanation.md', DOCS/'evidence/champion_explanation.md')

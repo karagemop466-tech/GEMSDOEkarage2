@@ -12,11 +12,14 @@ Read this first; the executive summary is at `docs/executive-summary.html`.
 - **Two corrections to the request.** The live leaderboard top score is **0.4544** (rank #1,
   xiaofanhu), not 0.4413 or 0.3195. The 0.3195 score is kpomazi at **rank #47**, not rank 27
   (see section 5).
-- **One new defect was found and fixed.** The shared writer and the saved TIFFs use finite zeros
-  outside the footprint. The official wording and the organizer sample template use **NaN** there.
-  The shared writer's gate required every cell to be finite, which enforced the wrong convention.
-  Fixed in `scripts/submission_writer.py` with regression tests. Saved bytes were **not** regenerated,
-  because a regenerated file would still fail the uniqueness gate.
+- **Writer-path discrepancy (corrected in the [current branch-specific review](repo-review-3983c87b-2026-10-29.md)).** The saved TIFFs use finite zeros
+  outside the footprint; the official wording and pinned owner-mirror sample use **NaN** there.
+  `scripts/submission_writer.py` has a footprint-aware local validation helper, but the active runners
+  (`scripts/run_experiment.py`, `scripts/run_h2_experiment.py`, `scripts/k3.py`) import the hash-pinned
+  `vendor/gems57/submission_writer.py`, which calls `vendor/gems57/grid.py` and still requires an
+  all-finite array with zeros outside. The active shared writer was **not** fixed. Do not modify that
+  pinned copy as a private fork. A shared-template correction or official resolution is still required.
+  Saved bytes were **not** regenerated because they already fail the uniqueness gate.
 
 ## 2. Why the GEMSDOE32 file scored 0.2778 (first-principles explanation)
 
@@ -90,9 +93,11 @@ Full claim list with quotes and URLs: [`evidence/official-verification-2026-10-2
 1. **Exterior convention.** Official wording and the sample template use NaN outside; all saved TIFFs use
    finite zeros. The repository's strict validator (`evidence/hk3/validate_tif_strict.json`) records
    `strict_format_pass: false` for HK3. The executive summary did not state this before; it now does.
-2. **Shared writer gate.** `validate_geotiff` required every cell to be finite, which rejected the official
-   convention. Fixed; see `tests/test_writer_exterior_convention.py`. Its docstring also claimed the gate
-   "fixes the portal error", which was never verified and has been removed.
+2. **Writer/validator edge case.** The local `scripts/submission_writer.py::validate_geotiff` gate is footprint-aware
+   and tested in `tests/test_writer_exterior_convention.py`, but that helper is not imported by the active
+   experiment runners. The hash-pinned `vendor/gems57` writer still enforces all-finite/zero-exterior output;
+   the official null/NaN exterior rule and the portal range error therefore remain unresolved for the actual
+   execution path. The claimed portal-error fix was never verified and must not be repeated.
 3. **Portal error cause.** The message "Predicted values must be in range [0, 1]" is still unexplained. A NaN
    cell is *not* out of range under the official wording, so the cause may be something else. Which file was
    uploaded is unknown. The fastest diagnostic is for the user to say which file was uploaded, or to test
@@ -109,10 +114,11 @@ Full claim list with quotes and URLs: [`evidence/official-verification-2026-10-2
 
 ## 6. Three review passes
 
-- **Pass 1 (implement and verify).** Tests were run first: 221 passed, 8 skipped (Python), and the Node unit and site suites passed (3/3 and 7/7). After the fixes: 226 passed, 8 skipped. Then the official pages, the
+- **Pass 1 (implement and verify).** Tests were run first: 221 passed, 8 skipped (Python), and the Node unit and site suites passed (3/3 and 7/7). After the local-helper change: 226 passed, 8 skipped. Then the official pages, the
   rules PDF, the owner-site statement, the template hash, and the saved TIFFs were read directly.
-- **Pass 2 (bugs and edge cases).** Found the writer's wrong gate (fixed), the stale README leaderboard
-  statements, and the strict-format failure hidden in the executive summary (fixed in the generator).
+- **Pass 2 (bugs and edge cases).** Found the local helper's exterior-rule issue and stale README leaderboard
+  statements. A later execution-path check found that the active pinned vendor writer is a separate, unchanged
+  implementation; the strict-format failure was surfaced in the generated executive summary.
   Edge case: `footprint_mask` shape mismatch and a missing footprint both fail closed (tested).
 - **Pass 3 (recheck against the original request).** A unique, submittable TIFF was not produced. The request
   asked for one, but the protocol gates cannot be cleared from this session's inputs. Stating that plainly is the
