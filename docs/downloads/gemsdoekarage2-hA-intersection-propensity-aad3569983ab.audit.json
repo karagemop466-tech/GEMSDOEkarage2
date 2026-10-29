@@ -3,7 +3,7 @@
   "file": "gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
   "sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
   "bytes": 762056,
-  "method": "H-A fault-intersection propensity (untried hypothesis; research-only)",
+  "method": "H-A synthetic fault-intersection propensity; research-only, no authenticated feature data",
   "evidence_class": "RESEARCH-ONLY",
   "format": {
     "driver": "GTiff",
@@ -40,16 +40,24 @@
     "note": "CRS/shape/transform match the owner mirror only; organizer template not available"
   },
   "uniqueness": {
-    "claim": "new research file from a synthetic sparse surface; novelty against the complete registry is not established",
-    "verified_vs_registry": false,
-    "reason": "no complete registry or organizer template is available in this sandbox"
+    "status": "DUPLICATE_STOP against the available lattice witness only",
+    "within_3px_of_lattice_witness": 1896,
+    "in_footprint_positive_cells": 1896,
+    "overlap_fraction": 1.0,
+    "complete_registry_verified": false,
+    "receipt": "evidence/lattice-gate/published-gemsdoekarage2-hA-intersection-propensity-aad3569983ab.json"
   },
   "submission_readiness": {
     "ok_to_download_for_research": true,
     "ok_to_submit_to_drivendata": false,
-    "reason": "no organizer-authenticated labels/template; no holdout-DTI validation against truth; no weekly-slot authorization"
+    "reason": "Duplicate-stop against lattice witness; incomplete registry, no holdout, no organizer-authenticated template, mixed exterior; DO NOT SUBMIT"
   },
   "ok_to_submit": false,
   "approved_for_weekly_slot": false,
-  "slot_authorized": false
+  "slot_authorized": false,
+  "footprint_audit": {
+    "in_footprint_positive_cells": 1896,
+    "outside_footprint_positive_cells": 628,
+    "exterior_convention": "mixed"
+  }
 }

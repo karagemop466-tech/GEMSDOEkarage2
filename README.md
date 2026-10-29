@@ -4,9 +4,9 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-29, Arena branch `arena/d704ab87-gemsdoekarage2`)
+## Latest review (2026-10-29, current Arena branch)
 
-Read this branch's [three-pass review](research/repo-review-2026-10-29-d704ab87.md) and [session run card](evidence/session-d704ab87-run-card.json), alongside the merged [scorecard/monitor review](research/2026-10-29-scorecard-and-monitor-review.md) and [official-format blocker review](research/2026-10-29-verification-and-blocker-review.md). **No submission is approved; do not submit any current TIFF.** This branch review ran no model, holdout, upload, or slot. It removed an old, unregistered TIFF that a stale executive-summary page had incorrectly called ready/unique, regenerated the page, and fixed the root route. During main-branch reconciliation, an additional sparse H-A research raster was found missing from the saved-download inventory; it is now explicitly audited as research-only, with no holdout or uniqueness result and no promotion. Historical site values are USER-REPORTED / UNVERIFIED; a new-file estimate remains unavailable. All prior negative evidence and the binding protocol remain in force.
+This Arena branch's three-pass review is [`research/repo-review-2026-10-29-d704ab87.md`](research/repo-review-2026-10-29-d704ab87.md), with its session run card at [`evidence/session-d704ab87-run-card.json`](evidence/session-d704ab87-run-card.json). The latest integration addendum records reconciliation with `origin/main` at `d4c081d`: nine public TIFFs are inventoried as research-only, including H-A and H-Rank-4, and both fail the shared duplicate gate against the available lattice witness. That witness is not a complete registry; no full-registry clearance, holdout score, leaderboard estimate, or organizer acceptance is established. **No submission is approved; do not submit any existing TIFF.** The unreceipted GW-NFS raster is quarantined outside public downloads. Both synthetic H-A and H-Rank-4 generators are disabled; their historical TIFFs remain negative research artifacts. The historical page and run card must not be interpreted as approval or current leaderboards.
 
 ## Operating instruction
 
@@ -191,6 +191,38 @@ holdout cannot reliably estimate the expert-hidden private score).
 - **Research slate:** four ranked hypotheses remain untested proposals, not an assigned lane. The missing method paragraph, complete literal registry, authenticated organizer inputs/template/exterior handling, and a frozen matched baseline remain blockers. No new holdout result or submission is authorized.
 
 Read the [2026-10-29 verification/blocker review](research/2026-10-29-verification-and-blocker-review.md), [scorecard/source-refresh review](research/2026-10-29-scorecard-and-monitor-review.md), and [current-session review](research/repo-review-2026-10-29-current-session.md). The review cards are [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) and [`evidence/2026-10-29-repo-review-run-card.json`](evidence/2026-10-29-repo-review-run-card.json); both record zero experiments and a negative verdict. Full source claims and limitations are in [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json). Keep all downloads research-only.
+
+## Focus-site audit 2026-10-29 — pinned bytes, gate receipts, policy request
+
+**NO FILE IS APPROVED. NO NEW TIFF WAS GENERATED. DO NOT DOWNLOAD OR SUBMIT ANY RESEARCH FILE.**
+
+- **Why no file:** every one of the nine focus files stops as `DUPLICATE_STOP` against the
+  13GEMSDOE lattice witness, with 99.91–99.92% of its dots within 3 px (shared
+  `scripts/check_uniqueness.py`, receipts in `evidence/lattice-gate/`). The witness covers 99.87% of
+  the footprint, so any dot-based file on this footprint fails the written 70% clause. Reaching
+  below 70% would require dots in the 6,649 uncovered cells, which is gaming and prohibited.
+- **Best reported file:** GEMSDOE32 at 0.2778 (USER-REPORTED / UNVERIFIED). Not eligible.
+  Its dots are GEMSDOE25 minus 6,436 catalogue-adjacent dots (measured, pinned bytes).
+- **Policy decision needed from the protocol owner** (executive summary, "Policy decision"):
+  (1) keep the literal rule, which means no eligible file; (2) rule on whether the lattice
+  witness stays in the registry and whether the 70% clause suits a dense witness; (3) approve a
+  calibrated similarity clause in advance. Agents will not choose any of these.
+- **Leaderboard, fetched 2026-10-29:** #1 xiaofanhu 0.4544; kpomazi 0.3195 is at #47, so the
+  prompt's "highest 0.3195" is incorrect. The 0.4413 figure does not appear.
+- **Official rules, verified:** single float32 GeoTIFF; values in [0,1]; three submissions per week;
+  generative-AI use must be disclosed in the narrative. The written format and the template use NaN outside
+  the footprint. Four of the nine pinned focus files write zeros there (GEMSDOE30, 32, 33, 36), which departs
+  from that convention; see the per-site pages. The cause of the portal's range error is unresolved.
+- **Irregularities for review:** mirror `sample_submission.tif` is not the all-absence sample
+  described officially (60,988 positives); the registry manifest covers nine repos only (440 rasters)
+  and declares no completeness; two focus files share one dot set; some cache paths map to the wrong
+  site folder (hashes still match). Full list: [`research/2026-10-29-focus-audit-and-next-hypotheses.md`](research/2026-10-29-focus-audit-and-next-hypotheses.md).
+- **Experiments:** none run. The lane was unassigned, the candidate set is empty, and the policy
+  decision blocks any upload. Budget used: 0 of 3.
+- **Reproduce:** `.venv/bin/python scripts/audit_focus_gate.py` (needs
+  `scripts/restore_registry_snapshot.py`, `scripts/bootstrap_research.py`, and
+  `bash scripts/download_competition_data.sh --research-mirror`).
+  Then `.venv/bin/python scripts/build_hk3_pages.py --check`.
 
 ## Current status — 2026-10-28 independent correction
 

@@ -30,9 +30,6 @@ ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
      None, False),
-    ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
-     "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.run-card.json",
-     None, False),
     ("gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface",
      "evidence/run_card.json", "evidence/selector_result.json", True),
     ("gemsdoekarage2-h2-stepover-8d519ec5ec58",
@@ -45,11 +42,17 @@ ARTIFACTS = (
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
      "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True),
+    # Retained for research provenance only. Its own card records no organizer
+    # holdout, no registry audit, and an explicit negative verdict.
+    ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
+     "evidence/hA-intersection/run_card.json", None, False),
+    ("gemsdoe-karage2-hr4-intersection-20261029-nan",
+     "evidence/hr4-intersection/run_card.json", None, False),
 )
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
-    """Map nested and H-A sidecar schemas onto the common audit fields."""
+    """Map nested and legacy flat card schemas onto the common audit fields."""
     if isinstance(card, dict) and isinstance(card.get("raster"), dict):
         flat = dict(card)
         flat["raster"] = card["raster"].get("file")
@@ -59,7 +62,7 @@ def normalise_card(card: dict, rel: str, stem: str) -> dict:
         return flat
     if (isinstance(card, dict) and card.get("file") == Path(rel).name
             and isinstance(card.get("sha256"), str)):
-        # H-A's research card was emitted with its own flat schema. Preserve the
+        # Legacy research cards may use a flat schema. Preserve the
         # stored negative authorization fields; never infer approval from format.
         flat = dict(card)
         flat["raster"] = rel
@@ -248,7 +251,7 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         "download_for_research": ok,
         "ok_to_submit": False, "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-        "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists",
+        "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
     }
 
 
@@ -275,7 +278,7 @@ def audit(root: Path = ROOT) -> dict:
         "downloadable_approved_submission": None,
         "score_estimate": None,
         "organizer_template_authenticated": False,
-        "format_note": "Each raster is read from disk, whole-array range and grid compared with an unauthenticated owner mirror. Footprint/exterior policy and portal acceptance require organizer evidence.",
+        "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
         "slot_authorized": False,
     }
 
