@@ -254,9 +254,15 @@ def pooled_dti_over_folds(predictions: np.ndarray,
     terms = []
     for i, block in enumerate(folds):
         withheld, visible, _dilated = withhold_segments(gt_mask, block, buffer_px)
-        # Score submission predictions against withheld positives only.
+        # Score only inside this fold's active region (fold block minus visible
+        # catalogue faults, which are masked pixel-exactly). Predictions outside
+        # the block are NOT false positives of this fold; scoring them per fold
+        # inflated FPw ~4x and capped a perfect predictor near DTI 0.63.
+        # Matches vendor/gems57 evaluate(): active = valid & region & ~known.
         # Pixels where the submission is NaN (outside footprint) count as 0.
         p = np.nan_to_num(np.asarray(predictions, dtype=np.float64), nan=0.0)
+        active = block & ~visible
+        p = np.where(active, p, 0.0)
         gt = np.zeros_like(p, dtype=bool)
         gt[withheld] = True
         terms.append(dti_weighted_terms(p, gt, pixel_size_m, alpha, beta, R_m))

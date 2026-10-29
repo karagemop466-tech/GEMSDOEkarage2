@@ -159,9 +159,54 @@ def gather() -> dict:
             or any(row.get("status") not in {"changed", "unchanged", "unavailable"}
                    for row in current_sites)):
         raise ValueError("Current public leaderboard snapshot or GitHub freshness feed is inconsistent")
+    uniq = {}
+    for stem, filename, location, _label in UNIQUENESS_CANDIDATES:
+        receipt = load(EV / f"uniqueness/{stem}.full-registry.json")
+        summary = receipt["summary"]
+        path = (ROOT / location / filename).resolve()
+        if (summary["status"] != "DUPLICATE_STOP" or summary["upload_authorized"] is not False
+                or summary["registry_items_total"] != 440 or summary["duplicate_witnesses"] < 1
+                or not path.is_file()
+                or hashlib.sha256(path.read_bytes()).hexdigest() != summary["candidate_sha256"]):
+            raise ValueError(f"Full-registry receipt is inconsistent for {stem}")
+        if location == "evidence/quarantine" and any(a.name == filename for a in (DOCS / "downloads").glob("*.tif")):
+            raise ValueError(f"Quarantined duplicate-stop file is publicly served: {filename}")
+        uniq[stem] = {"summary": summary, "rows": receipt["comparisons"], "file": filename}
+    pairs = load(EV / "uniqueness/nine-site-pairwise-recheck.json")
+    if len(pairs["summary"]) != 9 or any(r["unique_vs_other_eight"] for r in pairs["summary"]):
+        raise ValueError("Nine-site pairwise recheck disagrees with the non-unique finding")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official,
-            "monitor": monitor, "k3": k3, "profile": profile}
+            "monitor": monitor, "k3": k3, "profile": profile, "uniq": uniq, "pairs": pairs}
+
+
+UNIQUENESS_CANDIDATES = [
+    ("gwnfs-quarantined-h1", "gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif", "evidence/quarantine", "GW-NFS candidate (quarantined, not served)"),
+    ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab", "gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif", "docs/downloads", "H-A candidate (research-only download)"),
+]
+LABELS = {stem: label for stem, _, _, label in UNIQUENESS_CANDIDATES}
+
+
+def registry_audit_section(d: dict) -> str:
+    rows = []
+    for stem, info in d["uniq"].items():
+        s = info["summary"]
+        rows.append(f"<tr><td>{esc(LABELS[stem])}<br><span class=\"sub-label\">SHA-256 {esc(s['candidate_sha256'])}</span></td>"
+                    f"<td>{s['registry_items_compared']} of {s['registry_items_total']}</td>"
+                    f"<td>{s['max_spearman_full_footprint']:.4f}</td><td>{s['max_overlap_fraction_3px'] * 100:.1f}%</td>"
+                    f"<td><b class=\"no\">{esc(s['status'])}</b> · {s['duplicate_witnesses']} witnesses</td>"
+                    f"<td><a href=\"evidence/uniqueness/{esc(stem)}.full-registry.json\">receipt</a></td></tr>")
+    pair_rows = "".join(f"<tr><td>{esc(r['site'])}</td><td><code>{esc(r['file'])}</code></td><td>{r['max_overlap_vs_other_eight'] * 100:.2f}%</td>"
+                        f"<td>{esc(r['closest_other_site'])}</td><td><b class=\"no\">{'YES' if r['unique_vs_other_eight'] else 'NO'}</b></td></tr>"
+                        for r in d["pairs"]["summary"])
+    return f'''<section class="section" id="uniqueness"><h3>Full-registry duplicate check · 2026-10-29</h3>
+<p>Each candidate was compared with all 440 pinned focus-registry rasters (<code>registry/focus_registry_manifest.json</code>, byte-checked by SHA-256). The rule stops on rank correlation above 0.90 or more than 70% of dots within 3 px of one registry raster. This is a post-hoc audit of saved bytes, not a live registry or organizer receipt. Its result is stricter than the lattice-only gate above, which checks one witness raster.</p>
+<table><thead><tr><th>Candidate</th><th>Comparable items</th><th>Max rank corr.</th><th>Max 3-px overlap</th><th>Result</th><th>Receipt</th></tr></thead><tbody>{"".join(rows)}</tbody></table>
+<p class="muted">Two registry items were not comparable and are recorded, not dropped: one reference has NaN cells inside the footprint, and one format-test file has a different grid.</p>
+<h3>Nine focus best files · pairwise re-check</h3>
+<p>Recomputed from the saved bytes with the shared comparator. Every file overlaps another focus file at 97.6% or more, so none is unique against the other eight.</p>
+<table><thead><tr><th>Site</th><th>File</th><th>Max share of dots within 3 px of another focus file</th><th>Closest site</th><th>Unique vs other eight?</th></tr></thead><tbody>{pair_rows}</tbody></table>
+<p><a href="evidence/uniqueness/nine-site-pairwise-recheck.json">Pairwise receipt</a> · <a href="evidence/uniqueness/gwnfs-quarantined-h1.full-registry.json">gw-nfs receipt</a> · <a href="evidence/uniqueness/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.full-registry.json">hA receipt</a></p></section>'''
 
 
 def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
@@ -459,7 +504,7 @@ def focus_detail(record: dict, geo: dict, pinned: dict) -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = decision_section(d) + candidate_section(d) + hero(d) + policy_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    desk = decision_section(d) + candidate_section(d) + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     pages = {"index.html": shell("Submission desk", "desk", desk),
              "executive-summary.html": shell("Executive summary", "summary", desk),
@@ -488,6 +533,7 @@ def main() -> int:
                 (EV / "focus-profile-2026-10-29.json", DOCS / "evidence/focus-profile-2026-10-29.json"),
                 (EV / "lattice-gate-audit-2026-10-29.json", DOCS / "evidence/lattice-gate-audit-2026-10-29.json")]
     mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
+    mirrors += [(f, DOCS / "evidence/uniqueness" / f.name) for f in sorted((EV / "uniqueness").glob("*.json"))]
     stale = []
     for src, dst in mirrors:
         if args.check:

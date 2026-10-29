@@ -8,6 +8,14 @@ Work on the Arena-assigned branch for the current session.
 
 This Arena branch's three-pass review is [`research/repo-review-2026-10-29-d704ab87.md`](research/repo-review-2026-10-29-d704ab87.md), with its session run card at [`evidence/session-d704ab87-run-card.json`](evidence/session-d704ab87-run-card.json). The latest integration addendum records reconciliation with `origin/main` at `d4c081d`: nine public TIFFs are inventoried as research-only, including H-A and H-Rank-4, and both fail the shared duplicate gate against the available lattice witness. That witness is not a complete registry; no full-registry clearance, holdout score, leaderboard estimate, or organizer acceptance is established. **No submission is approved; do not submit any existing TIFF.** The unreceipted GW-NFS raster is quarantined outside public downloads. Both synthetic H-A and H-Rank-4 generators are disabled; their historical TIFFs remain negative research artifacts. The historical page and run card must not be interpreted as approval or current leaderboards.
 
+## Session B addendum (arena/ab3581f2, 2026-10-29) — read with the review above
+
+- **Full-registry duplicate check (440 pinned focus rasters, byte-verified):** gw-nfs is **DUPLICATE_STOP** (max 3-px overlap 1.0, 7 witnesses), and it stays quarantined. H-A is **DUPLICATE_STOP** too (max overlap 1.0, 3 witnesses), and it remains an inventoried research-only download, not a candidate. Receipts: [`evidence/uniqueness/`](evidence/uniqueness/); run card: [`evidence/session-2026-10-29-b-run-card.json`](evidence/session-2026-10-29-b-run-card.json).
+- The earlier "gw-nfs UNIQUE: PASS" statement is **retracted**. It checked only two rasters.
+- **Nine best focus files are not unique against each other** (max overlap 0.976–1.000, recomputed from bytes; [`nine-site-pairwise-recheck.json`](evidence/uniqueness/nine-site-pairwise-recheck.json)).
+- **Shared holdout evaluator fixed:** `scripts/evaluate_holdout.py::pooled_dti_over_folds` used to count other blocks' predictions as false positives (a perfect predictor scored 0.63). Regression-tested. Recorded `gems57` numbers come from the vendored evaluator and are not affected.
+- Review: [`research/2026-10-29-session-b-three-pass-review.md`](research/2026-10-29-session-b-three-pass-review.md). Experiments run: **0 of 3**. No file is approved; do not submit any existing TIFF.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated

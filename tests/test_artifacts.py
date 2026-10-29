@@ -104,7 +104,7 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
     # HK3 verdict on the homepage must match the HK3 run card byte-for-byte.
     assert 'prior literal-policy verdict for K2: NEGATIVE' in homepage
     assert 'DO NOT SUBMIT' in homepage
-    assert 'docs/index.html' in (ROOT/'index.html').read_text()
+    assert 'docs/executive-summary.html' in (ROOT/'index.html').read_text()  # root redirect
     card=load('hk3/run_card.json')
     assert card['verdict']=='negative'
     assert 'OK TO SUBMIT: NO' in homepage and 'OK TO SUBMIT: YES' not in homepage
