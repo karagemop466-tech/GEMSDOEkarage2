@@ -43,7 +43,7 @@
   },
   "registry": {
     "coverage_complete": false,
-    "snapshot_sha256": "b4ffc2f12e77d5bddb1f444a78aebed56ff37614419fabe58854d37d571fc95f",
+    "snapshot_sha256": "a565c065455864299c417f6318434282f9992fe7b71c5a292dbf1a43df8fdb7d",
     "surface": [
       {
         "reference": "GEMSDOE24/docs/downloads/24gems-blind-upwelling-20261026T162611Z-a23f2207f2c0-zeros.tif",

@@ -1,0 +1,52 @@
+{
+  "schema": "gems.run-card.v1",
+  "session": "2026-10-29b",
+  "branch": "arena/d56cecf8-gemsdoekarage2",
+  "kind": "audit (no model experiment)",
+  "lane": "none assigned; the literal uniqueness gate audit is a measurement, not a candidate method",
+  "reuse": {
+    "evaluator": "scripts/evaluate_holdout.py (not run)",
+    "writer_overlap_function": "scripts/submission_writer.py::_dot_overlap_3px (imported by tests/test_lattice_gate.py, not modified)",
+    "registry": "registry/focus_registry_manifest.json restored via scripts/restore_registry_snapshot.py; 440 rasters sha256-verified"
+  },
+  "budget": {
+    "experiments_allowed": 3,
+    "experiments_used": 0,
+    "time_limit_hours": 2,
+    "submission_slots_used": 0
+  },
+  "hypothesis": null,
+  "holdout": {
+    "run": false,
+    "reason": "The uniqueness decision (memo section 4) must be made first; no candidate was produced.",
+    "dti": null,
+    "ci_95": null,
+    "labels": []
+  },
+  "leakage_canary": {
+    "run": false,
+    "reason": "No candidate features were built in this session."
+  },
+  "candidate_raster": null,
+  "validator": "not run (no candidate)",
+  "labeling": {
+    "HOLDOUT-DTI": "none produced",
+    "ORGANIZER-CONFIRMED": "none",
+    "USER-REPORTED / UNVERIFIED": "owner-reported values of the nine focus files, unchanged"
+  },
+  "measurements": {
+    "audit_receipt": "evidence/lattice-gate-audit-2026-10-29.json",
+    "registry_rasters": 440,
+    "rasters_failing_literal_lattice_stop": 437,
+    "rasters_not_comparable_grid": 1,
+    "max_dots_that_could_pass_literal_rule": 22163,
+    "nine_site_best_files_passing_literal_rule": 0
+  },
+  "verdict": "negative for every candidate: no file can pass the literal duplicate rule without gaming; no promotion",
+  "decision_required": "User must choose the uniqueness standard (memo section 4). The protocol was not edited.",
+  "limitations": [
+    "Only 440 focus-site registry rasters were measured.",
+    "The owner-mirror template is not organizer-authenticated.",
+    "Owner-link refs in focus_sites.json differ from the pinned manifest commits; links now use the manifest commits (sha256 verified locally; live link check blocked by API rate limit)."
+  ]
+}

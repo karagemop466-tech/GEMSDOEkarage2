@@ -37,12 +37,34 @@ def centered_ranks(values: np.ndarray) -> tuple[np.ndarray, float]:
     return ranks, norm
 
 
+def within_3px_of_reference(ref_dots: np.ndarray) -> np.ndarray:
+    """Boolean mask of cells within Euclidean 3 px of any reference dot.
+
+    Equivalent to ``distance_transform_edt(~ref_dots) <= 3.0`` on the 100 m grid
+    (integer offsets with dx**2 + dy**2 <= 9), computed once per reference.
+    """
+    from scipy.ndimage import binary_dilation
+    r = 3
+    yy, xx = np.mgrid[-r:r + 1, -r:r + 1]
+    disk = (yy ** 2 + xx ** 2) <= r * r
+    return binary_dilation(ref_dots, structure=disk)
+
+
 def check_comparator(candidate_ranks: np.ndarray, candidate_norm: float,
-                     support: np.ndarray, ref: np.ndarray, foot: np.ndarray) -> dict:
+                     support: np.ndarray, ref: np.ndarray, foot: np.ndarray,
+                     ref_ranks_norm: tuple[np.ndarray, float] | None = None,
+                     ref_near: np.ndarray | None = None) -> dict:
+    """Compare one reference with a candidate.
+
+    ``ref_ranks_norm`` and ``ref_near`` (from ``within_3px_of_reference``) optionally
+    supply per-reference precomputations so a driver looping over many candidates
+    ranks and dilates each reference once. Omitting them recomputes everything.
+    """
     if ref.shape != foot.shape or support.shape != foot.shape:
         raise ValueError("Reference/support shape mismatch")
-    values = ref[foot]
-    ref_ranks, ref_norm = centered_ranks(values)
+    if ref_ranks_norm is None:
+        ref_ranks_norm = centered_ranks(ref[foot])
+    ref_ranks, ref_norm = ref_ranks_norm
     rho = float(np.dot(candidate_ranks, ref_ranks) / (candidate_norm * ref_norm))
     ref_dots = np.isfinite(ref) & (ref > 0) & foot
     if not ref_dots.any():
@@ -50,7 +72,7 @@ def check_comparator(candidate_ranks: np.ndarray, candidate_norm: float,
     n = int((support & foot).sum())
     if n == 0:
         raise ValueError("Candidate support is empty")
-    near = distance_transform_edt(~ref_dots) <= 3.0
+    near = ref_near if ref_near is not None else within_3px_of_reference(ref_dots)
     matched = int((support & foot & near).sum())
     return {"spearman_full_footprint": rho, "matches_within_3px": matched,
             "support_pixels": n, "overlap_fraction": matched / n,

@@ -6,6 +6,8 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29, current Arena branch)
 
+**Session findings: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).** No file is approved and no name or note is proposed. The registry audit marks the gw-nfs raster and all nine focus best paths DUPLICATE. Two hide-and-recover experiments were run (E1, E2): both are negative, and the protocol ceiling shows apron placements can reach only 0.13% of withheld positives. After merging `origin/main`: Python 253 passed, 8 skipped, 0 failed (this branch's HEAD before the session: 14 failed). Node: 8/8 and 3/3.
+
 This Arena branch's three-pass review is [`research/repo-review-2026-10-29-d704ab87.md`](research/repo-review-2026-10-29-d704ab87.md), with its session run card at [`evidence/session-d704ab87-run-card.json`](evidence/session-d704ab87-run-card.json). The latest integration addendum records reconciliation with `origin/main` at `d4c081d`: nine public TIFFs are inventoried as research-only, including H-A and H-Rank-4, and both fail the shared duplicate gate against the available lattice witness. That witness is not a complete registry; no full-registry clearance, holdout score, leaderboard estimate, or organizer acceptance is established. **No submission is approved; do not submit any existing TIFF.** The unreceipted GW-NFS raster is quarantined outside public downloads. Both synthetic H-A and H-Rank-4 generators are disabled; their historical TIFFs remain negative research artifacts. The historical page and run card must not be interpreted as approval or current leaderboards.
 
 ## Session B addendum (arena/ab3581f2, 2026-10-29) — read with the review above
@@ -192,6 +194,23 @@ holdout cannot reliably estimate the expert-hidden private score).
 
 **No submission is approved. Do not download or submit any file from this repository.** This branch refreshed the dated public-board observation and GitHub metadata only; no geological experiment, new TIFF, upload, slot, or score estimate was created. The stopped HK3 lane must not be restarted.
 
+- **Live leaderboard (2026-10-29):** top score **0.4544** (xiaofanhu, rank #1). The "0.3195 is highest"
+  and "0.4413 is the high" figures do not match the page. kpomazi's 0.3195 is at **rank #47**, not 27.
+  Source: https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/ (public-test scores; the private set decides prize round 1).
+- **Official format, verified:** float32, single band, values in [0, 1], EPSG:32611, 100 m, and
+  "data outside the bounds is null or nan" (https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/).
+  The organizer sample template is NaN outside its footprint (sha256 matches the pin; not organizer-authenticated).
+- **Defect found and fixed:** every saved TIFF uses finite zeros outside the footprint, so the repo's strict format check
+  fails for them (HK3: `strict_format_pass: false`). The shared writer's "all cells finite" gate enforced the
+  wrong convention; it is now footprint-based and tested (`tests/test_writer_exterior_convention.py`).
+  The saved TIFFs were **not** regenerated; they still fail the uniqueness gate.
+- **Why 0.2778 might score well (labelled USER-REPORTED / UNVERIFIED):** under the official metric with α + β = 1, a dot
+  adds value only if its hit probability exceeds α × DTI (≈ 0.056 at DTI 0.2778). The 0.2778 file is the D2.8 set with 6,436
+  dots removed, so the removed dots were probably below that hit rate. This is a derived, conditional inference, not an established cause.
+- **Session outcome (later today):** the registry audit (`evidence/registry-overlap-audit-20261029.json`) marks the gw-nfs raster and all nine focus best paths DUPLICATE. E1/E2 (`evidence/gw-nfs/experiments.json`) are HOLDOUT-DTI near zero, and no ranking beats random apron. The protocol ceiling (`evidence/gw-nfs/apron_reachability.json`) shows 79 of 60,988 withheld positives (0.13%) are reachable by any apron placement, so apron candidates cannot be validated under the 3-px buffer. The portal error is unresolved. Details: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).
+- **Full review:** [`research/2026-10-29-verification-and-blocker-review.md`](research/2026-10-29-verification-and-blocker-review.md),
+  claim table [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json),
+  run card [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) (2 experiments of 3 used, verdict negative).
 - **Public leaderboard snapshot (2026-10-29):** xiaofanhu **0.4544, rank 1**; kpomazi **0.3195, rank 47**. These are public rows, not receipts for local rasters or private-round results. See [`evidence/official-review-2026-10-29.json`](evidence/official-review-2026-10-29.json) and the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/).
 - **Nine-site freshness:** all 9/9 upstream main heads differ from the pinned historical raster references. This is GitHub metadata only; the scorecard remains a pinned historical audit, with no current-head raster/score audit. No changed head establishes a new score, file identity, or eligibility.
 - **GEMSDOE32:** 0.2778 remains USER-REPORTED / UNVERIFIED. The pinned mask is D2.8 with 6,436 catalogue-near dots removed. In a linear-counting approximation, when α+β=1, adding a prediction with hit probability `a` is beneficial only if `a > α × DTI` (about 0.056 at DTI 0.2778). This is conditional intuition, not the kernel-exact distance-weighted metric or proof of why the reported score changed; no receipt or hidden labels establish causality.
