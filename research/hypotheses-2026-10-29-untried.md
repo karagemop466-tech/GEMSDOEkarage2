@@ -1,6 +1,8 @@
 # Untried geological hypotheses — GEMSDOE fault discovery
 
-**Status:** None of the five hypotheses below has been implemented or tested in this checkout or on the nine focus GitHub sites. They are presented for ranking by expected DTI gain and implementation cost, per the parallel-run protocol mandate to propose 3–5 untried hypotheses before any new experiment.
+**Status update (2026-10-29, session B):** H-A was implemented as a file in an earlier session (`generate_unique_submission.py`, now retired). Its full-registry duplicate check **failed**: all of its in-footprint positives lie within 3 px of `GEMSDOE24/inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif` (overlap 1.0). The file is quarantined in `evidence/quarantine/`. The "no focus-site submission uses intersection propensity" novelty statement below is contradicted by those bytes. H-A has not been validated on any holdout. Receipt: `evidence/uniqueness/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.full-registry.json`.
+
+**Original status:** None of the five hypotheses below has been implemented or tested in this checkout or on the nine focus GitHub sites. They are presented for ranking by expected DTI gain and implementation cost, per the parallel-run protocol mandate to propose 3–5 untried hypotheses before any new experiment.
 
 **Data access constraint:** no organizer-authenticated training_features.tif / labels.tif / sample_submission.tif is available in this sandbox (DrivenData data tab redirects to login). The GEMSDOE32 owner-mirror grid (3730 × 3292, EPSG:32611, 100 m, origin 243350 / 4508550) was recovered from a pinned GitHub blob for reference-grid purposes only; it is not organizer data. Any experiment below that needs real feature bands must first obtain the free official sources named.
 

@@ -1,0 +1,58 @@
+{
+  "schema": "run-card-session-2026-10-29-b",
+  "branch": "arena/ab3581f2-gemsdoekarage2",
+  "generated_utc": "2026-10-29T19:30:00+00:00",
+  "experiments_run": 0,
+  "budget": {
+    "max_experiments": 3,
+    "max_hours": 2,
+    "used_experiments": 0
+  },
+  "hypothesis": "No new geological hypothesis was tested. Audited the two candidates generated earlier today against the full 440-raster focus registry, and repaired the shared holdout evaluator.",
+  "mechanism": null,
+  "named_non_fault_mimic": null,
+  "holdout_dti": null,
+  "holdout_ci95": null,
+  "withheld_positives": null,
+  "evaluator_version": "scripts/evaluate_holdout.py::pooled_dti_over_folds (repaired 2026-10-29; regression-tested)",
+  "correlation_overlap_vs_registry": {
+    "gemsdoe-karage2-gw-nfs-h1-20261029-zeros": {
+      "max_spearman": 0.094661,
+      "max_overlap_3px": 1.0,
+      "duplicate_witnesses": 7,
+      "status": "DUPLICATE_STOP",
+      "comparable_items": 438
+    },
+    "gemsdoekarage2-hA-intersection-propensity-aad3569983ab": {
+      "max_spearman": 0.007507,
+      "max_overlap_3px": 1.0,
+      "duplicate_witnesses": 3,
+      "status": "DUPLICATE_STOP",
+      "comparable_items": 438
+    }
+  },
+  "raster_sha256": {
+    "gemsdoe-karage2-gw-nfs-h1-20261029-zeros.DUPLICATE_STOP.tif": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85",
+    "gemsdoekarage2-hA-intersection-propensity-aad3569983ab.DUPLICATE_STOP.tif": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e"
+  },
+  "validator_output": {
+    "note": "Format checks from the saved bytes: single band float32, values in [0,1] inside footprint, no NaN inside footprint (see the receipts). Grid = owner mirror, not organizer-authenticated.",
+    "portal_acceptance": null
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "upload_authorized": false,
+  "verdict": "negative",
+  "verdict_reason": "Both candidates fail the literal full-registry duplicate gate. No organizer-authenticated template or labels; no holdout estimate exists.",
+  "tests": {
+    "pytest": "234 passed, 4 skipped",
+    "npm_test": "3/3",
+    "npm_test_site": "7/7",
+    "pages_check": "up to date"
+  },
+  "scope_limits": [
+    "Registry is the nine focus repositories (440 rasters), not every GEMSDOE site.",
+    "Owner mirrors are not organizer downloads.",
+    "The gate was run post hoc on saved bytes, not as a pre-placement surface receipt."
+  ]
+}

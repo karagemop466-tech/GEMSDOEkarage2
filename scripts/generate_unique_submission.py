@@ -147,6 +147,13 @@ def sparse_threshold(halo, target_positive_px=9000, rng=None):
 
 
 def main() -> int:
+    # RETIRED 2026-10-29. Both files this generator produced (gw-nfs, H-A) fail the literal
+    # full-registry duplicate gate (scripts/audit_full_registry.py) and were quarantined.
+    # Its uniqueness check saw only locally cached rasters, so it could not establish uniqueness.
+    # Refuse to write any output; do not republish a duplicate.
+    sys.stderr.write("generate_unique_submission.py is retired: no TIFF generated or published. "
+                     "Both prior outputs failed the full-registry duplicate gate.\n")
+    return 1
     rng = np.random.default_rng(20261029)  # fixed seed: reproducible, unique
     h, w = HEIGHT, WIDTH
 

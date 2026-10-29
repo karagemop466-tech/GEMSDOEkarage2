@@ -4,9 +4,18 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-29, current Arena session)
+## Latest review (2026-10-29, session B) — read first
 
-The current three-pass review is [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md). **No submission is approved; do not submit any existing TIFF.** This session created no experiment, TIFF, upload, or score estimate. Tests passed locally; eight optional mirror-backed Python tests were skipped because their owner-mirror inputs are absent and are not authenticated organizer data. The review does not supersede the binding protocol below or prior negative evidence.
+**NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Full answer and decision table: [executive summary](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html).
+
+- **Full-registry duplicate check (440 pinned focus rasters, byte-verified):** the two TIFFs generated earlier today both fail the literal gate. The gw-nfs file (`max overlap 1.0`, 7 witnesses) and the H-A file (`max overlap 1.0`, 3 witnesses) are both **DUPLICATE_STOP**. Their bytes are quarantined in `evidence/quarantine/` and are no longer served. Receipts: [`evidence/uniqueness/`](evidence/uniqueness/).
+- **Earlier "UNIQUE: PASS" claim was false.** It checked against only two rasters.
+- **Nine best focus files are not unique against each other** (max overlap 0.976–1.000; recomputed from bytes in [`evidence/uniqueness/nine-site-pairwise-recheck.json`](evidence/uniqueness/nine-site-pairwise-recheck.json)).
+- **Shared holdout evaluator fixed once.** `scripts/evaluate_holdout.py::pooled_dti_over_folds` counted other blocks' predictions as false positives in each fold (a perfect predictor scored 0.63). Regression-tested. The recorded `gems57` numbers come from the vendored evaluator and are not affected.
+- **Repo restored to green:** 234 Python tests pass; Node suites pass; generated pages are current. Two stale test expectations (root redirect) and the PR #63 hand-edited pages were corrected from the generator.
+- **0 experiments run.** Review: [`research/2026-10-29-session-b-three-pass-review.md`](research/2026-10-29-session-b-three-pass-review.md). Run card: [`evidence/session-2026-10-29-b-run-card.json`](evidence/session-2026-10-29-b-run-card.json).
+
+Prior session note (superseded where inconsistent): the three-pass review is [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md). No submission is approved; do not submit any existing TIFF. The review does not supersede the binding protocol below or prior negative evidence.
 
 ## Operating instruction
 
@@ -173,6 +182,8 @@ holdout cannot reliably estimate the expert-hidden private score).
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
 ## Current status — 2026-10-29 (read first)
+
+**Session B (2026-10-29, later):** the earlier "gw-nfs is unique" statement is **retracted**. Full-registry check: DUPLICATE_STOP (overlap 1.0). The H-A file is also DUPLICATE_STOP and quarantined. The generator that made both is retired. See the review at the top of this file.
 
 **No submission is approved. Do not download or submit any file from this repository.**
 

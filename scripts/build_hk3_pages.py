@@ -28,6 +28,12 @@ PROBLEM = "https://www.drivendata.org/competitions/306/competition-doe-gems/page
 LEADERBOARD = "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
 SUBMISSIONS = "https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/"
 REFERENCE = "https://github.com/drivendataorg/gems-prize-reference-solution"
+UNIQUENESS_CANDIDATES = [
+    ("gemsdoe-karage2-gw-nfs-h1-20261029-zeros",
+     "gemsdoe-karage2-gw-nfs-h1-20261029-zeros.DUPLICATE_STOP.tif"),
+    ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
+     "gemsdoekarage2-hA-intersection-propensity-aad3569983ab.DUPLICATE_STOP.tif"),
+]
 
 
 def esc(value: object) -> str:
@@ -101,8 +107,25 @@ def gather() -> dict:
         row = measured[record["site"]]
         if record["sha256"] != row["sha256"] or row["max_focus_overlap_fraction"] <= 0.70:
             raise ValueError("Nine-site row does not match the pinned negative audit")
+    uniq = {}
+    for stem, filename in UNIQUENESS_CANDIDATES:
+        receipt = load(EV / f"uniqueness/{stem}.full-registry.json")
+        summary = receipt["summary"]
+        quarantined = (EV / "quarantine" / filename).resolve()
+        if (summary["status"] != "DUPLICATE_STOP" or summary["upload_authorized"] is not False
+                or summary["registry_items_total"] != 440 or summary["duplicate_witnesses"] < 1
+                or not quarantined.is_file()
+                or hashlib.sha256(quarantined.read_bytes()).hexdigest() != summary["candidate_sha256"]):
+            raise ValueError(f"Full-registry receipt is inconsistent for {stem}")
+        if any(a.name == filename for a in (DOCS / "downloads").glob("*.tif")):
+            raise ValueError(f"Duplicate-stop file is still publicly served: {filename}")
+        uniq[stem] = {"summary": summary, "rows": receipt["comparisons"], "file": filename}
+    pairs = load(EV / "uniqueness/nine-site-pairwise-recheck.json")
+    if len(pairs["summary"]) != 9 or any(r["unique_vs_other_eight"] for r in pairs["summary"]):
+        raise ValueError("Nine-site pairwise recheck disagrees with the non-unique finding")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
-            "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3}
+            "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3,
+            "uniq": uniq, "pairs": pairs}
 
 
 def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
@@ -239,8 +262,52 @@ def focus_detail(record: dict, geo: dict) -> str:
 <p>Research downloads are for inspection only, not new submissions. This pinned snapshot does not establish the independently maintained site's current best. <a href="{esc(record['site_url'])}">Original site ↗</a> · <a href="sites/{esc(site)}.html">Detailed prior summary</a> · <a href="executive-summary.html">Nine-site comparison</a>.</p></section>'''
 
 
+def decision_table(d: dict) -> str:
+    """Front-page answer: which file, estimated score, unique?, OK to submit?"""
+    rows = []
+    best = {r["site"]: r for r in d["geometry"]["historical_final_dots"]}
+    top = max(d["focus"], key=lambda r: r["owner_reported_unverified"])
+    rows.append((f"{top['site']} · {top['file']}", f"{top['owner_reported_unverified']:.4f} reported (not an estimate)",
+                 f"NO · {best[top['site']]['max_focus_overlap_fraction'] * 100:.1f}% of dots within 3 px of {best[top['site']]['closest_focus_site']}",
+                 "DO NOT SUBMIT"))
+    for name, info in d["uniq"].items():
+        s = info["summary"]
+        rows.append((info["file"].replace(".DUPLICATE_STOP", ""), "Unavailable (not evaluated)",
+                     f"NO · {s['max_overlap_fraction_3px'] * 100:.1f}% of dots within 3 px of a registry raster "
+                     f"({s['duplicate_witnesses']} witnesses in {s['registry_items_compared']} comparisons)",
+                     "DO NOT SUBMIT · quarantined, not served"))
+    body = "".join(f"<tr><td><code>{esc(a)}</code></td><td>{esc(b)}</td><td>{c}</td><td><b class=\"no\">{esc(e)}</b></td></tr>"
+                   for a, b, c, e in rows)
+    return f'''<section class="section" id="decision"><h3>Decision table · can any file be submitted today?</h3>
+<p><b class="no">No.</b> No file in this repository has passed every gate. The table answers the three questions you asked: which file, its estimated score, and whether it is unique against the other GEMSDOE sites.</p>
+<table><thead><tr><th>File</th><th>Estimated leaderboard score</th><th>Unique vs other GEMSDOE sites?</th><th>OK to download and submit?</th></tr></thead><tbody>{body}</tbody></table>
+<p class="muted">The 0.2778 value is a user-supplied claim with no submission receipt. &ldquo;Unavailable&rdquo; means no validated estimate exists; a catalogue holdout cannot estimate the hidden expert-labelled score. Duplicate-stop files are kept in <code>evidence/quarantine/</code> and are not served.</p></section>'''
+
+
+def registry_audit_section(d: dict) -> str:
+    rows = []
+    for stem, info in d["uniq"].items():
+        s = info["summary"]
+        rows.append(f"<tr><td><code>{esc(info['file'].replace('.DUPLICATE_STOP', ''))}</code><br><span class=\"sub-label\">SHA-256 {esc(s['candidate_sha256'])}</span></td>"
+                    f"<td>{s['registry_items_compared']} of {s['registry_items_total']}</td>"
+                    f"<td>{s['max_spearman_full_footprint']:.4f}</td><td>{s['max_overlap_fraction_3px'] * 100:.1f}%</td>"
+                    f"<td><b class=\"no\">{esc(s['status'])}</b> · {s['duplicate_witnesses']} witnesses</td>"
+                    f"<td><a href=\"evidence/uniqueness/{esc(stem)}.full-registry.json\">receipt</a></td></tr>")
+    pair_rows = "".join(f"<tr><td>{esc(r['site'])}</td><td><code>{esc(r['file'])}</code></td><td>{r['max_overlap_vs_other_eight'] * 100:.2f}%</td>"
+                        f"<td>{esc(r['closest_other_site'])}</td><td><b class=\"no\">{'YES' if r['unique_vs_other_eight'] else 'NO'}</b></td></tr>"
+                        for r in d["pairs"]["summary"])
+    return f'''<section class="section" id="uniqueness"><h3>Full-registry duplicate check · 2026-10-29</h3>
+<p>Each candidate was compared with all 440 pinned focus-registry rasters (<code>registry/focus_registry_manifest.json</code>, byte-checked by SHA-256). The rule stops on rank correlation above 0.90 or more than 70% of dots within 3 px of one registry raster. This is a post-hoc audit of saved bytes, not a live registry or organizer receipt.</p>
+<table><thead><tr><th>Candidate</th><th>Comparable items</th><th>Max rank corr.</th><th>Max 3-px overlap</th><th>Result</th><th>Receipt</th></tr></thead><tbody>{"".join(rows)}</tbody></table>
+<p class="muted">Two registry items were not comparable and are recorded, not dropped: one reference has NaN cells inside the footprint, and one format-test file has a different grid.</p>
+<h3>Nine focus best files · pairwise re-check</h3>
+<p>Recomputed from the saved bytes with the shared comparator. Every file overlaps another focus file at 97.6% or more, so none is unique against the other eight.</p>
+<table><thead><tr><th>Site</th><th>File</th><th>Max share of dots within 3 px of another focus file</th><th>Closest site</th><th>Unique vs other eight?</th></tr></thead><tbody>{pair_rows}</tbody></table>
+<p><a href="evidence/uniqueness/nine-site-pairwise-recheck.json">Pairwise receipt</a> · <a href="evidence/uniqueness/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.full-registry.json">gw-nfs receipt</a> · <a href="evidence/uniqueness/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.full-registry.json">hA receipt</a></p></section>'''
+
+
 def render_all(d: dict) -> dict[str, str]:
-    desk = hero(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
+    desk = hero(d) + decision_table(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     pages = {"index.html": shell("Submission desk", "desk", desk),
              "executive-summary.html": shell("Executive summary", "summary", desk),
@@ -260,6 +327,7 @@ def main() -> int:
     args = parser.parse_args()
     pages = render_all(gather())
     mirrors = [(f, DOCS / "evidence/hk3" / f.name) for f in sorted((EV / "hk3").glob("*.json"))]
+    mirrors += [(p, DOCS / "evidence/uniqueness" / p.name) for p in sorted((EV / "uniqueness").glob("*.json"))]
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
                 (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
                 (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json")]

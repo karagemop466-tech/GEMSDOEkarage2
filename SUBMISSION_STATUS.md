@@ -1,5 +1,12 @@
 # Submission status — NO APPROVED FILE
 
+**Updated 2026-10-29 (session B): NO FILE IS OK TO DOWNLOAD AND SUBMIT.**
+
+- Full-registry duplicate check (440 pinned focus rasters): gw-nfs and H-A are both DUPLICATE_STOP (overlap 1.0). Both are quarantined in `evidence/quarantine/` and are not served.
+- The nine best focus files are not unique against each other (overlap 0.976–1.000, recomputed from bytes).
+- Estimated leaderboard score for any file: **Unavailable**. No organizer-authenticated template or labels exist in this sandbox.
+- Receipts: [`evidence/uniqueness/`](evidence/uniqueness/); review: [`research/2026-10-29-session-b-three-pass-review.md`](research/2026-10-29-session-b-three-pass-review.md); run card: [`evidence/session-2026-10-29-b-run-card.json`](evidence/session-2026-10-29-b-run-card.json).
+
 **Updated 2026-10-29:** still no approved file. The saved TIFFs use finite zeros outside the footprint, but the official
 wording and the organizer sample use NaN there (the repo's strict format check fails for HK3). Live leaderboard top is 0.4544;
 kpomazi is at rank 47 with 0.3195. See [the 2026-10-29 review](research/2026-10-29-verification-and-blocker-review.md).
