@@ -4,7 +4,7 @@
 
 **NO TIFF IS APPROVED FOR COMPETITION SUBMISSION.** Do not submit or describe any existing download as a verified unique candidate. This review generated no raster, ran no new experiment, made no upload, and used no competition slot. It also makes **no new-file leaderboard-score estimate**: no defensible mapping from catalogue hide-and-recover performance to private expert labels is established.
 
-The generated public pages previously called an H-A raster “new unique submission TIF — ready to download,” even while their body said not to submit it. Its audit explicitly says uniqueness vs registry was not verified and its run card has null holdout/canary evidence. That is misleading. I regenerated the three stale public pages from the fail-closed shared renderer. The current main/executive page now leads with **“No submission-ready TIFF”** and **“DO NOT SUBMIT”** and only offers an older, negative TIFF as a research/reproducibility artifact. No TIFF bytes were changed.
+The generated public pages previously called an H-A raster “new unique submission TIF — ready to download,” even while its audit said registry uniqueness was unverified and its run card had null holdout/canary evidence. I regenerated the stale pages from the fail-closed shared renderer; the main/executive page now leads with **“No submission-ready TIFF”** and **“DO NOT SUBMIT”** and links only an older negative file as research/reproducibility material. During this review, origin/main also advanced with an H-Rank-4 TIFF whose original run card said “promote” despite null holdout, no leakage canary, synthetic-mask fallback, and a two-raster-only post-placement check. I retracted that decision, moved the unchanged TIFF and sidecars into `evidence/quarantine/`, and disabled its generator. No raster was generated or rewritten by this review.
 
 ## Historical GEMSDOE32 result: what can and cannot be inferred
 
@@ -63,8 +63,9 @@ The strongest recorded K3 point estimate in the available run evidence is **HOLD
 - Checked the H-A artifact run card/audit rather than trusting its filename or page headline: holdout, leakage canary and registry uniqueness are all unverified; no organizer template provenance. It cannot be recommended.
 - Checked all nine pinned files and values against `registry/focus_sites.json`; the generated summary derives its overlap decisions from `evidence/geometry-audit.json` and pins the original source revision. Historical figures remain visibly unverified and all new-file estimates remain unavailable.
 - Checked the builder's own freshness mode: before regeneration it flagged `index.html`, `executive-summary.html`, and `how-to-submit.html` stale. After regeneration its `--check` is clean. No generated or historical TIFF bytes were edited.
-- The first full saved-download audit exposed two previously unindexed tracked TIFFs: the H-A artifact and `gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif`. The latter had no provenance/run card in tracked text. Rather than remove or imply validity, I added a hash-bound negative inventory record that explicitly says its method, holdout and uniqueness are unknown, and registered both files as research-only. The automated audit still says `downloadable_approved_submission: null`; neither is linked as an approved submission.
-- Added regression checks for the nine-artifact inventory, the unidentified artifact's negative classification, the visible four-hypothesis slate and the no-approved-TIFF messaging. Kept the root route pointed at the executive summary, matching the published landing-page path and browser smoke test.
+- The saved-download audit now accounts for eight public TIFFs, including H-A with its hash-bound negative card and audit sidecar. The unreceipted GW-NFS TIFF was moved into `evidence/quarantine/` by the concurrently merged main change; its hash-bound local inventory note makes provenance/score/uniqueness unknown.
+- A concurrently merged H-Rank-4 raster and three sidecars entered `docs/downloads/` with a “promote” label. Source inspection found the synthetic fault-mask/all-true-footprint fallback, null HOLDOUT-DTI and withheld-positive count, unrun feature canary, and only two local comparison rasters checked after dot placement. I retracted the release verdict, preserved the bytes/sidecars under `evidence/quarantine/`, added a hash-bound countermand, and replaced its generator with a fail-closed retired stub. This is a correction of inherited evidence, not a new experiment.
+- Added regression checks for the eight-artifact public inventory, the retired generator, the visible four-hypothesis slate and the no-approved-TIFF messaging. The automated audit says `downloadable_approved_submission: null`; no quarantined TIFF is linked as an eligible submission.
 - Limit: owner mirrors and hash pins prove byte integrity only, not organizer provenance, scientific validity, hidden-label performance, or upload acceptance.
 
 ### Pass 3 — original request and safety recheck
@@ -74,6 +75,14 @@ The strongest recorded K3 point estimate in the available run evidence is **HOLD
 - Four geological proposals, physical signatures, fault-missing rationale, non-fault mimics, repo differences, costs and data limitations are documented above and linked to the existing detailed slate. Candidate ranking is qualitative, not an estimated DTI.
 - No experiment or TIFF could be validated under the missing lane/authorized-input/full-registry conditions, so no candidate is selected, approved, or submitted. The user's request to generate a submittable TIFF remains unmet; the evidence-based decision is to stop rather than violate the duplicate gate or fabricate a score.
 - Official-reference links are retained in the page and below. The claim-level `evidence/official-verification-2026-10-29.json` is a prior dated source read, not a claim of new external refresh during this review.
+
+### Final verification results
+
+- Python: **235 passed, 8 skipped, 98 subtests passed**; eight skips require optional pinned owner-mirror/shared inputs absent from this checkout. There were 98 Rasterio `PendingDeprecationWarning`s.
+- Node feed: **3 passed**; site: **9 passed**.
+- Browser smoke: passed at 1440, 390 and 320 px; it also exercised research-only download hashes, nine-site navigation, and fail-closed source-feed states.
+- `build_hk3_pages.py --check`, `build_audit_site.py --check`, and `audit_public_downloads.py --check` passed. The public inventory has **8** hash-bound research-only artifacts, `downloadable_approved_submission: null`, and no slot authorization.
+- Python compilation, shell syntax, and `git diff --check` passed.
 
 ### Official sources for review
 

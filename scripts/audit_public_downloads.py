@@ -42,10 +42,11 @@ ARTIFACTS = (
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
      "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True),
+    # Retained for research provenance only. The card and audit sidecar both
+    # explicitly state that holdout, leakage, and registry clearance are absent.
     ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
-     "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.run-card.json", None, False),
-    ("gemsdoe-karage2-gw-nfs-h1-20261029-zeros",
-     "docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.run-card.json", None, False),
+     "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.run-card.json",
+     None, False),
 )
 
 
@@ -149,19 +150,20 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             detail = {"diagnostics": {"error_type": type(exc).__name__, "error": str(exc)}}
     try:
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
+        verdict = card.get("verdict")
         if candidate:
             # This inventory does not implement the independent, provenance-bound
             # selector required for a promotion. A claimed PROMOTE plus a matching
             # selector JSON is not evidence that the underlying gates actually ran.
             checks["independent_release_verification_implemented"] = False
-        else:
-            verdict = card.get("verdict")
-            checks["card_verdict_negative"] = (isinstance(verdict, str)
-                                                and (verdict == "negative" or verdict.startswith("negative —"))
+        negative_verdict = (verdict == "negative" or
+                            isinstance(verdict, str) and verdict.startswith("negative —"))
+        checks["card_verdict_negative"] = (negative_verdict
                                                 and card.get("ok_to_submit", False) is False
                                                 and card.get("approved_for_weekly_slot", False) is False
                                                 and card.get("slot_authorized", False) is False)
-        checks["card_has_same_filename"] = (card.get("raster", rel) == rel and
+        card_file = card.get("raster", card.get("file", rel))
+        checks["card_has_same_filename"] = (card_file in (rel, tif.name) and
                                             card.get("submission_name") == stem)
         checks["card_sha_matches_saved_bytes"] = actual_sha is not None and card.get("raster_sha256") == actual_sha
         checks["card_note_within_140_chars"] = (isinstance(card.get("note"), str) and
@@ -185,6 +187,24 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 )
         except (OSError, ValueError, TypeError, AttributeError):
             checks["metadata_research_only_and_hash_bound"] = False
+    audit_sidecar = tif.with_name(tif.stem + ".audit.json")
+    if audit_sidecar.exists():
+        try:
+            audit_record = json.loads(audit_sidecar.read_text())
+            # Some legacy *.audit.json files are format diagnostics only and
+            # make no release/uniqueness assertion. Check negative controls when
+            # the sidecar actually contains a submission-readiness section.
+            if "submission_readiness" in audit_record:
+                readiness = audit_record.get("submission_readiness", {})
+                uniqueness = audit_record.get("uniqueness", {})
+                checks["audit_sidecar_negative_and_hash_bound"] = (
+                    audit_record.get("sha256") == actual_sha
+                    and audit_record.get("evidence_class") == "RESEARCH-ONLY"
+                    and readiness.get("ok_to_submit_to_drivendata") is False
+                    and uniqueness.get("verified_vs_registry") is False
+                )
+        except (OSError, ValueError, TypeError, AttributeError):
+            checks["audit_sidecar_negative_and_hash_bound"] = False
     if selector_rel is not None:
         try:
             selector = json.loads((root / selector_rel).read_text())

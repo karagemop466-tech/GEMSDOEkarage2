@@ -1,0 +1,26 @@
+{
+  "schema": "gems.quarantine_countermand.v1",
+  "raster_file": "gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+  "raster_sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+  "original_run_card": "gemsdoe-karage2-hr4-intersection-20261029-nan-run-card.json",
+  "original_run_card_verdict": "promote (RETRACTED)",
+  "corrected_verdict": "negative — quarantine; DO NOT SUBMIT",
+  "correction_reason": [
+    "The saved run card reports HOLDOUT-DTI, confidence interval, and withheld-positive count as null; no holdout result exists.",
+    "The run card itself says the feature-alone leakage canary cannot run without authenticated competition data.",
+    "The included generator uses a synthetic fault-mask placeholder and an all-true placeholder footprint when competition data are absent.",
+    "The source places/selects the final dots before its registry check, so it did not satisfy the required pre-placement surface gate.",
+    "The run card's uniqueness comparison covers only two local rasters, not a complete immutable registry.",
+    "No assigned method paragraph authorizes this method; format validation and two-reference comparison cannot authorize promotion."
+  ],
+  "holdout_dti": null,
+  "holdout_ci95": null,
+  "withheld_positive_count": null,
+  "leakage_canary": "not run",
+  "correlation_or_overlap_vs_complete_registry": null,
+  "organizer_template_authenticated": false,
+  "slot_authorized": false,
+  "submission_name": null,
+  "submission_note": null,
+  "disposition": "Moved from docs/downloads to evidence/quarantine. The original raster and sidecars are retained unchanged for audit history; no new raster was generated and no experiment or slot was used by this review."
+}

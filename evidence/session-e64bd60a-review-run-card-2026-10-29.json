@@ -1,0 +1,49 @@
+{
+  "schema": "gems.repository-review-run-card.v1",
+  "session_date": "2026-10-29",
+  "branch": "arena/e64bd60a-gemsdoekarage2",
+  "review_only": true,
+  "experiments_run": 0,
+  "budget": {
+    "max_experiments": 3,
+    "max_hours": 2,
+    "used_experiments": 0,
+    "slots_used": 0
+  },
+  "hypothesis": null,
+  "mechanism": null,
+  "named_non_fault_mimic": null,
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "withheld_positive_count": null,
+  "holdout_evaluator_version": null,
+  "correlation_or_overlap_vs_registry": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "scope": "published-artifact integrity only; no candidate evaluated",
+    "inventory_status": "PASS_RESEARCH_ONLY",
+    "unexpected_public_downloads": [],
+    "downloadable_approved_submission": null,
+    "organizer_template_authenticated": false,
+    "portal_acceptance": null,
+    "slot_authorized": false
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative",
+  "verdict_reason": "No candidate may be recommended; no assigned lane, authenticated organizer data/template, or complete registry clearance. Existing artifacts remain research-only.",
+  "changed": [
+    "Regenerated executive summary, submission guide, and desk from negative release evidence.",
+    "Added hash-bound inventory coverage for the existing negative H-A research raster.",
+    "Quarantined an unreceipted TIFF from the published download directory.",
+    "Disabled the unvalidated synthetic raster generator and added a no-write regression test.",
+    "Corrected stale dated leaderboard wording and root fallback navigation."
+  ],
+  "evidence": [
+    "research/review-2026-10-29-current-branch.md",
+    "evidence/public_downloads_audit.json",
+    "evidence/hk3/selector_result.json",
+    "evidence/nine_site_best_files_audit.json",
+    "evidence/official-verification-2026-10-29.json"
+  ]
+}

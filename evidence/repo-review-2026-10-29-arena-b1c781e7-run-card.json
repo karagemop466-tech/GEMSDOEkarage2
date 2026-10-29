@@ -17,7 +17,7 @@
     "candidate_generated": false,
     "candidate_validator": "not run; no candidate raster was generated",
     "published_download_inventory": "PASS_RESEARCH_ONLY",
-    "inventory_artifacts": 9,
+    "inventory_artifacts": 8,
     "downloadable_approved_submission": null,
     "slot_authorized": false,
     "website_release_badge": "OK TO SUBMIT: NO",
@@ -34,12 +34,13 @@
     "Fixed stale submission-page copy that called an unvalidated raster unique/submission-ready.",
     "Updated generated executive summary, submission desk, and conditional submission guide from the fail-closed renderer.",
     "Documented four ranked hypotheses and their mimics/data blockers; did not test any candidate.",
-    "Indexed two previously unrecognized TIFF artifacts as research-only/negative; one lacks method provenance.",
+    "Indexed H-A as research-only and quarantined GW-NFS and H-Rank-4 artifacts outside the Pages downloads directory.",
+    "Retracted H-Rank-4's inherited promote verdict and disabled its synthetic-data generator.",
     "Corrected README leaderboard rank wording; preserved the executive-summary root route.",
     "Added regression tests for research slate, negative inventory and public messaging."
   ],
   "tests": {
-    "python_pytest": "232 passed, 8 skipped, 98 subtests passed",
+    "python_pytest": "235 passed, 8 skipped, 98 subtests passed",
     "node_feed": "3 passed",
     "node_site": "9 passed",
     "browser_smoke": "passed at 1440, 390 and 320 px plus freshness/navigation checks",
@@ -47,6 +48,6 @@
     "audit_site_check": "passed",
     "public_download_audit": "PASS_RESEARCH_ONLY; no approved submission",
     "compile_and_shell_syntax": "passed",
-    "warnings": "95 Rasterio PendingDeprecationWarnings in Python suite"
+    "warnings": "98 Rasterio PendingDeprecationWarnings in Python suite"
   }
 }

@@ -9,6 +9,13 @@ This corrects the earlier upload recommendation. The literal registry failure
 cannot be waived by density, research status or chance correction. Existing TIFF
 bytes are unchanged; no new unique eligible submission was generated.
 
+The concurrently merged H-Rank-4 TIFF is outside `docs/downloads/` in
+[`evidence/quarantine/`](evidence/quarantine/README.md). Its prior `promote`
+verdict is explicitly retracted: the card records no HOLDOUT-DTI or leakage
+canary, and the generator used a synthetic fault-mask placeholder with only two
+local raster comparisons after placement. The original bytes/card are retained
+for audit history; the file is not approved.
+
 - [Current executive summary and research-only download](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html)
 - [Corrected run card](evidence/hk3/run_card.json)
 - [Negative selector](evidence/hk3/selector_result.json)
