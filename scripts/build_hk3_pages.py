@@ -229,7 +229,7 @@ def science_and_sources(d: dict) -> str:
 <tr><td>3 · medium</td><td>Shear and dilatation + magnetic edge persistence: use strain-regime change only as a coarse interaction.</td><td>A covered strand may coincide with regional strain change. Interpolation seams and intrusive contacts mimic it; shuffle the strain field.</td></tr>
 <tr><td>4 · low</td><td>Earthquake density/distance + gravity gradient: test flank asymmetry around independent edges.</td><td>Active, unmapped structures may cluster seismicity. Mining/production effects or smoothing can mimic it; use a shuffled-seismicity control.</td></tr>
 </tbody></table>
-<p>These exact proposed tests are not validated in this repository; they reuse nominal bands from owner-mirrored features, whose provenance and units still need authentication. The first has conceptual overlap with the prior B4 lane, but adds a block-fitted terrain residual and a shoreline null. Five additional proposed hypotheses are documented at <a href="../research/hypotheses-2026-10-29-untried.md">the 2026-10-29 candidate slate</a>; its H-A exploratory raster had no holdout or registry validation and is quarantined, not a submission. External-source availability is not verified by these links. See the <a href="../research/2026-10-28-next-lane-slate.md">earlier slate, controls and prior-art limitations</a>.</p>
+<p>These exact proposed tests are not validated in this repository; they reuse nominal bands from owner-mirrored features, whose provenance and units still need authentication. The first has conceptual overlap with the prior B4 lane, but adds a block-fitted terrain residual and a shoreline null. The five-hypothesis slate at <a href="../research/hypotheses-2026-10-29-untried.md">2026-10-29 candidate slate</a> and the separate <a href="../research/new_hypotheses_20261029.md">additional proposal slate</a> are qualitative proposals, not results; their official-source availability was not verified here. H-A and H-R4 exploratory rasters are quarantined: neither has valid holdout and complete pre-placement registry evidence, and H-R4's saved-byte validator claims are internally inconsistent. Its synthetic-data generator is blocked before writing. See the <a href="evidence/quarantine/README.md">quarantine register</a>, <a href="evidence/quarantine/hr4-intersection-20261029-nan.quarantine.json">H-R4 hash-bound receipt</a>, <a href="../research/repo-review-2026-10-29-arena-current.md">current review</a>, and the <a href="../research/2026-10-28-next-lane-slate.md">earlier slate, controls and prior-art limitations</a>.</p>
 <p><a href="{PROBLEM}">Official problem &amp; metric</a> · <a href="{REFERENCE}">Official reference solution</a> · <a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN</a> · <a href="https://gdr.openei.org/submissions/1391">DOE GDR INGENIOUS dataset</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules PDF</a></p>
 </section>'''
 
@@ -305,7 +305,11 @@ def main() -> int:
                 (EV / "official-review-2026-10-29.json", DOCS / "evidence/official-review-2026-10-29.json"),
                 (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json"),
                 (EV / "2026-10-29-repo-review-run-card.json", DOCS / "evidence/2026-10-29-repo-review-run-card.json"),
-                (EV / "session-02fe9ab0-review-run-card-2026-10-29.json", DOCS / "evidence/session-02fe9ab0-review-run-card-2026-10-29.json")]
+                (EV / "session-02fe9ab0-review-run-card-2026-10-29.json", DOCS / "evidence/session-02fe9ab0-review-run-card-2026-10-29.json"),
+                (EV / "quarantine/README.md", DOCS / "evidence/quarantine/README.md"),
+                (EV / "quarantine/gw-nfs-h1-unverified-original.json", DOCS / "evidence/quarantine/gw-nfs-h1-unverified-original.json"),
+                (EV / "quarantine/hA-intersection-propensity-aad3569983ab.quarantine.json", DOCS / "evidence/quarantine/hA-intersection-propensity-aad3569983ab.quarantine.json"),
+                (EV / "quarantine/hr4-intersection-20261029-nan.quarantine.json", DOCS / "evidence/quarantine/hr4-intersection-20261029-nan.quarantine.json")]
     stale = []
     for src, dst in mirrors:
         if args.check:

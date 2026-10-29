@@ -36,16 +36,26 @@ test('all desk pages are fail-closed and visibly prohibit submission', () => {
 test('root and executive summary fail closed and never link the orphaned TIFF', () => {
   const rootIndex = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   assert.match(rootIndex, /docs\/index\.html/);
-  const orphanName = 'gemsdoe-karage2-gw-nfs-h1-20261029-zeros';
+  const quarantined = [
+    ['gemsdoe-karage2-gw-nfs-h1-20261029-zeros', 'gw-nfs-h1-unverified-original.tif'],
+    ['gemsdoekarage2-hA-intersection-propensity-aad3569983ab', 'hA-intersection-propensity-aad3569983ab.tif'],
+    ['gemsdoe-karage2-hr4-intersection-20261029-nan', 'hr4-intersection-20261029-nan.tif'],
+  ];
   for (const page of ['index.html', 'executive-summary.html', 'how-to-submit.html', 'submit.html']) {
     const html = fs.readFileSync(path.join(root, 'docs', page), 'utf8');
     assert.match(html, /OK TO SUBMIT: NO/);
-    assert.doesNotMatch(html, new RegExp(orphanName));
+    for (const [stem] of quarantined) assert.doesNotMatch(html, new RegExp(stem));
     assert.doesNotMatch(html, /File ready for download/i);
     assert.doesNotMatch(html, /class="[^"]*\bpromote\b/i);
   }
-  assert.ok(fs.existsSync(path.join(root, 'evidence/quarantine/gw-nfs-h1-unverified-original.tif')));
-  assert.ok(!fs.existsSync(path.join(root, 'docs/downloads', `${orphanName}.tif`)));
+  for (const [stem, filename] of quarantined) {
+    assert.ok(fs.existsSync(path.join(root, 'evidence/quarantine', filename)));
+    assert.ok(!fs.existsSync(path.join(root, 'docs/downloads', `${stem}.tif`)));
+  }
+  const publishedReceipt = path.join(root, 'docs/evidence/quarantine/hr4-intersection-20261029-nan.quarantine.json');
+  assert.ok(fs.existsSync(publishedReceipt));
+  assert.match(fs.readFileSync(path.join(root, 'docs/index.html'), 'utf8'),
+    /evidence\/quarantine\/hr4-intersection-20261029-nan\.quarantine\.json/);
 });
 
 test('one-click research download is visibly labeled and the exact bytes exist', () => {

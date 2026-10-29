@@ -52,6 +52,15 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
     assert len(found) == 1 and found[0]['kind'] == 'research'
     assert found[0]['checks']['current_assessment_negative_and_hash_bound'] is True
+    # The unvalidated H-A raster is retained only in quarantine, never in Pages downloads.
+    h_a = json.loads((ROOT / 'evidence/quarantine/hA-intersection-propensity-aad3569983ab.quarantine.json').read_text())
+    h_a_path = ROOT / 'evidence/quarantine/hA-intersection-propensity-aad3569983ab.tif'
+    assert mod.digest_file(h_a_path) == h_a['sha256']['tif'] == 'c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e'
+    assert not any('hA-intersection-propensity' in row['file'] for row in result['artifacts'])
+    hr4 = json.loads((ROOT / 'evidence/quarantine/hr4-intersection-20261029-nan.quarantine.json').read_text())
+    hr4_path = ROOT / hr4['quarantine_paths']['tif']
+    assert mod.digest_file(hr4_path) == hr4['sha256']['tif']
+    assert not (ROOT / 'docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif').exists()
     assessment = json.loads((ROOT / 'evidence/hk3/current_release_assessment.json').read_text())
     assert assessment == json.loads((ROOT / 'docs/evidence/hk3/current_release_assessment.json').read_text())
     assert assessment['leakage_canary_passed'] is False

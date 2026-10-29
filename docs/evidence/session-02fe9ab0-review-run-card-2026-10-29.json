@@ -60,6 +60,11 @@
         "path": "evidence/quarantine/hA-intersection-propensity-aad3569983ab.tif",
         "sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
         "reason": "Its research-only run card records no holdout or registry measurements, and its audit says uniqueness is unverified; all three artifact bytes are preserved outside public downloads."
+      },
+      {
+        "path": "evidence/quarantine/hr4-intersection-20261029-nan.tif",
+        "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+        "reason": "Its `promote` card has null HOLDOUT-DTI and incomplete registry checks; a saved-byte reread found no NaNs and 5,761 positives, conflicting with the reported exterior-NaN check and 30,000-dot method claim."
       }
     ]
   },

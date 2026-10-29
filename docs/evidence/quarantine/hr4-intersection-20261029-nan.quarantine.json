@@ -1,0 +1,50 @@
+{
+  "schema": "quarantined-unvalidated-raster-v1",
+  "original_paths": {
+    "tif": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+    "run_card": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan-run-card.json",
+    "audit": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan-audit.json",
+    "legacy_audit": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.audit.json"
+  },
+  "quarantine_paths": {
+    "tif": "evidence/quarantine/hr4-intersection-20261029-nan.tif",
+    "run_card": "evidence/quarantine/hr4-intersection-20261029-nan.run-card.json",
+    "audit": "evidence/quarantine/hr4-intersection-20261029-nan-audit.json",
+    "legacy_audit": "evidence/quarantine/hr4-intersection-20261029-nan.legacy-audit.json"
+  },
+  "sha256": {
+    "tif": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+    "run_card": "2334135f1a3f73a675be78761119a6153761640e69bfaabee512b012a6a7e2d4",
+    "audit": "9714c65335d76bed1b54a8c9ceaa10f51838bea8d189764b304db36220583ee0",
+    "legacy_audit": "71dd43dcc9504b16152c012c7152b94b3110563ed04fb4a522cbb449051e1e84"
+  },
+  "tif_size_bytes": 723767,
+  "direct_saved_byte_read": {
+    "driver": "GTiff",
+    "bands": 1,
+    "dtype": "float32",
+    "shape": [3730, 3292],
+    "crs": "EPSG:32611",
+    "transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0],
+    "nodata_metadata": "NaN",
+    "actual_nan_pixels": 0,
+    "actual_infinite_pixels": 0,
+    "finite_min": 0.0,
+    "finite_max": 1.0,
+    "positive_pixels": 5761,
+    "read_scope": "every pixel in the saved GeoTIFF"
+  },
+  "blocking_reasons": [
+    "Run card records holdout candidate_dti, candidate_ci95, withheld_positive_pixels and evaluator result as null; no HOLDOUT-DTI was produced.",
+    "No feature-alone leakage canaries were run.",
+    "Reported uniqueness covers only two reference rasters; it does not establish complete-registry coverage or the required pre-placement surface check.",
+    "The run card says verdict=promote despite missing HOLDOUT-DTI and incomplete uniqueness evidence; this conflicts with the fail-closed selector requirements.",
+    "The run card/audit claims a passing outside-footprint-NaN check, but direct read of the entire TIFF found zero NaN pixels. If the expected template footprint is partial, exterior cells are finite; the organizer template is not authenticated here.",
+    "The method narrative mentions 30,000 dots, while direct saved-byte inspection counted 5,761 positive pixels.",
+    "The recorded CRS/shape/transform are compared only with an owner-mirror grid, not an authenticated organizer template."
+  ],
+  "score": null,
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "downloadable_from_site": false
+}
