@@ -2,7 +2,7 @@
 
 **Result: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Every candidate in this repository fails the
 literal duplicate gate on the full 440-raster focus registry. The two files generated earlier today
-were quarantined as DUPLICATE_STOP. No new TIFF was generated. No experiment was run (0 of 3 used).
+are both DUPLICATE_STOP. The gw-nfs bytes are quarantined in `evidence/quarantine/` (main's policy). H-A stays inventoried as research-only in `docs/downloads/` (main's policy, with a DUPLICATE_STOP receipt). No new TIFF was generated. No experiment was run (0 of 3 used).
 No competition slot was used or authorised.
 
 Executive summary: <https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html>
@@ -14,11 +14,11 @@ Executive summary: <https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/exec
 |---|---|---|
 | Baseline on `main` tip `edb4570` (PR #63) | 14 tests failed. Branch was a shallow graft; main had PR #63 with missing run-card receipts and hand-edited pages. | `git log`, `pytest -q` |
 | Restore pinned registry (440 rasters) | All 440 SHA-256 verified against `registry/focus_registry_manifest.json` (367 MB). | `scripts/restore_registry_snapshot.py` |
-| Full-registry duplicate check, gw-nfs | **DUPLICATE_STOP**: 438 comparable items, max 3-px overlap **1.0**, 7 witnesses. The top witness is `GEMSDOE24/inputs/calibration/8GEMSDOE_Hedge-v2_submission.tif` (overlap 1.0, rank corr. 0.0188). | `evidence/uniqueness/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.full-registry.json` |
+| Full-registry duplicate check, gw-nfs | **DUPLICATE_STOP**: 438 comparable items, max 3-px overlap **1.0**, 7 witnesses. The top witness is `GEMSDOE24/inputs/calibration/8GEMSDOE_Hedge-v2_submission.tif` (overlap 1.0, rank corr. 0.0188). | `evidence/uniqueness/gwnfs-quarantined-h1.full-registry.json` |
 | Full-registry duplicate check, H-A | **DUPLICATE_STOP**: 438 comparable items, max overlap **1.0** vs `GEMSDOE24/inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif`; 3 witnesses. | `evidence/uniqueness/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.full-registry.json` |
 | Nine best focus files, pairwise recheck from bytes | Max overlap with another focus file: GEMSDOE24 1.0000, 25 1.0000, 27 0.9802, 28 1.0000, 30 1.0000, 31 1.0000, 32 1.0000, 33 0.9971, 36 0.9758. **None is unique.** | `evidence/uniqueness/nine-site-pairwise-recheck.json` |
-| Quarantine | gw-nfs and H-A moved out of `docs/downloads/` with `git mv` into `evidence/quarantine/`, so they are no longer served. Bytes unchanged (SHA-256 verified). | `git status` |
-| Tests | 234 passed, 4 skipped (Python); Node unit 3/3; Node site 7/7; `build_hk3_pages.py --check` up to date. | `pytest`, `npm test`, `npm run test:site` |
+| Quarantine | gw-nfs is in `evidence/quarantine/` and not served. H-A is kept in `docs/downloads/` as an inventoried research file, which matches main's policy and its tests. Neither is approved. | `git status`; `tests/test_public_downloads.py` |
+| Tests | 257 passed, 4 skipped (Python); Node unit 3/3; Node site 7/7; `build_hk3_pages.py --check` up to date. | `pytest`, `npm test`, `npm run test:site` |
 
 Labels: every number above is an audit measurement on saved bytes. None is a HOLDOUT-DTI and none is an
 ORGANIZER-CONFIRMED score. The registry is the nine focus repositories only, not every GEMSDOE site.
@@ -79,7 +79,7 @@ ORGANIZER-CONFIRMED score. The registry is the nine focus repositories only, not
 2. **Explain the portal error.** Submit the organizer sample unchanged, or ask the user which file produced the error. This uses one of three weekly slots.
 3. **Real method with an independent signal.** A candidate must pass the literal gate *by its method*, not by excluding registry dots. Options are in `research/2026-10-28-next-lane-slate.md` and H-B/H-C above.
 4. **Full live registry.** The focus registry is nine repos. Extend it to every GEMSDOE repo that submits TIFFs, then rerun `scripts/audit_full_registry.py` on the final bytes.
-5. **Fix the H-A run card.** Correct the 2,524 vs 1,896 count and the leaderboard URL. The file stays quarantined.
+5. **Fix the H-A run card.** Correct the 2,524 vs 1,896 count and the leaderboard URL. The file stays research-only and inventoried; any move to quarantine is a separate decision.
 6. **Pre-placement surface receipt.** `scripts/check_uniqueness.py --stage surface` is the protocol's own gate. Its manifest expects an `entries` list and a `complete` flag, which the focus manifest does not provide. Adapt the manifest once in the template.
 
 ## Limits

@@ -20,6 +20,7 @@ import submission_writer as sw  # noqa: E402
 
 CONVENTION_CHECKS = (
     "no_nan_inside_footprint",
+    "finite_inside_footprint",
     "outside_footprint_is_nan",
     "in_range_0_1",
 )
@@ -37,7 +38,9 @@ def _write(path, arr):
 
 def _checks(path, footprint):
     result = sw.validate_geotiff(path, footprint_mask=footprint)
-    return {c["check"]: c["passed"] for c in result.checks}
+    checks = {c["check"]: c["passed"] for c in result.checks}
+    assert all(name in checks for name in CONVENTION_CHECKS)
+    return checks
 
 
 @pytest.fixture()
@@ -78,11 +81,39 @@ def test_nan_inside_footprint_fails(tmp_path, footprint):
     assert _checks(path, footprint)["no_nan_inside_footprint"] is False
 
 
+def test_infinity_outside_footprint_is_not_accepted_as_nan(tmp_path, footprint):
+    arr = _base(footprint)
+    arr[0, 0] = np.inf
+    path = _write(tmp_path / "infinite_outside.tif", arr)
+    checks = _checks(path, footprint)
+    assert checks["outside_footprint_is_nan"] is False
+
+
+def test_infinity_inside_footprint_fails_finiteness_and_range(tmp_path, footprint):
+    arr = _base(footprint)
+    arr[2, 3] = np.inf
+    path = _write(tmp_path / "infinite_inside.tif", arr)
+    checks = _checks(path, footprint)
+    assert checks["finite_inside_footprint"] is False
+    assert checks["in_range_0_1"] is False
+
+
 def test_out_of_range_inside_value_fails(tmp_path, footprint):
     arr = _base(footprint)
     arr[2, 3] = 1.5
     path = _write(tmp_path / "out_of_range.tif", arr)
     assert _checks(path, footprint)["in_range_0_1"] is False
+
+
+def test_footprint_shape_mismatch_fails_closed(tmp_path, footprint):
+    path = _write(tmp_path / "wrong_fp.tif", _base(footprint))
+    result = sw.validate_geotiff(path, footprint_mask=footprint[:-1, :])
+    checks = {c["check"]: c["passed"] for c in result.checks}
+    assert checks["no_nan_inside_footprint"] is False
+    assert checks["finite_inside_footprint"] is False
+    assert checks["outside_footprint_is_nan"] is False
+    assert checks["in_range_0_1"] is False
+    assert result.passed is False
 
 
 def test_missing_footprint_fails_closed(tmp_path, footprint):
@@ -91,4 +122,5 @@ def test_missing_footprint_fails_closed(tmp_path, footprint):
     checks = {c["check"]: c["passed"] for c in result.checks}
     assert checks["no_nan_inside_footprint"] is False
     assert checks["outside_footprint_is_nan"] is False
+    assert checks["finite_inside_footprint"] is False
     assert result.passed is False

@@ -32,8 +32,8 @@
     }
   },
   "raster_sha256": {
-    "gemsdoe-karage2-gw-nfs-h1-20261029-zeros.DUPLICATE_STOP.tif": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85",
-    "gemsdoekarage2-hA-intersection-propensity-aad3569983ab.DUPLICATE_STOP.tif": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e"
+    "gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif (quarantined, evidence/quarantine/)": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85",
+    "gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif (research-only, docs/downloads/)": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e"
   },
   "validator_output": {
     "note": "Format checks from the saved bytes: single band float32, values in [0,1] inside footprint, no NaN inside footprint (see the receipts). Grid = owner mirror, not organizer-authenticated.",
@@ -45,7 +45,7 @@
   "verdict": "negative",
   "verdict_reason": "Both candidates fail the literal full-registry duplicate gate. No organizer-authenticated template or labels; no holdout estimate exists.",
   "tests": {
-    "pytest": "234 passed, 4 skipped",
+    "pytest": "257 passed, 4 skipped",
     "npm_test": "3/3",
     "npm_test_site": "7/7",
     "pages_check": "up to date"
@@ -53,6 +53,7 @@
   "scope_limits": [
     "Registry is the nine focus repositories (440 rasters), not every GEMSDOE site.",
     "Owner mirrors are not organizer downloads.",
-    "The gate was run post hoc on saved bytes, not as a pre-placement surface receipt."
+    "The gate was run post hoc on saved bytes, not as a pre-placement surface receipt.",
+    "H-A is retained in docs/downloads as an inventoried research file (main's policy); its full-registry result is DUPLICATE_STOP."
   ]
 }
