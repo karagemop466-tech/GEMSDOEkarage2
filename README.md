@@ -168,6 +168,27 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
+## Current status — 2026-10-29 (read first)
+
+**No submission is approved. Do not download or submit any file from this repository.**
+
+- **Live leaderboard (2026-10-29):** top score **0.4544** (xiaofanhu, rank #1). The "0.3195 is highest"
+  and "0.4413 is the high" figures do not match the page. kpomazi's 0.3195 is at **rank #47**, not 27.
+  Source: https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/ (public-test scores; the private set decides prize round 1).
+- **Official format, verified:** float32, single band, values in [0, 1], EPSG:32611, 100 m, and
+  "data outside the bounds is null or nan" (https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/).
+  The organizer sample template is NaN outside its footprint (sha256 matches the pin; not organizer-authenticated).
+- **Defect found and fixed:** every saved TIFF uses finite zeros outside the footprint, so the repo's strict format check
+  fails for them (HK3: `strict_format_pass: false`). The shared writer's "all cells finite" gate enforced the
+  wrong convention; it is now footprint-based and tested (`tests/test_writer_exterior_convention.py`).
+  The saved TIFFs were **not** regenerated; they still fail the uniqueness gate.
+- **Why 0.2778 might score well (labelled USER-REPORTED / UNVERIFIED):** under the official metric with α + β = 1, a dot
+  adds value only if its hit probability exceeds α × DTI (≈ 0.056 at DTI 0.2778). The 0.2778 file is the D2.8 set with 6,436
+  dots removed, so the removed dots were probably below that hit rate. This is a derived, conditional inference, not an established cause.
+- **Full review:** [`research/2026-10-29-verification-and-blocker-review.md`](research/2026-10-29-verification-and-blocker-review.md),
+  claim table [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json),
+  run card [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) (0 experiments, verdict negative).
+
 ## Current status — 2026-10-28 independent correction
 
 **NEGATIVE — NO TIFF IS APPROVED. DO NOT SUBMIT ANY RESEARCH DOWNLOAD.**
