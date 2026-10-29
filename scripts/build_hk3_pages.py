@@ -50,7 +50,8 @@ def gather() -> dict:
     inventory = load(EV / "public_downloads_audit.json")
     focus = load(ROOT / "registry/focus_sites.json")
     geometry = load(EV / "geometry-audit.json")
-    official = load(EV / "official-review-2026-10-28.json")
+    official = load(EV / "official-review-2026-10-29.json")
+    monitor = load(DOCS / "data/monitor.json")
     k3 = load(EV / "k3/run_card.json")
     filename = card["raster"]["file"]
     candidate = (ROOT / filename).resolve()
@@ -111,9 +112,37 @@ def gather() -> dict:
     for cand in profile.get("other_candidates", []):
         if cand["gate_status"] != "DUPLICATE_STOP":
             raise ValueError(f"Gate result for {cand['name']} is not DUPLICATE_STOP; re-review the page text before publishing")
+    leaderboard = next((item for item in official.get("sources", [])
+                        if item.get("url") == LEADERBOARD), None)
+    first_place = leaderboard.get("first_place", {}) if leaderboard else {}
+    cited = leaderboard.get("user_cited_0_3195", {}) if leaderboard else {}
+    snapshot = monitor.get("leaderboard", {})
+    current_sites = monitor.get("sites", [])
+    if (official.get("observed_date_utc") != "2026-10-29"
+            or not official.get("observed_utc")
+            or leaderboard is None
+            or first_place.get("rank") != 1
+            or first_place.get("participant") != "xiaofanhu"
+            or not 0 <= first_place.get("value", -1) <= 1
+            or cited.get("rank") != 47 or cited.get("participant") != "kpomazi"
+            or cited.get("value") != 0.3195
+            or not 0 <= cited.get("value", -1) <= 1
+            or snapshot.get("user_cited_0_3195") != {
+                "rank": cited.get("rank"), "participant": cited.get("participant"),
+                "score_text": f"{cited.get('value', -1):.4f}"}
+            or snapshot.get("status") != "snapshot"
+            or snapshot.get("checked_utc") != official.get("observed_utc")
+            or snapshot.get("score_text") != f"{first_place.get('value', -1):.4f}"
+            or snapshot.get("participant") != first_place.get("participant")
+            or snapshot.get("rank") != first_place.get("rank")
+            or len(current_sites) != 9
+            or {row.get("site") for row in current_sites} != {row["site"] for row in records}
+            or any(row.get("status") not in {"changed", "unchanged", "unavailable"}
+                   for row in current_sites)):
+        raise ValueError("Current public leaderboard snapshot or GitHub freshness feed is inconsistent")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
-            "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3,
-            "profile": profile}
+            "inventory": inventory, "focus": records, "geometry": geometry, "official": official,
+            "monitor": monitor, "k3": k3, "profile": profile}
 
 
 def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
@@ -132,7 +161,7 @@ def shell(title: str, active: str, body: str, *, base_href: str | None = None) -
 <main class="container"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
 {body}
 <footer class="footnote"><p><b>Evidence labels:</b> HOLDOUT-DTI is a local, catalogue-based proxy with its evaluator, withheld count and interval; it is not a leaderboard result. Historical values are USER-REPORTED / UNVERIFIED unless linked to an actual organizer receipt. The leaderboard observation is an organizer-published public snapshot, not a receipt for any local TIFF.</p>
-<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="evidence/official-review-2026-10-28.json">Source observations</a></p></footer>
+<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="evidence/official-review-2026-10-29.json">Source observations</a> · <a href="../research/2026-10-29-scorecard-and-monitor-review.md">Three-pass review</a> · <a href="evidence/2026-10-29-repo-review-run-card.json">Review card</a></p></footer>
 </main></body></html>'''
 
 
@@ -178,19 +207,28 @@ def nine_site_table(d: dict) -> str:
 <td><a href="{esc(source)}">{esc(rec['file'])}</a><span class="sub-label">Historical reference · download for research only</span></td>
 <td><b>{rec['owner_reported_unverified']:.4f}</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
 <td>Unavailable</td><td><b class="no">NO</b> · {geo['max_focus_overlap_fraction'] * 100:.1f}% near {esc(geo['closest_focus_site'])}</td><td><b class="no">DO NOT SUBMIT</b></td></tr>''')
+    monitor = d["monitor"]
+    source_rows = monitor["sites"]
+    changed = sum(row["status"] == "changed" for row in source_rows)
+    unavailable = sum(row["status"] == "unavailable" for row in source_rows)
+    freshness = f'''<p class="muted"><b>GITHUB METADATA ONLY · {esc(monitor['generated_utc'])}:</b> {changed} of {len(source_rows)} focus-site main branches differ from the pinned historical references; {unavailable} are unavailable. A changed branch does not establish a new high score, raster identity, or eligibility. No latest-head raster/score audit is claimed. <a href="audit.html">Open the source-freshness view</a>.</p>'''
     return f'''<section class="section"><h3>Nine-site executive scorecard</h3>
-<p>Highest <em>reported</em> historical file from each requested site; the values have no linked organizer submission-page receipt. Files are pinned for research, not recommendations. Click a site for its individual summary.</p>
+<p>Highest <em>reported</em> historical file from each requested site in the supplied list; the values have no linked organizer submission-page receipt. These pinned files are research references, not recommendations or verified current site champions. Click a site for its individual summary.</p>
+{freshness}
 <table id="nine-sites"><thead><tr><th>Site</th><th>Historical file · research only</th><th>Historical report</th><th>New-file estimate</th><th>Unique vs other eight?</th><th>Action</th></tr></thead><tbody>{''.join(rows)}</tbody></table>
 <p>Uniqueness is the directional share of a file's positive dots within three pixels of another pinned file. A different byte hash does not imply a different prediction. <a href="audit.html">Explore the nine-site audit and source freshness →</a></p>
 </section>'''
 
 
 def science_and_sources(d: dict) -> str:
-    lead = d["official"]["sources"][1]["first_place"]
+    board = next(item for item in d["official"]["sources"] if item.get("url") == LEADERBOARD)
+    lead = board["first_place"]
+    user_cited = board["user_cited_0_3195"]
+    observed = d["official"]["observed_date_utc"]
     return f'''<section class="section"><h3>Why the reported GEMSDOE32 result leads this group</h3>
 <p>GEMSDOE32 is <b>0.2778 USER-REPORTED / UNVERIFIED</b>, the highest of the supplied nine claims, not an organizer-confirmed score for these bytes. The pinned raster is the GEMSDOE25 D2.8 dot set with 6,436 catalogue-near dots removed; no dots were added. GEMSDOE25 and GEMSDOE30 have identical in-footprint predictions despite different file bytes.</p>
 <p>The official distance-weighted Tversky metric credits predictions near truth and penalizes unsupported positives. Removing near-catalogue dots <em>could</em> improve the balance, but the hidden labels and a file-linked receipt are unavailable, so the actual causal explanation is not established. A higher result is possible, not demonstrated. Fault evidence alone does not prove a geothermal vent.</p>
-<p>On 2026-10-28, the <a href="{LEADERBOARD}">official public leaderboard</a> showed <b>{esc(lead['participant'])}: {lead['value']:.4f}</b> in first place. This is an ORGANIZER-PUBLISHED PUBLIC SNAPSHOT, not a submission receipt or a private-round result; it can change.</p>
+<p>On {esc(observed)}, the <a href="{LEADERBOARD}">official public leaderboard</a> showed <b>{esc(lead['participant'])}: {lead['value']:.4f}</b> at rank {lead['rank']}. The user-cited 0.3195 appeared at rank {user_cited['rank']} for {esc(user_cited['participant'])} in the same page snapshot; it was not the displayed first-place value. These are ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT values, not file-linked submission receipts, private-round results, or scores for our local rasters; the board can change. <a href="evidence/official-review-2026-10-29.json">Open timestamped observation and limitations</a>.</p>
 </section>
 <section class="section"><h3>Next research slate · not tested or assigned</h3>
 <p>Rank is a qualitative research priority, not a score prediction or a claim of fleet-wide novelty. Similar ingredients exist in other projects.</p>
@@ -424,6 +462,8 @@ def main() -> int:
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
                 (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
                 (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json"),
+                (EV / "2026-10-29-repo-review-run-card.json", DOCS / "evidence/2026-10-29-repo-review-run-card.json"),
+                (EV / "official-review-2026-10-29.json", DOCS / "evidence/official-review-2026-10-29.json"),
                 (EV / "focus-profile-2026-10-29.json", DOCS / "evidence/focus-profile-2026-10-29.json")]
     mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
     stale = []
