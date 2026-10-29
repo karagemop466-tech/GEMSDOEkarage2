@@ -1,0 +1,28 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "created_utc_session": "2026-10-29",
+  "written_by": "scripts/audit_focus_gate.py measurement plus this negative card; the producing run card is docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.run-card.json (committed on main, verdict text not in the inventory schema)",
+  "raster": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+  "raster_sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
+  "submission_name": "gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
+  "note": "H-A intersection propensity dots; NOT ELIGIBLE: shared gate DUPLICATE_STOP vs lattice",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false,
+  "holdout": null,
+  "holdout_note": "No holdout evidence for this file is committed; its producing run card reports none. Not used here.",
+  "gates": {
+    "shared_uniqueness_gate_vs_lattice": "DUPLICATE_STOP",
+    "frac_dots_within_3px_of_lattice": 1.0,
+    "unique_literal_vs_registry": false,
+    "official_exterior_convention_met": false
+  },
+  "registry_scope": "lattice witness only (13GEMSDOE r13-lattice-s5); full registry not restored for this file",
+  "experiments_run_by_this_card": 0,
+  "leaderboard_estimate": null,
+  "organizer_confirmed_score": null,
+  "evidence": [
+    "evidence/lattice-gate/published-gemsdoekarage2-hA-intersection-propensity-aad3569983ab.json"
+  ]
+}

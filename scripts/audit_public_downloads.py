@@ -42,6 +42,12 @@ ARTIFACTS = (
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
      "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True),
+    # Retained for research provenance only. Its own card records no organizer
+    # holdout, no registry audit, and an explicit negative verdict.
+    ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
+     "evidence/hA-intersection/run_card.json", None, False),
+    ("gemsdoe-karage2-hr4-intersection-20261029-nan",
+     "evidence/hr4-intersection/run_card.json", None, False),
 )
 
 
