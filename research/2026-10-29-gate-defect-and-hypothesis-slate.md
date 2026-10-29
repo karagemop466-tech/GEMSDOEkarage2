@@ -177,7 +177,7 @@ Scores are qualitative. They are research priorities, not predictions of DTI. â€
 | Validate the top candidate on holdout before a slot | Not run. The gate decision and lane assignment come first (section 8). |
 | Verify line by line with official links; flag irregularities | Section 4 (19 rows) and section 5 (9 items). |
 | Put the prompt into the README and use it as the operating base | README updated with this sessionâ€™s status; the prompt remains there. |
-| Create a PR and merge to main | Done in this session (see the PR link in the final report). |
+| Create a PR and merge to main | PR #62 opened from the session branch; CI (test, validate, verify) passed on it. The merge is the last step and is reported in the session summary, not in this file. |
 | Limitations and what access is needed | Section 8. |
 
 ---
