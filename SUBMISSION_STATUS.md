@@ -1,5 +1,10 @@
 # Submission status — NO APPROVED FILE
 
+**2026-10-29 update:** all nine focus files stop at the shared uniqueness gate against the
+13GEMSDOE lattice (99.91–99.92% dot overlap). No file is eligible under the written rule. The
+protocol owner must decide the policy; see the executive summary and
+[`research/2026-10-29-focus-audit-and-next-hypotheses.md`](research/2026-10-29-focus-audit-and-next-hypotheses.md).
+
 **HK3 and every other published TIFF are research-only. DO NOT SUBMIT.**
 This corrects the earlier upload recommendation. The literal registry failure
 cannot be waived by density, research status or chance correction. Existing TIFF

@@ -168,6 +168,37 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
+## Current status — 2026-10-29 focus audit and policy decision (read first)
+
+**NO FILE IS APPROVED. NO NEW TIFF WAS GENERATED. DO NOT DOWNLOAD OR SUBMIT ANY RESEARCH FILE.**
+
+- **Why no file:** every one of the nine focus files stops as `DUPLICATE_STOP` against the
+  13GEMSDOE lattice witness, with 99.91–99.92% of its dots within 3 px (shared
+  `scripts/check_uniqueness.py`, receipts in `evidence/lattice-gate/`). The witness covers 99.87% of
+  the footprint, so any dot-based file on this footprint fails the written 70% clause. Reaching
+  below 70% would require dots in the 6,649 uncovered cells, which is gaming and prohibited.
+- **Best reported file:** GEMSDOE32 at 0.2778 (USER-REPORTED / UNVERIFIED). Not eligible.
+  Its dots are GEMSDOE25 minus 6,436 catalogue-adjacent dots (measured, pinned bytes).
+- **Policy decision needed from the protocol owner** (executive summary, "Policy decision"):
+  (1) keep the literal rule, which means no eligible file; (2) rule on whether the lattice
+  witness stays in the registry and whether the 70% clause suits a dense witness; (3) approve a
+  calibrated similarity clause in advance. Agents will not choose any of these.
+- **Leaderboard, fetched 2026-10-29:** #1 xiaofanhu 0.4544; kpomazi 0.3195 is at #47, so the
+  prompt's "highest 0.3195" is incorrect. The 0.4413 figure does not appear.
+- **Official rules, verified:** single float32 GeoTIFF; values in [0,1]; three submissions per week;
+  generative-AI use must be disclosed in the narrative. Outside-bounds NaN and zeros both appear in
+  the pinned set; the cause of the portal's range error is unresolved.
+- **Irregularities for review:** mirror `sample_submission.tif` is not the all-absence sample
+  described officially (60,988 positives); the registry manifest covers nine repos only (440 rasters)
+  and declares no completeness; two focus files share one dot set; some cache paths map to the wrong
+  site folder (hashes still match). Full list: [`research/2026-10-29-focus-audit-and-next-hypotheses.md`](research/2026-10-29-focus-audit-and-next-hypotheses.md).
+- **Experiments:** none run. The lane was unassigned, the candidate set is empty, and the policy
+  decision blocks any upload. Budget used: 0 of 3.
+- **Reproduce:** `.venv/bin/python scripts/audit_focus_gate.py` (needs
+  `scripts/restore_registry_snapshot.py`, `scripts/bootstrap_research.py`, and
+  `bash scripts/download_competition_data.sh --research-mirror`).
+  Then `.venv/bin/python scripts/build_hk3_pages.py --check`.
+
 ## Current status — 2026-10-28 independent correction
 
 **NEGATIVE — NO TIFF IS APPROVED. DO NOT SUBMIT ANY RESEARCH DOWNLOAD.**
