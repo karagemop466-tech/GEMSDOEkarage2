@@ -128,7 +128,7 @@ def test_pages_workflow_keeps_legacy_and_actions_url_layouts_consistent():
     assert 'cp -a docs/. "$RUNNER_TEMP/gems-pages/docs/"' in workflow
     assert 'path: ${{ runner.temp }}/gems-pages' in workflow
     assert 'path: docs\n' not in workflow
-    assert 'docs/index.html' in (ROOT/'index.html').read_text()
+    assert 'docs/executive-summary.html' in (ROOT/'index.html').read_text()  # root redirect
     assert 'scripts/build_hk3_pages.py --check' in workflow
     assert 'OK TO SUBMIT' in (ROOT/'docs/index.html').read_text()
 

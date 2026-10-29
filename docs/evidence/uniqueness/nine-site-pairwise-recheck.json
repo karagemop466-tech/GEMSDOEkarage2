@@ -1,0 +1,665 @@
+{
+  "generated_utc": "2026-10-29T19:01:39.246577+00:00",
+  "scope": "nine focus best files only; not the 440-raster registry; not a score",
+  "summary": [
+    {
+      "site": "GEMSDOE24",
+      "file": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+      "user_reported_value_unverified": 0.2477,
+      "max_overlap_vs_other_eight": 1.0,
+      "closest_other_site": "GEMSDOE25",
+      "unique_vs_other_eight": false
+    },
+    {
+      "site": "GEMSDOE25",
+      "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "user_reported_value_unverified": 0.26,
+      "max_overlap_vs_other_eight": 1.0,
+      "closest_other_site": "GEMSDOE24",
+      "unique_vs_other_eight": false
+    },
+    {
+      "site": "GEMSDOE27",
+      "file": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+      "user_reported_value_unverified": 0.2449,
+      "max_overlap_vs_other_eight": 0.980188,
+      "closest_other_site": "GEMSDOE24",
+      "unique_vs_other_eight": false
+    },
+    {
+      "site": "GEMSDOE28",
+      "file": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+      "user_reported_value_unverified": 0.271,
+      "max_overlap_vs_other_eight": 1.0,
+      "closest_other_site": "GEMSDOE24",
+      "unique_vs_other_eight": false
+    },
+    {
+      "site": "GEMSDOE30",
+      "file": "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "user_reported_value_unverified": 0.26,
+      "max_overlap_vs_other_eight": 1.0,
+      "closest_other_site": "GEMSDOE24",
+      "unique_vs_other_eight": false
+    },
+    {
+      "site": "GEMSDOE31",
+      "file": "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+      "user_reported_value_unverified": 0.2708,
+      "max_overlap_vs_other_eight": 1.0,
+      "closest_other_site": "GEMSDOE24",
+      "unique_vs_other_eight": false
+    },
+    {
+      "site": "GEMSDOE32",
+      "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "user_reported_value_unverified": 0.2778,
+      "max_overlap_vs_other_eight": 1.0,
+      "closest_other_site": "GEMSDOE24",
+      "unique_vs_other_eight": false
+    },
+    {
+      "site": "GEMSDOE33",
+      "file": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "user_reported_value_unverified": 0.2632,
+      "max_overlap_vs_other_eight": 0.997086,
+      "closest_other_site": "GEMSDOE27",
+      "unique_vs_other_eight": false
+    },
+    {
+      "site": "GEMSDOE36",
+      "file": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "user_reported_value_unverified": 0.275,
+      "max_overlap_vs_other_eight": 0.975781,
+      "closest_other_site": "GEMSDOE27",
+      "unique_vs_other_eight": false
+    }
+  ],
+  "pairs": [
+    {
+      "a": "GEMSDOE24",
+      "b": "GEMSDOE25",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.575854,
+      "a_support_pixels": 60069,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE24",
+      "b": "GEMSDOE27",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.98956,
+      "a_support_pixels": 60069,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE24",
+      "b": "GEMSDOE28",
+      "a_dots_within_3px_of_b": 0.934792,
+      "spearman_footprint": 0.530583,
+      "a_support_pixels": 60069,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE24",
+      "b": "GEMSDOE30",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.575854,
+      "a_support_pixels": 60069,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE24",
+      "b": "GEMSDOE31",
+      "a_dots_within_3px_of_b": 0.940785,
+      "spearman_footprint": 0.546447,
+      "a_support_pixels": 60069,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE24",
+      "b": "GEMSDOE32",
+      "a_dots_within_3px_of_b": 0.884766,
+      "spearman_footprint": 0.532368,
+      "a_support_pixels": 60069,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE24",
+      "b": "GEMSDOE33",
+      "a_dots_within_3px_of_b": 0.962393,
+      "spearman_footprint": 0.565411,
+      "a_support_pixels": 60069,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE24",
+      "b": "GEMSDOE36",
+      "a_dots_within_3px_of_b": 0.885615,
+      "spearman_footprint": 0.523873,
+      "a_support_pixels": 60069,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE25",
+      "b": "GEMSDOE24",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.575854,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE25",
+      "b": "GEMSDOE27",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.569774,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE25",
+      "b": "GEMSDOE28",
+      "a_dots_within_3px_of_b": 0.931821,
+      "spearman_footprint": 0.681038,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE25",
+      "b": "GEMSDOE30",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 1.0,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE25",
+      "b": "GEMSDOE31",
+      "a_dots_within_3px_of_b": 0.937151,
+      "spearman_footprint": 0.954493,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE25",
+      "b": "GEMSDOE32",
+      "a_dots_within_3px_of_b": 0.881719,
+      "spearman_footprint": 0.923555,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE25",
+      "b": "GEMSDOE33",
+      "a_dots_within_3px_of_b": 0.960581,
+      "spearman_footprint": 0.809604,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE25",
+      "b": "GEMSDOE36",
+      "a_dots_within_3px_of_b": 0.882649,
+      "spearman_footprint": 0.909038,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE27",
+      "b": "GEMSDOE24",
+      "a_dots_within_3px_of_b": 0.980188,
+      "spearman_footprint": 0.98956,
+      "a_support_pixels": 61328,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE27",
+      "b": "GEMSDOE25",
+      "a_dots_within_3px_of_b": 0.980156,
+      "spearman_footprint": 0.569774,
+      "a_support_pixels": 61328,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE27",
+      "b": "GEMSDOE28",
+      "a_dots_within_3px_of_b": 0.916156,
+      "spearman_footprint": 0.524981,
+      "a_support_pixels": 61328,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE27",
+      "b": "GEMSDOE30",
+      "a_dots_within_3px_of_b": 0.980156,
+      "spearman_footprint": 0.569774,
+      "a_support_pixels": 61328,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE27",
+      "b": "GEMSDOE31",
+      "a_dots_within_3px_of_b": 0.922091,
+      "spearman_footprint": 0.540677,
+      "a_support_pixels": 61328,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE27",
+      "b": "GEMSDOE32",
+      "a_dots_within_3px_of_b": 0.86719,
+      "spearman_footprint": 0.526747,
+      "a_support_pixels": 61328,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE27",
+      "b": "GEMSDOE33",
+      "a_dots_within_3px_of_b": 0.943289,
+      "spearman_footprint": 0.559443,
+      "a_support_pixels": 61328,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE27",
+      "b": "GEMSDOE36",
+      "a_dots_within_3px_of_b": 0.868037,
+      "spearman_footprint": 0.518356,
+      "a_support_pixels": 61328,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE28",
+      "b": "GEMSDOE24",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.530583,
+      "a_support_pixels": 37660,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE28",
+      "b": "GEMSDOE25",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.681038,
+      "a_support_pixels": 37660,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE28",
+      "b": "GEMSDOE27",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.524981,
+      "a_support_pixels": 37660,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE28",
+      "b": "GEMSDOE30",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.681038,
+      "a_support_pixels": 37660,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE28",
+      "b": "GEMSDOE31",
+      "a_dots_within_3px_of_b": 0.997557,
+      "spearman_footprint": 0.713701,
+      "a_support_pixels": 37660,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE28",
+      "b": "GEMSDOE32",
+      "a_dots_within_3px_of_b": 0.954727,
+      "spearman_footprint": 0.694804,
+      "a_support_pixels": 37660,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE28",
+      "b": "GEMSDOE33",
+      "a_dots_within_3px_of_b": 0.998407,
+      "spearman_footprint": 0.692918,
+      "a_support_pixels": 37660,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE28",
+      "b": "GEMSDOE36",
+      "a_dots_within_3px_of_b": 0.955204,
+      "spearman_footprint": 0.68384,
+      "a_support_pixels": 37660,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE30",
+      "b": "GEMSDOE24",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.575854,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE30",
+      "b": "GEMSDOE25",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 1.0,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE30",
+      "b": "GEMSDOE27",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.569774,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE30",
+      "b": "GEMSDOE28",
+      "a_dots_within_3px_of_b": 0.931821,
+      "spearman_footprint": 0.681038,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE30",
+      "b": "GEMSDOE31",
+      "a_dots_within_3px_of_b": 0.937151,
+      "spearman_footprint": 0.954493,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE30",
+      "b": "GEMSDOE32",
+      "a_dots_within_3px_of_b": 0.881719,
+      "spearman_footprint": 0.923555,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE30",
+      "b": "GEMSDOE33",
+      "a_dots_within_3px_of_b": 0.960581,
+      "spearman_footprint": 0.809604,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE30",
+      "b": "GEMSDOE36",
+      "a_dots_within_3px_of_b": 0.882649,
+      "spearman_footprint": 0.909038,
+      "a_support_pixels": 44090,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE31",
+      "b": "GEMSDOE24",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.546447,
+      "a_support_pixels": 40199,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE31",
+      "b": "GEMSDOE25",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.954493,
+      "a_support_pixels": 40199,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE31",
+      "b": "GEMSDOE27",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.540677,
+      "a_support_pixels": 40199,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE31",
+      "b": "GEMSDOE28",
+      "a_dots_within_3px_of_b": 0.995622,
+      "spearman_footprint": 0.713701,
+      "a_support_pixels": 40199,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE31",
+      "b": "GEMSDOE30",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.954493,
+      "a_support_pixels": 40199,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE31",
+      "b": "GEMSDOE32",
+      "a_dots_within_3px_of_b": 0.953904,
+      "spearman_footprint": 0.967587,
+      "a_support_pixels": 40199,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE31",
+      "b": "GEMSDOE33",
+      "a_dots_within_3px_of_b": 0.999055,
+      "spearman_footprint": 0.819315,
+      "a_support_pixels": 40199,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE31",
+      "b": "GEMSDOE36",
+      "a_dots_within_3px_of_b": 0.954402,
+      "spearman_footprint": 0.952402,
+      "a_support_pixels": 40199,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE32",
+      "b": "GEMSDOE24",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.532368,
+      "a_support_pixels": 37654,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE32",
+      "b": "GEMSDOE25",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.923555,
+      "a_support_pixels": 37654,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE32",
+      "b": "GEMSDOE27",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.526747,
+      "a_support_pixels": 37654,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE32",
+      "b": "GEMSDOE28",
+      "a_dots_within_3px_of_b": 0.998752,
+      "spearman_footprint": 0.694804,
+      "a_support_pixels": 37654,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE32",
+      "b": "GEMSDOE30",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.923555,
+      "a_support_pixels": 37654,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE32",
+      "b": "GEMSDOE31",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.967587,
+      "a_support_pixels": 37654,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE32",
+      "b": "GEMSDOE33",
+      "a_dots_within_3px_of_b": 0.999841,
+      "spearman_footprint": 0.794679,
+      "a_support_pixels": 37654,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE32",
+      "b": "GEMSDOE36",
+      "a_dots_within_3px_of_b": 1.0,
+      "spearman_footprint": 0.984321,
+      "a_support_pixels": 37654,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE33",
+      "b": "GEMSDOE24",
+      "a_dots_within_3px_of_b": 0.997062,
+      "spearman_footprint": 0.565411,
+      "a_support_pixels": 41865,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE33",
+      "b": "GEMSDOE25",
+      "a_dots_within_3px_of_b": 0.997038,
+      "spearman_footprint": 0.809604,
+      "a_support_pixels": 41865,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE33",
+      "b": "GEMSDOE27",
+      "a_dots_within_3px_of_b": 0.997086,
+      "spearman_footprint": 0.559443,
+      "a_support_pixels": 41865,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE33",
+      "b": "GEMSDOE28",
+      "a_dots_within_3px_of_b": 0.9705,
+      "spearman_footprint": 0.692918,
+      "a_support_pixels": 41865,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE33",
+      "b": "GEMSDOE30",
+      "a_dots_within_3px_of_b": 0.997038,
+      "spearman_footprint": 0.809604,
+      "a_support_pixels": 41865,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE33",
+      "b": "GEMSDOE31",
+      "a_dots_within_3px_of_b": 0.9748,
+      "spearman_footprint": 0.819315,
+      "a_support_pixels": 41865,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE33",
+      "b": "GEMSDOE32",
+      "a_dots_within_3px_of_b": 0.92643,
+      "spearman_footprint": 0.794679,
+      "a_support_pixels": 41865,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE33",
+      "b": "GEMSDOE36",
+      "a_dots_within_3px_of_b": 0.927123,
+      "spearman_footprint": 0.78216,
+      "a_support_pixels": 41865,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE36",
+      "b": "GEMSDOE24",
+      "a_dots_within_3px_of_b": 0.975678,
+      "spearman_footprint": 0.523873,
+      "a_support_pixels": 38854,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE36",
+      "b": "GEMSDOE25",
+      "a_dots_within_3px_of_b": 0.974983,
+      "spearman_footprint": 0.909038,
+      "a_support_pixels": 38854,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE36",
+      "b": "GEMSDOE27",
+      "a_dots_within_3px_of_b": 0.975781,
+      "spearman_footprint": 0.518356,
+      "a_support_pixels": 38854,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE36",
+      "b": "GEMSDOE28",
+      "a_dots_within_3px_of_b": 0.97313,
+      "spearman_footprint": 0.68384,
+      "a_support_pixels": 38854,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE36",
+      "b": "GEMSDOE30",
+      "a_dots_within_3px_of_b": 0.974983,
+      "spearman_footprint": 0.909038,
+      "a_support_pixels": 38854,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE36",
+      "b": "GEMSDOE31",
+      "a_dots_within_3px_of_b": 0.974571,
+      "spearman_footprint": 0.952402,
+      "a_support_pixels": 38854,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE36",
+      "b": "GEMSDOE32",
+      "a_dots_within_3px_of_b": 0.974031,
+      "spearman_footprint": 0.984321,
+      "a_support_pixels": 38854,
+      "duplicate_by_protocol_rule": true
+    },
+    {
+      "a": "GEMSDOE36",
+      "b": "GEMSDOE33",
+      "a_dots_within_3px_of_b": 0.975035,
+      "spearman_footprint": 0.78216,
+      "a_support_pixels": 38854,
+      "duplicate_by_protocol_rule": true
+    }
+  ]
+}
