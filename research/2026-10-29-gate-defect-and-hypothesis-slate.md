@@ -203,3 +203,19 @@ Scores are qualitative. They are research priorities, not predictions of DTI. โ€
 - Final entry also requires code assets, documentation, and a generative-AI narrative (rules ยง3.2).
 
 **Suggested next session:** (1) record decision 1; (2) enumerate the registry through the GitHub API; (3) open the GeoDAWN area-1 grid zip if it can be placed in the cache, and map the radiometric and magnetic-depth bands; (4) run the gravity-step experiment only after decisions 1 and 2.
+
+## 10. Main-branch irregularities found at merge time (added after PR #62 was opened)
+
+Merging `main` (PRs #60, #61, #63 landed after this branch was cut) exposed the following. Each was checked by a reproducible command; none was fixed beyond the items noted.
+
+| # | Finding | How verified | Status |
+|---|---|---|---|
+| M1 | Main's H-A TIF (`docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif`, 2,524 positives, 1,896 inside the template footprint) was headlined as "unique" on the home and executive-summary pages. Under the literal gate it matches the lattice witness at **100%** of in-footprint dots (duplicate). | `/tmp`-scratch check using `scripts/check_uniqueness.check_comparator`, same footprint and witness as the calibration receipt | Corrected on both pages: heading, verdict and button now say "not unique". The file itself is unchanged. |
+| M2 | Main's GW-NFS TIF (`gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif`, 30,000 positives) matches the lattice at **98.9%** (duplicate). It has no run card and no page link. | same check | Not corrected (no page claims it). Orphan file; registration needed. |
+| M3 | 628 of H-A's 2,524 positives lie outside the template footprint, which the official format says should be null/NaN. The run card reports the total only. | same check | Flagged, not fixed. |
+| M4 | The H-A run card's uniqueness claim ("distinct sparse intersection pattern") is not backed by any receipt. Its leaderboard URL has a duplicated path segment (`competitions/306/competitions/306/`). | JSON read | Flagged, not edited. |
+| M5 | Main's `docs/index.html` and `docs/executive-summary.html` were hand-edited and no longer match `scripts/build_hk3_pages.py`. On `origin/main`, `build_hk3_pages.py --check` exits 1 ("stale pages/evidence"). | worktree run of `origin/main` | Pre-existing on main. Not regenerated, because that would delete main's H-A section. |
+| M6 | The executive-summary link to this note was broken (missing `../`). | `tests/test_artifacts.py` link test | Fixed. |
+| M7 | Eleven tests fail on `origin/main` and identically on this merged branch: K2/K3/legacy page-language checks expect file names that PR #63 removed from the front pages; root `index.html` no longer references `docs/index.html`; the HK3 protocol-review integrity check fails because `docs/downloads/` has files that the `evidence/public_downloads_audit.json` inventory does not register. | `pytest -q` on `origin/main` (worktree) and on the merged branch | **Not fixed.** Reconciling these needs a decision on which front-page content is canonical. |
+
+Consequence: this PR is **not merged**. The merge rule requires passing tests, and the merged state has 11 failures, all present on `main` before this PR. The PR adds no new failure. The decision is left to the user (see the remaining-work list).
