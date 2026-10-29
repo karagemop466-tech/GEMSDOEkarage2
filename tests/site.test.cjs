@@ -107,6 +107,23 @@ test('every relative link on the desk pages resolves to a published file', () =>
   }
 });
 
+test('current official snapshot and source freshness are dated and correctly scoped', () => {
+  const dom = render('executive-summary.html');
+  const text = dom.window.document.body.textContent;
+  const hrefs = [...dom.window.document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));
+  assert.match(text, /2026-10-29[\s\S]*xiaofanhu: 0\.4544[\s\S]*rank 1/);
+  assert.match(text, /ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT/);
+  assert.match(text, /not a local candidate estimate, submission-page receipt, or private-round result/i);
+  assert.ok(hrefs.includes('evidence/official-review-2026-10-29.json'));
+  assert.ok(hrefs.includes('evidence/cross-site-hypothesis-screen-2026-10-29.md'));
+  assert.match(text, /Three ranked cross-site hypotheses · unrun/);
+  assert.match(text, /No candidate, score, or experiment is authorized/i);
+  assert.ok(hrefs.includes('field-notes/index.html'));
+  assert.match(text, /pinned to the 2026-10-27 audit/i);
+  assert.match(text, /metadata only; changes are not score or raster audits/i);
+  dom.window.close();
+});
+
 test('official sources and complete holdout labels are linked on the summary', () => {
   const dom = render('executive-summary.html');
   const hrefs = [...dom.window.document.querySelectorAll('a[href]')].map(a => a.getAttribute('href'));

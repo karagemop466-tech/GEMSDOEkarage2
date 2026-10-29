@@ -1,0 +1,50 @@
+{
+  "schema": "gems.review-run-card.v1",
+  "review_date_utc": "2026-10-29",
+  "review_type": "READ-ONLY SCIENTIFIC / RELEASE-GATE REVIEW; NO GEOLOGICAL EXPERIMENT",
+  "hypothesis": "No new geological hypothesis was tested. The review refreshed public source metadata, checked official competition pages, and reconciled the evidence already in this checkout.",
+  "mechanism": "Not tested. The B2 lineage offers a plausible scoring-arithmetic explanation for the owner-reported value, but hidden truth contributions are unavailable and no causal re-evaluation was performed.",
+  "non_fault_mimic": "Not applicable to an unrun candidate. For the superseded 2026-10-28 gravity/topography proposal, unfaulted lithologic contacts, intrusive margins, and terrace risers were explicit mimics requiring null controls.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI",
+    "status": "NO NEW HOLDOUT RUN",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "value": null,
+    "ci95": null,
+    "note": "Historical HOLDOUT-DTI values elsewhere in this repository are not results of this review and must not be projected to the leaderboard."
+  },
+  "registry": {
+    "status": "NO CANDIDATE RASTER; FULL REGISTRY NOT ESTABLISHED",
+    "surface_before_placement_rank_correlation": null,
+    "surface_before_placement_overlap_within_3px": null,
+    "final_dots_rank_correlation": null,
+    "final_dots_overlap_within_3px": null,
+    "note": "No candidate surface or final dots were emitted, so the mandatory pre-placement and final registry gates were not run. Existing pinned-filename and saved-byte audits remain negative; the complete registry is unavailable."
+  },
+  "raster_sha256": null,
+  "validator": {
+    "candidate_created": false,
+    "single_band_float32": null,
+    "finite_inside_footprint": null,
+    "values_in_0_1": null,
+    "epsg_32611": null,
+    "100m_resolution": null,
+    "training_bounds_and_transform": null,
+    "outside_bounds_null_or_nan": null,
+    "organizer_template_authenticated": false,
+    "note": "No candidate TIFF exists to validate."
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "promotion_verdict": "negative",
+  "slot_selection": "not performed; requires a separate selector and verified weekly quota",
+  "experiments_run_this_review": 0,
+  "stop_reasons": [
+    "No authenticated assignment identifying the single allowed method paragraph.",
+    "Competition training inputs, organizer template, and local shared feature stack are unavailable.",
+    "Complete duplicate registry is not established and historical candidates have mandatory duplicate stops.",
+    "No comparable, authenticated holdout package supports a new candidate or leaderboard estimate.",
+    "Slot promotion is a separate action and no account quota or selector evidence is available."
+  ]
+}

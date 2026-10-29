@@ -1,0 +1,440 @@
+{
+  "schema": "gems.commit_pinned_upstream_review.v1",
+  "observed_utc": "2026-10-29T18:30:29Z",
+  "baseline_reviewed_utc": "2026-10-27T21:10:00Z",
+  "source_feed_path": "docs/field-notes/data/source-feed.json",
+  "source_feed_scope": "GitHub main-branch HEAD metadata only; no score, raster re-audit, organizer quota, or complete-registry claim.",
+  "method": "Resolved each current_head through the GitHub commit API to its root commit.tree.sha, fetched that tree recursively from the exact tree SHA, verified the returned tree SHA/non-truncation/blob counts, and matched selected current-source blob SHAs to those trees. Compared current blob paths and SHAs with the reviewed_head snapshot; selected text artifacts were retrieved by immutable blob SHA.",
+  "tree_truncated_for_any_site": false,
+  "binary_raster_contents_downloaded": false,
+  "sites": [
+    {
+      "repo": "GEMSDOE24",
+      "reviewed_head": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "current_head": "63d5885b68f73c19a7746052ccb3e5690f3271b5",
+      "current_tree_sha": "83dd61d22c7088aa5bcc2acb8801ffa93431d1f2",
+      "tree_blob_entries": 1025,
+      "tree_truncated": false,
+      "changed_path_counts": {
+        "added": 111,
+        "modified": 42,
+        "deleted": 0
+      },
+      "reviewed_sources": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "db666753bc91e609e571fe4416b872a80b249405",
+          "sha256": "735edc7b020f59c4ebb7d2eb20c1528df971be633d0fc9593b0e9584175574b3"
+        },
+        {
+          "path": "docs/data/active_lane.json",
+          "git_blob_sha": "5fb075ebd061facaab6238d7f21ce63318fa13b9",
+          "sha256": "8472d40c2e2d2c505559f6e226c524c81708ace5df7a9e38ebf1f96ce8a12698"
+        },
+        {
+          "path": "docs/data/current_best_review.json",
+          "git_blob_sha": "aeaa99719ec96c48c490bc15f7bdbfef4042d1f1",
+          "sha256": "33e2873a35ec85e0e93418610bc0a4d87db30eefb982ee8beba011afa49fd80f"
+        },
+        {
+          "path": "docs/downloads/gems24-nine-complement-seghgb-20261029-zeros.preflight.json",
+          "git_blob_sha": "d0d37f98ffbce37d5483b0752e092bb600410e75",
+          "sha256": "abbd14bbe9a68b0a87cf8fb49899744a41f0b05eec1302e58133851b41e1a41b"
+        },
+        {
+          "path": "evidence/candidate_registry_overlap_20261029.json",
+          "git_blob_sha": "6f9fbd1d07f785502f100e57726de104f3c0768b",
+          "sha256": "39c871a94585228628f0072cb2ba5a2e62e257ae49c13fee1abca7af17a0cdaa"
+        },
+        {
+          "path": "evidence/geo1_registry_overlap_20261029.json",
+          "git_blob_sha": "f53bf400a191d23e38230bfc0fd78add9876496b",
+          "sha256": "e9496665bfca642e83840a3ae64337c0064f6271f3e4bc945a76327817a78172"
+        },
+        {
+          "path": "evidence/run_card_20261029_nine_site_unique.json",
+          "git_blob_sha": "de2b94bcbda11b24d8423440c68faa351f87ae0d",
+          "sha256": "55b8245ad2e28e4aa0ba025892cb8d4cea1f26c5570e778b567e45ce00b2811a"
+        },
+        {
+          "path": "evidence/seg_hgb_complement_experiment.json",
+          "git_blob_sha": "713525b774972675f23e70f1b74f49ce4072b079",
+          "sha256": "498c757579e4f28cd80dd7877e0ec1ce57193d320dc673358cdc5f455d5ad76a"
+        },
+        {
+          "path": "evidence/seg_hgb_experiment.json",
+          "git_blob_sha": "1d782e41b964ad398ac019d775e795d12d8cb85e",
+          "sha256": "47e3deeea67b574cd5e6e06b35dc1fa84c6dc09afb8c5f8caaa200813145c31e"
+        }
+      ],
+      "review_boundary": "Latest public README/review/summary and selected current evidence files only; no full raster download or independent upstream model rerun.",
+      "recursive_tree_url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE24/git/trees/83dd61d22c7088aa5bcc2acb8801ffa93431d1f2?recursive=1"
+    },
+    {
+      "repo": "GEMSDOE25",
+      "reviewed_head": "b13ccabae15d4951854d47cb35e17322e7537b64",
+      "current_head": "ef939fe87041b6a8315a5f5210cd8a8eee93b2c4",
+      "current_tree_sha": "8991b0c1be58bd03a14413c8f471ff31dd3b7f47",
+      "tree_blob_entries": 1188,
+      "tree_truncated": false,
+      "changed_path_counts": {
+        "added": 215,
+        "modified": 47,
+        "deleted": 0
+      },
+      "reviewed_sources": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "3020d905b80bb06411181bb8986772e1dc67f110",
+          "sha256": "93e750ad5a115abd7de106d529266e185f5e9ccbc73c5a49139a9fd31aed06b4"
+        },
+        {
+          "path": "REVIEW_2026-10-29.md",
+          "git_blob_sha": "65b44dc12a176447ec097772d36d1b3663e5f593",
+          "sha256": "987ff8b0dbb475c6c40c7d208e16eae86d43938d9d950d7c1ad46ab05c111e56"
+        },
+        {
+          "path": "evidence/b2_lane_vs_r13_2026-10-29.json",
+          "git_blob_sha": "18bb0434a1bebc6ab48911f913f59f045f13a0d4",
+          "sha256": "da7de2eb8db399c28cb811f9815dc5c658d8f6e86acc2c79e9ad8aec07bc46da"
+        },
+        {
+          "path": "evidence/b2_lineage_recheck_2026-10-29.json",
+          "git_blob_sha": "6084b090d199a5f9772b1e3db795b29525d156ae",
+          "sha256": "31bafe7b44b0a97651558a521a0bd4879ac91b57e5c6113fbc6c5460dae58cde"
+        },
+        {
+          "path": "knowledge/51_owner_brief_session_review_2026-10-29_30397b95.md",
+          "git_blob_sha": "9087be981435b0ffab913f8ad0765574f29a54e4",
+          "sha256": "c247d67607fbfc41d7109a73d06d65ec696be3e5ec892d5c19d2e5289c31c726"
+        },
+        {
+          "path": "registry/run_card_session_30397b95_2026-10-29.json",
+          "git_blob_sha": "3e28f0c3aa363266adc5fc8d1b3c62b15f227a6d",
+          "sha256": "08f9c22e7f0dd1b12c644b8b11a24899bf2bf450131c0e172c25ed908a8aad3e"
+        }
+      ],
+      "review_boundary": "Latest public README/review/summary and selected current evidence files only; no full raster download or independent upstream model rerun.",
+      "recursive_tree_url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE25/git/trees/8991b0c1be58bd03a14413c8f471ff31dd3b7f47?recursive=1"
+    },
+    {
+      "repo": "GEMSDOE27",
+      "reviewed_head": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "current_head": "bf34151e8e4ef26ec924f28dbc371a39bd740782",
+      "current_tree_sha": "68996a8c0d56f95aab586b77ca389b5000967fbc",
+      "tree_blob_entries": 533,
+      "tree_truncated": false,
+      "changed_path_counts": {
+        "added": 38,
+        "modified": 24,
+        "deleted": 0
+      },
+      "reviewed_sources": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "480870c5cb2840c1b3806d478504d88ba1016e4b",
+          "sha256": "4a8d5c5c1a2ca7b724a52a08002bd48ee1e6dd4cc8587af45587cfe818a7b59c"
+        },
+        {
+          "path": "docs/data/submission_readiness_audit.json",
+          "git_blob_sha": "87a37be3201d92916cff860b47c70bf1a7eeb544",
+          "sha256": "d3deb6c8990d4e8a6c582bbe2e1b3d6170bd9492e3c2ed8680b15ddd35caaccf"
+        },
+        {
+          "path": "evidence/continuation_review_20261029.json",
+          "git_blob_sha": "4e2b4efd03328ea53a7dfb512592c343630db6a8",
+          "sha256": "5ffaea61d76e364602cb8bd1c28067aa97f6826565b84d0fcd6099dae4d8ea24"
+        },
+        {
+          "path": "knowledge/41_session19_repo_review_2026-10-29.md",
+          "git_blob_sha": "bebc93098e816ce95e99735ed5f4ebe2c1cc577e",
+          "sha256": "6641c21fab30abd070efae1f0e668408dd343e03c34c94fc4b5811814dd0874d"
+        }
+      ],
+      "review_boundary": "Latest public README/review/summary and selected current evidence files only; no full raster download or independent upstream model rerun.",
+      "recursive_tree_url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE27/git/trees/68996a8c0d56f95aab586b77ca389b5000967fbc?recursive=1"
+    },
+    {
+      "repo": "GEMSDOE28",
+      "reviewed_head": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "current_head": "424bf795ed2183000c643d6e30a12ce2d4bf401d",
+      "current_tree_sha": "7e3394e2f38614c0b6f31c9e2a434a74a600ee4e",
+      "tree_blob_entries": 940,
+      "tree_truncated": false,
+      "changed_path_counts": {
+        "added": 148,
+        "modified": 22,
+        "deleted": 0
+      },
+      "reviewed_sources": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "be20e25e93db9775d5ac161e5f5421c9fb34172b",
+          "sha256": "4b25bcd5e7b2c636ad959223773f2ec554d7daf707b9dfcbe5c5b18548407374"
+        },
+        {
+          "path": "docs/current-review.html",
+          "git_blob_sha": "52f376081f2a80f85c31a1b63c59db7fb0c8b7de",
+          "sha256": "5151b6b92f2fb74b5ad1ef69151202707d81818fcb78b6d07cd6a8055b3a9d59"
+        },
+        {
+          "path": "evidence/s29_candidate_run_card.json",
+          "git_blob_sha": "ce36b9aa6171a211a53e7b7c2f8389632a89e88c",
+          "sha256": "2ab636870a9701b6610d2e2d70262430b9eb40906b2201631315c0ae24a856fd"
+        },
+        {
+          "path": "evidence/s29_gate_B_holeconstrained.json",
+          "git_blob_sha": "911127dd731587f6f873218b31190c07329d3210",
+          "sha256": "e61a1334b855401e5ea989bf3244d16285453b135572a4aa17790e8aefdf919a"
+        },
+        {
+          "path": "evidence/s29_holdout.json",
+          "git_blob_sha": "98eb31d9c9739b086e07407c03c53a7acf3270ea",
+          "sha256": "eaffcb8da28b59c0b9eec3d415039fa8dfd0c0447233ec432d73b2a8746c73d1"
+        },
+        {
+          "path": "evidence/s29_registry_fetch.json",
+          "git_blob_sha": "3a1ea8bba655c1eac44526da684d010845156065",
+          "sha256": "f19a42b158f59a3d565754c80319a44e73d7885abaeb8f34a536a206f7ff7447"
+        },
+        {
+          "path": "knowledge/75_s29_result_2026-10-29.md",
+          "git_blob_sha": "f892703637cce6302dcdfa14f839be5f802170b6",
+          "sha256": "3513f47fde1c1ae90844656de9fc874afe3d185cc4ba7e52f42266f9b959b333"
+        }
+      ],
+      "review_boundary": "Latest public README/review/summary and selected current evidence files only; no full raster download or independent upstream model rerun.",
+      "recursive_tree_url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE28/git/trees/7e3394e2f38614c0b6f31c9e2a434a74a600ee4e?recursive=1"
+    },
+    {
+      "repo": "GEMSDOE30",
+      "reviewed_head": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "current_head": "eaff218f81e89fadc605650bb2cd55dd4b58e18d",
+      "current_tree_sha": "df00f3b10224014c8deb76dc0d26097086ff6cc9",
+      "tree_blob_entries": 794,
+      "tree_truncated": false,
+      "changed_path_counts": {
+        "added": 69,
+        "modified": 33,
+        "deleted": 0
+      },
+      "reviewed_sources": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "67e45e67b61cfd8902638f9e562f3acce3d88a50",
+          "sha256": "6beccf692694a9b4826baa2154fad07737762ba1c22ff3ea7ad620b4f78fd1e9"
+        },
+        {
+          "path": "docs/current-run.json",
+          "git_blob_sha": "b46cd2ce648ac448f8b6cc67f49ace911f362562",
+          "sha256": "9b9167929ab4dc31fdc17d79be84f0410d31869965439b6a3426d8d8d620bea4"
+        },
+        {
+          "path": "docs/research/2026-10-29-repo-review/overlap-audit-pr76.json",
+          "git_blob_sha": "dd8843f77c57377eef21eb2f1d6701ceb95a7f5a",
+          "sha256": "fc6503a29485e2dc6ae7d096c0d37e9d6cec30fca8c7e18eba1de46288a4c446"
+        },
+        {
+          "path": "docs/research/2026-10-29-repo-review/review.md",
+          "git_blob_sha": "9e66eb0f2ff11482243da586dca55283d4597442",
+          "sha256": "ca0f3a17c5aa31d089406977e3c7b2026b7cbb08b943f168eb8f5a7fdcbbb7c4"
+        },
+        {
+          "path": "docs/research/2026-10-29-repo-review/run-card.json",
+          "git_blob_sha": "a91bf0da26bf481ca320fd1fc1905af87f936839",
+          "sha256": "b42c3363ec5a459b417d997a2aeafab5987ad53d1db070b785725bc88cee91d5"
+        },
+        {
+          "path": "docs/status.json",
+          "git_blob_sha": "e0a3f31dbd869aaf93693cfd3e7f58f82019bfbd",
+          "sha256": "b58cd82241683fb604e892012ea830bedc770703e4f5c773fcc4373bd416f8f0"
+        }
+      ],
+      "review_boundary": "Latest public README/review/summary and selected current evidence files only; no full raster download or independent upstream model rerun.",
+      "recursive_tree_url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE30/git/trees/df00f3b10224014c8deb76dc0d26097086ff6cc9?recursive=1"
+    },
+    {
+      "repo": "GEMSDOE31",
+      "reviewed_head": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "current_head": "5f79d2fd1443c103e292c4904b37558f16e9514d",
+      "current_tree_sha": "50cad7e21200d01f4fe6015e460979a6a52a1039",
+      "tree_blob_entries": 822,
+      "tree_truncated": false,
+      "changed_path_counts": {
+        "added": 76,
+        "modified": 31,
+        "deleted": 0
+      },
+      "reviewed_sources": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "d298d17ad23ae664ae0d64b1897397103e143153",
+          "sha256": "713186c47b5e4511060643c6b7ea5fa09bdc84bc1de3aede66834d4acf3e5cfa"
+        },
+        {
+          "path": "docs/downloads/readiness.json",
+          "git_blob_sha": "7db72beab35f8ec8a0cd5cbcde3f7cbe35bb473c",
+          "sha256": "e3c08ba81fa7b8dba6159b9adacc1ede597a1532821d0eb19b4f6e9e7dd2ce5b"
+        },
+        {
+          "path": "knowledge/current_status_2026-10-29_eebfaae2.md",
+          "git_blob_sha": "a770619a7a891a7b252aca85b349d55fc186c0d4",
+          "sha256": "8035a46d598871826dfb7579d4900a243e0fd6029e304ec20d844308d52164ad"
+        },
+        {
+          "path": "knowledge/repo_review_2026-10-29_arena-eebfaae2.md",
+          "git_blob_sha": "b6b0c4815c213c8362aef1d179186ceb5db752ef",
+          "sha256": "5d2145271f0a23828bc2318c8fbbcf81c2936260433c5217dc2141d64d876be8"
+        },
+        {
+          "path": "registry/experiments.json",
+          "git_blob_sha": "5199f4ea18dc561fbf89fe0bffa9e1c67442baee",
+          "sha256": "9dc564b605aa8cf5bf9966bdef0cd53f1fdc3e07d0cdde2fc2a1990b935cbf24"
+        }
+      ],
+      "review_boundary": "Latest public README/review/summary and selected current evidence files only; no full raster download or independent upstream model rerun.",
+      "recursive_tree_url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE31/git/trees/50cad7e21200d01f4fe6015e460979a6a52a1039?recursive=1"
+    },
+    {
+      "repo": "GEMSDOE32",
+      "reviewed_head": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "current_head": "1e21d77ac343af3df195282a526a1fd058b45889",
+      "current_tree_sha": "0ca08a046d37398cdef25c436379f804ed554277",
+      "tree_blob_entries": 729,
+      "tree_truncated": false,
+      "changed_path_counts": {
+        "added": 129,
+        "modified": 54,
+        "deleted": 0
+      },
+      "reviewed_sources": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "1ba2e693f0b5514d6cf5dc09568c53b9ae512b9d",
+          "sha256": "a45648bef8f9f7ac522112d9d2c885d76cd93ad8db959f6a8a55accc9730fc34"
+        },
+        {
+          "path": "docs/research/nine-site-executive-summary-20261029.md",
+          "git_blob_sha": "78f25e63ef9ca9012e8346680983cd2e6ac28672",
+          "sha256": "d5e0eb9addb3e87b49359c868c2b037eab7c52666588fc827547d4a86d5b8206"
+        },
+        {
+          "path": "docs/research/repo-review-20261029.md",
+          "git_blob_sha": "de34ec5add576d67801809cdc9511528e6845258",
+          "sha256": "2564daf9079c7d68bec2508640ee28f8926ce50bdee8c3deda0a9747073d14a2"
+        },
+        {
+          "path": "evidence/focus9_holdout_20261029.json",
+          "git_blob_sha": "2ebb70f6cdb4cd176988e703ab1e42882565d9ea",
+          "sha256": "d4b71c31333eadee34f353498b6dee575a8401cc44173fa30ef3463bbbd84a7e"
+        },
+        {
+          "path": "evidence/focus9_summary_20261029.json",
+          "git_blob_sha": "341ecdcb73e2f6dc6aa7f3ab945d9724a3a0f7fe",
+          "sha256": "c6cf735bfbd1752c4b151c63a7f479221de81da3114316dc1af5ab584d91181c"
+        },
+        {
+          "path": "evidence/focus9_uniqueness_20261029.json",
+          "git_blob_sha": "1d48094c38c198b199ee5a81be4de3a5029124af",
+          "sha256": "60577e91265a7e6ac7c76c2219751bba980d878567126d94711ce144249d4c72"
+        },
+        {
+          "path": "evidence/focus9_validator_20261029.json",
+          "git_blob_sha": "e043da7315c2498dc381dd9cfa3ca82a81973d80",
+          "sha256": "2a5e7c54ebfde932a607459900448d46a8181c25cb166d9a24fc29c7f6dcc2b1"
+        },
+        {
+          "path": "evidence/run_card_20261029_r3_da_hgcm.json",
+          "git_blob_sha": "68a1994791f7a16732884323bfb4f95603ec7e1b",
+          "sha256": "de27fa131ec2ba601f988c558e9d5a797c1b8e90d695f81bad77e64e1d43d5aa"
+        }
+      ],
+      "review_boundary": "Latest public README/review/summary and selected current evidence files only; no full raster download or independent upstream model rerun.",
+      "recursive_tree_url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE32/git/trees/0ca08a046d37398cdef25c436379f804ed554277?recursive=1"
+    },
+    {
+      "repo": "GEMSDOE33",
+      "reviewed_head": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "current_head": "005a71838e132a8a92f531ae28200f2df34890a5",
+      "current_tree_sha": "8f2d3cf0550a1a51c60bf641ef9da8de86952428",
+      "tree_blob_entries": 602,
+      "tree_truncated": false,
+      "changed_path_counts": {
+        "added": 76,
+        "modified": 26,
+        "deleted": 0
+      },
+      "reviewed_sources": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "4dadbded42b2117d6429d909bc35a0569cf452a0",
+          "sha256": "8b4ec9df179c686ad5bc9566e7595002d945e37c3dbd27f537c6c5737f4f86cb"
+        },
+        {
+          "path": "evidence/nine_site_audit_20261029.json",
+          "git_blob_sha": "ed08d4c92c1c6b5ccc129680d25cdc4e086d9185",
+          "sha256": "bccc5c3559e1bf8649f3c45d338e8da97b4d14892df177755b13f04f98e0b991"
+        },
+        {
+          "path": "evidence/run_card_nine_site_20261029.json",
+          "git_blob_sha": "18af5908f8de6d1164b03e48bea40d99d6083cf6",
+          "sha256": "d96fdd798e18d7cb8da1c22573b42e07ea4d341ac38c76ee036e0de7610bdafb"
+        },
+        {
+          "path": "evidence/submission_selection_20261029.json",
+          "git_blob_sha": "b19769394b07b13c7982a67f9d1ce59f413f1c61",
+          "sha256": "ef07c09d2d3ca780db590ed4b36d6381f111c8d1f7c89fe0658057db529ead1a"
+        },
+        {
+          "path": "knowledge/33_repo_review_20261029.md",
+          "git_blob_sha": "a2b5ce256490455ba1e056cf58df3d8e54a97485",
+          "sha256": "ee5de668d901cf6a03ce9385ae360a99b6c88e69f2aa99513e9f9ec2b745cfa0"
+        }
+      ],
+      "review_boundary": "Latest public README/review/summary and selected current evidence files only; no full raster download or independent upstream model rerun.",
+      "recursive_tree_url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE33/git/trees/8f2d3cf0550a1a51c60bf641ef9da8de86952428?recursive=1"
+    },
+    {
+      "repo": "GEMSDOE36",
+      "reviewed_head": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "current_head": "9bdf52d9063a33154e8b4661c61676f74c2e6604",
+      "current_tree_sha": "4c89aaaad3f94cd8f3cf19739846a17d1ba1386c",
+      "tree_blob_entries": 484,
+      "tree_truncated": false,
+      "changed_path_counts": {
+        "added": 57,
+        "modified": 27,
+        "deleted": 0
+      },
+      "reviewed_sources": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "f518ac9be359b059291263e446866ae4370f52bf",
+          "sha256": "b7f15aee1951be8c873782240f19f225be3fd95a728fff0d4d579e37da996e59"
+        },
+        {
+          "path": "docs/current-run.json",
+          "git_blob_sha": "d465605d5c98acb7848bbc08075e9cd8d3b92b95",
+          "sha256": "fdb16731db71ea2c95c49543cbaef0ffac3465b5f0ca731380a52b66c49dac7d"
+        },
+        {
+          "path": "docs/research/review-20261029-hypothesis-screen.md",
+          "git_blob_sha": "97e9bcd1197950b18a484ec691bf897a7ef5052f",
+          "sha256": "4da69822b5c15496284b5e04f1d3192bf02dcd5881a44138dad103335ef4a382"
+        },
+        {
+          "path": "evidence/session_review_20261029.md",
+          "git_blob_sha": "ddd6b1b76783198d1574194c548617c33fb93b4b",
+          "sha256": "d401064368579c5879a6e2ba1c3aea22dba69f1c09eb5eaf451ebb02bc6a05a4"
+        },
+        {
+          "path": "evidence/session_review_20261029_run_card.json",
+          "git_blob_sha": "bf2072d31e3be61b8bad66be0213152cb1b9c79f",
+          "sha256": "fa51b95b0bec9bb2d77badf7c411c4d8668f22b2c8a1ce6cf67f3e5bb525c209"
+        }
+      ],
+      "review_boundary": "Latest public README/review/summary and selected current evidence files only; no full raster download or independent upstream model rerun.",
+      "recursive_tree_url": "https://api.github.com/repos/buffedlizard55-lab/GEMSDOE36/git/trees/4c89aaaad3f94cd8f3cf19739846a17d1ba1386c?recursive=1"
+    }
+  ]
+}

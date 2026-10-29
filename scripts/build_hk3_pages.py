@@ -50,7 +50,8 @@ def gather() -> dict:
     inventory = load(EV / "public_downloads_audit.json")
     focus = load(ROOT / "registry/focus_sites.json")
     geometry = load(EV / "geometry-audit.json")
-    official = load(EV / "official-review-2026-10-28.json")
+    official = load(EV / "official-review-2026-10-29.json")
+    review_card = load(EV / "repo-review-run-card-2026-10-29.json")
     k3 = load(EV / "k3/run_card.json")
     filename = card["raster"]["file"]
     candidate = (ROOT / filename).resolve()
@@ -101,14 +102,27 @@ def gather() -> dict:
         row = measured[record["site"]]
         if record["sha256"] != row["sha256"] or row["max_focus_overlap_fraction"] <= 0.70:
             raise ValueError("Nine-site row does not match the pinned negative audit")
+    if (official.get("observed_date_utc") != "2026-10-29"
+            or not official.get("sources", [{}])[1].get("observation_type", "").startswith("PUBLIC ORGANIZER LEADERBOARD SNAPSHOT")
+            or review_card.get("promotion_verdict") != "negative"
+            or review_card.get("raster_sha256") is not None
+            or review_card.get("submission_name") is not None
+            or review_card.get("submission_note") is not None
+            or review_card.get("experiments_run_this_review") != 0
+            or review_card.get("holdout_dti", {}).get("value") is not None
+            or review_card.get("validator", {}).get("candidate_created") is not False
+            or not str(review_card.get("slot_selection", "")).lower().startswith("not performed")):
+        raise ValueError("Current source snapshot or review card is incomplete or unsafe")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
-            "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3}
+            "inventory": inventory, "focus": records, "focus_snapshot": focus,
+            "geometry": geometry, "official": official, "review_card": review_card, "k3": k3}
 
 
 def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
     items = [("index.html", "desk", "Submission desk"), ("executive-summary.html", "summary", "Executive summary"),
              ("how-to-submit.html", "guide", "How to submit"), ("audit.html", "audit", "Nine-site audit"),
-             ("hypotheses.html", "research", "Earlier research"), ("sources.html", "sources", "Sources")]
+             ("executive-summary.html#hypothesis-screen", "research", "Current hypotheses"), ("sources.html", "sources", "Sources"),
+             ("field-notes/index.html", "feed", "Current source feed")]
     links = " · ".join(f'<a href="{url}"{(" aria-current=page" if key == active else "")}>{label}</a>'
                        for url, key, label in items)
     return f'''<!doctype html>
@@ -121,7 +135,7 @@ def shell(title: str, active: str, body: str, *, base_href: str | None = None) -
 <main class="container"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
 {body}
 <footer class="footnote"><p><b>Evidence labels:</b> HOLDOUT-DTI is a local, catalogue-based proxy with its evaluator, withheld count and interval; it is not a leaderboard result. Historical values are USER-REPORTED / UNVERIFIED unless linked to an actual organizer receipt. The leaderboard observation is an organizer-published public snapshot, not a receipt for any local TIFF.</p>
-<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="evidence/official-review-2026-10-28.json">Source observations</a></p></footer>
+<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="evidence/official-review-2026-10-29.json">2026-10-29 official-source observations</a> · <a href="evidence/upstream-source-review-2026-10-29.json">Commit-pinned nine-site source review</a> · <a href="evidence/cross-site-hypothesis-screen-2026-10-29.md">Cross-site hypothesis screen</a> · <a href="evidence/repo-review-2026-10-29.md">Three-pass repo review</a> · <a href="evidence/repo-review-run-card-2026-10-29.json">Review run card</a></p></footer>
 </main></body></html>'''
 
 
@@ -168,7 +182,7 @@ def nine_site_table(d: dict) -> str:
 <td><b>{rec['owner_reported_unverified']:.4f}</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
 <td>Unavailable</td><td><b class="no">NO</b> · {geo['max_focus_overlap_fraction'] * 100:.1f}% near {esc(geo['closest_focus_site'])}</td><td><b class="no">DO NOT SUBMIT</b></td></tr>''')
     return f'''<section class="section"><h3>Nine-site executive scorecard</h3>
-<p>Highest <em>reported</em> historical file from each requested site; the values have no linked organizer submission-page receipt. Files are pinned for research, not recommendations. Click a site for its individual summary.</p>
+<p>Highest <em>reported</em> historical file from each requested site; the values have no linked organizer submission-page receipt. These file hashes and overlaps are pinned to the {esc(d['focus_snapshot']['observed_utc'])} audit, not refreshed from newer repository heads. Files are pinned for research, not recommendations. Click a site for its individual summary. <a href="field-notes/index.html">Check the current GitHub HEAD feed</a> (metadata only; changes are not score or raster audits).</p>
 <table id="nine-sites"><thead><tr><th>Site</th><th>Historical file · research only</th><th>Historical report</th><th>New-file estimate</th><th>Unique vs other eight?</th><th>Action</th></tr></thead><tbody>{''.join(rows)}</tbody></table>
 <p>Uniqueness is the directional share of a file's positive dots within three pixels of another pinned file. A different byte hash does not imply a different prediction. <a href="audit.html">Explore the nine-site audit and source freshness →</a></p>
 </section>'''
@@ -176,21 +190,22 @@ def nine_site_table(d: dict) -> str:
 
 def science_and_sources(d: dict) -> str:
     lead = d["official"]["sources"][1]["first_place"]
+    observed = esc(d["official"]["observed_date_utc"])
     return f'''<section class="section"><h3>Why the reported GEMSDOE32 result leads this group</h3>
 <p>GEMSDOE32 is <b>0.2778 USER-REPORTED / UNVERIFIED</b>, the highest of the supplied nine claims, not an organizer-confirmed score for these bytes. The pinned raster is the GEMSDOE25 D2.8 dot set with 6,436 catalogue-near dots removed; no dots were added. GEMSDOE25 and GEMSDOE30 have identical in-footprint predictions despite different file bytes.</p>
 <p>The official distance-weighted Tversky metric credits predictions near truth and penalizes unsupported positives. Removing near-catalogue dots <em>could</em> improve the balance, but the hidden labels and a file-linked receipt are unavailable, so the actual causal explanation is not established. A higher result is possible, not demonstrated. Fault evidence alone does not prove a geothermal vent.</p>
-<p>On 2026-10-28, the <a href="{LEADERBOARD}">official public leaderboard</a> showed <b>{esc(lead['participant'])}: {lead['value']:.4f}</b> in first place. This is an ORGANIZER-PUBLISHED PUBLIC SNAPSHOT, not a submission receipt or a private-round result; it can change.</p>
+<p>On {observed}, the <a href="{LEADERBOARD}">official public leaderboard</a> showed <b>{esc(lead['participant'])}: {lead['value']:.4f}</b> at rank {lead['rank']}. Evidence class: ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; this is not a local candidate estimate, submission-page receipt, or private-round result, and it can change. <a href="evidence/official-review-2026-10-29.json">Observation details</a>.</p>
 </section>
-<section class="section"><h3>Next research slate · not tested or assigned</h3>
-<p>Rank is a qualitative research priority, not a score prediction or a claim of fleet-wide novelty. Similar ingredients exist in other projects.</p>
-<table><thead><tr><th>Priority / cost</th><th>Layers and falsifiable signal</th><th>Why a mapped fault might be missed / confounder</th></tr></thead><tbody>
-<tr><td>1 · medium</td><td>Gravity anomaly and gradient + detrended elevation/slope: block-fitted terrain-residualized signed gravity step, with shoreline null.</td><td>Buried density offsets may continue beneath cover. Unfaulted lithologic contacts and terrace risers mimic the signature; compare terrain and contour controls.</td></tr>
-<tr><td>2 · medium/high</td><td>Conductivity + gravity anomaly and gradient: cross-profile conductivity saddle at an independently located gravity break.</td><td>A covered structure may juxtapose conductive materials. Saline groundwater and inversion seams mimic it; ablate conductivity.</td></tr>
-<tr><td>3 · medium</td><td>Shear and dilatation + magnetic edge persistence: use strain-regime change only as a coarse interaction.</td><td>A covered strand may coincide with regional strain change. Interpolation seams and intrusive contacts mimic it; shuffle the strain field.</td></tr>
-<tr><td>4 · low</td><td>Earthquake density/distance + gravity gradient: test flank asymmetry around independent edges.</td><td>Active, unmapped structures may cluster seismicity. Mining/production effects or smoothing can mimic it; use a shuffled-seismicity control.</td></tr>
+<section class="section" id="hypothesis-screen"><h3>Three ranked cross-site hypotheses · unrun</h3>
+<p>Priority is qualitative research value versus cost—not a DTI or leaderboard forecast. These are proposals from a commit-pinned review of nine public project heads, not claims of fleet-wide novelty.</p>
+<table><thead><tr><th>Rank / cost</th><th>Layers and falsifiable physical signature</th><th>Why the catalogue may miss it; mimics and controls</th><th>Prior art and data gate</th></tr></thead><tbody>
+<tr><td>1 · moderate research value / high cost</td><td><b>Multi-season optical moisture/vegetation persistence.</b> Landsat 8/9 Collection 2 Level-2 reflectance; predefine cloud/shadow masks and test repeated seasonal NDMI/vegetation anomalies for persistent lineaments—not one-scene pixels.</td><td>A covered permeable structure might sustain shallow groundwater or vegetation differences. Irrigation, playa moisture, soil/lithology, aspect, land use and cloud seams mimic it; use season shuffles and matched terrain/land-cover controls.</td><td>No matching multi-date optical-persistence implementation was found in reviewed summaries/path inventory; related remote-sensing ideas exist. Exact AOI scenes, cloud-free coverage and local bytes are unverified; none were downloaded.</td></tr>
+<tr><td>2 · moderate research value / medium cost</td><td><b>Paleogeothermal-deposit / shallow-probe residual conjunction.</b> DOE GDR #1391 sinter/tufa locations plus 2 m probes; preregister a background-temperature model and test deposit clusters against residual probe anomalies and an independent structural trend.</td><td>Fossil hydrothermal deposits may persist where a surface trace is buried or eroded. Lahontan shoreline tufa, lithology, cold-water outflow and probe sampling/depth can mimic it; stratify and permute within geology/coverage.</td><td>Related proposal already appears in GEMSDOE27 and is untested—not a new concept. Listing links were checked, but archive contents, coverage, attributes and local hashes were not; no package was downloaded.</td></tr>
+<tr><td>3 · lower research value / medium–high cost</td><td><b>Focal-mechanism orientation coherence.</b> USGS ComCat focal-mechanism/moment-tensor products; predefine neighborhood orientation/style summaries and test coherent structures without visible-catalogue placement.</td><td>Could reveal active buried kinematics where coverage permits. Induced events, quarry misclassification, shared regional stress and network bias mimic it; use reviewed-event, time/spatial shuffle and coverage-mask controls.</td><td>GEMSDOE25 lists related stress tests; seismicity/strain features exist elsewhere, but no matching orientation feature/run was found in the inspected summaries/path inventory. AOI product counts and coverage were not queried.</td></tr>
 </tbody></table>
-<p>These exact proposed tests are not implemented in this repository; they reuse nominal bands from owner-mirrored features, whose provenance and units still need authentication. The first has conceptual overlap with the prior B4 lane, but adds a block-fitted terrain residual and a shoreline null. <a href="../research/2026-10-28-next-lane-slate.md">Full slate, controls and prior-art limitations</a>.</p>
-<p><a href="{PROBLEM}">Official problem &amp; metric</a> · <a href="{REFERENCE}">Official reference solution</a> · <a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN</a> · <a href="https://gdr.openei.org/submissions/1391">DOE GDR INGENIOUS dataset</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules PDF</a></p>
+<p>All three are unrun proposals; the screen is not an exhaustive audit. No external datasets were downloaded, and the AOI data/coverage gates remain open. The GDR idea is explicitly prior work in GEMSDOE27; the exact optical and focal-mechanism formulations have uncertain prior art. No candidate, score, or experiment is authorized: the local data/cache are absent, the single-method lane is unresolved, and registry completeness is not established. The top hypothesis can be considered only after prerequisites pass, then must use the shared blocked-segment holdout, feature-alone leakage tests, and both literal registry gates.</p>
+<p><a href="evidence/cross-site-hypothesis-screen-2026-10-29.md">Full ranked hypothesis screen, controls and source availability</a> · <a href="evidence/upstream-source-review-2026-10-29.json">Commit-pinned nine-site review manifest</a> · <a href="evidence/official-review-2026-10-29.json">Official-page observations</a>.</p>
+<p><a href="{PROBLEM}">Official problem &amp; metric</a> · <a href="{REFERENCE}">Official reference solution</a> · <a href="https://www.usgs.gov/centers/eros/science/usgs-eros-archive-landsat-archives-landsat-8-9-olitirs-collection-2-level-2">USGS Landsat 8/9 Level-2</a> · <a href="https://gdr.openei.org/submissions/1391">DOE GDR #1391</a> · <a href="https://earthquake.usgs.gov/fdsnws/event/1/">USGS FDSN event service</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules PDF</a></p>
 </section>'''
 
 
@@ -262,6 +277,11 @@ def main() -> int:
     mirrors = [(f, DOCS / "evidence/hk3" / f.name) for f in sorted((EV / "hk3").glob("*.json"))]
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
                 (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
+                (EV / "official-review-2026-10-29.json", DOCS / "evidence/official-review-2026-10-29.json"),
+                (EV / "upstream-source-review-2026-10-29.json", DOCS / "evidence/upstream-source-review-2026-10-29.json"),
+                (EV / "repo-review-run-card-2026-10-29.json", DOCS / "evidence/repo-review-run-card-2026-10-29.json"),
+                (ROOT / "research/repo-review-2026-10-29.md", DOCS / "evidence/repo-review-2026-10-29.md"),
+                (ROOT / "research/2026-10-29-cross-site-hypothesis-screen.md", DOCS / "evidence/cross-site-hypothesis-screen-2026-10-29.md"),
                 (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json")]
     stale = []
     for src, dst in mirrors:

@@ -16,6 +16,44 @@ def test_run_card_is_negative_and_complete():
     assert not card['weekly_slot_selected']
 
 
+def test_pinned_current_source_review_is_complete_but_not_a_raster_or_score_audit():
+    report = json.loads((ROOT/'evidence/upstream-source-review-2026-10-29.json').read_text())
+    feed = json.loads((ROOT/'docs/field-notes/data/source-feed.json').read_text())
+    heads = {row['site']: row['current_head'] for row in feed['sources']}
+    assert report['schema'] == 'gems.commit_pinned_upstream_review.v1'
+    assert len(report['sites']) == 9
+    assert report['tree_truncated_for_any_site'] is False
+    assert report['binary_raster_contents_downloaded'] is False
+    assert all(site['tree_truncated'] is False for site in report['sites'])
+    assert all(len(site['current_head']) == len(site['current_tree_sha']) == 40 for site in report['sites'])
+    assert all(site['current_head'] == heads[site['repo']] for site in report['sites'])
+    assert all(site['current_tree_sha'] != site['current_head'] for site in report['sites'])
+    assert all(site['recursive_tree_url'].endswith(f"/{site['current_tree_sha']}?recursive=1") for site in report['sites'])
+    assert all(site['reviewed_sources'] and site['tree_blob_entries'] > 0 for site in report['sites'])
+    assert all('no full raster download' in site['review_boundary'].lower() for site in report['sites'])
+
+
+def test_official_page_observation_is_separate_from_candidate_receipts():
+    report = json.loads((ROOT/'evidence/official-review-2026-10-29.json').read_text())
+    board = report['sources'][1]
+    assert board['first_place'] == {'rank': 1, 'participant': 'xiaofanhu', 'value': 0.4544}
+    assert 'NOT A SUBMISSION-PAGE RECEIPT' in board['observation_type']
+    assert 'No candidate leaderboard estimate' in report['release_conclusion']
+
+
+def test_review_run_card_records_no_candidate_no_score_and_no_slot():
+    card = json.loads((ROOT/'evidence/repo-review-run-card-2026-10-29.json').read_text())
+    assert card['promotion_verdict'] == 'negative'
+    assert card['experiments_run_this_review'] == 0
+    assert card['raster_sha256'] is None
+    assert card['submission_name'] is None and card['submission_note'] is None
+    assert card['holdout_dti']['value'] is None
+    assert card['validator']['candidate_created'] is False
+    assert card['registry']['surface_before_placement_overlap_within_3px'] is None
+    assert card['registry']['final_dots_overlap_within_3px'] is None
+    assert card['slot_selection'].lower().startswith('not performed')
+
+
 def test_published_audit_is_scoped_and_not_authorized():
     report = json.loads((ROOT/'docs/data/focus_audit.json').read_text())
     assert len(report['sites']) == 9

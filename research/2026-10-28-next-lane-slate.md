@@ -1,5 +1,7 @@
 # Next-lane preregistration and access check — 2026-10-28
 
+> **Superseded for cross-site novelty as of 2026-10-29.** A fresh commit-pinned review of all nine upstream heads found substantially more related work in the current repositories than this slate had seen. Do not call these four proposals fleet-wide “untried” or treat this document as a current ranking; use the [2026-10-29 cross-site hypothesis screen](2026-10-29-cross-site-hypothesis-screen.md). This file is retained as historical evidence of the earlier proposals and their protocol constraints.
+
 Written before this session's code changes. **Proposals only: zero new geological experiments and zero competition submissions.** This checkout has already run H1 (negative) and K2 (negative under the literal pre-placement registry rule); neither is a new control arm. The request refers to a "single method paragraph below" but supplies none. Therefore this slate is **not an assigned lane** and is not permission to fit a model, place dots, or use a weekly slot. Prior K2's three-experiment budget must not be reinterpreted as authorization to rerun it. Rankings are *qualitative hypotheses about possible matched HOLDOUT-DTI improvement*, not predicted scores. Similar ingredients have been tried by other sites; only absence of these **exact tests in this repo** is asserted, not fleet-wide novelty.
 
 ## Four falsifiable candidates (ranked by possible value, then effort)

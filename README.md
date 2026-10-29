@@ -64,13 +64,19 @@ for research, but are not authenticated organizer inputs. The mirror sample cont
 positive cells even though the official description says it predicts total absence;
 its provenance/footprint and exterior handling therefore remain unresolved.
 
-## Leaderboard status (public observation, 2026-10-28)
+## Latest session — 2026-10-29 (three-pass evidence refresh; no geological experiment)
 
-The public organizer page showed **0.4544** for xiaofanhu in first place, and
-**0.3195** for kpomazi at rank 27 on 2026-10-28. This is an organizer-published
-public snapshot, not a file-linked submission receipt; it can change. The earlier
-user-cited figures are not a current target. Re-read the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-before comparing; see [`evidence/official-review-2026-10-28.json`](evidence/official-review-2026-10-28.json).
+**NO TIFF APPROVED — DO NOT SUBMIT.** No experiment, new raster, slot selection, or upload was made. The lane paragraph is still absent; authenticated competition inputs/template and the local shared feature stack are unavailable; and the complete registry is not established. No candidate leaderboard estimate exists.
+
+- The GitHub-only feed checked the nine focus repositories at **2026-10-29 18:09 UTC**: all nine heads changed since the pinned 2026-10-27 baseline; none was unavailable. This is metadata freshness only, not a raster or score audit.
+- Each current HEAD from the feed was resolved to its commit-tree SHA; all nine recursive tree responses were non-truncated. The pinned report and selected README/review/run-card artifacts are indexed in [`evidence/upstream-source-review-2026-10-29.json`](evidence/upstream-source-review-2026-10-29.json). No upstream TIFF was downloaded or copied into this checkout.
+- The latest official public leaderboard read (2026-10-29) showed xiaofanhu at rank 1 with **0.4544**, explicitly recorded as a public leaderboard snapshot—not a local candidate score or file-bound submission receipt. The DrivenData data page redirected to login.
+- Four earlier cross-site hypotheses are no longer described as fleet-wide untried. The new [ranked cross-site hypothesis screen](research/2026-10-29-cross-site-hypothesis-screen.md) records prior art, official data sources, availability limits, and why no hypothesis can yet be run.
+- Three-pass write-up: [`research/repo-review-2026-10-29.md`](research/repo-review-2026-10-29.md); its negative review run card: [`evidence/repo-review-run-card-2026-10-29.json`](evidence/repo-review-run-card-2026-10-29.json).
+
+## Public leaderboard observations (time-sensitive; not local candidate scores)
+
+The latest page observation in this checkout is **2026-10-29**: xiaofanhu at rank 1, **0.4544**. Evidence class: **PUBLIC ORGANIZER LEADERBOARD SNAPSHOT**; it is not a submission-page receipt, private-round result, or evidence for any owner-hosted TIFF. The prior 2026-10-28 capture also recorded kpomazi at rank 27 with 0.3195; that is a historical page observation, not today's leader. The user-cited 0.4413 remains unresolved. Re-read the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) before comparing; see [`evidence/official-review-2026-10-29.json`](evidence/official-review-2026-10-29.json) and the [archived 2026-10-28 page record](evidence/official-review-2026-10-28.json).
 
 ## Focus sites (nine)
 
@@ -121,9 +127,12 @@ holdout cannot reliably estimate the expert-hidden private score).
    the nine sites), rank them by expected DTI gain and cost, and validate the top
    candidate on the spatially-blocked holdout **before** any submission. If external
    data are needed, name the free official source and verify it is obtainable.
-7. Target: beat the current leaderboard high (user cited 0.4413 / 0.3195; a prior
-   session observed 0.4544) and at least the best focus-site result 0.2778 — this
-   needs a distinct strategy, not a re-budgeted copy of the nine sites.
+7. Long-term objective: outperform the current public leaderboard, but only assess
+   a candidate against its own valid HOLDOUT-DTI evidence and an organizer receipt.
+   The latest public-page observation is rank 1 at 0.4544 (2026-10-29; snapshot,
+   not a local score or submission receipt). The 0.2778 focus-site figure is
+   USER-REPORTED / UNVERIFIED. A distinct strategy is required, not a re-budgeted
+   copy of the nine sites.
 8. Autonomy and quality: no manual input from the user; no hallucinations — verify
    line by line against official sources and give links for manual review; flag
    irregularities. Run **three passes** (implement + verify; review for bugs/edge
@@ -168,7 +177,7 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
-## Current status — 2026-10-28 independent correction
+## Archived status — 2026-10-28 independent correction (latest session status is above)
 
 **NEGATIVE — NO TIFF IS APPROVED. DO NOT SUBMIT ANY RESEARCH DOWNLOAD.**
 An earlier HK3 promoter asserted `PROMOTE` after exempting registered rasters. The
@@ -214,8 +223,10 @@ complete live registry have not been established.
 * The [nine-site desk](docs/executive-summary.html) has pinned historical files,
   source links and negative uniqueness checks. The highest claim, 0.2778 for
   GEMSDOE32, is **USER-REPORTED / UNVERIFIED**; no causal explanation for the
-  hidden result has been established. Four [future hypotheses](research/2026-10-28-next-lane-slate.md)
-  are untested research proposals, not an assigned lane.
+  hidden result has been established. The four 28 Oct [next-lane hypotheses](research/2026-10-28-next-lane-slate.md)
+  remain historical unrun proposals but are superseded for cross-site novelty by the
+  [29 Oct screen](research/2026-10-29-cross-site-hypothesis-screen.md); none is an
+  assigned lane.
 
 ### Reproduce the read-only audit
 

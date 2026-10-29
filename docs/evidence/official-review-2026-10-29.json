@@ -1,0 +1,87 @@
+{
+  "schema": "gems.official-page-observations.v1",
+  "observed_date_utc": "2026-10-29",
+  "observed_utc": "2026-10-29T18:19:31Z",
+  "access_method": "Public page reader and public GitHub API. No authenticated DrivenData account. Public content and rankings are time-sensitive. No competition files were downloaded.",
+  "sources": [
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "publisher": "DrivenData, competition organizer",
+      "observations": [
+        "Prediction target is geological faults, not confirmed geothermal vents.",
+        "The competition warns that public fault labels may be incomplete or inaccurate; private scoring is followed by expert review and final rescoring against expanded labels.",
+        "Distance-weighted Tversky uses alpha 0.2, beta 0.8, and a triangular kernel with 300 m support.",
+        "Submission is one float32 GeoTIFF layer with confidence values in [0,1], EPSG:32611, 100 m resolution and the training bounds; the page says data outside the bounds are null or NaN.",
+        "The sample submission is described as predicting total fault absence."
+      ]
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "publisher": "DrivenData, competition organizer",
+      "observed_utc": "2026-10-29T18:10:55Z",
+      "observation_type": "PUBLIC ORGANIZER LEADERBOARD SNAPSHOT — NOT ORGANIZER-CONFIRMED FOR ANY LOCAL TIFF; NOT A SUBMISSION-PAGE RECEIPT",
+      "first_place": {
+        "rank": 1,
+        "participant": "xiaofanhu",
+        "value": 0.4544
+      },
+      "limitations": "The displayed public rank can change and is not a private-round result or evidence for the score of any owner-hosted TIFF. This page fetch recorded the top row only; it does not resolve other user-cited values."
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+      "publisher": "DrivenData",
+      "observation": "The public reader redirected to the DrivenData login page. Training files, organizer sample bytes, account quota, and submission receipts were not accessible here."
+    },
+    {
+      "url": "https://github.com/drivendataorg/gems-prize-reference-solution/tree/aebe92f7c8a990f0e3443451b7a825d9afd6336b",
+      "publisher": "DrivenData organization on GitHub",
+      "observation": "Public reference-solution code is available at this pinned commit. It is not an authenticated copy of competition inputs and does not supply the missing organizer data or receipt."
+    },
+    {
+      "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "publisher": "U.S. Geological Survey and Department of Energy",
+      "observed_utc": "2026-10-29T18:19:31Z",
+      "observations": [
+        "USGS lists public GeoDAWN magnetic and radiometric grids and flight-line data for geological and geophysical mapping; the release DOI is 10.5066/P93LGLVQ.",
+        "No GeoDAWN files were downloaded in this review. Source-page availability does not authenticate owner-mirrored bands or their local provenance."
+      ]
+    },
+    {
+      "url": "https://gdr.openei.org/submissions/1391",
+      "publisher": "DOE Geothermal Data Repository",
+      "observed_utc": "2026-10-29T18:19:31Z",
+      "observations": [
+        "The official INGENIOUS page lists a public CC BY 4.0 compilation and links a 19.85 MB Well and Spring Temperature and Chemistry archive and an 82.04 kB Paleo Geothermal Features archive; it also lists other geophysical and well/spring resources.",
+        "The page verifies that official packages are listed for download, not that their contents, analyte completeness, spatial coverage, datum, or local hashes were inspected. No GDR archive was downloaded here."
+      ]
+    },
+    {
+      "url": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-landsat-archives-landsat-8-9-olitirs-collection-2-level-2",
+      "publisher": "U.S. Geological Survey EROS",
+      "observed_utc": "2026-10-29T18:19:31Z",
+      "observations": [
+        "The official page lists Landsat 8-9 Collection 2 Level-2 surface reflectance and surface temperature products at 30 m and provides an EarthExplorer access route; USGS describes its Landsat archive access as no-cost open data.",
+        "The exact GEMS-footprint scene inventory, cloud-free seasonal coverage, and usable temporal sample were not queried. No Landsat data were downloaded."
+      ]
+    },
+    {
+      "url": "https://www.usgs.gov/the-national-map-data-delivery/gis-data-download",
+      "publisher": "U.S. Geological Survey, The National Map",
+      "observed_utc": "2026-10-29T18:19:31Z",
+      "observations": [
+        "The official National Map page provides DEM/elevation access and a LidarExplorer route for searching/downloading 3DEP lidar and DEM products.",
+        "Exact tile availability, resolution continuity, CRS, and coverage over the GEMS footprint were not queried; no DEM or lidar files were downloaded."
+      ]
+    },
+    {
+      "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+      "publisher": "U.S. Geological Survey, Earthquake Catalog",
+      "observed_utc": "2026-10-29T18:19:31Z",
+      "observations": [
+        "The official FDSN Event Web Service documents custom earthquake queries; the API documentation includes event products such as moment-tensor and focal-mechanism products.",
+        "No footprint query was run. The number, spatial distribution, quality, and time coverage of focal-mechanism observations in the GEMS area remain unverified."
+      ]
+    }
+  ],
+  "release_conclusion": "No candidate leaderboard estimate is supported. A public leaderboard snapshot is separate from HOLDOUT-DTI and cannot authenticate a local file; an ORGANIZER-CONFIRMED result requires a submission-page receipt bound to the exact file."
+}

@@ -1,78 +1,78 @@
 {
- "generated_utc": "2026-10-28T06:00:00Z",
- "note": "GitHub metadata only; leaderboard snapshot is not refreshed. Freshness is not a scientific, format or submission-approval gate.",
- "leaderboard": {
-  "status": "snapshot",
-  "score_text": "0.4544",
-  "rank": 1,
-  "checked_utc": "2026-10-28T05:45:00Z",
-  "access_method": "Arena public web page reader (rechecked 2026-10-28)",
-  "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-  "evidence_class": "PUBLIC ORGANIZER LEADERBOARD SNAPSHOT; not a file-bound submission receipt"
- },
- "sites": [
-  {
-   "site": "GEMSDOE24",
-   "pinned_ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
-   "checked_utc": "2026-10-28T06:00:00Z",
-   "latest_ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
-   "status": "unchanged"
+  "generated_utc": "2026-10-29T18:19:31Z",
+  "note": "GitHub repository metadata only; leaderboard was checked separately from the public organizer page at the timestamp below. Neither feed asserts a local file score or submission receipt.",
+  "leaderboard": {
+    "status": "snapshot",
+    "score_text": "0.4544",
+    "rank": 1,
+    "checked_utc": "2026-10-29T18:10:55Z",
+    "access_method": "Arena public page reader (checked 2026-10-29)",
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "evidence_class": "PUBLIC ORGANIZER LEADERBOARD SNAPSHOT; not a file-bound submission receipt"
   },
-  {
-   "site": "GEMSDOE25",
-   "pinned_ref": "b13ccabae15d4951854d47cb35e17322e7537b64",
-   "checked_utc": "2026-10-28T06:00:00Z",
-   "latest_ref": "5ea719115f6e15a2b957062b5637b85a8f21c26f",
-   "status": "changed"
-  },
-  {
-   "site": "GEMSDOE27",
-   "pinned_ref": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
-   "checked_utc": "2026-10-28T06:00:00Z",
-   "latest_ref": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
-   "status": "unchanged"
-  },
-  {
-   "site": "GEMSDOE28",
-   "pinned_ref": "4955e29c7b66503ba2178b25d356d713dc1bc534",
-   "checked_utc": "2026-10-28T06:00:00Z",
-   "latest_ref": "4955e29c7b66503ba2178b25d356d713dc1bc534",
-   "status": "unchanged"
-  },
-  {
-   "site": "GEMSDOE30",
-   "pinned_ref": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
-   "checked_utc": "2026-10-28T06:00:00Z",
-   "latest_ref": "b76762ec345c8da0a9546896d3bb28ddfd641c5f",
-   "status": "changed"
-  },
-  {
-   "site": "GEMSDOE31",
-   "pinned_ref": "88ec212955353f7590e94b8ef2a9763ffa035d45",
-   "checked_utc": "2026-10-28T06:00:00Z",
-   "latest_ref": "eae0500c0550b1e0d59b14765c7cc23cce9a4856",
-   "status": "changed"
-  },
-  {
-   "site": "GEMSDOE32",
-   "pinned_ref": "73485f27cf230af770167397c2b72cb9ce3b3f25",
-   "checked_utc": "2026-10-28T06:00:00Z",
-   "latest_ref": "8a7331075f249ff35ee58a3272d6d8781a519143",
-   "status": "changed"
-  },
-  {
-   "site": "GEMSDOE33",
-   "pinned_ref": "844f514819041c7be9efd345a24cf5cd70263f00",
-   "checked_utc": "2026-10-28T06:00:00Z",
-   "latest_ref": "7b422fa37a516543aa27012e82bb4ded3f00a770",
-   "status": "changed"
-  },
-  {
-   "site": "GEMSDOE36",
-   "pinned_ref": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
-   "checked_utc": "2026-10-28T06:00:00Z",
-   "latest_ref": "41ff1edd3f97fa2b82de5b4ba8ef51f0e6531d9d",
-   "status": "changed"
-  }
- ]
+  "sites": [
+    {
+      "site": "GEMSDOE24",
+      "pinned_ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "checked_utc": "2026-10-29T18:09:47Z",
+      "latest_ref": "63d5885b68f73c19a7746052ccb3e5690f3271b5",
+      "status": "changed"
+    },
+    {
+      "site": "GEMSDOE25",
+      "pinned_ref": "b13ccabae15d4951854d47cb35e17322e7537b64",
+      "checked_utc": "2026-10-29T18:09:48Z",
+      "latest_ref": "ef939fe87041b6a8315a5f5210cd8a8eee93b2c4",
+      "status": "changed"
+    },
+    {
+      "site": "GEMSDOE27",
+      "pinned_ref": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "checked_utc": "2026-10-29T18:09:48Z",
+      "latest_ref": "bf34151e8e4ef26ec924f28dbc371a39bd740782",
+      "status": "changed"
+    },
+    {
+      "site": "GEMSDOE28",
+      "pinned_ref": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "checked_utc": "2026-10-29T18:09:49Z",
+      "latest_ref": "424bf795ed2183000c643d6e30a12ce2d4bf401d",
+      "status": "changed"
+    },
+    {
+      "site": "GEMSDOE30",
+      "pinned_ref": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "checked_utc": "2026-10-29T18:09:49Z",
+      "latest_ref": "eaff218f81e89fadc605650bb2cd55dd4b58e18d",
+      "status": "changed"
+    },
+    {
+      "site": "GEMSDOE31",
+      "pinned_ref": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "checked_utc": "2026-10-29T18:09:49Z",
+      "latest_ref": "5f79d2fd1443c103e292c4904b37558f16e9514d",
+      "status": "changed"
+    },
+    {
+      "site": "GEMSDOE32",
+      "pinned_ref": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "checked_utc": "2026-10-29T18:09:50Z",
+      "latest_ref": "1e21d77ac343af3df195282a526a1fd058b45889",
+      "status": "changed"
+    },
+    {
+      "site": "GEMSDOE33",
+      "pinned_ref": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "checked_utc": "2026-10-29T18:09:50Z",
+      "latest_ref": "005a71838e132a8a92f531ae28200f2df34890a5",
+      "status": "changed"
+    },
+    {
+      "site": "GEMSDOE36",
+      "pinned_ref": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "checked_utc": "2026-10-29T18:09:50Z",
+      "latest_ref": "9bdf52d9063a33154e8b4661c61676f74c2e6604",
+      "status": "changed"
+    }
+  ]
 }
