@@ -1,7 +1,7 @@
 # Repository review — current Arena session (2026-10-29)
 
-**Branch:** `arena/cc7518ae-gemsdoekarage2`  
-**Scope:** repository, nine-site executive summary, research slate, safety policies, local tests and generated pages.  
+**Branch:** `arena/cc7518ae-gemsdoekarage2`
+**Scope:** repository, nine-site executive summary, research slate, safety policies, local tests and generated pages.
 **Decision:** **NO APPROVED SUBMISSION. Do not submit or label any existing TIFF as safe.**
 
 No experiment, new prediction raster, organizer upload, competition slot use, or leaderboard score estimate was made. This is intentional: the parallel-run protocol requires one explicitly assigned method paragraph, but none is supplied. The last HK3 lane is retired and had already exceeded its experiment/time budget; the negative uniqueness ruling cannot be waived. Creating another candidate here would violate the protocol rather than satisfy it.

@@ -35,13 +35,13 @@
     "Updated generated executive summary, submission desk, and conditional submission guide from the fail-closed renderer.",
     "Documented four ranked hypotheses and their mimics/data blockers; did not test any candidate.",
     "Indexed two previously unrecognized TIFF artifacts as research-only/negative; one lacks method provenance.",
-    "Corrected README leaderboard rank wording and local root redirect.",
+    "Corrected README leaderboard rank wording; preserved the executive-summary root route.",
     "Added regression tests for research slate, negative inventory and public messaging."
   ],
   "tests": {
-    "python_pytest": "226 passed, 8 skipped, 98 subtests passed",
+    "python_pytest": "232 passed, 8 skipped, 98 subtests passed",
     "node_feed": "3 passed",
-    "node_site": "8 passed",
+    "node_site": "9 passed",
     "browser_smoke": "passed at 1440, 390 and 320 px plus freshness/navigation checks",
     "generated_pages_check": "passed",
     "audit_site_check": "passed",
