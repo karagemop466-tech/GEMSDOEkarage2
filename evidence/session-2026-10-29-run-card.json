@@ -1,0 +1,57 @@
+{
+  "schema": "run-card-v1",
+  "session_date": "2026-10-29",
+  "branch": "arena/cf005210-gemsdoekarage2",
+  "experiments_run": 0,
+  "budget": {
+    "max_experiments": 3,
+    "max_hours": 2,
+    "used_experiments": 0,
+    "slots_used": 0
+  },
+  "hypothesis": null,
+  "mechanism": null,
+  "named_non_fault_mimic": null,
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "correlation_or_overlap_vs_registry": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "scope": "shared writer control, not a candidate",
+    "positive_control_sample_template": {
+      "file": ".cache/research/sample_submission.tif (owner mirror, NOT organizer-authenticated)",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "no_nan_inside_footprint": true,
+      "outside_footprint_is_nan": true,
+      "in_range_0_1": true,
+      "uniqueness_vs_registry": "not run (fail-closed, no reference rasters)"
+    },
+    "negative_control_hk3": {
+      "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+      "outside_footprint_is_nan": false,
+      "outside_finite_cells": 7111787,
+      "source": "evidence/hk3/validate_tif_strict.json (strict_format_pass false)"
+    }
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative",
+  "verdict_reason": "No candidate generated. Uniqueness gate cannot be cleared without an assigned lane, authenticated organizer template and full registry; all existing TIFFs fail at least one gate.",
+  "leaderboard_observation": {
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "kind": "ORGANIZER-PUBLISHED PUBLIC SNAPSHOT (not a submission receipt)",
+    "top_score": 0.4544,
+    "top_user": "xiaofanhu",
+    "kpomazi_rank": 47,
+    "kpomazi_score": 0.3195
+  },
+  "code_change": [
+    "scripts/submission_writer.py (footprint-based exterior gate)",
+    "tests/test_writer_exterior_convention.py",
+    "scripts/build_hk3_pages.py (strict-format disclosure)"
+  ],
+  "evidence": [
+    "evidence/official-verification-2026-10-29.json",
+    "research/2026-10-29-verification-and-blocker-review.md"
+  ]
+}
