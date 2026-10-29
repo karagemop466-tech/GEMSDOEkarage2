@@ -1,0 +1,52 @@
+{
+  "schema": "gems.session_run_card.v1",
+  "session_date": "2026-10-29",
+  "branch": "arena/b1c781e7-gemsdoekarage2",
+  "experiment_count": 0,
+  "hypothesis": null,
+  "mechanism": null,
+  "named_non_fault_process": null,
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "holdout_evaluator_version": null,
+  "withheld_positive_count": null,
+  "correlation_vs_registry": null,
+  "overlap_vs_registry": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_generated": false,
+    "candidate_validator": "not run; no candidate raster was generated",
+    "published_download_inventory": "PASS_RESEARCH_ONLY",
+    "inventory_artifacts": 9,
+    "downloadable_approved_submission": null,
+    "slot_authorized": false,
+    "website_release_badge": "OK TO SUBMIT: NO",
+    "research_files_are_not_submission_candidates": true,
+    "organizer_template_authenticated": false,
+    "feature_data_authenticated": false,
+    "full_registry_authenticated": false
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative",
+  "verdict_reason": "No assigned method paragraph, no authenticated organizer feature/label/template bundle, and no complete current registry. Do not create or promote a TIFF or use a submission slot; prior files fail at least one mandatory gate.",
+  "code_and_page_changes": [
+    "Fixed stale submission-page copy that called an unvalidated raster unique/submission-ready.",
+    "Updated generated executive summary, submission desk, and conditional submission guide from the fail-closed renderer.",
+    "Documented four ranked hypotheses and their mimics/data blockers; did not test any candidate.",
+    "Indexed two previously unrecognized TIFF artifacts as research-only/negative; one lacks method provenance.",
+    "Corrected README leaderboard rank wording and local root redirect.",
+    "Added regression tests for research slate, negative inventory and public messaging."
+  ],
+  "tests": {
+    "python_pytest": "226 passed, 8 skipped, 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "8 passed",
+    "browser_smoke": "passed at 1440, 390 and 320 px plus freshness/navigation checks",
+    "generated_pages_check": "passed",
+    "audit_site_check": "passed",
+    "public_download_audit": "PASS_RESEARCH_ONLY; no approved submission",
+    "compile_and_shell_syntax": "passed",
+    "warnings": "95 Rasterio PendingDeprecationWarnings in Python suite"
+  }
+}

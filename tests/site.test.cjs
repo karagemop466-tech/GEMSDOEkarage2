@@ -117,3 +117,20 @@ test('official sources and complete holdout labels are linked on the summary', (
   assert.match(dom.window.document.body.textContent, /95% CI/);
   dom.window.close();
 });
+
+test('research hypotheses name layers and controls without promising an unvalidated TIFF', () => {
+  const dom = render('executive-summary.html');
+  const text = dom.window.document.body.textContent;
+  assert.match(text, /Next research slate · not tested or assigned/);
+  for (const band of ['13', '11', '12', '19', '17', '18', '7', '8', '2', '3', '10', '16']) {
+    assert.match(text, new RegExp(`Bands?[^\\n]*\\b${band}\\b`));
+  }
+  assert.match(text, /shoreline\/contour null/);
+  assert.match(text, /saline groundwater\/playa margins/i);
+  assert.match(text, /shuffled[- ]strain/i);
+  assert.match(text, /shuffle seismicity as a negative control/i);
+  assert.match(text, /organizer data tab is login-gated/);
+  assert.match(text, /none is assigned or validated/i);
+  assert.doesNotMatch(text, /New unique submission TIF — ready to download/);
+  dom.window.close();
+});

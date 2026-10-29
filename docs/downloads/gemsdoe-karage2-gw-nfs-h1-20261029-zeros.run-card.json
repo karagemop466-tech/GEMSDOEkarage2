@@ -1,0 +1,26 @@
+{
+  "schema": "research-artifact-inventory-v1",
+  "file": "gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif",
+  "raster_sha256": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85",
+  "submission_name": "gemsdoe-karage2-gw-nfs-h1-20261029-zeros",
+  "note": "Unidentified historical artifact; provenance, holdout and uniqueness unverified; DO NOT SUBMIT",
+  "evidence_class": "RESEARCH-ONLY / UNVERIFIED HISTORICAL ARTIFACT",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false,
+  "holdout_dti": null,
+  "holdout_ci95": null,
+  "withheld_positives": null,
+  "correlation_vs_registry": null,
+  "overlap_vs_registry": null,
+  "provenance": "No generator, method record, score receipt, or independent registry audit was found in the checked-in text files. Only the TIFF bytes and grid could be read in this review.",
+  "validator_scope": "Byte hash and single-band/grid/range checks will be recorded by scripts/audit_public_downloads.py against the pinned unauthenticated owner-mirror grid. This does not establish organizer template match, scientific validity, uniqueness, or portal acceptance.",
+  "limitations": [
+    "No reproducible generation method or source evidence found",
+    "No organizer-authenticated labels or template",
+    "No HOLDOUT-DTI or leakage canary",
+    "No complete registry uniqueness check",
+    "No submission slot used or authorized"
+  ]
+}

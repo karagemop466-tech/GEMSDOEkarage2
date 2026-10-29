@@ -48,7 +48,7 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 7
+    assert len(result['artifacts']) == 9
     found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
     assert len(found) == 1 and found[0]['kind'] == 'research'
     assert found[0]['checks']['current_assessment_negative_and_hash_bound'] is True
@@ -63,6 +63,12 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
         assert record['checks']['mirror_transform_match']
+    unknown = next(r for r in result['artifacts'] if r['file'].endswith('gw-nfs-h1-20261029-zeros.tif'))
+    assert unknown['kind'] == 'research' and unknown['checks']['card_verdict_negative']
+    assert unknown['ok_to_submit'] is False and unknown['slot_authorized'] is False
+    h_a = next(r for r in result['artifacts'] if 'hA-intersection-propensity' in r['file'])
+    assert h_a['checks']['card_verdict_negative']
+    assert h_a['ok_to_submit'] is False and h_a['slot_authorized'] is False
 
 
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):

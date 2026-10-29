@@ -42,6 +42,10 @@ ARTIFACTS = (
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
      "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True),
+    ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
+     "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.run-card.json", None, False),
+    ("gemsdoe-karage2-gw-nfs-h1-20261029-zeros",
+     "docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.run-card.json", None, False),
 )
 
 
@@ -151,7 +155,9 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             # selector JSON is not evidence that the underlying gates actually ran.
             checks["independent_release_verification_implemented"] = False
         else:
-            checks["card_verdict_negative"] = (card.get("verdict") == "negative"
+            verdict = card.get("verdict")
+            checks["card_verdict_negative"] = (isinstance(verdict, str)
+                                                and (verdict == "negative" or verdict.startswith("negative —"))
                                                 and card.get("ok_to_submit", False) is False
                                                 and card.get("approved_for_weekly_slot", False) is False
                                                 and card.get("slot_authorized", False) is False)
