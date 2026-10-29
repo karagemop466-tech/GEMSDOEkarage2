@@ -1,6 +1,6 @@
 # Submission status — NO APPROVED FILE
 
-**Updated 2026-10-29:** still no approved file. The saved TIFFs use finite zeros outside the footprint, but the official
+**Updated 2026-10-29 (lattice gate):** no file is approved; all nine focus best files fail the literal lattice gate. See [the decision memo](research/2026-10-29-lattice-gate-and-decision.md). Still no approved file. The saved TIFFs use finite zeros outside the footprint, but the official
 wording and the organizer sample use NaN there (the repo's strict format check fails for HK3). Live leaderboard top is 0.4544;
 kpomazi is at rank 47 with 0.3195. See [the 2026-10-29 review](research/2026-10-29-verification-and-blocker-review.md).
 

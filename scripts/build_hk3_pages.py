@@ -41,6 +41,25 @@ def load(path: Path) -> dict:
     return value
 
 
+def owner_pin(rec: dict) -> tuple[str, str]:
+    """Return (ref, repo_path) of the owner-repo commit whose bytes were sha256-verified.
+
+    focus_sites.json carries a different ref for the same file (it is not the pinned
+    commit), so links use the registry manifest row for the site's own repo instead.
+    Fails closed if no own-repo row with the same sha256 exists.
+    """
+    manifest = load(ROOT / "registry/focus_registry_manifest.json")["rasters"]
+    rows = [r for r in manifest if r["repo"] == rec["site"] and r["sha256"] == rec["sha256"]]
+    if len(rows) != 1:
+        raise ValueError(f"No unique own-repo pinned row for {rec['site']}")
+    return rows[0]["ref"], rows[0]["path"]
+
+
+def owner_source(rec: dict) -> str:
+    ref, path = owner_pin(rec)
+    return f"https://github.com/buffedlizard55-lab/{rec['site']}/raw/{ref}/{path}"
+
+
 def gather() -> dict:
     card = load(EV / "hk3/run_card.json")
     selector = load(EV / "hk3/selector_result.json")
@@ -101,8 +120,18 @@ def gather() -> dict:
         row = measured[record["site"]]
         if record["sha256"] != row["sha256"] or row["max_focus_overlap_fraction"] <= 0.70:
             raise ValueError("Nine-site row does not match the pinned negative audit")
+    lattice = load(EV / "lattice-gate-audit-2026-10-29.json")
+    nine = {row["site"]: row for row in lattice["nine_site_best_files"]}
+    if (lattice.get("schema") != "gems.lattice-gate-audit.v1" or lattice.get("registry_rasters") != 440
+            or set(nine) != {r["site"] for r in records} or len(nine) != 9
+            or any(nine[r["site"]]["sha256"] != r["sha256"] for r in records)
+            or any(nine[site]["literal_stop_vs_lattice"] is not True for site in nine)
+            or lattice.get("pass_fail_summary", {}).get("any_nine_site_best_file_passes_literal_lattice_gate") is not False
+            or lattice.get("max_dots_that_could_pass_literal_70pct_rule") != int(lattice["uncovered_footprint_cells"] / 0.30 + 1e-9)):
+        raise ValueError("Lattice-gate audit disagrees with the pinned nine-site records")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
-            "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3}
+            "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3,
+            "lattice": lattice}
 
 
 def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
@@ -137,6 +166,29 @@ def hero(d: dict) -> str:
 </section>'''
 
 
+def decision_section(d: dict) -> str:
+    """2026-10-29 answer table: which file, estimated score, unique?, OK to submit?"""
+    lat = d["lattice"]
+    nine = {row["site"]: row for row in lat["nine_site_best_files"]}
+    rows = []
+    for rec in sorted(d["focus"], key=lambda r: -r["owner_reported_unverified"]):
+        site = rec["site"]
+        row = nine[site]
+        source = owner_source(rec)
+        other = Path(row["max_overlap_excluding_lattice_registry_path"]).name
+        rows.append(f"""<tr><td><a href="sites/{esc(site)}.html">{esc(site)}</a></td>
+<td><a href="{esc(source)}">{esc(rec['file'])}</a><span class="sub-label">Owner file · research reference, not a submission</span></td>
+<td><b>{rec['owner_reported_unverified']:.4f}</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>Unavailable<span class="sub-label">No HOLDOUT-DTI or organizer receipt for this file</span></td>
+<td><b class="no">NO</b><span class="sub-label">{row['measured_overlap_vs_lattice'] * 100:.1f}% of its {row['dots_in_footprint']:,} dots within 3 px of the GEMSDOE13 lattice; {row['max_overlap_vs_other_registry_raster_excluding_lattice'] * 100:.0f}% within 3 px of <code>{esc(other)}</code></span></td>
+<td><b class="no">NO — DO NOT SUBMIT</b></td></tr>""")
+    return f"""<section class="section" id="decision"><h3>Decision table · which file, estimated score, unique?</h3>
+<p><b class="no">Answer: no pinned file is OK to download and submit.</b> Under the literal duplicate rule (more than 70% of a file's dots within 3 px of one registry raster's dots), all nine highest-reported files fail. The highest owner-reported file is GEMSDOE32 at 0.2778; it is the GEMSDOE25 D2.8 set with 6,436 dots removed, and its dots fall within 3 px of the lattice at {nine['GEMSDOE32']['measured_overlap_vs_lattice'] * 100:.2f}%.</p>
+<table id="decision-table"><thead><tr><th>Site</th><th>File to download (owner link)</th><th>Owner-reported value</th><th>Estimated leaderboard score</th><th>Unique vs registry?</th><th>OK to download and submit?</th></tr></thead><tbody>{''.join(rows)}</tbody></table>
+<p class="muted">Measured on pinned bytes: {lat['registry_rasters']} focus-site registry rasters; {lat['registry_rasters_failing_literal_stop_vs_lattice']} fail the literal lattice stop (the 1 non-comparable-grid file and the lattice itself are excluded). Only {lat['max_dots_that_could_pass_literal_70pct_rule']:,} dots could pass at all, and only if at least 30% lay in the {lat['uncovered_footprint_cells']:,} cells the lattice does not cover; that is edge-hole gaming and is forbidden. Estimates are <b>Unavailable</b>: no validated transfer from holdout to the hidden labels exists. Full audit: <a href="evidence/lattice-gate-audit-2026-10-29.json">lattice-gate-audit-2026-10-29.json</a> · <a href="{REPO}/blob/main/research/2026-10-29-lattice-gate-and-decision.md">decision memo</a>.</p>
+</section>"""
+
+
 def evidence_summary(d: dict) -> str:
     c, w, audit = d["card"], d["witness"], d["registry"]
     h = c["holdout"]["candidate_same_budget_as_incumbent_b110"]
@@ -162,7 +214,7 @@ def nine_site_table(d: dict) -> str:
     for rec in records:
         site = rec["site"]
         geo = by_site[site]
-        source = f'https://github.com/buffedlizard55-lab/{site}/raw/{rec["ref"]}/docs/downloads/{rec["file"]}'
+        source = owner_source(rec)
         rows.append(f'''<tr><td><a href="sites/{esc(site)}.html">{esc(site)}</a></td>
 <td><a href="{esc(source)}">{esc(rec['file'])}</a><span class="sub-label">Historical reference · download for research only</span></td>
 <td><b>{rec['owner_reported_unverified']:.4f}</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
@@ -230,17 +282,17 @@ code, .container, .hero { overflow-wrap: anywhere; word-break: break-word; }
 
 def focus_detail(record: dict, geo: dict) -> str:
     site = record["site"]
-    source = f'https://github.com/buffedlizard55-lab/{site}/raw/{record["ref"]}/docs/downloads/{record["file"]}'
+    source = owner_source(record)
     return f'''<section class="hero"><h2>{esc(site)} executive summary — DO NOT RESUBMIT</h2>
 <p><b>Historical file:</b> <a href="{esc(source)}">{esc(record['file'])}</a> · research reference only.<br>
 <b>Historical report:</b> {record['owner_reported_unverified']:.4f} — USER-REPORTED / UNVERIFIED, not an organizer receipt.</p>
 <p><b>Estimated leaderboard score:</b> unavailable. <b>Unique:</b> NO — {geo['max_focus_overlap_fraction'] * 100:.1f}% of its dots are within 3 px of {esc(geo['closest_focus_site'])}. <b>Upload:</b> not approved.</p>
-<p><b>SHA-256:</b> <code>{esc(record['sha256'])}</code><br><b>Pinned revision:</b> <code>{esc(record['ref'])}</code><br><b>Method / interpretation:</b> {esc(METHODS[site])}</p>
+<p><b>SHA-256:</b> <code>{esc(record['sha256'])}</code><br><b>Pinned revision (manifest):</b> <code>{esc(owner_pin(record)[0])}</code><br><b>Method / interpretation:</b> {esc(METHODS[site])}</p>
 <p>Research downloads are for inspection only, not new submissions. This pinned snapshot does not establish the independently maintained site's current best. <a href="{esc(record['site_url'])}">Original site ↗</a> · <a href="sites/{esc(site)}.html">Detailed prior summary</a> · <a href="executive-summary.html">Nine-site comparison</a>.</p></section>'''
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = hero(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
+    desk = hero(d) + decision_section(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     pages = {"index.html": shell("Submission desk", "desk", desk),
              "executive-summary.html": shell("Executive summary", "summary", desk),
@@ -262,7 +314,8 @@ def main() -> int:
     mirrors = [(f, DOCS / "evidence/hk3" / f.name) for f in sorted((EV / "hk3").glob("*.json"))]
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
                 (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
-                (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json")]
+                (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json"),
+                (EV / "lattice-gate-audit-2026-10-29.json", DOCS / "evidence/lattice-gate-audit-2026-10-29.json")]
     stale = []
     for src, dst in mirrors:
         if args.check:
