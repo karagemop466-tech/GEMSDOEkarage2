@@ -1,0 +1,46 @@
+{
+  "schema": "gems.current_source_check.v1",
+  "checked_date_utc": "2026-10-29",
+  "checked_by": "Arena agent via fetch_page",
+  "claims": [
+    {
+      "id": "LIVE-01",
+      "label": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT",
+      "claim": "At retrieval, the visible public leaderboard showed xiaofanhu at rank 1 with 0.4544, and kpomazi at rank 47 with 0.3195.",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "retrieved_in_chunks": [0, 1, 2],
+      "quote": "#1 ... xiaofanhu ... 0.4544" ,
+      "rank_47_quote": "#47 ... kpomazi ... 0.3195",
+      "scope": "Public leaderboard observation only; not a receipt linking any local TIFF to a score, and not a private-test or final-round result."
+    },
+    {
+      "id": "FMT-01",
+      "label": "OFFICIAL COMPETITION FORMAT",
+      "claim": "The problem page requires a GeoTIFF in EPSG:32611, at 100 m, with the training-data bounds; outside-bounds data are null or NaN; one float32 layer with values between 0 and 1.",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "retrieved_in_chunks": [0, 1],
+      "quote": "Your submission has the same bounds as the training data, and data outside the bounds is null or nan."
+    },
+    {
+      "id": "METRIC-01",
+      "label": "OFFICIAL COMPETITION METRIC",
+      "claim": "The official page defines distance-weighted Tversky with alpha 0.2, beta 0.8, and triangular-kernel support R=300 m (3 pixels at 100 m).",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "retrieved_in_chunks": [1],
+      "quote": "For this competition, we set 𝛼=0.2 and 𝛽=0.8" 
+    },
+    {
+      "id": "RULE-01",
+      "label": "OFFICIAL RULES",
+      "claim": "Rules section 3.2 says one GeoTIFF with one raster layer at 100 m, allows multiple submissions subject to a three-per-week website limit, requires generative-AI use disclosure in the narrative, and warns public and private leaderboard scores may differ.",
+      "source": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "retrieved_in_chunks": [2],
+      "quote": "You can make multiple submissions, subject to the limits specified on the competition website (three submissions per week)."
+    }
+  ],
+  "caveats": [
+    "The leaderboard is live and may change after retrieval; no automatic current feed is claimed.",
+    "DrivenData training rasters and the authenticated submission template are not present in this repository checkout.",
+    "The source facts do not validate any local candidate or establish portal acceptance."
+  ]
+}
