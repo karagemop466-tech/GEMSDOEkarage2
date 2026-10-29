@@ -1,0 +1,78 @@
+{
+  "file": "gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif",
+  "sha256": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85",
+  "validation_passed": false,
+  "validation_message": "FAIL",
+  "checks": [
+    {
+      "check": "single_band",
+      "passed": true,
+      "detail": "count=1"
+    },
+    {
+      "check": "dtype_float32",
+      "passed": true,
+      "detail": "dtype=float32"
+    },
+    {
+      "check": "shape_3730x3292",
+      "passed": true,
+      "detail": "3730x3292"
+    },
+    {
+      "check": "crs_EPSG_32611",
+      "passed": true,
+      "detail": "crs=EPSG:32611"
+    },
+    {
+      "check": "geotransform_match",
+      "passed": true,
+      "detail": "| 100.00, 0.00, 243350.00|\n| 0.00,-100.00, 4508550.00|\n| 0.00, 0.00, 1.00|"
+    },
+    {
+      "check": "bounds_match",
+      "passed": true,
+      "detail": "(243350.0, 4135550.0, 572550.0, 4508550.0)"
+    },
+    {
+      "check": "no_nan_inside_footprint",
+      "passed": true,
+      "detail": "nan_inside=0"
+    },
+    {
+      "check": "outside_footprint_is_nan",
+      "passed": false,
+      "detail": "outside_finite=7111787"
+    },
+    {
+      "check": "in_range_0_1",
+      "passed": true,
+      "detail": "min=0.0 max=1.0"
+    },
+    {
+      "check": "dots_present",
+      "passed": true,
+      "detail": "n_dots=30000"
+    },
+    {
+      "check": "surface_spearman_gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "passed": true,
+      "detail": "rho=0.0046"
+    },
+    {
+      "check": "dots_within_3px_gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "passed": true,
+      "detail": "0.1954 of 30000 dots"
+    },
+    {
+      "check": "surface_spearman_gemsdoe36-tcd36-exp2-20261027-9970b80c6585-zeros.tif",
+      "passed": true,
+      "detail": "rho=0.0039"
+    },
+    {
+      "check": "dots_within_3px_gemsdoe36-tcd36-exp2-20261027-9970b80c6585-zeros.tif",
+      "passed": true,
+      "detail": "0.1818 of 30000 dots"
+    }
+  ]
+}

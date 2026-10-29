@@ -373,7 +373,7 @@ def main():
     print(f"  Annulus candidates: {annulus.sum()}, selected dots: {dot_mask.sum()}",
           flush=True)
 
-    # ---- Build final raster (zeros outside footprint, like HK3) ----
+    # ---- Build final raster: zeros outside footprint (matches existing artifacts) ----
     final = np.zeros((H, W), dtype=np.float32)
     final[dot_mask] = 1.0
 

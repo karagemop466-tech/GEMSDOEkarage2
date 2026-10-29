@@ -1,0 +1,21 @@
+{
+  "file": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif",
+  "sha256": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85",
+  "bytes": 762402,
+  "crs": "EPSG:32611",
+  "shape": [
+    3730,
+    3292
+  ],
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+  ],
+  "dtype": "float32",
+  "nodata": null,
+  "compress": "lzw"
+}
