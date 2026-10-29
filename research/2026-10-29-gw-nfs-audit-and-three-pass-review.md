@@ -70,7 +70,7 @@ Source file: the PR #61 GW-NFS raster, now quarantined at `evidence/quarantine/g
 - `scripts/bootstrap_research.py`, then `scripts/recheck_hk3.py --check`: pass. Reproduces the HK3 negative witness: 45,046 of 45,108 candidate dots matched (overlap 0.99863).
 - `scripts/audit_public_downloads.py --check`: PASS_RESEARCH_ONLY, 9 artifacts (matches main). `scripts/build_hk3_pages.py --check`: pages up to date. `scripts/build_audit_site.py --check`: pass. `scripts/review_hk3_protocol.py --check`, `scripts/audit_k2_release.py`, `scripts/review_k2_release.py`, `scripts/assess_release.py`: all exit 0.
 - `scripts/build_site.py` and `scripts/build_field_notes.py` (the CI `pages.yml` steps) run cleanly. They write `docs/experiment-*.html`, `docs/submission-guide.html`, `docs/hypotheses.html`, `docs/sources.html`, `docs/evidence/freshness.json`, and `docs/field-notes/*`. They do **not** write `docs/index.html` or `docs/executive-summary.html`, so there is no overlap with the desk generator.
-- **Pre-session failures:** on `c5bde4d`, 14 pytest failures were recorded. After merging `origin/main` (e9afabb), this branch makes **no test-file changes** relative to `main` (`git diff origin/main -- tests/` is empty). The merged suite passes: 254 passed, 4 skipped (mirror-backed). One `main` test (`test_stale_unverified_tif_is_not_published_as_a_submission`) forbids the quarantined raster's filename on the desk pages, so the GW-NFS panel names the PR #61 raster by SHA-256 only. The desk was changed to comply, not the test.
+- **Pre-session failures:** on `c5bde4d`, 14 pytest failures were recorded. After merging `origin/main` (e9afabb), this branch makes **no test-file changes** relative to `main` (`git diff origin/main -- tests/` is empty). The merged suite passed (254 passed, 4 skipped at the time of the first merge; 260 passed, 4 skipped on the final `main`). One `main` test (`test_stale_unverified_tif_is_not_published_as_a_submission`) forbids the quarantined raster's filename on the desk pages, so the GW-NFS panel names the PR #61 raster by SHA-256 only. The desk was changed to comply, not the test.
 - Fixed in this session: `audit_gw_nfs.py` rank-cache shape bug (2-D cache crashed the Spearman step; now flattened). Verified: cached, uncached and `submission_writer._spearman` agree at 0.9011212945917423 on a random NaN-containing array.
 
 **Pass 2 — official rules and format (checked against the official PDF, sections 3.3–3.6 and Appendix A):**
@@ -129,3 +129,11 @@ Top candidate for validation: **1 (coverage-aware placement)**. Validate on the 
 - Expand uniqueness coverage beyond the pinned registry before any clean claim.
 - Confirm the USGS DEM source before starting hypothesis 2.
 - Limitations: no organizer-authenticated data; no leaderboard estimate for any new file; HOLDOUT-DTI uses the owner-mirror labels; the uniqueness gate is local only.
+
+## 8. Post-merge record (2026-10-29)
+
+- **PR #76** (this review, plus the `main` merges needed to resolve conflicts with PR #61's quarantine policy and the later full-registry audit, PR #77) merged to `main` at `fb12def`.
+- **Post-merge CI failure on `main`:** commit `e8d9cef` (a parallel branch that retired GW-NFS as a duplicate) added `evidence/gw-nfs/apron_reachability.json` and `experiments.json` without their `docs/evidence/gw-nfs/` mirrors. `build_hk3_pages.py --check` and `pytest` failed on `main`.
+- **Fix:** **PR #79** regenerated only those two mirrors. Merged at `159249d`. All `main` workflows are green on `159249d` (audit tests, evidence checks, research desk publish, research and site checks, pages deployment).
+- The GW-NFS verdict in this note is unchanged by `e8d9cef`, which independently reached the same negative result (uniqueness duplicate, overlap 1.0).
+- No slot, submission, or new TIFF was created by any of these PRs.
