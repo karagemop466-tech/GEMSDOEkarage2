@@ -42,6 +42,9 @@ ARTIFACTS = (
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
      "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True),
+    ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
+     "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.run-card.json",
+     None, False),
 )
 
 
@@ -54,6 +57,21 @@ def normalise_card(card: dict, rel: str, stem: str) -> dict:
         flat["raster_sha256"] = card["raster"].get("sha256")
         flat["submission_name"] = card.get("submission", {}).get("name")
         flat["note"] = card.get("submission", {}).get("note")
+        return flat
+    # H-A's research run card predates the normalized artifact schema. Adapt its
+    # saved-byte identity and explicit negative classification without treating
+    # its missing holdout/registry results as passed validation.
+    if (isinstance(card, dict) and card.get("file") == f"{stem}.tif"
+            and isinstance(card.get("sha256"), str)):
+        flat = dict(card)
+        flat["raster"] = rel
+        flat["raster_sha256"] = card["sha256"]
+        flat["note"] = card.get("note")
+        if str(card.get("verdict", "")).lower().startswith("negative"):
+            flat["verdict"] = "negative"
+            flat["ok_to_submit"] = False
+            flat["approved_for_weekly_slot"] = False
+            flat["slot_authorized"] = False
         return flat
     return card
 

@@ -48,7 +48,7 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 7
+    assert len(result['artifacts']) == 8
     found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
     assert len(found) == 1 and found[0]['kind'] == 'research'
     assert found[0]['checks']['current_assessment_negative_and_hash_bound'] is True
@@ -63,6 +63,19 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
         assert record['checks']['mirror_transform_match']
+
+
+def test_hA_without_holdout_or_registry_is_audited_as_research_only():
+    audit = mod.audit()
+    stem = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
+    card = json.loads((ROOT / f'docs/downloads/{stem}.run-card.json').read_text())
+    row = next(item for item in audit['artifacts'] if item['file'].endswith(f'{stem}.tif'))
+    assert card['holdout_dti'] is None and card['correlation_vs_registry'] is None
+    assert card['verdict'].lower().startswith('negative')
+    assert row['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert row['checks']['card_sha_matches_saved_bytes'] is True
+    assert row['ok_to_submit'] is False and row['slot_authorized'] is False
+    assert audit['downloadable_approved_submission'] is None
 
 
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):

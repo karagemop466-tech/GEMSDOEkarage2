@@ -28,11 +28,19 @@ jobs:
       - run: python scripts/audit_public_downloads.py --check
       - run: python scripts/review_hk3_protocol.py --check
       - run: python scripts/review_k2_release.py
-      - run: python scripts/build_site.py
-      - run: python scripts/build_field_notes.py
-      - run: python scripts/build_audit_site.py --check
-      - run: python scripts/build_hk3_pages.py --check
-      - run: git diff --exit-code -- docs evidence
+      - name: Verify generated docs/evidence are current
+        run: |
+          snapshot() { find docs evidence -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum; }
+          before="$(snapshot)"
+          python scripts/build_site.py
+          python scripts/build_field_notes.py
+          python scripts/build_audit_site.py --check
+          python scripts/build_hk3_pages.py --check
+          after="$(snapshot)"
+          if [ "$before" != "$after" ]; then
+            echo "Generated docs/evidence changed during build; regenerate and commit the outputs."
+            exit 1
+          fi
       - run: python -m pytest -q
       - uses: actions/setup-node@v4
         with:
@@ -55,6 +63,8 @@ jobs:
         run: |
           python scripts/refresh_feed.py --github-only
           python scripts/refresh_sources.py
+      - name: Render summary from refreshed GitHub metadata only
+        run: python scripts/build_hk3_pages.py
       - uses: actions/configure-pages@v5
         with:
           enablement: true

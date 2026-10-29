@@ -1,0 +1,81 @@
+{
+  "schema": "gems.repository_review_card.v1",
+  "recorded_utc": "2026-10-29T18:26:37Z",
+  "classification": "REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT",
+  "hypothesis": "No new geological hypothesis tested. The requested method paragraph was not supplied and no method lane was assigned.",
+  "mechanism": "Review-only actions: verify a dated public leaderboard observation, refresh GitHub main-branch metadata, reconcile documentation, and run repository integrity/tests. No prediction model or raster was run.",
+  "named_non_fault_mimic": "Not applicable to a review with no candidate surface; candidate-specific non-fault processes and controls remain untested in the linked proposal slate.",
+  "holdout": {
+    "evidence_class": "NOT RUN; NO HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "dti": null,
+    "ci95": null,
+    "reason": "No experiment was authorized or run. Do not substitute historical holdout values or public leaderboard rows."
+  },
+  "registry_correlation_overlap": {
+    "candidate_surface_spearman": null,
+    "candidate_surface_max_3px_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_max_3px_overlap": null,
+    "scope": "No candidate raster exists. The historical nine-site comparison is in docs/data/focus_audit.json and does not cover the complete registry or current upstream heads.",
+    "complete_registry_verified": false,
+    "preplacement_gate_passed": false
+  },
+  "raster": null,
+  "raster_sha256": null,
+  "validator_result": {
+    "status": "NOT RUN: no new candidate raster",
+    "format_validation": null,
+    "organizer_template_match": null,
+    "organizer_acceptance": null,
+    "downloadable_approved_submission": null
+  },
+  "proposed_submission_name": null,
+  "proposed_submission_note": null,
+  "leaderboard_estimate": null,
+  "current_public_leaderboard_snapshot": {
+    "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a file-linked receipt, private score, HOLDOUT-DTI, or local-raster score",
+    "observed_utc": "2026-10-29T18:26:44Z",
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "first_place": {
+      "rank": 1,
+      "participant": "xiaofanhu",
+      "value": 0.4544
+    },
+    "user_cited_0_3195": {
+      "rank": 47,
+      "participant": "kpomazi",
+      "value": 0.3195
+    }
+  },
+  "focus_source_refresh": {
+    "evidence_class": "GITHUB MAIN-BRANCH METADATA ONLY; NOT A RASTER OR SCORE AUDIT",
+    "checked_utc": "2026-10-29T18:26:37Z",
+    "total_sites": 9,
+    "changed": 9,
+    "unavailable": 0,
+    "latest_heads": {
+      "GEMSDOE24": "63d5885b68f73c19a7746052ccb3e5690f3271b5",
+      "GEMSDOE25": "ef939fe87041b6a8315a5f5210cd8a8eee93b2c4",
+      "GEMSDOE27": "bf34151e8e4ef26ec924f28dbc371a39bd740782",
+      "GEMSDOE28": "424bf795ed2183000c643d6e30a12ce2d4bf401d",
+      "GEMSDOE30": "eaff218f81e89fadc605650bb2cd55dd4b58e18d",
+      "GEMSDOE31": "e70a257c829ad874135aff4b7b3a1452c4740640",
+      "GEMSDOE32": "6edcc4cd529ca0809b956ccb00aea7f0e3b79cbf",
+      "GEMSDOE33": "d89f3431c9474952426ed63f271e55116c85c0e2",
+      "GEMSDOE36": "c15da37c83f11dcec0f6c62f65052efc825304a8"
+    }
+  },
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "verdict": "negative",
+  "limitations": [
+    "No method paragraph or lane assignment; the prior HK3 lane is retired and its experiment/time budget is exhausted.",
+    "No complete literal registry audit, authenticated organizer data/template, official exterior convention, portal acceptance, account quota, or current-head raster/receipt audit.",
+    "Historical owner-reported focus-site values are unverified and do not establish scores for these exact bytes.",
+    "The public leaderboard observation is time-varying and is not a result for any local raster."
+  ]
+}

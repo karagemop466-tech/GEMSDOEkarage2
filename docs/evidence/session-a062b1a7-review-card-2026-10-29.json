@@ -1,0 +1,37 @@
+{
+  "schema": "gems.review_run_card.v1",
+  "session_date_utc": "2026-10-29",
+  "branch": "arena/a062b1a7-gemsdoekarage2",
+  "review_only": true,
+  "experiments_run": 0,
+  "slots_used": 0,
+  "hypothesis": null,
+  "mechanism": null,
+  "named_non_fault_mimic": null,
+  "holdout_dti": {
+    "evidence_class": null,
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "dti": null,
+    "ci95": null,
+    "reason": "No experiment or holdout evaluation was run in this review."
+  },
+  "correlation_overlap_vs_registry": {
+    "surface_before_placement": null,
+    "final_dots": null,
+    "reason": "No candidate surface or final raster was generated; no new uniqueness test was run."
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_generated": false,
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "portal_acceptance": null,
+    "reason": "No candidate raster exists for this review."
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative",
+  "verdict_reason": "A stale, unregistered raster was removed from the public download directory; the current release has no approved candidate. An assigned lane, authenticated organizer data/template, and complete registry are not established."
+}
