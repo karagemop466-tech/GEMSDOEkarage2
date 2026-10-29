@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-29T18:20:03.519632+00:00",
+  "generated_utc": "2026-10-29T18:24:45.146594+00:00",
   "scope": "Measurements on SHA-256-pinned owner-mirror bytes. Not HOLDOUT-DTI, not an organizer score, not a leaderboard estimate. Reported scores are USER-REPORTED / UNVERIFIED.",
   "template": {
     "path": ".cache/competition_data/sample_submission.tif",
@@ -247,6 +247,41 @@
       "frac_dots_within_3px_of_lattice": 0.999176,
       "frac_dots_within_3px_of_catalogue": 0.058707,
       "footprint_cover_within_3px": 0.15459
+    }
+  ],
+  "other_candidates": [
+    {
+      "name": "gemsdoe-karage2-gw-nfs-h1-20261029-zeros",
+      "file": "docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif",
+      "sha256": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85",
+      "format": {
+        "dtype": "float32",
+        "count": 1,
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "res": [
+          100.0,
+          100.0
+        ],
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ]
+      },
+      "dots_in_footprint": 30000,
+      "frac_dots_within_3px_of_lattice": 0.989067,
+      "exterior_convention": "finite zeros",
+      "gate_status": "DUPLICATE_STOP",
+      "gate_overlap_with_lattice": 0.9890666666666666,
+      "gate_spearman_with_lattice": -0.00031392614884467315,
+      "run_by": "scripts/audit_focus_gate.py (shared gate); candidate generated on main by another session"
     }
   ],
   "exact_subset_relations": [

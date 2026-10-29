@@ -1,0 +1,53 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "session_date_utc": "2026-10-29",
+  "branch": "arena/cc7518ae-gemsdoekarage2",
+  "classification": "THREE-PASS REPOSITORY REVIEW; NO EXPERIMENT OR SUBMISSION",
+  "hypothesis": null,
+  "mechanism": null,
+  "named_non_fault_mimic": null,
+  "hypothesis_status": "No method paragraph was assigned. Four untested proposals remain in research/2026-10-28-next-lane-slate.md; they are not authorization to run an experiment.",
+  "holdout_dti": null,
+  "holdout_confidence_interval_95": null,
+  "holdout_evaluator_version": null,
+  "holdout_withheld_positives": null,
+  "registry_correlation": null,
+  "registry_overlap_3px": null,
+  "registry_complete": false,
+  "preplacement_surface_check": null,
+  "final_dot_check": null,
+  "raster_sha256": null,
+  "format_validator_results": null,
+  "submission_name": null,
+  "note": null,
+  "leaderboard_estimate": null,
+  "organizer_confirmed_score": null,
+  "slot_authorized": false,
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "review_tests": {
+    "python": "226 passed, 8 skipped, 98 subtests passed; optional mirror inputs absent",
+    "node_feed": "3 passed",
+    "node_site": "7 passed",
+    "browser": "passed at 1440, 390 and 320 px",
+    "generated_pages": "up to date",
+    "download_inventory": "PASS_RESEARCH_ONLY; no approved downloadable submission"
+  },
+  "verdict": "negative",
+  "reasons": [
+    "No assigned method paragraph; no geological experiment or prediction raster was generated.",
+    "The current complete authenticated registry and organizer submission grid are not established.",
+    "All saved TIFFs remain research-only and fail at least one release gate; the historic HK3 literal overlap stop remains binding.",
+    "No holdout-based estimate can be represented as a leaderboard score; no file-linked organizer receipt is available.",
+    "Current public leaderboard and account quota were not refreshed or verified in this session."
+  ],
+  "evidence": [
+    "research/repo-review-2026-10-29-current-session.md",
+    "research/2026-10-28-next-lane-slate.md",
+    "docs/executive-summary.html",
+    "docs/how-to-submit.html",
+    "evidence/hk3/selector_result.json",
+    "evidence/official-verification-2026-10-29.json"
+  ]
+}

@@ -42,6 +42,8 @@ ARTIFACTS = (
      "evidence/k3/run_card.json", "evidence/k3/selector_result.json", True),
     ("gemsdoekarage2-hk3-edgecentrality-apron3-20261028",
      "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True),
+    ("gemsdoe-karage2-gw-nfs-h1-20261029-zeros",
+     "evidence/gw-nfs-h1/run_card.json", None, False),
 )
 
 

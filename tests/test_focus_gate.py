@@ -71,3 +71,11 @@ def test_nested_pairs_are_reported_as_user_reports_not_tests(profile):
     assert corr["n"] == 9
     assert "not evidence of causation" in corr["caveat"]
     assert "USER-REPORTED" in profile["scope"]
+
+
+def test_gw_nfs_candidate_from_main_is_recorded_as_duplicate_stop(profile):
+    (cand,) = profile["other_candidates"]
+    assert cand["sha256"] == "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85"
+    assert cand["gate_status"] == "DUPLICATE_STOP"
+    assert cand["frac_dots_within_3px_of_lattice"] > 0.70
+    assert cand["format"]["crs"] == "EPSG:32611" and cand["format"]["dtype"] == "float32"

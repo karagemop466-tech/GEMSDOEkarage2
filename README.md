@@ -4,9 +4,9 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-29)
+## Latest review (2026-10-29, current Arena session)
 
-The latest three-pass repository review is [`research/repo-review-2026-10-29.md`](research/repo-review-2026-10-29.md). **No submission is approved; do not submit any existing TIFF.** The review ran code/site tests only; it created no experiment, TIFF, upload, or score estimate. The eight skipped Python checks require missing pinned mirror inputs, which are not authenticated organizer data. This dated review does not supersede the stricter operating rules below or earlier negative evidence.
+The current three-pass review is [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md). **No submission is approved; do not submit any existing TIFF.** This session created no experiment, TIFF, upload, or score estimate. Tests passed locally; eight optional mirror-backed Python tests were skipped because their owner-mirror inputs are absent and are not authenticated organizer data. The review does not supersede the binding protocol below or prior negative evidence.
 
 ## Operating instruction
 

@@ -1,0 +1,27 @@
+{
+  "generated_utc": "2026-10-29T18:24:45.145162+00:00",
+  "stage": "surface",
+  "status": "DUPLICATE_STOP",
+  "candidate_sha256": "f6047d4f162ce1ca8fd136d0f8155418ac294b0b0c00778ea3f2f2a56ca7881a",
+  "support_sha256": "74a58814871c390cb954b385d6e01e891fc51301d32af9d5e746ac6e0d2b800d",
+  "template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+  "registry_sha256": "588359a14061fb2962afa72bf4c1e2e5c6eb3eb57ef4917e8d38d1a5c24ae38c",
+  "registry_declared_complete": false,
+  "comparison_count": 1,
+  "registry_entry_count": 1,
+  "comparisons": [
+    {
+      "path": "/home/user/GEMSDOEkarage2/.cache/research/inputs/lattice.tif",
+      "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "spearman_full_footprint": -0.00031392614884467315,
+      "matches_within_3px": 29672,
+      "support_pixels": 30000,
+      "overlap_fraction": 0.9890666666666666,
+      "duplicate": true
+    }
+  ],
+  "scope_note": "A manifest's completeness declaration is not independent proof of a complete live registry; a receipt alone cannot independently prove placement chronology.",
+  "upload_authorized": false,
+  "site": "gemsdoe-karage2-gw-nfs-h1-20261029-zeros",
+  "focus_file_sha256": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85"
+}
