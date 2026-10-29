@@ -6,7 +6,7 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29, current Arena session)
 
-The current three-pass review is [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md). **No submission is approved; do not submit any existing TIFF.** This session created no experiment, TIFF, upload, or score estimate. Tests passed locally; eight optional mirror-backed Python tests were skipped because their owner-mirror inputs are absent and are not authenticated organizer data. The review does not supersede the binding protocol below or prior negative evidence.
+The current-branch three-pass review is [`research/review-2026-10-29-current-branch.md`](research/review-2026-10-29-current-branch.md), with a machine-readable [review run card](evidence/session-e64bd60a-review-run-card-2026-10-29.json). **No submission is approved; do not submit any existing TIFF.** This review ran no experiment, generated no TIFF, made no upload, and estimated no candidate score. It refreshed the stale executive-summary page, brought the existing negative H-A raster into the saved-byte inventory, quarantined an unreceipted TIFF from GitHub Pages, and disabled its unvalidated generator. The review does not supersede the binding protocol or prior negative evidence.
 
 ## Operating instruction
 
@@ -68,13 +68,15 @@ for research, but are not authenticated organizer inputs. The mirror sample cont
 positive cells even though the official description says it predicts total absence;
 its provenance/footprint and exterior handling therefore remain unresolved.
 
-## Leaderboard status (public observation, 2026-10-28)
+## Leaderboard status (dated organizer snapshot, 2026-10-29)
 
-The public organizer page showed **0.4544** for xiaofanhu in first place, and
-**0.3195** for kpomazi at rank 27 on 2026-10-28. This is an organizer-published
-public snapshot, not a file-linked submission receipt; it can change. The earlier
-user-cited figures are not a current target. Re-read the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-before comparing; see [`evidence/official-review-2026-10-28.json`](evidence/official-review-2026-10-28.json).
+The evidence record for the official public leaderboard snapshot dated 2026-10-29
+shows **0.4544** for xiaofanhu in first place and **0.3195** for kpomazi at rank 47
+(not rank 27). This is an organizer-published public observation, not a file-linked
+submission receipt and not the private final score; it can change and was not
+refreshed in this session. The earlier user-cited figures are not a current target.
+Re-read the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
+before comparing; see [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json).
 
 ## Focus sites (nine)
 
