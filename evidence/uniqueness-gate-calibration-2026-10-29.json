@@ -1,0 +1,265 @@
+{
+  "schema": "uniqueness-gate-calibration-v1",
+  "generated_utc": "2026-10-29T18:20:12+00:00",
+  "scope": "Calibration of the literal 3-px / 70% uniqueness gate against the one pinned lattice witness. Not a score, not a submission, not a registry-completeness claim. Owner mirrors are not organizer-authenticated.",
+  "gate": {
+    "radius_px": 3.0,
+    "overlap_limit": 0.7,
+    "rho_limit": 0.9,
+    "support_rule": "finite value > 0 inside the template footprint",
+    "duplicate_rule": "10 * matched > 7 * n (scripts/check_uniqueness.py::check_comparator)"
+  },
+  "inputs": [
+    {
+      "role": "template",
+      "cache_path": "inputs/sample.tif",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "source": "buffedlizard55-lab/GEMSDOE24@a73f9ffba29260cc7708e8e0557c84c5bea7d47b"
+    },
+    {
+      "role": "lattice_witness",
+      "cache_path": "inputs/lattice.tif",
+      "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "source": "buffedlizard55-lab/GEMSDOE24@a73f9ffba29260cc7708e8e0557c84c5bea7d47b"
+    }
+  ],
+  "grid": {
+    "shape": [
+      3730,
+      3292
+    ],
+    "crs": "EPSG:32611",
+    "pixel_size_m": 100
+  },
+  "footprint_cells": 5167373,
+  "witness_lattice": {
+    "positive_cells_in_footprint": 206895,
+    "footprint_cells_within_3px": 5160724,
+    "coverage_fraction": 0.998713,
+    "uncovered_footprint_cells": 6649,
+    "vendored_certificate_uncovered": 6649,
+    "vendored_certificate_universal_blocker": false
+  },
+  "pigeonhole_bound": {
+    "max_passing_positive_cells": 22163,
+    "statement": "Under the literal gate, any candidate with more than this many positive cells is DUPLICATE regardless of its content, because at least 30% of its positive cells would have to lie in the uncovered cells and there are only 6649 of them."
+  },
+  "null_controls": [
+    {
+      "n_positive_cells": 100,
+      "seed": 0,
+      "matched_within_3px": 100,
+      "overlap_fraction": 1.0,
+      "spearman_full_footprint": 0.000897,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 100,
+      "seed": 1,
+      "matched_within_3px": 100,
+      "overlap_fraction": 1.0,
+      "spearman_full_footprint": -0.000225,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 100,
+      "seed": 2,
+      "matched_within_3px": 100,
+      "overlap_fraction": 1.0,
+      "spearman_full_footprint": 0.001345,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 10000,
+      "seed": 0,
+      "matched_within_3px": 9984,
+      "overlap_fraction": 0.9984,
+      "spearman_full_footprint": 0.000418,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 10000,
+      "seed": 1,
+      "matched_within_3px": 9992,
+      "overlap_fraction": 0.9992,
+      "spearman_full_footprint": 0.000755,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 10000,
+      "seed": 2,
+      "matched_within_3px": 9989,
+      "overlap_fraction": 0.9989,
+      "spearman_full_footprint": -7.6e-05,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 22163,
+      "seed": 0,
+      "matched_within_3px": 22126,
+      "overlap_fraction": 0.998331,
+      "spearman_full_footprint": 2.4e-05,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 22163,
+      "seed": 1,
+      "matched_within_3px": 22141,
+      "overlap_fraction": 0.999007,
+      "spearman_full_footprint": 0.000236,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 22163,
+      "seed": 2,
+      "matched_within_3px": 22122,
+      "overlap_fraction": 0.99815,
+      "spearman_full_footprint": 0.000206,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 22164,
+      "seed": 0,
+      "matched_within_3px": 22128,
+      "overlap_fraction": 0.998376,
+      "spearman_full_footprint": 6.9e-05,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 22164,
+      "seed": 1,
+      "matched_within_3px": 22142,
+      "overlap_fraction": 0.999007,
+      "spearman_full_footprint": 0.00013,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 22164,
+      "seed": 2,
+      "matched_within_3px": 22123,
+      "overlap_fraction": 0.99815,
+      "spearman_full_footprint": 0.00022,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 37654,
+      "seed": 0,
+      "matched_within_3px": 37608,
+      "overlap_fraction": 0.998778,
+      "spearman_full_footprint": 0.000318,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 37654,
+      "seed": 1,
+      "matched_within_3px": 37602,
+      "overlap_fraction": 0.998619,
+      "spearman_full_footprint": 0.000596,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "n_positive_cells": 37654,
+      "seed": 2,
+      "matched_within_3px": 37588,
+      "overlap_fraction": 0.998247,
+      "spearman_full_footprint": -0.00017,
+      "duplicate_by_literal_gate": true
+    }
+  ],
+  "null_controls_min_overlap": 0.99815,
+  "focus_files_vs_lattice": [
+    {
+      "site": "GEMSDOE24",
+      "file": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif",
+      "sha256": "3e0730e8d4f7db095dd80246a98cba3bc0fc9a28f436b91db27ca34df4d0d1ce",
+      "positive_cells": 60069,
+      "matched_within_3px_of_lattice": 60022,
+      "overlap_fraction_vs_lattice": 0.999218,
+      "spearman_vs_lattice": 0.000368,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "site": "GEMSDOE25",
+      "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+      "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+      "positive_cells": 44090,
+      "matched_within_3px_of_lattice": 44053,
+      "overlap_fraction_vs_lattice": 0.999161,
+      "spearman_vs_lattice": 0.000115,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "site": "GEMSDOE27",
+      "file": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif",
+      "sha256": "a9bf76b57453a5b3af74c8eef837df53c29a0931162aa540b8763220b36ba3bb",
+      "positive_cells": 61328,
+      "matched_within_3px_of_lattice": 61281,
+      "overlap_fraction_vs_lattice": 0.999234,
+      "spearman_vs_lattice": 0.000278,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "site": "GEMSDOE28",
+      "file": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif",
+      "sha256": "7c74270ad48fa0b865163853046a6d3815967c5bf37bbda5b74ca7fa22583a32",
+      "positive_cells": 37660,
+      "matched_within_3px_of_lattice": 37626,
+      "overlap_fraction_vs_lattice": 0.999097,
+      "spearman_vs_lattice": 0.000118,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "site": "GEMSDOE30",
+      "file": "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "positive_cells": 44090,
+      "matched_within_3px_of_lattice": 44053,
+      "overlap_fraction_vs_lattice": 0.999161,
+      "spearman_vs_lattice": 0.000115,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "site": "GEMSDOE31",
+      "file": "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+      "sha256": "acd853936e5a7170b207f23411b1844caa0e7cfdfc303c600e520ccfe75159e6",
+      "positive_cells": 40199,
+      "matched_within_3px_of_lattice": 40166,
+      "overlap_fraction_vs_lattice": 0.999179,
+      "spearman_vs_lattice": 2.8e-05,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "site": "GEMSDOE32",
+      "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "positive_cells": 37654,
+      "matched_within_3px_of_lattice": 37622,
+      "overlap_fraction_vs_lattice": 0.99915,
+      "spearman_vs_lattice": 6.2e-05,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "site": "GEMSDOE33",
+      "file": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "positive_cells": 41865,
+      "matched_within_3px_of_lattice": 41829,
+      "overlap_fraction_vs_lattice": 0.99914,
+      "spearman_vs_lattice": -0.000223,
+      "duplicate_by_literal_gate": true
+    },
+    {
+      "site": "GEMSDOE36",
+      "file": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "positive_cells": 38854,
+      "matched_within_3px_of_lattice": 38822,
+      "overlap_fraction_vs_lattice": 0.999176,
+      "spearman_vs_lattice": -3e-05,
+      "duplicate_by_literal_gate": true
+    }
+  ],
+  "conclusion": "The literal gate is saturated by this witness. Uniform random dot sets (no copying possible) are flagged as duplicates, and every candidate above the pigeonhole bound fails by arithmetic. The gate therefore cannot distinguish a copy from a non-copy for this witness. A rule change, witness exclusion or null-calibrated criterion needs explicit user approval; none has been applied.",
+  "upload_authorized": false,
+  "submission_generated": false
+}

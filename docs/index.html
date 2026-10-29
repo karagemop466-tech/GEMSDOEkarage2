@@ -12,6 +12,18 @@
 <p>The older TIFF remains available solely for reproducibility. It is <b>not a new submission</b>, not approved for a weekly slot, and has no defensible leaderboard estimate.</p>
 <p><a class="btn big" href="downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif" download>Download existing TIFF · RESEARCH ONLY</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
 <div class="meta"><b>Research file:</b> <code>gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif</code><br><b>SHA-256:</b> <code>064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9</code><br><b>New submission name / note:</b> none; no new candidate was generated.</div>
+</section><section class="section" id="gate-defect"><h3>Why no new file can be submitted yet: the uniqueness gate is saturated</h3>
+<p class="verdict"><b class="no">Answer: NO.</b> Under the literal rule in this project's protocol, every dot file of competitive size fails, including files that were never copied. The fault is in the test, not in any one file. The deciding receipt is <a href="evidence/uniqueness-gate-calibration-2026-10-29.json">evidence/uniqueness-gate-calibration-2026-10-29.json</a>, reproduced by <code>scripts/uniqueness_gate_calibration.py --check</code>.</p>
+<table class="kv"><tbody>
+<tr><th>Footprint</th><td>5,167,373 cells on the template grid (EPSG:32611, 100 m)</td></tr>
+<tr><th>Witness (13GEMSDOE lattice)</th><td>206,895 positive cells; 99.87% of the footprint lies within 3 px of one of them. Only <b>6,649</b> footprint cells lie farther away.</td></tr>
+<tr><th>Largest passing candidate</th><td><b>22,163</b> positive cells. Above this count the literal gate fails for any content, by arithmetic (see the receipt's pigeonhole statement).</td></tr>
+<tr><th>Random dot sets (no copying)</th><td>Flagged as duplicates in all 15 seeded controls, with minimum overlap 99.81%.</td></tr>
+<tr><th>Nine historical focus files</th><td>All 9 flagged against the lattice, overlap 99.91% to 99.92%, including the owner-reported 0.2778 GEMSDOE32 file (37,654 positive cells).</td></tr>
+<tr><th>What is not established</th><td>The 0.2778 score and any leaderboard estimate. The owner's GEMSDOE32 page states it audited 610 discrete rasters of 100k dots or fewer across 30 repositories; those files were not available to this session. This receipt checks only the lattice witness and the nine focus files.</td></tr>
+</tbody></table>
+<p><b>Decision needed (not applied):</b> the uniqueness rule is this project's internal protocol, not a rule in the organizer's text. Options: <b>(A)</b> keep the literal rule, so no dot file above 22,163 cells is eligible; <b>(B)</b> exclude the saturated lattice witness with a documented reason and keep all other literal checks; <b>(C)</b> replace it with a null-calibrated overlap test. Option B or C needs explicit approval, and any new file would still need the complete registry scan and a separate weekly-slot selector.</p>
+<p class="muted">The GEMSDOE32 owner page reports the same lattice failure for its H51 candidate (99.7% overlap with r13-lattice-s5). See <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/research/2026-10-29-gate-defect-and-hypothesis-slate.md">the 2026-10-29 gate-defect and hypothesis review</a>.</p>
 </section><section class="section"><h3>What the checks actually establish</h3>
 <table class="kv"><tbody>
 <tr><th>Prior HK3 HOLDOUT-DTI</th><td><b>0.1845</b>, 95% CI [0.1677, 0.2015], <code>gems57-pooled-hide-v2</code>, 58,258 withheld positives. At the prior comparison budget, not a leaderboard estimate. This audit did not rerun the model.</td></tr>

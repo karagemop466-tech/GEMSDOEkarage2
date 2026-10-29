@@ -1,5 +1,7 @@
 # Submission status — NO APPROVED FILE
 
+**Updated 2026-10-29 (session b): NO FILE IS OK TO SUBMIT.** The literal uniqueness gate is saturated by the one pinned lattice witness: random dot sets and all nine focus files are flagged, and any candidate above 22,163 positive cells fails by arithmetic. The rule is not changed here. A decision is needed. See [`research/2026-10-29-gate-defect-and-hypothesis-slate.md`](research/2026-10-29-gate-defect-and-hypothesis-slate.md) and [`evidence/uniqueness-gate-calibration-2026-10-29.json`](evidence/uniqueness-gate-calibration-2026-10-29.json).
+
 **Updated 2026-10-29:** still no approved file. The saved TIFFs use finite zeros outside the footprint, but the official
 wording and the organizer sample use NaN there (the repo's strict format check fails for HK3). Live leaderboard top is 0.4544;
 kpomazi is at rank 47 with 0.3195. See [the 2026-10-29 review](research/2026-10-29-verification-and-blocker-review.md).

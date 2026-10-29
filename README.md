@@ -8,6 +8,17 @@ Work on the Arena-assigned branch for the current session.
 
 The latest three-pass repository review is [`research/repo-review-2026-10-29.md`](research/repo-review-2026-10-29.md). **No submission is approved; do not submit any existing TIFF.** The review ran code/site tests only; it created no experiment, TIFF, upload, or score estimate. The eight skipped Python checks require missing pinned mirror inputs, which are not authenticated organizer data. This dated review does not supersede the stricter operating rules below or earlier negative evidence.
 
+## Session 2026-10-29 (b): the uniqueness gate is saturated
+
+**Answer to “can we submit a unique TIF now?”: NO.** No file in this repository, and no new file, is approved for upload. Read [`research/2026-10-29-gate-defect-and-hypothesis-slate.md`](research/2026-10-29-gate-defect-and-hypothesis-slate.md) and the desk section “Why no new file can be submitted yet” in [the executive summary](docs/executive-summary.html).
+
+- **Defect (measured, reproducible):** the literal 3-px / 70% gate, applied to the one pinned lattice witness, flags random uniform dot sets and all nine focus files. The witness leaves only 6,649 of 5,167,373 footprint cells farther than 3 px. By arithmetic, no candidate above **22,163** positive cells can pass, whatever it contains. Receipt: [`evidence/uniqueness-gate-calibration-2026-10-29.json`](evidence/uniqueness-gate-calibration-2026-10-29.json), reproduced by `scripts/uniqueness_gate_calibration.py --check`.
+- **Not changed:** the gate, its threshold and the registry were not edited. A rule change (exclude the saturated witness, or a null-calibrated test) needs your explicit approval.
+- **0.2778 (OWNER-REPORT):** the GEMSDOE32 file is a verified strict subset of the D2.8 file (37,654 of 44,090; 6,436 removed). Its score has no receipt, and it would rank below #50 on the public snapshot if it is a public score.
+- **Live leaderboard (verified 2026-10-29):** #1 0.4544 (xiaofanhu), #2 0.3916, #27 0.3326, #47 0.3195 (kpomazi), #50 0.3167. The user-cited “0.4413” does not appear in the 50 rows the page shows.
+- **Hypotheses:** five ranked candidates are in the research note. Two are new: magnetic top-of-crustal source-depth step and GeoDAWN radiometric K/eTh alteration corridors. None has been tested. No experiment or weekly slot was used.
+- **Access limits:** DrivenData login data, ScienceBase downloads (not reachable from the sandbox shell) and the full registry are not available here.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated

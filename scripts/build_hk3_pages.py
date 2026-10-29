@@ -101,8 +101,19 @@ def gather() -> dict:
         row = measured[record["site"]]
         if record["sha256"] != row["sha256"] or row["max_focus_overlap_fraction"] <= 0.70:
             raise ValueError("Nine-site row does not match the pinned negative audit")
+    gate = load(EV / "uniqueness-gate-calibration-2026-10-29.json")
+    wl, bound = gate["witness_lattice"], gate["pigeonhole_bound"]
+    if (gate.get("schema") != "uniqueness-gate-calibration-v1" or gate.get("upload_authorized") is not False
+            or gate.get("submission_generated") is not False
+            or bound["max_passing_positive_cells"] != (10 * wl["uncovered_footprint_cells"]) // 3
+            or len(gate["focus_files_vs_lattice"]) != 9
+            or any(r["duplicate_by_literal_gate"] is not True for r in gate["focus_files_vs_lattice"])
+            or any(r["duplicate_by_literal_gate"] is not True for r in gate["null_controls"]
+                   if r["n_positive_cells"] > bound["max_passing_positive_cells"])):
+        raise ValueError("Uniqueness-gate calibration receipt is inconsistent")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
-            "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3}
+            "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3,
+            "gate": gate}
 
 
 def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
@@ -134,6 +145,29 @@ def hero(d: dict) -> str:
 <p>The older TIFF remains available solely for reproducibility. It is <b>not a new submission</b>, not approved for a weekly slot, and has no defensible leaderboard estimate.</p>
 <p><a class="btn big" href="downloads/{esc(name)}" download>Download existing TIFF · RESEARCH ONLY</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
 <div class="meta"><b>Research file:</b> <code>{esc(name)}</code><br><b>SHA-256:</b> <code>{esc(c['raster']['sha256'])}</code><br><b>New submission name / note:</b> none; no new candidate was generated.</div>
+</section>'''
+
+
+def gate_section(d: dict) -> str:
+    g = d["gate"]
+    wl, bound = g["witness_lattice"], g["pigeonhole_bound"]
+    null_rows = g["null_controls"]
+    null_min = g["null_controls_min_overlap"] * 100
+    focus = g["focus_files_vs_lattice"]
+    focus_lo = min(r["overlap_fraction_vs_lattice"] for r in focus) * 100
+    focus_hi = max(r["overlap_fraction_vs_lattice"] for r in focus) * 100
+    return f'''<section class="section" id="gate-defect"><h3>Why no new file can be submitted yet: the uniqueness gate is saturated</h3>
+<p class="verdict"><b class="no">Answer: NO.</b> Under the literal rule in this project's protocol, every dot file of competitive size fails, including files that were never copied. The fault is in the test, not in any one file. The deciding receipt is <a href="evidence/uniqueness-gate-calibration-2026-10-29.json">evidence/uniqueness-gate-calibration-2026-10-29.json</a>, reproduced by <code>scripts/uniqueness_gate_calibration.py --check</code>.</p>
+<table class="kv"><tbody>
+<tr><th>Footprint</th><td>{g['footprint_cells']:,} cells on the template grid (EPSG:32611, 100 m)</td></tr>
+<tr><th>Witness (13GEMSDOE lattice)</th><td>{wl['positive_cells_in_footprint']:,} positive cells; {wl['coverage_fraction'] * 100:.2f}% of the footprint lies within 3 px of one of them. Only <b>{wl['uncovered_footprint_cells']:,}</b> footprint cells lie farther away.</td></tr>
+<tr><th>Largest passing candidate</th><td><b>{bound['max_passing_positive_cells']:,}</b> positive cells. Above this count the literal gate fails for any content, by arithmetic (see the receipt's pigeonhole statement).</td></tr>
+<tr><th>Random dot sets (no copying)</th><td>Flagged as duplicates in all {len(null_rows)} seeded controls, with minimum overlap {null_min:.2f}%.</td></tr>
+<tr><th>Nine historical focus files</th><td>All {len(focus)} flagged against the lattice, overlap {focus_lo:.2f}% to {focus_hi:.2f}%, including the owner-reported 0.2778 GEMSDOE32 file (37,654 positive cells).</td></tr>
+<tr><th>What is not established</th><td>The 0.2778 score and any leaderboard estimate. The owner's GEMSDOE32 page states it audited 610 discrete rasters of 100k dots or fewer across 30 repositories; those files were not available to this session. This receipt checks only the lattice witness and the nine focus files.</td></tr>
+</tbody></table>
+<p><b>Decision needed (not applied):</b> the uniqueness rule is this project's internal protocol, not a rule in the organizer's text. Options: <b>(A)</b> keep the literal rule, so no dot file above {bound['max_passing_positive_cells']:,} cells is eligible; <b>(B)</b> exclude the saturated lattice witness with a documented reason and keep all other literal checks; <b>(C)</b> replace it with a null-calibrated overlap test. Option B or C needs explicit approval, and any new file would still need the complete registry scan and a separate weekly-slot selector.</p>
+<p class="muted">The GEMSDOE32 owner page reports the same lattice failure for its H51 candidate (99.7% overlap with r13-lattice-s5). See <a href="{REPO}/blob/main/research/2026-10-29-gate-defect-and-hypothesis-slate.md">the 2026-10-29 gate-defect and hypothesis review</a>.</p>
 </section>'''
 
 
@@ -240,7 +274,7 @@ def focus_detail(record: dict, geo: dict) -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = hero(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
+    desk = hero(d) + gate_section(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     pages = {"index.html": shell("Submission desk", "desk", desk),
              "executive-summary.html": shell("Executive summary", "summary", desk),
@@ -262,7 +296,8 @@ def main() -> int:
     mirrors = [(f, DOCS / "evidence/hk3" / f.name) for f in sorted((EV / "hk3").glob("*.json"))]
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
                 (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
-                (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json")]
+                (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json"),
+                (EV / "uniqueness-gate-calibration-2026-10-29.json", DOCS / "evidence/uniqueness-gate-calibration-2026-10-29.json")]
     stale = []
     for src, dst in mirrors:
         if args.check:

@@ -1,0 +1,111 @@
+{
+  "schema": "run-card-v1",
+  "session_date": "2026-10-29",
+  "session_id": "arena-cc27d10a",
+  "branch": "arena/cc27d10a-gemsdoekarage2",
+  "experiments_run": 0,
+  "budget": {
+    "max_experiments": 3,
+    "max_hours": 2,
+    "used_experiments": 0,
+    "slots_used": 0,
+    "note": "No experiment was run. The gate saturation finding makes any new candidate ineligible under the literal rule, so validation was deferred until the rule decision."
+  },
+  "hypothesis": null,
+  "hypothesis_slate": "research/2026-10-29-gate-defect-and-hypothesis-slate.md#6-hypothesis-slate-5-candidates-ranked-none-tested",
+  "top_ranked_untested_hypothesis": "Topography-conditioned residual gravity step (not tested)",
+  "mechanism": null,
+  "named_non_fault_mimic": null,
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "correlation_or_overlap_vs_registry": {
+    "scope": "Calibration of the literal gate against its single pinned lattice witness. No candidate was generated.",
+    "witness": "inputs/lattice.tif (13GEMSDOE owner mirror, not organizer-authenticated)",
+    "witness_coverage_fraction_of_footprint_within_3px": 0.998713,
+    "uncovered_footprint_cells": 6649,
+    "max_passing_positive_cells_pigeonhole": 22163,
+    "random_null_min_overlap": 0.99815,
+    "nine_focus_files_overlap_vs_lattice_min": 0.999097,
+    "nine_focus_files_overlap_vs_lattice_max": 0.999234,
+    "receipt": "evidence/uniqueness-gate-calibration-2026-10-29.json"
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "scope": "Read-only checks of the nine pinned focus rasters and the template grid. These are not candidate checks.",
+    "template": {
+      "file": ".cache/research/inputs/sample.tif (owner mirror)",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "nan_cells_outside_footprint": 7111787,
+      "footprint_cells": 5167373,
+      "values_inside_footprint": [
+        0.0,
+        1.0
+      ]
+    },
+    "focus_files": "All nine: float32, EPSG:32611, shape [3730, 3292], zero NaN cells, values within [0,1]. GEMSDOE31 carries a NaN nodata tag with zero NaN cells (metadata irregularity).",
+    "focus_positive_cells": {
+      "GEMSDOE24": 60069,
+      "GEMSDOE25": 44090,
+      "GEMSDOE27": 61328,
+      "GEMSDOE28": 37660,
+      "GEMSDOE30": 44090,
+      "GEMSDOE31": 40199,
+      "GEMSDOE32": 37654,
+      "GEMSDOE33": 41865,
+      "GEMSDOE36": 38854
+    },
+    "portal_acceptance": null,
+    "uniqueness_vs_full_registry": "not run (complete registry unavailable)"
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative",
+  "verdict_reason": "No candidate generated. The literal 3-px / 70% gate is saturated by the pinned lattice witness: random dot sets and all nine focus files are flagged, and any file above 22,163 positive cells fails by arithmetic. A rule decision is required before any file can be eligible.",
+  "decision_required": [
+    "Choose uniqueness option A (keep literal), B (exclude saturated witness with documented reason), or C (null-calibrated test)",
+    "Assign the method lane (the prompt contains no method paragraph)"
+  ],
+  "upload_authorized": false,
+  "leaderboard_observation": {
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "kind": "ORGANIZER-PUBLISHED PUBLIC SNAPSHOT (not a submission receipt)",
+    "fetched": "2026-10-29",
+    "rank_1": {
+      "user": "xiaofanhu",
+      "score": 0.4544
+    },
+    "rank_2": {
+      "user": "cfld__",
+      "score": 0.3916
+    },
+    "rank_27": {
+      "user": "jay398144",
+      "score": 0.3326
+    },
+    "rank_47": {
+      "user": "kpomazi",
+      "score": 0.3195
+    },
+    "rank_50": {
+      "user": "kinneso_outlook",
+      "score": 0.3167
+    }
+  },
+  "code_change": [
+    "scripts/uniqueness_gate_calibration.py (new; reuses scripts/check_uniqueness.py and vendor/gems57 saturation_certificate)",
+    "tests/test_uniqueness_gate_calibration.py (new)",
+    "scripts/build_hk3_pages.py (validated gate section on the desk; receipt mirrored to docs/evidence)"
+  ],
+  "evidence": [
+    "evidence/uniqueness-gate-calibration-2026-10-29.json",
+    "research/2026-10-29-gate-defect-and-hypothesis-slate.md",
+    "research/2026-10-29-verification-and-blocker-review.md",
+    "evidence/official-verification-2026-10-29.json"
+  ]
+}
