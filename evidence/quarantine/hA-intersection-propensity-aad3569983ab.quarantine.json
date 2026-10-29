@@ -1,0 +1,30 @@
+{
+  "schema": "quarantined-unverified-raster-v1",
+  "original_paths": {
+    "tif": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+    "run_card": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.run-card.json",
+    "audit": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.audit.json"
+  },
+  "quarantine_paths": {
+    "tif": "evidence/quarantine/hA-intersection-propensity-aad3569983ab.tif",
+    "run_card": "evidence/quarantine/hA-intersection-propensity-aad3569983ab.run-card.json",
+    "audit": "evidence/quarantine/hA-intersection-propensity-aad3569983ab.audit.json"
+  },
+  "sha256": {
+    "tif": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
+    "run_card": "0bcdf943aaa0df4d2bf6ed8c3af8c93a2bf257ea45e5fa603083672d5d86ed6b",
+    "audit": "8ad994d4ee0224f4550ef956dce47460b7e9b64c26a19e892c08ee34523ffbd3"
+  },
+  "tif_size_bytes": 762056,
+  "status": "quarantined research artifact; not a submission candidate",
+  "reasons": [
+    "The run card itself labels the TIFF research-only and records holdout_dti, evaluator_version, withheld_positives, correlation_vs_registry and overlap_vs_registry as null.",
+    "Its audit explicitly says verified_vs_registry=false and organizer_template_authenticated is false.",
+    "The shared public-download audit did not recognize the TIFF as an approved, hash-bound artifact.",
+    "The literal protocol requires registry checks before placement and again on final dots; new content hash or sparse dot geometry is not a uniqueness measurement."
+  ],
+  "score": null,
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "downloadable_from_site": false
+}
