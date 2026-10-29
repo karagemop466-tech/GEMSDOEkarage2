@@ -41,6 +41,25 @@ def load(path: Path) -> dict:
     return value
 
 
+def owner_pin(rec: dict) -> tuple[str, str]:
+    """Return (ref, repo_path) of the owner-repo commit whose bytes were sha256-verified.
+
+    registry/focus_sites.json carries a different ref for the same file, so owner links
+    use the registry manifest row for the site's own repo instead. Fails closed if no
+    unique own-repo row with the same sha256 exists.
+    """
+    manifest = load(ROOT / "registry/focus_registry_manifest.json")["rasters"]
+    rows = [r for r in manifest if r["repo"] == rec["site"] and r["sha256"] == rec["sha256"]]
+    if len(rows) != 1:
+        raise ValueError(f"No unique own-repo pinned row for {rec['site']}")
+    return rows[0]["ref"], rows[0]["path"]
+
+
+def owner_source(rec: dict) -> str:
+    ref, path = owner_pin(rec)
+    return f"https://github.com/buffedlizard55-lab/{rec['site']}/raw/{ref}/{path}"
+
+
 def gather() -> dict:
     card = load(EV / "hk3/run_card.json")
     selector = load(EV / "hk3/selector_result.json")
@@ -202,7 +221,7 @@ def nine_site_table(d: dict) -> str:
     for rec in records:
         site = rec["site"]
         geo = by_site[site]
-        source = f'https://github.com/buffedlizard55-lab/{site}/raw/{rec["ref"]}/docs/downloads/{rec["file"]}'
+        source = owner_source(rec)
         rows.append(f'''<tr><td><a href="sites/{esc(site)}.html">{esc(site)}</a></td>
 <td><a href="{esc(source)}">{esc(rec['file'])}</a><span class="sub-label">Historical reference · download for research only</span></td>
 <td><b>{rec['owner_reported_unverified']:.4f}</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
@@ -272,7 +291,7 @@ def decision_section(d: dict) -> str:
     for rec in records:
         site = rec["site"]
         pr = prof[site]
-        source = f'https://github.com/buffedlizard55-lab/{site}/raw/{rec["ref"]}/docs/downloads/{rec["file"]}'
+        source = owner_source(rec)
         rows.append(
             f'<tr><td><a href="focus/{esc(site)}.html">{esc(site)}</a></td>'
             f'<td><a href="{esc(source)}">{esc(rec["file"])}</a></td>'
@@ -303,7 +322,9 @@ def decision_section(d: dict) -> str:
         f'<tbody>{"".join(rows)}</tbody></table>\n'
         '<p class="muted">Gate receipts: <a href="evidence/lattice-gate/GEMSDOE32.json">GEMSDOE32</a> · '
         '<a href="evidence/lattice-gate/summary.json">summary</a> · full pinned profile '
-        '<a href="evidence/focus-profile-2026-10-29.json">focus-profile-2026-10-29.json</a>.</p>\n'
+        '<a href="evidence/focus-profile-2026-10-29.json">focus-profile-2026-10-29.json</a> · registry-wide audit '
+        '<a href="evidence/lattice-gate-audit-2026-10-29.json">440-raster receipt</a> · '
+        '<a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/research/2026-10-29-lattice-gate-and-decision.md">decision memo</a>.</p>\n'
         '</section>'
     )
 
@@ -426,14 +447,14 @@ code, .container, .hero { overflow-wrap: anywhere; word-break: break-word; }
 
 def focus_detail(record: dict, geo: dict, pinned: dict) -> str:
     site = record["site"]
-    source = f'https://github.com/buffedlizard55-lab/{site}/raw/{record["ref"]}/docs/downloads/{record["file"]}'
+    source = owner_source(record)
     return f'''<section class="hero"><h2>{esc(site)} executive summary — DO NOT RESUBMIT</h2>
 <p><b>Historical file:</b> <a href="{esc(source)}">{esc(record['file'])}</a> · research reference only.<br>
 <b>Historical report:</b> {record['owner_reported_unverified']:.4f} — USER-REPORTED / UNVERIFIED, not an organizer receipt.</p>
 <p><b>Estimated leaderboard score:</b> unavailable. <b>Unique:</b> NO — {geo['max_focus_overlap_fraction'] * 100:.1f}% of its dots are within 3 px of {esc(geo['closest_focus_site'])}. <b>Upload:</b> not approved.</p>
 <p><b>Exterior convention (pinned bytes):</b> {esc(pinned['exterior_convention'])} outside the footprint. The written format and the organizer template use NaN; finite zeros depart from that convention (strict format check not met).</p>
 <p><b>Shared gate on pinned bytes:</b> DUPLICATE_STOP against the lattice witness, with {pinned['frac_dots_within_3px_of_lattice'] * 100:.2f}% of {pinned['dots_in_footprint']:,} dots within 3 px. <b>Catalogue proximity:</b> {pinned['frac_dots_within_3px_of_catalogue'] * 100:.1f}% of dots within 3 px of the mirrored catalogue (not organizer-authenticated).</p>
-<p><b>SHA-256:</b> <code>{esc(record['sha256'])}</code><br><b>Pinned revision:</b> <code>{esc(record['ref'])}</code><br><b>Method / interpretation:</b> {esc(METHODS[site])}</p>
+<p><b>SHA-256:</b> <code>{esc(record['sha256'])}</code><br><b>Pinned revision (manifest):</b> <code>{esc(owner_pin(record)[0])}</code><br><b>Method / interpretation:</b> {esc(METHODS[site])}</p>
 <p>Research downloads are for inspection only, not new submissions. This pinned snapshot does not establish the independently maintained site's current best. <a href="{esc(record['site_url'])}">Original site ↗</a> · <a href="sites/{esc(site)}.html">Detailed prior summary</a> · <a href="executive-summary.html">Nine-site comparison</a>.</p></section>'''
 
 
@@ -464,7 +485,8 @@ def main() -> int:
                 (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json"),
                 (EV / "2026-10-29-repo-review-run-card.json", DOCS / "evidence/2026-10-29-repo-review-run-card.json"),
                 (EV / "official-review-2026-10-29.json", DOCS / "evidence/official-review-2026-10-29.json"),
-                (EV / "focus-profile-2026-10-29.json", DOCS / "evidence/focus-profile-2026-10-29.json")]
+                (EV / "focus-profile-2026-10-29.json", DOCS / "evidence/focus-profile-2026-10-29.json"),
+                (EV / "lattice-gate-audit-2026-10-29.json", DOCS / "evidence/lattice-gate-audit-2026-10-29.json")]
     mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
     stale = []
     for src, dst in mirrors:

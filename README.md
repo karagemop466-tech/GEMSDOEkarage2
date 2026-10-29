@@ -224,6 +224,16 @@ Read the [2026-10-29 verification/blocker review](research/2026-10-29-verificati
   `bash scripts/download_competition_data.sh --research-mirror`).
   Then `.venv/bin/python scripts/build_hk3_pages.py --check`.
 
+## Lattice gate audit — 2026-10-29 (latest; read this with the status above)
+
+- **Decision: no file is approved for download or submission.** The literal duplicate rule (more than 70% of dots within 3 px of any registry raster) cannot be met by any dot raster above 22,163 dots without gaming, because the GEMSDOE13 spacing-five lattice covers 99.87% of the footprint. Measured on the 440 pinned registry rasters: 437 fail; 1 is on a non-comparable grid; the lattice is the control and is excluded from its own test; the one remaining pass is GEMSDOE36's lattice-avoiding file (505 dots, 0% lattice overlap), which is flagged as gaming-shaped, not clearance.
+- **All nine focus best files fail** the literal gate (lattice overlap 99.1–99.2%) and are 100% within 3 px of a sibling registry raster even with the lattice excluded.
+- **Decision required from you:** choose the uniqueness standard (memo section 4). The protocol was not edited to create clearance.
+- Memo: [`research/2026-10-29-lattice-gate-and-decision.md`](research/2026-10-29-lattice-gate-and-decision.md) (decision table, pigeonhole bound, irregularities, four ranked hypotheses, sources).
+- Receipt: [`evidence/lattice-gate-audit-2026-10-29.json`](evidence/lattice-gate-audit-2026-10-29.json) · generator: `scripts/lattice_gate_audit.py` · run card: [`evidence/session-2026-10-29b-lattice-gate-run-card.json`](evidence/session-2026-10-29b-lattice-gate-run-card.json) (0 experiments, 0 slots).
+- Owner-link refs in `registry/focus_sites.json` differ from the sha256-verified manifest commits; the generated page now links the manifest commits (`owner_pin()`).
+- Unresolved: the portal error "Predicted values must be in range [0, 1]"; owner-derived lidar and GeoDAWN radiometric layers are listed but not restored (GeoDAWN radiometrics were already tested by GEMSDOE28 H38-1 and refused); no holdout run for any candidate.
+
 ## Current status — 2026-10-28 independent correction
 
 **NEGATIVE — NO TIFF IS APPROVED. DO NOT SUBMIT ANY RESEARCH DOWNLOAD.**
