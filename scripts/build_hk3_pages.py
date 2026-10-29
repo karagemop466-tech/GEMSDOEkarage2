@@ -155,6 +155,52 @@ def evidence_summary(d: dict) -> str:
 </section>'''
 
 
+def gw_nfs_panel() -> str:
+    """Negative result for the GW-NFS file that PR #61 presented as 'unique'.
+
+    Every number is read from the audit receipts (evidence/gw-nfs/*.json) and the
+    run card; nothing is typed in by hand. Research-only; never a submission.
+    """
+    audit = load(EV / "gw-nfs/audit.json")
+    null = load(EV / "gw-nfs/holdout_null.json")
+    card = load(ROOT / "docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros-run-card.json")
+    tif = card["raster"]["file"]
+    h = audit["holdout_hide_and_recover_this_method"]
+    u = audit["uniqueness"]
+    rf = null["controls"]["random_footprint"]["pooled_DTI_by_seed"]
+    ra = null["controls"]["random_annulus"]["pooled_DTI_by_seed"]
+    prox = audit["catalogue_proximity"]
+    fail_rows = [r for r in u["rasters"] if "overlap_3px" in r and r["overlap_3px"] > 0.70]
+    dot_max = u["max_overlap_among_dot_rasters_le_100k_positive_cells"]
+    fails = "".join(f"<li><code>{esc(r['raster'])}</code> · {r['overlap_3px'] * 100:.1f}% overlap · |Spearman| {abs(r['spearman']):.3f}</li>" for r in sorted(fail_rows, key=lambda r: -r["overlap_3px"]))
+    return f'''<section class="section" id="gw-nfs"><h3>Unique-submission attempt: GW-NFS (PR #61) · re-audited, NEGATIVE</h3>
+<p class="verdict"><b class="no">DO NOT SUBMIT.</b> The earlier \u201cunique\u201d label was wrong. Against the full pinned registry it fails uniqueness, and its holdout is at chance level once the leak is removed.</p>
+<table class="kv"><tbody>
+<tr><th>File (research only, DO NOT SUBMIT)</th><td><a href="downloads/{esc(Path(tif).name)}"><code>{esc(Path(tif).name)}</code></a> (viewer link, not a one-click button: the single one-click research download stays above) · SHA-256 <code>{esc(card["raster"]["sha256"])}</code> · 30,000 dots · finite zeros outside the footprint (official sample uses NaN; not portal-verified)</td></tr>
+<tr><th>HOLDOUT-DTI (valid)</th><td><b>{h["pooled_DTI"]:.6f}</b> · evaluator <code>evaluate_holdout.py</code> (alpha .2, beta .8, 300 m) · {h["withheld_positives"]:,} withheld positives · fold-wise range [{h["fold_DTI_range"][0]:.6f}, {h["fold_DTI_range"][1]:.6f}] · visible-only placement per block.</td></tr>
+<tr><th>Same-holdout controls</th><td>Random dots anywhere on the footprint: <b>{min(rf):.4f}–{max(rf):.4f}</b>. Random dots in the 1–3 px annulus of visible faults (no saddle or seismic weighting): <b>{min(ra):.6f}–{max(ra):.6f}</b>. The shipped method is below both.</td></tr>
+<tr><th>Not a holdout</th><td>The earlier 0.0546 figure placed dots using all catalogue faults ({audit["shipped_file_vs_full_catalogue_self_fit"]["pooled_DTI"]:.4f}, self-fit). It is withdrawn as evidence.</td></tr>
+<tr><th>Catalogue proximity</th><td>{prox["within_3px_pct"]:.1f}% of dots lie within 3 px of a catalogue fault; {prox["dots_on_catalogue_pixels"]} sit on fault pixels. This is a catalogue-adjacent dotted ridge, not an independent geology signal.</td></tr>
+<tr><th>Uniqueness vs {u["registry_rasters_scanned"]} pinned rasters</th><td><b class="no">FAIL.</b> {u["rasters_failing_overlap_gate"]} rasters exceed the 70% three-pixel gate. Highest among dot-like rasters: {dot_max["overlap_3px"] * 100:.1f}% ({esc(dot_max["raster"])}). Spearman gate passes everywhere.<ul>{fails}</ul></td></tr>
+<tr><th>Leakage canary</th><td>Maximum feature-alone AUC {audit["leakage_canary"]["max_auc"]:.4f} (gate 0.90). Passing this canary does not clear the leak in the placement itself.</td></tr>
+<tr><th>Receipts</th><td><a href="downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros-run-card.json">Run card ↗</a> · <a href="evidence/gw-nfs/audit.json">Audit receipt ↗</a> · <a href="evidence/gw-nfs/holdout_null.json">Holdout controls ↗</a> · <a href="evidence/public_downloads_audit.json">Saved-byte inventory ↗</a></td></tr>
+</tbody></table>
+</section>'''
+
+
+def champion_panel() -> str:
+    """Byte-level facts behind the GEMSDOE32 0.2778 file (owner-reported score)."""
+    c = load(EV / "gw-nfs/audit.json")["gemsdoe32_0p2778_claim"]
+    return f'''<section class="section" id="why-0p2778"><h3>Why GEMSDOE32's 0.2778 file ranks first (what the bytes show)</h3>
+<p>The score is <b>USER/OWNER-REPORTED</b>; no organizer receipt links it to this file. The file bytes are checked below.</p>
+<table class="kv"><tbody>
+<tr><th>Pinned file</th><td><code>{esc(c["file"])}</code> · SHA-256 <code>{esc(c["sha256_zeros_variant"])}</code> (owner-stated prefix <code>{esc(c["owner_stated_sha256_prefix"])}</code> matches)</td></tr>
+<tr><th>Dot sets</th><td><b>{c["dots_h33"]:,}</b> dots, of which <b>{c["dots_in_both"]:,}</b> are also in the D2.8 reference ({c["dots_d28_ref"]:,} dots). Subset of D2.8: <b>{"yes" if c["subset_of_d28"] else "no"}</b>. Removed: <b>{c["dots_only_in_d28"]:,}</b>; added: <b>{c["dots_only_in_h33"]:,}</b>.</td></tr>
+<tr><th>What this implies</th><td>The 0.2778 file is the D2.8 set with {c["dots_only_in_d28"]:,} dots deleted and nothing added. Under the metric (alpha .2, beta .8), a dot helps only if its hit probability exceeds about alpha x DTI (about 0.056 at DTI 0.278). The removed dots therefore appear to have had lower hit rates. That is a linear first-order inference, not a proof, and it does not show that any new discovery was found.</td></tr>
+</tbody></table>
+</section>'''
+
+
 def nine_site_table(d: dict) -> str:
     by_site = {row["site"]: row for row in d["geometry"]["historical_final_dots"]}
     records = sorted(d["focus"], key=lambda r: -r["owner_reported_unverified"])
@@ -240,7 +286,7 @@ def focus_detail(record: dict, geo: dict) -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = hero(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
+    desk = hero(d) + evidence_summary(d) + champion_panel() + gw_nfs_panel() + nine_site_table(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     pages = {"index.html": shell("Submission desk", "desk", desk),
              "executive-summary.html": shell("Executive summary", "summary", desk),
@@ -262,7 +308,9 @@ def main() -> int:
     mirrors = [(f, DOCS / "evidence/hk3" / f.name) for f in sorted((EV / "hk3").glob("*.json"))]
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
                 (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
-                (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json")]
+                (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json"),
+                (EV / "gw-nfs/audit.json", DOCS / "evidence/gw-nfs/audit.json"),
+                (EV / "gw-nfs/holdout_null.json", DOCS / "evidence/gw-nfs/holdout_null.json")]
     stale = []
     for src, dst in mirrors:
         if args.check:

@@ -6,7 +6,11 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29, current Arena session)
 
-The current three-pass review is [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md). **No submission is approved; do not submit any existing TIFF.** This session created no experiment, TIFF, upload, or score estimate. Tests passed locally; eight optional mirror-backed Python tests were skipped because their owner-mirror inputs are absent and are not authenticated organizer data. The review does not supersede the binding protocol below or prior negative evidence.
+The latest review is [`research/2026-10-29-gw-nfs-audit-and-three-pass-review.md`](research/2026-10-29-gw-nfs-audit-and-three-pass-review.md)
+(GW-NFS negative audit, GEMSDOE32 0.2778 subset check, three review passes, ranked untested hypotheses, irregularities).
+**No submission is approved; do not submit any existing TIFF.** This session generated no new TIFF, ran no lane experiment,
+used no submission slot, and opened no upload. Its only compute was a read-only audit and same-holdout control run on an existing
+artifact (PR #61's GW-NFS TIFF), which is recorded as negative. CI-equivalent checks pass locally (230 passed, 4 skipped). The 4 skips need restored pinned mirrors that are not organizer-authenticated; the lightweight CI run skips them as well. This review does not supersede the binding protocol below or prior negative evidence.
 
 ## Operating instruction
 
@@ -189,6 +193,12 @@ holdout cannot reliably estimate the expert-hidden private score).
 - **Why 0.2778 might score well (labelled USER-REPORTED / UNVERIFIED):** under the official metric with α + β = 1, a dot
   adds value only if its hit probability exceeds α × DTI (≈ 0.056 at DTI 0.2778). The 0.2778 file is the D2.8 set with 6,436
   dots removed, so the removed dots were probably below that hit rate. This is a derived, conditional inference, not an established cause.
+- **GW-NFS (PR #61 artifact) — NEGATIVE.** Run card [`docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros-run-card.json`](docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros-run-card.json).
+  HOLDOUT-DTI pooled 0.000013 (60,988 withheld positives; quadrant-block folds, 3 px buffer; fold range, not a bootstrap CI). Same-holdout controls: random footprint 0.0416–0.0436; random annulus 0.0000938–0.000111. The shipped method scores below both.
+  Uniqueness FAILS (7 of 439 registry rasters above 70%; highest dot-like 99.2%). Leakage canary passes (max AUC 0.8175), but that does not clear placement leakage. The earlier 0.0546 figure is withdrawn (self-fit, not a holdout).
+  Evidence: [`evidence/gw-nfs/audit.json`](evidence/gw-nfs/audit.json), [`evidence/gw-nfs/holdout_null.json`](evidence/gw-nfs/holdout_null.json).
+- **Parallel-run protocol (literal):** no method paragraph is supplied, so no lane is assigned. The GW-NFS artifact fails the 70% overlap gate (lane drift, duplicate). Verdict: negative. No slot is authorized.
+- **Official rules re-verified (2026-10-29):** §3.4 (≤3 scored submissions/week, one final), §3.5 (choose one submission; code assets required for finalists), §3.6.2 (choice made without private-set scores). Source: https://docs.nlr.gov/docs/fy26osti/96647.pdf
 - **Full review:** [`research/2026-10-29-verification-and-blocker-review.md`](research/2026-10-29-verification-and-blocker-review.md),
   claim table [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json),
   run card [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) (0 experiments, verdict negative).

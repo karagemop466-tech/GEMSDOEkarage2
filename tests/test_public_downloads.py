@@ -48,7 +48,7 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 7
+    assert len(result['artifacts']) == 8  # 7 prior + GW-NFS (negative, registered 2026-10-29)
     found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
     assert len(found) == 1 and found[0]['kind'] == 'research'
     assert found[0]['checks']['current_assessment_negative_and_hash_bound'] is True

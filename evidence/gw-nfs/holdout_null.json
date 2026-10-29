@@ -1,0 +1,42 @@
+{
+  "schema": "gems.gw_nfs_holdout_null.v1",
+  "evidence_class": "HOLDOUT-DTI controls (same per-fold split as audit_gw_nfs.py)",
+  "evaluator": "scripts/evaluate_holdout.py dti_weighted_terms, alpha .2, beta .8, 300 m triangular",
+  "split": "4 quadrant blocks, 3 px buffer; visible-only features; withheld positives per block",
+  "withheld_positives": 60988,
+  "dots_per_prediction": 30000,
+  "controls": {
+    "gw_nfs": {
+      "pooled_DTI_by_seed": [
+        1.263e-05
+      ],
+      "seeds": [
+        0
+      ]
+    },
+    "random_footprint": {
+      "pooled_DTI_by_seed": [
+        0.04355603,
+        0.04220522,
+        0.04160136
+      ],
+      "seeds": [
+        0,
+        1,
+        2
+      ]
+    },
+    "random_annulus": {
+      "pooled_DTI_by_seed": [
+        0.00010486,
+        9.376e-05,
+        0.00011097
+      ],
+      "seeds": [
+        0,
+        1,
+        2
+      ]
+    }
+  }
+}
