@@ -4,6 +4,10 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest review (2026-10-29, current Arena branch)
+
+This branch's current three-pass scorecard/source review is [`research/2026-10-29-scorecard-and-monitor-review.md`](research/2026-10-29-scorecard-and-monitor-review.md), with the [official-format and blocker review](research/2026-10-29-verification-and-blocker-review.md). **No submission is approved; do not submit any existing TIFF.** This branch created no experiment, TIFF, upload, slot, or score estimate. The lockfile suite passes with four optional mirror-dependent skips; owner mirrors are not authenticated organizer data. The earlier same-day review [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md) remains preserved as historical context; none of these reviews supersedes the binding protocol or prior negative evidence.
+
 ## Operating instruction
 
 **Read this README every time work resumes on this project.** It is the consolidated
@@ -176,42 +180,17 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
-## Latest review — 2026-10-29
+## Current review — 2026-10-29 (read first)
 
-**NEGATIVE — no new experiment, TIFF, or submission slot. No file is approved.**
-This turn updated the dated public-board observation and refreshed GitHub main-branch
-metadata for the nine focus sites only. All 9/9 current main heads differ from the
-pinned references used by the historical raster audit. That means the pinned files
-are not authenticated as each site's current best; it does **not** establish any
-new score, raster identity, or eligibility. The freshness monitor is GitHub metadata
-only; the raster audit remains pinned to historical files, with no current-head
-score/raster audit claimed. DrivenData automation is intentionally disabled.
+**No submission is approved. Do not download or submit any file from this repository.** This branch refreshed the dated public-board observation and GitHub metadata only; no geological experiment, new TIFF, upload, slot, or score estimate was created. The stopped HK3 lane must not be restarted.
 
-The official public page on 2026-10-29 displayed **0.4544** for xiaofanhu at rank 1;
-**0.3195** for kpomazi was at rank 47. This snapshot is not a submission receipt,
-private score, or local leaderboard estimate. See
-[`evidence/official-review-2026-10-29.json`](evidence/official-review-2026-10-29.json).
-The existing nine-site table continues to show pinned historical files, user-reported
-values, unavailable local estimates, and duplicate/DO NOT SUBMIT decisions; no row
-is a submission recommendation.
+- **Public leaderboard snapshot (2026-10-29):** xiaofanhu **0.4544, rank 1**; kpomazi **0.3195, rank 47**. These are public rows, not receipts for local rasters or private-round results. See [`evidence/official-review-2026-10-29.json`](evidence/official-review-2026-10-29.json) and the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/).
+- **Nine-site freshness:** all 9/9 upstream main heads differ from the pinned historical raster references. This is GitHub metadata only; the scorecard remains a pinned historical audit, with no current-head raster/score audit. No changed head establishes a new score, file identity, or eligibility.
+- **GEMSDOE32:** 0.2778 remains USER-REPORTED / UNVERIFIED. The pinned mask is D2.8 with 6,436 catalogue-near dots removed. In a linear-counting approximation, when α+β=1, adding a prediction with hit probability `a` is beneficial only if `a > α × DTI` (about 0.056 at DTI 0.2778). This is conditional intuition, not the kernel-exact distance-weighted metric or proof of why the reported score changed; no receipt or hidden labels establish causality.
+- **Exterior convention:** the official page says data outside bounds is null or NaN; a hash-pinned owner-mirror sample has NaN outside, but is not organizer-authenticated. The shared writer's footprint-aware gate was corrected and regression-tested. Existing published TIFFs still use finite zeros outside and fail the strict NaN-outside check; they were not regenerated and still fail other mandatory gates.
+- **Research slate:** four ranked hypotheses remain untested proposals, not an assigned lane. The missing method paragraph, complete literal registry, authenticated organizer inputs/template/exterior handling, and a frozen matched baseline remain blockers. No new holdout result or submission is authorized.
 
-Four ranked geological hypotheses remain proposals in
-[`research/2026-10-28-next-lane-slate.md`](research/2026-10-28-next-lane-slate.md),
-not an assigned lane. The topography-conditioned residual-gravity proposal shares
-an ingredient family with the negative B4 work. The task's requested method
-paragraph is still absent, the complete literal registry and authenticated
-organizer inputs/template are unavailable, and the prior HK3 lane exhausted the
-three-experiment/two-hour budget. Therefore no holdout experiment or TIF was
-created; this is a protocol stop, not a performance conclusion.
-
-The dated independent review and three-pass findings are in
-[`research/2026-10-29-scorecard-and-monitor-review.md`](research/2026-10-29-scorecard-and-monitor-review.md), with a
-negative session card in
-[`evidence/2026-10-29-repo-review-run-card.json`](evidence/2026-10-29-repo-review-run-card.json).
-Automated test results and limits are recorded there. Required next work is to
-resolve the assigned lane and complete registry scope, authenticate organizer
-inputs/template and exterior handling, and establish a matched baseline before
-reconsidering a bounded experiment. Do not use any research TIFF for submission.
+Read the [2026-10-29 verification/blocker review](research/2026-10-29-verification-and-blocker-review.md), [scorecard/source-refresh review](research/2026-10-29-scorecard-and-monitor-review.md), and [current-session review](research/repo-review-2026-10-29-current-session.md). The review cards are [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) and [`evidence/2026-10-29-repo-review-run-card.json`](evidence/2026-10-29-repo-review-run-card.json); both record zero experiments and a negative verdict. Full source claims and limitations are in [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json). Keep all downloads research-only.
 
 ## Current status — 2026-10-28 independent correction
 

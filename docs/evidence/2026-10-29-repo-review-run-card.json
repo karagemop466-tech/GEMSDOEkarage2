@@ -1,6 +1,6 @@
 {
   "schema": "gems.repository_review_card.v1",
-  "recorded_utc": "2026-10-29T18:15:22Z",
+  "recorded_utc": "2026-10-29T18:26:37Z",
   "classification": "REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT",
   "hypothesis": "No new geological hypothesis tested. The requested method paragraph was not supplied and no method lane was assigned.",
   "mechanism": "Review-only actions: verify a dated public leaderboard observation, refresh GitHub main-branch metadata, reconcile documentation, and run repository integrity/tests. No prediction model or raster was run.",
@@ -36,7 +36,7 @@
   "leaderboard_estimate": null,
   "current_public_leaderboard_snapshot": {
     "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a file-linked receipt, private score, HOLDOUT-DTI, or local-raster score",
-    "observed_utc": "2026-10-29T18:15:05Z",
+    "observed_utc": "2026-10-29T18:26:44Z",
     "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
     "first_place": {
       "rank": 1,
@@ -51,7 +51,7 @@
   },
   "focus_source_refresh": {
     "evidence_class": "GITHUB MAIN-BRANCH METADATA ONLY; NOT A RASTER OR SCORE AUDIT",
-    "checked_utc": "2026-10-29T18:15:22Z",
+    "checked_utc": "2026-10-29T18:26:37Z",
     "total_sites": 9,
     "changed": 9,
     "unavailable": 0,
@@ -62,9 +62,9 @@
       "GEMSDOE28": "424bf795ed2183000c643d6e30a12ce2d4bf401d",
       "GEMSDOE30": "eaff218f81e89fadc605650bb2cd55dd4b58e18d",
       "GEMSDOE31": "e70a257c829ad874135aff4b7b3a1452c4740640",
-      "GEMSDOE32": "1e21d77ac343af3df195282a526a1fd058b45889",
-      "GEMSDOE33": "a54ec13fbddd4764266294a5e268b215baaf5696",
-      "GEMSDOE36": "9bdf52d9063a33154e8b4661c61676f74c2e6604"
+      "GEMSDOE32": "6edcc4cd529ca0809b956ccb00aea7f0e3b79cbf",
+      "GEMSDOE33": "d89f3431c9474952426ed63f271e55116c85c0e2",
+      "GEMSDOE36": "c15da37c83f11dcec0f6c62f65052efc825304a8"
     }
   },
   "experiments_run": 0,
