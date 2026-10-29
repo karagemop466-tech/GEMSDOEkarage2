@@ -6,7 +6,7 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29)
 
-The latest three-pass repository review is [`research/repo-review-2026-10-29.md`](research/repo-review-2026-10-29.md). **No submission is approved; do not submit any existing TIFF.** The review ran code/site tests only; it created no experiment, TIFF, upload, or score estimate. The eight skipped Python checks require missing pinned mirror inputs, which are not authenticated organizer data. This dated review does not supersede the stricter operating rules below or earlier negative evidence.
+The current three-pass review is [`research/repo-review-2026-10-29.md`](research/repo-review-2026-10-29.md). **No submission is approved; do not upload any existing TIFF.** It refreshed all nine monitored GitHub heads and verified that the nine selected historical high-report TIFFs still match their pinned hashes; the scoped 9-file/lattice replay fails the literal 3-px overlap rule. No experiment, candidate TIFF, holdout score, slot, upload, or new-score estimate was created. Python checks: 230 passed, 4 pinned-mirror integration skips; Node feed/site/browser checks passed. The owner mirrors are not organizer-authenticated, and the complete current registry and method lane remain unresolved.
 
 ## Operating instruction
 
@@ -174,7 +174,7 @@ holdout cannot reliably estimate the expert-hidden private score).
 
 ## Current status — 2026-10-29 (read first)
 
-**No submission is approved. Do not download or submit any file from this repository.**
+**No submission is approved. Do not submit any existing file from this repository.** Existing downloadable TIFFs are research/reference artifacts only; downloading one for audit or reproducibility does not authorize an upload.
 
 - **Live leaderboard (2026-10-29):** top score **0.4544** (xiaofanhu, rank #1). The "0.3195 is highest"
   and "0.4413 is the high" figures do not match the page. kpomazi's 0.3195 is at **rank #47**, not 27.
@@ -186,9 +186,7 @@ holdout cannot reliably estimate the expert-hidden private score).
   fails for them (HK3: `strict_format_pass: false`). The shared writer's "all cells finite" gate enforced the
   wrong convention; it is now footprint-based and tested (`tests/test_writer_exterior_convention.py`).
   The saved TIFFs were **not** regenerated; they still fail the uniqueness gate.
-- **Why 0.2778 might score well (labelled USER-REPORTED / UNVERIFIED):** under the official metric with α + β = 1, a dot
-  adds value only if its hit probability exceeds α × DTI (≈ 0.056 at DTI 0.2778). The 0.2778 file is the D2.8 set with 6,436
-  dots removed, so the removed dots were probably below that hit rate. This is a derived, conditional inference, not an established cause.
+- **GEMSDOE32's 0.2778 report (OWNER-REPORTED / UNVERIFIED):** its B2 raster is a strict subset of the D2.8 mask, with 6,436 catalogue-adjacent dots removed and none added. That is consistent with reducing false-positive weight when predicting newly mapped faults, but the hidden labels are unavailable and no submission-page receipt binds this raster hash to the score. The mask lineage does not establish a causal score gain or a score forecast; 2,545 is the smaller intermediate solo-to-B2 difference, not the D2.8-to-B2 count.
 - **Full review:** [`research/2026-10-29-verification-and-blocker-review.md`](research/2026-10-29-verification-and-blocker-review.md),
   claim table [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json),
   run card [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) (0 experiments, verdict negative).
