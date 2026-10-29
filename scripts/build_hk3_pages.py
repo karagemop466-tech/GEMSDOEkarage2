@@ -17,8 +17,12 @@ import sys
 
 try:
     from scripts.build_site import METHODS
+    from scripts.candidate_blocks import candidate_block, gather_candidate, gather_nine_site_rows
+    from scripts.candidate_blocks import nine_site_table as candidate_nine_site_table
 except ModuleNotFoundError:  # direct execution as ``python scripts/...``
     from build_site import METHODS
+    from candidate_blocks import candidate_block, gather_candidate, gather_nine_site_rows
+    from candidate_blocks import nine_site_table as candidate_nine_site_table
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
@@ -129,7 +133,7 @@ def hero(d: dict) -> str:
     c, w = d["card"], d["witness"]
     name = Path(c["raster"]["file"]).name
     return f'''<section class="hero" id="research-download">
-<h2>No submission-ready TIFF</h2>
+<h2>Earlier HK3 research file · DO NOT SUBMIT</h2>
 <p class="verdict"><b class="no">DO NOT SUBMIT.</b> The earlier HK3 approval was incorrect and has been withdrawn. A saved-byte recheck found <b>{w['matched_within_3_pixels']:,} of {w['candidate_positive_inside_footprint']:,} dots ({w['overlap_fraction'] * 100:.2f}%)</b> within three pixels of a registered lattice. The literal rule stops above 70%, without a research-file exception.</p>
 <p>The older TIFF remains available solely for reproducibility. It is <b>not a new submission</b>, not approved for a weekly slot, and has no defensible leaderboard estimate.</p>
 <p><a class="btn big" href="downloads/{esc(name)}" download>Download existing TIFF · RESEARCH ONLY</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
@@ -240,8 +244,10 @@ def focus_detail(record: dict, geo: dict) -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = hero(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
-    how = hero(d) + guide(d) + legacy()
+    cand = gather_candidate()
+    top = candidate_block(cand) + candidate_nine_site_table(gather_nine_site_rows(cand["audit"]))
+    desk = top + hero(d) + evidence_summary(d) + nine_site_table(d) + science_and_sources(d) + legacy()
+    how = top + hero(d) + guide(d) + legacy()
     pages = {"index.html": shell("Submission desk", "desk", desk),
              "executive-summary.html": shell("Executive summary", "summary", desk),
              "how-to-submit.html": shell("How to submit", "guide", how),

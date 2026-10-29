@@ -1,21 +1,32 @@
 {
   "schema": "run-card-v1",
   "session_date": "2026-10-29",
-  "branch": "arena/cf005210-gemsdoekarage2",
-  "experiments_run": 0,
+  "branch": "arena/599bbc9f-gemsdoekarage2",
+  "experiments_run": 2,
   "budget": {
     "max_experiments": 3,
     "max_hours": 2,
-    "used_experiments": 0,
-    "slots_used": 0
+    "used_experiments": 2,
+    "slots_used": 0,
+    "note": "E1 (random-apron control + saddle arm) and E2 (geodetic 2nd invariant arm) in evidence/gw-nfs/experiments.json. Budget not exceeded; the third experiment was not spent."
   },
-  "hypothesis": null,
-  "mechanism": null,
-  "named_non_fault_mimic": null,
-  "holdout_dti": null,
+  "hypothesis": "GW-NFS saddle ranking and geod_2ndinv ranking inside the 1-3 px apron (E1, E2). Both negative: neither beats random apron. Protocol reach ceiling shows apron arms cannot be validated under the 3-px buffer.",
+  "mechanism": "Dots only in the 1-3 px annulus outside visible faults; ranking by saddle score (E1) or smoothed geod_2ndinv (E2).",
+  "named_non_fault_mimic": "Saline groundwater/playa margins, EM inversion seams, lithologic contacts, mapper bias along faults.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI (hide-and-recover, catalogue proxy)",
+    "evaluator": "scripts/evaluate_holdout.py::pooled_dti_hide_and_recover",
+    "E1_random_apron": 7.6e-05,
+    "E1_gw_nfs": 1.3e-05,
+    "E2_geod2_apron": 7.2e-05,
+    "withheld_positives": 60988,
+    "fold_range_NOT_a_95pct_CI": "see evidence/gw-nfs/experiments.json"
+  },
   "holdout_dti_ci95": null,
   "correlation_or_overlap_vs_registry": null,
-  "raster_sha256": null,
+  "raster_sha256": {
+    "gw_nfs_zeros_outside_retired": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85"
+  },
   "validator_output": {
     "scope": "shared writer control, not a candidate",
     "positive_control_sample_template": {
@@ -36,7 +47,7 @@
   "submission_name": null,
   "submission_note": null,
   "verdict": "negative",
-  "verdict_reason": "No candidate generated. Uniqueness gate cannot be cleared without an assigned lane, authenticated organizer template and full registry; all existing TIFFs fail at least one gate.",
+  "verdict_reason": "No candidate passes the lane rule: the gw-nfs zeros raster and all nine focus best paths are DUPLICATE in the post-hoc audit (3-px overlap up to 100%). Both experiments are negative or uninformative. Apron arms are structurally capped by the 3-px buffer. No file is approved and no name or note is proposed.",
   "leaderboard_observation": {
     "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
     "kind": "ORGANIZER-PUBLISHED PUBLIC SNAPSHOT (not a submission receipt)",
@@ -46,12 +57,49 @@
     "kpomazi_score": 0.3195
   },
   "code_change": [
-    "scripts/submission_writer.py (footprint-based exterior gate)",
-    "tests/test_writer_exterior_convention.py",
-    "scripts/build_hk3_pages.py (strict-format disclosure)"
+    "scripts/registry_overlap_audit.py",
+    "scripts/check_uniqueness.py (ref_ranks_norm, ref_near)",
+    "scripts/generate_unique_submission.py (refactor; verify reproduces saved pixels)",
+    "scripts/evaluate_holdout.py (pooled_dti_hide_and_recover)",
+    "scripts/gw_nfs_experiments.py",
+    "scripts/apron_reachability.py",
+    "scripts/candidate_blocks.py",
+    "scripts/build_hk3_pages.py",
+    "tests/test_hide_recover.py",
+    "tests/test_uniqueness*.py",
+    "index.html (redirect to docs/index.html)",
+    "evidence/gw-nfs/retired/ (retired TIF moved out of docs/downloads)"
   ],
   "evidence": [
     "evidence/official-verification-2026-10-29.json",
-    "research/2026-10-29-verification-and-blocker-review.md"
-  ]
+    "research/2026-10-29-verification-and-blocker-review.md",
+    "evidence/registry-overlap-audit-20261029.json",
+    "evidence/gw-nfs/experiments.json",
+    "evidence/gw-nfs/apron_reachability.json",
+    "research/2026-10-29-session-findings.md"
+  ],
+  "leakage_canary": {
+    "H_geod2_strain_magnitude_auc": 0.570094,
+    "threshold": 0.9,
+    "leakage": false
+  },
+  "registry_audit": {
+    "receipt": "evidence/registry-overlap-audit-20261029.json",
+    "references_compared": 470,
+    "failed_closed_inputs": 2,
+    "candidates": 10,
+    "duplicate": 10,
+    "verdict": "all candidates DUPLICATE (lane rule)"
+  },
+  "protocol_reach_ceiling": {
+    "receipt": "evidence/gw-nfs/apron_reachability.json",
+    "reachable_withheld": 79,
+    "withheld": 60988,
+    "fraction": 0.001295
+  },
+  "upload_authorized": false,
+  "test_result": {
+    "python": "229 passed, 8 skipped, 0 failed (HEAD baseline was 14 failed, 212 passed)",
+    "node": "site 7/7, feed 3/3"
+  }
 }

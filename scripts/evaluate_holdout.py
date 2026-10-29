@@ -287,6 +287,61 @@ def pooled_dti_over_folds(predictions: np.ndarray,
     }
 
 
+def pooled_dti_hide_and_recover(build_prediction,
+                                gt_mask: np.ndarray,
+                                folds: list[np.ndarray],
+                                pixel_size_m: float = PIXEL_SIZE_M,
+                                buffer_px: float = 3.0,
+                                alpha: float = ALPHA,
+                                beta: float = BETA,
+                                R_m: float = R_METERS) -> dict:
+    """Hide-and-recover DTI: the prediction for each fold is rebuilt from visible faults only.
+
+    ``pooled_dti_over_folds`` scores ONE fixed prediction against each fold's withheld
+    positives. That is only valid when the prediction never saw the withheld segments.
+    This function enforces the protocol instead: for fold ``i`` the builder receives
+    ``visible_i = gt & ~dilate(block_i, buffer)`` and nothing else from the labels, and
+    the resulting raster is scored against ``withheld_i = gt & block_i`` pooled over folds.
+
+    ``build_prediction(visible_gt_mask, fold_index) -> np.ndarray`` must return a
+    float raster in [0, 1] (NaN is treated as 0 outside the footprint, as elsewhere).
+    The per-fold DTI range is reported as ``fold_range``. It is NOT a 95% confidence
+    interval; a block bootstrap is needed for that.
+    """
+    terms = []
+    n_withheld = []
+    for i, block in enumerate(folds):
+        withheld, visible, _dilated = withhold_segments(gt_mask, block, buffer_px)
+        pred = np.nan_to_num(np.asarray(build_prediction(visible.copy(), i), dtype=np.float64), nan=0.0)
+        if pred.shape != gt_mask.shape:
+            raise ValueError(f"fold {i}: prediction shape {pred.shape} != {gt_mask.shape}")
+        gt = np.zeros_like(pred, dtype=bool)
+        gt[withheld] = True
+        terms.append(dti_weighted_terms(pred, gt, pixel_size_m, alpha, beta, R_m))
+        n_withheld.append(int(withheld.sum()))
+
+    TPw = sum(t["TPw"] for t in terms)
+    FPw = sum(t["FPw"] for t in terms)
+    FNw = sum(t["FNw"] for t in terms)
+    pooled = TPw / (TPw + alpha * FPw + beta * FNw + EPS)
+    fold_dtis = [t["DTI"] for t in terms]
+    return {
+        "pooled_DTI": round(float(pooled), 6),
+        "TPw": round(TPw, 6),
+        "FPw": round(FPw, 6),
+        "FNw": round(FNw, 6),
+        "n_folds": len(terms),
+        "n_withheld_total": int(sum(n_withheld)),
+        "n_withheld_per_fold": n_withheld,
+        "alpha": alpha,
+        "beta": beta,
+        "R_m": R_m,
+        "fold_DTIs": [round(float(d), 6) for d in fold_dtis],
+        "fold_range": [round(float(min(fold_dtis)), 6), round(float(max(fold_dtis)), 6)],
+        "protocol": "hide-and-recover: prediction rebuilt per fold from visible faults only",
+    }
+
+
 # --------------------------------------------------------------------------- #
 # Self-test: reproduce the competition scoring example (DTI = 0.60)
 # --------------------------------------------------------------------------- #

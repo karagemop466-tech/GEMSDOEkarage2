@@ -63,7 +63,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from evaluate_holdout import (
     dti_weighted_terms,
     make_quadrant_folds,
-    pooled_dti_over_folds,
+    pooled_dti_hide_and_recover,
     withhold_segments,
     ALPHA, BETA, R_METERS, PIXEL_SIZE_M,
 )
@@ -279,219 +279,202 @@ def check_uniqueness(prediction: np.ndarray, registry_rasters: list) -> dict:
 # Holdout
 # --------------------------------------------------------------------------- #
 
-def run_holdout(prediction: np.ndarray, labels: np.ndarray,
-                footprint: np.ndarray) -> dict:
-    gt_mask = (labels == 1) & footprint
-    folds = make_quadrant_folds(*prediction.shape)
-    result = pooled_dti_over_folds(
-        prediction, gt_mask, transform=None,
-        folds=folds, pixel_size_m=PIXEL_SIZE_M,
-        buffer_px=3.0, alpha=ALPHA, beta=BETA, R_m=R_METERS,
-    )
-    return result
+N_DOTS = 30000
+
+
+def place_dots(visible_faults: np.ndarray, footprint: np.ndarray,
+               saddle: np.ndarray, seis: np.ndarray, n_dots: int = N_DOTS) -> np.ndarray:
+    """Dot placement as a pure function of the fault mask it is given.
+
+    Called with the full catalogue for the final raster, and with the VISIBLE faults only
+    for each hide-and-recover fold. The saddle and seismic features are label-free.
+    """
+    dist_to_fault = ndimage.distance_transform_edt(~visible_faults)
+    annulus = (dist_to_fault > 0.5) & (dist_to_fault <= 3.0) & footprint & ~visible_faults
+    saddle_finite = np.nan_to_num(saddle, nan=0.0)
+    seis_finite = np.nan_to_num(seis, nan=0.0)
+    placement_score = saddle_finite * annulus.astype(np.float64)
+    placement_score = placement_score + 0.3 * seis_finite * annulus.astype(np.float64)
+
+    cand_scores = placement_score[annulus]
+    if len(cand_scores) > n_dots:
+        threshold = np.percentile(cand_scores, 100 * (1 - n_dots / len(cand_scores)))
+        dot_mask = annulus & (placement_score >= threshold)
+    else:
+        dot_mask = annulus
+    if dot_mask.sum() > n_dots:
+        idx = np.argwhere(dot_mask)
+        scores = placement_score[dot_mask]
+        order = np.argsort(-scores)[:n_dots]
+        dot_mask = np.zeros_like(dot_mask)
+        dot_mask[idx[order, 0], idx[order, 1]] = True
+    return dot_mask
+
+
+def run_holdout_hide_recover(gt_mask: np.ndarray, footprint: np.ndarray,
+                             saddle: np.ndarray, seis: np.ndarray) -> dict:
+    """Protocol holdout: placement is rebuilt per fold from VISIBLE faults only."""
+    folds = make_quadrant_folds(*gt_mask.shape)
+
+    def build(visible, _i):
+        dots = place_dots(visible, footprint, saddle, seis)
+        return dots.astype(np.float64)
+
+    return pooled_dti_hide_and_recover(build, gt_mask & footprint, folds,
+                                       pixel_size_m=PIXEL_SIZE_M, buffer_px=3.0,
+                                       alpha=ALPHA, beta=BETA, R_m=R_METERS)
+
+
+def registry_receipt_for(sha256: str) -> dict:
+    """Read the post-hoc registry audit receipt for this exact file (fail closed if absent)."""
+    rec = json.loads((EVIDENCE / "registry-overlap-audit-20261029.json").read_text())
+    for c in rec["candidates"]:
+        if c["sha256"] == sha256:
+            return {"status": c["status"], "max_abs_spearman": c["max_abs_spearman"],
+                    "max_overlap_3px": c["max_overlap_3px"],
+                    "closest_reference": c["closest_reference"],
+                    "references_compared": rec["registry_references_compared"],
+                    "receipt": "evidence/registry-overlap-audit-20261029.json",
+                    "receipt_sha256": sha256_file(EVIDENCE / "registry-overlap-audit-20261029.json")}
+    return {"status": "NOT_AUDITED", "receipt": "evidence/registry-overlap-audit-20261029.json"}
 
 
 # --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
 
-def main():
-    DOWNLOADS.mkdir(parents=True, exist_ok=True)
+def main(argv=None):
+    """Recompute the GW-NFS raster, verify it against saved bytes, and (with --write) save it.
 
-    print("[generate_unique_submission] Loading data...", flush=True)
+    Default: verify only. No file is overwritten unless --write is given and the
+    recomputed pixels match the committed TIFF (so a silent placement change cannot
+    replace a file that already has a run card).
+    """
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
+    ap.add_argument("--write", action="store_true", help="write run card, audit and NaN-outside variant")
+    args = ap.parse_args(argv)
+
+    DOWNLOADS.mkdir(parents=True, exist_ok=True)
     grid = load_labels_and_template()
     labels = grid["labels"]
     footprint = grid["footprint"]
     H, W = grid["height"], grid["width"]
-
     gt_mask = (labels == 1) & footprint
-    print(f"[generate_unique_submission] Grid {H}x{W}, "
-          f"footprint={footprint.sum()}, known faults={gt_mask.sum()}",
-          flush=True)
+    print(f"[gw-nfs] grid {H}x{W}, footprint={int(footprint.sum())}, catalogue positives={int(gt_mask.sum())}", flush=True)
 
-    # ---- Hypothesis features ----
-    print("\n[generate_unique_submission] Computing hypothesis features...",
-          flush=True)
     saddle = saddle_score(footprint)
     seis = seis_asymmetry(footprint)
 
-    # ---- Holdout folds ----
-    blocks = make_quadrant_folds(H, W)
+    # Leakage canary: each label-free feature alone on the withheld segments.
+    folds = make_quadrant_folds(H, W)
     withheld_all = np.zeros_like(gt_mask)
     visible_all = np.zeros_like(gt_mask)
-    for block in blocks:
+    for block in folds:
         withheld, visible, _ = withhold_segments(gt_mask, block, buffer_px=3.0)
         withheld_all |= withheld
         visible_all |= visible
+    canary_saddle = feature_auc_canary(saddle, labels, footprint, withheld_all, visible_all)
+    canary_seis = feature_auc_canary(seis, labels, footprint, withheld_all, visible_all)
 
-    print(f"\n[generate_unique_submission] Holdout: "
-          f"{withheld_all.sum()} withheld, {visible_all.sum()} visible",
-          flush=True)
-
-    # ---- Leakage canary ----
-    print("\n[generate_unique_submission] Leakage canary:", flush=True)
-    canary_saddle = feature_auc_canary(saddle, labels, footprint,
-                                       withheld_all, visible_all)
-    canary_seis = feature_auc_canary(seis, labels, footprint,
-                                     withheld_all, visible_all)
-    print(f"  H1 saddle: AUC={canary_saddle['auc']} [{'LEAKAGE' if canary_saddle.get('leakage') is True else 'OK' if canary_saddle.get('leakage') is False else 'NA'}]", flush=True)
-    print(f"  H5 seis:   AUC={canary_seis['auc']} [{'LEAKAGE' if canary_seis.get('leakage') is True else 'OK' if canary_seis.get('leakage') is False else 'NA'}]", flush=True)
-
-    # ---- Build dot mask: near faults (1-3 px), not on faults, weighted by saddle ----
-    print("\n[generate_unique_submission] Building dot placement...", flush=True)
-
-    # Distance to nearest known fault (in pixels)
-    dist_to_fault = ndimage.distance_transform_edt(~gt_mask)
-
-    # Annulus: 1 to 3 pixels from known fault (within DTI kernel, not on fault)
-    annulus = (dist_to_fault > 0.5) & (dist_to_fault <= 3.0) & footprint & ~gt_mask
-
-    # Weight by saddle score (geophysical selection)
-    saddle_finite = np.nan_to_num(saddle, nan=0.0)
-    placement_score = saddle_finite * annulus.astype(np.float64)
-
-    # Also add seis-weighted placements in the annulus
-    seis_finite = np.nan_to_num(seis, nan=0.0)
-    placement_score = placement_score + 0.3 * seis_finite * annulus.astype(np.float64)
-
-    n_dots_target = 30000
-    cand_scores = placement_score[annulus]
-    if len(cand_scores) > n_dots_target:
-        threshold = np.percentile(cand_scores,
-                                  100 * (1 - n_dots_target / len(cand_scores)))
-        dot_mask = annulus & (placement_score >= threshold)
-    else:
-        dot_mask = annulus
-
-    if dot_mask.sum() > n_dots_target:
-        idx = np.argwhere(dot_mask)
-        scores = placement_score[dot_mask]
-        order = np.argsort(-scores)[:n_dots_target]
-        dot_mask = np.zeros_like(dot_mask)
-        dot_mask[idx[order, 0], idx[order, 1]] = True
-
-    print(f"  Annulus candidates: {annulus.sum()}, selected dots: {dot_mask.sum()}",
-          flush=True)
-
-    # ---- Build final raster (zeros outside footprint, like HK3) ----
+    # Final raster: placement from the full catalogue (this is the deliverable, not the holdout).
+    dot_mask = place_dots(gt_mask, footprint, saddle, seis)
     final = np.zeros((H, W), dtype=np.float32)
     final[dot_mask] = 1.0
+    print(f"[gw-nfs] final dots={int(dot_mask.sum())}", flush=True)
 
-    # ---- Uniqueness check ----
-    print("\n[generate_unique_submission] Checking uniqueness vs registry...",
-          flush=True)
-    registry_rasters = find_local_registry_rasters()
-    print(f"  Found {len(registry_rasters)} local registry rasters", flush=True)
-    uniqueness = check_uniqueness(final, registry_rasters)
-    print(f"  Unique: {uniqueness['passed']} (n_dots={uniqueness['n_dots']})",
-          flush=True)
-    for d in uniqueness["details"]:
-        print(f"  {d['raster']}: rho={d.get('spearman','N/A')}, "
-              f"overlap={d.get('overlap_3px','N/A')}, "
-              f"passed={d.get('passed','N/A')}", flush=True)
-
-    # ---- Write submission ----
-    print("\n[generate_unique_submission] Writing submission TIF...", flush=True)
-    submission_name = ("gemsdoe-karage2-gw-nfs-h1-20261029-zeros")
+    submission_name = "gemsdoe-karage2-gw-nfs-h1-20261029-zeros"
     tif_path = DOWNLOADS / f"{submission_name}.tif"
+    if tif_path.exists():
+        with rasterio.open(tif_path) as ds:
+            saved = ds.read(1)
+        same_pixels = bool(np.array_equal(saved, final))
+    else:
+        same_pixels = False
+    if not same_pixels and not args.write:
+        raise SystemExit("recomputed pixels differ from the committed TIFF; re-run with --write to replace it")
 
-    receipt = write_submission(final, tif_path,
-                               crs=OFFICIAL_CRS,
-                               transform=OFFICIAL_TRANSFORM,
-                               nodata=None, compress="lzw")
+    holdout = run_holdout_hide_recover(gt_mask, footprint, saddle, seis)
+    print(f"[gw-nfs] HOLDOUT-DTI (hide-and-recover) pooled={holdout['pooled_DTI']} "
+          f"folds={holdout['fold_DTIs']} withheld={holdout['n_withheld_total']}", flush=True)
 
-    validation = validate_geotiff(str(tif_path),
-                                  reference_rasters=[r["path"] for r in registry_rasters],
-                                  footprint_mask=footprint)
-    print(f"  Validation: {validation.message}", flush=True)
-    for c in validation.checks:
-        print(f"  {c['check']}: {c['passed']} ({c.get('detail','')})", flush=True)
+    if args.write:
+        receipt = write_submission(final, tif_path, crs=OFFICIAL_CRS, transform=OFFICIAL_TRANSFORM,
+                                   nodata=None, compress="lzw")
+        # NaN-outside variant: identical values inside the footprint; NaN outside, as on the organizer template.
+        nan_final = np.where(footprint, final, np.float32("nan")).astype(np.float32)
+        nan_name = "gemsdoe-karage2-gw-nfs-h1-20261029-nanoutside"
+        nan_path = DOWNLOADS / f"{nan_name}.tif"
+        write_submission(nan_final, nan_path, crs=OFFICIAL_CRS, transform=OFFICIAL_TRANSFORM,
+                         nodata=float("nan"), compress="lzw")
+    else:
+        receipt = {"sha256": sha256_file(tif_path)}
 
-    # ---- Holdout evaluation ----
-    print("\n[generate_unique_submission] Holdout evaluation...", flush=True)
-    holdout_result = run_holdout(final, labels, footprint)
-    print(f"  Pooled DTI: {holdout_result['pooled_DTI']}", flush=True)
-    print(f"  Fold DTIs: {holdout_result['fold_DTIs']}", flush=True)
-    print(f"  CI: {holdout_result['ci95_fold_range']}", flush=True)
+    fmt_nozero = validate_geotiff(str(tif_path), footprint_mask=footprint)
+    nan_path = DOWNLOADS / "gemsdoe-karage2-gw-nfs-h1-20261029-nanoutside.tif"
+    fmt_nan = validate_geotiff(str(nan_path), footprint_mask=footprint) if nan_path.exists() else None
+    fmt_nan_checks = {c["check"]: c["passed"] for c in fmt_nan.checks} if fmt_nan else {}
+    nonunique_names = {"uniqueness_vs_registry"}
+    nan_format_pass = bool(fmt_nan) and all(v for k, v in fmt_nan_checks.items() if k not in nonunique_names)
 
-    # ---- Run card ----
-    note = ("Geophysically weighted near-fault saddle dots targeting concealed "
-            "splays missing from catalogue; research-only pending lane clearance")
+    uniq = registry_receipt_for(receipt["sha256"])
+    note = ("GW-NFS: 30k dots in 1-3 px apron around catalogue faults, ranked by conductivity-gravity saddle; "
+            "NaN outside footprint")
     note = note[:140]
-
     run_card = {
-        "schema": "gems.parallel_run_card.v1",
+        "schema": "gems.parallel_run_card.v2",
         "generated_utc": "2026-10-29T00:00:00+00:00",
         "repo": "karagemop466-tech/GEMSDOEkarage2",
-        "branch": "arena/19a8f2a9-gemsdoekarage2",
-        "experiment": "H1+H5 hybrid",
-        "hypothesis": "Geophysically-Weighted Near-Fault Saddle (GW-NFS)",
-        "mechanism": ("Place dots in the 1-3 px annulus around known faults "
-                      "(within the 300 m DTI kernel for partial credit, not on "
-                      "catalogue pixels), weighted by conductivity-gravity "
-                      "cross-profile saddle score. Targets concealed splays "
-                      "parallel to mapped faults missing from USGS/INGENIOUS."),
-        "named_non_fault_mimic": ("Saline groundwater/playa margin; EM inversion "
-                                  "seams; lithologic contact; mapper bias"),
-        "how_it_differs_from_repo": (
-            "All nine focus submissions use D2.8 dotted-ridge geography with "
-            "arbitrary near-fault dot removal. GW-NFS uses geophysical saddle "
-            "score to select which near-fault locations to emit — a distinct "
-            "dot geography. 30,000 dots (not 37,654). No catalogue-derived "
-            "placement predictors."),
+        "branch": "arena/599bbc9f-gemsdoekarage2",
+        "experiment": "GW-NFS (H1 saddle score gating apron placement)",
+        "hypothesis": "Saddle-ranked apron dots near catalogue faults recover withheld fault segments better than unranked apron dots.",
+        "mechanism": ("Dots only in the 1-3 px annulus outside visible faults; ranked by conductivity-gravity cross-profile saddle score "
+                      "plus 0.3 x seismic-deq flank asymmetry. Dots lie within the 300 m kernel of catalogue faults."),
+        "named_non_fault_mimic": "Saline groundwater/playa margins, EM inversion seams, lithologic contacts, mapper bias along faults.",
         "holdout": {
             "evidence_class": "HOLDOUT-DTI",
-            "evaluator_version": "gems57-pooled-hide-v2",
-            "alpha": ALPHA,
-            "beta": BETA,
-            "triangular_radius_m": R_METERS,
-            "candidate_dti": holdout_result["pooled_DTI"],
-            "candidate_ci95": holdout_result["ci95_fold_range"],
-            "withheld_positive_pixels": holdout_result["n_withheld_total"],
-            "fold_DTIs": holdout_result["fold_DTIs"],
+            "evaluator": "scripts/evaluate_holdout.py::pooled_dti_hide_and_recover (per-fold placement from visible faults)",
+            "alpha": ALPHA, "beta": BETA, "triangular_radius_m": R_METERS,
+            "pooled_DTI": holdout["pooled_DTI"],
+            "n_withheld_positives": holdout["n_withheld_total"],
+            "fold_DTIs": holdout["fold_DTIs"],
+            "fold_range_NOT_a_95pct_CI": holdout["fold_range"],
         },
         "leakage_canary": {"H1_saddle": canary_saddle, "H5_seis": canary_seis},
-        "uniqueness": uniqueness,
+        "registry_uniqueness": uniq,
         "validator": {
-            "passed": validation.passed,
-            "message": validation.message,
-            "checks": validation.checks,
+            "zeros_outside_file": {"passed_all_format_checks": fmt_nozero.checks and all(c["passed"] for c in fmt_nozero.checks if c["check"] != "uniqueness_vs_registry"),
+                                   "failed": [c["check"] for c in fmt_nozero.checks if not c["passed"] and c["check"] != "uniqueness_vs_registry"]},
+            "nan_outside_variant": {"passed_all_format_checks": nan_format_pass,
+                                    "failed": [k for k, v in fmt_nan_checks.items() if not v and k not in nonunique_names]},
         },
-        "raster_sha256": sha256_file(tif_path),
+        "raster_sha256": {"zeros_outside": receipt["sha256"],
+                          "nan_outside": sha256_file(nan_path) if nan_path.exists() else None},
         "submission_name": submission_name,
         "note": note,
         "note_chars": len(note),
-        "verdict": "promote" if (validation.passed and uniqueness["passed"])
-                   else "negative",
+        "dots": int(dot_mask.sum()),
+        "upload_authorized": False,
+        "portal_acceptance": "UNVERIFIED",
+        "verdict": "negative",
     }
+    if uniq["status"] == "PASS" and nan_format_pass and canary_saddle.get("leakage") is False:
+        run_card["verdict"] = "promote"
+    run_card["verdict_reason"] = (
+        "Negative until the registry audit passes and the NaN-outside variant passes every format check."
+        if run_card["verdict"] == "negative" else
+        "All technical gates pass; upload still requires a separate selector and a portal format test.")
 
-    card_path = DOWNLOADS / f"{submission_name}-run-card.json"
-    with open(card_path, "w") as f:
-        json.dump(run_card, f, indent=2)
-
-    audit = {
-        "file": tif_path.name,
-        "sha256": receipt["sha256"],
-        "validation_passed": validation.passed,
-        "validation_message": validation.message,
-        "checks": validation.checks,
-    }
-    audit_path = DOWNLOADS / f"{submission_name}-audit.json"
-    with open(audit_path, "w") as f:
-        json.dump(audit, f, indent=2)
-
-    print(f"\n[generate_unique_submission] WROTE {tif_path}")
-    print(f"[generate_unique_submission] Run card: {card_path}")
-    print(f"[generate_unique_submission] Audit: {audit_path}")
-    print(f"[generate_unique_submission] Verdict: {run_card['verdict']}")
-    print(f"[generate_unique_submission] Note ({run_card['note_chars']} chars): "
-          f"{run_card['note']}")
-    print(f"[generate_unique_submission] HOLDOUT-DTI: "
-          f"{holdout_result['pooled_DTI']} "
-          f"CI {holdout_result['ci95_fold_range']}")
-    print(f"[generate_unique_submission] UNIQUE: {uniqueness['passed']}")
-    print(f"[generate_unique_submission] FORMAT VALID: {validation.passed}")
-
+    if args.write:
+        card_path = DOWNLOADS / f"{submission_name}-run-card.json"
+        card_path.write_text(json.dumps(run_card, indent=2, allow_nan=False) + "\n")
+        audit = {"file": tif_path.name, "sha256": receipt["sha256"],
+                 "zeros_outside_format_checks": [c for c in fmt_nozero.checks],
+                 "nan_outside_variant": nan_path.name,
+                 "nan_outside_format_checks": fmt_nan.checks if fmt_nan else None}
+        (DOWNLOADS / f"{submission_name}-audit.json").write_text(json.dumps(audit, indent=2, allow_nan=False) + "\n")
+        print(f"[gw-nfs] wrote {tif_path.name}, {nan_path.name}, run card, audit", flush=True)
+    print(f"[gw-nfs] verdict={run_card['verdict']} registry={uniq['status']}", flush=True)
     return run_card
 
 

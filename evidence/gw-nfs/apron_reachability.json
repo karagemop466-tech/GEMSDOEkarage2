@@ -1,0 +1,41 @@
+{
+  "schema": "gems.apron_reachability.v1",
+  "generated_utc": "2026-10-29T19:06:25.858548+00:00",
+  "evidence_class": "PROTOCOL-CEILING (not a score)",
+  "buffer_px": 3.0,
+  "kernel_px": 3.0,
+  "folds": [
+    {
+      "fold": 0,
+      "withheld": 29319,
+      "reachable_by_any_apron": 23,
+      "reachable_fraction": 0.000784,
+      "apron_pixels": 195675
+    },
+    {
+      "fold": 1,
+      "withheld": 12596,
+      "reachable_by_any_apron": 5,
+      "reachable_fraction": 0.000397,
+      "apron_pixels": 298938
+    },
+    {
+      "fold": 2,
+      "withheld": 9473,
+      "reachable_by_any_apron": 34,
+      "reachable_fraction": 0.003589,
+      "apron_pixels": 327702
+    },
+    {
+      "fold": 3,
+      "withheld": 9600,
+      "reachable_by_any_apron": 17,
+      "reachable_fraction": 0.001771,
+      "apron_pixels": 327250
+    }
+  ],
+  "total_withheld": 60988,
+  "total_reachable_by_any_apron": 79,
+  "total_reachable_fraction": 0.001295,
+  "reading": "Under the mandated 3-px buffer, an apron placement cannot score most withheld positives. A near-zero HOLDOUT-DTI for apron arms is a property of the protocol, not evidence against the geophysical ranking."
+}

@@ -6,7 +6,9 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29, current Arena session)
 
-The current three-pass review is [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md). **No submission is approved; do not submit any existing TIFF.** This session created no experiment, TIFF, upload, or score estimate. Tests passed locally; eight optional mirror-backed Python tests were skipped because their owner-mirror inputs are absent and are not authenticated organizer data. The review does not supersede the binding protocol below or prior negative evidence.
+**Session findings: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).** No file is approved and no name or note is proposed. The registry audit marks the gw-nfs raster and all nine focus best paths DUPLICATE. Two hide-and-recover experiments were run (E1, E2): both are negative, and the protocol ceiling shows apron placements can reach only 0.13% of withheld positives. Python tests: 229 passed, 8 skipped, 0 failed (HEAD baseline 14 failed). Node: 7/7 and 3/3.
+
+The earlier three-pass review is [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md). **No submission is approved; do not submit any existing TIFF.** This session created no experiment, TIFF, upload, or score estimate. Tests passed locally; eight optional mirror-backed Python tests were skipped because their owner-mirror inputs are absent and are not authenticated organizer data. The review does not supersede the binding protocol below or prior negative evidence.
 
 ## Operating instruction
 
@@ -189,9 +191,10 @@ holdout cannot reliably estimate the expert-hidden private score).
 - **Why 0.2778 might score well (labelled USER-REPORTED / UNVERIFIED):** under the official metric with α + β = 1, a dot
   adds value only if its hit probability exceeds α × DTI (≈ 0.056 at DTI 0.2778). The 0.2778 file is the D2.8 set with 6,436
   dots removed, so the removed dots were probably below that hit rate. This is a derived, conditional inference, not an established cause.
+- **Session outcome (later today):** the registry audit (`evidence/registry-overlap-audit-20261029.json`) marks the gw-nfs raster and all nine focus best paths DUPLICATE. E1/E2 (`evidence/gw-nfs/experiments.json`) are HOLDOUT-DTI near zero, and no ranking beats random apron. The protocol ceiling (`evidence/gw-nfs/apron_reachability.json`) shows 79 of 60,988 withheld positives (0.13%) are reachable by any apron placement, so apron candidates cannot be validated under the 3-px buffer. The portal error is unresolved. Details: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).
 - **Full review:** [`research/2026-10-29-verification-and-blocker-review.md`](research/2026-10-29-verification-and-blocker-review.md),
   claim table [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json),
-  run card [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) (0 experiments, verdict negative).
+  run card [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) (2 experiments of 3 used, verdict negative).
 
 ## Current status — 2026-10-28 independent correction
 
