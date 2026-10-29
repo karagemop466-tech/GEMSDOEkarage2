@@ -1,0 +1,50 @@
+{
+  "generated_utc": "2026-10-29T18:22:23.426354+00:00",
+  "file": "gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+  "sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
+  "submission_name": "gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
+  "note": "H-A sparse fault-intersection propensity 9k dots B2 | research-only; not validated on organizer truth; DO-NOT-SUBMIT",
+  "note_chars": 116,
+  "hypothesis": "H-A: multi-scale fault-intersection propensity (curvature x3 scales + K/Th alteration proxy + distance-to-fault); targets blind/catalogue-missing faults at intersections and relay ramps",
+  "mechanism": "sparse high-confidence predictions at structural intersections; fewer dots reduce FP mass under DTI(alpha=0.2, beta=0.8)",
+  "named_non_fault_mimic": "lithologic contacts and terrace risers can mimic curvature/intersection signatures; shuffle-orientation control required",
+  "evidence_class": "RESEARCH-ONLY (no organizer truth, no organizer template)",
+  "holdout_dti": null,
+  "holdout_ci95": null,
+  "withheld_positives": null,
+  "evaluator_version": null,
+  "correlation_vs_registry": null,
+  "overlap_vs_registry": null,
+  "raster_sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
+  "validator_output": {
+    "all_finite": true,
+    "min_in_range": true,
+    "max_in_range": true,
+    "n_nan": 0,
+    "n_inf": 0,
+    "n_positive": 2524,
+    "positive_fraction": 0.0002055515198108014,
+    "all_values_0_to_1": true
+  },
+  "leakage_canary": "not run \u2014 requires organizer labels/feature stack",
+  "verdict": "negative \u2014 cannot promote; organizer data and template required before any holdout evaluation or submission slot",
+  "limitations": [
+    "No organizer training_features.tif / labels.tif / sample_submission.tif available (DrivenData login required)",
+    "No organizer template; grid matched to unauthenticated owner mirror only",
+    "Holdout-DTI cannot be computed without truth labels",
+    "Uniqueness vs registry cannot be verified without registry rasters",
+    "No weekly submission slot used or authorized"
+  ],
+  "official_sources": {
+    "competition": "https://www.drivendata.org/competitions/306/competition-doe-gems/",
+    "problem_metric": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+    "leaderboard": "https://www.drivendata.org/competitions/306/competitions/306/competition-doe-gems/leaderboard/",
+    "reference_solution": "https://github.com/drivendataorg/gems-prize-reference-solution",
+    "rules_pdf": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+    "usgs_geodawn": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+    "ingenious": "https://gbcge.org/current-projects/ingenious/",
+    "gdr_1391": "https://gdr.openei.org/submissions/1391",
+    "epsg_32611": "https://epsg.io/32611",
+    "tversky": "https://en.wikipedia.org/wiki/Tversky_index"
+  }
+}
