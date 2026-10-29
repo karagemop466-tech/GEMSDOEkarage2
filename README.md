@@ -64,13 +64,19 @@ for research, but are not authenticated organizer inputs. The mirror sample cont
 positive cells even though the official description says it predicts total absence;
 its provenance/footprint and exterior handling therefore remain unresolved.
 
-## Leaderboard status (public observation, 2026-10-28)
+## Leaderboard status (public observation, 2026-10-29)
 
-The public organizer page showed **0.4544** for xiaofanhu in first place, and
-**0.3195** for kpomazi at rank 27 on 2026-10-28. This is an organizer-published
-public snapshot, not a file-linked submission receipt; it can change. The earlier
-user-cited figures are not a current target. Re-read the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-before comparing; see [`evidence/official-review-2026-10-28.json`](evidence/official-review-2026-10-28.json).
+The public organizer page showed **0.4544** for xiaofanhu at rank 1. The user-cited
+**0.3195** appeared for kpomazi at rank 47 in the same snapshot; it was not the
+leaderboard high. These are **ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT**
+values, not file-linked submission-page receipts, private-round scores, or scores
+for any local raster. The previously captured 2026-10-28 snapshot (which placed
+0.3195 at rank 27) is retained as dated history, not current rank evidence. The
+user-cited 0.4413 is not the current rank-one value. The automatic site feed checks
+GitHub metadata only and does not refresh DrivenData; re-read the [official
+leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
+before comparing. See the [2026-10-29 observation](evidence/official-review-2026-10-29.json)
+and the [2026-10-28 historical observation](evidence/official-review-2026-10-28.json).
 
 ## Focus sites (nine)
 
@@ -121,9 +127,11 @@ holdout cannot reliably estimate the expert-hidden private score).
    the nine sites), rank them by expected DTI gain and cost, and validate the top
    candidate on the spatially-blocked holdout **before** any submission. If external
    data are needed, name the free official source and verify it is obtainable.
-7. Target: beat the current leaderboard high (user cited 0.4413 / 0.3195; a prior
-   session observed 0.4544) and at least the best focus-site result 0.2778 — this
-   needs a distinct strategy, not a re-budgeted copy of the nine sites.
+7. Target: beat the latest public rank-one snapshot, 0.4544 (observed 2026-10-29),
+   and improve beyond the best focus-site claim 0.2778 (USER-REPORTED / UNVERIFIED).
+   The user-cited 0.3195 is rank 47 in that snapshot, and 0.4413 was not rank one.
+   These are research targets, not local estimates or private-round evidence. Any
+   strategy must be scientifically distinct, not a re-budgeted copy of the nine sites.
 8. Autonomy and quality: no manual input from the user; no hallucinations — verify
    line by line against official sources and give links for manual review; flag
    irregularities. Run **three passes** (implement + verify; review for bugs/edge
@@ -167,6 +175,43 @@ holdout cannot reliably estimate the expert-hidden private score).
 - Maximize P(Win): weigh tradeoffs, assess risk, choose the path maximizing
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
+
+## Latest review — 2026-10-29
+
+**NEGATIVE — no new experiment, TIFF, or submission slot. No file is approved.**
+This turn updated the dated public-board observation and refreshed GitHub main-branch
+metadata for the nine focus sites only. All 9/9 current main heads differ from the
+pinned references used by the historical raster audit. That means the pinned files
+are not authenticated as each site's current best; it does **not** establish any
+new score, raster identity, or eligibility. The freshness monitor is GitHub metadata
+only; the raster audit remains pinned to historical files, with no current-head
+score/raster audit claimed. DrivenData automation is intentionally disabled.
+
+The official public page on 2026-10-29 displayed **0.4544** for xiaofanhu at rank 1;
+**0.3195** for kpomazi was at rank 47. This snapshot is not a submission receipt,
+private score, or local leaderboard estimate. See
+[`evidence/official-review-2026-10-29.json`](evidence/official-review-2026-10-29.json).
+The existing nine-site table continues to show pinned historical files, user-reported
+values, unavailable local estimates, and duplicate/DO NOT SUBMIT decisions; no row
+is a submission recommendation.
+
+Four ranked geological hypotheses remain proposals in
+[`research/2026-10-28-next-lane-slate.md`](research/2026-10-28-next-lane-slate.md),
+not an assigned lane. The topography-conditioned residual-gravity proposal shares
+an ingredient family with the negative B4 work. The task's requested method
+paragraph is still absent, the complete literal registry and authenticated
+organizer inputs/template are unavailable, and the prior HK3 lane exhausted the
+three-experiment/two-hour budget. Therefore no holdout experiment or TIF was
+created; this is a protocol stop, not a performance conclusion.
+
+The dated independent review and three-pass findings are in
+[`research/2026-10-29-scorecard-and-monitor-review.md`](research/2026-10-29-scorecard-and-monitor-review.md), with a
+negative session card in
+[`evidence/2026-10-29-repo-review-run-card.json`](evidence/2026-10-29-repo-review-run-card.json).
+Automated test results and limits are recorded there. Required next work is to
+resolve the assigned lane and complete registry scope, authenticate organizer
+inputs/template and exterior handling, and establish a matched baseline before
+reconsidering a bounded experiment. Do not use any research TIFF for submission.
 
 ## Current status — 2026-10-28 independent correction
 

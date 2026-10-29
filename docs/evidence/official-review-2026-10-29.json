@@ -1,0 +1,36 @@
+{
+  "schema": "gems.official-page-observations.v1",
+  "observed_date_utc": "2026-10-29",
+  "observed_utc": "2026-10-29T18:15:05Z",
+  "access_method": "Arena public page reader; no organizer account, submission-page receipt, or private score was accessed.",
+  "sources": [
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "publisher": "DrivenData, competition organizer",
+      "observation_type": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a file-linked submission-page receipt",
+      "first_place": {
+        "rank": 1,
+        "participant": "xiaofanhu",
+        "value": 0.4544
+      },
+      "user_cited_0_3195": {
+        "rank": 47,
+        "participant": "kpomazi",
+        "value": 0.3195
+      },
+      "limitations": "The public page is time-varying. These values describe displayed public-board rows only; they are not HOLDOUT-DTI results, private-round results, or scores for any local raster. The value 0.3195 is not the displayed rank-one score in this snapshot."
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "publisher": "DrivenData, competition organizer",
+      "observations": [
+        "The prediction target is geological faults, structures indicative of geothermal resources; the task does not label geothermal vents.",
+        "The metric is distance-weighted Tversky with alpha 0.2, beta 0.8, and a triangular kernel with 300 m support (3 pixels at 100 m).",
+        "The submission specification requires one float32 GeoTIFF band, probabilities or confidence scores in [0,1], EPSG:32611, 100 m resolution, matching bounds, and null or NaN outside the bounds."
+      ],
+      "limitations": "Public problem-page specification only; it does not authenticate this repository's owner-mirrored template, establish portal acceptance, or provide hidden expert labels."
+    }
+  ],
+  "decision": "No project candidate is promoted. The public leaderboard snapshot does not estimate a local submission score and does not clear any uniqueness, holdout, provenance, or format gate.",
+  "historical_snapshot": "evidence/official-review-2026-10-28.json"
+}
