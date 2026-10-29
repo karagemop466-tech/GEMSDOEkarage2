@@ -25,6 +25,47 @@ def test_published_audit_is_scoped_and_not_authorized():
     assert report['geometry']['uncovered'] == 6649
 
 
+def test_current_leaderboard_snapshot_matches_monitor_but_is_not_a_local_score():
+    review = json.loads((ROOT/'evidence/official-review-2026-10-29.json').read_text())
+    monitor = json.loads((ROOT/'docs/data/monitor.json').read_text())
+    board = next(s for s in review['sources'] if s['url'].endswith('/leaderboard/'))
+    first = board['first_place']
+    cited = board['user_cited_0_3195']
+    assert review['observed_date_utc'] == '2026-10-29'
+    assert first == {'rank': 1, 'participant': 'xiaofanhu', 'value': 0.4544}
+    assert cited == {'rank': 47, 'participant': 'kpomazi', 'value': 0.3195}
+    assert 'not a file-linked submission-page receipt' in board['observation_type']
+    assert monitor['leaderboard']['score_text'] == f"{first['value']:.4f}"
+    assert monitor['leaderboard']['rank'] == first['rank']
+    assert monitor['leaderboard']['checked_utc'] == review['observed_utc']
+    assert monitor['leaderboard']['limitations'].startswith('Public rows only')
+    assert len(monitor['sites']) == 9
+    homepage = (ROOT/'docs/index.html').read_text()
+    assert '0.4544' in homepage and 'rank 47' in homepage
+    assert 'GITHUB METADATA ONLY' in homepage
+    assert 'No latest-head raster/score audit is claimed' in homepage
+    assert 'Three-pass review' in homepage
+
+
+def test_review_card_records_no_experiment_no_raster_and_current_metadata_scope():
+    card = json.loads((ROOT/'evidence/2026-10-29-repo-review-run-card.json').read_text())
+    monitor = json.loads((ROOT/'docs/data/monitor.json').read_text())
+    assert card['verdict'] == 'negative'
+    assert card['experiments_run'] == card['new_tiffs_created'] == 0
+    assert not card['slot_authorized'] and card['submission_slots_used'] == 0
+    assert card['holdout']['dti'] is None and card['holdout']['ci95'] is None
+    assert card['raster_sha256'] is None and card['proposed_submission_name'] is None
+    assert card['proposed_submission_note'] is None
+    assert card['focus_source_refresh']['changed'] == 9
+    assert card['focus_source_refresh']['unavailable'] == 0
+    assert card['focus_source_refresh']['latest_heads'] == {
+        row['site']: row['latest_ref'] for row in monitor['sites']}
+    review = (ROOT/'research/2026-10-29-scorecard-and-monitor-review.md').read_text()
+    assert all(head in review for head in card['focus_source_refresh']['latest_heads'].values())
+    assert card['current_public_leaderboard_snapshot']['first_place']['value'] == 0.4544
+    assert card['current_public_leaderboard_snapshot']['user_cited_0_3195']['rank'] == 47
+
+
 class LocalLinks(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -90,3 +131,14 @@ def test_pages_workflow_keeps_legacy_and_actions_url_layouts_consistent():
     assert 'docs/index.html' in (ROOT/'index.html').read_text()
     assert 'scripts/build_hk3_pages.py --check' in workflow
     assert 'OK TO SUBMIT' in (ROOT/'docs/index.html').read_text()
+
+
+def test_pages_deployment_renders_the_summary_after_github_feed_refresh():
+    workflow = (ROOT/'.github/workflows/pages.yml').read_text()
+    deploy = workflow.split('  deploy:\n', 1)[1]
+    feed = deploy.index('python scripts/refresh_feed.py --github-only')
+    sources = deploy.index('python scripts/refresh_sources.py')
+    render = deploy.index('python scripts/build_hk3_pages.py')
+    copy = deploy.index('cp -a docs/. "$RUNNER_TEMP/gems-pages/docs/"')
+    assert feed < sources < render < copy
+    assert 'DrivenData' not in deploy[feed:render]

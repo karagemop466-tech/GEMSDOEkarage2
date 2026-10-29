@@ -51,7 +51,7 @@ from generate_unique_submission import (  # noqa: E402
 
 CACHE = ROOT / ".cache" / "competition_data"
 REGISTRY = ROOT / ".cache" / "registry"
-TIF = ROOT / "docs" / "downloads" / "gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif"
+TIF = ROOT / "evidence" / "quarantine" / "gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif"  # quarantined; not public
 H33 = REGISTRY / "GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif"
 D28 = REGISTRY / "GEMSDOE32/docs/downloads/gemsdoe32-d28-ref02600-repro-44090-20261004T183200Z-426073b6-zeros.tif"
 OUT = ROOT / "evidence" / "gw-nfs" / "audit.json"
