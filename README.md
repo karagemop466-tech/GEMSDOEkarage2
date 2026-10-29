@@ -190,6 +190,19 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
+## GW-NFS audit and GEMSDOE32 0.2778 check — 2026-10-29 (this review)
+
+Review note: [`research/2026-10-29-gw-nfs-audit-and-three-pass-review.md`](research/2026-10-29-gw-nfs-audit-and-three-pass-review.md).
+**No submission is approved. Do not submit or download any file from this repository.** This review created no new TIFF, no lane experiment, no slot, and no upload.
+
+- **GW-NFS (PR #61 raster) — NEGATIVE.** The raster is quarantined in [`evidence/quarantine/`](evidence/quarantine/README.md), not in public downloads. Run card: [`evidence/gw-nfs/run_card.json`](evidence/gw-nfs/run_card.json) (verdict negative; `ok_to_submit`, `approved_for_weekly_slot`, `slot_authorized` all false).
+  HOLDOUT-DTI pooled 0.000013 (60,988 withheld positives; quadrant-block folds with a 3 px buffer; fold range, not a bootstrap CI). Same-holdout controls: random footprint 0.0416–0.0436; random annulus 0.0000938–0.000111. The shipped method is below both.
+  Uniqueness FAILS (7 of 439 registry rasters above 70%; highest dot-like 99.2%). The leakage canary passes (max AUC 0.8175), but that does not clear leakage inside the placement. The earlier 0.0546 figure is withdrawn (self-fit, not a holdout).
+  Evidence: [`evidence/gw-nfs/audit.json`](evidence/gw-nfs/audit.json), [`evidence/gw-nfs/holdout_null.json`](evidence/gw-nfs/holdout_null.json).
+- **GEMSDOE32 0.2778 (OWNER-REPORTED, no organizer receipt).** The file's dot set is a subset of the D2.8 set (44,090 minus 6,436 = 37,654; FILE-VERIFIED). The mechanism is a first-order inference, not proven.
+- **Parallel-run protocol (literal).** No method paragraph is supplied, so no lane is assigned. The GW-NFS raster fails the >70% three-pixel gate (lane drift, duplicate). Verdict negative. No slot is authorized.
+- **Official rules re-verified:** §3.4 (≤3 scored submissions/week; one final), §3.5 (choose one submission; code assets for finalists), §3.6.2 (choice made without private-set scores). Source: https://docs.nlr.gov/docs/fy26osti/96647.pdf
+
 ## Current review — 2026-10-29 (read first)
 
 **No submission is approved. Do not download or submit any file from this repository.** This branch refreshed the dated public-board observation and GitHub metadata only; no geological experiment, new TIFF, upload, slot, or score estimate was created. The stopped HK3 lane must not be restarted.
