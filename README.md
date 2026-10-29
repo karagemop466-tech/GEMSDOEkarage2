@@ -6,7 +6,7 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29, current Arena session)
 
-The current three-pass review is [`research/repo-review-2026-10-29-current-session.md`](research/repo-review-2026-10-29-current-session.md). **No submission is approved; do not submit any existing TIFF.** This session created no experiment, TIFF, upload, or score estimate. Tests passed locally; eight optional mirror-backed Python tests were skipped because their owner-mirror inputs are absent and are not authenticated organizer data. The review does not supersede the binding protocol below or prior negative evidence.
+The current three-pass review is [`research/repo-review-2026-10-29-a062b1a7.md`](research/repo-review-2026-10-29-a062b1a7.md). **No submission is approved; do not submit any existing TIFF.** This session reviewed the repository, removed an unregistered TIFF that a stale executive-summary page had falsely presented as a “PROMOTE” submission, regenerated the fail-closed Pages summary, and fixed the root redirect. No experiment, replacement TIFF, upload, score estimate, or slot selection was made. Verification passed: 226 Python tests passed / 8 optional mirror-backed tests skipped; 3 feed tests; 7 site tests; browser checks at 1440/390/320 px; generated-page, inventory, and protocol checks. The directly fetched official-source snapshot is [`evidence/current-source-check-2026-10-29.json`](evidence/current-source-check-2026-10-29.json). This review does not supersede the binding protocol below or prior negative evidence.
 
 ## Operating instruction
 
