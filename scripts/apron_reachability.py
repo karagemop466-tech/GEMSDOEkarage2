@@ -21,7 +21,7 @@ from scipy import ndimage
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-import generate_unique_submission as g  # noqa: E402
+import gw_nfs_features as g  # noqa: E402  (research helpers only; writes no raster)
 from evaluate_holdout import make_quadrant_folds, withhold_segments  # noqa: E402
 
 OUT = ROOT / "evidence" / "gw-nfs" / "apron_reachability.json"

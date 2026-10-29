@@ -31,7 +31,7 @@ from scipy import ndimage
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-import generate_unique_submission as g  # noqa: E402
+import gw_nfs_features as g  # noqa: E402  (research helpers only; writes no raster)
 from evaluate_holdout import make_quadrant_folds, pooled_dti_hide_and_recover, withhold_segments  # noqa: E402
 from evaluate_holdout import ALPHA, BETA, R_METERS, PIXEL_SIZE_M  # noqa: E402
 

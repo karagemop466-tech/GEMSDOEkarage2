@@ -83,19 +83,19 @@ No hypothesis has a measured DTI gain yet. Ranking uses cost and novelty, and is
 
 ## 8. Three passes
 
-1. **Implement / verify.** Audit run; gw-nfs experiments run (E1, E2); generator verify mode reproduces the saved bytes (holdout 1.3e-05, verdict negative, DUPLICATE); pages regenerated; `build_hk3_pages.py --check` passes.
-2. **Review.** Found and fixed:
-   - The candidate block linked the retired gw-nfs TIF from `docs/downloads`. That was an unregistered downloadable raster. It is moved to `evidence/gw-nfs/retired/`, not published, and kept with its SHA-256.
-   - The how-to page lost the HK3 hero during an edit. Restored.
-   - The root `index.html` redirected to the executive summary. It now redirects to the submission desk, `docs/index.html`.
-   - The candidate block had been written to require a run card and a NaN-outside raster that do not exist. Rewritten to read only saved receipts and fail closed.
-   - Confirmed the generator's helper names and signatures against the code before running; the experiment script ran cleanly.
-3. **Recheck.** Full Python suite: **229 passed, 8 skipped, 0 failed** (HEAD baseline: 14 failed, 212 passed). Node: site 7/7, feed 3/3. `build_hk3_pages.py --check`: up to date. (Measured at the end of the session; see the PR for the final run.)
+1. **Implement / verify.** Registry audit run; gw-nfs experiments E1/E2 run; the refactored generator (on this branch before the merge) reproduced the saved pixels (holdout 1.3e-05, verdict negative, DUPLICATE). The receipts are kept as evidence.
+2. **Review.** Found and fixed on this branch:
+   - The candidate block linked the gw-nfs TIF from `docs/downloads`, an unregistered downloadable raster. The file is now in `evidence/quarantine/` (the same path `main` chose independently). It is not published.
+   - The how-to page lost the HK3 section during an edit. Restored (before the merge).
+   - The root `index.html` redirected to the executive summary. `main`'s version redirects to the submission desk; that version is kept.
+   - **Merge review:** `main` retires the synthetic generators, and `tests/test_retired_generator.py` requires `scripts/generate_unique_submission.py` to write nothing. The refactored generator was therefore NOT merged. Its helper functions live in `scripts/gw_nfs_features.py`, a research helper that writes no raster. `scripts/candidate_blocks.py` was removed; `main`'s `build_hk3_pages.py` owns the pages.
+3. **Recheck (merged tree).** Python: **253 passed, 8 skipped, 0 failed** (HEAD baseline before this session: 14 failed, 212 passed). Node: site 8/8, feed 3/3. `build_hk3_pages.py --check`: up to date.
 
 ## 9. Limitations
 
 - Holdout numbers are a catalogue proxy. None predicts the organizer's hidden score.
 - The registry audit is post-hoc and covers the 470 comparable references at run time. The live registry grows.
+- Main's lattice gate (`research/2026-10-29-lattice-gate-and-decision.md`) reaches the same verdict on a different witness: all nine focus files fail. The two audits are not merged into one number.
 - The 8 skipped Python tests need owner-mirror inputs that are absent. They are not authenticated organizer data.
 - The portal-error cause is unresolved.
 - The band-10 / band-16 seismic label conflict is unresolved, so the seismic term's sign is unverified.

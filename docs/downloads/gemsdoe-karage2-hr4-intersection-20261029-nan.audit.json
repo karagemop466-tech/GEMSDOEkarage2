@@ -1,0 +1,21 @@
+{
+  "file": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+  "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+  "bytes": 723767,
+  "crs": "EPSG:32611",
+  "shape": [
+    3730,
+    3292
+  ],
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+  ],
+  "dtype": "float32",
+  "nodata": NaN,
+  "compress": "lzw"
+}

@@ -1,0 +1,22 @@
+{
+  "file": "gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+  "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+  "evidence_class": "SAVED-BYTE-INTEGRITY AND NEGATIVE GATE ONLY; NOT ORGANIZER FORMAT AUTHENTICATION",
+  "legacy_generator_validation": "The historical placeholder reported local format PASS using a synthetic full-grid footprint; this did not validate the organizer footprint or release readiness.",
+  "current_geometry_gate": {
+    "status": "DUPLICATE_STOP",
+    "registry_scope": "one lattice witness; incomplete registry",
+    "in_footprint_positive_cells": 4685,
+    "within_3px_of_lattice_witness": 4684,
+    "overlap_fraction": 0.9997865528281751,
+    "receipt": "evidence/lattice-gate/published-gemsdoe-karage2-hr4-intersection-20261029-nan.json"
+  },
+  "exterior_convention": "mixed; not validated against authenticated organizer template",
+  "holdout_dti": null,
+  "organizer_confirmed_score": null,
+  "leaderboard_estimate": null,
+  "ok_to_submit": false,
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false,
+  "verdict": "negative"
+}

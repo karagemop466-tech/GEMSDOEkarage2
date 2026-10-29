@@ -25,7 +25,7 @@
   "holdout_dti_ci95": null,
   "correlation_or_overlap_vs_registry": null,
   "raster_sha256": {
-    "gw_nfs_zeros_outside_retired": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85"
+    "gw_nfs_zeros_outside_quarantined": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85"
   },
   "validator_output": {
     "scope": "shared writer control, not a candidate",
@@ -59,16 +59,15 @@
   "code_change": [
     "scripts/registry_overlap_audit.py",
     "scripts/check_uniqueness.py (ref_ranks_norm, ref_near)",
-    "scripts/generate_unique_submission.py (refactor; verify reproduces saved pixels)",
     "scripts/evaluate_holdout.py (pooled_dti_hide_and_recover)",
+    "scripts/gw_nfs_features.py (research helpers; writes no raster)",
     "scripts/gw_nfs_experiments.py",
     "scripts/apron_reachability.py",
-    "scripts/candidate_blocks.py",
-    "scripts/build_hk3_pages.py",
     "tests/test_hide_recover.py",
     "tests/test_uniqueness*.py",
-    "index.html (redirect to docs/index.html)",
-    "evidence/gw-nfs/retired/ (retired TIF moved out of docs/downloads)"
+    "scripts/generate_unique_submission.py: NOT merged (main retires it; test_retired_generator requires it to write nothing)",
+    "scripts/candidate_blocks.py: removed (main build_hk3_pages owns pages)",
+    "gw-nfs TIF: quarantined under evidence/quarantine/ (main path)"
   ],
   "evidence": [
     "evidence/official-verification-2026-10-29.json",
@@ -76,7 +75,8 @@
     "evidence/registry-overlap-audit-20261029.json",
     "evidence/gw-nfs/experiments.json",
     "evidence/gw-nfs/apron_reachability.json",
-    "research/2026-10-29-session-findings.md"
+    "research/2026-10-29-session-findings.md",
+    "evidence/quarantine/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif"
   ],
   "leakage_canary": {
     "H_geod2_strain_magnitude_auc": 0.570094,
@@ -99,7 +99,7 @@
   },
   "upload_authorized": false,
   "test_result": {
-    "python": "229 passed, 8 skipped, 0 failed (HEAD baseline was 14 failed, 212 passed)",
-    "node": "site 7/7, feed 3/3"
+    "python_after_merge": "253 passed, 8 skipped, 0 failed (HEAD baseline was 14 failed, 212 passed)",
+    "node_after_merge": "site 8/8, feed 3/3"
   }
 }
