@@ -122,41 +122,52 @@ def validate_geotiff(path, template_meta=None, reference_rasters=None,
     add("bounds_match", b_ok, str(OFFICIAL_BOUNDS))
 
     finite_mask = np.isfinite(data)
-    n_nan = int((~finite_mask).sum())
+    nan_mask = np.isnan(data)
+    inf_mask = np.isinf(data)
+    n_nan = int(nan_mask.sum())
+    n_inf = int(inf_mask.sum())
     if finite_mask.any():
-        vmin = float(np.nanmin(data)); vmax = float(np.nanmax(data))
+        vmin = float(data[finite_mask].min()); vmax = float(data[finite_mask].max())
     else:
         vmin = vmax = float("nan")
 
     # Official convention (problem page, "Submission format"): data outside the
     # bounds is null or nan. The organizer sample template is NaN outside its
-    # footprint. A whole-array "all finite" gate would therefore reject the
-    # official convention, so the gate below is footprint-based and fails closed
-    # when no footprint is supplied.
+    # footprint. Test np.isnan explicitly: infinity is non-finite but is not a
+    # null/NaN exterior and must not pass this gate.
     if footprint_mask is not None:
         footprint_mask = np.asarray(footprint_mask, dtype=bool)
         inside_ok = footprint_mask.shape == data.shape
         if inside_ok:
-            nan_inside = int((~finite_mask & footprint_mask).sum())
-            outside_finite = int((finite_mask & ~footprint_mask).sum())
+            inside = data[footprint_mask]
+            outside = data[~footprint_mask]
+            nan_inside = int(np.isnan(inside).sum())
+            inf_inside = int(np.isinf(inside).sum())
+            inside_finite = bool(np.isfinite(inside).all())
+            outside_is_nan = bool(np.isnan(outside).all())
             add("no_nan_inside_footprint", nan_inside == 0, f"nan_inside={nan_inside}")
-            add("outside_footprint_is_nan", outside_finite == 0,
-                f"outside_finite={outside_finite}")
+            add("finite_inside_footprint", inside_finite,
+                f"infinite_inside={inf_inside}")
+            add("outside_footprint_is_nan", outside_is_nan,
+                f"outside_nan={int(np.isnan(outside).sum())} outside_inf={int(np.isinf(outside).sum())}")
             add("in_range_0_1",
-                bool(np.all((data[footprint_mask] >= 0.0) & (data[footprint_mask] <= 1.0))),
+                bool(inside_finite and np.all((inside >= 0.0) & (inside <= 1.0))),
                 f"min={vmin} max={vmax}")
         else:
             add("no_nan_inside_footprint", False, "footprint_mask shape mismatch")
+            add("finite_inside_footprint", False, "footprint_mask shape mismatch")
             add("outside_footprint_is_nan", False, "footprint_mask shape mismatch")
             add("in_range_0_1", False, "footprint_mask shape mismatch")
     else:
         add("no_nan_inside_footprint", False,
             "no footprint mask supplied: NaN-outside convention cannot be verified")
+        add("finite_inside_footprint", False,
+            "no footprint mask supplied: inside finiteness cannot be verified")
         add("outside_footprint_is_nan", False,
             "no footprint mask supplied: NaN-outside convention cannot be verified")
         add("in_range_0_1",
             bool(np.all((data[finite_mask] >= 0.0) & (data[finite_mask] <= 1.0))),
-            f"min={vmin} max={vmax} (finite cells only)")
+            f"min={vmin} max={vmax} (finite cells only; nan={n_nan}, inf={n_inf})")
 
     if reference_rasters:
         dots = data > 0.0
