@@ -20,20 +20,37 @@
   "validator_output": {
     "new_candidate_generated": false,
     "new_raster_sha256": null,
-    "publication_inventory": "PASS_RESEARCH_ONLY; eight tracked research artifacts audited, including H-A with no holdout or uniqueness result; downloadable_approved_submission=null",
-    "stale_unregistered_raster": "Removed from docs/downloads because an obsolete page called it ready/unique while its referenced run-card and audit files were absent; preserved in Git history.",
+    "publication_inventory": "PASS_RESEARCH_ONLY; nine tracked research artifacts audited, including H-A and HR4, both lattice-witness DUPLICATE_STOP; downloadable_approved_submission=null",
+    "stale_unregistered_raster": "Preserved only under evidence/quarantine/ after removal from public downloads; no uniqueness, score, provenance, or organizer acceptance is claimed.",
     "merged_HA_research_raster": {
       "file": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
       "sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
       "inventory_status": "VERIFIED_RESEARCH_ONLY",
-      "positive_pixels": 2524,
       "holdout_dti": null,
-      "registry_uniqueness": null,
-      "slot_authorized": false
+      "registry_uniqueness": "DUPLICATE_STOP against the incomplete lattice witness; 100% of in-footprint positive cells within 3 px; not full-registry clearance",
+      "slot_authorized": false,
+      "positive_pixels_total": 2524,
+      "positive_pixels_inside_footprint": 1896,
+      "positive_pixels_outside_footprint": 628
     },
     "format_grid_range": "No new candidate evaluated. Existing artifact checks use owner-mirror metadata only and do not establish organizer acceptance.",
     "organizer_template_authenticated": false,
-    "portal_acceptance": null
+    "portal_acceptance": null,
+    "merged_HR4_research_raster": {
+      "file": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+      "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+      "inventory_status": "VERIFIED_RESEARCH_ONLY",
+      "positive_pixels_inside_footprint": 4685,
+      "registry_uniqueness": "DUPLICATE_STOP against the incomplete lattice witness; 99.9787% within 3 px; not full-registry clearance",
+      "exterior_convention": "mixed; not validated",
+      "holdout_dti": null,
+      "slot_authorized": false
+    },
+    "pinned_reference_audit": "Not reproduced locally: required pinned shared-template input is absent from .cache/research; scripts/audit_references.py fails closed. No official data or external source was authenticated.",
+    "sidecar_irregularities_corrected": {
+      "H-A": "Legacy sidecar overstated a K/Th feature absent from the synthetic generator and omitted the duplicate stop; records now corrected. TIF bytes unchanged.",
+      "HR4": "Legacy card claimed promote/uniqueness pass from two local rasters and synthetic full-grid footprint; superseded by negative lattice-witness audit. TIF bytes unchanged."
+    }
   },
   "submission_name": null,
   "submission_note": null,
@@ -41,13 +58,14 @@
   "submission_slots_used": 0,
   "slot_authorized": false,
   "tests": {
-    "python": "226 passed, 8 skipped, 95 warnings, 98 subtests passed",
+    "python": "242 passed, 8 skipped, 98 warnings, 98 subtests passed",
     "node_feed": "3 passed",
-    "node_site": "7 passed",
-    "browser": "passed at 1440, 390 and 320 px; no overflow",
+    "node_site": "8 passed",
+    "browser": "passed at 1440, 390 and 320 px; 9 focus rows; no overflow",
     "release_assessment": "negative",
-    "download_inventory": "PASS_RESEARCH_ONLY; no approved submission",
-    "generated_pages": "up to date"
+    "download_inventory": "PASS_RESEARCH_ONLY; 9 research-only artifacts; no approved submission",
+    "generated_pages": "up to date",
+    "pinned_reference_audit": "not reproduced locally; required shared-template/input mirror files are absent from ignored cache; audit fails closed before measurement"
   },
   "verdict": "negative",
   "reasons": [
@@ -62,6 +80,13 @@
     "research/2026-10-28-next-lane-slate.md",
     "evidence/public_downloads_audit.json",
     "evidence/official-verification-2026-10-29.json",
-    "docs/executive-summary.html"
-  ]
+    "docs/executive-summary.html",
+    "evidence/hr4-intersection/run_card.json",
+    "evidence/lattice-gate/published-gemsdoekarage2-hA-intersection-propensity-aad3569983ab.json",
+    "evidence/lattice-gate/published-gemsdoe-karage2-hr4-intersection-20261029-nan.json"
+  ],
+  "retired_generators": {
+    "scripts/generate_unique_submission.py": "Disabled: H-A synthetic output is not a validated submission; lattice-witness DUPLICATE_STOP, no holdout or complete-registry clearance.",
+    "scripts/generate_unique_submission_v2.py": "Disabled: synthetic full-grid H-Rank-4 placeholder could infer promote from format plus partial local uniqueness without holdout/leakage gates."
+  }
 }
