@@ -54,8 +54,8 @@ No candidate experiments were run: there is no assigned method paragraph, authen
 
 ## Final verification results
 
-- Python: **227 passed, 8 skipped**, 95 Rasterio pending-deprecation warnings, 98 subtests passed. Skips require optional pinned owner-mirror/shared inputs absent from this checkout; they are not authenticated organizer files.
-- Node feed tests: **3 passed**; site tests: **7 passed**.
+- Python: **233 passed, 8 skipped**, 98 Rasterio pending-deprecation warnings, 98 subtests passed. Skips require optional pinned owner-mirror/shared inputs absent from this checkout; they are not authenticated organizer files.
+- Node feed tests: **3 passed**; site tests: **8 passed**.
 - Browser smoke: **passed** at 1440 px, 390 px, and 320 px; root navigation, research-only download/hash, all nine rows, and freshness fail-safe states passed.
 - Page generation checks: `build_hk3_pages.py --check`, `build_audit_site.py --check`, and `audit_public_downloads.py --check` passed. Inventory result is **PASS_RESEARCH_ONLY** for eight inventoried artifacts, with no unexpected/missing public TIFs; the approved-download field remains null.
 - Python compilation, shell syntax checks, and `git diff --check` passed.
