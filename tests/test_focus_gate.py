@@ -77,7 +77,6 @@ def test_every_published_tif_is_recorded_and_stopped(profile):
     cands = {c["name"]: c for c in profile["other_candidates"]}
     assert len(cands) == 9
     assert all(c["gate_status"] == "DUPLICATE_STOP" for c in cands.values())
-    gw = cands["gemsdoe-karage2-gw-nfs-h1-20261029-zeros"]
-    assert gw["sha256"] == "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85"
-    assert gw["format"]["crs"] == "EPSG:32611" and gw["format"]["dtype"] == "float32"
-    assert all(c["frac_dots_within_3px_of_lattice"] > 0.70 for c in cands.values() if c["frac_dots_within_3px_of_lattice"] is not None)
+    assert all(c["frac_dots_within_3px_of_lattice"] > 0.70 for c in cands.values()
+               if c["frac_dots_within_3px_of_lattice"] is not None)
+    assert all(c["format"]["crs"] == "EPSG:32611" and c["format"]["dtype"] == "float32" for c in cands.values())

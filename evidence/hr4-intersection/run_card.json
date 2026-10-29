@@ -1,0 +1,30 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "created_utc_session": "2026-10-29",
+  "written_by": "scripts/audit_focus_gate.py measurement plus this negative card; the producing run card on main is docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan-run-card.json",
+  "raster": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+  "raster_sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+  "submission_name": "gemsdoe-karage2-hr4-intersection-20261029-nan",
+  "note": "H-Rank-4 intersection dots; NOT ELIGIBLE: shared gate DUPLICATE_STOP vs lattice",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false,
+  "holdout": null,
+  "holdout_note": "No organizer-authenticated holdout or registry audit is committed for this file. Not used here.",
+  "gates": {
+    "shared_uniqueness_gate_vs_lattice": "DUPLICATE_STOP",
+    "frac_dots_within_3px_of_lattice": 0.999787,
+    "unique_literal_vs_registry": false,
+    "exterior_convention": "mixed",
+    "official_exterior_convention_met": false
+  },
+  "registry_scope": "lattice witness only (13GEMSDOE r13-lattice-s5)",
+  "experiments_run_by_this_card": 0,
+  "leaderboard_estimate": null,
+  "organizer_confirmed_score": null,
+  "evidence": [
+    "evidence/lattice-gate/published-gemsdoe-karage2-hr4-intersection-20261029-nan.json",
+    "evidence/focus-profile-2026-10-29.json"
+  ]
+}

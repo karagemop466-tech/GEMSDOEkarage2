@@ -147,7 +147,14 @@ def sparse_threshold(halo, target_positive_px=9000, rng=None):
 
 
 def main() -> int:
-    rng = np.random.default_rng(20261029)  # fixed seed: reproducible, unique
+    raise SystemExit(
+        "No TIFF generated: this demonstration generator is retired because it "
+        "has no authenticated feature stack, whole-segment buffered holdout, "
+        "feature-alone leakage tests, or complete pre-placement registry gate. "
+        "Its archived raster is research-only; do not submit it."
+    )
+
+    rng = np.random.default_rng(20261029)  # historical implementation, unreachable
     h, w = HEIGHT, WIDTH
 
     # --- Build the unique prediction field ---

@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-29T18:32:01.816926+00:00",
+  "generated_utc": "2026-10-29T18:41:44.249018+00:00",
   "lattice_manifest_sha256": "588359a14061fb2962afa72bf4c1e2e5c6eb3eb57ef4917e8d38d1a5c24ae38c",
   "gate_rule": "duplicate if Spearman > 0.90 or > 70% of dots within 3 px of one registry raster's dots",
   "rows": [
