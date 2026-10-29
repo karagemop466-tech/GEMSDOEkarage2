@@ -1,0 +1,78 @@
+{
+  "file": "gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+  "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+  "validation_passed": true,
+  "validation_message": "PASS",
+  "checks": [
+    {
+      "check": "single_band",
+      "passed": true,
+      "detail": "count=1"
+    },
+    {
+      "check": "dtype_float32",
+      "passed": true,
+      "detail": "dtype=float32"
+    },
+    {
+      "check": "shape_3730x3292",
+      "passed": true,
+      "detail": "3730x3292"
+    },
+    {
+      "check": "crs_EPSG_32611",
+      "passed": true,
+      "detail": "crs=EPSG:32611"
+    },
+    {
+      "check": "geotransform_match",
+      "passed": true,
+      "detail": "| 100.00, 0.00, 243350.00|\n| 0.00,-100.00, 4508550.00|\n| 0.00, 0.00, 1.00|"
+    },
+    {
+      "check": "bounds_match",
+      "passed": true,
+      "detail": "(243350.0, 4135550.0, 572550.0, 4508550.0)"
+    },
+    {
+      "check": "no_nan_inside_footprint",
+      "passed": true,
+      "detail": "nan_inside=0"
+    },
+    {
+      "check": "outside_footprint_is_nan",
+      "passed": true,
+      "detail": "outside_finite=0"
+    },
+    {
+      "check": "in_range_0_1",
+      "passed": true,
+      "detail": "min=0.0 max=1.0"
+    },
+    {
+      "check": "dots_present",
+      "passed": true,
+      "detail": "n_dots=5761"
+    },
+    {
+      "check": "surface_spearman_gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "passed": true,
+      "detail": "rho=0.0008"
+    },
+    {
+      "check": "dots_within_3px_gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "passed": true,
+      "detail": "0.1151 of 5761 dots"
+    },
+    {
+      "check": "surface_spearman_gemsdoe36-tcd36-exp2-20261027-9970b80c6585-zeros.tif",
+      "passed": true,
+      "detail": "rho=0.0007"
+    },
+    {
+      "check": "dots_within_3px_gemsdoe36-tcd36-exp2-20261027-9970b80c6585-zeros.tif",
+      "passed": true,
+      "detail": "0.0845 of 5761 dots"
+    }
+  ]
+}
