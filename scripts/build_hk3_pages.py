@@ -110,7 +110,7 @@ def gather() -> dict:
         raise ValueError("Pinned-byte focus profile disagrees with the scorecard or the lattice witness")
     for cand in profile.get("other_candidates", []):
         if cand["gate_status"] != "DUPLICATE_STOP":
-            raise ValueError("Candidate gate result changed; re-review the candidate page text before publishing")
+            raise ValueError(f"Gate result for {cand['name']} is not DUPLICATE_STOP; re-review the page text before publishing")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official, "k3": k3,
             "profile": profile}
@@ -320,33 +320,28 @@ def nested_section(d: dict) -> str:
 
 
 def candidate_section(d: dict) -> str:
-    """Candidate committed to main by another session; rendered as NOT ELIGIBLE with its gate result."""
+    """Every published TIFF outside the nine pinned sites, with its shared-gate result. All are NOT ELIGIBLE."""
     rows = []
     for c in d["profile"].get("other_candidates", []):
         fmt = c["format"]
+        frac = c["frac_dots_within_3px_of_lattice"]
+        frac_txt = "n/a" if frac is None else f"{frac * 100:.2f}%"
         rows.append(
-            f'<tr><td><code>{esc(c["name"])}</code></td><td>{c["dots_in_footprint"]:,} dots</td>'
-            f'<td><b class="no">DUPLICATE_STOP</b><span class="sub-label">{c["frac_dots_within_3px_of_lattice"] * 100:.2f}% within 3 px of the lattice witness (gate limit 70%)</span></td>'
-            f'<td><b class="no">NO · DO NOT SUBMIT</b></td></tr>'
-            f'<tr><td colspan="4"><span class="sub-label">SHA-256 <code>{esc(c["sha256"])}</code> · {esc(fmt["dtype"])} · '
-            f'{esc(fmt["crs"])} · {fmt["shape"][0]}×{fmt["shape"][1]} · {fmt["res"][0]:g} m · exterior: {esc(c["exterior_convention"])} '
-            f'(official NaN convention not met) · file <a href="{esc(c["file"].replace("docs/", "", 1))}">research reference</a> · '
-            'receipt <a href="evidence/lattice-gate/gw-nfs-h1.json">gw-nfs-h1.json</a></span></td></tr>'
+            f'<tr><td><code>{esc(c["name"])}</code><span class="sub-label">{esc(c["sha256"][:16])}…</span></td>'
+            f'<td>{c["dots_in_footprint"]:,} positive cells</td>'
+            f'<td><b class="no">{esc(c["gate_status"])}</b><span class="sub-label">{frac_txt} within 3 px of the lattice witness (limit 70%)</span></td>'
+            f'<td><b class="no">NO · DO NOT SUBMIT</b><span class="sub-label">exterior: {esc(c["exterior_convention"])}; '
+            f'<a href="{esc(c["file"].replace("docs/", "", 1))}">research reference</a> · <a href="{esc(c["receipt"].replace("evidence/", "evidence/", 1))}">receipt</a></span></td></tr>'
         )
     if not rows:
         return ""
     return (
-        '<section class="section" id="candidate-main"><h3>Other candidate on main · GW-NFS (H1) · NOT ELIGIBLE</h3>\n'
-        '<p>Another session committed a new GeoTIFF to <code>main</code>, and its summary described it as '
-        '"unique against all locally available registry rasters." The shared gate, run against the pinned 13GEMSDOE lattice '
-        'witness (a registry raster the repository itself pins), <b>stops it</b>. It is not eligible, and the page previously '
-        'offered it as a one-click submission. Checked against that witness, it is <b>not unique</b>. '
-        'The candidate\'s own method is a conductivity-gravity saddle placed in a 1–3 px annulus around mapped faults. '
-        'That geometry does not remove the lattice overlap.</p>\n'
-        f'<table><tbody>{"".join(rows)}</tbody></table>\n'
-        '<p>The same statement applies to this page: no file here is approved. Its run card and audit receipt linked from the earlier page '
-        'are not present in the repository. The hand-written page is in git history at commit <code>f602195</code>. '
-        'The file is kept as a research reference only, and nothing should be uploaded on the basis of it.</p>\n'
+        '<section class="section" id="published-tifs"><h3>Every published TIFF · shared gate · NOT ELIGIBLE</h3>\n'
+        '<p>Other sessions committed new GeoTIFFs to <code>main</code>, some described as "unique" with a one-click download. '
+        'The shared gate was run on every published TIFF in <code>docs/downloads/</code> against the pinned 13GEMSDOE lattice witness, '
+        'a raster the repository itself pins. <b>Each one stops at the same gate.</b> The "unique" claims are withdrawn for the gate. '
+        'The listed files are research references only, and nothing should be uploaded on the basis of any of them.</p>\n'
+        f'<table><thead><tr><th>File</th><th>Dots</th><th>Shared gate</th><th>Decision</th></tr></thead><tbody>{"".join(rows)}</tbody></table>\n'
         '</section>'
     )
 

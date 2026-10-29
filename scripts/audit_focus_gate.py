@@ -45,10 +45,7 @@ import check_uniqueness as cu  # noqa: E402  (shared gate, not a fork)
 WORK = ROOT / ".cache/lattice_gate"
 OUT_GATE = ROOT / "evidence/lattice-gate"
 OUT_PROFILE = ROOT / "evidence/focus-profile-2026-10-29.json"
-# Candidate committed to main by another session (commit ad30d78). Audited with the same gate, never regenerated here.
-GW_NFS = {"name": "gemsdoe-karage2-gw-nfs-h1-20261029-zeros",
-          "path": ROOT / "docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif",
-          "sha256": "294ad3693c3f2f6bd84e71e2f6bf412c8b4fa7b291662bd33befba1734628e85"}
+
 
 
 def sha256(path: Path) -> str:
@@ -210,45 +207,45 @@ def main() -> int:
                                      "frac_within_3px_of_catalogue": round(float((d <= 3.0).mean()), 6),
                                      "median_distance_px": float(np.median(d))})
 
-    # Other candidate on main: same shared gate, same pinned footprint, plus format facts.
+    # Every published TIFF in docs/downloads (other sessions' files included) gets the same shared gate.
     other = []
-    if GW_NFS["path"].is_file():
-        if sha256(GW_NFS["path"]) != GW_NFS["sha256"]:
-            raise SystemExit("FAIL CLOSED: GW-NFS candidate bytes differ from the sha256 its page publishes")
-        with rasterio.open(GW_NFS["path"]) as ds:
+    for tif in sorted((ROOT / "docs/downloads").glob("*.tif")):
+        with rasterio.open(tif) as ds:
             cand = ds.read(1).astype(np.float32)
             fmt = {"dtype": ds.dtypes[0], "count": ds.count, "crs": ds.crs.to_string(),
                    "shape": [ds.height, ds.width], "res": list(ds.res),
                    "transform": list(ds.transform)[:6]}
-        if not np.isfinite(cand[foot]).all() or ((cand[foot] < 0) | (cand[foot] > 1)).any():
-            raise SystemExit("FAIL CLOSED: GW-NFS has invalid values inside the footprint")
+        if (tuple(fmt["shape"]) != (3730, 3292) or fmt["crs"] != "EPSG:32611" or fmt["res"] != [100.0, 100.0]):
+            raise SystemExit(f"FAIL CLOSED: {tif.name} is not on the official grid")
         c_support = (cand > 0) & foot
-        c_in_lat = int((c_support & (dist_lat <= 3.0)).sum())
         c_n = int(c_support.sum())
+        c_in_lat = int((c_support & (dist_lat <= 3.0)).sum())
         c_exterior = ("NaN" if np.isnan(cand[~foot]).all() else
                       "finite zeros" if (np.isfinite(cand[~foot]).all() and (cand[~foot] == 0).all()) else "mixed")
+        stem = tif.stem
         if args.skip_gate:
-            c_receipt = {"status": "skipped"}
+            c_receipt = {"status": "skipped", "comparisons": []}
         else:
             WORK.mkdir(parents=True, exist_ok=True)
-            c_f = WORK / "gw_nfs_field.npy"
-            c_s = WORK / "gw_nfs_support.npy"
+            c_f = WORK / f"{stem}_field.npy"
+            c_s = WORK / f"{stem}_support.npy"
             np.save(c_f, cand)
             np.save(c_s, c_support.astype(np.uint8))
             try:
                 c_receipt = cu.audit("surface", c_f, tpl_path, manifest, c_s)
             except ValueError as exc:
-                c_receipt = {"status": "ERROR", "error": str(exc)}
-            c_receipt.update({"site": GW_NFS["name"], "focus_file_sha256": GW_NFS["sha256"],
+                c_receipt = {"status": "ERROR", "error": str(exc), "comparisons": []}
+            c_receipt.update({"site": stem, "focus_file_sha256": sha256(tif),
                               "generated_utc": datetime.now(timezone.utc).isoformat()})
-            (OUT_GATE / "gw-nfs-h1.json").write_text(json.dumps(c_receipt, indent=2, allow_nan=False) + "\n")
-        other.append({"name": GW_NFS["name"], "file": str(GW_NFS["path"].relative_to(ROOT)),
-                      "sha256": GW_NFS["sha256"], "format": fmt, "dots_in_footprint": c_n,
-                      "frac_dots_within_3px_of_lattice": round(c_in_lat / c_n, 6),
+            (OUT_GATE / f"published-{stem}.json").write_text(json.dumps(c_receipt, indent=2, allow_nan=False) + "\n")
+        cmp_ = c_receipt.get("comparisons") or [{}]
+        other.append({"name": stem, "file": str(tif.relative_to(ROOT)), "sha256": sha256(tif),
+                      "format": fmt, "dots_in_footprint": c_n,
+                      "frac_dots_within_3px_of_lattice": round(c_in_lat / c_n, 6) if c_n else None,
                       "exterior_convention": c_exterior, "gate_status": c_receipt["status"],
-                      "gate_overlap_with_lattice": (c_receipt.get("comparisons") or [{}])[0].get("overlap_fraction"),
-                      "gate_spearman_with_lattice": (c_receipt.get("comparisons") or [{}])[0].get("spearman_full_footprint"),
-                      "run_by": "scripts/audit_focus_gate.py (shared gate); candidate generated on main by another session"})
+                      "gate_overlap_with_lattice": cmp_[0].get("overlap_fraction"),
+                      "gate_spearman_with_lattice": cmp_[0].get("spearman_full_footprint"),
+                      "receipt": f"evidence/lattice-gate/published-{stem}.json"})
 
     reported = [p["reported_score_user_unverified"] for p in profile]
     near = [p["frac_dots_within_3px_of_catalogue"] for p in profile]

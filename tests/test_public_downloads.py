@@ -48,9 +48,9 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    # Eight published TIFFs: seven earlier research files plus GW-NFS (committed to main in ad30d78,
-    # governed by evidence/gw-nfs-h1/run_card.json, negative, DUPLICATE_STOP vs lattice witness).
-    assert len(result['artifacts']) == 8
+    # Nine published TIFFs: seven earlier research files plus GW-NFS (ad30d78) and H-A (main, PR #63),
+    # each governed by a negative card whose gate result is DUPLICATE_STOP vs the lattice witness.
+    assert len(result['artifacts']) == 9
     found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
     assert len(found) == 1 and found[0]['kind'] == 'research'
     assert found[0]['checks']['current_assessment_negative_and_hash_bound'] is True

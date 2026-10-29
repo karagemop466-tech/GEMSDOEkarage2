@@ -44,6 +44,8 @@ ARTIFACTS = (
      "evidence/hk3/run_card.json", "evidence/hk3/selector_result.json", True),
     ("gemsdoe-karage2-gw-nfs-h1-20261029-zeros",
      "evidence/gw-nfs-h1/run_card.json", None, False),
+    ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
+     "evidence/hA-intersection/run_card.json", None, False),
 )
 
 
