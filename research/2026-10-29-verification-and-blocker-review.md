@@ -12,11 +12,13 @@ Read this first; the executive summary is at `docs/executive-summary.html`.
 - **Two corrections to the request.** The live leaderboard top score is **0.4544** (rank #1,
   xiaofanhu), not 0.4413 or 0.3195. The 0.3195 score is kpomazi at **rank #47**, not rank 27
   (see section 5).
-- **One new defect was found and fixed.** The shared writer and the saved TIFFs use finite zeros
-  outside the footprint. The official wording and the organizer sample template use **NaN** there.
-  The shared writer's gate required every cell to be finite, which enforced the wrong convention.
-  Fixed in `scripts/submission_writer.py` with regression tests. Saved bytes were **not** regenerated,
-  because a regenerated file would still fail the uniqueness gate.
+- **Exterior convention defect found and fixed in the shared writer.** The saved TIFFs use finite zeros
+  outside the footprint; the official wording allows null/NaN and the pinned owner-mirror sample is NaN
+  outside (the mirror is not organizer-authenticated). The original writer incorrectly required every
+  cell to be finite. After that fix, a follow-up edge-case review found infinity outside could be
+  misclassified as NaN; `scripts/submission_writer.py` now tests NaN explicitly and checks inside
+  finiteness, with regression cases for infinity, finite-zero exterior, absent/mismatched masks, and
+  valid NaN exterior. Saved bytes were **not** regenerated; they still fail uniqueness and format gates.
 
 ## 2. Why the GEMSDOE32 file scored 0.2778 (first-principles explanation)
 
@@ -90,9 +92,12 @@ Full claim list with quotes and URLs: [`evidence/official-verification-2026-10-2
 1. **Exterior convention.** Official wording and the sample template use NaN outside; all saved TIFFs use
    finite zeros. The repository's strict validator (`evidence/hk3/validate_tif_strict.json`) records
    `strict_format_pass: false` for HK3. The executive summary did not state this before; it now does.
-2. **Shared writer gate.** `validate_geotiff` required every cell to be finite, which rejected the official
-   convention. Fixed; see `tests/test_writer_exterior_convention.py`. Its docstring also claimed the gate
-   "fixes the portal error", which was never verified and has been removed.
+2. **Shared writer gate.** `validate_geotiff` originally required every cell to be finite, rejecting the
+   official null/NaN exterior. The footprint-aware fix now requires explicit NaN outside and finite [0,1]
+   values inside; a later edge-case review ensures infinity outside cannot pass as NaN. Regression tests
+   cover NaN/Inf inside and outside, finite-zero exterior, missing footprint, and mask-shape mismatch
+   (`tests/test_writer_exterior_convention.py`). The docstring no longer claims this "fixes the portal error";
+   the cause remains unverified.
 3. **Portal error cause.** The message "Predicted values must be in range [0, 1]" is still unexplained. A NaN
    cell is *not* out of range under the official wording, so the cause may be something else. Which file was
    uploaded is unknown. The fastest diagnostic is for the user to say which file was uploaded, or to test
@@ -111,12 +116,15 @@ Full claim list with quotes and URLs: [`evidence/official-verification-2026-10-2
 
 - **Pass 1 (implement and verify).** Tests were run first: 221 passed, 8 skipped (Python), and the Node unit and site suites passed (3/3 and 7/7). After the fixes: 226 passed, 8 skipped. Then the official pages, the
   rules PDF, the owner-site statement, the template hash, and the saved TIFFs were read directly.
-- **Pass 2 (bugs and edge cases).** Found the writer's wrong gate (fixed), the stale README leaderboard
-  statements, and the strict-format failure hidden in the executive summary (fixed in the generator).
-  Edge case: `footprint_mask` shape mismatch and a missing footprint both fail closed (tested).
+- **Pass 2 (bugs and edge cases).** Found the writer's wrong gate, then the infinity-as-NaN exterior edge case (both fixed); also found stale README leaderboard statements and the strict-format failure hidden in the executive summary (fixed in the generator). `footprint_mask` shape mismatch and a missing footprint both fail closed (tested).
 - **Pass 3 (recheck against the original request).** A unique, submittable TIFF was not produced. The request
   asked for one, but the protocol gates cannot be cleared from this session's inputs. Stating that plainly is the
   deliverable. No number in this review is a leaderboard estimate; all such values are labelled.
+- **Follow-up integration verification on `arena/5f6d3361-gemsdoekarage2` (2026-10-29).** The merged
+  documentation refresh and shared-writer edge-case fix pass **236 Python tests, 4 optional mirror-dependent
+  skips, 98 warnings, and 98 subtests**; Node feed/site tests pass 3/3 and 8/8; browser smoke checks pass at
+  1440, 390, and 320 px. Generated-page, audit, release-safety, compile, and shell checks pass. The four skips
+  remain because `.cache/inputs` is not restored; local checks do not establish organizer acceptance.
 
 ## 7. Remaining work and limitations (for the next session)
 

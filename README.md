@@ -6,7 +6,7 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-29, Arena branch `arena/d704ab87-gemsdoekarage2`)
 
-Read the [three-pass review](research/repo-review-2026-10-29-d704ab87.md) and its [session run card](evidence/session-d704ab87-run-card.json). **No submission is approved; do not submit any current downloadable TIFF.** No experiment, holdout run, candidate generation, upload, or score estimate was made. The review quarantined an unregistered TIFF that a stale executive-summary page had incorrectly called ready/unique, regenerated the current summary from the fail-closed page builder, repaired the repository-root link, and added regression coverage. Tests passed locally: 227 Python passed, 8 optional mirror-backed tests skipped; Node feed/site suites passed (3/3 and 7/7); browser smoke passed at 1440, 390 and 320 px. The missing mirrors are not authenticated organizer data. This review does not supersede the binding protocol below or earlier negative evidence.
+Read this branch's [three-pass review](research/repo-review-2026-10-29-d704ab87.md) and [session run card](evidence/session-d704ab87-run-card.json), alongside the merged [scorecard/monitor review](research/2026-10-29-scorecard-and-monitor-review.md) and [official-format blocker review](research/2026-10-29-verification-and-blocker-review.md). **No submission is approved; do not submit any current TIFF.** This branch review ran no model, holdout, upload, or slot. It removed an old, unregistered TIFF that a stale executive-summary page had incorrectly called ready/unique, regenerated the page, and fixed the root route. During main-branch reconciliation, an additional sparse H-A research raster was found missing from the saved-download inventory; it is now explicitly audited as research-only, with no holdout or uniqueness result and no promotion. Historical site values are USER-REPORTED / UNVERIFIED; a new-file estimate remains unavailable. All prior negative evidence and the binding protocol remain in force.
 
 ## Operating instruction
 
@@ -68,13 +68,19 @@ for research, but are not authenticated organizer inputs. The mirror sample cont
 positive cells even though the official description says it predicts total absence;
 its provenance/footprint and exterior handling therefore remain unresolved.
 
-## Leaderboard status (public observation, 2026-10-28)
+## Leaderboard status (public observation, 2026-10-29)
 
-The public organizer page showed **0.4544** for xiaofanhu in first place, and
-**0.3195** for kpomazi at rank 27 on 2026-10-28. This is an organizer-published
-public snapshot, not a file-linked submission receipt; it can change. The earlier
-user-cited figures are not a current target. Re-read the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-before comparing; see [`evidence/official-review-2026-10-28.json`](evidence/official-review-2026-10-28.json).
+The public organizer page showed **0.4544** for xiaofanhu at rank 1. The user-cited
+**0.3195** appeared for kpomazi at rank 47 in the same snapshot; it was not the
+leaderboard high. These are **ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT**
+values, not file-linked submission-page receipts, private-round scores, or scores
+for any local raster. The previously captured 2026-10-28 snapshot (which placed
+0.3195 at rank 27) is retained as dated history, not current rank evidence. The
+user-cited 0.4413 is not the current rank-one value. The automatic site feed checks
+GitHub metadata only and does not refresh DrivenData; re-read the [official
+leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
+before comparing. See the [2026-10-29 observation](evidence/official-review-2026-10-29.json)
+and the [2026-10-28 historical observation](evidence/official-review-2026-10-28.json).
 
 ## Focus sites (nine)
 
@@ -125,9 +131,11 @@ holdout cannot reliably estimate the expert-hidden private score).
    the nine sites), rank them by expected DTI gain and cost, and validate the top
    candidate on the spatially-blocked holdout **before** any submission. If external
    data are needed, name the free official source and verify it is obtainable.
-7. Target: beat the current leaderboard high (user cited 0.4413 / 0.3195; a prior
-   session observed 0.4544) and at least the best focus-site result 0.2778 — this
-   needs a distinct strategy, not a re-budgeted copy of the nine sites.
+7. Target: beat the latest public rank-one snapshot, 0.4544 (observed 2026-10-29),
+   and improve beyond the best focus-site claim 0.2778 (USER-REPORTED / UNVERIFIED).
+   The user-cited 0.3195 is rank 47 in that snapshot, and 0.4413 was not rank one.
+   These are research targets, not local estimates or private-round evidence. Any
+   strategy must be scientifically distinct, not a re-budgeted copy of the nine sites.
 8. Autonomy and quality: no manual input from the user; no hallucinations — verify
    line by line against official sources and give links for manual review; flag
    irregularities. Run **three passes** (implement + verify; review for bugs/edge
@@ -172,26 +180,17 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
-## Current status — 2026-10-29 (read first)
+## Current review — 2026-10-29 (read first)
 
-**No submission is approved. Do not download or submit any file from this repository.**
+**No submission is approved. Do not download or submit any file from this repository.** This branch refreshed the dated public-board observation and GitHub metadata only; no geological experiment, new TIFF, upload, slot, or score estimate was created. The stopped HK3 lane must not be restarted.
 
-- **Live leaderboard (2026-10-29):** top score **0.4544** (xiaofanhu, rank #1). The "0.3195 is highest"
-  and "0.4413 is the high" figures do not match the page. kpomazi's 0.3195 is at **rank #47**, not 27.
-  Source: https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/ (public-test scores; the private set decides prize round 1).
-- **Official format, verified:** float32, single band, values in [0, 1], EPSG:32611, 100 m, and
-  "data outside the bounds is null or nan" (https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/).
-  The organizer sample template is NaN outside its footprint (sha256 matches the pin; not organizer-authenticated).
-- **Defect found and fixed:** every saved TIFF uses finite zeros outside the footprint, so the repo's strict format check
-  fails for them (HK3: `strict_format_pass: false`). The shared writer's "all cells finite" gate enforced the
-  wrong convention; it is now footprint-based and tested (`tests/test_writer_exterior_convention.py`).
-  The saved TIFFs were **not** regenerated; they still fail the uniqueness gate.
-- **Why 0.2778 might score well (labelled USER-REPORTED / UNVERIFIED):** under the official metric with α + β = 1, a dot
-  adds value only if its hit probability exceeds α × DTI (≈ 0.056 at DTI 0.2778). The 0.2778 file is the D2.8 set with 6,436
-  dots removed, so the removed dots were probably below that hit rate. This is a derived, conditional inference, not an established cause.
-- **Full review:** [`research/2026-10-29-verification-and-blocker-review.md`](research/2026-10-29-verification-and-blocker-review.md),
-  claim table [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json),
-  run card [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) (0 experiments, verdict negative).
+- **Public leaderboard snapshot (2026-10-29):** xiaofanhu **0.4544, rank 1**; kpomazi **0.3195, rank 47**. These are public rows, not receipts for local rasters or private-round results. See [`evidence/official-review-2026-10-29.json`](evidence/official-review-2026-10-29.json) and the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/).
+- **Nine-site freshness:** all 9/9 upstream main heads differ from the pinned historical raster references. This is GitHub metadata only; the scorecard remains a pinned historical audit, with no current-head raster/score audit. No changed head establishes a new score, file identity, or eligibility.
+- **GEMSDOE32:** 0.2778 remains USER-REPORTED / UNVERIFIED. The pinned mask is D2.8 with 6,436 catalogue-near dots removed. In a linear-counting approximation, when α+β=1, adding a prediction with hit probability `a` is beneficial only if `a > α × DTI` (about 0.056 at DTI 0.2778). This is conditional intuition, not the kernel-exact distance-weighted metric or proof of why the reported score changed; no receipt or hidden labels establish causality.
+- **Exterior convention:** the official page says data outside bounds is null or NaN; a hash-pinned owner-mirror sample has NaN outside, but is not organizer-authenticated. The shared writer's footprint-aware gate was corrected and regression-tested. Existing published TIFFs still use finite zeros outside and fail the strict NaN-outside check; they were not regenerated and still fail other mandatory gates.
+- **Research slate:** four ranked hypotheses remain untested proposals, not an assigned lane. The missing method paragraph, complete literal registry, authenticated organizer inputs/template/exterior handling, and a frozen matched baseline remain blockers. No new holdout result or submission is authorized.
+
+Read the [2026-10-29 verification/blocker review](research/2026-10-29-verification-and-blocker-review.md), [scorecard/source-refresh review](research/2026-10-29-scorecard-and-monitor-review.md), and [current-session review](research/repo-review-2026-10-29-current-session.md). The review cards are [`evidence/session-2026-10-29-run-card.json`](evidence/session-2026-10-29-run-card.json) and [`evidence/2026-10-29-repo-review-run-card.json`](evidence/2026-10-29-repo-review-run-card.json); both record zero experiments and a negative verdict. Full source claims and limitations are in [`evidence/official-verification-2026-10-29.json`](evidence/official-verification-2026-10-29.json). Keep all downloads research-only.
 
 ## Current status — 2026-10-28 independent correction
 

@@ -30,6 +30,9 @@ ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
      "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros-run-card.json",
      None, False),
+    ("gemsdoekarage2-hA-intersection-propensity-aad3569983ab",
+     "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.run-card.json",
+     None, False),
     ("gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface",
      "evidence/run_card.json", "evidence/selector_result.json", True),
     ("gemsdoekarage2-h2-stepover-8d519ec5ec58",
@@ -46,14 +49,25 @@ ARTIFACTS = (
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
-    """Map the HK3 card schema (raster{file,sha256}, submission{name,note}) onto the flat
-    schema the research cards use; other cards pass through unchanged."""
+    """Map nested and H-A sidecar schemas onto the common audit fields."""
     if isinstance(card, dict) and isinstance(card.get("raster"), dict):
         flat = dict(card)
         flat["raster"] = card["raster"].get("file")
         flat["raster_sha256"] = card["raster"].get("sha256")
         flat["submission_name"] = card.get("submission", {}).get("name")
         flat["note"] = card.get("submission", {}).get("note")
+        return flat
+    if (isinstance(card, dict) and card.get("file") == Path(rel).name
+            and isinstance(card.get("sha256"), str)):
+        # H-A's research card was emitted with its own flat schema. Preserve the
+        # stored negative authorization fields; never infer approval from format.
+        flat = dict(card)
+        flat["raster"] = rel
+        flat["raster_sha256"] = card["sha256"]
+        flat["verdict"] = "negative" if str(card.get("verdict", "")).lower().startswith("negative") else card.get("verdict")
+        flat["slot_authorized"] = card.get("slot_authorized")
+        flat["approved_for_weekly_slot"] = card.get("approved_for_weekly_slot")
+        flat["ok_to_submit"] = card.get("ok_to_submit")
         return flat
     return card
 

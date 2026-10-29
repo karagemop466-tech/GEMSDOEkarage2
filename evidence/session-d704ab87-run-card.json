@@ -20,8 +20,17 @@
   "validator_output": {
     "new_candidate_generated": false,
     "new_raster_sha256": null,
-    "publication_inventory": "PASS_RESEARCH_ONLY; seven tracked research artifacts audited; downloadable_approved_submission=null",
+    "publication_inventory": "PASS_RESEARCH_ONLY; eight tracked research artifacts audited, including H-A with no holdout or uniqueness result; downloadable_approved_submission=null",
     "stale_unregistered_raster": "Removed from docs/downloads because an obsolete page called it ready/unique while its referenced run-card and audit files were absent; preserved in Git history.",
+    "merged_HA_research_raster": {
+      "file": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+      "sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
+      "inventory_status": "VERIFIED_RESEARCH_ONLY",
+      "positive_pixels": 2524,
+      "holdout_dti": null,
+      "registry_uniqueness": null,
+      "slot_authorized": false
+    },
     "format_grid_range": "No new candidate evaluated. Existing artifact checks use owner-mirror metadata only and do not establish organizer acceptance.",
     "organizer_template_authenticated": false,
     "portal_acceptance": null
@@ -32,9 +41,9 @@
   "submission_slots_used": 0,
   "slot_authorized": false,
   "tests": {
-    "python": "226 passed, 8 skipped, 95 warnings, 98 subtests passed",
+    "python": "233 passed, 8 skipped, 98 warnings, 98 subtests passed",
     "node_feed": "3 passed",
-    "node_site": "7 passed",
+    "node_site": "8 passed",
     "browser": "passed at 1440, 390 and 320 px; no overflow",
     "release_assessment": "negative",
     "download_inventory": "PASS_RESEARCH_ONLY; no approved submission",

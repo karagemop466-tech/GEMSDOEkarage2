@@ -48,6 +48,47 @@
       "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
     },
     {
+      "file": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+      "raster_sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
+      "run_card": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.run-card.json",
+      "kind": "research",
+      "selector": null,
+      "zip_file": null,
+      "checks": {
+        "tif_exists": true,
+        "self_contained_tiff": true,
+        "single_band": true,
+        "float32": true,
+        "geotiff": true,
+        "mirror_shape_match": true,
+        "mirror_crs_match": true,
+        "mirror_transform_match": true,
+        "whole_array_finite": true,
+        "range_0_1": true,
+        "no_masked_pixels": true,
+        "raster_unchanged_during_read": true,
+        "card_verdict_negative": true,
+        "card_has_same_filename": true,
+        "card_sha_matches_saved_bytes": true,
+        "card_note_within_140_chars": true
+      },
+      "diagnostics": {
+        "nan_pixels": 0,
+        "infinite_pixels": 0,
+        "masked_pixels": 0,
+        "positive_pixels": 2524,
+        "finite_min": 0.0,
+        "finite_max": 0.9323397278785706,
+        "whole_array_pixels": 12279160
+      },
+      "status": "VERIFIED_RESEARCH_ONLY",
+      "download_for_research": true,
+      "ok_to_submit": false,
+      "slot_authorized": false,
+      "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+    },
+    {
       "file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
       "raster_sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede",
       "run_card": "evidence/run_card.json",

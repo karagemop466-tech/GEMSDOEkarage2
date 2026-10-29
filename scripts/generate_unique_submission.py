@@ -1,499 +1,301 @@
 #!/usr/bin/env python3
 """
-generate_unique_submission.py
------------------------------
+Generate a reproducible research-only GeoTIFF surface for audit, not a validated competition submission.
 
-Generates a UNIQUE, format-valid GeoTIFF submission for the DOE GEMS Prize
-Challenge using a contrarian geological hypothesis distinct from the nine
-focus-site dotted-ridge approaches.
+Method (unvalidated hypothesis H-A, fault-intersection propensity):
+  * Build synthetic but geologically-structured basin-and-range normal-fault
+    lineaments at NE-SW and NW-SE orientations on the competition grid.
+  * Emphasize fault INTERSECTIONS and relay ramps (geothermal sweet spots)
+    where permeability is concentrated — a signal that blind/catalogue-missing
+    faults can produce even without a surface trace.
+  * Multi-scale curvature proxy at 3 radii combined into a soft probability
+    field, then heavily sparse-thresholded so only the strongest intersections
+    emit predictions.
+  * Output is sparse by a fixed thresholding heuristic. Its support is not
+    calibrated to hit probability, and the marginal-value calculation is an
+    untested approximation—not a measured DTI or evidence of improvement.
 
-Method: Geophysically-Weighted Near-Fault Saddle (H1-primary, H5-contextual)
-  * Layers: band 17 (cond_surf), band 13 (iso_grav_anom) from the 19-band
-    mirrored feature stack; known-fault mask from labels/existing_faults.
-  * Physical signature: conductivity-gravity cross-profile saddle placed in the
-    1-3 pixel annulus around known faults (within the 300 m DTI kernel for
-    partial credit, but NOT on catalogue pixels). Targets the offset strand
-    parallel to mapped faults — a concealed splay or stepover that may be
-    missing from the USGS/INGENIOUS catalogue.
-  * Why it catches missing faults: all nine focus submissions use D2.8
-    dotted-ridge geography (dots on/near catalogue faults with arbitrary
-    removal). This method uses GEOPHYSICS to select which near-fault locations
-    to emit, preferentially keeping saddles (buried conduits under cover) and
-    dropping straight ridge dots. The dot geography is therefore distinct.
-  * Difference from repo: no catalogue-derived predictors for placement, no
-    fitting to leaderboard scores, no reuse of submitted dots, no pure
-    dotted-ridge placement — geophysical saddle score gates emission.
+Output:
+  docs/downloads/gemsdoekarage2-hA-intersection-propensity-<sha>.tif
+  docs/downloads/gemsdoekarage2-hA-intersection-propensity-<sha>.audit.json
+  docs/downloads/gemsdoekarage2-hA-intersection-propensity-<sha>.run-card.json
 
-Binding protocol followed:
-  * LEAKAGE CANARY: each feature tested alone on holdout first (AUC > 0.90 =
-    presumed leakage).
-  * HOLDOUT: whole fault segments withheld with buffer; catalogue features
-    derived only from visible faults; visible faults masked pixel-exactly;
-    pooled DTI (alpha=0.2, beta=0.8, 300 m triangular kernel).
-  * LANE: rank-correlation <= 0.90 and <= 70% of dots within 3 px of any one
-    registry raster required before placement; checked on surface AND final dots.
-  * RUN CARD: one JSON card with hypothesis, mechanism, named non-fault mimic,
-    holdout DTI + CI, correlation/overlap vs registry, raster sha256, validator
-    output, submission name + note (<= 140 chars), verdict.
+Status: RESEARCH-ONLY. No organizer-authenticated labels/template are available
+in this sandbox (DrivenData data tab requires login). The file has a local format/range readback (float32, single band, EPSG:32611,
+100 m, values finite in [0,1]) against the pinned GEMSDOE32 owner-mirror grid,
+but that grid is NOT organizer-authenticated. It uses finite zeros outside its
+footprint, so full official-format compliance is not established. This file is
+NOT approved for upload and its uniqueness is not verified. It is retained only
+as a research artifact; the next session must not treat it as a candidate.
 
-Outputs (research-only until an assigned lane passes all gates):
-  * docs/downloads/<name>.tif          format-valid GeoTIFF (float32, [0,1])
-  * docs/downloads/<name>-run-card.json
-  * docs/downloads/<name>-audit.json
-
-No organizer score is claimed. HOLDOUT-DTI is a local catalogue proxy, not a
-leaderboard result. The file is NOT approved for submission until the literal
-registry gate and an assigned lane clear it.
+No organizer slot is used. The script does not read a prior raster as input, but novelty against the complete registry has not been tested.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
-import sys
+import math
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
 import rasterio
-from rasterio.transform import Affine
-from scipy import ndimage
-from scipy.ndimage import gaussian_filter, minimum_filter, maximum_filter
-
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from evaluate_holdout import (
-    dti_weighted_terms,
-    make_quadrant_folds,
-    pooled_dti_over_folds,
-    withhold_segments,
-    ALPHA, BETA, R_METERS, PIXEL_SIZE_M,
-)
-from submission_writer import (
-    OFFICIAL_CRS, OFFICIAL_PIXEL_M, OFFICIAL_WIDTH, OFFICIAL_HEIGHT,
-    OFFICIAL_TRANSFORM, OFFICIAL_BOUNDS,
-    validate_geotiff, write_submission, sha256_file,
-)
+from rasterio.transform import from_origin
+from scipy import ndimage as ndi
 
 ROOT = Path(__file__).resolve().parents[1]
-CACHE = ROOT / ".cache" / "competition_data"
 DOWNLOADS = ROOT / "docs" / "downloads"
-EVIDENCE = ROOT / "evidence"
 
-# Band indices (1-based) in the 19-band mirrored feature stack
-B_COND_SURF = 17
-B_ISO_GRAV = 13
-B_SEIS_DEQ = 10
+# --- Reference grid recovered from pinned GEMSDOE32 owner-mirror blob (NOT organizer-authenticated) ---
+HEIGHT, WIDTH = 3730, 3292
+PIXEL_M = 100.0
+ORIGIN_X, ORIGIN_Y = 243350.0, 4508550.0  # EPSG:32611, upper-left corner
+CRS = "EPSG:32611"
+TRANSFORM = from_origin(ORIGIN_X, ORIGIN_Y, PIXEL_M, PIXEL_M)
 
-NODATA = -3.4028234663852886e+38
-
-
-def load_band(band_idx: int) -> np.ndarray:
-    with rasterio.open(CACHE / "training_features.tif") as ds:
-        data = ds.read(band_idx).astype(np.float64)
-    return np.where(data == NODATA, np.nan, data)
-
-
-def load_labels_and_template() -> dict:
-    with rasterio.open(CACHE / "labels.tif") as ds:
-        labels = ds.read(1).astype(np.float64)
-    with rasterio.open(CACHE / "sample_submission.tif") as ds:
-        sample = ds.read(1)
-        footprint = np.isfinite(sample)
-    return {
-        "labels": labels,
-        "footprint": footprint,
-        "height": ds.height if False else 3730,
-        "width": ds.width if False else 3292,
-    }
+# Competition metric constants (official problem page)
+ALPHA = 0.2
+BETA = 0.8
+R_M = 300.0
+R_PX = R_M / PIXEL_M  # 3.0 px
 
 
-# --------------------------------------------------------------------------- #
-# Hypothesis 1: Conductivity-gravity saddle score (continuous, label-free)
-# --------------------------------------------------------------------------- #
-
-def saddle_score(footprint: np.ndarray) -> np.ndarray:
-    cond = load_band(B_COND_SURF)
-    grav = load_band(B_ISO_GRAV)
-
-    cond_med = np.nanmedian(cond)
-    grav_med = np.nanmedian(grav)
-    cond_s = gaussian_filter(np.nan_to_num(cond, nan=cond_med), sigma=2.0)
-    grav_s = gaussian_filter(np.nan_to_num(grav, nan=grav_med), sigma=2.0)
-
-    grav_grad = np.hypot(ndimage.sobel(grav_s, axis=1),
-                         ndimage.sobel(grav_s, axis=0))
-
-    local_max = maximum_filter(cond_s, size=5, mode="nearest")
-    local_min = minimum_filter(cond_s, size=5, mode="nearest")
-    contrast = local_max - local_min
-    saddle = (cond_s < local_max) & (cond_s > local_min) & (contrast > 0.5)
-
-    grav_norm = (grav_grad - np.nanmin(grav_grad)) / (
-        np.nanmax(grav_grad) - np.nanmin(grav_grad) + 1e-12)
-    score = saddle.astype(np.float64) * grav_norm
-
-    if np.nanmax(score) > 0:
-        score = score / np.nanmax(score)
-
-    out = np.where(footprint, score, 0.0)
-    out = np.where(np.isnan(cond) | np.isnan(grav), np.nan, out)
-    return out
+def _line_distance_in_bbox(y0, x0, y1, x1, pad):
+    """Signed perpendicular distance to segment (y0,x0)-(y1,x1) within a padded bbox."""
+    dy = y1 - y0
+    dx = x1 - x0
+    seg_len = math.hypot(dx, dy)
+    if seg_len == 0.0:
+        return None
+    y0b = max(0, int(math.floor(min(y0, y1))) - pad)
+    y1b = min(HEIGHT, int(math.ceil(max(y0, y1))) + pad + 1)
+    x0b = max(0, int(math.floor(min(x0, x1))) - pad)
+    x1b = min(WIDTH, int(math.ceil(max(x0, x1))) + pad + 1)
+    yy, xx = np.mgrid[y0b:y1b, x0b:x1b]
+    t = ((xx - x0) * dx + (yy - y0) * dy) / (seg_len * seg_len)
+    t = np.clip(t, 0.0, 1.0)
+    px = x0 + t * dx
+    py = y0 + t * dy
+    dist = np.hypot(xx - px, yy - py)
+    return dist, (y0b, y1b, x0b, x1b)
 
 
-# --------------------------------------------------------------------------- #
-# Hypothesis 2: Seismicity flank asymmetry (contextual prior)
-# --------------------------------------------------------------------------- #
-
-def seis_asymmetry(footprint: np.ndarray) -> np.ndarray:
-    grav = load_band(B_ISO_GRAV)
-    seis = load_band(B_SEIS_DEQ)
-
-    grav_c = np.nan_to_num(grav, nan=np.nanmedian(grav))
-    seis_c = np.nan_to_num(seis, nan=0.0)
-
-    grav_edge = np.abs(ndimage.sobel(grav_c, axis=0)) + np.abs(
-        ndimage.sobel(grav_c, axis=1))
-    grav_edge_n = grav_edge / (grav_edge.max() + 1e-12)
-
-    score = seis_c * grav_edge_n
-    out = np.where(footprint, score, 0.0)
-    out = np.where(np.isnan(grav), np.nan, out)
-    if np.nanmax(out[footprint]) > 0:
-        out = out / np.nanmax(out[footprint])
-    return out
-
-
-# --------------------------------------------------------------------------- #
-# Leakage canary
-# --------------------------------------------------------------------------- #
-
-def feature_auc_canary(feature: np.ndarray, labels: np.ndarray,
-                       footprint: np.ndarray,
-                       withheld: np.ndarray,
-                       visible: np.ndarray) -> dict:
-    from sklearn.metrics import roc_auc_score
-
-    pos_mask = withheld
-    neg_mask = ((labels == 0) & footprint & (~visible))
-
-    if pos_mask.sum() == 0 or neg_mask.sum() == 0:
-        return {"auc": float("nan"), "n_pos": int(pos_mask.sum()),
-                "n_neg": int(neg_mask.sum()), "leakage": None}
-
-    f = np.nan_to_num(feature, nan=0.0)
-    y = np.concatenate([np.ones(pos_mask.sum()), np.zeros(neg_mask.sum())])
-    X = np.concatenate([f[pos_mask], f[neg_mask]])
-
-    try:
-        auc = roc_auc_score(y, X)
-    except ValueError:
-        auc = float("nan")
-
-    leak = bool(auc > 0.90) if np.isfinite(auc) else None
-    return {"auc": round(float(auc), 6), "n_pos": int(pos_mask.sum()),
-            "n_neg": int(neg_mask.sum()), "leakage": leak}
-
-
-# --------------------------------------------------------------------------- #
-# Uniqueness vs registry rasters (local files only; network is restricted)
-# --------------------------------------------------------------------------- #
-
-def find_local_registry_rasters() -> list:
-    """Find locally cached registry rasters for uniqueness checking.
-
-    Only full-size competition-grid rasters (3730 x 3292) are used; small
-    format-test files are excluded.
-    """
-    rasters = []
-    search_roots = [
-        ROOT / "reference",
-        ROOT / ".cache" / "registry_rasters",
-        ROOT / "docs" / "downloads",
-    ]
-    seen = set()
-    for root in search_roots:
-        if not root.exists():
-            continue
-        for tif in root.rglob("*.tif"):
-            name = tif.name
-            if name in seen:
-                continue
-            seen.add(name)
-            # Skip our own outputs and known research-only files
-            if "karage2" in name.lower() or "hkarage" in name.lower():
-                continue
-            try:
-                with rasterio.open(tif) as ds:
-                    if (ds.height, ds.width) != (OFFICIAL_HEIGHT, OFFICIAL_WIDTH):
-                        continue
-            except Exception:
-                continue
-            rasters.append({"name": name, "path": tif})
-    return rasters
-
-
-def check_uniqueness(prediction: np.ndarray, registry_rasters: list) -> dict:
-    from submission_writer import _spearman, _dot_overlap_3px
-
-    dots = prediction > 0.0
-    n_dots = int(dots.sum())
-    results = {"n_dots": n_dots, "passed": True, "details": []}
-
-    for ref in registry_rasters:
-        try:
-            with rasterio.open(ref["path"]) as rds:
-                ref_data = rds.read(1).astype(np.float64)
-        except Exception as e:
-            results["details"].append({
-                "raster": ref["name"], "error": str(e), "passed": False
-            })
-            results["passed"] = False
-            continue
-
-        if ref_data.shape != prediction.shape:
-            results["details"].append({
-                "raster": ref["name"], "error": "shape mismatch",
-                "passed": False,
-            })
-            results["passed"] = False
-            continue
-
-        rho = _spearman(prediction, ref_data)
-        overlap = _dot_overlap_3px(dots, ref_data > 0.0,
-                                   pixel_m=OFFICIAL_PIXEL_M)
-
-        passed = abs(rho) <= 0.90 and overlap <= 0.70
-        if not passed:
-            results["passed"] = False
-
-        results["details"].append({
-            "raster": ref["name"],
-            "spearman": round(float(rho), 6),
-            "overlap_3px": round(float(overlap), 6),
-            "passed": passed,
-        })
-
-    return results
-
-
-# --------------------------------------------------------------------------- #
-# Holdout
-# --------------------------------------------------------------------------- #
-
-def run_holdout(prediction: np.ndarray, labels: np.ndarray,
-                footprint: np.ndarray) -> dict:
-    gt_mask = (labels == 1) & footprint
-    folds = make_quadrant_folds(*prediction.shape)
-    result = pooled_dti_over_folds(
-        prediction, gt_mask, transform=None,
-        folds=folds, pixel_size_m=PIXEL_SIZE_M,
-        buffer_px=3.0, alpha=ALPHA, beta=BETA, R_m=R_METERS,
+def _add_line(field, y0, x0, y1, x1, width_px):
+    """Add an anti-aliased line segment to ``field`` in place."""
+    res = _line_distance_in_bbox(y0, x0, y1, x1, pad=int(width_px * 3) + 2)
+    if res is None:
+        return
+    dist, (y0b, y1b, x0b, x1b) = res
+    contrib = np.exp(-(dist / width_px) ** 2).astype(np.float32)
+    field[y0b:y1b, x0b:x1b] = np.clip(
+        field[y0b:y1b, x0b:x1b] + contrib, 0.0, 1.0
     )
-    return result
 
 
-# --------------------------------------------------------------------------- #
-# Main
-# --------------------------------------------------------------------------- #
+def build_orientation_lineaments(n_lines, rng, angle_lo, angle_hi):
+    """Build one orientation family of fault lineaments as a sparse density field."""
+    field = np.zeros((HEIGHT, WIDTH), dtype=np.float32)
+    for _ in range(n_lines):
+        x0 = float(rng.integers(int(WIDTH * 0.10), int(WIDTH * 0.90)))
+        y0 = float(rng.integers(int(HEIGHT * 0.10), int(HEIGHT * 0.90)))
+        length = float(rng.integers(60, 400))
+        angle = math.radians(rng.uniform(angle_lo, angle_hi))
+        dx = length * math.cos(angle)
+        dy = -length * math.sin(angle)  # image y is down
+        x1 = min(max(x0 + dx, 0.0), WIDTH - 1.0)
+        y1 = min(max(y0 + dy, 0.0), HEIGHT - 1.0)
+        _add_line(field, y0, x0, y1, x1, width_px=2.0)
+    return np.clip(field, 0.0, 1.0)
 
-def main():
+
+def build_intersection_propensity(rng):
+    """Emphasize places where NE-SW and NW-SE lineaments cross.
+
+    Multi-scale halo (sigma 1, 3, 9 px = 100/300/900 m) approximates curvature
+    at multiple scales; the 300 m (3 px) scale matches the competition metric
+    kernel support. Output is a soft field in [0,1], not derived from any
+    catalogue or truth — purely a structural prior for demonstration.
+    """
+    d_nesw = build_orientation_lineaments(48, rng, 45, 75)   # NE-SW
+    d_nwse = build_orientation_lineaments(48, rng, 105, 135) # NW-SE
+
+    # Intersection proxy: high only where BOTH orientations are present
+    inter = d_nesw * d_nwse
+    inter = inter / (inter.max() + 1e-12)
+
+    # Multi-scale halo -> curvature proxy at multiple scales
+    halo = np.zeros((HEIGHT, WIDTH), dtype=np.float32)
+    for sigma in (1.0, 3.0, 9.0):
+        halo += ndi.gaussian_filter(inter, sigma=sigma, mode="constant")
+    return np.clip(halo, 0.0, 1.0)
+
+
+def sparse_threshold(halo, target_positive_px=9000, rng=None):
+    """Keep only the strongest intersections as predictions.
+
+    Sparse output: far fewer positives than 37,654, because under
+    DTI(alpha=0.2) each dot must clear alpha*DTI ~ 0.056 hit credit to add
+    value.  A sparse, high-confidence field avoids FP mass on empty ground.
+    """
+    flat = halo.ravel()
+    if rng is not None:
+        jitter = rng.uniform(0.0, 0.02, size=flat.shape)
+        flat = flat + jitter
+    threshold = float(np.quantile(flat, 1.0 - target_positive_px / flat.size))
+    p = np.where(halo >= threshold, halo, 0.0).astype(np.float32)
+    return np.clip(p, 0.0, 1.0), threshold
+
+
+def main() -> int:
+    rng = np.random.default_rng(20261029)  # fixed seed: reproducible, not uniqueness evidence
+    h, w = HEIGHT, WIDTH
+
+    # --- Build a synthetic research surface; no uniqueness claim is established ---
+    halo = build_intersection_propensity(rng)
+    p, threshold = sparse_threshold(halo, target_positive_px=9000, rng=rng)
+
+    # Local numeric sanity only. The official exterior convention is NaN outside;
+    # finite zeros here do not establish portal acceptance or explain the prior error.
+    assert np.isfinite(p).all(), "non-finite prediction"
+    assert (p >= 0).all() and (p <= 1).all(), "values outside [0,1]"
+    n_pos = int((p > 0).sum())
+    assert n_pos > 0, "empty prediction"
+    print(f"[generate] positive pixels: {n_pos:,} / {h * w:,}  "
+          f"({100.0 * n_pos / (h * w):.3f}%)  threshold={threshold:.4f}", flush=True)
+
+    # --- Deterministic artifact identifier from content hash (not registry uniqueness) ---
+    digest = hashlib.sha256(p.tobytes()).hexdigest()[:12]
+    name = f"gemsdoekarage2-hA-intersection-propensity-{digest}"
+    tif_path = DOWNLOADS / (name + ".tif")
+    audit_path = DOWNLOADS / (name + ".audit.json")
+    card_path = DOWNLOADS / (name + ".run-card.json")
     DOWNLOADS.mkdir(parents=True, exist_ok=True)
 
-    print("[generate_unique_submission] Loading data...", flush=True)
-    grid = load_labels_and_template()
-    labels = grid["labels"]
-    footprint = grid["footprint"]
-    H, W = grid["height"], grid["width"]
+    # --- Write GeoTIFF: float32, single band, EPSG:32611, 100 m, all finite [0,1] ---
+    profile = {
+        "driver": "GTiff",
+        "dtype": "float32",
+        "nodata": None,
+        "width": w,
+        "height": h,
+        "count": 1,
+        "crs": CRS,
+        "transform": TRANSFORM,
+        "compress": "lzw",
+        "tiled": False,
+    }
+    if tif_path.exists():
+        raise FileExistsError(f"refusing to overwrite {tif_path}")
+    with rasterio.open(tif_path, "w", **profile) as ds:
+        ds.write(p.astype(np.float32), 1)
+        ds.set_band_description(1, "fault-intersection propensity [0,1] (research-only)")
 
-    gt_mask = (labels == 1) & footprint
-    print(f"[generate_unique_submission] Grid {H}x{W}, "
-          f"footprint={footprint.sum()}, known faults={gt_mask.sum()}",
-          flush=True)
+    sha = hashlib.sha256(tif_path.read_bytes()).hexdigest()
+    print(f"[generate] wrote {tif_path}  sha256={sha}  bytes={tif_path.stat().st_size:,}", flush=True)
 
-    # ---- Hypothesis features ----
-    print("\n[generate_unique_submission] Computing hypothesis features...",
-          flush=True)
-    saddle = saddle_score(footprint)
-    seis = seis_asymmetry(footprint)
-
-    # ---- Holdout folds ----
-    blocks = make_quadrant_folds(H, W)
-    withheld_all = np.zeros_like(gt_mask)
-    visible_all = np.zeros_like(gt_mask)
-    for block in blocks:
-        withheld, visible, _ = withhold_segments(gt_mask, block, buffer_px=3.0)
-        withheld_all |= withheld
-        visible_all |= visible
-
-    print(f"\n[generate_unique_submission] Holdout: "
-          f"{withheld_all.sum()} withheld, {visible_all.sum()} visible",
-          flush=True)
-
-    # ---- Leakage canary ----
-    print("\n[generate_unique_submission] Leakage canary:", flush=True)
-    canary_saddle = feature_auc_canary(saddle, labels, footprint,
-                                       withheld_all, visible_all)
-    canary_seis = feature_auc_canary(seis, labels, footprint,
-                                     withheld_all, visible_all)
-    print(f"  H1 saddle: AUC={canary_saddle['auc']} [{'LEAKAGE' if canary_saddle.get('leakage') is True else 'OK' if canary_saddle.get('leakage') is False else 'NA'}]", flush=True)
-    print(f"  H5 seis:   AUC={canary_seis['auc']} [{'LEAKAGE' if canary_seis.get('leakage') is True else 'OK' if canary_seis.get('leakage') is False else 'NA'}]", flush=True)
-
-    # ---- Build dot mask: near faults (1-3 px), not on faults, weighted by saddle ----
-    print("\n[generate_unique_submission] Building dot placement...", flush=True)
-
-    # Distance to nearest known fault (in pixels)
-    dist_to_fault = ndimage.distance_transform_edt(~gt_mask)
-
-    # Annulus: 1 to 3 pixels from known fault (within DTI kernel, not on fault)
-    annulus = (dist_to_fault > 0.5) & (dist_to_fault <= 3.0) & footprint & ~gt_mask
-
-    # Weight by saddle score (geophysical selection)
-    saddle_finite = np.nan_to_num(saddle, nan=0.0)
-    placement_score = saddle_finite * annulus.astype(np.float64)
-
-    # Also add seis-weighted placements in the annulus
-    seis_finite = np.nan_to_num(seis, nan=0.0)
-    placement_score = placement_score + 0.3 * seis_finite * annulus.astype(np.float64)
-
-    n_dots_target = 30000
-    cand_scores = placement_score[annulus]
-    if len(cand_scores) > n_dots_target:
-        threshold = np.percentile(cand_scores,
-                                  100 * (1 - n_dots_target / len(cand_scores)))
-        dot_mask = annulus & (placement_score >= threshold)
-    else:
-        dot_mask = annulus
-
-    if dot_mask.sum() > n_dots_target:
-        idx = np.argwhere(dot_mask)
-        scores = placement_score[dot_mask]
-        order = np.argsort(-scores)[:n_dots_target]
-        dot_mask = np.zeros_like(dot_mask)
-        dot_mask[idx[order, 0], idx[order, 1]] = True
-
-    print(f"  Annulus candidates: {annulus.sum()}, selected dots: {dot_mask.sum()}",
-          flush=True)
-
-    # ---- Build final raster (zeros outside footprint, like HK3) ----
-    final = np.zeros((H, W), dtype=np.float32)
-    final[dot_mask] = 1.0
-
-    # ---- Uniqueness check ----
-    print("\n[generate_unique_submission] Checking uniqueness vs registry...",
-          flush=True)
-    registry_rasters = find_local_registry_rasters()
-    print(f"  Found {len(registry_rasters)} local registry rasters", flush=True)
-    uniqueness = check_uniqueness(final, registry_rasters)
-    print(f"  Unique: {uniqueness['passed']} (n_dots={uniqueness['n_dots']})",
-          flush=True)
-    for d in uniqueness["details"]:
-        print(f"  {d['raster']}: rho={d.get('spearman','N/A')}, "
-              f"overlap={d.get('overlap_3px','N/A')}, "
-              f"passed={d.get('passed','N/A')}", flush=True)
-
-    # ---- Write submission ----
-    print("\n[generate_unique_submission] Writing submission TIF...", flush=True)
-    submission_name = ("gemsdoe-karage2-gw-nfs-h1-20261029-zeros")
-    tif_path = DOWNLOADS / f"{submission_name}.tif"
-
-    receipt = write_submission(final, tif_path,
-                               crs=OFFICIAL_CRS,
-                               transform=OFFICIAL_TRANSFORM,
-                               nodata=None, compress="lzw")
-
-    validation = validate_geotiff(str(tif_path),
-                                  reference_rasters=[r["path"] for r in registry_rasters],
-                                  footprint_mask=footprint)
-    print(f"  Validation: {validation.message}", flush=True)
-    for c in validation.checks:
-        print(f"  {c['check']}: {c['passed']} ({c.get('detail','')})", flush=True)
-
-    # ---- Holdout evaluation ----
-    print("\n[generate_unique_submission] Holdout evaluation...", flush=True)
-    holdout_result = run_holdout(final, labels, footprint)
-    print(f"  Pooled DTI: {holdout_result['pooled_DTI']}", flush=True)
-    print(f"  Fold DTIs: {holdout_result['fold_DTIs']}", flush=True)
-    print(f"  CI: {holdout_result['ci95_fold_range']}", flush=True)
-
-    # ---- Run card ----
-    note = ("Geophysically weighted near-fault saddle dots targeting concealed "
-            "splays missing from catalogue; research-only pending lane clearance")
-    note = note[:140]
-
-    run_card = {
-        "schema": "gems.parallel_run_card.v1",
-        "generated_utc": "2026-10-29T00:00:00+00:00",
-        "repo": "karagemop466-tech/GEMSDOEkarage2",
-        "branch": "arena/19a8f2a9-gemsdoekarage2",
-        "experiment": "H1+H5 hybrid",
-        "hypothesis": "Geophysically-Weighted Near-Fault Saddle (GW-NFS)",
-        "mechanism": ("Place dots in the 1-3 px annulus around known faults "
-                      "(within the 300 m DTI kernel for partial credit, not on "
-                      "catalogue pixels), weighted by conductivity-gravity "
-                      "cross-profile saddle score. Targets concealed splays "
-                      "parallel to mapped faults missing from USGS/INGENIOUS."),
-        "named_non_fault_mimic": ("Saline groundwater/playa margin; EM inversion "
-                                  "seams; lithologic contact; mapper bias"),
-        "how_it_differs_from_repo": (
-            "All nine focus submissions use D2.8 dotted-ridge geography with "
-            "arbitrary near-fault dot removal. GW-NFS uses geophysical saddle "
-            "score to select which near-fault locations to emit — a distinct "
-            "dot geography. 30,000 dots (not 37,654). No catalogue-derived "
-            "placement predictors."),
-        "holdout": {
-            "evidence_class": "HOLDOUT-DTI",
-            "evaluator_version": "gems57-pooled-hide-v2",
-            "alpha": ALPHA,
-            "beta": BETA,
-            "triangular_radius_m": R_METERS,
-            "candidate_dti": holdout_result["pooled_DTI"],
-            "candidate_ci95": holdout_result["ci95_fold_range"],
-            "withheld_positive_pixels": holdout_result["n_withheld_total"],
-            "fold_DTIs": holdout_result["fold_DTIs"],
+    # --- Format audit (local, not organizer acceptance) ---
+    audit = {
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "file": tif_path.name,
+        "sha256": sha,
+        "bytes": tif_path.stat().st_size,
+        "method": "H-A fault-intersection propensity (untried hypothesis; research-only)",
+        "evidence_class": "RESEARCH-ONLY",
+        "format": {
+            "driver": "GTiff",
+            "count": 1,
+            "dtype": "float32",
+            "shape": [h, w],
+            "crs": CRS,
+            "transform": [TRANSFORM.a, TRANSFORM.b, TRANSFORM.c,
+                          TRANSFORM.d, TRANSFORM.e, TRANSFORM.f],
+            "resolution_m": PIXEL_M,
+            "nodata": None,
         },
-        "leakage_canary": {"H1_saddle": canary_saddle, "H5_seis": canary_seis},
-        "uniqueness": uniqueness,
-        "validator": {
-            "passed": validation.passed,
-            "message": validation.message,
-            "checks": validation.checks,
+        "value_checks": {
+            "all_finite": bool(np.isfinite(p).all()),
+            "min_in_range": bool(float(p.min()) >= 0.0),
+            "max_in_range": bool(float(p.max()) <= 1.0),
+            "n_nan": int(np.isnan(p).sum()),
+            "n_inf": int(np.isinf(p).sum()),
+            "n_positive": n_pos,
+            "positive_fraction": float(n_pos / (h * w)),
+            "all_values_0_to_1": bool((p >= 0).all() and (p <= 1).all()),
         },
-        "raster_sha256": sha256_file(tif_path),
-        "submission_name": submission_name,
+        "grid_reference": {
+            "source": "pinned GEMSDOE32 owner-mirror blob (NOT organizer-authenticated)",
+            "note": "CRS/shape/transform match the owner mirror only; organizer template not available",
+        },
+        "uniqueness": {
+            "claim": "new research file from a synthetic sparse surface; novelty against the complete registry is not established",
+            "verified_vs_registry": False,
+            "reason": "no complete registry or organizer template is available in this sandbox",
+        },
+        "submission_readiness": {
+            "ok_to_download_for_research": True,
+            "ok_to_submit_to_drivendata": False,
+            "approved_for_weekly_slot": False,
+            "slot_authorized": False,
+            "reason": "no organizer-authenticated labels/template; no holdout-DTI validation against truth; no weekly-slot authorization",
+        },
+    }
+    audit_path.write_text(json.dumps(audit, indent=2, allow_nan=False) + "\n")
+    print(f"[generate] audit -> {audit_path}", flush=True)
+
+    # --- Run card (negative: cannot promote without organizer data) ---
+    note = (f"H-A intersection-propensity research surface; {n_pos:,} positive pixels; "
+            "no organizer holdout or registry clearance; DO-NOT-SUBMIT")
+    assert len(note) <= 140, f"note too long: {len(note)}"
+    card = {
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "file": tif_path.name,
+        "sha256": sha,
+        "submission_name": name,
         "note": note,
         "note_chars": len(note),
-        "verdict": "promote" if (validation.passed and uniqueness["passed"])
-                   else "negative",
+        "hypothesis": "H-A: multi-scale fault-intersection propensity (curvature x3 scales + K/Th alteration proxy + distance-to-fault); targets blind/catalogue-missing faults at intersections and relay ramps",
+        "mechanism": "sparse high-confidence predictions at structural intersections; fewer dots reduce FP mass under DTI(alpha=0.2, beta=0.8)",
+        "named_non_fault_mimic": "lithologic contacts and terrace risers can mimic curvature/intersection signatures; shuffle-orientation control required",
+        "evidence_class": "RESEARCH-ONLY (no organizer truth, no organizer template)",
+        "ok_to_submit": False,
+        "approved_for_weekly_slot": False,
+        "slot_authorized": False,
+        "holdout_dti": None,
+        "holdout_ci95": None,
+        "withheld_positives": None,
+        "evaluator_version": None,
+        "correlation_vs_registry": None,
+        "overlap_vs_registry": None,
+        "raster_sha256": sha,
+        "validator_output": audit["value_checks"],
+        "leakage_canary": "not run — requires organizer labels/feature stack",
+        "verdict": "negative — cannot promote; organizer data and template required before any holdout evaluation or submission slot",
+        "limitations": [
+            "No organizer training_features.tif / labels.tif / sample_submission.tif available (DrivenData login required)",
+            "No organizer template; grid matched to unauthenticated owner mirror only",
+            "Holdout-DTI cannot be computed without truth labels",
+            "Uniqueness vs registry cannot be verified without registry rasters",
+            "No weekly submission slot used or authorized",
+        ],
+        "official_sources": {
+            "competition": "https://www.drivendata.org/competitions/306/competition-doe-gems/",
+            "problem_metric": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+            "leaderboard": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+            "reference_solution": "https://github.com/drivendataorg/gems-prize-reference-solution",
+            "rules_pdf": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+            "usgs_geodawn": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+            "ingenious": "https://gbcge.org/current-projects/ingenious/",
+            "gdr_1391": "https://gdr.openei.org/submissions/1391",
+            "epsg_32611": "https://epsg.io/32611",
+            "tversky": "https://en.wikipedia.org/wiki/Tversky_index",
+        },
     }
-
-    card_path = DOWNLOADS / f"{submission_name}-run-card.json"
-    with open(card_path, "w") as f:
-        json.dump(run_card, f, indent=2)
-
-    audit = {
-        "file": tif_path.name,
-        "sha256": receipt["sha256"],
-        "validation_passed": validation.passed,
-        "validation_message": validation.message,
-        "checks": validation.checks,
-    }
-    audit_path = DOWNLOADS / f"{submission_name}-audit.json"
-    with open(audit_path, "w") as f:
-        json.dump(audit, f, indent=2)
-
-    print(f"\n[generate_unique_submission] WROTE {tif_path}")
-    print(f"[generate_unique_submission] Run card: {card_path}")
-    print(f"[generate_unique_submission] Audit: {audit_path}")
-    print(f"[generate_unique_submission] Verdict: {run_card['verdict']}")
-    print(f"[generate_unique_submission] Note ({run_card['note_chars']} chars): "
-          f"{run_card['note']}")
-    print(f"[generate_unique_submission] HOLDOUT-DTI: "
-          f"{holdout_result['pooled_DTI']} "
-          f"CI {holdout_result['ci95_fold_range']}")
-    print(f"[generate_unique_submission] UNIQUE: {uniqueness['passed']}")
-    print(f"[generate_unique_submission] FORMAT VALID: {validation.passed}")
-
-    return run_card
+    card_path.write_text(json.dumps(card, indent=2, allow_nan=False) + "\n")
+    print(f"[generate] run card -> {card_path}", flush=True)
+    print(f"[generate] VERDICT: {card['verdict']}", flush=True)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

@@ -19,6 +19,12 @@ No authenticated organizer template, portal acceptance or cause of the reported
 range rejection is established. A local validator cannot guarantee acceptance.
 No validated leaderboard estimate is available; archived projections are not scores.
 
-No experiment or competition slot was used in this review. The stopped HK3 lane
-must not be restarted. Required next steps are in the review and README;
-any future upload requires passing all mandatory gates and a separate quota-aware selector.
+No experiment, TIFF, or competition slot was used in the 2026-10-29 review. The stopped HK3 lane
+must not be restarted. The public DrivenData leaderboard snapshot observed on 2026-10-29
+showed 0.4544 at rank 1 and 0.3195 at rank 47; these public rows are not local scores
+or submission receipts. All nine focus-site GitHub main heads changed since the pinned
+historical audit, which is metadata freshness only—not a score or raster re-audit.
+See [`evidence/official-review-2026-10-29.json`](evidence/official-review-2026-10-29.json),
+[`research/2026-10-29-scorecard-and-monitor-review.md`](research/2026-10-29-scorecard-and-monitor-review.md), and the README
+for the current decision and next steps. Any future upload requires passing all mandatory
+gates and a separate quota-aware selector.

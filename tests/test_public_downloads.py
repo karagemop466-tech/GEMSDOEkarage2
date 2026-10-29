@@ -48,7 +48,15 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 7
+    assert len(result['artifacts']) == 8
+    ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
+    ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
+    ha_card = json.loads((ROOT / 'docs/downloads' / (ha_name + '.run-card.json')).read_text())
+    assert ha['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert ha['ok_to_submit'] is False and ha['slot_authorized'] is False
+    assert ha_card['holdout_dti'] is None and ha_card['evaluator_version'] is None
+    assert ha_card['correlation_vs_registry'] is None and ha_card['overlap_vs_registry'] is None
+    assert ha_card['official_sources']['leaderboard'] == 'https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/'
     found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
     assert len(found) == 1 and found[0]['kind'] == 'research'
     assert found[0]['checks']['current_assessment_negative_and_hash_bound'] is True

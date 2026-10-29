@@ -1,0 +1,55 @@
+{
+  "generated_utc": "2026-10-29T18:22:23.375901+00:00",
+  "file": "gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+  "sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
+  "bytes": 762056,
+  "method": "H-A fault-intersection propensity (untried hypothesis; research-only)",
+  "evidence_class": "RESEARCH-ONLY",
+  "format": {
+    "driver": "GTiff",
+    "count": 1,
+    "dtype": "float32",
+    "shape": [
+      3730,
+      3292
+    ],
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "resolution_m": 100.0,
+    "nodata": null
+  },
+  "value_checks": {
+    "all_finite": true,
+    "min_in_range": true,
+    "max_in_range": true,
+    "n_nan": 0,
+    "n_inf": 0,
+    "n_positive": 2524,
+    "positive_fraction": 0.0002055515198108014,
+    "all_values_0_to_1": true
+  },
+  "grid_reference": {
+    "source": "pinned GEMSDOE32 owner-mirror blob (NOT organizer-authenticated)",
+    "note": "CRS/shape/transform match the owner mirror only; organizer template not available"
+  },
+  "uniqueness": {
+    "claim": "new research file from a synthetic sparse surface; novelty against the complete registry is not established",
+    "verified_vs_registry": false,
+    "reason": "no complete registry or organizer template is available in this sandbox"
+  },
+  "submission_readiness": {
+    "ok_to_download_for_research": true,
+    "ok_to_submit_to_drivendata": false,
+    "reason": "no organizer-authenticated labels/template; no holdout-DTI validation against truth; no weekly-slot authorization"
+  },
+  "ok_to_submit": false,
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false
+}
