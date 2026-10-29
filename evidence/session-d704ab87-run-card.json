@@ -1,0 +1,58 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "session_date_utc": "2026-10-29",
+  "branch": "arena/d704ab87-gemsdoekarage2",
+  "classification": "THREE-PASS REPOSITORY REVIEW; NO EXPERIMENT OR SUBMISSION",
+  "hypothesis": "No single method paragraph was assigned. Four untested proposals remain ranked in research/2026-10-28-next-lane-slate.md; this review did not select or test one.",
+  "mechanism": null,
+  "named_non_fault_mimic": null,
+  "hypothesis_status": "No experiment. Existing slate summarizes terrain-conditioned residual gravity, conductivity Hessian saddle, strain-regime change with magnetic-edge persistence, and seismicity sidedness; all remain proposals, not approved lanes.",
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "holdout_evaluator_version": null,
+  "holdout_withheld_positives": null,
+  "leaderboard_estimate": null,
+  "correlation_or_overlap_vs_registry": null,
+  "registry_complete": false,
+  "preplacement_surface_check": null,
+  "final_dot_check": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "new_candidate_generated": false,
+    "new_raster_sha256": null,
+    "publication_inventory": "PASS_RESEARCH_ONLY; seven tracked research artifacts audited; downloadable_approved_submission=null",
+    "stale_unregistered_raster": "Removed from docs/downloads because an obsolete page called it ready/unique while its referenced run-card and audit files were absent; preserved in Git history.",
+    "format_grid_range": "No new candidate evaluated. Existing artifact checks use owner-mirror metadata only and do not establish organizer acceptance.",
+    "organizer_template_authenticated": false,
+    "portal_acceptance": null
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "experiments_run": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "tests": {
+    "python": "226 passed, 8 skipped, 95 warnings, 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "7 passed",
+    "browser": "passed at 1440, 390 and 320 px; no overflow",
+    "release_assessment": "negative",
+    "download_inventory": "PASS_RESEARCH_ONLY; no approved submission",
+    "generated_pages": "up to date"
+  },
+  "verdict": "negative",
+  "reasons": [
+    "No assigned lane; the prompt's referenced method paragraph is not identifiable.",
+    "Official cached feature stack and organizer-authenticated inputs/template are absent.",
+    "Complete current registry and valid literal pre-placement uniqueness clearance are not established.",
+    "No experiment, HOLDOUT-DTI, canary AUC, new raster or leaderboard estimate was produced.",
+    "All current downloadable TIFFs remain research-only; no competition slot was authorized."
+  ],
+  "evidence": [
+    "research/repo-review-2026-10-29-d704ab87.md",
+    "research/2026-10-28-next-lane-slate.md",
+    "evidence/public_downloads_audit.json",
+    "evidence/official-verification-2026-10-29.json",
+    "docs/executive-summary.html"
+  ]
+}

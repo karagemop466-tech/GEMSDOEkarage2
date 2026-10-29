@@ -65,6 +65,19 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
         assert record['checks']['mirror_transform_match']
 
 
+def test_stale_unverified_tif_is_not_published_as_a_submission():
+    stale = ROOT / 'docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif'
+    assert not stale.exists()
+    for name in ('index.html', 'executive-summary.html'):
+        page = (ROOT / 'docs' / name).read_text()
+        assert 'OK TO SUBMIT: NO' in page
+        assert 'gw-nfs-h1-20261029-zeros' not in page
+    assert 'docs/index.html' in (ROOT / 'index.html').read_text()
+    report = mod.audit()
+    assert report['downloadable_approved_submission'] is None
+    assert all(r['ok_to_submit'] is False for r in report['artifacts'])
+
+
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):
     args, card_path = make_fixture(tmp_path)
     root, stem, card_rel, selector_rel, has_zip, grid = args
