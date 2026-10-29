@@ -1,124 +1,31 @@
 {
   "schema": "gems.parallel_run_card.v1",
-  "generated_utc": "2026-10-29T00:00:00+00:00",
-  "repo": "karagemop466-tech/GEMSDOEkarage2",
-  "branch": "arena/2ddd87b2-gemsdoekarage2",
-  "experiment": "H-Rank-4 structural intersection density",
-  "hypothesis": "Structural intersection / relay zone density: dots placed near intersections of mapped fault segments, offset from catalogue traces, targeting concealed splays and blind strands missing from USGS/INGENIOUS",
-  "mechanism": "Line density within 1 km \u00d7 proximity weight (1-3 px from trace, zero on trace) \u00d7 trace curvature. Dots are never on catalogue fault pixels.",
-  "named_non_fault_mimic": "Mapper bias (intersections where mapping is denser), erosion-concentrated drainage",
-  "how_it_differs_from_repo": "All nine focus submissions use D2.8 dotted-ridge geography with dots on/near catalogue faults. H-Rank-4 places dots near fault-segment intersections, offset from traces. 30,000 dots. No geophysical saddle weighting. No catalogue-derived placement on traces.",
-  "holdout": {
-    "evidence_class": "HOLDOUT-DTI",
-    "evaluator_version": "gems57-pooled-hide-v2",
-    "alpha": 0.2,
-    "beta": 0.8,
-    "triangular_radius_m": 300.0,
-    "candidate_dti": null,
-    "candidate_ci95": null,
-    "withheld_positive_pixels": null,
-    "note": "Holdout DTI cannot be computed without authenticated competition data (training_features.tif, labels.tif, sample_submission.tif). This is a projection, not a score."
-  },
-  "leakage_canary": {
-    "note": "Cannot run without authenticated competition data. Each feature must be tested alone on holdout before placement (AUC > 0.90 = presumed leakage)."
-  },
-  "uniqueness": {
-    "n_dots": 5761,
-    "passed": true,
-    "details": [
-      {
-        "raster": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
-        "spearman": 0.000788,
-        "overlap_3px": 0.115084,
-        "passed": true
-      },
-      {
-        "raster": "gemsdoe36-tcd36-exp2-20261027-9970b80c6585-zeros.tif",
-        "spearman": 0.000703,
-        "overlap_3px": 0.084534,
-        "passed": true
-      }
-    ]
-  },
-  "validator": {
-    "passed": true,
-    "message": "PASS",
-    "checks": [
-      {
-        "check": "single_band",
-        "passed": true,
-        "detail": "count=1"
-      },
-      {
-        "check": "dtype_float32",
-        "passed": true,
-        "detail": "dtype=float32"
-      },
-      {
-        "check": "shape_3730x3292",
-        "passed": true,
-        "detail": "3730x3292"
-      },
-      {
-        "check": "crs_EPSG_32611",
-        "passed": true,
-        "detail": "crs=EPSG:32611"
-      },
-      {
-        "check": "geotransform_match",
-        "passed": true,
-        "detail": "| 100.00, 0.00, 243350.00|\n| 0.00,-100.00, 4508550.00|\n| 0.00, 0.00, 1.00|"
-      },
-      {
-        "check": "bounds_match",
-        "passed": true,
-        "detail": "(243350.0, 4135550.0, 572550.0, 4508550.0)"
-      },
-      {
-        "check": "no_nan_inside_footprint",
-        "passed": true,
-        "detail": "nan_inside=0"
-      },
-      {
-        "check": "outside_footprint_is_nan",
-        "passed": true,
-        "detail": "outside_finite=0"
-      },
-      {
-        "check": "in_range_0_1",
-        "passed": true,
-        "detail": "min=0.0 max=1.0"
-      },
-      {
-        "check": "dots_present",
-        "passed": true,
-        "detail": "n_dots=5761"
-      },
-      {
-        "check": "surface_spearman_gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
-        "passed": true,
-        "detail": "rho=0.0008"
-      },
-      {
-        "check": "dots_within_3px_gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
-        "passed": true,
-        "detail": "0.1151 of 5761 dots"
-      },
-      {
-        "check": "surface_spearman_gemsdoe36-tcd36-exp2-20261027-9970b80c6585-zeros.tif",
-        "passed": true,
-        "detail": "rho=0.0007"
-      },
-      {
-        "check": "dots_within_3px_gemsdoe36-tcd36-exp2-20261027-9970b80c6585-zeros.tif",
-        "passed": true,
-        "detail": "0.0845 of 5761 dots"
-      }
-    ]
-  },
+  "created_utc_session": "2026-10-29",
+  "written_by": "scripts/audit_focus_gate.py measurement plus this negative card; the producing run card on main is docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan-run-card.json",
+  "raster": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
   "raster_sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
   "submission_name": "gemsdoe-karage2-hr4-intersection-20261029-nan",
-  "note": "Relay-zone and stepover dots near fault intersections offset from catalogue traces; research-only pending lane clearance",
-  "note_chars": 120,
-  "verdict": "promote"
+  "note": "H-Rank-4 intersection dots; NOT ELIGIBLE: shared gate DUPLICATE_STOP vs lattice",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false,
+  "holdout": null,
+  "holdout_note": "No organizer-authenticated holdout or registry audit is committed for this file. Not used here.",
+  "gates": {
+    "shared_uniqueness_gate_vs_lattice": "DUPLICATE_STOP",
+    "frac_dots_within_3px_of_lattice": 0.999787,
+    "unique_literal_vs_registry": false,
+    "exterior_convention": "mixed",
+    "official_exterior_convention_met": false
+  },
+  "registry_scope": "lattice witness only (13GEMSDOE r13-lattice-s5)",
+  "experiments_run_by_this_card": 0,
+  "leaderboard_estimate": null,
+  "organizer_confirmed_score": null,
+  "evidence": [
+    "evidence/lattice-gate/published-gemsdoe-karage2-hr4-intersection-20261029-nan.json",
+    "evidence/focus-profile-2026-10-29.json"
+  ],
+  "record_note": "Supersedes a historical generator sidecar with an unsafe promote verdict based only on local format and partial-registry checks. This artifact is negative research-only."
 }

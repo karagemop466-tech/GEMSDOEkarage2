@@ -23,3 +23,7 @@ def test_legacy_generator_cannot_write_a_new_file():
 
 def test_unvalidated_unique_generator_cannot_write_a_tiff():
     assert_generator_stops('generate_unique_submission.py', 'No TIFF generated: this demonstration generator is retired')
+
+
+def test_unvalidated_hr4_placeholder_cannot_write_a_tiff():
+    assert_generator_stops('generate_unique_submission_v2.py', 'No TIFF generated: this H-Rank-4 placeholder is retired')

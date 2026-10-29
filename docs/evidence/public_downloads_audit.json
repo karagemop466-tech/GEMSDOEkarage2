@@ -45,7 +45,7 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
     },
     {
       "file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
@@ -89,7 +89,7 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
     },
     {
       "file": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
@@ -132,7 +132,7 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
     },
     {
       "file": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
@@ -176,7 +176,7 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
     },
     {
       "file": "docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif",
@@ -219,7 +219,7 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
     },
     {
       "file": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
@@ -263,7 +263,7 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
     },
     {
       "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
@@ -309,7 +309,7 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
     },
     {
       "file": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
@@ -350,7 +350,7 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
     },
     {
       "file": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
@@ -391,12 +391,12 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
     }
   ],
   "downloadable_approved_submission": null,
   "score_estimate": null,
   "organizer_template_authenticated": false,
-  "format_note": "Each raster is read from disk, whole-array range and grid compared with an unauthenticated owner mirror. Footprint/exterior policy and portal acceptance require organizer evidence.",
+  "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
   "slot_authorized": false
 }

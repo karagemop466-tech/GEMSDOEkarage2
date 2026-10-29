@@ -52,14 +52,25 @@ ARTIFACTS = (
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
-    """Map the HK3 card schema (raster{file,sha256}, submission{name,note}) onto the flat
-    schema the research cards use; other cards pass through unchanged."""
+    """Map nested and legacy flat card schemas onto the common audit fields."""
     if isinstance(card, dict) and isinstance(card.get("raster"), dict):
         flat = dict(card)
         flat["raster"] = card["raster"].get("file")
         flat["raster_sha256"] = card["raster"].get("sha256")
         flat["submission_name"] = card.get("submission", {}).get("name")
         flat["note"] = card.get("submission", {}).get("note")
+        return flat
+    if (isinstance(card, dict) and card.get("file") == Path(rel).name
+            and isinstance(card.get("sha256"), str)):
+        # Legacy research cards may use a flat schema. Preserve the
+        # stored negative authorization fields; never infer approval from format.
+        flat = dict(card)
+        flat["raster"] = rel
+        flat["raster_sha256"] = card["sha256"]
+        flat["verdict"] = "negative" if str(card.get("verdict", "")).lower().startswith("negative") else card.get("verdict")
+        flat["slot_authorized"] = card.get("slot_authorized")
+        flat["approved_for_weekly_slot"] = card.get("approved_for_weekly_slot")
+        flat["ok_to_submit"] = card.get("ok_to_submit")
         return flat
     return card
 
@@ -240,7 +251,7 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         "download_for_research": ok,
         "ok_to_submit": False, "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-        "exterior_convention": "zeros outside the footprint (finite everywhere); portal acceptance is not verified until an organizer receipt exists",
+        "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
     }
 
 
@@ -267,7 +278,7 @@ def audit(root: Path = ROOT) -> dict:
         "downloadable_approved_submission": None,
         "score_estimate": None,
         "organizer_template_authenticated": False,
-        "format_note": "Each raster is read from disk, whole-array range and grid compared with an unauthenticated owner mirror. Footprint/exterior policy and portal acceptance require organizer evidence.",
+        "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
         "slot_authorized": False,
     }
 

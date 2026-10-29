@@ -47,9 +47,24 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None and result['slot_authorized'] is False
+    assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    # Nine published TIFFs, each governed by a negative card (the current folder's duplicates of the lattice witness).
     assert len(result['artifacts']) == 9
+    ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
+    ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
+    ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())
+    assert ha['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert ha['ok_to_submit'] is False and ha['slot_authorized'] is False
+    assert ha_card['holdout'] is None and ha_card['leaderboard_estimate'] is None
+    assert ha_card['organizer_confirmed_score'] is None
+    assert ha_card['gates']['shared_uniqueness_gate_vs_lattice'] == 'DUPLICATE_STOP'
+    assert ha_card['gates']['frac_dots_within_3px_of_lattice'] == 1.0
+    assert ha_card['registry_scope'].startswith('lattice witness only')
+    hr4 = json.loads((ROOT / 'evidence/hr4-intersection/run_card.json').read_text())
+    assert hr4['verdict'] == 'negative' and hr4['holdout'] is None
+    assert hr4['gates']['shared_uniqueness_gate_vs_lattice'] == 'DUPLICATE_STOP'
+    assert hr4['gates']['frac_dots_within_3px_of_lattice'] > 0.70
+    assert hr4['leaderboard_estimate'] is None and hr4['organizer_confirmed_score'] is None
     found = [r for r in result['artifacts'] if r['raster_sha256'] == hk3['raster']['sha256']]
     assert len(found) == 1 and found[0]['kind'] == 'research'
     assert found[0]['checks']['current_assessment_negative_and_hash_bound'] is True
@@ -64,6 +79,19 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
         assert record['checks']['mirror_transform_match']
+
+
+def test_stale_unverified_tif_is_not_published_as_a_submission():
+    stale = ROOT / 'docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif'
+    assert not stale.exists()
+    for name in ('index.html', 'executive-summary.html'):
+        page = (ROOT / 'docs' / name).read_text()
+        assert 'OK TO SUBMIT: NO' in page
+        assert 'gw-nfs-h1-20261029-zeros' not in page
+    assert 'docs/index.html' in (ROOT / 'index.html').read_text()
+    report = mod.audit()
+    assert report['downloadable_approved_submission'] is None
+    assert all(r['ok_to_submit'] is False for r in report['artifacts'])
 
 
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):
