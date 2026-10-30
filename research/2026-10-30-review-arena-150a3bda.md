@@ -1,6 +1,7 @@
 # Three-pass repository review — 2026-10-30
 
-**Branch:** `arena/150a3bda-gemsdoekarage2`  
+**Branch:** `arena/150a3bda-gemsdoekarage2`
+
 **Decision:** **NO FILE IS OK TO DOWNLOAD AND SUBMIT.** No candidate GeoTIFF was generated, no geological experiment was run, and no competition slot was used. The new session card is [`docs/evidence/2026-10-30-repo-review-run-card.json`](../docs/evidence/2026-10-30-repo-review-run-card.json).
 
 This is an evidence review, not an organizer score report. Labels below distinguish `USER-REPORTED / UNVERIFIED`, byte-level `MEASURED` results, `HOLDOUT-DTI`, and organizer observations. **No new HOLDOUT-DTI or ORGANIZER-CONFIRMED score was produced.**
