@@ -24,8 +24,14 @@
     "status": "NOT RUN: no candidate surface or final dots",
     "historical_context": {
       "evidence_class": "MEASURED ON PINNED BYTES; geometry only, not a score",
-      "nine_focus_files_lattice_overlap_fraction_range": [0.9990971853425386, 0.9992336290112184],
-      "nine_focus_files_pairwise_max_overlap_fraction_range": [0.975781, 1.0],
+      "nine_focus_files_lattice_overlap_fraction_range": [
+        0.9990971853425386,
+        0.9992336290112184
+      ],
+      "nine_focus_files_pairwise_max_overlap_fraction_range": [
+        0.975781,
+        1.0
+      ],
       "scope": "One registered lattice witness and the nine pinned historical focus best files; the registry is not declared complete.",
       "receipts": [
         "docs/evidence/lattice-gate/summary.json",
@@ -69,12 +75,12 @@
     "note": "No live 2026-10-30 refresh was performed; these values are not scores for a local raster."
   },
   "review_and_tests": {
-    "python": "257 passed, 8 skipped, 98 subtests passed; 8 skips require optional pinned owner-mirror inputs",
+    "python": "259 passed, 8 skipped, 98 warnings, 98 subtests passed; 8 skips require optional pinned owner-mirror inputs",
     "node_feed": "3 passed",
     "node_site": "8 passed",
     "browser_smoke": "passed",
     "generated_pages": "up to date",
-    "public_download_audit": "PASS_RESEARCH_ONLY; downloadable_approved_submission is null"
+    "public_download_audit": "PASS_RESEARCH_ONLY; 10 research artifacts; downloadable_approved_submission is null"
   },
   "limitations": [
     "The single method paragraph referenced by the user protocol was not supplied.",
@@ -82,6 +88,15 @@
     "The active cross-session registry is incomplete and not independently certified.",
     "No frozen same-evaluator incumbent is available for a paired holdout comparison.",
     "No organizer submission-page receipt, portal acceptance, private score, or current account quota is available.",
-    "No new TIF was created; every current published artifact remains research-only."
-  ]
+    "No new TIF was created; every current published artifact remains research-only.",
+    "A separate H-F TIFF merged from PR #88 is retained as a negative research-only artifact; it fails strict format, complete-registry uniqueness, leakage, and compliant holdout gates.",
+    "Prior README text reports two experiments used, while the H-F card records one and H-G has no committed run card; the total remains unreconciled."
+  ],
+  "review_scope_note": "This run card records the no-experiment repository review only. The separately merged H-F artifact from PR #88 is reviewed in the report but is not a candidate approved by this run card.",
+  "prior_experiment_budget_reconciliation": {
+    "reported_experiments_used_in_prior_readme": 2,
+    "h_f_card_experiments_run": 1,
+    "h_g_committed_output_or_run_card": false,
+    "status": "UNRECONCILED; no additional experiment should run until reconciled."
+  }
 }

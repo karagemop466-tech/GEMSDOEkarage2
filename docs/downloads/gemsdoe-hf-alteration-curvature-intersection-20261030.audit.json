@@ -1,14 +1,14 @@
 {
   "kind": "H-F hypothesis generation audit (not organizer acceptance)",
-  "file": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+  "file": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
   "sha256": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224",
   "bytes": 806001,
   "submission_name": "gemsdoe-hf-alteration-curvature-intersection-20261030",
-  "note": "Unique H-F radiometric alteration x curvature intersection field; research-only, not organizer-confirmed",
-  "note_chars": 104,
+  "note": "H-F research artifact; band mapping, leakage, format and full-registry gates fail; do not submit",
+  "note_chars": 96,
   "generated_utc": "2026-10-30T02:01:25.238969+00:00",
-  "hypothesis": "H-F: Multi-scale radiometric alteration + curvature convergence at fault intersections",
-  "mechanism": "Alteration (low K, high eTh/eU ratio) x curvature convergence at fault intersections x soft distance decay from known faults; faults masked pixel-exactly",
+  "hypothesis": "Claimed H-F hypothesis (NOT substantiated): multi-scale radiometric alteration + curvature convergence at fault intersections; saved band mappings contradict the owner-mirror manifest.",
+  "mechanism": "Claimed alteration/curvature interaction with soft decay from known faults; actual band semantics are unverified and the all-fault proximity feature leaks catalogue labels.",
   "named_non_fault_mimic": "Paleo-weathering fronts, lithologic contacts, survey-line striping in radiometrics",
   "format_validation": {
     "passed": false,
@@ -41,7 +41,7 @@
     }
   },
   "uniqueness": {
-    "passed": true,
+    "passed": false,
     "max_spearman_abs": 0.011519076381114848,
     "max_dot_overlap_3px": 0.6178888888888889,
     "duplicate_found": false,
@@ -111,7 +111,10 @@
         "duplicate": false
       }
     ],
-    "note": "Only locally available registry rasters compared; 465 focus-site rasters not downloaded."
+    "note": "Only locally available registry rasters compared; 465 focus-site rasters not downloaded.",
+    "local_subset_passed": true,
+    "gate_status": "NOT ESTABLISHED: only 7 of 472 registry rasters are present; no complete-registry uniqueness clearance.",
+    "registry_total": 472
   },
   "holdout": {
     "pooled_DTI": 0.018385,
@@ -129,8 +132,10 @@
       0.0086,
       0.0384
     ],
-    "evaluator": "evaluate_holdout.dti_weighted_terms (alpha=0.2, beta=0.8, R=300m)",
-    "classification": "PROXY (fixed field scored against withheld positives; not strict hide-and-recover OOF)"
+    "evaluator": "root scripts/evaluate_holdout.py:dti_weighted_terms (alpha=0.2, beta=0.8, R=300 m)",
+    "classification": "HOLDOUT-DTI PROXY — NOT PROMOTABLE (fixed field; legacy quadrant pixels, not whole-segment hide-and-recover)",
+    "confidence_interval_95": null,
+    "ci95_status": "NOT CALCULATED: four-quadrant fold range is not a spatial-bootstrap 95% CI."
   },
   "leakage_canary": {
     "curvature": {
@@ -162,9 +167,11 @@
   "ok_to_submit": false,
   "slot_authorized": false,
   "irregularities": [
-    "Band-to-radiometric-layer mapping (bands 4/5/6 = K/eTh/ratio) is NOT verified by organizer documentation.",
-    "Holdout is a proxy: the fixed field used all faults for distance computation, so it is not strict hide-and-recover OOF.",
-    "Only 7 of 472 registry rasters are locally available for uniqueness comparison.",
-    "Values in [0,1]; NaN outside footprint per official template convention."
+    "Band mapping is contradicted by the owner-mirror manifest: bands 4/5/6 are geod_2ndinv, iso_grav_anom_slope, and tc, not verified radiometric K/eTh/ratio.",
+    "The code uses band 1 (mag_anom) as elevation for curvature; the owner-mirror manifest identifies band 1 as mag_anom and band 12 as det_elev.",
+    "The candidate field uses distance to all known faults; the fault-proximity feature has AUC=1.0, a leakage canary, and is not rebuilt from visible-only faults per fold.",
+    "Holdout is a fixed-field proxy scored with four legacy pixel quadrants, not strict whole-segment hide-and-recover OOF; the fold range is not a spatial-bootstrap 95% CI.",
+    "Only 7 of 472 registry rasters are locally available for uniqueness comparison; global uniqueness is not established.",
+    "The raster has finite zeros outside the footprint; the strict NaN-exterior validator fails. The comparison grid is an unauthenticated owner mirror."
   ]
 }

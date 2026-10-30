@@ -1,25 +1,29 @@
 {
   "schema_version": 1,
   "recorded_utc": "2026-10-30T02:01:25.240127+00:00",
-  "hypothesis": "H-F: Multi-scale radiometric alteration + curvature convergence at fault intersections",
-  "mechanism": "Alteration (low K, high eTh/eU ratio) x curvature convergence at fault intersections x soft distance decay from known faults; faults masked pixel-exactly",
+  "hypothesis": "Claimed H-F hypothesis (NOT substantiated): multi-scale radiometric alteration + curvature convergence at fault intersections; the saved band mappings contradict the owner-mirror manifest.",
+  "mechanism": "Claimed alteration/curvature interaction with soft decay from known faults; actual band semantics are unverified and the all-fault proximity feature leaks the catalogue labels.",
   "named_non_fault_process": "Paleo-weathering fronts, lithologic contacts, survey-line striping in radiometrics",
   "holdout": {
-    "classification": "HOLDOUT-DTI (proxy; fixed field)",
-    "evaluator_version": "evaluate_holdout.dti_weighted_terms alpha=0.2 beta=0.8 R=300m",
+    "classification": "HOLDOUT-DTI PROXY — NOT PROMOTABLE (fixed field; legacy quadrant pixels, not whole-segment hide-and-recover)",
+    "evaluator_version": "root scripts/evaluate_holdout.py:dti_weighted_terms (alpha=0.2, beta=0.8, R=300 m); legacy quadrant-pixel helper",
     "withheld_positives": 60988,
     "dti": 0.018385,
-    "confidence_interval_95": [
+    "confidence_interval_95": null,
+    "fold_range": [
       0.008563,
       0.038431
     ],
-    "note": "Fold-wise range over 4 spatial blocks; not a bootstrap CI."
+    "ci95_status": "NOT CALCULATED: the saved values are a four-quadrant fold range, not a spatial-bootstrap 95% CI.",
+    "note": "Fold-wise range over 4 legacy pixel quadrants; not a bootstrap CI and not whole-segment hide-and-recover."
   },
   "correlation_and_overlap_vs_registry": {
     "candidate_surface_spearman_max_abs": 0.011519,
     "candidate_final_dot_overlap_max": 0.617889,
     "duplicate_found": false,
     "n_registry_compared": 7,
+    "registry_total": 472,
+    "gate_status": "NOT ESTABLISHED: 465 registry rasters are unavailable; do not claim globally unique",
     "threshold": "Spearman <= 0.90 AND dot overlap <= 70%"
   },
   "leakage_canary": {
@@ -67,10 +71,10 @@
     }
   },
   "submission_name": "gemsdoe-hf-alteration-curvature-intersection-20261030",
-  "note": "Unique H-F radiometric alteration x curvature intersection field; research-only, not organizer-confirmed",
+  "note": "H-F research artifact; band mapping, leakage, format and full-registry gates fail; do not submit",
   "verdict": "negative",
   "ok_to_submit": false,
   "slot_authorized": false,
   "experiments_run": 1,
-  "budget": "1 of 3 experiments; under 2 hours"
+  "budget": "H-F card records 1 experiment; prior README reports 2 total; experiment count and elapsed time are unreconciled"
 }

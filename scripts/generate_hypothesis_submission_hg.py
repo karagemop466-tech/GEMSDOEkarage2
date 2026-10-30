@@ -1,29 +1,10 @@
 #!/usr/bin/env python3
-"""
-Experiment 2: H-G annulus-targeted fault-intersection propensity.
+"""RETIRED H-G prototype; execution is deliberately disabled.
 
-Hypothesis H-G: Blind geothermal faults occur in an annulus around known
-catalogue faults (200 m to 1 km offset), where hydrothermal alteration and
-structural curvature converge but no surface trace is mapped.
-
-Physical rationale:
-  * Known catalogue faults are the pressure-release structures; blind strands
-    splay off them at 200 m - 1 km offsets in relay-ramp and stepover geometry.
-  * These off-trace zones show alteration halos (radiometric K/U/Th anomaly)
-    and curvature convergence (structural flexure) without surface expression.
-  * Targeting the annulus avoids the catalogue-leakage of on-fault dots while
-    still intersecting the damage zone where hidden faults may exist.
-
-Why distinct:
-  * Not dot-on-catalogue (like D2.8/Poisson submissions) — dots are OFF-trace.
-  * Not grid/lattice (like 13GEMSDOE) — dots follow geological propensity.
-  * Not previously implemented in this repo or the nine focus sites.
-
-Protocol:
-  * 18,000 dots placed in annulus 200m-1000m from known faults.
-  * Weighted by radiometric alteration × curvature convergence.
-  * Known faults masked pixel-exactly.
-  * NaN outside footprint, [0,1] inside.
+The historical H-G generator uses unverified input-band semantics and the legacy
+quadrant-pixel evaluator. No committed output/run card establishes a valid result.
+Do not run or promote it. Review the current protocol and reconcile experiment
+budget before any newly assigned work.
 """
 
 from __future__ import annotations
@@ -59,8 +40,7 @@ B_RAD_TH = 6
 B_RAD_RATIO = 5
 
 SUBMISSION_NAME = "gemsdoe-hg-annulus-intersection-20261030"
-SUBMISSION_NOTE = ("H-G annulus-targeted alteration x curvature intersection, "
-                   "200m-1km off known faults; research-only")[:140]
+SUBMISSION_NOTE = "Retired H-G prototype; unverified and not approved for submission"
 TOP_K = 18000
 
 
@@ -143,6 +123,12 @@ def radiometric_alteration(k, th, ratio, footprint):
 
 
 def main():
+    raise SystemExit(
+        "DISABLED: H-G is a retired research prototype with unverified band semantics "
+        "and no committed result card. Reconcile the experiment budget and assign a "
+        "protocol-compliant lane before any new experiment."
+    )
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     print("[H-G] Loading inputs...", flush=True)
@@ -397,7 +383,7 @@ def main():
         "ok_to_submit": False,
         "slot_authorized": False,
         "experiments_run": 2,
-        "budget": "2 of 3 experiments; under 2 hours",
+        "budget": "Script labels H-G as experiment 2; no committed output/run card, so count and elapsed time are unverified",
     }
     card_path = OUT_DIR / f"{SUBMISSION_NAME}.run-card.json"
     with open(card_path, "w") as f:

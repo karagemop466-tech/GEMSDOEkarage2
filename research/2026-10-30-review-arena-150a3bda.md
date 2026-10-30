@@ -2,9 +2,9 @@
 
 **Branch:** `arena/150a3bda-gemsdoekarage2`
 
-**Decision:** **NO FILE IS OK TO DOWNLOAD AND SUBMIT.** No candidate GeoTIFF was generated, no geological experiment was run, and no competition slot was used. The new session card is [`docs/evidence/2026-10-30-repo-review-run-card.json`](../docs/evidence/2026-10-30-repo-review-run-card.json).
+**Decision:** **NO FILE IS OK TO DOWNLOAD AND SUBMIT.** This review generated no candidate GeoTIFF, ran no geological experiment, and used no competition slot. A separate H-F research TIFF was merged from PR #88 after the earlier review; its saved audit is negative and it is not a valid submission. The session card is [`docs/evidence/2026-10-30-repo-review-run-card.json`](../docs/evidence/2026-10-30-repo-review-run-card.json).
 
-This is an evidence review, not an organizer score report. Labels below distinguish `USER-REPORTED / UNVERIFIED`, byte-level `MEASURED` results, `HOLDOUT-DTI`, and organizer observations. **No new HOLDOUT-DTI or ORGANIZER-CONFIRMED score was produced.**
+This is an evidence review, not an organizer score report. Labels below distinguish `USER-REPORTED / UNVERIFIED`, byte-level `MEASURED` results, `HOLDOUT-DTI`, and organizer observations. **This review produced no new HOLDOUT-DTI or ORGANIZER-CONFIRMED score.** The later-merged H-F proxy is reported separately below and is not protocol-compliant.
 
 ## Executive answer
 
@@ -12,7 +12,7 @@ This is an evidence review, not an organizer score report. Labels below distingu
 - A byte-level audit finds the GEMSDOE32 B2 dot mask is the GEMSDOE25 D2.8 mask with **6,436 dots removed**. The removal is a plausible explanation for a higher reported DTI: the distance-weighted Tversky score can improve if removed dots contribute little marginal true credit but appreciable false-positive mass. The hidden truth, the alleged receipt and the causal score change are unavailable, so **why it scored 0.2778 is not established**.
 - A defensible leaderboard estimate for any listed file is **Unavailable**. The local mapped-fault hide-and-recover proxy is not calibrated to the expert-hidden competition labels, and no candidate was evaluated in this review.
 - All nine pinned best-file masks fail the user-specified uniqueness stop. Each has **99.91–99.92% MEASURED** within-3-pixel overlap with one registered spacing-lattice witness; the separate nine-file pairwise audit reports **97.6–100% MEASURED** maximum directional overlap with another focus-site file. These are geometry measurements, not scores. The registry snapshot is incomplete, but one applicable witness is enough to stop each file.
-- **No new TIF is available or approved.** Existing downloads are research references and are marked `DO NOT SUBMIT`. Do not submit any file from the repository.
+- **This review produced no new TIF, and no file is approved for submission.** Main now contains the separately merged H-F research TIFF from PR #88; its saved SHA, strict-format failure, incomplete registry check, invalid holdout proxy, leakage canary and unsupported band mapping are detailed below. It is marked research-only; do not submit any repository file.
 
 The competition target is fault mapping—structures indicative of geothermal resources—not direct geothermal-vent labels. A fault score is not evidence of a vent or resource discovery.
 
@@ -68,6 +68,21 @@ Layer names below follow [`evidence/upstream/GEMSDOE31/registry/data_manifest.js
 
 ## Tool and data review
 
+### Follow-up audit of the H-F artifact merged from PR #88
+
+This artifact was added to `main` after the original no-experiment review. The present review audited its committed bytes and records but did **not** generate or rerun it. It is a negative research artifact, not an approved submission.
+
+| Gate / evidence | Saved result | Interpretation |
+|---|---|---|
+| Raster identity | `docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif`; SHA-256 `e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224`; 806,001 bytes | This is the measured saved-byte SHA. The incoming README stated `4fe3104c…`; that digest did not match the artifact and has been corrected. |
+| Strict format | `strict_format_pass=false`; `outside_is_nan=false`; 7,111,787 finite cells outside the mirrored footprint | **FAIL.** The owner-mirror grid checks do not establish organizer-template provenance. |
+| Registry duplicate gate | 7 of 472 rasters; maximum absolute Spearman correlation 0.011519; maximum 3-px dot overlap 0.617889; no duplicate among the 7 | **NOT ESTABLISHED.** 465 entries are absent; local-subset nonmatches cannot be called global uniqueness. The focus-site row now uses `unique: null`, not `true`. |
+| Holdout | **0.018385 HOLDOUT-DTI PROXY** using root `evaluate_holdout.dti_weighted_terms` (alpha 0.2, beta 0.8, R=300 m), 60,988 positives; **95% CI: NOT CALCULATED**; four-quadrant fold range 0.008563–0.038431 | **Not promotion evidence.** The output field was fixed while the root helper splits pixels into quadrants; this is not whole-component hide-and-recover or a spatial-bootstrap CI. The run card now records `confidence_interval_95: null` and keeps the fold range separate. |
+| Leakage canary | `fault_proximity` AUC=1.0; curvature 0.489928; alteration 0.488236; combined 0.498238 | **FAIL/CANARY.** The feature-alone AUC exceeds the user's 0.90 threshold. The candidate uses distance to all catalogue faults, not a fold-specific visible-fault-only reconstruction. A benign combined AUC does not clear the feature-alone failure. |
+| Layer semantics | H-F uses bands 4, 6 and 5 as K, eTh and eU/eTh proxies; the pinned owner-mirror manifest calls these bands `geod_2ndinv`, `tc` and `iso_grav_anom_slope`. Its curvature input band 1 is `mag_anom`, while band 12 is `det_elev`. | The claimed radiometric-alteration/curvature mechanism is unsupported by the mirrored band descriptions and is not authenticated organizer metadata. |
+
+The H-F audit and run card now label the result as a proxy, leave its 95% CI null, state uniqueness as `NOT ESTABLISHED`, and preserve the actual failure reasons. The H-F and H-G generator entry points are disabled fail-closed on this branch and have a regression test; do not bypass the guard. The local H-G annulus prototype has no committed output/run card, so its claimed negative result cannot be independently verified. Prior README text reported two experiments used while the H-F card says one; stop and reconcile this budget before authorizing any further experiment. No experiment was run in this review and no slot was spent.
+
 ### Shared holdout / writer identity
 
 - The commit-coherent GEMSDOE32 template pin is in [`registry/template_tools.json`](../registry/template_tools.json). This review fetched only small source files from GitHub into the ignored `.cache`; the evaluator, writer, and matching `src/gems32` helpers matched the pinned SHA-256 values. **No data, experiment, or TIFF was restored or produced.**
@@ -117,7 +132,8 @@ Layer names below follow [`evidence/upstream/GEMSDOE31/registry/data_manifest.js
 
 ### Pass 3 — recheck against the full request
 
-- The README already carries the consolidated standing project prompt and says to read it every session; it is updated here with this review and the exact evaluator distinction.
+- The README already carries the consolidated standing project prompt and says to read it every session; it is updated here with this review, the exact evaluator distinction, and H-F's research-only failure status.
+- After syncing PR #88, separately audited the incoming H-F TIFF, its byte hash, saved format/uniqueness/holdout/leakage records, and band semantics; corrected misleading uniqueness/CI/SHA claims and disabled H-F/H-G generator entry points.
 - The nine-site executive table lists each best supplied file, user-reported value, unavailable estimate, uniqueness result and explicit do-not-submit decision. The current site makes the release state obvious; no approved TIF link is represented as a submission.
 - Three ranked research hypotheses are documented with layers, physical signature, hidden-fault rationale, non-fault mimics/controls, prior-method differences, expected qualitative potential and cost. They are not experiments and are not claimed as fleet-wide novelty.
 - The top idea was **not tested** because there is no assigned method paragraph, no authenticated/cached competition feature stack, and the known uniqueness stop blocks the historical high-budget geometry. No weekly submission slot was touched.
@@ -125,10 +141,10 @@ Layer names below follow [`evidence/upstream/GEMSDOE31/registry/data_manifest.js
 
 ## Verification performed
 
-- `.venv/bin/pytest -q -rs`: **257 passed, 8 skipped, 98 subtests passed**. The skips require optional pinned owner-mirror inputs not restored in this light review. Rasterio emitted 98 `PendingDeprecationWarning` warnings from Affine multiplication; no test failed.
+- `.venv/bin/pytest -q -rs`: **259 passed, 8 skipped, 98 subtests passed**. The skips require optional pinned owner-mirror inputs not restored in this light review. Rasterio emitted 98 `PendingDeprecationWarning` warnings from Affine multiplication; no test failed.
 - `npm test`: **3 passed**; `npm run test:site`: **8 passed**; `npm run test:browser`: smoke checks passed at 1440, 390 and 320 px and checked navigation, nine rows, release lock and freshness states.
 - `.venv/bin/python scripts/build_hk3_pages.py --check`: `pages up to date`.
-- `.venv/bin/python scripts/audit_public_downloads.py --check`: `PASS_RESEARCH_ONLY`, 9 artifacts, `downloadable_approved_submission: null`.
+- `.venv/bin/python scripts/audit_public_downloads.py --check`: `PASS_RESEARCH_ONLY`, 10 artifacts, `downloadable_approved_submission: null`.
 - Pinned shared code hashes matched `registry/template_tools.json`. No feature data, model, prediction raster, or submission was created.
 
 ## Remaining work and limitations

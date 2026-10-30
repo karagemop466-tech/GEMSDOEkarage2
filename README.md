@@ -8,14 +8,14 @@ Work on the Arena-assigned branch for the current session.
 
 **Three-pass review:** [`research/2026-10-30-review-arena-150a3bda.md`](research/2026-10-30-review-arena-150a3bda.md), with its [negative run card](docs/evidence/2026-10-30-repo-review-run-card.json). The report includes per-site scores/files, the 0.2778 explanation, ranked hypotheses, submission steps, sources, irregularities, and limitations.
 
-**Decision: NO file is approved to download and submit.** No TIFF, geological experiment, holdout score, leaderboard estimate, upload, or slot was produced. The download inventory remains `PASS_RESEARCH_ONLY` with no approved artifact.
+**Decision: NO file is approved to download and submit.** This review produced no new TIFF, geological experiment, score, upload, or slot. `main` now contains the H-F research artifact merged in PR #88 (SHA-256 `e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224`); it fails strict-format and leakage checks and does not establish full-registry uniqueness or a protocol-compliant holdout. It is not an approved candidate. The download inventory remains `PASS_RESEARCH_ONLY` with no approved submission.
 
 - GEMSDOE32 B2's **0.2778 is USER-REPORTED / UNVERIFIED**. Its mask removes 6,436 catalogue-adjacent dots from D2.8; pruning could reduce false-positive mass, but hidden labels and a file-linked receipt are unavailable, so causality is unproven. No candidate leaderboard estimate is defensible.
 - All nine historical focus files fail the saved lattice-witness duplicate stop (99.91–99.92% within-3-pixel overlap); the pairwise audit finds 97.6–100% maximum directional overlap. These are geometry checks against a partial registry, not scores.
 - The latest supported public leaderboard observation is dated **2026-10-29**: #1 0.4544 and 0.3195 at #47. A merged draft's purported 2026-10-30 live fetch/rank was withdrawn because its evidence card says official pages were not fetched. Do not treat any rank as current.
 - The root `scripts/evaluate_holdout.py` is a legacy quadrant-pixel helper, not the pinned whole-component shared evaluator. A regression test shows a crossing fault can remain partly visible. Future assigned work must use one commit-coherent pinned template.
-- No method paragraph/lane, authenticated competition stack, current complete registry, candidate, or spatial holdout result is available. Three geological hypotheses are ranked but unassigned and untested.
-- Verification: Python **257 passed, 8 skipped**; Node feed/site **3 + 8 passed**; browser smoke passed; generated pages are current; public-download audit is `PASS_RESEARCH_ONLY`.
+- No method paragraph/lane, authenticated competition stack, or current complete registry is available; no candidate clears the gates. The H-F artifact from PR #88 is only a fixed-field proxy, and the three distinct transforms in this review remain unassigned and untested. The local H-G annulus prototype has no committed run card/output; do not infer a result.
+- Verification: Python **259 passed, 8 skipped**; Node feed/site **3 + 8 passed**; browser smoke passed; generated pages are current; public-download audit is `PASS_RESEARCH_ONLY` (10 research-only artifacts; approved submission: null).
 
 **Related reviews:** [`research/repo-review-2026-10-30-arena-883dcf4d.md`](research/repo-review-2026-10-30-arena-883dcf4d.md) and [`research/repo-review-2026-10-30.md`](research/repo-review-2026-10-30.md). The older report [`research/2026-10-30-repo-review.md`](research/2026-10-30-repo-review.md) contains a withdrawn, unsupported live-rank claim; read the correction before using it.
 
@@ -596,41 +596,33 @@ Best user-reported results (USER-REPORTED / UNVERIFIED, no organizer receipt):
 lattice, 99.91–99.92% of dots within 3 px; limit 70%). None is eligible for
 submission. No estimated leaderboard score exists for any file.
 
-### Deliverable 2 — MUST generate a unique TIF submission
+### Deliverable 2 — candidate TIF only if every gate passes
 
-Generated: `docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif`
-(SHA-256: `4fe3104c38ae32eb04dbea9a75ba882feaef3d3b282249aeb635f83f9083abe3`)
+**No candidate in the repository clears all mandatory gates.** A merged H-F research
+artifact exists, but it is not a safe competition submission:
 
-**Hypothesis H-F:** Multi-scale radiometric alteration (low K, high eTh/eU ratio)
-× curvature convergence at fault intersections × soft distance decay from known
-faults; faults masked pixel-exactly; sparsified to 18,000 dots.
+- **File:** `docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif`
+- **Saved-byte SHA-256:** `e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224`
+- **Evidence:** [`docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json`](docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json) and matching `.audit.json`.
+- **Physical interpretation is unsupported by the mirrored band map:** the generator treats bands 4/5/6 as radiometric K/eTh/ratio, but the owner-mirror manifest calls them `geod_2ndinv`, `iso_grav_anom_slope`, and `tc`; it also uses band 1 (`mag_anom`) as elevation for its curvature step. These are not organizer-authenticated meanings.
+- **Format: FAIL.** The saved raster has 7,111,787 finite exterior zeros; `outside_is_nan` and `strict_format_pass` are false. A local owner-mirror grid match is not organizer-template validation.
+- **Uniqueness: NOT ESTABLISHED.** The reported maxima (|Spearman| 0.0115, 3-px overlap 0.6179) cover only 7 of 472 registry rasters. 465 are unavailable; this is not clearance against every registry entry.
+- **Holdout: HOLDOUT-DTI PROXY only, not valid protocol evidence:** **0.018385** from root `evaluate_holdout.dti_weighted_terms` (alpha=0.2, beta=0.8, R=300 m), 60,988 withheld positives; **95% CI: NOT CALCULATED**. The fixed field used all-fault proximity and four legacy quadrant folds. The reported range [0.008563, 0.038431] is a fold range, **not** a 95% CI. Whole-segment hide-and-recover was not performed.
+- **Leakage: FAIL/CANARY.** `fault_proximity` alone has AUC 1.0; the candidate uses distances to the full fault catalogue rather than rebuilding the feature from visible faults per fold.
 
-**Validation:**
-- Format: PASS (strict_format_pass=true; float32, [0,1], NaN outside footprint,
-  EPSG:32611, 3730×3292, 100 m)
-- Uniqueness: PASS vs 7 local registry rasters (max |Spearman| 0.0115, max
-  dot overlap 0.6179, no duplicate). 465 focus-site rasters not locally available.
-- Holdout-DTI: 0.018385 (proxy; 60,988 withheld positives; below submission threshold)
-- Leakage canary: PASS (combined AUC 0.498; no leakage)
+**Verdict: NEGATIVE.** The existing file is retained as a **research-only artifact**; full-registry uniqueness is not established, strict format validation fails, and it is not safe to submit. `OK_TO_SUBMIT: NO`; the approved-submission pointer remains null. No slot was spent by this review. Prior session text reports 2 experiments used, while the H-F card records 1 and the H-G annulus prototype has no committed result card; reconcile before any further experiment and do not exceed the 3-experiment / 2-hour cap.
 
-**VERDICT: negative.** OK_TO_DOWNLOAD: YES. OK_TO_SUBMIT: NO. Holdout DTI too
-low for submission. No submission slot was used.
+### Deliverable 3 — download status
 
-### Deliverable 3 — Easy download
+There is **no approved submission TIF**. The H-F file can be inspected as research provenance only; do not present or use it as a competition upload. The saved inventory is `PASS_RESEARCH_ONLY`, not a format/science release approval.
 
-One-click download link on the site (`docs/index.html`, `docs/executive-summary.html`)
-at `downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif`.
+### Deliverable 4 — executive summary subpage
 
-### Deliverable 4 — Executive summary subpage
+`docs/executive-summary.html` and `docs/how-to-submit.html` document the nine historical focus sites, fail-closed status, and submission process. The 0.2778 value remains USER-REPORTED / UNVERIFIED; estimates remain unavailable. The H-F artifact does not change the release decision.
 
-`docs/executive-summary.html` — explains how to submit, includes the nine-site
-scorecard table, the new H-F TIF with clear OK/NOT-OF-TO-SUBMIT messaging.
+### Deliverable 5 — geological hypotheses
 
-### Deliverable 5 — 3–5 untried geological hypotheses
-
-Documented in `research/hypotheses-2026-10-29-untried.md` (H-A through H-E).
-Top candidate H-A was not implemented; H-F and H-G were implemented instead
-as experiments 1 and 2. Both negative on holdout.
+This review's three ranked qualitative ideas are in `research/2026-10-30-review-arena-150a3bda.md`. They remain proposals only: no lane is assigned and none was tested here. H-F is a separate, already-merged negative prototype with incorrect/unverified band semantics; the local H-G annulus prototype has no committed output/run card. The older `research/hypotheses-2026-10-29-untried.md` is not a reliable current “untried” list; H-A and the H-F/H-G prototypes have since been implemented or attempted.
 
 ### Protocol (binding)
 
@@ -638,7 +630,7 @@ as experiments 1 and 2. Both negative on holdout.
 - Holdout: hide-and-recover, pooled DTI (alpha 0.2, beta 0.8, 300 m triangular)
 - Label every number as HOLDOUT-DTI or ORGANIZER-CONFIRMED; projection is never a score
 - Leakage canary: AUC > 0.90 = leakage until proven otherwise
-- Budget: 3 experiments / 2 hours (used: 2 experiments)
+- Budget: 3 experiments / 2 hours (prior note reports 2 used; H-F card records 1; H-G annulus result is missing; reconcile before another run)
 - No submission slot spent; promotion is a separate selector step
 
 ### Leaderboard (public observation, not receipts)

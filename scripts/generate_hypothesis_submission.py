@@ -1,45 +1,12 @@
 #!/usr/bin/env python3
-"""
-Generate a unique, hypothesis-driven GeoTIFF submission for the DOE GEMS Prize
-Challenge.
+"""RETIRED H-F prototype; execution is deliberately disabled.
 
-Hypothesis H-F (rank 1 of proposed untried slate): Multi-scale radiometric
-alteration + curvature-convergence at fault intersections.
-
-Physical rationale:
-  * Hydrothermal alteration along blind fault-controlled fluid pathways mobilises
-    uranium and thorium while leaching potassium, producing a characteristic
-    radiometric anomaly (K/Th depletion, eU/eTh enrichment) that extends beyond
-    mapped surface traces.
-  * Fault intersections and relay ramps concentrate permeability; multi-scale
-    curvature convergence (profile + plan curvature at 100m, 500m, 2km smoothing)
-    marks structural intersections even where no surface fault is mapped.
-  * Combining the radiometric alteration index with curvature convergence and a
-    soft distance decay from known faults targets blind/off-catalogue structures
-    rather than re-drawing catalogue traces.
-
-Why it is distinct from existing work:
-  * Existing focus-site submissions (GEMSDOE24/25/27/28/30/31/32/33/36) use
-    dotted ridge/scarf following (D2.8, Poisson, lattice), stepover/tip models,
-    or single-scale scarp openness. None uses a radiometric ternary alteration
-    index combined with multi-scale curvature convergence.
-  * Repo lanes H1/H2/K2/K3/B4/GW-NFS used signed parity, step asymmetry, edge
-    centrality, lineament density, conductivity-gravity saddles, and seismicity
-    asymmetry — not radiometric alteration × curvature intersection.
-  * This is a continuous probability field (not a dot mask), so it does not
-    reproduce the dot-overlap geometry that blocks the nine historical files
-    under the literal 70% / 3-px uniqueness rule.
-
-Protocol compliance:
-  * Continuous field in [0, 1], NaN outside the organizer template footprint.
-  * Known faults masked pixel-exactly (visible-fault masking).
-  * Features derived only from the feature stack (not from labels/truth).
-  * Outputs: GeoTIFF + audit JSON + run card JSON.
-  * Does NOT spend a submission slot; verdict is promote/negative for the
-    separate selector step.
-
-Usage:
-  python scripts/generate_hypothesis_submission.py
+The preserved historical implementation generated a research artifact whose saved
+receipt fails strict exterior-NaN format validation and the feature-alone leakage gate.
+Complete-registry uniqueness and protocol-compliant whole-segment holdout clearance
+were not established. Its band mapping is not supported by the pinned owner-mirror
+manifest. Do not run or promote it.
+See research/2026-10-30-review-arena-150a3bda.md for the byte-level review.
 """
 
 from __future__ import annotations
@@ -88,8 +55,7 @@ B_RAD_TH = 6
 B_RAD_RATIO = 5
 
 SUBMISSION_NAME = "gemsdoe-hf-alteration-curvature-intersection-20261030"
-SUBMISSION_NOTE = ("Unique H-F radiometric alteration x curvature intersection "
-                   "field; research-only, not organizer-confirmed")[:140]
+SUBMISSION_NOTE = "H-F research-only prototype; validation failed; do not submit"
 
 
 # --------------------------------------------------------------------------- #
@@ -241,6 +207,13 @@ def distance_to_faults(fault_mask: np.ndarray, footprint: np.ndarray) -> np.ndar
 # --------------------------------------------------------------------------- #
 
 def main() -> int:
+    raise SystemExit(
+        "DISABLED: H-F is a negative research artifact; strict-format and leakage checks "
+        "fail, while full-registry uniqueness and compliant holdout are not established. "
+        "Its band mapping is unsupported. See "
+        "research/2026-10-30-review-arena-150a3bda.md. Do not regenerate or submit."
+    )
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # ---- Load inputs -------------------------------------------------------
@@ -583,7 +556,7 @@ def main() -> int:
         "ok_to_submit": False,
         "slot_authorized": False,
         "experiments_run": 1,
-        "budget": "1 of 3 experiments; under 2 hours",
+        "budget": "H-F card records 1 experiment; prior README reports 2 total; count and elapsed time unreconciled",
     }
 
     card_path = OUT_DIR / f"{SUBMISSION_NAME}.run-card.json"

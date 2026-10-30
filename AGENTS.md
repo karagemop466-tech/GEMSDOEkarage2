@@ -23,6 +23,19 @@ recorded two-hour budget; its historical placement and promoter implementations 
 only in Git history. Do not bypass the blocking CLI or resurrect retired functions.
 No new experiment, TIFF or slot was used for the correction.
 
+## H-F / H-G negative follow-up (2026-10-30)
+
+PR #88 added an H-F TIFF that must remain a research-only negative artifact. Its saved
+strict-format audit fails the NaN exterior check; comparison covers only 7/472 registry
+rasters; its `fault_proximity` feature has AUC 1.0; and its 0.018385 DTI is a fixed-field
+legacy-quadrant proxy, not whole-segment hide-and-recover. The four-fold range is not a
+95% CI. The H-F code's radiometric band semantics are contradicted by the owner-mirror
+manifest and are not independently authenticated. Do not submit, relabel, promote, or
+regenerate it. The local H-G annulus prototype has no committed output/run card, despite
+README claims; do not infer a score. The experiment count is inconsistent across README/H-F evidence and must be
+reconciled before any new experiment. Current-branch generator entry points are disabled;
+retain their tests and do not bypass them.
+
 ## Evidence, sites and validation
 
 * Do not invent a method paragraph, an unverified organizer result, a complete registry,
