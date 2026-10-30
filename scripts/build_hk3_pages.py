@@ -41,6 +41,34 @@ def load(path: Path) -> dict:
     return value
 
 
+def latest_official_observation() -> tuple[dict, str]:
+    """Load the newest date-stamped official page observation from evidence/.
+
+    The observation is a dated public-page snapshot, not a local submission
+    receipt. Its date must agree with its filename so a stale or misnamed file
+    cannot silently replace the displayed source date.
+    """
+    dated = []
+    for path in EV.glob("official-review-????-??-??.json"):
+        date_text = path.stem.removeprefix("official-review-")
+        if len(date_text) != 10:
+            continue
+        try:
+            year, month, day = (int(part) for part in date_text.split("-"))
+            import datetime
+            datetime.date(year, month, day)
+        except (TypeError, ValueError):
+            continue
+        dated.append((date_text, path))
+    if not dated:
+        raise ValueError("No date-stamped official observation exists")
+    date_text, path = max(dated, key=lambda row: row[0])
+    observation = load(path)
+    if observation.get("observed_date_utc") != date_text:
+        raise ValueError(f"Official observation date does not match filename: {path.name}")
+    return observation, path.name
+
+
 def owner_pin(rec: dict) -> tuple[str, str]:
     """Return (ref, repo_path) of the owner-repo commit whose bytes were sha256-verified.
 
@@ -69,7 +97,7 @@ def gather() -> dict:
     inventory = load(EV / "public_downloads_audit.json")
     focus = load(ROOT / "registry/focus_sites.json")
     geometry = load(EV / "geometry-audit.json")
-    official = load(EV / "official-review-2026-10-29.json")
+    official, official_filename = latest_official_observation()
     monitor = load(DOCS / "data/monitor.json")
     k3 = load(EV / "k3/run_card.json")
     filename = card["raster"]["file"]
@@ -137,15 +165,20 @@ def gather() -> dict:
     cited = leaderboard.get("user_cited_0_3195", {}) if leaderboard else {}
     snapshot = monitor.get("leaderboard", {})
     current_sites = monitor.get("sites", [])
-    if (official.get("observed_date_utc") != "2026-10-29"
+    if (not official.get("observed_date_utc")
             or not official.get("observed_utc")
             or leaderboard is None
+            or "PUBLIC LEADERBOARD SNAPSHOT" not in leaderboard.get("observation_type", "")
             or first_place.get("rank") != 1
-            or first_place.get("participant") != "xiaofanhu"
+            or not isinstance(first_place.get("participant"), str)
+            or not first_place.get("participant")
+            or not isinstance(first_place.get("value"), (int, float))
+            or isinstance(first_place.get("value"), bool)
             or not 0 <= first_place.get("value", -1) <= 1
-            or cited.get("rank") != 47 or cited.get("participant") != "kpomazi"
+            or not isinstance(cited.get("rank"), int) or isinstance(cited.get("rank"), bool)
+            or cited.get("rank") <= 0 or cited.get("rank") == first_place.get("rank")
+            or not isinstance(cited.get("participant"), str) or not cited.get("participant")
             or cited.get("value") != 0.3195
-            or not 0 <= cited.get("value", -1) <= 1
             or snapshot.get("user_cited_0_3195") != {
                 "rank": cited.get("rank"), "participant": cited.get("participant"),
                 "score_text": f"{cited.get('value', -1):.4f}"}
@@ -177,7 +210,8 @@ def gather() -> dict:
         raise ValueError("Nine-site pairwise recheck disagrees with the non-unique finding")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official,
-            "monitor": monitor, "k3": k3, "profile": profile, "uniq": uniq, "pairs": pairs}
+            "official_filename": official_filename, "monitor": monitor, "k3": k3,
+            "profile": profile, "uniq": uniq, "pairs": pairs}
 
 
 UNIQUENESS_CANDIDATES = [
@@ -209,7 +243,8 @@ def registry_audit_section(d: dict) -> str:
 <p><a href="evidence/uniqueness/nine-site-pairwise-recheck.json">Pairwise receipt</a> · <a href="evidence/uniqueness/gwnfs-quarantined-h1.full-registry.json">gw-nfs receipt</a> · <a href="evidence/uniqueness/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.full-registry.json">hA receipt</a></p></section>'''
 
 
-def shell(title: str, active: str, body: str, *, base_href: str | None = None) -> str:
+def shell(title: str, active: str, body: str, *, base_href: str | None = None,
+          official_ref: str = "evidence/official-review-2026-10-29.json") -> str:
     items = [("index.html", "desk", "Submission desk"), ("executive-summary.html", "summary", "Executive summary"),
              ("how-to-submit.html", "guide", "How to submit"), ("audit.html", "audit", "Nine-site audit"),
              ("hypotheses.html", "research", "Earlier research"), ("sources.html", "sources", "Sources")]
@@ -225,7 +260,7 @@ def shell(title: str, active: str, body: str, *, base_href: str | None = None) -
 <main class="container"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
 {body}
 <footer class="footnote"><p><b>Evidence labels:</b> HOLDOUT-DTI is a local, catalogue-based proxy with its evaluator, withheld count and interval; it is not a leaderboard result. Historical values are USER-REPORTED / UNVERIFIED unless linked to an actual organizer receipt. The leaderboard observation is an organizer-published public snapshot, not a receipt for any local TIFF.</p>
-<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="evidence/official-review-2026-10-29.json">Source observations</a> · <a href="../research/2026-10-29-scorecard-and-monitor-review.md">Three-pass review</a> · <a href="evidence/2026-10-29-repo-review-run-card.json">Review card</a></p></footer>
+<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="{esc(official_ref)}">Source observations</a> · <a href="../research/2026-10-30-live-source-and-code-review.md">Three-pass review</a> · <a href="evidence/live-source-review-card-2026-10-30.json">Review card</a></p></footer>
 </main></body></html>'''
 
 
@@ -292,7 +327,7 @@ def science_and_sources(d: dict) -> str:
     return f'''<section class="section"><h3>Why the reported GEMSDOE32 result leads this group</h3>
 <p>GEMSDOE32 is <b>0.2778 USER-REPORTED / UNVERIFIED</b>, the highest of the supplied nine claims, not an organizer-confirmed score for these bytes. The pinned raster is the GEMSDOE25 D2.8 dot set with 6,436 catalogue-near dots removed; no dots were added. GEMSDOE25 and GEMSDOE30 have identical in-footprint predictions despite different file bytes.</p>
 <p>The official distance-weighted Tversky metric credits predictions near truth and penalizes unsupported positives. Removing near-catalogue dots <em>could</em> improve the balance, but the hidden labels and a file-linked receipt are unavailable, so the actual causal explanation is not established. A higher result is possible, not demonstrated. Fault evidence alone does not prove a geothermal vent.</p>
-<p>On {esc(observed)}, the <a href="{LEADERBOARD}">official public leaderboard</a> showed <b>{esc(lead['participant'])}: {lead['value']:.4f}</b> at rank {lead['rank']}. The user-cited 0.3195 appeared at rank {user_cited['rank']} for {esc(user_cited['participant'])} in the same page snapshot; it was not the displayed first-place value. These are ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT values, not file-linked submission receipts, private-round results, or scores for our local rasters; the board can change. <a href="evidence/official-review-2026-10-29.json">Open timestamped observation and limitations</a>.</p>
+<p>On {esc(observed)}, the <a href="{LEADERBOARD}">official public leaderboard</a> showed <b>{esc(lead['participant'])}: {lead['value']:.4f}</b> at rank {lead['rank']}. The user-cited 0.3195 appeared at rank {user_cited['rank']} for {esc(user_cited['participant'])} in the same page snapshot; it was not the displayed first-place value. These are ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT values, not file-linked submission receipts, private-round results, or scores for our local rasters; the board can change. <a href="evidence/{esc(d['official_filename'])}">Open dated observation and limitations</a>.</p>
 </section>
 <section class="section"><h3>Next research slate · not tested or assigned</h3>
 <p>Rank is a qualitative research priority, not a score prediction or a claim of fleet-wide novelty. Similar ingredients exist in other projects.</p>
@@ -376,6 +411,10 @@ def decision_section(d: dict) -> str:
 
 def nested_section(d: dict) -> str:
     rep = {r["site"]: r["reported_score_user_unverified"] for r in d["profile"]["sites"]}
+    board = next(item for item in d["official"]["sources"] if item.get("url") == LEADERBOARD)
+    first = board["first_place"]
+    cited = board["user_cited_0_3195"]
+    observed = d["official"]["observed_date_utc"]
     rows = []
     wins = 0
     total = 0
@@ -417,8 +456,9 @@ def nested_section(d: dict) -> str:
         f'track the reported scores at Spearman {rho:.3f} (n = 9; the two values match exactly by coincidence of rank structure). '
         'A controlled submission pair would separate them, but that needs an organizer receipt, and no nested file can be submitted '
         'under the current gate.</p>\n'
-        f'<p>The <a href="{LEADERBOARD}">official public leaderboard</a>, fetched 2026-10-29, lists xiaofanhu first at 0.4544 and '
-        'kpomazi at #47 with 0.3195. A 0.2778 score would rank below #50 on that board, but no account or receipt links any local file to it.</p>\n'
+        f'<p>The <a href="{LEADERBOARD}">official public leaderboard</a>, observed {esc(observed)}, lists {esc(first["participant"])} first at {first["value"]:.4f} '
+        f'and {esc(cited["participant"])} at rank {cited["rank"]} with 0.3195. These are public-board rows, not a receipt for the unverified 0.2778 report or any local file. '
+        f'<a href="evidence/{esc(d["official_filename"])}">Open the dated public-board observation</a>.</p>\n'
         '</section>'
     )
 
@@ -552,16 +592,18 @@ def champion_panel() -> str:
 def render_all(d: dict) -> dict[str, str]:
     desk = decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
-    pages = {"index.html": shell("Submission desk", "desk", desk),
-             "executive-summary.html": shell("Executive summary", "summary", desk),
-             "how-to-submit.html": shell("How to submit", "guide", how),
-             "submit.html": shell("How to submit", "guide", how), "assets/hk3.css": CSS}
+    official_ref = f"evidence/{d['official_filename']}"
+    pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),
+             "executive-summary.html": shell("Executive summary", "summary", desk, official_ref=official_ref),
+             "how-to-submit.html": shell("How to submit", "guide", how, official_ref=official_ref),
+             "submit.html": shell("How to submit", "guide", how, official_ref=official_ref),
+             "assets/hk3.css": CSS}
     geometry = {row["site"]: row for row in d["geometry"]["historical_final_dots"]}
     pinned = {row["site"]: row for row in d["profile"]["sites"]}
     for record in d["focus"]:
         site = record["site"]
         pages[f"focus/{site}.html"] = shell(f"{site} executive summary", "summary",
-            focus_detail(record, geometry[site], pinned[site]), base_href="../")
+            focus_detail(record, geometry[site], pinned[site]), base_href="../", official_ref=official_ref)
     return pages
 
 
@@ -572,12 +614,12 @@ def main() -> int:
     pages = render_all(gather())
     mirrors = [(f, DOCS / "evidence/hk3" / f.name) for f in sorted((EV / "hk3").glob("*.json"))]
     mirrors += [(EV / "calibration/leaderboard_calibration.json", DOCS / "evidence/calibration/leaderboard_calibration.json"),
-                (EV / "official-review-2026-10-28.json", DOCS / "evidence/official-review-2026-10-28.json"),
                 (EV / "2026-10-28-independent-audit-run-card.json", DOCS / "evidence/2026-10-28-independent-audit-run-card.json"),
                 (EV / "2026-10-29-repo-review-run-card.json", DOCS / "evidence/2026-10-29-repo-review-run-card.json"),
-                (EV / "official-review-2026-10-29.json", DOCS / "evidence/official-review-2026-10-29.json"),
                 (EV / "focus-profile-2026-10-29.json", DOCS / "evidence/focus-profile-2026-10-29.json"),
-                (EV / "lattice-gate-audit-2026-10-29.json", DOCS / "evidence/lattice-gate-audit-2026-10-29.json")]
+                (EV / "lattice-gate-audit-2026-10-29.json", DOCS / "evidence/lattice-gate-audit-2026-10-29.json"),
+                (EV / "live-source-review-card-2026-10-30.json", DOCS / "evidence/live-source-review-card-2026-10-30.json")]
+    mirrors += [(f, DOCS / "evidence" / f.name) for f in sorted(EV.glob("official-review-????-??-??.json"))]
     mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/gw-nfs" / f.name) for f in sorted((EV / "gw-nfs").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/uniqueness" / f.name) for f in sorted((EV / "uniqueness").glob("*.json"))]

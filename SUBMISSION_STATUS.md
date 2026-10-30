@@ -1,13 +1,13 @@
 # Submission status — NO APPROVED FILE
 
+**Current review (2026-10-30): NO FILE IS OK TO DOWNLOAD AND SUBMIT.** The audited public-download inventory contains research-only files and `downloadable_approved_submission: null`. No new experiment, TIFF, score estimate, upload, or slot was created. The 2026-10-30 public leaderboard snapshot shows rank 1 at 0.4544 and the user-cited 0.3195 at rank 48; these are public-board observations, not receipts for local files. Full review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); source snapshot: [`evidence/official-review-2026-10-30.json`](evidence/official-review-2026-10-30.json); review card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
+
 **GW-NFS audit (2026-10-29, PR #76):** the PR #61 raster is NEGATIVE: holdout DTI 0.000013 is below both same-holdout random controls, and uniqueness fails. It stays quarantined under `evidence/quarantine/`. See [the review](research/2026-10-29-gw-nfs-audit-and-three-pass-review.md).
 
 **Session B addendum (2026-10-29):** NO FILE IS OK TO DOWNLOAD AND SUBMIT. Full-registry check (440 rasters): gw-nfs and H-A are both DUPLICATE_STOP (overlap 1.0). gw-nfs stays quarantined; H-A remains an inventoried research-only download. The nine best focus files are not unique against each other (overlap 0.976–1.000). Estimated leaderboard score for any file: Unavailable (no organizer template or labels here). Receipts: [`evidence/uniqueness/`](evidence/uniqueness/).
 
 
-**Updated 2026-10-29 (lattice gate):** no file is approved; all nine focus best files fail the literal lattice gate. See [the decision memo](research/2026-10-29-lattice-gate-and-decision.md). Still no approved file. The saved TIFFs use finite zeros outside the footprint, but the official
-wording and the organizer sample use NaN there (the repo's strict format check fails for HK3). Live leaderboard top is 0.4544;
-kpomazi is at rank 47 with 0.3195. See [the 2026-10-29 review](research/2026-10-29-verification-and-blocker-review.md).
+**Historical status (2026-10-29, lattice gate):** no file was approved; all nine focus best files fail the literal lattice gate. See [the decision memo](research/2026-10-29-lattice-gate-and-decision.md). The saved TIFFs use finite zeros outside the footprint, but the official wording and the organizer sample use NaN there (the repo's strict format check fails for HK3). The leaderboard facts in that dated review were xiaofanhu 0.4544 at rank 1 and kpomazi 0.3195 at rank 47; see [the 2026-10-29 review](research/2026-10-29-verification-and-blocker-review.md). The current public snapshot is dated 2026-10-30 above.
 **Gate detail, 2026-10-29:** all nine focus files stop at the shared uniqueness gate against the
 13GEMSDOE lattice (99.91–99.92% dot overlap). No file is eligible under the written rule. The
 protocol owner must decide the policy; see the executive summary and

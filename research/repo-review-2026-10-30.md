@@ -1,7 +1,7 @@
 # Repository review — 2026-10-30
 
-**Branch:** `arena/72509f87-gemsdoekarage2`  
-**Scope:** repository safety, nine-site summary, existing hypothesis slate, release/uniqueness evidence, tests and generated website.  
+**Branch:** `arena/72509f87-gemsdoekarage2`
+**Scope:** repository safety, nine-site summary, existing hypothesis slate, release/uniqueness evidence, tests and generated website.
 **Decision: NEGATIVE. No TIFF in this repository is approved to download and submit.**
 
 No experiment, new raster, upload, organizer confirmation or submission-slot action was performed. The prompt does not provide an assigned method paragraph, and the prior protocol records a hard stop against the available lattice witness. Generating a new TIFF now and describing it as unique or ready would be unsupported. This is not an assertion that a scientifically unique prediction is impossible in principle; it is the fail-closed result for the evidence available here.

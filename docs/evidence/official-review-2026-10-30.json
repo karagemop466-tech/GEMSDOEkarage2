@@ -1,0 +1,53 @@
+{
+  "schema": "gems.official-page-observations.v1",
+  "observed_date_utc": "2026-10-30",
+  "observed_utc": "2026-10-30T01:57:20Z",
+  "timestamp_precision": "The UTC timestamp is the session-side observation time recorded immediately after reading the public pages; the organizer page does not expose a snapshot-generation timestamp.",
+  "access_method": "Arena public page reader; all three leaderboard chunks and both problem-page chunks were read on 2026-10-30. The data-page request redirected to DrivenData login. No organizer account, submission-page receipt, or private score was accessed.",
+  "sources": [
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "publisher": "DrivenData, competition organizer",
+      "observation_type": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a file-linked submission-page receipt",
+      "first_place": {
+        "rank": 1,
+        "participant": "xiaofanhu",
+        "value": 0.4544
+      },
+      "rank_47": {
+        "rank": 47,
+        "participant": "like60986",
+        "value": 0.3217
+      },
+      "user_cited_0_3195": {
+        "rank": 48,
+        "participant": "kpomazi",
+        "value": 0.3195
+      },
+      "rank_50": {
+        "rank": 50,
+        "participant": "twang",
+        "value": 0.3169
+      },
+      "limitations": "Time-varying public-test leaderboard only. These rows are not private-round outcomes, HOLDOUT-DTI measurements, submission-page receipts, or scores for any local raster. The page was read in three chunks; no automated DrivenData monitor or organizer authentication was used."
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "publisher": "DrivenData, competition organizer",
+      "observations": [
+        "The target is geological faults indicative of geothermal resources; the page does not label geothermal vents or establish a resource discovery.",
+        "The metric is distance-weighted Tversky with alpha 0.2, beta 0.8, and a triangular kernel with 300 m support (3 pixels at 100 m).",
+        "The submission specification requires one float32 GeoTIFF band, values in [0,1], EPSG:32611, 100 m resolution, matching bounds, and null or NaN outside the bounds."
+      ],
+      "limitations": "Public problem-page specification only; it does not authenticate this repository's owner-mirrored template, establish portal acceptance, provide hidden expert labels, or link a leaderboard row to a local file."
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+      "publisher": "DrivenData, competition organizer",
+      "observation": "The public page reader redirected to the DrivenData login page. The competition training rasters, submission template, private labels, and submission receipts were not accessible in this session.",
+      "limitations": "No login or account credentials were available or requested. This is not an authenticated data download."
+    }
+  ],
+  "decision": "No local candidate is promoted. The public leaderboard snapshot is not a score estimate for any local raster and clears no holdout, uniqueness, provenance, format, or upload gate.",
+  "historical_snapshot": "evidence/official-review-2026-10-29.json"
+}
