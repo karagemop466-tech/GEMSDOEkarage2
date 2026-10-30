@@ -45,7 +45,8 @@
     "No complete, current literal registry or authenticated organizer template/data is established.",
     "No new candidate, holdout evaluation, leakage canary, uniqueness measurement, or portal acceptance exists.",
     "All nine downloadable artifacts are inventory-classified research-only; no file is approved for submission.",
-    "The last saved official leaderboard observation is dated 2026-10-29 and was not refreshed in this review."
+    "The last saved official leaderboard observation in the prior evidence is dated 2026-10-29; it was not refreshed or independently re-fetched in this review.",
+    "A merged README claim of a 2026-10-30 live leaderboard fetch conflicted with its linked review card's explicit no-external-fetch limitation; the unsupported freshness claim was withdrawn."
   ],
   "historical_focus_claim": {
     "evidence_class": "USER-REPORTED / UNVERIFIED historical value from supplied focus-site results; not a file-linked organizer receipt",

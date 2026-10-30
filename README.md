@@ -6,9 +6,11 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-30)
 
-**Three-pass repository review:** [`research/repo-review-2026-10-30.md`](research/repo-review-2026-10-30.md), with a machine-readable negative review card at [`evidence/session-2026-10-30-review-run-card.json`](evidence/session-2026-10-30-review-run-card.json). No geological experiment, new TIFF, holdout score, leaderboard estimate, upload, or slot was produced. The local downloadable inventory remains `PASS_RESEARCH_ONLY` (nine artifacts; no approved submission). The test suite passed 256 tests with 8 optional mirror/template tests skipped; those skipped checks remain unverified. Do not submit any existing TIFF.
+**Three-pass review for this Arena session:** [`research/repo-review-2026-10-30-arena-883dcf4d.md`](research/repo-review-2026-10-30-arena-883dcf4d.md), with [negative run card](evidence/session-2026-10-30-review-run-card.json). No experiment, new TIFF, holdout score, leaderboard estimate, upload, or slot was produced. The download inventory remains `PASS_RESEARCH_ONLY` (nine artifacts; no approved submission). Python: 256 passed, 8 optional mirror/template tests skipped; Node feed/site: 3/8 passed; browser smoke passed.
 
-## Latest review (2026-10-29, current Arena branch)
+**Leaderboard/source irregularity:** this README's prior merged 2026-10-30 note said a live leaderboard was fetched, but its linked `evidence/repo-review-2026-10-30.json` says external official pages were not fetched due network restrictions. That statement is unsupported by its own evidence and is withdrawn here. The latest independently saved source observation remains dated 2026-10-29; do not treat any value/rank as current from this checkout. The exact 0.2778 focus-site value remains USER-REPORTED / UNVERIFIED. Do not submit any existing TIFF.
+
+## Previous review (2026-10-29, Arena branch)
 
 **Session findings: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).** No file is approved and no name or note is proposed. The registry audit marks the gw-nfs raster and all nine focus best paths DUPLICATE. Two hide-and-recover experiments were run (E1, E2): both are negative, and the protocol ceiling shows apron placements can reach only 0.13% of withheld positives. After merging `origin/main`: Python 253 passed, 8 skipped, 0 failed (this branch's HEAD before the session: 14 failed). Node: 8/8 and 3/3.
 

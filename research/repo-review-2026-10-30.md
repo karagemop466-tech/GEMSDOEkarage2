@@ -1,81 +1,38 @@
 # Repository review — 2026-10-30
 
-**Scope:** current checkout and its nine-site executive-summary/download workflow. This is a three-pass repository and evidence review; it is not a geological experiment, submission selection, or source-data refresh.
+**Scope:** review of the checked-out repository on `arena/2b5a0fa0-gemsdoekarage2` against its README operating protocol and submission-safety requirements. **No geological experiment, TIFF generation, upload, or slot selection was performed.**
 
-**Decision: NO APPROVED SUBMISSION.** No new TIFF, experiment, holdout score, leaderboard estimate, upload, or competition slot was produced or authorized. Do not download any repository TIFF as a competition submission. Historical artifacts remain research-only.
+## Decision
 
-## Executive findings
+**NO APPROVED SUBMISSION. Do not upload any TIFF in this repository.** The current submission-status record explicitly says no file is approved. The requested high-score/unique TIFF cannot responsibly be produced from this checkout: there is no authenticated organizer data/template, and the repository's recorded uniqueness gates reject prior candidates. No new score estimate can be supported from these conditions.
 
-| Priority | Finding | Evidence / impact |
-| --- | --- | --- |
-| Blocker | No eligible submission is available. | `scripts/audit_public_downloads.py --check` reports `PASS_RESEARCH_ONLY`, nine artifacts, and `downloadable_approved_submission: null`; the site displays `OK TO SUBMIT: NO`. The audit is a local integrity check, not organizer acceptance. |
-| Blocker | A fresh scientific candidate cannot be justified in this review. | The binding protocol has no assigned single method paragraph; the prior HK3 lane is retired and its stated experiment/time budget is exhausted. Its literal registry overlap stop cannot be waived. No new hypothesis was selected or tested. |
-| High | Competition data/template, current complete registry and portal evidence are not established here. | The cached competition-data directory is absent. Existing mirror inputs are owner mirrors, not organizer-authenticated data. Local format and grid checks cannot certify portal acceptance. |
-| High | The result feed is not a live DrivenData feed. | Existing automated freshness checks are GitHub metadata checks. The saved official leaderboard observation is dated 2026-10-29 and must not be presented as current on 2026-10-30. No account quota or current score receipt was checked. |
-| Medium | Eight data-backed tests did not run. | The Python suite skipped eight optional owner-mirror/shared-template integration tests because pinned mirror inputs are not restored in this checkout. Those behaviors remain unverified in this run. |
-| Medium | The nine-site numbers are historical, user-reported claims. | In the supplied comparison, GEMSDOE32's 0.2778 is the largest stated value among the nine focus sites, but is **USER-REPORTED / UNVERIFIED**, not an `ORGANIZER-CONFIRMED` file-linked receipt. It cannot support a score estimate for a new raster. The site correctly leaves a new-file estimate unavailable. |
+## Review findings
 
-No concrete code defect was reproduced in the locally runnable checks. This does not clear the optional skipped integration paths, authenticate inputs, or establish scientific validity.
+1. **Safety controls are explicit and tested.** The README and `SUBMISSION_STATUS.md` distinguish historical/user-reported scores from organizer receipts, forbid submitting research rasters, and require holdout, uniqueness, format, and separate selector gates. Existing generator safety tests and site tests reinforce fail-closed publication.
+2. **The requested nine-site scope is represented.** The dashboard includes the specified focus sites; historical scores are marked unverified rather than converted into estimates for a new file. The cited GEMSDOE32 value of 0.2778 remains a user-reported historical observation in repository documentation, not an authenticated receipt establishing why the raster scored that value.
+3. **No current candidate merits promotion.** The recorded audits are negative/incomplete; some registry snapshots are explicitly incomplete or stale relative to upstream site heads. A non-duplicate result against a partial registry would not prove uniqueness against the full set. The 2026-10-29 leaderboard snapshot is historical and is not a local candidate score.
+4. **Documentation freshness needs attention.** README and status sections are dated 2026-10-29 or earlier, while this review is dated 2026-10-30. These are properly labeled dated observations, but the home page and summary should continue to make their “as-of” time conspicuous and avoid wording that implies a live DrivenData feed. The repo's network-access limitation prevents checking DrivenData, USGS, DOE GDR, or NLR pages in this environment.
+5. **No code defect demonstrated in this review.** The existing review status and validation artifacts are internally consistent on the key decision: no approved download. This review did not regenerate site assets or alter the existing TIFF files.
 
-## Three review passes
+## Verification performed
 
-### Pass 1 — inventory and intended behavior
+- Python: `256 passed, 8 skipped, 98 warnings, 98 subtests passed` via `.venv/bin/python -m pytest -q`. Skips correspond to optional/unavailable inputs; they are not proof of organizer-data validation. Warnings are Rasterio affine multiplication pending-deprecation warnings.
+- Node feed tests: `3 passed` (`npm test`).
+- Node site tests: `8 passed` (`npm run test:site`).
+- `git diff --check` and JSON parsing of the review card inputs passed before this review record was added.
+- Dependencies were installed in local `.venv` and via `npm ci`; neither modifies tracked source files.
 
-Read `AGENTS.md`, the consolidated prompt in `README.md`, `SUBMISSION_STATUS.md`, the current site pages, current release/selector evidence, the nine-site byte-audit records, and the pinned run cards. Confirmed that the published executive summary identifies the focus sites, links historical files, marks scores unverified, separates score estimation from historical values, and prominently prohibits submission. Confirmed the download inventory is fail-closed and contains no approved candidate.
+## Required next work (fail-closed)
 
-The existing four ranked geological ideas in [`2026-10-28-next-lane-slate.md`](2026-10-28-next-lane-slate.md) remain proposals only. They were not reconsidered as an assigned method paragraph and were not tested.
+1. Secure participant-authorized, authenticated competition rasters and the exact organizer submission template; record provenance and hashes. Do not treat mirrors as organizer-authenticated.
+2. Assign one method paragraph/lane and check the budget before any experiment. Reuse the shared cached stack, evaluator, and writer; do not fork the protocol.
+3. Freeze a valid spatially blocked holdout and incumbent; run per-feature leakage canaries before trusting a candidate. Withhold whole buffered fault segments, derive catalogue features from visible faults only, and mask visible faults pixel-exactly.
+4. Audit the candidate surface against a complete immutable registry before placement and the final raster after placement. Stop on either duplicate threshold.
+5. Report HOLDOUT-DTI with evaluator version, withheld-positive count and defensible 95% CI; do not label it an organizer leaderboard score. Run the strict template/CRS/shape/transform/range/NaN validator and keep portal acceptance explicitly unknown until confirmed by an organizer receipt.
+6. Only a separate, quota-aware selector may promote a candidate after all gates pass. Negative results remain useful deliverables.
 
-### Pass 2 — tests, edge cases, and safety
+## Source and access caveat
 
-Commands and results:
+This review did not verify external pages live; network policy in this environment only permits GitHub, npm, and PyPI hosts. Manual source links retained in the project include the [official competition overview](https://www.drivendata.org/competitions/306/competition-doe-gems/), [problem description](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), [participant data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/), [public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/), [official reference solution](https://github.com/drivendataorg/gems-prize-reference-solution), and [USGS GeoDAWN dataset page](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and). These links are for manual review, not evidence of fresh verification in this run.
 
-- `.venv/bin/python -m pytest -q -rs`: **256 passed, 8 skipped, 98 subtests passed**; 98 Rasterio pending-deprecation warnings. All eight skips identify absent pinned mirror/shared-template inputs.
-- `npm test`: **3 passed**.
-- `npm run test:site`: **8 passed**.
-- `npm run test:browser`: passed at 1440, 390 and 320 px; checks included the research-only label, exact download hash, nine-site navigation/table, no tested viewport overflow, and fail-safe freshness states.
-- `bash -n scripts/*.sh`; `.venv/bin/python -m compileall -q scripts vendor`; generated-page `--check` for both page builders; `scripts/audit_public_downloads.py --check`; `git diff --check`: all passed.
-
-The strict inventory result is `PASS_RESEARCH_ONLY` for nine artifacts, with no approved download. The optional skipped tests are an evidence gap, not a pass. The browser test verifies the locally served artifact and does not access DrivenData or prove competition upload acceptance.
-
-### Pass 3 — original request and protocol reconciliation
-
-- Nine focus sites are represented in the published summary; historical leaderboard values are not elevated to confirmed results.
-- A defensible estimate for a new submission is unavailable. No leaderboard projection is recorded as a score.
-- No unique candidate TIFF is generated. This is the required negative outcome under the current no-lane / retired-lane / registry-stop conditions; the user-facing status stays unambiguous.
-- No feature AUC, HOLDOUT-DTI, 95% CI, candidate-raster correlation/overlap, or validator result is claimed because no new candidate exists.
-- The review does not claim an updated external-source audit, current leaderboard, current sibling-site files, complete registry, organizer data access, submission quota, or portal acceptance.
-- Core blocker for future progress is authorization/evidence, not an untested algorithm: obtain an assigned lane, authenticated organizer inputs and format template, complete current registry, and a permitted new experiment budget. Preserve the existing fail-closed selector and perform promotion separately only after all mandatory gates pass.
-
-## Reproduction
-
-```sh
-python -m venv .venv
-.venv/bin/python -m pip install -r requirements.lock.txt
-npm ci
-.venv/bin/python -m pytest -q -rs
-npm test
-npm run test:site
-npm run test:browser
-bash -n scripts/*.sh
-.venv/bin/python -m compileall -q scripts vendor
-.venv/bin/python scripts/build_hk3_pages.py --check
-.venv/bin/python scripts/build_audit_site.py --check
-.venv/bin/python scripts/audit_public_downloads.py --check
-```
-
-## Sources and evidence for manual review
-
-- [Competition problem / metric / format](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
-- [Competition data (login required)](https://www.drivendata.org/competitions/306/competition-doe-gems/data/)
-- [Competition submission page](https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/)
-- [Public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-- [Official reference solution](https://github.com/drivendataorg/gems-prize-reference-solution)
-- [Official rules PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf)
-- [USGS GeoDAWN data description](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and)
-- [INGENIOUS project](https://gbcge.org/current-projects/ingenious/)
-
-These are review links, not a claim that each page was freshly fetched in this review. The dated and line-specific source observations already saved in the repository are in `evidence/official-verification-2026-10-29.json` and `evidence/official-review-2026-10-29.json`.
-
-## Run card
-
-Machine-readable negative review card: [`../evidence/session-2026-10-30-review-run-card.json`](../evidence/session-2026-10-30-review-run-card.json).
+**Run card:** [`../evidence/repo-review-2026-10-30.json`](../evidence/repo-review-2026-10-30.json).
