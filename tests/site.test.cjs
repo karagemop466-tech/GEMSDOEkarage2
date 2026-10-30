@@ -64,12 +64,13 @@ test('homepage shows the exact witness and no candidate leaderboard projection',
 test('current public snapshot corrects the user-cited rank and keeps research status separate', () => {
   const dom = render('index.html');
   const text = dom.window.document.body.textContent;
-  assert.match(text, /2026-10-29/);
+  assert.match(text, /2026-10-30/);
   assert.match(text, /xiaofanhu: 0\.4544 at rank 1/);
-  assert.match(text, /0\.3195 appeared at rank 47 for kpomazi/);
+  assert.match(text, /0\.3195 appeared at rank 48 for kpomazi/);
   assert.match(text, /not file-linked submission receipts, private-round results/);
   assert.match(text, /GITHUB METADATA ONLY/);
   assert.match(text, /No latest-head raster\/score audit is claimed/);
+  assert.ok([...dom.window.document.querySelectorAll('a[href]')].some(a => a.getAttribute('href') === 'evidence/official-review-2026-10-30.json'));
   dom.window.close();
 });
 

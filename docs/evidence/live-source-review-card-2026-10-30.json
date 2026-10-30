@@ -1,0 +1,111 @@
+{
+  "schema": "gems.repository_review_card.v1",
+  "recorded_utc": "2026-10-30T01:54:42Z",
+  "classification": "REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT",
+  "review_scope": "Three-pass source, code, publication, and test review. No model fit, candidate placement, experiment, TIFF, upload, or competition-slot selection.",
+  "hypothesis": "No new geological hypothesis tested. Four qualitative future tests are ranked in the linked review; no uniquely identifiable method paragraph or lane was assigned.",
+  "mechanism": "Review-only actions: inspect the current public leaderboard/problem page and owner page, save a dated observation, refresh GitHub main-branch HEAD metadata only, make leaderboard rendering date-driven, and rerun repository/release checks. No prediction model or raster was run.",
+  "named_non_fault_mimic": "Not applicable to a review with no candidate surface. Candidate-specific mimics and controls are listed in the untested hypothesis slate; none was evaluated.",
+  "holdout": {
+    "evidence_class": "NOT RUN; NO HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "dti": null,
+    "ci95": null,
+    "reason": "No experiment was authorized or run. Do not substitute historical holdout values or public leaderboard rows."
+  },
+  "registry_correlation_overlap": {
+    "candidate_surface_spearman": null,
+    "candidate_surface_max_3px_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_max_3px_overlap": null,
+    "scope": "No candidate surface or raster exists. Historical nine-site and pinned registry audits do not cover a verified complete, current registry or current upstream-head raster bytes.",
+    "complete_registry_verified": false,
+    "preplacement_gate_passed": false,
+    "historical_context_only": {
+      "lattice_witness_candidate_overlap": null,
+      "nine_focus_site_max_pairwise_overlap": 1.0,
+      "meaning": "Historical byte-level geometry only; not a score, candidate result, or current complete-registry clearance."
+    }
+  },
+  "raster": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "NOT RUN: no new candidate raster",
+    "format_validation": null,
+    "organizer_template_match": null,
+    "organizer_acceptance": null,
+    "downloadable_approved_submission": null
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "leaderboard_estimate": null,
+  "public_leaderboard_observation": {
+    "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a file-linked receipt, private score, HOLDOUT-DTI, or local-raster score",
+    "observed_utc": "2026-10-30T01:42:29Z",
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "evidence_file": "evidence/official-review-2026-10-30.json",
+    "evidence_sha256": "75afb4fbc8013efcf030ea6b4d291144cad3fa4a9a1699fd528466d750b2a7bf",
+    "first_place": {
+      "rank": 1,
+      "participant": "xiaofanhu",
+      "value": 0.4544
+    },
+    "rank_47": {
+      "rank": 47,
+      "participant": "like60986",
+      "value": 0.3217
+    },
+    "user_cited_0_3195": {
+      "rank": 48,
+      "participant": "kpomazi",
+      "value": 0.3195
+    }
+  },
+  "github_source_refresh": {
+    "evidence_class": "GITHUB MAIN-BRANCH METADATA ONLY; NOT A RASTER OR SCORE AUDIT",
+    "checked_utc": "2026-10-30T01:45:06Z",
+    "total_sites": 9,
+    "changed": 9,
+    "unavailable": 0,
+    "latest_heads": {
+      "GEMSDOE24": "63d5885b68f73c19a7746052ccb3e5690f3271b5",
+      "GEMSDOE25": "782824f08879a52ad5142b4b0f46d59d48017e7a",
+      "GEMSDOE27": "bf34151e8e4ef26ec924f28dbc371a39bd740782",
+      "GEMSDOE28": "424bf795ed2183000c643d6e30a12ce2d4bf401d",
+      "GEMSDOE30": "eaff218f81e89fadc605650bb2cd55dd4b58e18d",
+      "GEMSDOE31": "f9248200f20def2654af596c1cc13ab2f9d96687",
+      "GEMSDOE32": "6edcc4cd529ca0809b956ccb00aea7f0e3b79cbf",
+      "GEMSDOE33": "ee2e464b61cb0e0aa604b0525044ad9ff31c9ec7",
+      "GEMSDOE36": "b0824c550c02792897d0ebe3aba1cb0e75583ea1"
+    }
+  },
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "three_passes": {
+    "pass_1_implement_and_verify": "Completed: saved a dated public-source observation; refreshed GitHub metadata only; updated generator, README/status, review, and assertions.",
+    "pass_2_bug_edge_case_and_test_review": "Completed after final test run; results are in test_results.",
+    "pass_3_recheck_against_request": "Completed: scorecard, limitations, untested hypotheses, no-download decision, and remaining blockers are explicit in the report."
+  },
+  "test_results": {
+    "status": "PASS",
+    "python": "PASS: 257 passed, 8 skipped, 98 warnings, 98 subtests passed; 27.49 seconds.",
+    "node_unit": "PASS: 3/3",
+    "node_site": "PASS: 8/8",
+    "browser": "PASS: 6 responsive, negative-badge, download-hash, navigation, feed-state, and overflow checks across 1440/390/320 px.",
+    "release_assessment": "NEGATIVE; slot_authorized=false, as required by the missing lane/data/registry/holdout/validation gates.",
+    "download_inventory": "PASS_RESEARCH_ONLY; 9 artifacts; downloadable_approved_submission=null.",
+    "generated_site": "PASS: build_site.py, build_field_notes.py, build_audit_site.py --check, build_hk3_pages.py, and build_hk3_pages.py --check."
+  },
+  "verdict": "negative",
+  "limitations": [
+    "The public leaderboard is time-varying; its dated observation is not a local score, submission receipt, private-round result, or automatic DrivenData refresh.",
+    "The public data page redirected to login. No authenticated organizer training data, exact template, private truth, submission receipt, or quota was inspected.",
+    "No method paragraph/lane was assigned; no geological experiment or candidate validation was performed.",
+    "The literal lattice gate remains a protocol stop for supplied historical focus files; the dense witness is not thereby proven to be a complete registry.",
+    "The GitHub refresh compares HEAD metadata only. No changed upstream head was raster-audited or rescored.",
+    "No local candidate has a defensible leaderboard estimate or approved downloadable TIFF."
+  ]
+}

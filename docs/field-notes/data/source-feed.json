@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-10-29T18:26:37.757058+00:00",
+  "checked_utc": "2026-10-30T01:45:15.865113+00:00",
   "reviewed_utc": "2026-10-27T21:10:00Z",
   "scope": "GitHub main-branch HEAD metadata only; no score, raster re-audit, organizer quota, or complete-registry claim.",
   "summary": {
@@ -18,7 +18,7 @@
     {
       "site": "GEMSDOE25",
       "reviewed_head": "b13ccabae15d4951854d47cb35e17322e7537b64",
-      "current_head": "ef939fe87041b6a8315a5f5210cd8a8eee93b2c4",
+      "current_head": "782824f08879a52ad5142b4b0f46d59d48017e7a",
       "status": "changed_since_review",
       "error": null
     },
@@ -46,7 +46,7 @@
     {
       "site": "GEMSDOE31",
       "reviewed_head": "88ec212955353f7590e94b8ef2a9763ffa035d45",
-      "current_head": "e70a257c829ad874135aff4b7b3a1452c4740640",
+      "current_head": "f9248200f20def2654af596c1cc13ab2f9d96687",
       "status": "changed_since_review",
       "error": null
     },
@@ -60,14 +60,14 @@
     {
       "site": "GEMSDOE33",
       "reviewed_head": "844f514819041c7be9efd345a24cf5cd70263f00",
-      "current_head": "d89f3431c9474952426ed63f271e55116c85c0e2",
+      "current_head": "ee2e464b61cb0e0aa604b0525044ad9ff31c9ec7",
       "status": "changed_since_review",
       "error": null
     },
     {
       "site": "GEMSDOE36",
       "reviewed_head": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
-      "current_head": "c15da37c83f11dcec0f6c62f65052efc825304a8",
+      "current_head": "b0824c550c02792897d0ebe3aba1cb0e75583ea1",
       "status": "changed_since_review",
       "error": null
     }

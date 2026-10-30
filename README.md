@@ -4,13 +4,21 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-29, current Arena branch)
+## Latest review (2026-10-30, current Arena branch)
+
+**Decision: NO APPROVED SUBMISSION. Do not submit any existing TIFF.** The current 2026-10-30 review updated the date-stamped public leaderboard observation and GitHub-only upstream freshness feeds, reviewed the fail-closed submission workflow, and passed the local test/audit suite. It did **not** run a geological experiment, generate a TIFF, estimate a local leaderboard score, or use a competition slot. The requested method paragraph is not assigned; organizer training data and the exact template remain behind login; the available registry evidence is stale/incomplete and the literal lattice gate stops the supplied focus files. Review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); run card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
+
+The official public leaderboard page read on 2026-10-30 shows xiaofanhu at rank 1 with 0.4544 and the user-cited 0.3195 at rank 48 for kpomazi (rank 47 is like60986 at 0.3217). This is an **ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT**, not an organizer-confirmed file receipt, private-round result, or score for a local raster. The 2026-10-29 observation that placed kpomazi at rank 47 is historical. Source receipt: [`evidence/official-review-2026-10-30.json`](evidence/official-review-2026-10-30.json).
+
+The GitHub source feed is current for repository HEAD metadata only: all nine focus-site main branches differ from the pinned historical raster references. This does not establish new file content or a score; no latest-head raster/score audit is claimed. DrivenData public data still redirects unauthenticated access to login. The public site keeps the existing one-click HK3 TIFF labelled **RESEARCH ONLY / DO NOT SUBMIT**; the audited inventory reports no approved downloadable submission.
+
+## Prior review (2026-10-29, preceding Arena branch session)
 
 **Session findings: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).** No file is approved and no name or note is proposed. The registry audit marks the gw-nfs raster and all nine focus best paths DUPLICATE. Two hide-and-recover experiments were run (E1, E2): both are negative, and the protocol ceiling shows apron placements can reach only 0.13% of withheld positives. After merging `origin/main`: Python 253 passed, 8 skipped, 0 failed (this branch's HEAD before the session: 14 failed). Node: 8/8 and 3/3.
 
 This Arena branch's three-pass review is [`research/repo-review-2026-10-29-d704ab87.md`](research/repo-review-2026-10-29-d704ab87.md), with its session run card at [`evidence/session-d704ab87-run-card.json`](evidence/session-d704ab87-run-card.json). The latest integration addendum records reconciliation with `origin/main` at `d4c081d`: nine public TIFFs are inventoried as research-only, including H-A and H-Rank-4, and both fail the shared duplicate gate against the available lattice witness. That witness is not a complete registry; no full-registry clearance, holdout score, leaderboard estimate, or organizer acceptance is established. **No submission is approved; do not submit any existing TIFF.** The unreceipted GW-NFS raster is quarantined outside public downloads. Both synthetic H-A and H-Rank-4 generators are disabled; their historical TIFFs remain negative research artifacts. The historical page and run card must not be interpreted as approval or current leaderboards.
 
-## Session B addendum (arena/ab3581f2, 2026-10-29) — read with the review above
+## Session B addendum (arena/ab3581f2, 2026-10-29) — read with the prior review
 
 - **Full-registry duplicate check (440 pinned focus rasters, byte-verified):** gw-nfs is **DUPLICATE_STOP** (max 3-px overlap 1.0, 7 witnesses), and it stays quarantined. H-A is **DUPLICATE_STOP** too (max overlap 1.0, 3 witnesses), and it remains an inventoried research-only download, not a candidate. Receipts: [`evidence/uniqueness/`](evidence/uniqueness/); run card: [`evidence/session-2026-10-29-b-run-card.json`](evidence/session-2026-10-29-b-run-card.json).
 - The earlier "gw-nfs UNIQUE: PASS" statement is **retracted**. It checked only two rasters.
@@ -78,19 +86,21 @@ for research, but are not authenticated organizer inputs. The mirror sample cont
 positive cells even though the official description says it predicts total absence;
 its provenance/footprint and exterior handling therefore remain unresolved.
 
-## Leaderboard status (public observation, 2026-10-29)
+## Leaderboard status (public observation, 2026-10-30)
 
 The public organizer page showed **0.4544** for xiaofanhu at rank 1. The user-cited
-**0.3195** appeared for kpomazi at rank 47 in the same snapshot; it was not the
-leaderboard high. These are **ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT**
-values, not file-linked submission-page receipts, private-round scores, or scores
-for any local raster. The previously captured 2026-10-28 snapshot (which placed
-0.3195 at rank 27) is retained as dated history, not current rank evidence. The
-user-cited 0.4413 is not the current rank-one value. The automatic site feed checks
-GitHub metadata only and does not refresh DrivenData; re-read the [official
+**0.3195** appeared for kpomazi at rank 48 (rank 47 was like60986 at 0.3217) in the
+same snapshot; it was not the leaderboard high. These are **ORGANIZER-PUBLISHED
+PUBLIC LEADERBOARD SNAPSHOT** values, not file-linked submission-page receipts,
+private-round scores, or scores for any local raster. The 2026-10-29 snapshot placing
+0.3195 at rank 47 and the 2026-10-28 snapshot placing it at rank 27 are retained as
+dated history, not current rank evidence. The user-cited 0.4413 is not the current
+rank-one value. The automatic site feed checks GitHub metadata only and does not
+refresh DrivenData; re-read the [official
 leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-before comparing. See the [2026-10-29 observation](evidence/official-review-2026-10-29.json)
-and the [2026-10-28 historical observation](evidence/official-review-2026-10-28.json).
+before comparing. See the [2026-10-30 observation](evidence/official-review-2026-10-30.json),
+[2026-10-29 observation](evidence/official-review-2026-10-29.json), and
+[2026-10-28 historical observation](evidence/official-review-2026-10-28.json).
 
 ## Focus sites (nine)
 
@@ -141,11 +151,12 @@ holdout cannot reliably estimate the expert-hidden private score).
    the nine sites), rank them by expected DTI gain and cost, and validate the top
    candidate on the spatially-blocked holdout **before** any submission. If external
    data are needed, name the free official source and verify it is obtainable.
-7. Target: beat the latest public rank-one snapshot, 0.4544 (observed 2026-10-29),
+7. Target: beat the latest public rank-one snapshot, 0.4544 (observed 2026-10-30),
    and improve beyond the best focus-site claim 0.2778 (USER-REPORTED / UNVERIFIED).
-   The user-cited 0.3195 is rank 47 in that snapshot, and 0.4413 was not rank one.
-   These are research targets, not local estimates or private-round evidence. Any
-   strategy must be scientifically distinct, not a re-budgeted copy of the nine sites.
+   The user-cited 0.3195 is rank 48 in that snapshot (rank 47 is 0.3217), and 0.4413
+   was not rank one. These are research targets, not local estimates or private-round
+   evidence. Any strategy must be scientifically distinct, not a re-budgeted copy of
+   the nine sites.
 8. Autonomy and quality: no manual input from the user; no hallucinations — verify
    line by line against official sources and give links for manual review; flag
    irregularities. Run **three passes** (implement + verify; review for bugs/edge
@@ -190,7 +201,7 @@ holdout cannot reliably estimate the expert-hidden private score).
   probability of winning.
 - Own the Outcome: own results end to end; treat failure and success as signals.
 
-## GW-NFS audit and GEMSDOE32 0.2778 check — 2026-10-29 (this review)
+## GW-NFS audit and GEMSDOE32 0.2778 check — 2026-10-29 (historical review)
 
 Review note: [`research/2026-10-29-gw-nfs-audit-and-three-pass-review.md`](research/2026-10-29-gw-nfs-audit-and-three-pass-review.md).
 **No submission is approved. Do not submit or download any file from this repository.** This review created no new TIFF, no lane experiment, no slot, and no upload.
@@ -203,7 +214,7 @@ Review note: [`research/2026-10-29-gw-nfs-audit-and-three-pass-review.md`](resea
 - **Parallel-run protocol (literal).** No method paragraph is supplied, so no lane is assigned. The GW-NFS raster fails the >70% three-pixel gate (lane drift, duplicate). Verdict negative. No slot is authorized.
 - **Official rules re-verified:** §3.4 (≤3 scored submissions/week; one final), §3.5 (choose one submission; code assets for finalists), §3.6.2 (choice made without private-set scores). Source: https://docs.nlr.gov/docs/fy26osti/96647.pdf
 
-## Current review — 2026-10-29 (read first)
+## 2026-10-29 source review (historical; superseded by the 2026-10-30 observation above)
 
 **No submission is approved. Do not download or submit any file from this repository.** This branch refreshed the dated public-board observation and GitHub metadata only; no geological experiment, new TIFF, upload, slot, or score estimate was created. The stopped HK3 lane must not be restarted.
 
@@ -264,7 +275,7 @@ Read the [2026-10-29 verification/blocker review](research/2026-10-29-verificati
   `bash scripts/download_competition_data.sh --research-mirror`).
   Then `.venv/bin/python scripts/build_hk3_pages.py --check`.
 
-## Lattice gate audit — 2026-10-29 (latest; read this with the status above)
+## Lattice gate audit — 2026-10-29 (historical; current status is above)
 
 - **Decision: no file is approved for download or submission.** The literal duplicate rule (more than 70% of dots within 3 px of any registry raster) cannot be met by any dot raster above 22,163 dots without gaming, because the GEMSDOE13 spacing-five lattice covers 99.87% of the footprint. Measured on the 440 pinned registry rasters: 437 fail; 1 is on a non-comparable grid; the lattice is the control and is excluded from its own test; the one remaining pass is GEMSDOE36's lattice-avoiding file (505 dots, 0% lattice overlap), which is flagged as gaming-shaped, not clearance.
 - **All nine focus best files fail** the literal gate (lattice overlap 99.1–99.2%) and are 100% within 3 px of a sibling registry raster even with the lattice excluded.
