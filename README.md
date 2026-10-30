@@ -552,3 +552,84 @@ The K2 download links on the site are **research-only / DO NOT SUBMIT**. The ear
 conditional selector recommendation is superseded by the negative literal-policy
 decision at [`evidence/k2/selector_result.json`](evidence/k2/selector_result.json);
 no TIFF is approved for competition submission.
+
+---
+
+## CURRENT SESSION PROMPT (2026-10-30) — read before every work session
+
+### Focus: nine GEMSDOE sites
+
+GEMSDOE24, GEMSDOE25, GEMSDOE27, GEMSDOE28, GEMSDOE30, GEMSDOE31, GEMSDOE32,
+GEMSDOE33, GEMSDOE36.
+
+### Deliverable 1 — Executive summary on every site
+
+Clear and obvious which is the best submission to submit for a high leaderboard
+score. Table listing: what file to download, estimated score, whether it is a
+unique submission unlike any of the other GEMSDOE sites.
+
+Best user-reported results (USER-REPORTED / UNVERIFIED, no organizer receipt):
+- GEMSDOE32: h33-h33-2-b2 = 0.2778 (highest of the nine)
+- GEMSDOE36: anderson-geothermal-pinn = 0.2750
+- GEMSDOE28: h36-1-rung30-blind-r1 = 0.2710
+- GEMSDOE31: h27-4-solo-d28 = 0.2708
+- GEMSDOE33: h33d-analog-tip-stepover-r30 = 0.2632
+- GEMSDOE25: dotted-h19-5-d2-8 = 0.2600
+- GEMSDOE30: d28-poisson300m-offcat-44090 = 0.2600
+- GEMSDOE24: h25-1-dotted-h19-5-d1-5 = 0.2477
+- GEMSDOE27: topo-gap-closure-t-v2-on-d1-5 = 0.2449
+
+**All nine fail the literal uniqueness gate** (DUPLICATE_STOP against the 13GEMSDOE
+lattice, 99.91–99.92% of dots within 3 px; limit 70%). None is eligible for
+submission. No estimated leaderboard score exists for any file.
+
+### Deliverable 2 — MUST generate a unique TIF submission
+
+Generated: `docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif`
+(SHA-256: `4fe3104c38ae32eb04dbea9a75ba882feaef3d3b282249aeb635f83f9083abe3`)
+
+**Hypothesis H-F:** Multi-scale radiometric alteration (low K, high eTh/eU ratio)
+× curvature convergence at fault intersections × soft distance decay from known
+faults; faults masked pixel-exactly; sparsified to 18,000 dots.
+
+**Validation:**
+- Format: PASS (strict_format_pass=true; float32, [0,1], NaN outside footprint,
+  EPSG:32611, 3730×3292, 100 m)
+- Uniqueness: PASS vs 7 local registry rasters (max |Spearman| 0.0115, max
+  dot overlap 0.6179, no duplicate). 465 focus-site rasters not locally available.
+- Holdout-DTI: 0.018385 (proxy; 60,988 withheld positives; below submission threshold)
+- Leakage canary: PASS (combined AUC 0.498; no leakage)
+
+**VERDICT: negative.** OK_TO_DOWNLOAD: YES. OK_TO_SUBMIT: NO. Holdout DTI too
+low for submission. No submission slot was used.
+
+### Deliverable 3 — Easy download
+
+One-click download link on the site (`docs/index.html`, `docs/executive-summary.html`)
+at `downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif`.
+
+### Deliverable 4 — Executive summary subpage
+
+`docs/executive-summary.html` — explains how to submit, includes the nine-site
+scorecard table, the new H-F TIF with clear OK/NOT-OF-TO-SUBMIT messaging.
+
+### Deliverable 5 — 3–5 untried geological hypotheses
+
+Documented in `research/hypotheses-2026-10-29-untried.md` (H-A through H-E).
+Top candidate H-A was not implemented; H-F and H-G were implemented instead
+as experiments 1 and 2. Both negative on holdout.
+
+### Protocol (binding)
+
+- LANE: >0.90 Spearman or >70% dots within 3 px of any registry raster = stop
+- Holdout: hide-and-recover, pooled DTI (alpha 0.2, beta 0.8, 300 m triangular)
+- Label every number as HOLDOUT-DTI or ORGANIZER-CONFIRMED; projection is never a score
+- Leakage canary: AUC > 0.90 = leakage until proven otherwise
+- Budget: 3 experiments / 2 hours (used: 2 experiments)
+- No submission slot spent; promotion is a separate selector step
+
+### Leaderboard (public observation, not receipts)
+
+Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29). Best focus-site claim:
+0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47;
+0.4413 is not rank one.
