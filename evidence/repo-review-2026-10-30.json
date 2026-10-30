@@ -1,0 +1,47 @@
+{
+  "schema": "gems.repository_review_card.v1",
+  "recorded_utc": "2026-10-30",
+  "branch": "arena/2b5a0fa0-gemsdoekarage2",
+  "classification": "REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT",
+  "hypothesis": "No geological hypothesis tested during this repo review.",
+  "mechanism": "Inspected tracked instructions, submission status, saved evidence, Python tests, and Node site/feed tests. No candidate surface generated.",
+  "named_non_fault_mimic": "Not applicable: no candidate raster or geological experiment was evaluated.",
+  "holdout": {
+    "evidence_class": "NOT RUN; NO HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "dti": null,
+    "ci95": null
+  },
+  "registry_correlation_overlap": {
+    "candidate_surface_spearman": null,
+    "candidate_surface_max_3px_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_max_3px_overlap": null,
+    "complete_registry_verified": false
+  },
+  "raster": null,
+  "raster_sha256": null,
+  "validator_result": {
+    "status": "NOT RUN: no candidate raster",
+    "downloadable_approved_submission": null,
+    "organizer_acceptance": null
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "leaderboard_estimate": null,
+  "experiments_run": 0,
+  "submission_slots_used": 0,
+  "verdict": "negative",
+  "tests": {
+    "python": "256 passed, 8 skipped, 98 warnings, 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "8 passed"
+  },
+  "limitations": [
+    "No authenticated DrivenData data/template or submission receipt available in this run.",
+    "Recorded registry snapshots are incomplete or stale for some comparison tasks; no full-registry clearance can be inferred.",
+    "External official pages were not fetched because network access is restricted to GitHub, npm, and PyPI hosts.",
+    "No score projection is supported by this repository review."
+  ]
+}

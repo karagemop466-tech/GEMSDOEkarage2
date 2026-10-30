@@ -1,81 +1,38 @@
 # Repository review — 2026-10-30
 
-**Branch:** `arena/a53b600e-gemsdoekarage2`  
-**Review type:** three-pass repository and release-safety review; no geological experiment.  
-**Decision:** **NO APPROVED SUBMISSION. No new TIFF was generated. Do not submit any repository download.**
+**Scope:** review of the checked-out repository on `arena/2b5a0fa0-gemsdoekarage2` against its README operating protocol and submission-safety requirements. **No geological experiment, TIFF generation, upload, or slot selection was performed.**
 
-## Executive disposition
+## Decision
 
-The site/repository already contains a nine-site historical scorecard, detailed pages for GEMSDOE24/25/27/28/30/31/32/33/36, a submission guide, source references, automated freshness checks, research-only downloads, shared holdout/validator/writer tools, and fail-closed uniqueness/release checks. The current status is deliberately not an upload recommendation. GEMSDOE32's 0.2778 is a user-reported historical value, not established by a file-linked organizer receipt; it cannot support a score estimate for a newly generated raster. No reliable leaderboard score estimate for a candidate is available.
+**NO APPROVED SUBMISSION. Do not upload any TIFF in this repository.** The current submission-status record explicitly says no file is approved. The requested high-score/unique TIFF cannot responsibly be produced from this checkout: there is no authenticated organizer data/template, and the repository's recorded uniqueness gates reject prior candidates. No new score estimate can be supported from these conditions.
 
-The task's operative method paragraph is absent: it gives thresholds and a protocol but does not name a method. The parallel-run rules also require an assigned single lane and prohibit exceeding the stated experiment/time ceiling; historical review evidence says the prior HK3 lane is stopped. No new geological experiment, TIFF, competition slot, or score claim was made. This is a protocol stop, not a claim that an improved submission is impossible.
+## Review findings
 
-## Three review passes
+1. **Safety controls are explicit and tested.** The README and `SUBMISSION_STATUS.md` distinguish historical/user-reported scores from organizer receipts, forbid submitting research rasters, and require holdout, uniqueness, format, and separate selector gates. Existing generator safety tests and site tests reinforce fail-closed publication.
+2. **The requested nine-site scope is represented.** The dashboard includes the specified focus sites; historical scores are marked unverified rather than converted into estimates for a new file. The cited GEMSDOE32 value of 0.2778 remains a user-reported historical observation in repository documentation, not an authenticated receipt establishing why the raster scored that value.
+3. **No current candidate merits promotion.** The recorded audits are negative/incomplete; some registry snapshots are explicitly incomplete or stale relative to upstream site heads. A non-duplicate result against a partial registry would not prove uniqueness against the full set. The 2026-10-29 leaderboard snapshot is historical and is not a local candidate score.
+4. **Documentation freshness needs attention.** README and status sections are dated 2026-10-29 or earlier, while this review is dated 2026-10-30. These are properly labeled dated observations, but the home page and summary should continue to make their “as-of” time conspicuous and avoid wording that implies a live DrivenData feed. The repo's network-access limitation prevents checking DrivenData, USGS, DOE GDR, or NLR pages in this environment.
+5. **No code defect demonstrated in this review.** The existing review status and validation artifacts are internally consistent on the key decision: no approved download. This review did not regenerate site assets or alter the existing TIFF files.
 
-### Pass 1 — repository, product and evidence
+## Verification performed
 
-Inspected the root README, project guidance, submission status, evidence/run cards, source and registry manifests, site routes, relevant scripts and tests. Confirmed that the existing public pages conspicuously distinguish research-only files from approved submissions and that there is no authorized submission file. Existing downloadable TIFFs are research artifacts, not safe-to-submit recommendations. The local file validator explicitly labels its upstream sample as an unauthenticated owner mirror and returns no official-compliance or upload authorization. This guards against falsely treating format checks as portal acceptance.
+- Python: `256 passed, 8 skipped, 98 warnings, 98 subtests passed` via `.venv/bin/python -m pytest -q`. Skips correspond to optional/unavailable inputs; they are not proof of organizer-data validation. Warnings are Rasterio affine multiplication pending-deprecation warnings.
+- Node feed tests: `3 passed` (`npm test`).
+- Node site tests: `8 passed` (`npm run test:site`).
+- `git diff --check` and JSON parsing of the review card inputs passed before this review record was added.
+- Dependencies were installed in local `.venv` and via `npm ci`; neither modifies tracked source files.
 
-The request's highest-score framing is not evidence of causality. The claimed GEMSDOE32 value is not a linked receipt; the historical forensic explanation is qualified as inference. Previously recorded public leaderboard snapshots are dated observations, not scores for these local bytes, private-round outcomes, or a current live feed. No external source pages were re-fetched during this review; do not describe old snapshots as refreshed.
+## Required next work (fail-closed)
 
-### Pass 2 — tests and implementation checks
+1. Secure participant-authorized, authenticated competition rasters and the exact organizer submission template; record provenance and hashes. Do not treat mirrors as organizer-authenticated.
+2. Assign one method paragraph/lane and check the budget before any experiment. Reuse the shared cached stack, evaluator, and writer; do not fork the protocol.
+3. Freeze a valid spatially blocked holdout and incumbent; run per-feature leakage canaries before trusting a candidate. Withhold whole buffered fault segments, derive catalogue features from visible faults only, and mask visible faults pixel-exactly.
+4. Audit the candidate surface against a complete immutable registry before placement and the final raster after placement. Stop on either duplicate threshold.
+5. Report HOLDOUT-DTI with evaluator version, withheld-positive count and defensible 95% CI; do not label it an organizer leaderboard score. Run the strict template/CRS/shape/transform/range/NaN validator and keep portal acceptance explicitly unknown until confirmed by an organizer receipt.
+6. Only a separate, quota-aware selector may promote a candidate after all gates pass. Negative results remain useful deliverables.
 
-- Python locked environment: `.venv/bin/python -m pytest -q -rs` — **256 passed, 8 skipped, 98 warnings, 98 subtests passed**. Skips are documented mirror-backed tests whose inputs are not restored in this checkout. Warnings are Rasterio `PendingDeprecationWarning` instances around affine transform arithmetic; no test failures.
-- `npm test` — **3 passed**.
-- `npm run test:site` — **8 passed**.
-- `npm run test:browser` — passed desktop/mobile checks at 1440, 390 and 320 px, download-byte hash verification, nine-row summary, fail-closed freshness states, and no tested viewport overflow.
+## Source and access caveat
 
-Initial test attempts exposed environment setup gaps (no pytest/venv and no installed `jsdom`); these were resolved using the checked-in Python lockfile and `npm ci`. No tracked dependency or generated-data changes resulted. No implementation bug was established by these tests. They verify local behavior, not geology, organizer data identity, portal acceptance, or hidden-label performance.
+This review did not verify external pages live; network policy in this environment only permits GitHub, npm, and PyPI hosts. Manual source links retained in the project include the [official competition overview](https://www.drivendata.org/competitions/306/competition-doe-gems/), [problem description](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), [participant data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/), [public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/), [official reference solution](https://github.com/drivendataorg/gems-prize-reference-solution), and [USGS GeoDAWN dataset page](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and). These links are for manual review, not evidence of fresh verification in this run.
 
-### Pass 3 — acceptance criteria and limitations
-
-| Requirement | Result |
-|---|---|
-| Review the nine named project sites | Existing summary and individual pages cover all nine. Their supplied historical scores remain unverified/user-reported unless a receipt says otherwise. |
-| Clearly identify the best *supported* submission | No submission is approved; do not download and submit any current artifact. |
-| Estimate candidate competition score | Unavailable. A holdout metric cannot be relabeled as a leaderboard projection absent validated calibration. |
-| Create unique TIFF, test surface before placement and final dots | Not done: no named method lane, no candidate surface, and no full authenticated registry/template clearance. Do not fabricate test results. |
-| Holdout, leakage canary and CI | No experiment in this review, hence no new HOLDOUT-DTI, withheld-positive count, confidence interval, or canary result. |
-| Current automatic official feed | Not demonstrated. Existing feed checks public GitHub metadata; it is not an authenticated, continuously refreshed DrivenData score/submission feed. |
-| PR and merge | This review is documented in this branch. Merge is conditional on successful PR checks and may not be possible if repository policy requires review/CI. |
-
-## Follow-up, in order
-
-1. Obtain an explicit method paragraph/lane assignment and confirm its status against prior sessions and the three-experiment/two-hour budget. Do not infer it from the list of hypotheses.
-2. In an authorized environment, acquire the organizer's official grid/sample/labels and preserve provenance and hashes. Resolve the exact NoData/exterior convention and earlier `[0,1]` upload error with the actual official sample; owner mirrors are not a substitute.
-3. Build and independently verify a complete, immutable registry of prior submissions. Run the prescribed pre-placement correlation and proximity tests before dots, and final-dot tests afterward; missing registry entries must fail closed.
-4. If authorized and still within budget, preregister the hypothesis and baseline, use the shared cached feature stack/evaluator/writer, withhold whole buffered fault segments, derive catalogue features only from visible faults, mask visible traces pixel-exactly, run each feature alone as leakage canary, and report pooled DTI with 95% CI and withheld-positive count. Compare against a frozen same-fold baseline and preserve negative results.
-5. Keep promotion and slot selection separate. Only consider a submission slot after scientific and uniqueness gates, template-format checks, provenance, and organizer rules/quota are independently satisfied.
-6. Build a genuinely current DrivenData feed only through an authorized route, with timestamps and explicit unavailable states. Never imply that a public leaderboard row identifies the score of a local raster.
-
-## Official reference links for manual review
-
-- [Competition rules/overview](https://www.drivendata.org/competitions/306/competition-doe-gems/)
-- [Problem description and submission format](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
-- [About page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/)
-- [Competition data page (login may be required)](https://www.drivendata.org/competitions/306/competition-doe-gems/data/)
-- [Official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-- [DrivenData reference solution](https://github.com/drivendataorg/gems-prize-reference-solution)
-- [Official rules PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf)
-- [USGS GeoDAWN data](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and)
-- [INGENIOUS project](https://gbcge.org/current-projects/ingenious/)
-
-## Run card
-
-```json
-{
-  "hypothesis": "None tested: no concrete method paragraph/lane assignment was supplied.",
-  "mechanism": "Three-pass repository review and local software/site test execution only; no prediction surface or raster generated.",
-  "named_non_fault_process_that_could_mimic_it": "Not applicable; no candidate geological mechanism was tested.",
-  "holdout_dti": null,
-  "holdout_evaluator_version": null,
-  "withheld_positive_count": null,
-  "ci95": null,
-  "correlation_overlap_vs_registry": "Not measured for a new candidate; no surface/final dots exist. Existing registry evidence is historical and not complete proof of all parallel submissions.",
-  "raster_sha256": null,
-  "validator_output": "No new raster. Existing validator checks against a hash-pinned owner mirror and explicitly sets official compliance and submission authorization to null/false.",
-  "submission_name": null,
-  "submission_note": null,
-  "verdict": "negative"
-}
-```
+**Run card:** [`../evidence/repo-review-2026-10-30.json`](../evidence/repo-review-2026-10-30.json).
