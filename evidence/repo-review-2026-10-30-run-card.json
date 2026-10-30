@@ -1,0 +1,68 @@
+{
+  "schema": "gems.repository_review_run_card.v1",
+  "session_date_utc": "2026-10-30",
+  "branch": "arena/72509f87-gemsdoekarage2",
+  "classification": "REVIEW ONLY; NO GEOLOGICAL EXPERIMENT",
+  "hypothesis": "No new geological hypothesis tested; the prompt did not assign a method paragraph/lane and the prior protocol records a stop against the available lattice witness.",
+  "mechanism": "Three-pass repository review, README status correction, public download inventory, generated-site checks and unit/integration test execution. No model, feature surface or raster was generated.",
+  "named_non_fault_process_that_could_mimic_it": "No candidate surface was tested. For the top untested proposal in research/2026-10-28-next-lane-slate.md, an unfaulted sediment-bedrock contact or lake-terrace riser can mimic a terrain-conditioned gravity edge.",
+  "holdout_dti": {
+    "evidence_class": "NOT RUN; NO HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positive_count": null,
+    "dti": null,
+    "ci95": null,
+    "reason": "Review only; no lane was assigned and no candidate experiment was run."
+  },
+  "correlation_overlap_vs_registry": {
+    "candidate_surface": null,
+    "candidate_final_dots": null,
+    "new_measurement_made": false,
+    "historical_evidence": "evidence/lattice-gate/summary.json records all nine best focus rasters above the 70% 3-pixel threshold against the available lattice witness; not a complete-current-registry clearance."
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_raster_validation": "NOT RUN; no candidate raster",
+    "published_artifact_inventory": "PASS_RESEARCH_ONLY",
+    "tracked_research_tiffs": 9,
+    "downloadable_approved_submission": null,
+    "submission_authorized": false,
+    "organizer_template_authenticated": false,
+    "portal_acceptance": null
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative",
+  "verdict_reason": "No approved TIFF exists. Existing files remain research-only; score estimate unavailable; no experiment or submission slot used.",
+  "tests": {
+    "python": "256 passed, 8 skipped, 0 failed; 98 warnings and 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "8 passed",
+    "browser": "passed at 1440, 390 and 320 px",
+    "download_audit": "PASS_RESEARCH_ONLY; 9 artifacts; approved submission null",
+    "generated_pages": "up to date",
+    "release_selector": "negative",
+    "compile_shell_diff_checks": "passed"
+  },
+  "limitations": [
+    "Latest supported leaderboard observation in the repository is dated 2026-10-29; a claimed 2026-10-30 fetch/rank was withdrawn because the linked evidence card states no external official page was fetched.",
+    "The competition data directory is absent; organizer-authenticated template, labels, portal receipt and private scores are unavailable.",
+    "Eight tests requiring optional pinned owner-mirror/shared inputs were skipped.",
+    "The duplicate measurement is against available registry evidence and does not prove complete registry coverage or organizer scoring behavior.",
+    "The checked-in 32x48 format QA raster is explicitly synthetic and is not an organizer template; its grid and nodata do not explain the portal rejection."
+  ],
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "review": "research/repo-review-2026-10-30.md",
+  "leaderboard_source_status": {
+    "evidence_class": "Dated organizer-published public leaderboard snapshot; not a local score, private score, HOLDOUT-DTI, or submission receipt",
+    "latest_supported_observation": "evidence/official-review-2026-10-29.json",
+    "observed_date_utc": "2026-10-29",
+    "rank_1_value": 0.4544,
+    "user_cited_0_3195_rank": 47,
+    "current_value_verified": false,
+    "withdrawn_claim": "A separate same-day draft reported 2026-10-30 and rank 48, but its evidence card states official external pages were not fetched."
+  }
+}
