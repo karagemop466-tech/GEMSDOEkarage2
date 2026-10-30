@@ -45,7 +45,7 @@
     "compile_shell_diff_checks": "passed"
   },
   "limitations": [
-    "A separate same-day review records a public DrivenData leaderboard fetch on 2026-10-30; this review did not independently repeat the fetch, and the time-varying public values are not local scores.",
+    "Latest supported leaderboard observation in the repository is dated 2026-10-29; a claimed 2026-10-30 fetch/rank was withdrawn because the linked evidence card states no external official page was fetched.",
     "The competition data directory is absent; organizer-authenticated template, labels, portal receipt and private scores are unavailable.",
     "Eight tests requiring optional pinned owner-mirror/shared inputs were skipped.",
     "The duplicate measurement is against available registry evidence and does not prove complete registry coverage or organizer scoring behavior.",
@@ -56,12 +56,13 @@
   "submission_slots_used": 0,
   "slot_authorized": false,
   "review": "research/repo-review-2026-10-30.md",
-  "same_day_public_leaderboard_observation": {
-    "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a local score, HOLDOUT-DTI, private score, or submission-page receipt",
-    "observation_date_utc": "2026-10-30",
-    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-    "source_record": "research/2026-10-30-repo-review.md (separate same-day retrieval; not independently repeated in this review)",
-    "rank_1_score": 0.4544,
-    "user_cited_0_3195_rank": 48
+  "leaderboard_source_status": {
+    "evidence_class": "Dated organizer-published public leaderboard snapshot; not a local score, private score, HOLDOUT-DTI, or submission receipt",
+    "latest_supported_observation": "evidence/official-review-2026-10-29.json",
+    "observed_date_utc": "2026-10-29",
+    "rank_1_value": 0.4544,
+    "user_cited_0_3195_rank": 47,
+    "current_value_verified": false,
+    "withdrawn_claim": "A separate same-day draft reported 2026-10-30 and rank 48, but its evidence card states official external pages were not fetched."
   }
 }

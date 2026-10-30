@@ -6,24 +6,17 @@ Scope: review of repo state, leaderboard claims, tests, and every shipped submis
 
 - **No submission is approved.** Every shipped TIFF is research-only (see `SUBMISSION_STATUS.md`, `AGENTS.md`). Nothing here changes that.
 - **Estimated leaderboard score for any local file: Unavailable.** No holdout DTI exists for any current file in this session, and the full organizer registry is not in the repo.
-- **The prompt's leaderboard numbers do not match the live page.** The current #1 is 0.4544, not 0.4413, and 0.3195 is rank 48, not the high. See §2.
+- **The prompt's leaderboard claims need a fresh source check.** The last supported public snapshot is dated 2026-10-29; the later 2026-10-30 fetch/rank claim was withdrawn because its evidence card says no external page was fetched. See §2.
 - **Local TIFF checks pass** (finite, in [0,1], EPSG:32611, shape 3730×3292 for the shipped files). The repo's 32×48 `GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif` is explicitly synthetic QA, not an organizer sample; its different origin and NaN exterior do not establish an organizer-template mismatch. The actual organizer grid/exterior and the portal range error remain unresolved; see §4 and the correction below.
 - **Tests:** 256 passed, 8 skipped (Python); 3/3 (Node). The README's previous count was 253 passed; the difference comes from the test suite, which was not re-audited here.
 
-## 2. Leaderboard check (public DrivenData page, fetched 2026-10-30)
+## 2. Leaderboard/source evidence — freshness claim withdrawn
 
-Source: https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/ (public page; 3 chunks read).
+The latest supported official public-board observation saved in this repository is `evidence/official-review-2026-10-29.json`, observed 2026-10-29. It records rank 1 = 0.4544 (xiaofanhu) and 0.3195 = rank 47 (kpomazi). These are dated public-board rows only, not a local score, private-round result, HOLDOUT-DTI, or file-linked submission receipt. They should not be described as current.
 
-| Claim in prompt / repo | Live page (this fetch) | Status |
-|---|---|---|
-| "0.4413 is the GEMSDOE / current leaderboard high" | No row shows 0.4413. Rank 1 = **0.4544** (xiaofanhu) | **Irregular — flag** |
-| "0.3195 is the highest score right now" | 0.3195 = **kpomazi, rank 48** (README says rank 47 in its 2026-10-29 snapshot) | **Irregular — flag** |
-| "xiaofanhu 0.4544 rank 1" (README 2026-10-29) | Confirmed, rank 1 | Consistent |
-| Rank 47 on this snapshot | like60986, 0.3231 (rank order shifted since 2026-10-29) | Leaderboard is moving; re-read before any comparison |
+An earlier draft of this review claimed that the public page had been fetched on 2026-10-30 and that 0.3195 was rank 48. That claim is **withdrawn**: the same-day evidence card `evidence/repo-review-2026-10-30.json` says external official pages were not fetched because of network restrictions, and the later three-pass review agrees the claim is unsupported. Therefore the 2026-10-30 rank/value assertion is not verified and must not be used. Refresh the official page from an accessible source before using any current rank or leaderboard value.
 
-Rank 2 is cfld__ at 0.3916; rank 50 is twang at 0.3169. These are public DW-Tversky values, which are organizer-published leaderboard values, not local scores.
-
-**Interpretation:** the target is 0.4544 (public #1), not 0.3195. Beating 0.3195 is only a rank-48 goal.
+The supplied 0.4413 claim is not rank-one in the last verified snapshot; no inference about the current page is made here. The current leaderboard target remains unknown until a verifiable dated read is recorded.
 
 ## 3. Focus-site claims (USER-REPORTED / UNVERIFIED)
 
@@ -86,14 +79,13 @@ Official sources used in this review: DrivenData leaderboard page (above); submi
 1. Obtain the organizer template (geotransform, shape, exterior convention) through an authenticated account, and record it as an artifact. The checked-in 32×48 raster is synthetic QA and cannot stand in for that template.
 2. Verify the organizer exterior convention from the authenticated submission template/documentation. Do not spend a submission slot on a dummy or test file unless the uniqueness gate passes and the organizer explicitly requires a portal trial.
 3. Re-run the holdout evaluator with `data/` present, starting with the leakage canary on each feature alone (AUC > 0.90 = leakage).
-4. Set the target to the live #1 (0.4544) and treat 0.3195 as a rank-48 reference point only.
+4. Refresh the official leaderboard from an accessible source before setting a target; the last supported snapshot is dated 2026-10-29 and records 0.4544 at rank 1 and 0.3195 at rank 47.
 5. Re-check the leaderboard before each decision; ranks moved within 24 h.
 
 ## 9. Irregularities list (for manual review)
 
-1. Prompt states 0.4413 as the current GEMSDOE high; the live page shows 0.4544 at rank 1 and has no 0.4413 row.
-2. Prompt states 0.3195 is the highest score; the live page shows it at rank 48.
-3. GEMSDOE focus-site scores (0.2778 and others) are not linked to organizer receipts or leaderboard rows.
+1. Prompt states 0.4413 as current high and 0.3195 as highest. The latest saved observation (2026-10-29) records 0.4544 at rank 1 and 0.3195 at rank 47; the claimed 2026-10-30 rank 48 is unsupported and withdrawn.
+2. GEMSDOE focus-site scores (0.2778 and others) are not linked to organizer receipts or leaderboard rows.
 4. Shipped TIFFs use finite zeros outside the footprint; the synthetic QA TIFF uses NaN. The organizer raster convention is not independently authenticated here.
 5. Geotransform origin differs between shipped TIFFs and the synthetic QA TIFF; this is not proof of organizer-template mismatch.
 6. Shipped TIFFs have nodata = None; the synthetic QA TIFF has nodata = NaN.

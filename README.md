@@ -4,15 +4,13 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-30, current Arena branch)
+## Latest review (2026-10-30)
 
-**Decision: no approved submission; do not submit any existing TIFF.** The best historical focus-site result in the user-provided list is GEMSDOE32's `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros`, **0.2778 USER-REPORTED / UNVERIFIED**. The available lattice audit reports 99.91% of its dots within 3 px, above the protocol's 70% stop. A new-file leaderboard estimate is unavailable. A separate same-day public-page review records rank 1 = 0.4544 and 0.3195 = rank 48; these are dated public-board values, not scores for local files. See [`research/2026-10-30-repo-review.md`](research/2026-10-30-repo-review.md).
+**Three-pass repo review:** [`research/repo-review-2026-10-30-arena-883dcf4d.md`](research/repo-review-2026-10-30-arena-883dcf4d.md), with its [negative run card](evidence/session-2026-10-30-review-run-card.json). Companion detailed nine-site review: [`research/repo-review-2026-10-30.md`](research/repo-review-2026-10-30.md). No experiment, new TIFF, HOLDOUT-DTI, leaderboard estimate, upload, or slot was produced. The download inventory remains `PASS_RESEARCH_ONLY` (nine artifacts; no approved submission). Python: 256 passed, 8 optional mirror/template tests skipped; Node feed/site: 3/8 passed; browser smoke passed.
 
-This review ran **256 Python tests passed, 8 skipped**, Node feed **3/3**, site **8/8**, and browser checks passed at 1440, 390, and 320 px. Nine tracked TIFFs remain research-only; `downloadable_approved_submission` is null. The pre-existing slate has four ranked hypotheses, but no method lane was assigned, so no experiment or TIFF was produced. Full review/run card: [`research/repo-review-2026-10-30.md`](research/repo-review-2026-10-30.md), [`evidence/repo-review-2026-10-30-run-card.json`](evidence/repo-review-2026-10-30-run-card.json). A separate Arena three-pass review is [`research/2026-10-30-three-pass-arena-review.md`](research/2026-10-30-three-pass-arena-review.md).
+**Leaderboard/source irregularity:** the latest supported official public-board observation saved here is dated 2026-10-29: rank 1 = 0.4544 and 0.3195 = rank 47 (`evidence/official-review-2026-10-29.json`). A merged review draft claimed a 2026-10-30 fetch and rank 48, but its linked evidence card says external official pages were not fetched. That freshness/rank claim is unsupported and withdrawn; do not treat any value as current. The GEMSDOE32 0.2778 remains USER-REPORTED / UNVERIFIED and is not an estimated score for a new raster.
 
-**Correction:** the checked-in 32×48 `GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif` is synthetic QA, not an organizer sample. Its different geotransform and NaN exterior do not establish an official template mismatch or explain the portal's range error. That error remains unexplained.
-
-Prior review notes below are historical evidence, not current-branch status. **No submission is approved; the research-only download links are not permission to upload.**
+**Format-evidence correction:** the checked-in 32×48 `GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif` is synthetic QA, not an organizer sample. Its different geotransform and NaN exterior do not prove an official template mismatch or explain the portal's range error. No approved submission exists; do not submit any repository TIFF.
 
 ## Operating instruction
 
