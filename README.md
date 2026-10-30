@@ -8,7 +8,9 @@ Work on the Arena-assigned branch for the current session.
 
 **Three-pass review for this Arena session:** [`research/repo-review-2026-10-30-arena-883dcf4d.md`](research/repo-review-2026-10-30-arena-883dcf4d.md), with [negative run card](evidence/session-2026-10-30-review-run-card.json). No experiment, new TIFF, holdout score, leaderboard estimate, upload, or slot was produced. The download inventory remains `PASS_RESEARCH_ONLY` (nine artifacts; no approved submission). Python: 256 passed, 8 optional mirror/template tests skipped; Node feed/site: 3/8 passed; browser smoke passed.
 
-**Leaderboard/source irregularity:** this README's prior merged 2026-10-30 note said a live leaderboard was fetched, but its linked `evidence/repo-review-2026-10-30.json` says external official pages were not fetched due network restrictions. That statement is unsupported by its own evidence and is withdrawn here. The latest independently saved source observation remains dated 2026-10-29; do not treat any value/rank as current from this checkout. The exact 0.2778 focus-site value remains USER-REPORTED / UNVERIFIED. Do not submit any existing TIFF.
+**Leaderboard/source irregularity:** merged review notes claim a live leaderboard fetch on 2026-10-30, but both linked review cards say external/current DrivenData data was not verified. That freshness claim is unsupported by its evidence and is withdrawn. The latest saved official source observation is dated 2026-10-29; do not treat any value/rank as current from this checkout. The 0.2778 focus-site value remains USER-REPORTED / UNVERIFIED. Do not submit any existing TIFF.
+
+Companion review: [`research/2026-10-30-three-pass-arena-review.md`](research/2026-10-30-three-pass-arena-review.md); it likewise records no current DrivenData feed verification.
 
 ## Previous review (2026-10-29, Arena branch)
 
