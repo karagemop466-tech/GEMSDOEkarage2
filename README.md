@@ -4,6 +4,10 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest review (2026-10-30)
+
+**Three-pass repository review:** [`research/repo-review-2026-10-30.md`](research/repo-review-2026-10-30.md), with a machine-readable negative review card at [`evidence/session-2026-10-30-review-run-card.json`](evidence/session-2026-10-30-review-run-card.json). No geological experiment, new TIFF, holdout score, leaderboard estimate, upload, or slot was produced. The local downloadable inventory remains `PASS_RESEARCH_ONLY` (nine artifacts; no approved submission). The test suite passed 256 tests with 8 optional mirror/template tests skipped; those skipped checks remain unverified. Do not submit any existing TIFF.
+
 ## Latest review (2026-10-29, current Arena branch)
 
 **Session findings: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).** No file is approved and no name or note is proposed. The registry audit marks the gw-nfs raster and all nine focus best paths DUPLICATE. Two hide-and-recover experiments were run (E1, E2): both are negative, and the protocol ceiling shows apron placements can reach only 0.13% of withheld positives. After merging `origin/main`: Python 253 passed, 8 skipped, 0 failed (this branch's HEAD before the session: 14 failed). Node: 8/8 and 3/3.

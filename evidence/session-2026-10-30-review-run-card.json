@@ -1,0 +1,61 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "session_date_utc": "2026-10-30",
+  "classification": "THREE-PASS REPOSITORY REVIEW; NO GEOLOGICAL EXPERIMENT OR SUBMISSION",
+  "hypothesis": "No geological hypothesis was tested; no single method paragraph was assigned in this review.",
+  "mechanism": "Read-only review of repository documentation, release evidence, focus-site audit records, automated tests, generated-page consistency and the research-only artifact inventory.",
+  "named_non_fault_mimic": "Not applicable: no candidate surface or geological experiment was created.",
+  "hypothesis_status": "No new experiment. The existing ranked proposals remain unassigned and untested.",
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "holdout_evaluator_version": null,
+  "holdout_withheld_positives": null,
+  "holdout_status": "NOT RUN; no candidate experiment",
+  "leaderboard_estimate": null,
+  "registry_correlation_or_overlap": null,
+  "registry_complete": false,
+  "preplacement_surface_check": null,
+  "final_dot_check": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_generated": false,
+    "candidate_validator": "NOT RUN; no candidate raster",
+    "published_download_inventory": "PASS_RESEARCH_ONLY; nine artifacts; downloadable_approved_submission=null",
+    "organizer_template_authenticated": false,
+    "portal_acceptance": null,
+    "approved_for_submission": false
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "software_checks": {
+    "python_pytest": "256 passed, 8 skipped, 98 subtests passed; eight optional mirror/template integration tests skipped",
+    "node_feed": "3 passed",
+    "node_site": "8 passed",
+    "browser": "passed at 1440, 390, and 320 px",
+    "compile_shell_and_generated_pages": "passed",
+    "download_inventory": "PASS_RESEARCH_ONLY"
+  },
+  "verdict": "negative",
+  "reasons": [
+    "No assigned method lane; prior HK3 lane is retired and its experiment/time limits are exhausted.",
+    "No complete, current literal registry or authenticated organizer template/data is established.",
+    "No new candidate, holdout evaluation, leakage canary, uniqueness measurement, or portal acceptance exists.",
+    "All nine downloadable artifacts are inventory-classified research-only; no file is approved for submission.",
+    "The last saved official leaderboard observation is dated 2026-10-29 and was not refreshed in this review."
+  ],
+  "historical_focus_claim": {
+    "evidence_class": "USER-REPORTED / UNVERIFIED historical value from supplied focus-site results; not a file-linked organizer receipt",
+    "site": "GEMSDOE32",
+    "value": 0.2778,
+    "interpretation": "Largest value in the user's supplied nine-site list; not a score estimate for a new raster and not organizer-confirmed."
+  },
+  "limitations": [
+    "Eight optional mirror-backed/shared-template tests were skipped because the pinned inputs are absent from this checkout.",
+    "Local integrity, format, and browser tests do not authenticate organizer inputs or prove upload acceptance.",
+    "No external page, current sibling-site raster, current leaderboard, account quota, or submission receipt was refreshed or verified during this review."
+  ]
+}
