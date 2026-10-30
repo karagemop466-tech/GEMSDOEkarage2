@@ -6,25 +6,11 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-30)
 
-**Three-pass review for this Arena session:** [`research/repo-review-2026-10-30-arena-883dcf4d.md`](research/repo-review-2026-10-30-arena-883dcf4d.md), with [negative run card](evidence/session-2026-10-30-review-run-card.json). No experiment, new TIFF, holdout score, leaderboard estimate, upload, or slot was produced. The download inventory remains `PASS_RESEARCH_ONLY` (nine artifacts; no approved submission). Python: 256 passed, 8 optional mirror/template tests skipped; Node feed/site: 3/8 passed; browser smoke passed.
+**Three-pass repo review:** [`research/repo-review-2026-10-30-arena-883dcf4d.md`](research/repo-review-2026-10-30-arena-883dcf4d.md), with its [negative run card](evidence/session-2026-10-30-review-run-card.json). Companion detailed nine-site review: [`research/repo-review-2026-10-30.md`](research/repo-review-2026-10-30.md). No experiment, new TIFF, HOLDOUT-DTI, leaderboard estimate, upload, or slot was produced. The download inventory remains `PASS_RESEARCH_ONLY` (nine artifacts; no approved submission). Python: 256 passed, 8 optional mirror/template tests skipped; Node feed/site: 3/8 passed; browser smoke passed.
 
-**Leaderboard/source irregularity:** merged review notes claim a live leaderboard fetch on 2026-10-30, but both linked review cards say external/current DrivenData data was not verified. That freshness claim is unsupported by its evidence and is withdrawn. The latest saved official source observation is dated 2026-10-29; do not treat any value/rank as current from this checkout. The 0.2778 focus-site value remains USER-REPORTED / UNVERIFIED. Do not submit any existing TIFF.
+**Leaderboard/source irregularity:** the latest supported official public-board observation saved here is dated 2026-10-29: rank 1 = 0.4544 and 0.3195 = rank 47 (`evidence/official-review-2026-10-29.json`). A merged review draft claimed a 2026-10-30 fetch and rank 48, but its linked evidence card says external official pages were not fetched. That freshness/rank claim is unsupported and withdrawn; do not treat any value as current. The GEMSDOE32 0.2778 remains USER-REPORTED / UNVERIFIED and is not an estimated score for a new raster.
 
-Companion review: [`research/2026-10-30-three-pass-arena-review.md`](research/2026-10-30-three-pass-arena-review.md); it likewise records no current DrivenData feed verification.
-
-## Previous review (2026-10-29, Arena branch)
-
-**Session findings: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).** No file is approved and no name or note is proposed. The registry audit marks the gw-nfs raster and all nine focus best paths DUPLICATE. Two hide-and-recover experiments were run (E1, E2): both are negative, and the protocol ceiling shows apron placements can reach only 0.13% of withheld positives. After merging `origin/main`: Python 253 passed, 8 skipped, 0 failed (this branch's HEAD before the session: 14 failed). Node: 8/8 and 3/3.
-
-This Arena branch's three-pass review is [`research/repo-review-2026-10-29-d704ab87.md`](research/repo-review-2026-10-29-d704ab87.md), with its session run card at [`evidence/session-d704ab87-run-card.json`](evidence/session-d704ab87-run-card.json). The latest integration addendum records reconciliation with `origin/main` at `d4c081d`: nine public TIFFs are inventoried as research-only, including H-A and H-Rank-4, and both fail the shared duplicate gate against the available lattice witness. That witness is not a complete registry; no full-registry clearance, holdout score, leaderboard estimate, or organizer acceptance is established. **No submission is approved; do not submit any existing TIFF.** The unreceipted GW-NFS raster is quarantined outside public downloads. Both synthetic H-A and H-Rank-4 generators are disabled; their historical TIFFs remain negative research artifacts. The historical page and run card must not be interpreted as approval or current leaderboards.
-
-## Session B addendum (arena/ab3581f2, 2026-10-29) — read with the review above
-
-- **Full-registry duplicate check (440 pinned focus rasters, byte-verified):** gw-nfs is **DUPLICATE_STOP** (max 3-px overlap 1.0, 7 witnesses), and it stays quarantined. H-A is **DUPLICATE_STOP** too (max overlap 1.0, 3 witnesses), and it remains an inventoried research-only download, not a candidate. Receipts: [`evidence/uniqueness/`](evidence/uniqueness/); run card: [`evidence/session-2026-10-29-b-run-card.json`](evidence/session-2026-10-29-b-run-card.json).
-- The earlier "gw-nfs UNIQUE: PASS" statement is **retracted**. It checked only two rasters.
-- **Nine best focus files are not unique against each other** (max overlap 0.976–1.000, recomputed from bytes; [`nine-site-pairwise-recheck.json`](evidence/uniqueness/nine-site-pairwise-recheck.json)).
-- **Shared holdout evaluator fixed:** `scripts/evaluate_holdout.py::pooled_dti_over_folds` used to count other blocks' predictions as false positives (a perfect predictor scored 0.63). Regression-tested. Recorded `gems57` numbers come from the vendored evaluator and are not affected.
-- Review: [`research/2026-10-29-session-b-three-pass-review.md`](research/2026-10-29-session-b-three-pass-review.md). Experiments run: **0 of 3**. No file is approved; do not submit any existing TIFF.
+**Format-evidence correction:** the checked-in 32×48 `GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif` is synthetic QA, not an organizer sample. Its different geotransform and NaN exterior do not prove an official template mismatch or explain the portal's range error. No approved submission exists; do not submit any repository TIFF.
 
 ## Operating instruction
 
