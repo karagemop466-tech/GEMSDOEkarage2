@@ -4,7 +4,18 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-29, current Arena branch)
+## Latest review (2026-10-30, current Arena branch)
+
+**Decision: NO file is approved to download and submit.** This review generated no TIFF, ran no geological experiment, used no competition slot, and made no leaderboard-score projection. Read [`research/2026-10-30-review-arena-150a3bda.md`](research/2026-10-30-review-arena-150a3bda.md) and its negative card [`docs/evidence/2026-10-30-repo-review-run-card.json`](docs/evidence/2026-10-30-repo-review-run-card.json).
+
+- The best historical claim remains GEMSDOE32 B2, **0.2778 USER-REPORTED / UNVERIFIED**. The pinned bytes show B2 is D2.8 with 6,436 catalogue-adjacent dots removed; that is a plausible pruning explanation, not proven causality or a receipt. A defensible leaderboard estimate is **Unavailable**.
+- All nine requested historical files are `DUPLICATE_STOP`: their pinned masks overlap the registered lattice by 99.91–99.92% and the pairwise audit shows 97.6–100% maximum directional overlap with another focus file. These are byte-geometry measurements, not scores; the 440-raster snapshot is not a complete live registry.
+- The last timestamped public leaderboard observation is **2026-10-29**: #1 0.4544 and the cited 0.3195 at #47 (ORGANIZER-PUBLISHED PUBLIC SNAPSHOT, not an upload receipt). A 2026-10-30 organizer-page refresh was not verified in this review; do not call these today's live standings.
+- **Protocol/tool clarification:** the repository's root `scripts/evaluate_holdout.py` is a legacy quadrant-pixel helper, not the pinned whole-component shared evaluator. It has been explicitly marked research-only and regression-tested to show that a fault crossing a quadrant can remain partly visible. Future assigned lanes must use one commit-coherent pinned template via `scripts/bootstrap_template.py`, not mix local helpers or templates.
+- The single method paragraph referenced by the user's parallel-run protocol was not supplied. The official competition data/cache and a current complete registry are also unavailable. No holdout or candidate raster was therefore run. Three qualitative hypotheses are ranked in the review; none is assigned or validated.
+- Verification: Python **257 passed, 8 skipped** (the skipped cases require un-restored owner mirrors); Node feed/site **3 + 8 passed**; browser smoke passed; generated pages are current; download audit is `PASS_RESEARCH_ONLY` with no approved TIFF.
+
+## Prior review (2026-10-29, earlier Arena branch)
 
 **Session findings: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).** No file is approved and no name or note is proposed. The registry audit marks the gw-nfs raster and all nine focus best paths DUPLICATE. Two hide-and-recover experiments were run (E1, E2): both are negative, and the protocol ceiling shows apron placements can reach only 0.13% of withheld positives. After merging `origin/main`: Python 253 passed, 8 skipped, 0 failed (this branch's HEAD before the session: 14 failed). Node: 8/8 and 3/3.
 
@@ -15,7 +26,7 @@ This Arena branch's three-pass review is [`research/repo-review-2026-10-29-d704a
 - **Full-registry duplicate check (440 pinned focus rasters, byte-verified):** gw-nfs is **DUPLICATE_STOP** (max 3-px overlap 1.0, 7 witnesses), and it stays quarantined. H-A is **DUPLICATE_STOP** too (max overlap 1.0, 3 witnesses), and it remains an inventoried research-only download, not a candidate. Receipts: [`evidence/uniqueness/`](evidence/uniqueness/); run card: [`evidence/session-2026-10-29-b-run-card.json`](evidence/session-2026-10-29-b-run-card.json).
 - The earlier "gw-nfs UNIQUE: PASS" statement is **retracted**. It checked only two rasters.
 - **Nine best focus files are not unique against each other** (max overlap 0.976–1.000, recomputed from bytes; [`nine-site-pairwise-recheck.json`](evidence/uniqueness/nine-site-pairwise-recheck.json)).
-- **Shared holdout evaluator fixed:** `scripts/evaluate_holdout.py::pooled_dti_over_folds` used to count other blocks' predictions as false positives (a perfect predictor scored 0.63). Regression-tested. Recorded `gems57` numbers come from the vendored evaluator and are not affected.
+- **Legacy local evaluator correction:** `scripts/evaluate_holdout.py::pooled_dti_over_folds` previously counted other blocks' predictions as false positives (a perfect predictor scored 0.63); the pooling defect is regression-tested. This root helper is quadrant-pixel based, not the pinned shared whole-component evaluator, and must not be used for future protocol promotion evidence. Historical `gems57` results used their separate vendored evaluator. See the 2026-10-30 review for exact pinned-template paths and hashes.
 - Review: [`research/2026-10-29-session-b-three-pass-review.md`](research/2026-10-29-session-b-three-pass-review.md). Experiments run: **0 of 3**. No file is approved; do not submit any existing TIFF.
 
 ## Operating instruction
@@ -158,11 +169,15 @@ holdout cannot reliably estimate the expert-hidden private score).
 1. LANE: stay inside the single method paragraph. Rank-correlation > 0.90 with any
    registry raster, or > 70% of dots within 3 px of one registry raster's dots = lane
    drift: log as duplicate and stop. Check before placement AND on final dots.
-2. REUSE, DON'T REBUILD: use the template's cached feature stack, evaluate_holdout.py
-   and submission_writer.py. Holdout = hide-and-recover: withhold whole fault segments
-   with a buffer; derive catalogue features only from visible faults; mask visible
-   faults pixel-exactly; score pooled DTI (alpha 0.2, beta 0.8, 300 m triangular
-   kernel). Fix shared tools once in the template; never keep a private fork.
+2. REUSE, DON'T REBUILD: use one commit-coherent pinned template's cached feature stack,
+   evaluator and writer. The current `registry/template_tools.json` pin is GEMSDOE32 at
+   `73485f27cf230af770167397c2b72cb9ce3b3f25`; restore with `scripts/bootstrap_template.py`
+   and verify hashes. Do not mix it with the separate GEMSDOE24 `shared_protocol_assets`
+   snapshot. The root `scripts/evaluate_holdout.py` is a legacy quadrant-pixel helper, not
+   the pinned shared evaluator. Holdout = hide-and-recover: withhold whole fault segments
+   with a buffer; derive catalogue features only from visible faults; mask visible faults
+   pixel-exactly; score pooled DTI (alpha 0.2, beta 0.8, 300 m triangular kernel). Fix
+   shared tools once in the shared template; never keep a private fork.
 3. LABEL EVERY NUMBER as HOLDOUT-DTI or ORGANIZER-CONFIRMED. A projection is never
    written as a score.
 4. LEAKAGE CANARY: test each feature alone on the holdout first. AUC > 0.90 means

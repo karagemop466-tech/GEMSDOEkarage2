@@ -29,10 +29,17 @@ No new experiment, TIFF or slot was used for the correction.
   an authenticated template, a portal acceptance, or an independent paired improvement.
   Schema consistency is not evidence verification or a slot authorization.
 * Use the shared template's cached stack, evaluator and writer for a future, explicitly
-  assigned lane; fix shared tools only in the shared template. Whole fault segments and
-  buffers must be withheld; catalogue-derived features must use visible faults only,
-  visible faults must be masked pixel-exactly, and pooled DTI uses alpha .2, beta .8 and
-  the 300 m triangular kernel. Test each feature alone for AUC >.90 leakage.
+  assigned lane; fix shared tools only in the shared template. The current protocol pin
+  is `registry/template_tools.json` (GEMSDOE32 commit `73485f27cf230af770167397c2b72cb9ce3b3f25`);
+  restore it with `scripts/bootstrap_template.py` and verify the pinned hashes before use.
+  Do not confuse that commit-coherent toolchain with the separate GEMSDOE24 snapshot in
+  `registry/shared_protocol_assets.json`, or mix modules from them. The root
+  `scripts/evaluate_holdout.py` is a legacy quadrant-pixel helper, not the shared
+  whole-component evaluator; retain it only for reproducing historical results. Whole
+  fault components and buffers must be withheld; catalogue-derived features must use
+  visible faults only, visible faults must be masked pixel-exactly, and pooled DTI uses
+  alpha .2, beta .8 and the 300 m triangular kernel. Test each feature alone for AUC
+  >.90 leakage.
 * Enforce >.90 rank correlation or >70% 3 px overlap vs **any** registry raster before
   placement and on final saved dots. Invalid, missing or inaccessible inputs fail closed.
   No edge-hole gaming or changed definition creates clearance. Run no more than three

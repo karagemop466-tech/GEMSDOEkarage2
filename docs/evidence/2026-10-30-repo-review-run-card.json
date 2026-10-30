@@ -1,0 +1,87 @@
+{
+  "schema": "gems.run-card.v1",
+  "session": "2026-10-30-repo-review",
+  "branch": "arena/150a3bda-gemsdoekarage2",
+  "kind": "negative repository/protocol review; no geological experiment",
+  "lane": "none assigned; the referenced single method paragraph is absent from the supplied prompt",
+  "hypothesis": "None selected for execution. Three qualitative untested transforms are listed in research/2026-10-30-review-arena-150a3bda.md; they are not an assigned lane.",
+  "mechanism": "Not tested; no candidate surface or raster was constructed.",
+  "named_non_fault_process": "Not assigned to a tested candidate. The research slate names intrusive/lithologic contacts, survey lineaments, shorelines/terraces, and saline playa or inversion boundaries as possible mimics.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": null,
+    "dti": null,
+    "withheld_positives": null,
+    "ci95": null,
+    "status": "NOT RUN: no assigned method, authenticated feature stack, or candidate",
+    "reason": "No score was calculated or projected in this review."
+  },
+  "correlation_overlap_vs_registry": {
+    "candidate_surface_rank_correlation": null,
+    "candidate_surface_overlap_3px": null,
+    "candidate_final_rank_correlation": null,
+    "candidate_final_overlap_3px": null,
+    "status": "NOT RUN: no candidate surface or final dots",
+    "historical_context": {
+      "evidence_class": "MEASURED ON PINNED BYTES; geometry only, not a score",
+      "nine_focus_files_lattice_overlap_fraction_range": [0.9990971853425386, 0.9992336290112184],
+      "nine_focus_files_pairwise_max_overlap_fraction_range": [0.975781, 1.0],
+      "scope": "One registered lattice witness and the nine pinned historical focus best files; the registry is not declared complete.",
+      "receipts": [
+        "docs/evidence/lattice-gate/summary.json",
+        "docs/evidence/uniqueness/nine-site-pairwise-recheck.json"
+      ]
+    }
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "NOT RUN: no candidate TIFF",
+    "no_nan_inside_footprint": null,
+    "values_in_range_0_1": null,
+    "crs_shape_transform_match": null
+  },
+  "submission_name": null,
+  "note": null,
+  "verdict": "negative",
+  "ok_to_download": false,
+  "ok_to_submit": false,
+  "submission_slots_used": 0,
+  "budget": {
+    "experiments_allowed": 3,
+    "experiments_used": 0,
+    "session_limit_hours": 2,
+    "geological_experiments_run": 0
+  },
+  "data_access": {
+    "official_core_inputs_present": false,
+    "prepared_feature_stack_present": false,
+    "pinned_shared_source_files_hash_verified": true,
+    "source_authentication": "Pinned GitHub source bytes only; not organizer-authenticated competition data."
+  },
+  "organizer_public_leaderboard_observation": {
+    "observation_type": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a submission-page receipt",
+    "observed_date_utc": "2026-10-29",
+    "rank_one_value": 0.4544,
+    "user_cited_value": 0.3195,
+    "user_cited_rank_in_that_snapshot": 47,
+    "current_on_2026_10_30": null,
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "note": "No live 2026-10-30 refresh was performed; these values are not scores for a local raster."
+  },
+  "review_and_tests": {
+    "python": "257 passed, 8 skipped, 98 subtests passed; 8 skips require optional pinned owner-mirror inputs",
+    "node_feed": "3 passed",
+    "node_site": "8 passed",
+    "browser_smoke": "passed",
+    "generated_pages": "up to date",
+    "public_download_audit": "PASS_RESEARCH_ONLY; downloadable_approved_submission is null"
+  },
+  "limitations": [
+    "The single method paragraph referenced by the user protocol was not supplied.",
+    "No official competition rasters, authenticated template, or prepared feature cache are present.",
+    "The active cross-session registry is incomplete and not independently certified.",
+    "No frozen same-evaluator incumbent is available for a paired holdout comparison.",
+    "No organizer submission-page receipt, portal acceptance, private score, or current account quota is available.",
+    "No new TIF was created; every current published artifact remains research-only."
+  ]
+}

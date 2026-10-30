@@ -1,5 +1,7 @@
 # Submission status — NO APPROVED FILE
 
+**2026-10-30 review:** no candidate was generated or tested; no holdout result, score projection, TIFF hash, validator output, or slot exists for this session. Download/submit approval remains **NO**. All nine pinned historical best files still have the 2026-10-29 lattice and pairwise duplicate stops; these receipts are witness-scoped, not a complete current registry. See [`research/2026-10-30-review-arena-150a3bda.md`](research/2026-10-30-review-arena-150a3bda.md) and [`docs/evidence/2026-10-30-repo-review-run-card.json`](docs/evidence/2026-10-30-repo-review-run-card.json).
+
 **GW-NFS audit (2026-10-29, PR #76):** the PR #61 raster is NEGATIVE: holdout DTI 0.000013 is below both same-holdout random controls, and uniqueness fails. It stays quarantined under `evidence/quarantine/`. See [the review](research/2026-10-29-gw-nfs-audit-and-three-pass-review.md).
 
 **Session B addendum (2026-10-29):** NO FILE IS OK TO DOWNLOAD AND SUBMIT. Full-registry check (440 rasters): gw-nfs and H-A are both DUPLICATE_STOP (overlap 1.0). gw-nfs stays quarantined; H-A remains an inventoried research-only download. The nine best focus files are not unique against each other (overlap 0.976–1.000). Estimated leaderboard score for any file: Unavailable (no organizer template or labels here). Receipts: [`evidence/uniqueness/`](evidence/uniqueness/).
