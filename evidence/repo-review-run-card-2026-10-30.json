@@ -1,0 +1,52 @@
+{
+  "schema": "gems.repository_review_card.v1",
+  "recorded_utc": "2026-10-30",
+  "classification": "REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT",
+  "hypothesis": "None tested: no concrete method paragraph/lane assignment was supplied.",
+  "mechanism": "Three-pass repository review and local software/site test execution only; no prediction surface or raster generated.",
+  "named_non_fault_mimic": "Not applicable; no candidate geological mechanism was tested.",
+  "holdout": {
+    "evidence_class": "NOT RUN; NO HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "dti": null,
+    "ci95": null
+  },
+  "registry_correlation_overlap": {
+    "candidate_surface_spearman": null,
+    "candidate_surface_max_3px_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_max_3px_overlap": null,
+    "scope": "No candidate surface or final dots exist. Existing historical registry receipts do not independently establish completeness of all parallel submissions.",
+    "complete_registry_verified": false,
+    "preplacement_gate_passed": false
+  },
+  "raster": null,
+  "raster_sha256": null,
+  "validator_result": {
+    "status": "NOT RUN: no new raster",
+    "format_validation": null,
+    "organizer_template_match": null,
+    "organizer_acceptance": null,
+    "submission_authorized": false
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "verdict": "negative",
+  "tests": {
+    "python": "256 passed, 8 skipped, 98 warnings, 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "8 passed",
+    "browser": "PASS at 1440, 390, 320 px plus freshness checks"
+  },
+  "limitations": [
+    "No concrete assigned method paragraph; no experiment was run.",
+    "Eight optional mirror-backed Python tests skipped because pinned inputs are not restored.",
+    "Competition rasters/template and labels are not authenticated in this checkout.",
+    "Historical scores are not receipts for local raster bytes; no candidate leaderboard estimate is available.",
+    "No portal acceptance, weekly slot authorization, or current DrivenData feed was verified."
+  ]
+}

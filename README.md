@@ -6,7 +6,7 @@ Work on the Arena-assigned branch for the current session.
 
 ## Latest review (2026-10-30, arena/022009c9-gemsdoekarage2)
 
-**Repo review: [`research/2026-10-30-repo-review.md`](research/2026-10-30-repo-review.md).** No file is approved; do not submit any existing TIFF. Live DrivenData leaderboard (fetched 2026-10-30): **#1 = 0.4544** (xiaofanhu); **0.3195 = rank 48** (kpomazi); no row shows 0.4413. Python tests: 256 passed, 8 skipped; Node: 3/3. Shipped TIFFs use finite zeros outside the footprint, while the organizer sample uses NaN, and the geotransform origins differ (243350/4508550 vs 400000/4400000). Both are unresolved and may explain the "[0, 1]" portal error. `data/` is absent, so no holdout experiment was run.
+**Repo review: [`research/2026-10-30-repo-review.md`](research/2026-10-30-repo-review.md).** No file is approved; do not submit any existing TIFF. Live DrivenData leaderboard (fetched 2026-10-30): **#1 = 0.4544** (xiaofanhu); **0.3195 = rank 48** (kpomazi); no row shows 0.4413. Python tests: 256 passed, 8 skipped; Node: 3/3. Shipped TIFFs use finite zeros outside the footprint, while the organizer sample uses NaN, and the geotransform origins differ (243350/4508550 vs 400000/4400000). Both are unresolved and may explain the "[0, 1]" portal error. `data/` is absent, so no holdout experiment was run. Companion Arena three-pass review: [`research/2026-10-30-three-pass-arena-review.md`](research/2026-10-30-three-pass-arena-review.md), with local run card [`evidence/repo-review-run-card-2026-10-30.json`](evidence/repo-review-run-card-2026-10-30.json).
 
 ## Previous review (2026-10-29, Arena branch)
 
