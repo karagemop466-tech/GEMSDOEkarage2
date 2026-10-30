@@ -1,9 +1,9 @@
 {
   "schema": "gems.official-page-observations.v1",
   "observed_date_utc": "2026-10-30",
-  "observed_utc": "2026-10-30T01:42:29Z",
-  "timestamp_precision": "The UTC timestamp is the session-side observation time recorded immediately after reading the public page; the organizer page does not expose a snapshot-generation timestamp.",
-  "access_method": "Arena public page reader; all three chunks of the public leaderboard and the public problem/data pages were read. No organizer account, submission-page receipt, or private score was accessed.",
+  "observed_utc": "2026-10-30T01:57:20Z",
+  "timestamp_precision": "The UTC timestamp is the session-side observation time recorded immediately after reading the public pages; the organizer page does not expose a snapshot-generation timestamp.",
+  "access_method": "Arena public page reader; all three leaderboard chunks and both problem-page chunks were read on 2026-10-30. The data-page request redirected to DrivenData login. No organizer account, submission-page receipt, or private score was accessed.",
   "sources": [
     {
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",

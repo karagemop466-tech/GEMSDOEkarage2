@@ -1,14 +1,14 @@
 {
-  "generated_utc": "2026-10-30T01:45:06Z",
-  "note": "GitHub metadata only; leaderboard is a manually observed dated snapshot and is not refreshed automatically. Freshness is not a scientific, format or submission-approval gate.",
+  "generated_utc": "2026-10-30T01:58:58Z",
+  "note": "GitHub metadata only; leaderboard is a dated manual public-page observation and is not refreshed automatically. Freshness is not a scientific, format or submission-approval gate.",
   "leaderboard": {
     "status": "snapshot",
     "score_text": "0.4544",
     "rank": 1,
     "participant": "xiaofanhu",
-    "checked_utc": "2026-10-30T01:42:29Z",
-    "observation_precision": "session-side timestamp; leaderboard page itself gives relative activity times, not a generation timestamp",
-    "access_method": "Arena public page reader; all three leaderboard chunks read 2026-10-30",
+    "checked_utc": "2026-10-30T01:57:20Z",
+    "observation_precision": "Session-side UTC read time; the public leaderboard itself does not expose a snapshot-generation timestamp.",
+    "access_method": "Arena public page reader; all three leaderboard chunks read 2026-10-30.",
     "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
     "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a file-linked submission-page receipt",
     "user_cited_0_3195": {
@@ -16,69 +16,70 @@
       "participant": "kpomazi",
       "score_text": "0.3195"
     },
-    "limitations": "Public rows only; not a private-round result, HOLDOUT-DTI result, submission-page receipt, or score for any local raster."
+    "limitations": "Public rows only; not a private-round result, HOLDOUT-DTI result, submission-page receipt, or score for any local raster.",
+    "evidence_file": "evidence/official-review-2026-10-30.json"
   },
   "sites": [
     {
       "site": "GEMSDOE24",
       "pinned_ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
-      "checked_utc": "2026-10-30T01:45:06Z",
+      "checked_utc": "2026-10-30T01:58:58Z",
       "latest_ref": "63d5885b68f73c19a7746052ccb3e5690f3271b5",
       "status": "changed"
     },
     {
       "site": "GEMSDOE25",
       "pinned_ref": "b13ccabae15d4951854d47cb35e17322e7537b64",
-      "checked_utc": "2026-10-30T01:45:06Z",
+      "checked_utc": "2026-10-30T01:58:58Z",
       "latest_ref": "782824f08879a52ad5142b4b0f46d59d48017e7a",
       "status": "changed"
     },
     {
       "site": "GEMSDOE27",
       "pinned_ref": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
-      "checked_utc": "2026-10-30T01:45:07Z",
+      "checked_utc": "2026-10-30T01:58:59Z",
       "latest_ref": "bf34151e8e4ef26ec924f28dbc371a39bd740782",
       "status": "changed"
     },
     {
       "site": "GEMSDOE28",
       "pinned_ref": "4955e29c7b66503ba2178b25d356d713dc1bc534",
-      "checked_utc": "2026-10-30T01:45:07Z",
+      "checked_utc": "2026-10-30T01:58:59Z",
       "latest_ref": "424bf795ed2183000c643d6e30a12ce2d4bf401d",
       "status": "changed"
     },
     {
       "site": "GEMSDOE30",
       "pinned_ref": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
-      "checked_utc": "2026-10-30T01:45:08Z",
+      "checked_utc": "2026-10-30T01:59:00Z",
       "latest_ref": "eaff218f81e89fadc605650bb2cd55dd4b58e18d",
       "status": "changed"
     },
     {
       "site": "GEMSDOE31",
       "pinned_ref": "88ec212955353f7590e94b8ef2a9763ffa035d45",
-      "checked_utc": "2026-10-30T01:45:08Z",
+      "checked_utc": "2026-10-30T01:59:00Z",
       "latest_ref": "f9248200f20def2654af596c1cc13ab2f9d96687",
       "status": "changed"
     },
     {
       "site": "GEMSDOE32",
       "pinned_ref": "73485f27cf230af770167397c2b72cb9ce3b3f25",
-      "checked_utc": "2026-10-30T01:45:09Z",
+      "checked_utc": "2026-10-30T01:59:01Z",
       "latest_ref": "6edcc4cd529ca0809b956ccb00aea7f0e3b79cbf",
       "status": "changed"
     },
     {
       "site": "GEMSDOE33",
       "pinned_ref": "844f514819041c7be9efd345a24cf5cd70263f00",
-      "checked_utc": "2026-10-30T01:45:09Z",
+      "checked_utc": "2026-10-30T01:59:01Z",
       "latest_ref": "ee2e464b61cb0e0aa604b0525044ad9ff31c9ec7",
       "status": "changed"
     },
     {
       "site": "GEMSDOE36",
       "pinned_ref": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
-      "checked_utc": "2026-10-30T01:45:10Z",
+      "checked_utc": "2026-10-30T01:59:02Z",
       "latest_ref": "b0824c550c02792897d0ebe3aba1cb0e75583ea1",
       "status": "changed"
     }

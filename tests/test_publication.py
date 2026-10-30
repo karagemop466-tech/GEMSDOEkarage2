@@ -53,7 +53,7 @@ def test_current_leaderboard_snapshot_matches_monitor_but_is_not_a_local_score()
     assert monitor['leaderboard']['user_cited_0_3195']['rank'] == cited['rank']
     assert monitor['leaderboard']['limitations'].startswith('Public rows only')
     assert monitor['leaderboard']['evidence_class'].startswith('ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT')
-    assert monitor['note'].startswith('GitHub metadata only; leaderboard is a manually observed dated snapshot')
+    assert monitor['note'].startswith('GitHub metadata only; leaderboard is a dated manual public-page observation')
     assert len(monitor['sites']) == 9
     homepage = (ROOT/'docs/index.html').read_text()
     assert '0.4544' in homepage and 'rank 48' in homepage

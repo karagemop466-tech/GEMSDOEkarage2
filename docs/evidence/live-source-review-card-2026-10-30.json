@@ -1,6 +1,6 @@
 {
   "schema": "gems.repository_review_card.v1",
-  "recorded_utc": "2026-10-30T01:54:42Z",
+  "recorded_utc": "2026-10-30T02:01:42Z",
   "classification": "REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT",
   "review_scope": "Three-pass source, code, publication, and test review. No model fit, candidate placement, experiment, TIFF, upload, or competition-slot selection.",
   "hypothesis": "No new geological hypothesis tested. Four qualitative future tests are ranked in the linked review; no uniquely identifiable method paragraph or lane was assigned.",
@@ -42,10 +42,10 @@
   "leaderboard_estimate": null,
   "public_leaderboard_observation": {
     "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a file-linked receipt, private score, HOLDOUT-DTI, or local-raster score",
-    "observed_utc": "2026-10-30T01:42:29Z",
+    "observed_utc": "2026-10-30T01:57:20Z",
     "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
     "evidence_file": "evidence/official-review-2026-10-30.json",
-    "evidence_sha256": "75afb4fbc8013efcf030ea6b4d291144cad3fa4a9a1699fd528466d750b2a7bf",
+    "evidence_sha256": "3ac3ff73db8505be0cfaaa93686a9a2529e2097b5eb806b54456084e1103988d",
     "first_place": {
       "rank": 1,
       "participant": "xiaofanhu",
@@ -64,7 +64,7 @@
   },
   "github_source_refresh": {
     "evidence_class": "GITHUB MAIN-BRANCH METADATA ONLY; NOT A RASTER OR SCORE AUDIT",
-    "checked_utc": "2026-10-30T01:45:06Z",
+    "checked_utc": "2026-10-30T01:58:58Z",
     "total_sites": 9,
     "changed": 9,
     "unavailable": 0,
@@ -78,7 +78,8 @@
       "GEMSDOE32": "6edcc4cd529ca0809b956ccb00aea7f0e3b79cbf",
       "GEMSDOE33": "ee2e464b61cb0e0aa604b0525044ad9ff31c9ec7",
       "GEMSDOE36": "b0824c550c02792897d0ebe3aba1cb0e75583ea1"
-    }
+    },
+    "field_notes_feed_checked_utc": "2026-10-30T01:59:07.192300+00:00"
   },
   "experiments_run": 0,
   "new_tiffs_created": 0,
@@ -91,7 +92,7 @@
   },
   "test_results": {
     "status": "PASS",
-    "python": "PASS: 257 passed, 8 skipped, 98 warnings, 98 subtests passed; 27.49 seconds.",
+    "python": "PASS: 257 passed, 8 skipped, 98 warnings, 98 subtests passed; 23.47 seconds.",
     "node_unit": "PASS: 3/3",
     "node_site": "PASS: 8/8",
     "browser": "PASS: 6 responsive, negative-badge, download-hash, navigation, feed-state, and overflow checks across 1440/390/320 px.",
