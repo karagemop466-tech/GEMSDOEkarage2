@@ -5,11 +5,13 @@
     "user_reported_result": "0.2477",
     "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": null,
-    "download": null,
+    "unique": false,
+    "unique_reason": "100.00% of dots within 3 px of GEMSDOE25 mask; fails >70% dot-overlap gate against lattice witness",
+    "download": "https://github.com/buffedlizard55-lab/GEMSDOE24/raw/63d5885b68f73c19a7746052ccb3e5690f3271b5/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
     "verdict": "negative",
-    "source": "https://github.com/buffedlizard55-lab/GEMSDOE24",
-    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+    "submit": false,
+    "submit_reason": "FAILS uniqueness gate (DUPLICATE_STOP against 13GEMSDOE lattice, 99.92% overlap). No organizer receipt.",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE24"
   },
   {
     "site": "GEMSDOE25",
@@ -17,11 +19,13 @@
     "user_reported_result": "0.2600",
     "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": null,
-    "download": null,
+    "unique": false,
+    "unique_reason": "100.00% dot-identical to GEMSDOE30 mask; fails >70% dot-overlap gate against lattice witness",
+    "download": "https://github.com/buffedlizard55-lab/GEMSDOE25/raw/ef939fe87041b6a8315a5f5210cd8a8eee93b2c4/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
     "verdict": "negative",
-    "source": "https://github.com/buffedlizard55-lab/GEMSDOE25",
-    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+    "submit": false,
+    "submit_reason": "FAILS uniqueness gate (DUPLICATE_STOP against 13GEMSDOE lattice, 99.92% overlap). No organizer receipt.",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE25"
   },
   {
     "site": "GEMSDOE27",
@@ -29,11 +33,13 @@
     "user_reported_result": "0.2449",
     "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": null,
-    "download": null,
+    "unique": false,
+    "unique_reason": "98.02% of dots within 3 px of GEMSDOE24 mask; fails >70% dot-overlap gate against lattice witness",
+    "download": "https://github.com/buffedlizard55-lab/GEMSDOE27/raw/bf34151e8e4ef26ec924f28dbc371a39bd740782/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
     "verdict": "negative",
-    "source": "https://github.com/buffedlizard55-lab/GEMSDOE27",
-    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+    "submit": false,
+    "submit_reason": "FAILS uniqueness gate (DUPLICATE_STOP against 13GEMSDOE lattice, 99.92% overlap). No organizer receipt.",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE27"
   },
   {
     "site": "GEMSDOE28",
@@ -41,11 +47,13 @@
     "user_reported_result": "0.2710",
     "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": null,
-    "download": null,
+    "unique": false,
+    "unique_reason": "100.00% of dots within 3 px of GEMSDOE24 mask; fails >70% dot-overlap gate against lattice witness",
+    "download": "https://github.com/buffedlizard55-lab/GEMSDOE28/raw/424bf795ed2183000c643d6e30a12ce2d4bf401d/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
     "verdict": "negative",
-    "source": "https://github.com/buffedlizard55-lab/GEMSDOE28",
-    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+    "submit": false,
+    "submit_reason": "FAILS uniqueness gate (DUPLICATE_STOP against 13GEMSDOE lattice, 99.91% overlap). No organizer receipt.",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE28"
   },
   {
     "site": "GEMSDOE30",
@@ -53,11 +61,13 @@
     "user_reported_result": "0.2600",
     "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": null,
-    "download": null,
+    "unique": false,
+    "unique_reason": "100.00% dot-identical to GEMSDOE25 mask; fails >70% dot-overlap gate against lattice witness",
+    "download": "https://github.com/buffedlizard55-lab/GEMSDOE30/raw/eaff218f81e89fadc605650bb2cd55dd4b58e18d/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
     "verdict": "negative",
-    "source": "https://github.com/buffedlizard55-lab/GEMSDOE30",
-    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+    "submit": false,
+    "submit_reason": "FAILS uniqueness gate (DUPLICATE_STOP against 13GEMSDOE lattice, 99.92% overlap). No organizer receipt.",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE30"
   },
   {
     "site": "GEMSDOE31",
@@ -65,11 +75,13 @@
     "user_reported_result": "0.2708",
     "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": null,
-    "download": null,
+    "unique": false,
+    "unique_reason": "100.00% of dots within 3 px of GEMSDOE24 mask; fails >70% dot-overlap gate against lattice witness",
+    "download": "https://github.com/buffedlizard55-lab/GEMSDOE31/raw/e70a257c829ad874135aff4b7b3a1452c4740640/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
     "verdict": "negative",
-    "source": "https://github.com/buffedlizard55-lab/GEMSDOE31",
-    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+    "submit": false,
+    "submit_reason": "FAILS uniqueness gate (DUPLICATE_STOP against 13GEMSDOE lattice, 99.92% overlap). No organizer receipt.",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE31"
   },
   {
     "site": "GEMSDOE32",
@@ -77,11 +89,13 @@
     "user_reported_result": "0.2778",
     "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": null,
-    "download": null,
+    "unique": false,
+    "unique_reason": "Subset of D2.8 (44,090 dots minus 6,436); 100.00% of dots within 3 px of GEMSDOE24 mask; fails >70% gate against lattice witness",
+    "download": "https://github.com/buffedlizard55-lab/GEMSDOE32/raw/6edcc4cd529ca0809b956ccb00aea7f0e3b79cbf/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
     "verdict": "negative",
-    "source": "https://github.com/buffedlizard55-lab/GEMSDOE32",
-    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+    "submit": false,
+    "submit_reason": "BEST HISTORICAL REPORT (0.2778) but FAILS uniqueness gate (DUPLICATE_STOP). No organizer receipt. NOT ELIGIBLE.",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE32"
   },
   {
     "site": "GEMSDOE33",
@@ -89,11 +103,13 @@
     "user_reported_result": "0.2632",
     "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": null,
-    "download": null,
+    "unique": false,
+    "unique_reason": "99.71% of dots within 3 px of GEMSDOE27 mask; fails >70% dot-overlap gate against lattice witness",
+    "download": "https://github.com/buffedlizard55-lab/GEMSDOE33/raw/0baedf407845fc9c10f1c605ae59eeada41a0578/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
     "verdict": "negative",
-    "source": "https://github.com/buffedlizard55-lab/GEMSDOE33",
-    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+    "submit": false,
+    "submit_reason": "FAILS uniqueness gate (DUPLICATE_STOP against 13GEMSDOE lattice, 99.91% overlap). No organizer receipt.",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE33"
   },
   {
     "site": "GEMSDOE36",
@@ -101,10 +117,26 @@
     "user_reported_result": "0.2750",
     "evidence_class": "USER-REPORTED; not ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": null,
-    "download": null,
+    "unique": false,
+    "unique_reason": "Contains GEMSDOE32 mask plus 1,200 dots; 97.58% overlap with GEMSDOE27; fails >70% dot-overlap gate against lattice witness",
+    "download": "https://github.com/buffedlizard55-lab/GEMSDOE36/raw/c15da37c83f11dcec0f6c62f65052efc825304a8/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
     "verdict": "negative",
-    "source": "https://github.com/buffedlizard55-lab/GEMSDOE36",
-    "reason": "No receipt, comparable holdout evaluation, or complete uniqueness proof in this checkout"
+    "submit": false,
+    "submit_reason": "FAILS uniqueness gate (DUPLICATE_STOP against 13GEMSDOE lattice, 99.92% overlap). No organizer receipt.",
+    "source": "https://github.com/buffedlizard55-lab/GEMSDOE36"
+  },
+  {
+    "site": "NEW · GEMSDOEkarage2 H-F (this repo)",
+    "historical_submission": "gemsdoe-hf-alteration-curvature-intersection-20261030",
+    "user_reported_result": null,
+    "evidence_class": "NEW HYPOTHESIS · HOLDOUT-DTI MEASURED · NOT ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": true,
+    "unique_reason": "PASS vs 7 local registry rasters: max |Spearman| 0.0115 (<=0.90), max dot overlap 0.6179 (<=0.70). 465 focus-site rasters not locally available for comparison.",
+    "download": "downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+    "verdict": "negative",
+    "submit": false,
+    "submit_reason": "UNIQUE and format-valid, but HOLDOUT-DTI 0.0184 (far below submission-worthy threshold). NOT OK to submit. Negative deliverable per protocol.",
+    "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2"
   }
 ]
