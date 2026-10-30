@@ -4,19 +4,13 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-29, current Arena branch)
+## Latest review (2026-10-30, current Arena branch)
 
-**Session findings: [`research/2026-10-29-session-findings.md`](research/2026-10-29-session-findings.md).** No file is approved and no name or note is proposed. The registry audit marks the gw-nfs raster and all nine focus best paths DUPLICATE. Two hide-and-recover experiments were run (E1, E2): both are negative, and the protocol ceiling shows apron placements can reach only 0.13% of withheld positives. After merging `origin/main`: Python 253 passed, 8 skipped, 0 failed (this branch's HEAD before the session: 14 failed). Node: 8/8 and 3/3.
+**Decision: no approved submission; do not submit any existing TIFF.** The best historical focus-site result in the user-provided list is GEMSDOE32's `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros`, **0.2778 USER-REPORTED / UNVERIFIED**. The evidence in this checkout reports 99.91% of that raster's dots within 3 pixels of the available GEMSDOE13 lattice witness, above the protocol's 70% stop threshold. A new-file leaderboard estimate is unavailable. The 2026-10-29 public leaderboard capture is dated evidence only; this session did not refresh DrivenData.
 
-This Arena branch's three-pass review is [`research/repo-review-2026-10-29-d704ab87.md`](research/repo-review-2026-10-29-d704ab87.md), with its session run card at [`evidence/session-d704ab87-run-card.json`](evidence/session-d704ab87-run-card.json). The latest integration addendum records reconciliation with `origin/main` at `d4c081d`: nine public TIFFs are inventoried as research-only, including H-A and H-Rank-4, and both fail the shared duplicate gate against the available lattice witness. That witness is not a complete registry; no full-registry clearance, holdout score, leaderboard estimate, or organizer acceptance is established. **No submission is approved; do not submit any existing TIFF.** The unreceipted GW-NFS raster is quarantined outside public downloads. Both synthetic H-A and H-Rank-4 generators are disabled; their historical TIFFs remain negative research artifacts. The historical page and run card must not be interpreted as approval or current leaderboards.
+This review ran **256 Python tests passed, 8 skipped** (optional owner-mirror/shared inputs absent), Node feed **3/3**, site **8/8**, and browser checks passed at 1440, 390, and 320 px. `scripts/audit_public_downloads.py --check` confirms nine tracked TIFFs remain research-only and `downloadable_approved_submission` is null. The pre-existing hypotheses slate has four ranked proposals; no lane was assigned in this request, so this review deliberately ran no experiment and generated no TIFF. Full details and the negative run card: [`research/repo-review-2026-10-30.md`](research/repo-review-2026-10-30.md) and [`evidence/repo-review-2026-10-30-run-card.json`](evidence/repo-review-2026-10-30-run-card.json).
 
-## Session B addendum (arena/ab3581f2, 2026-10-29) — read with the review above
-
-- **Full-registry duplicate check (440 pinned focus rasters, byte-verified):** gw-nfs is **DUPLICATE_STOP** (max 3-px overlap 1.0, 7 witnesses), and it stays quarantined. H-A is **DUPLICATE_STOP** too (max overlap 1.0, 3 witnesses), and it remains an inventoried research-only download, not a candidate. Receipts: [`evidence/uniqueness/`](evidence/uniqueness/); run card: [`evidence/session-2026-10-29-b-run-card.json`](evidence/session-2026-10-29-b-run-card.json).
-- The earlier "gw-nfs UNIQUE: PASS" statement is **retracted**. It checked only two rasters.
-- **Nine best focus files are not unique against each other** (max overlap 0.976–1.000, recomputed from bytes; [`nine-site-pairwise-recheck.json`](evidence/uniqueness/nine-site-pairwise-recheck.json)).
-- **Shared holdout evaluator fixed:** `scripts/evaluate_holdout.py::pooled_dti_over_folds` used to count other blocks' predictions as false positives (a perfect predictor scored 0.63). Regression-tested. Recorded `gems57` numbers come from the vendored evaluator and are not affected.
-- Review: [`research/2026-10-29-session-b-three-pass-review.md`](research/2026-10-29-session-b-three-pass-review.md). Experiments run: **0 of 3**. No file is approved; do not submit any existing TIFF.
+Prior review notes below are historical evidence, not current-branch status. **No submission is approved; the research-only download links are not permission to upload.**
 
 ## Operating instruction
 
