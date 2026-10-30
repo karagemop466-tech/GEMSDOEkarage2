@@ -35,6 +35,17 @@ def test_builder_never_sees_withheld_pixels():
         assert equals_visible
 
 
+def test_legacy_quadrant_split_can_expose_tail_of_crossing_component():
+    """Document why this local legacy helper is not whole-segment holdout."""
+    _H, _W, gt, folds = _toy()
+    withheld, visible, _ = withhold_segments(gt, folds[2], 3.0)
+    # The toy horizontal fault crosses the SW/SE fold boundary. The SW pixels
+    # are withheld, but the connected SE tail remains visible beyond the buffer.
+    assert withheld[40, :].any()
+    assert visible[40, :].any()
+    assert not np.array_equal(withheld[40, :] | visible[40, :], gt[40, :])
+
+
 def test_oracle_visible_only_prediction_scores_lower_than_full_catalogue_leak():
     """An apron prediction built from the full catalogue (leak) scores higher than the same
     rule applied on visible faults only: the holdout must expose the difference."""

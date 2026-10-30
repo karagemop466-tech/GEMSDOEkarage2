@@ -108,35 +108,35 @@
     {
       "id": "TP-01",
       "topic": "training template",
-      "claim": "Organizer sample template (sample_submission.tif) from the pinned owner mirror: NaN outside footprint (7,111,787 cells), finite 0/1 inside (5,167,373 cells), 60,988 positive cells.",
+      "claim": "Pinned owner-mirror sample_submission.tif (not organizer-authenticated): NaN outside footprint (7,111,787 cells), finite 0/1 inside (5,167,373 cells), 60,988 positive cells.",
       "source": "owner mirror https://github.com/buffedlizard55-lab/GEMSDOE24 at ref a73f9ffba29260cc7708e8e0557c84c5bea7d47b, path data/bridge/sample_submission.tif; sha256 2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc (matches registry/pinned_assets.json)",
       "status": "VERIFIED sha256 against repo pin; NOT organizer-authenticated"
     },
     {
       "id": "IR-01",
       "topic": "irregularity",
-      "claim": "Repo's saved TIFFs (HK3, K2, K3, B4, H2, H1, irregular) are finite zeros outside the footprint (NaN count 0). The official text and the organizer sample use NaN outside. The strict validator records strict_format_pass = false for HK3.",
+      "claim": "Repo's saved TIFFs (HK3, K2, K3, B4, H2, H1, irregular) are finite zeros outside the footprint (NaN count 0). The official page wording allows null/NaN outside; the pinned owner-mirror sample uses NaN but is not organizer-authenticated. The repo-local strict validator records strict_format_pass = false for HK3.",
       "source": "evidence/hk3/validate_tif_strict.json (outside_finite 7,111,787; strict_format_pass false)",
       "status": "FLAGGED; FIXED in shared writer tests; saved bytes NOT regenerated"
     },
     {
       "id": "IR-02",
       "topic": "irregularity",
-      "claim": "Shared writer validate_geotiff required every cell to be finite, which rejects the official NaN-outside convention. Changed to footprint-based gates that fail closed without a footprint.",
+      "claim": "Shared writer validate_geotiff required every cell to be finite, which rejects NaN-outside data under the repo-local mirror-based check. Changed to footprint-based gates that fail closed without a footprint; official portal acceptance remains unverified.",
       "source": "scripts/submission_writer.py; tests/test_writer_exterior_convention.py",
       "status": "FIXED (shared tool) and regression-tested"
     },
     {
       "id": "IR-03",
       "topic": "irregularity",
-      "claim": "Cause of the portal error 'Predicted values must be in range [0, 1]' is not established. NaN outside is official; a NaN-containing or otherwise different upload could be the cause but this is unverified. The user should state which file was uploaded.",
+      "claim": "Cause of the portal error 'Predicted values must be in range [0, 1]' is not established. The official page wording permits null/NaN outside and the owner-mirror sample has NaN outside, but the mirror is not organizer-authenticated; whether an uploaded file's exterior or another property caused the error is unverified.",
       "source": "user message; https://docs.nlr.gov/docs/fy26osti/96647.pdf",
       "status": "UNRESOLVED"
     },
     {
       "id": "IR-04",
       "topic": "irregularity",
-      "claim": "The official problem page says the training template predicts total absence, but the sample has 60,988 positive cells. This matches the existing README flag.",
+      "claim": "The official problem-page prose says the training template predicts total absence, while the pinned owner-mirror sample has 60,988 positive cells matching mirrored labels. The sample is not organizer-authenticated, so the apparent discrepancy needs confirmation against an authorized organizer example.",
       "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/ and the TP-01 sample",
       "status": "FLAGGED (unresolved)"
     }

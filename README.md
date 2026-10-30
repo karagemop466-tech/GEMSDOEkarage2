@@ -4,13 +4,22 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-30)
+## Latest review (2026-10-30, current Arena branch)
 
-**Three-pass repo review:** [`research/repo-review-2026-10-30-arena-883dcf4d.md`](research/repo-review-2026-10-30-arena-883dcf4d.md), with its [negative run card](evidence/session-2026-10-30-review-run-card.json). Companion detailed nine-site review: [`research/repo-review-2026-10-30.md`](research/repo-review-2026-10-30.md). No experiment, new TIFF, HOLDOUT-DTI, leaderboard estimate, upload, or slot was produced. The download inventory remains `PASS_RESEARCH_ONLY` (nine artifacts; no approved submission). Python: 256 passed, 8 optional mirror/template tests skipped; Node feed/site: 3/8 passed; browser smoke passed.
+**Three-pass review:** [`research/2026-10-30-review-arena-150a3bda.md`](research/2026-10-30-review-arena-150a3bda.md), with its [negative run card](docs/evidence/2026-10-30-repo-review-run-card.json). The report includes per-site scores/files, the 0.2778 explanation, ranked hypotheses, submission steps, sources, irregularities, and limitations.
 
-**Leaderboard/source irregularity:** the latest supported official public-board observation saved here is dated 2026-10-29: rank 1 = 0.4544 and 0.3195 = rank 47 (`evidence/official-review-2026-10-29.json`). A merged review draft claimed a 2026-10-30 fetch and rank 48, but its linked evidence card says external official pages were not fetched. That freshness/rank claim is unsupported and withdrawn; do not treat any value as current. The GEMSDOE32 0.2778 remains USER-REPORTED / UNVERIFIED and is not an estimated score for a new raster.
+**Decision: NO file is approved to download and submit.** No TIFF, geological experiment, holdout score, leaderboard estimate, upload, or slot was produced. The download inventory remains `PASS_RESEARCH_ONLY` with no approved artifact.
 
-**Format-evidence correction:** the checked-in 32×48 `GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif` is synthetic QA, not an organizer sample. Its different geotransform and NaN exterior do not prove an official template mismatch or explain the portal's range error. No approved submission exists; do not submit any repository TIFF.
+- GEMSDOE32 B2's **0.2778 is USER-REPORTED / UNVERIFIED**. Its mask removes 6,436 catalogue-adjacent dots from D2.8; pruning could reduce false-positive mass, but hidden labels and a file-linked receipt are unavailable, so causality is unproven. No candidate leaderboard estimate is defensible.
+- All nine historical focus files fail the saved lattice-witness duplicate stop (99.91–99.92% within-3-pixel overlap); the pairwise audit finds 97.6–100% maximum directional overlap. These are geometry checks against a partial registry, not scores.
+- The latest supported public leaderboard observation is dated **2026-10-29**: #1 0.4544 and 0.3195 at #47. A merged draft's purported 2026-10-30 live fetch/rank was withdrawn because its evidence card says official pages were not fetched. Do not treat any rank as current.
+- The root `scripts/evaluate_holdout.py` is a legacy quadrant-pixel helper, not the pinned whole-component shared evaluator. A regression test shows a crossing fault can remain partly visible. Future assigned work must use one commit-coherent pinned template.
+- No method paragraph/lane, authenticated competition stack, current complete registry, candidate, or spatial holdout result is available. Three geological hypotheses are ranked but unassigned and untested.
+- Verification: Python **257 passed, 8 skipped**; Node feed/site **3 + 8 passed**; browser smoke passed; generated pages are current; public-download audit is `PASS_RESEARCH_ONLY`.
+
+**Related reviews:** [`research/repo-review-2026-10-30-arena-883dcf4d.md`](research/repo-review-2026-10-30-arena-883dcf4d.md) and [`research/repo-review-2026-10-30.md`](research/repo-review-2026-10-30.md). The older report [`research/2026-10-30-repo-review.md`](research/2026-10-30-repo-review.md) contains a withdrawn, unsupported live-rank claim; read the correction before using it.
+
+**Format-evidence correction:** `reference/gemsdoe36/GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif` is synthetic QA, not an organizer sample. Its different grid and NaN exterior do not establish an official template mismatch or explain the portal range error. Organizer template details remain unresolved; do not submit any repository TIFF.
 
 ## Operating instruction
 
@@ -152,11 +161,15 @@ holdout cannot reliably estimate the expert-hidden private score).
 1. LANE: stay inside the single method paragraph. Rank-correlation > 0.90 with any
    registry raster, or > 70% of dots within 3 px of one registry raster's dots = lane
    drift: log as duplicate and stop. Check before placement AND on final dots.
-2. REUSE, DON'T REBUILD: use the template's cached feature stack, evaluate_holdout.py
-   and submission_writer.py. Holdout = hide-and-recover: withhold whole fault segments
-   with a buffer; derive catalogue features only from visible faults; mask visible
-   faults pixel-exactly; score pooled DTI (alpha 0.2, beta 0.8, 300 m triangular
-   kernel). Fix shared tools once in the template; never keep a private fork.
+2. REUSE, DON'T REBUILD: use one commit-coherent pinned template's cached feature stack,
+   evaluator and writer. The current `registry/template_tools.json` pin is GEMSDOE32 at
+   `73485f27cf230af770167397c2b72cb9ce3b3f25`; restore with `scripts/bootstrap_template.py`
+   and verify hashes. Do not mix it with the separate GEMSDOE24 `shared_protocol_assets`
+   snapshot. The root `scripts/evaluate_holdout.py` is a legacy quadrant-pixel helper, not
+   the pinned shared evaluator. Holdout = hide-and-recover: withhold whole fault segments
+   with a buffer; derive catalogue features only from visible faults; mask visible faults
+   pixel-exactly; score pooled DTI (alpha 0.2, beta 0.8, 300 m triangular kernel). Fix
+   shared tools once in the shared template; never keep a private fork.
 3. LABEL EVERY NUMBER as HOLDOUT-DTI or ORGANIZER-CONFIRMED. A projection is never
    written as a score.
 4. LEAKAGE CANARY: test each feature alone on the holdout first. AUC > 0.90 means
@@ -206,7 +219,7 @@ Review note: [`research/2026-10-29-gw-nfs-audit-and-three-pass-review.md`](resea
   Source: https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/ (public-test scores; the private set decides prize round 1).
 - **Official format, verified:** float32, single band, values in [0, 1], EPSG:32611, 100 m, and
   "data outside the bounds is null or nan" (https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/).
-  The organizer sample template is NaN outside its footprint (sha256 matches the pin; not organizer-authenticated).
+  The hash-pinned owner-mirror sample is NaN outside its footprint; its SHA-256 match proves mirror-byte identity, not organizer authentication.
 - **Defect found and fixed:** every saved TIFF uses finite zeros outside the footprint, so the repo's strict format check
   fails for them (HK3: `strict_format_pass: false`). The shared writer's "all cells finite" gate enforced the
   wrong convention; it is now footprint-based and tested (`tests/test_writer_exterior_convention.py`).

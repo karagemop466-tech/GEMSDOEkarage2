@@ -2,8 +2,13 @@
 evaluate_holdout.py
 -------------------
 
-Distance-Weighted Tversky Index (DTI) evaluator for the DOE GEMS Prize Challenge,
-plus a spatially-blocked hide-and-recover holdout protocol.
+Legacy local DTI evaluator retained to reproduce historical quadrant-block
+research results. It is NOT the pinned shared segment-holdout evaluator: its
+``withhold_segments`` helper withholds pixels by quadrant, so a connected fault
+component crossing a boundary can be split between visible and withheld masks.
+Do not use this module for protocol-compliant promotion evidence. Restore the
+commit-pinned template with ``scripts/bootstrap_template.py`` and use its
+``scripts/evaluate_holdout.py`` plus matching ``src/gems32`` modules instead.
 
 Official metric (from https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/):
 
@@ -26,10 +31,11 @@ Implementation notes
 * The per-ground-truth max over the radius-R disk is computed exactly as the
   elementwise maximum over all integer offsets within the disk of
   shift(p, offset) * k(|offset|), evaluated at the ground-truth pixels.
-* Holdout = hide-and-recover: whole fault segments are withheld (buffered),
-  every catalogue-based feature is derived only from the visible faults, visible
-  faults are masked pixel-exactly, and pooled DTI is scored over the withheld
-  segments.  Spatially-blocked folds give a 95% spatial-block CI.
+* This historical split uses four pixel-space quadrants with a pixel buffer. It
+  does not withhold whole connected components, does not itself rebuild every
+  catalogue feature from visible traces, and its four-fold range is not a
+  spatial-bootstrap 95% CI. See the pinned template evaluator for the strict
+  segment hide-and-recover implementation.
 
 This module is CPU-only (numpy + rasterio + scipy).  GPU is not required for
 metric/validation work; it is only needed for training deep models.
@@ -212,13 +218,13 @@ def withhold_segments(gt_mask: np.ndarray,
                       block_mask: np.ndarray,
                       buffer_px: float = 3.0) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
-    Hide-and-recover holdout for one fold.
+    Legacy pixel-quadrant mask for one fold (the name is historical/misleading).
 
-    withheld  : GT pixels lying inside the held-out block (positive pixels
-                whose segment is hidden from model input).
-    visible   : GT pixels outside the held-out block (and outside its buffer),
-                i.e. the only pixels catalogue-based features may be derived from.
-    buffer    : buffer around the held-out block (masked from features too).
+    ``withheld`` contains only GT pixels inside the block; ``visible`` contains
+    GT pixels outside the dilated block. A connected component crossing a block
+    boundary can therefore be partly withheld and partly visible. The helper is
+    retained for reproducing old quadrant-block results, not for the strict
+    whole-component protocol. Use the pinned template's ``SegmentHoldout``.
     """
     withheld = gt_mask & block_mask
     dilated = ndimage.binary_dilation(
@@ -301,18 +307,16 @@ def pooled_dti_hide_and_recover(build_prediction,
                                 alpha: float = ALPHA,
                                 beta: float = BETA,
                                 R_m: float = R_METERS) -> dict:
-    """Hide-and-recover DTI: the prediction for each fold is rebuilt from visible faults only.
+    """Legacy quadrant-block score; not the strict whole-component protocol.
 
-    ``pooled_dti_over_folds`` scores ONE fixed prediction against each fold's withheld
-    positives. That is only valid when the prediction never saw the withheld segments.
-    This function enforces the protocol instead: for fold ``i`` the builder receives
-    ``visible_i = gt & ~dilate(block_i, buffer)`` and nothing else from the labels, and
-    the resulting raster is scored against ``withheld_i = gt & block_i`` pooled over folds.
+    For each fold, the builder receives a pixel mask ``gt & ~dilate(block, buffer)``
+    and a raster is scored against the withheld GT pixels. This prevents the builder
+    from seeing those exact pixels through the supplied argument, but it does not hide
+    entire connected fault components that cross quadrant boundaries and cannot stop
+    a builder from reading labels through another external path. Use the pinned
+    template's segment hide-and-recover implementation for promotion evidence.
 
-    ``build_prediction(visible_gt_mask, fold_index) -> np.ndarray`` must return a
-    float raster in [0, 1] (NaN is treated as 0 outside the footprint, as elsewhere).
-    The per-fold DTI range is reported as ``fold_range``. It is NOT a 95% confidence
-    interval; a block bootstrap is needed for that.
+    The returned per-fold range is descriptive, not a 95% confidence interval.
     """
     terms = []
     n_withheld = []

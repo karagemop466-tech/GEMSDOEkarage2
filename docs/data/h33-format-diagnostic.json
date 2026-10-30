@@ -1,7 +1,7 @@
 {
   "scope": "Pinned shared format checks only. No scientific gate, selector or organizer acceptance was evaluated.",
   "template_organizer_authentication": "unknown; the owner mirror is not an official receipt",
-  "template_note": "The shared check name official_template_grid_and_footprint checks shape/grid/footprint, not provenance.",
+  "template_note": "The shared check name official_template_grid_and_footprint checks shape/grid/footprint, not provenance. The compared training/sample inputs are pinned owner mirrors, not organizer-authenticated downloads.",
   "organizer_accepted": null,
   "submission_authorized": false,
   "strict_whole_array_range_pass": true,
@@ -82,7 +82,7 @@
       },
       "variant_strict_whole_array_no_nan_allowed": {
         "pass": true,
-        "detail": "((a>=0)&(a<=1)).all() over the whole array - fails for ANY NaN, including the official sample's NaN outside",
+        "detail": "((a>=0)&(a<=1)).all() over the whole array - fails for ANY NaN, including the pinned owner-mirror sample's NaN outside (not organizer-authenticated)",
         "hard_requirement": false
       },
       "profile_matches_official_sample": {

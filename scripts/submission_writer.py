@@ -14,9 +14,10 @@ Validation gates (run before any file is labelled OK to download):
   1. CRS / shape / transform match the official template exactly
   2. dtype float32, single band
   3. finite values inside the footprint lie in [0, 1]
-  4. no NaN inside the footprint, and NaN outside it (the organizer sample
-     template is NaN outside its footprint; zeros outside are NOT the
-     official convention). The footprint_mask is required for this gate.
+  4. no NaN inside the footprint, and NaN outside it. This repo-local gate
+     follows the official page's null/NaN wording and the pinned owner-mirror
+     sample, whose organizer identity is unverified; it is stricter than the
+     page wording alone. The footprint_mask is required for this gate.
      Whether this resolves the portal's "must be in range [0, 1]" message
      is UNVERIFIED; the cause was never established.
   5. sha256 of saved bytes recorded
@@ -132,9 +133,10 @@ def validate_geotiff(path, template_meta=None, reference_rasters=None,
         vmin = vmax = float("nan")
 
     # Official convention (problem page, "Submission format"): data outside the
-    # bounds is null or nan. The organizer sample template is NaN outside its
-    # footprint. Test np.isnan explicitly: infinity is non-finite but is not a
-    # null/NaN exterior and must not pass this gate.
+    # bounds is null or nan. The pinned owner-mirror sample uses NaN outside,
+    # but its organizer identity is unverified. Test np.isnan explicitly:
+    # infinity is non-finite but is not a null/NaN exterior and must not pass
+    # this repo-local gate.
     if footprint_mask is not None:
         footprint_mask = np.asarray(footprint_mask, dtype=bool)
         inside_ok = footprint_mask.shape == data.shape
