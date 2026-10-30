@@ -1,7 +1,7 @@
 # Repository review — 2026-10-30
 
-**Branch:** `arena/a53b600e-gemsdoekarage2`  
-**Review type:** three-pass repository and release-safety review; no geological experiment.  
+**Branch:** `arena/a53b600e-gemsdoekarage2`
+**Review type:** three-pass repository and release-safety review; no geological experiment.
 **Decision:** **NO APPROVED SUBMISSION. No new TIFF was generated. Do not submit any repository download.**
 
 ## Executive disposition

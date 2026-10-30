@@ -4,9 +4,13 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-30, arena/022009c9-gemsdoekarage2)
+## Latest review (2026-10-30)
 
-**Repo review: [`research/2026-10-30-repo-review.md`](research/2026-10-30-repo-review.md).** No file is approved; do not submit any existing TIFF. Live DrivenData leaderboard (fetched 2026-10-30): **#1 = 0.4544** (xiaofanhu); **0.3195 = rank 48** (kpomazi); no row shows 0.4413. Python tests: 256 passed, 8 skipped; Node: 3/3. Shipped TIFFs use finite zeros outside the footprint, while the organizer sample uses NaN, and the geotransform origins differ (243350/4508550 vs 400000/4400000). Both are unresolved and may explain the "[0, 1]" portal error. `data/` is absent, so no holdout experiment was run. Companion Arena three-pass review: [`research/2026-10-30-three-pass-arena-review.md`](research/2026-10-30-three-pass-arena-review.md), with local run card [`evidence/repo-review-run-card-2026-10-30.json`](evidence/repo-review-run-card-2026-10-30.json).
+**Three-pass review for this Arena session:** [`research/repo-review-2026-10-30-arena-883dcf4d.md`](research/repo-review-2026-10-30-arena-883dcf4d.md), with [negative run card](evidence/session-2026-10-30-review-run-card.json). No experiment, new TIFF, holdout score, leaderboard estimate, upload, or slot was produced. The download inventory remains `PASS_RESEARCH_ONLY` (nine artifacts; no approved submission). Python: 256 passed, 8 optional mirror/template tests skipped; Node feed/site: 3/8 passed; browser smoke passed.
+
+**Leaderboard/source irregularity:** merged review notes claim a live leaderboard fetch on 2026-10-30, but both linked review cards say external/current DrivenData data was not verified. That freshness claim is unsupported by its evidence and is withdrawn. The latest saved official source observation is dated 2026-10-29; do not treat any value/rank as current from this checkout. The 0.2778 focus-site value remains USER-REPORTED / UNVERIFIED. Do not submit any existing TIFF.
+
+Companion review: [`research/2026-10-30-three-pass-arena-review.md`](research/2026-10-30-three-pass-arena-review.md); it likewise records no current DrivenData feed verification.
 
 ## Previous review (2026-10-29, Arena branch)
 
