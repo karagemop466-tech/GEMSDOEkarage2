@@ -1,0 +1,22 @@
+{
+  "file": "docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041.tif",
+  "sha256": "afe07d0cde063ec4ad9f906bef206286dffa5a374761d64fa2b4811ca41fe3e8",
+  "bytes": 721417,
+  "crs": "EPSG:32611",
+  "shape": [
+    3730,
+    3292
+  ],
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+  ],
+  "dtype": "float32",
+  "nodata": null,
+  "compress": "lzw",
+  "exterior_convention": "zeros outside footprint (research-only convention)"
+}

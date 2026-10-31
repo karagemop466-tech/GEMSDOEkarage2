@@ -52,6 +52,12 @@ ARTIFACTS = (
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
+    # Experiment V3 (2026-10-31): unique conductivity x depth-to-basement x
+    # magnetic-edge blind-conduit dots. Unique (0.0% vs lattice), format-valid,
+    # but holdout-DTI 0.0000 => negative, not approved for submission.
+    ("gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041",
+     "docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041-run-card.json",
+     None, False, "research"),
 )
 
 
