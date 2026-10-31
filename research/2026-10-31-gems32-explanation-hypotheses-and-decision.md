@@ -100,7 +100,7 @@ Ranking by expected DTI gain and cost. Gains are qualitative; no numeric project
 
 ## 7. Public-download audit
 
-`scripts/audit_public_downloads.py` now registers E1 with kind `research-nan-exterior`. That kind overrides only `whole_array_finite` and `range_0_1`. It requires the finite-mask sha256 to match the footprint hash in the run card, a finite count of 5,167,373, values in [0,1] inside the footprint, and no infinities. Existing files keep the finite-only rule. Result: `inventory_status = PASS_RESEARCH_ONLY`, 11 artifacts, no unexpected downloads, E1 `VERIFIED_RESEARCH_ONLY`. The check is against the card's footprint hash, not organizer-authenticated.
+`scripts/audit_public_downloads.py` now registers E1 with kind `research-nan-exterior`. That kind overrides only `whole_array_finite` and `range_0_1`. It requires the finite-mask sha256 to match the footprint hash in the run card, a finite count of 5,167,373, values in [0,1] inside the footprint, and no infinities. Existing files keep the finite-only rule. Result (after merging main): `inventory_status = PASS_RESEARCH_ONLY`, 13 artifacts, no unexpected downloads, E1 `VERIFIED_RESEARCH_ONLY`. Main had two unregistered TIFFs (blind-geothermal, near-trace). Blind-geothermal is registered. Near-trace is quarantined (see §9 item 11). The check is against the card's footprint hash, not organizer-authenticated.
 
 ## 8. Protocol decision needed (not waived)
 
@@ -118,6 +118,8 @@ The 70% gate and the 13GEMSDOE lattice are incompatible on this footprint. Optio
 8. The focus-site files are near-duplicates of each other (§1).
 9. The public-download audit and the shared writer disagree on the exterior convention.
 10. The owner's GEMSDOE32 JSON labels B2 `slot_decision: SLOT_ELIGIBLE` and gives `predicted_leaderboard_dti 0.2747`. Both are owner-side labels and projections. They are not organizer decisions or scores and are not used in this report.
+11. **Main-branch near-trace file (`gemsdoe-karage2-near-trace-20261031.tif`)**: 122,597 dots, and every one lies within 2 px of the full labels catalogue (`labels == 1`, including withheld positives). Its card reports holdout DTI 0.624191 (fold range 0.6227–0.6273) while describing the catalogue as masked. The field was built from unmasked positives, so the number is leakage, not a held-out result. It also sits close to the pre-fix evaluator defect value of 0.625. The card's verdict is `promote`, which the audit correctly fails closed on. The file is quarantined in `evidence/quarantine/`. The card was not relabelled.
+12. **Main-branch GBSP file**: its card describes a continuous [0,1] prospectivity field, and its "uniqueness-passed" claim tests only lattice-uncovered pixels. Lattice13 is excluded by design, so the claim is not the literal dot gate and is not comparable with §3. The card's own verdict is negative and `ok_to_submit` is false.
 
 ## 10. Limitations
 

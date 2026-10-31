@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-31T00:47:19.481012+00:00",
+  "hypothesis": "H-B: Off-catalogue blind geothermal faults marked by the coincidence of radiometric alteration, magnetic edge, and gravity edge",
+  "mechanism": "Hydrothermal alteration (low K, high eTh, high eU/eTh) x RTP magnetic gradient edge x isostatic gravity gradient edge; catalogue faults masked as output constraint only, not a feature",
+  "named_non_fault_process": "Paleo-weathering fronts, lithologic contacts, survey-line striping in radiometrics, intrusive magnetic/gravity bodies",
+  "holdout": {
+    "classification": "HOLDOUT-DTI (proxy; fixed field)",
+    "evaluator_version": "evaluate_holdout.dti_weighted_terms alpha=0.2 beta=0.8 R=300m",
+    "withheld_positives": 60988,
+    "dti": 0.000585,
+    "confidence_interval_95": [
+      0.000126,
+      0.001476
+    ],
+    "note": "Fold-wise range over 4 spatial blocks; not a bootstrap CI."
+  },
+  "correlation_and_overlap_vs_registry": {
+    "candidate_surface_spearman_max_abs": 0.0242,
+    "candidate_final_dot_overlap_max": 0.224667,
+    "duplicate_found": false,
+    "n_registry_compared": 12,
+    "threshold": "Spearman <= 0.90 AND dot overlap <= 70%"
+  },
+  "leakage_canary": {
+    "alteration": {
+      "auc": 0.488236,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    },
+    "mag_edge": {
+      "auc": 0.523166,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    },
+    "grav_edge": {
+      "auc": 0.536083,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    },
+    "curvature": {
+      "auc": 0.480994,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    },
+    "combined_score": {
+      "auc": 0.498238,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    }
+  },
+  "raster_sha256": "cf70780c4f11209e15cbb448f0f2da36b3818ff98fddca504997efee9c3276b0",
+  "validator": {
+    "strict_format_pass": false,
+    "checks": {
+      "geotiff_driver": true,
+      "single_band": true,
+      "float32": true,
+      "crs_matches_template": true,
+      "crs_epsg_32611": true,
+      "shape_matches_template": true,
+      "transform_matches_template": true,
+      "north_up_100m_resolution": true,
+      "inside_no_masked_cells": true,
+      "inside_all_finite": true,
+      "inside_in_range_0_1": true,
+      "outside_is_nan": false
+    }
+  },
+  "submission_name": "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031",
+  "note": "Unique off-catalogue blind-geothermal field: radiometric alteration x magnetic edge x gravity edge; catalogue faults masked; research-only",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "experiments_run": 1,
+  "budget": "1 of 3 experiments; under 2 hours"
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "gems.repository_review_card.v1",
+  "recorded_date": "2026-10-31",
+  "classification": "REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT",
+  "review_scope": "Three-pass source/evidence/code/site review and local test run. No live official page fetched, model fit, candidate placement, TIFF generation, upload, or slot selection.",
+  "hypothesis": "No geological hypothesis tested. The existing four-proposal slate was reviewed as unassigned future work; no method paragraph or lane was authorized.",
+  "mechanism": "Inspect saved reports and gate scripts; run pinned Python and Node tests, browser smoke tests, page consistency checks, public artifact inventory, and release assessor.",
+  "named_non_fault_mimic": "Not applicable; no candidate surface was evaluated. Existing proposals identify shoreline/terrace, playa/inversion seam, interpolation/intrusive contact, and induced/mining seismicity as relevant confounds.",
+  "holdout": {
+    "evidence_class": "NOT RUN; NO HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "dti": null,
+    "ci95": null,
+    "reason": "No experiment was assigned or run. No historical or leaderboard value is substituted."
+  },
+  "registry_correlation_overlap": {
+    "candidate_surface_spearman": null,
+    "candidate_surface_max_3px_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_max_3px_overlap": null,
+    "complete_registry_verified": false,
+    "preplacement_gate_passed": false,
+    "reason": "No candidate surface exists; current complete registry is not established. Historical pinned audits remain negative but do not establish completeness."
+  },
+  "raster": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "NO CANDIDATE RASTER; artifact inventory PASS_RESEARCH_ONLY",
+    "format_validation": null,
+    "organizer_template_match": null,
+    "organizer_acceptance": null,
+    "downloadable_approved_submission": null
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "leaderboard_estimate": null,
+  "release_assessment": {
+    "verdict": "negative",
+    "slot_authorized": false,
+    "evidence_type": "EVIDENCE-SCHEMA-ASSESSMENT, not a model score"
+  },
+  "test_results": {
+    "python": "257 passed, 8 skipped, 98 warnings, 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "8 passed",
+    "browser": "6 checks passed across 1440, 390, and 320 px",
+    "generated_pages": "build_site.py, build_field_notes.py, build_audit_site.py --check, build_hk3_pages.py --check passed",
+    "download_inventory": "PASS_RESEARCH_ONLY; 10 artifacts; downloadable_approved_submission=null"
+  },
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "verdict": "negative",
+  "limitations": [
+    "No method lane was assigned; no scientific experiment was authorized or run.",
+    "No authenticated organizer training inputs/template or submission receipt were obtained.",
+    "The newest saved leaderboard observation is 2026-10-30; it is not current 2026-10-31 evidence.",
+    "Owner mirrors do not authenticate organizer data; complete current registry and organizer acceptance remain unverified.",
+    "No defensible local leaderboard estimate exists; no downloadable submission is approved."
+  ]
+}

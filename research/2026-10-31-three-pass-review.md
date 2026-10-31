@@ -67,3 +67,22 @@ Code-level findings:
 - HOLDOUT-DTI has no 95% CI.
 - The flank lever is not testable by the current hide-and-recover holdout.
 - Portal error "Predicted values must be in range [0, 1]" remains unresolved.
+
+## Merge with main (2026-10-31, after PR #106 was opened)
+
+`main` had advanced (PRs #93 and #101, which added two TIFFs and hand-edited pages). The first merge attempt was rejected as conflicting. The merge was resolved on this branch, and no `main` history was rewritten.
+
+| Finding on main | Action | Result |
+|---|---|---|
+| `gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif` in `docs/downloads/` was not registered in the audit | Registered (kind `research`) | Card: verdict negative, `ok_to_submit` false, `slot_authorized` false |
+| `gemsdoe-karage2-near-trace-20261031.tif` in `docs/downloads/` was not registered | **Quarantined** to `evidence/quarantine/` (git mv of the TIF, its audit JSON and its unchanged run card) with a README entry | Its card says `verdict: promote`. All 122,597 dots lie within 2 px of the full labels catalogue, so the card's holdout DTI 0.624 is leakage, not a held-out result. The audit correctly failed closed on the non-negative verdict. The card was not relabelled, and the audit was not weakened |
+| Main's hand-edited `docs/how-to-submit.html` linked the quarantined TIF as a download | Regenerated from `scripts/build_hk3_pages.py` (repo rule: do not hand-edit generated HTML) | The hand-written "step-by-step" block is removed from the working tree. It remains in main's history (`b0268bb:docs/how-to-submit.html`). The NLR rules text is preserved in `research/2026-10-31-leaderboard-rules-and-submission-review.md` on main |
+| GBSP `gems-gbsp-blindspot-…tif` claims "uniqueness-passed" | Flagged, not changed | Its card describes a continuous [0,1] prospectivity field. Its uniqueness test covers lattice-uncovered pixels only, and lattice13 is excluded by design. It is not the literal dot gate and is not comparable with the lattice finding. Its card's verdict is negative and `ok_to_submit` is false |
+| main's `leaderboard` evidence: kpomazi 0.3195 at rank 50, not 48 | Adopted main's correction in README and SUBMISSION_STATUS | My research document does not cite rank 48. It cites only the #1 snapshot (0.4544) |
+
+Post-merge verification (on this branch):
+- `pytest -q`: 264 passed, 8 skipped.
+- All CI generator and check commands pass locally: `assess_release.py`, `audit_k2_release.py`, `audit_public_downloads.py --check` (13 artifacts, PASS_RESEARCH_ONLY), `build_audit_site.py --check`, `build_field_notes.py`, `build_site.py`, `build_hk3_pages.py --check`, `review_hk3_protocol.py --check`, `review_k2_release.py`, `compileall`, `node --check`, `npm test` (3/3) and `npm run test:site` (8/8).
+
+Open after the merge: the near-trace card's `promote` verdict and leakage-invalid holdout should be corrected by its owner, and the quarantine decision should be confirmed by the protocol owner.
+

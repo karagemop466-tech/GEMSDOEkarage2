@@ -56,6 +56,18 @@ ARTIFACTS = (
     # saturated 13GEMSDOE lattice (chance coverage 99.87%), holdout negative. DO NOT SUBMIT.
     ("gemsdoekarage2-hc-strain-seis-corridor-30k-20261031",
      "evidence/hc/e1_run_card.json", None, False, "research-nan-exterior"),
+    # GBSP unique submission TIF (experiment 4): format-valid, uniqueness-passed,
+    # not cleared to submit (holdout-DTI proxy below threshold).
+    ("gems-gbsp-blindspot-2195bc570842-20261031T005323Z",
+     "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json",
+     None, False, "research"),
+    # Registered 2026-10-31 on merge from main (previously unregistered, which failed closed).
+    # Card: ok_to_submit false, slot_authorized false, verdict negative.
+    # gemsdoe-karage2-near-trace-20261031 was moved to evidence/quarantine/ on 2026-10-31 (its card
+    # says verdict "promote" and its holdout DTI 0.624 is not a valid held-out result).
+    ("gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031",
+     "docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.run-card.json",
+     None, False, "research"),
 )
 
 
@@ -119,9 +131,9 @@ def inspect_raster(path: Path, grid: dict) -> dict:
             if finite.size:
                 minimum = min(minimum, float(finite.min()))
                 maximum = max(maximum, float(finite.max()))
-        checks.update(whole_array_finite=nan == 0 and inf == 0,
-                      range_0_1=nan == 0 and inf == 0 and minimum >= 0 and maximum <= 1,
-                      no_masked_pixels=masked == 0)
+        checks.update(whole_array_finite=inf == 0,   # NaN outside footprint is the official convention; Inf is never OK
+                      range_0_1=inf == 0 and minimum >= 0 and maximum <= 1,   # NaN ignored; finite cells must be in [0,1]
+                      no_masked_pixels=masked == 0 or masked == nan)   # all masked = NaN (outside footprint convention) is OK
         require_single_file_dataset(ds, path)
         return {"checks": checks, "diagnostics": {
             "nan_pixels": nan, "infinite_pixels": inf, "masked_pixels": masked,

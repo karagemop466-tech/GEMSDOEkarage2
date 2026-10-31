@@ -637,8 +637,38 @@ def champion_panel() -> str:
 </section>'''
 
 
+def gbsp_section() -> str:
+    """New unique submission TIF: format-valid, uniqueness-passed, not cleared to submit."""
+    return (
+        '<section class="section" id="new-unique-submission">\\n'
+        '<h2>A new unique submission TIF exists — not cleared to upload</h2>\\n'
+        '<p class="verdict"><b class="no">OK TO DOWNLOAD: YES.</b> <b class="no">OK TO SUBMIT: NO.</b> '
+        'A new, scientifically distinct GeoTIFF has been generated and validated. It passes every format and uniqueness gate, '
+        'but its holdout-DTI proxy is too low to justify spending a weekly submission slot. Download it for review; do not upload it to DrivenData.</p>\\n'
+        '<div style="border:2px solid var(--no);background:#fef2f2;border-radius:12px;padding:16px;margin:12px 0;">\\n'
+        '<h3 style="margin:0 0 8px 0;font-size:16px;">gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif</h3>\\n'
+        '<p style="margin:0 0 10px 0;font-size:14px;">Geothermal Blind-Spot Prospectivity — masks all known catalogue faults; predicts only where multi-physics anomalies coincide without a mapped trace.</p>\\n'
+        f'<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif">Download submission TIF ↗</a>\\n'
+        '<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.audit.json" style="margin-left:8px;">Audit JSON ↗</a>\\n'
+        '<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json" style="margin-left:8px;">Run card ↗</a>\\n'
+        '</div>\\n'
+        '<table style="width:100%;border-collapse:collapse;margin:12px 0;background:var(--card);border-radius:8px;overflow:hidden;border:1px solid var(--line);">\\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Format</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);">Single-band float32 GeoTIFF, EPSG:32611, 3730×3292, 100 m</td></tr>\\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Values inside footprint</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);">In [0,1], no NaN inside; NaN outside footprint (official convention)</td></tr>\\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Format validation</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — strict_format_pass = true</td></tr>\\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Uniqueness vs 10 registry rasters</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — max |Spearman| = 0.0060 (limit 0.90), max dot overlap = 0.1887 (limit 70%), no duplicates</td></tr>\\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Holdout-DTI proxy</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>0.000002</b> (HOLDOUT-DTI, evaluate_holdout alpha=0.2 beta=0.8 R=300m, 60,988 withheld positives) — PROXY only, not an organizer score</td></tr>\\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Leakage canary</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — max feature-alone AUC = 0.59 (limit 0.90); no leakage</td></tr>\\n'
+        '<tr><th style="text-align:left;padding:8px 12px;background:#f1f5f9;color:var(--muted);font-weight:700;">Verdict</th><td style="text-align:left;padding:8px 12px;"><b class="no">negative</b> — holdout-DTI below submission threshold; not cleared for a weekly slot</td></tr>\\n'
+        '</table>\\n'
+        '<p class="muted"><b>Why it is not cleared:</b> this contrarian approach deliberately avoids known catalogue faults (to target blind, unmapped structures). '
+        'The holdout-DTI measures recovery of withheld <em>known</em> faults, so a blind-field submission scores near zero by design. No slot is authorized.</p>\\n'
+        '</section>\\n'
+    )
+
+
 def render_all(d: dict) -> dict[str, str]:
-    desk = session_decision_20261031() + decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    desk = session_decision_20261031() + decision_section(d) + gbsp_section() + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),

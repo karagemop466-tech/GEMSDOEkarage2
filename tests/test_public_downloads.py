@@ -49,8 +49,8 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    # 11 registered research artifacts (2026-10-31: + H-C strain-seismic corridor, NaN exterior).
-    assert len(result['artifacts']) == 11
+    # 12 registered research artifacts (main 11 incl. GBSP, + H-C E1 NaN exterior).
+    assert len(result['artifacts']) == 13  # 11 on main (incl. GBSP) + H-C E1 + blind-geothermal registered on merge
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())
