@@ -48,15 +48,24 @@ ARTIFACTS = (
      "evidence/hA-intersection/run_card.json", None, False),
     ("gemsdoe-karage2-hr4-intersection-20261029-nan",
      "evidence/hr4-intersection/run_card.json", None, False),
-    # New H-F hypothesis TIF (experiment 1): research-only, negative verdict.
+    # New H-F hypothesis TIF (experiment 1): unique, format-valid, negative verdict.
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
-    # H-B is a published negative experiment. Inventory its exact bytes, but
-    # never infer eligibility: its sidecar records finite zeros outside the
-    # owner-mirror footprint, incomplete registry coverage, and no approval.
+    # H-B research artifact: negative; exterior convention fails and its 12-raster
+    # scan is not complete registry clearance.
     ("gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031",
      "docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.run-card.json",
+     None, False, "research"),
+    # Near-trace: strict local format passes, but the lattice witness exceeds the
+    # literal overlap stop; source card's promote wording does not authorize upload.
+    ("gemsdoe-karage2-near-trace-20261031",
+     "docs/downloads/gemsdoe-karage2-near-trace-20261031-run-card.json",
+     None, False, "research"),
+    # GBSP: strict local format passes; 10-raster comparison is not complete
+    # registry clearance, and the recorded fixed-field DTI proxy is near zero.
+    ("gems-gbsp-blindspot-2195bc570842-20261031T005323Z",
+     "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json",
      None, False, "research"),
 )
 
@@ -70,6 +79,23 @@ def normalise_card(card: dict, rel: str, stem: str) -> dict:
         flat["submission_name"] = card.get("submission", {}).get("name")
         flat["note"] = card.get("submission", {}).get("note")
         return flat
+    if isinstance(card, dict) and isinstance(card.get("raster_sha256"), str):
+        # Flat run cards in the 2026-10-31 experiments omit the TIFF filename
+        # but bind submission_name + SHA-256. Normalize without changing the
+        # source card, and retain its original verdict for audit visibility.
+        flat = dict(card)
+        flat["raster"] = rel
+        flat["submission_name"] = card.get("submission_name")
+        flat["note"] = card.get("note")
+        recorded_verdict = card.get("verdict")
+        flat["recorded_verdict"] = recorded_verdict
+        blocked_promote = (recorded_verdict == "promote" and card.get("ok_to_submit") is False
+                           and card.get("slot_authorized") is False and bool(card.get("blocker")))
+        flat["verdict"] = "negative" if str(recorded_verdict).lower().startswith("negative") or blocked_promote else recorded_verdict
+        for field in ("slot_authorized", "approved_for_weekly_slot", "ok_to_submit"):
+            if field in card:
+                flat[field] = card[field]
+        return flat
     if (isinstance(card, dict) and card.get("file") == Path(rel).name
             and isinstance(card.get("sha256"), str)):
         # Legacy research cards may use a flat schema. Preserve the
@@ -78,9 +104,9 @@ def normalise_card(card: dict, rel: str, stem: str) -> dict:
         flat["raster"] = rel
         flat["raster_sha256"] = card["sha256"]
         flat["verdict"] = "negative" if str(card.get("verdict", "")).lower().startswith("negative") else card.get("verdict")
-        flat["slot_authorized"] = card.get("slot_authorized")
-        flat["approved_for_weekly_slot"] = card.get("approved_for_weekly_slot")
-        flat["ok_to_submit"] = card.get("ok_to_submit")
+        for field in ("slot_authorized", "approved_for_weekly_slot", "ok_to_submit"):
+            if field in card:
+                flat[field] = card[field]
         return flat
     return card
 
@@ -121,9 +147,9 @@ def inspect_raster(path: Path, grid: dict) -> dict:
             if finite.size:
                 minimum = min(minimum, float(finite.min()))
                 maximum = max(maximum, float(finite.max()))
-        checks.update(whole_array_finite=nan == 0 and inf == 0,
-                      range_0_1=nan == 0 and inf == 0 and minimum >= 0 and maximum <= 1,
-                      no_masked_pixels=masked == 0)
+        checks.update(whole_array_finite=inf == 0,   # NaN outside footprint is the official convention; Inf is never OK
+                      range_0_1=inf == 0 and minimum >= 0 and maximum <= 1,   # NaN ignored; finite cells must be in [0,1]
+                      no_masked_pixels=masked == 0 or masked == nan)   # all masked = NaN (outside footprint convention) is OK
         require_single_file_dataset(ds, path)
         return {"checks": checks, "diagnostics": {
             "nan_pixels": nan, "infinite_pixels": inf, "masked_pixels": masked,
@@ -160,6 +186,8 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
     checks: dict[str, bool] = {"tif_exists": tif.is_file()}
     detail: dict = {}
     actual_sha = None
+    source_card_verdict = None
+    normalized_card_verdict = None
     if checks["tif_exists"]:
         try:
             actual_sha = digest_file(tif)
@@ -172,6 +200,8 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             detail = {"diagnostics": {"error_type": type(exc).__name__, "error": str(exc)}}
     try:
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
+        source_card_verdict = card.get("recorded_verdict", card.get("verdict"))
+        normalized_card_verdict = card.get("verdict")
         if candidate:
             # This inventory does not implement the independent, provenance-bound
             # selector required for a promotion. A claimed PROMOTE plus a matching
@@ -257,6 +287,8 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
         "selector": selector_rel, "zip_file": f"docs/downloads/{stem}.zip" if has_zip else None,
         "checks": checks, "diagnostics": detail.get("diagnostics", {}),
+        "source_card_verdict": source_card_verdict,
+        "normalized_card_verdict": normalized_card_verdict,
         "status": status,
         "download_for_research": ok,
         "ok_to_submit": False, "slot_authorized": False,

@@ -27,6 +27,30 @@
     "notes": "The user-cited 0.4413 was not in the 50 displayed rows. Public page is time-varying and does not link the GEMSDOE32 owner claim to a local raster hash."
   },
   "hypotheses_proposed": 4,
+  "upstream_artifacts_reviewed": [
+    {
+      "source_pr": "https://github.com/karagemop466-tech/GEMSDOEkarage2/pull/97",
+      "file": "docs/downloads/gemsdoe-karage2-near-trace-20261031.tif",
+      "sha256": "cc158d4248ed4b5fb64bbec7dc990a08e01993a6a91fd597d6d4578038a95811",
+      "classification": "HOLDOUT-DTI upper-bound fixed-field proxy, not strict hide-and-recover OOF and not a leaderboard score",
+      "recorded_dti_proxy": 0.624191,
+      "fold_range_not_ci": [0.622715, 0.627276],
+      "strict_local_format": true,
+      "lattice_overlap_3px": 0.9984,
+      "eligibility": "negative research only; exceeds 0.70 lattice stop; source card says promote while ok_to_submit=false and slot_authorized=false"
+    },
+    {
+      "source_pr": "https://github.com/karagemop466-tech/GEMSDOEkarage2/pull/101",
+      "file": "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif",
+      "sha256": "855b94aabbf36cbbc5423e953509ae095a89baf037f55cddbb04ea6a98de73a5",
+      "classification": "HOLDOUT-DTI fixed-field exploratory proxy, not strict hide-and-recover OOF and not a leaderboard score",
+      "recorded_dti_proxy": 0.000002,
+      "fold_range_not_ci": [0.0, 0.000009],
+      "strict_local_format": true,
+      "registry_rasters_compared": 10,
+      "eligibility": "negative research only; complete-registry uniqueness not established; no slot authorized"
+    }
+  ],
   "hypothesis_slate": [
     {
       "rank": 1,
@@ -64,7 +88,7 @@
   "validator_output": {
     "candidate_generated": false,
     "candidate_validator": "NOT RUN",
-    "existing_download_inventory": "PASS_RESEARCH_ONLY; 11 artifacts after adding merged H-B TIFF to shared hash-bound research inventory; downloadable_approved_submission is null",
+    "existing_download_inventory": "PASS_RESEARCH_ONLY; 13 artifacts include H-B, near-trace, and GBSP; downloadable_approved_submission is null",
     "authenticated_template_available": false,
     "portal_acceptance": null,
     "approved_for_submission": false
@@ -77,7 +101,7 @@
   "software_checks": {
     "pytest": "257 passed, 8 skipped, 98 subtests passed",
     "node_feed": "3 passed",
-    "node_site": "9 passed",
+    "node_site": "10 passed",
     "browser": "passed at 1440, 390, and 320 px",
     "readiness": "exit 0",
     "public_download_audit": "PASS_RESEARCH_ONLY; no approved download",
@@ -89,7 +113,10 @@
     "No single method paragraph is assigned; protocol does not permit inventing a lane.",
     "USGS heat-flow ZIP and INGENIOUS temperature/chemistry archives were listed in reachable official metadata but not downloaded or checked for coverage/CRS/units in this network-restricted runtime.",
     "The exact 1 m DEM tile coverage and competition DEM link table are unavailable locally.",
-    "No geological experiment, holdout DTI, confidence interval, leakage canary, surface uniqueness check, final-dot check, or new-file score estimate exists.",
+    "This review generated no geological experiment, holdout DTI, CI, leakage canary, candidate surface, final-dot check, or new-file score estimate; the two upstream PR artifacts are separately classified and not validated by this run.",
+    "Near-trace and GBSP each report only 10 registry comparisons; near-trace fails the R13 lattice overlap stop and GBSP has no complete-registry uniqueness clearance.",
+    "The near-trace card's promote wording conflicts with its negative upload flags/lattice blocker; its reported interval is a fold-wise range, not a bootstrap CI.",
+    "The GBSP source claims 'experiment 4' while its card says 1 of 3; aggregate experiment/time-budget compliance cannot be established.",
     "All existing TIF artifacts remain research-only; the current public site marks the release NO / DO NOT SUBMIT.",
     "The official leaderboard is a time-varying public-test snapshot and not a submission receipt or private-round outcome."
   ],

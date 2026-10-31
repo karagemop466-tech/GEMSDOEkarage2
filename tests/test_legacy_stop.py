@@ -21,23 +21,20 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
     import json
     import re
     card = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    hb = json.loads((ROOT / 'docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.run-card.json').read_text())
-    allowed = {
-        'downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif',
-        'downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif',
-    }
     for name in ('index.html', 'executive-summary.html', 'how-to-submit.html'):
         text = (ROOT / 'docs' / name).read_text()
         assert 'unique research TIF' not in text
         assert 'DO NOT SUBMIT' in text
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text)
-        assert set(downloads).issubset(allowed)
+        allowed = {
+            'downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif',
+            'downloads/gemsdoe-karage2-near-trace-20261031.tif',
+            'downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif',
+            'downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif',
+        }
+        assert set(downloads) == allowed
         assert all('hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href for href in downloads)
-        if name in ('index.html', 'executive-summary.html'):
-            assert len(downloads) == 2
-        else:
-            assert len(downloads) == 1 and hb['submission_name'] in downloads[0]
-        assert 'uniqueness not established' in text
+        assert 'uniqueness not established' in text and '0.9984' in text and '0.000002' in text
         # The literal-stop receipt prevents any card from reviving approval.
         assert card['verdict'] == 'negative'
         assert 'OK TO SUBMIT: NO' in text and 'OK TO SUBMIT: YES' not in text

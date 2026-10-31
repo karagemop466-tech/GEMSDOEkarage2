@@ -151,16 +151,17 @@ def test_desk_pages_are_explicitly_research_only(card):
         page = (DOCS / name).read_text()
         assert "OK TO SUBMIT: NO" in page and "OK TO SUBMIT: YES" not in page
         assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
-        if name in ("index.html", "executive-summary.html"):
-            assert card["raster"]["sha256"] in page
+        assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
-        expected = {"downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif"}
-        if name in ("index.html", "executive-summary.html"):
-            expected.add("downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif")
+        expected = {
+            "downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif",
+            "downloads/gemsdoe-karage2-near-trace-20261031.tif",
+            "downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif",
+            "downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+        }
         assert set(downloads) == expected
         assert all((DOCS / href).is_file() for href in downloads)
-        for href in downloads:
-            assert "DO NOT SUBMIT" in page[page.find(href) - 100:page.find(href) + 250] or "DO NOT SUBMIT" in page
+        assert "0.9984" in page and "0.000002" in page and "not a defensible CI" in page
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
     assert "45,046 of 45,108" in home and "99.86%" in home

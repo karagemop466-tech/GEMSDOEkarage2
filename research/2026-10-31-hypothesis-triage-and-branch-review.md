@@ -41,12 +41,21 @@ These are **untested hypotheses, not score predictions**. Novelty is bounded to 
 
 - Installed the repository-pinned Python requirements in ignored `.venv/` and Node packages with `npm ci`; no tracked dependency file changed.
 - `.venv/bin/pytest -q`: **257 passed, 8 skipped, 98 subtests passed**. The skipped tests require optional raster inputs not present. Rasterio emitted pending-deprecation warnings; no failures.
-- `npm test`: **3 passed**. `npm run test:site`: **9 passed**. `npm run test:browser`: passed at 1440, 390, and 320 px; freshness fail-safe states were checked.
+- `npm test`: **3 passed**. `npm run test:site`: **10 passed**. `npm run test:browser`: passed at 1440, 390, and 320 px; freshness fail-safe states were checked.
 - `.venv/bin/python scripts/readiness.py`: exit 0.
-- `.venv/bin/python scripts/audit_public_downloads.py --check`: `PASS_RESEARCH_ONLY`, 11 artifacts after registering the merged H-B TIFF in the shared integrity inventory, `downloadable_approved_submission: null`.
+- `.venv/bin/python scripts/audit_public_downloads.py --check`: `PASS_RESEARCH_ONLY`, 13 artifacts after registering H-B plus the later near-trace and GBSP research TIFFs in the shared integrity inventory, `downloadable_approved_submission: null`.
 - `.venv/bin/python scripts/build_audit_site.py --check`: exit 0.
 - `.venv/bin/python scripts/audit_nine_site_best.py`: **blocked** because `.cache/gems_data/sample_submission.tif` is absent. Captured as missing-input evidence; no audit outcome is inferred.
 - No scientific holdout, leakage canary, pre-placement surface comparison, final-dot registry comparison, template-matched TIFF validation, or portal acceptance test was run. No file or score estimate was produced.
+
+### Pass 2 addendum — later main-branch TIFFs reviewed after the first merge
+
+Origin/main advanced through PRs [#97](https://github.com/karagemop466-tech/GEMSDOEkarage2/pull/97) and [#101](https://github.com/karagemop466-tech/GEMSDOEkarage2/pull/101) during this review. I inspected their run cards/audit JSON and hash-bound raster inventory; I did not rerun their scientific experiments or treat repository claims as organizer evidence.
+
+- **Near-trace TIFF** (`gemsdoe-karage2-near-trace-20261031.tif`, SHA-256 `cc158d4248ed4b5fb64bbec7dc990a08e01993a6a91fd597d6d4578038a95811`): saved-byte audit records strict local format PASS. It reports HOLDOUT-DTI **0.624191** as an upper-bound fixed-field proxy, not hide-and-recover OOF or a leaderboard result; its four fold values are 0.623003, 0.622715, 0.626745, 0.627276. The card's `[0.622715, 0.627276]` is explicitly a fold-wise range, not a bootstrap 95% CI. The uniqueness sidecar reports max 3-pixel overlap **0.9984** against R13, above the project's 0.70 stop; its 0.4060 maximum against nine focus masks does not override that blocker. The run card says `verdict: promote` while also setting `ok_to_submit: false`, `slot_authorized: false`, and documenting the lattice stop. The shared inventory preserves that raw wording but normalizes the effective disposition to research-only/negative.
+- **GBSP TIFF** (`gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif`, SHA-256 `855b94aabbf36cbbc5423e953509ae095a89baf037f55cddbb04ea6a98de73a5`): sidecar records strict local format PASS and NaN exterior, but only **10** registry comparisons (max overlap 0.1887; max |Spearman| 0.0060). This is not complete-registry clearance or proof of global uniqueness. Its fixed-field HOLDOUT-DTI proxy is **0.000002**, with fold values 0, 0.000001, 0.000009, and 0.000001. The card's `[0, 0.000009]` is a fold-wise range, not a defensible 95% CI. The card is negative and authorizes no slot.
+- Both rasters remain downloadable solely for research/forensic review, are included in the 13-artifact hash-bound inventory, and are labeled **RESEARCH ONLY / DO NOT SUBMIT** in the generated desk. No file is approved to submit. The GBSP PR called it “unique” and “OK TO DOWNLOAD: YES”; that public wording was narrowed because 10 comparisons do not prove completeness.
+- **Protocol irregularity:** the near-trace PR names a lane although no lane/method paragraph was assigned in this conversation. GBSP source files describe it as “experiment 4” while its card reports “1 of 3”; aggregate experiment/time-budget compliance cannot be established from those inconsistent claims. Neither is treated as a valid lane assignment or selector authorization.
 
 ### Pass 3 — recheck against the prompt
 

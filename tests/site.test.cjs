@@ -37,10 +37,13 @@ test('research downloads are visibly prohibited from submission and exact bytes 
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
-    const expectedCount = ['index.html', 'executive-summary.html'].includes(page) ? 2 : 1;
-    assert.equal(links.length, expectedCount, `${page}: research links`);
-    assert.ok(links.some(link => /gemsdoe-blind-geothermal-rad-mag-grav-intersection/.test(link.getAttribute('href'))));
-    if (expectedCount === 2) assert.ok(links.some(link => /gemsdoekarage2-hk3-edgecentrality/.test(link.getAttribute('href'))));
+    assert.equal(links.length, 4, `${page}: research links`);
+    for (const filename of [
+      'gemsdoe-blind-geothermal-rad-mag-grav-intersection',
+      'gemsdoe-karage2-near-trace-20261031',
+      'gems-gbsp-blindspot-2195bc570842-20261031T005323Z',
+      'gemsdoekarage2-hk3-edgecentrality',
+    ]) assert.ok(links.some(link => link.getAttribute('href').includes(filename)), `${page}: missing ${filename}`);
     for (const link of links) {
       assert.match(link.textContent, /research only/i);
       assert.match(link.textContent, /DO NOT SUBMIT/);
@@ -66,6 +69,23 @@ test('H-B is not described as unique or format-valid beyond incomplete local che
     assert.match(text, /uniqueness not established/i);
     assert.match(text, /outside-is-NaN is false/i);
     assert.doesNotMatch(text, /H-B[^.]{0,80}passes the uniqueness gate/i);
+    dom.window.close();
+  }
+});
+
+test('near-trace and GBSP limitations are explicit and no candidate is called submission-ready', () => {
+  for (const page of pages) {
+    const dom = render(page);
+    const near = dom.window.document.querySelector('#near-trace-research-only').textContent;
+    const gbsp = dom.window.document.querySelector('#gbsp-research-only').textContent;
+    assert.match(near, /0\.9984.*exceeding the 0\.70 stop/);
+    assert.match(near, /compliant hide-and-recover validation/i);
+    assert.match(near, /records verdict promote/i);
+    assert.match(gbsp, /only 10 registry rasters/i);
+    assert.match(gbsp, /full-registry uniqueness not established/i);
+    assert.match(gbsp, /HOLDOUT-DTI \(fixed-field proxy\).*0\.000002/);
+    assert.match(gbsp, /not a defensible CI/i);
+    assert.match(gbsp, /RESEARCH ONLY · DO NOT SUBMIT/);
     dom.window.close();
   }
 });
