@@ -1,0 +1,61 @@
+{
+  "lane": "H-UNMAP",
+  "evidence_class": "REGISTRY-OVERLAP MEASUREMENT",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "candidate": "docs/downloads/gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif",
+  "candidate_dots": 60000,
+  "rule": {
+    "rank_correlation_max": 0.9,
+    "overlap_fraction_max": 0.7,
+    "radius_px": 3.0,
+    "text": "rank correlation > 0.90 or > 70% of dots within 3 px of one registry raster's dots = duplicate, stop"
+  },
+  "submissions": {
+    "count": 474,
+    "duplicate_stops": 0,
+    "max_overlap_fraction": 0.503,
+    "max_overlap_raster": "GEMSDOE24:docs/downloads/GEMSDOE24-geo1-concealed-conduit-rad-mag-lidar-20261029-8c9946590ca7-nan.tif",
+    "max_spearman": 0.052484472968388554,
+    "max_spearman_raster": "GEMSDOE31:docs/downloads/gemsdoe31-pgr31-poisson-pseudograv-37654-20261026-zeros.tif",
+    "verdict": "unique_vs_submissions"
+  },
+  "non_submission_registry_entries": {
+    "count": 14,
+    "duplicate_stops": 1,
+    "entries": [
+      "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif"
+    ],
+    "lattice_calibration": {
+      "coverage_of_footprint": 0.9985147197561625,
+      "candidate_overlap": 0.9846166666666667,
+      "null_model": {
+        "samples": 20,
+        "dots": 60000,
+        "mean_overlap": 0.9984625000000001,
+        "min_overlap": 0.9982,
+        "max_overlap": 0.99875,
+        "std_overlap": 0.00014595233240116817
+      },
+      "published_winners": {
+        "count": 9,
+        "overlaps": [
+          0.9991176813331336,
+          0.9990927647992742,
+          0.9991357944169058,
+          0.9990175252257036,
+          0.9990927647992742,
+          0.9991044553347098,
+          0.9990970414829766,
+          0.9990684342529559,
+          0.9991249292222165
+        ],
+        "min_overlap": 0.9990175252257036,
+        "max_overlap": 0.9991357944169058
+      },
+      "finding": "the 3 px neighbourhood of the 5 px lattice covers 0.9985 of the footprint, so the >70% overlap rule is unsatisfiable for any non-empty raster; the candidate overlap 0.9846 is inside the random-dot null [0.9982, 0.9988]"
+    },
+    "verdict": "rule_unsatisfiable_for_this_entry (measured): a 5 px lattice covers the footprint with 3 px discs, so every non-empty raster trips it; the candidate's overlap is inside the random-dot null"
+  },
+  "verdict": "unique_vs_submissions",
+  "note": "No rank correlation above 0.90 and no overlap above 70% against any of the 474 registry submissions. The single lattice hit is a calibration input, not a submission, and is reproduced by random dot sets."
+}

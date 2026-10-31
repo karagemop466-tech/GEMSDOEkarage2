@@ -1,5 +1,6 @@
 """A known duplicate must not be rebuilt or advertised for upload."""
 import hashlib
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -25,9 +26,12 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
         text = (ROOT / 'docs' / name).read_text()
         assert 'unique research TIF' not in text
         assert 'DO NOT SUBMIT' in text
+        candidate = json.loads((ROOT / 'evidence/hunmap/e3-release-card.json').read_text())
         for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text):
             assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
-            assert card['submission']['name'] in href
+            # The only uploadable file is the audited H-UNMAP candidate; every
+            # retired lane stays research-only.
+            assert card['submission']['name'] in href or candidate['submission_name'] in href
         # The literal-stop receipt prevents any card from reviving approval.
         assert card['verdict'] == 'negative'
         assert 'OK TO SUBMIT: NO' in text and 'OK TO SUBMIT: YES' not in text

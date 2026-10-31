@@ -1,0 +1,213 @@
+{
+  "lane": "H-UNMAP",
+  "experiment": "e1",
+  "model_type": "hgb",
+  "n_features": 25,
+  "features": [
+    "cond_log",
+    "depth_base",
+    "deq_log",
+    "dem_grad",
+    "dem_coh",
+    "dem_curv",
+    "dem_slope_abs",
+    "inv_log",
+    "dilate_log",
+    "shear_log",
+    "ieq_log",
+    "grav_hg_abs",
+    "grav_slope_abs",
+    "grav_vg_abs",
+    "rtp_grad",
+    "rtp_coh",
+    "rtp_curv",
+    "tc_abs",
+    "tmi_log",
+    "tmi_hg_abs",
+    "tmi_vg_abs",
+    "rad_k_halo",
+    "rad_th_halo",
+    "rad_u_halo",
+    "rad_thk_halo"
+  ],
+  "n_pos": 60988,
+  "n_neg": 400000,
+  "spatial_block_cv": [
+    {
+      "block": 0,
+      "n_test": 219034,
+      "auc": 0.6024325294733457
+    },
+    {
+      "block": 1,
+      "n_test": 118601,
+      "auc": 0.6743380110128301
+    },
+    {
+      "block": 2,
+      "n_test": 52992,
+      "auc": 0.602000392538135
+    },
+    {
+      "block": 3,
+      "n_test": 70361,
+      "auc": 0.6704124124644097
+    }
+  ],
+  "mean_auc": 0.6372958363721801,
+  "leakage_canary": [
+    {
+      "feature": "cond_log",
+      "mean_auc": 0.492911734968116,
+      "max_auc": 0.5427590880320711,
+      "leakage_flag": false
+    },
+    {
+      "feature": "depth_base",
+      "mean_auc": 0.506631840231534,
+      "max_auc": 0.5278873604162209,
+      "leakage_flag": false
+    },
+    {
+      "feature": "deq_log",
+      "mean_auc": 0.5124058079203363,
+      "max_auc": 0.5575619942581365,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dem_grad",
+      "mean_auc": 0.5745454137764001,
+      "max_auc": 0.5905469112652466,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dem_coh",
+      "mean_auc": 0.48320846704797815,
+      "max_auc": 0.5198077657576119,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dem_curv",
+      "mean_auc": 0.5579584667565262,
+      "max_auc": 0.5958677161281785,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dem_slope_abs",
+      "mean_auc": 0.5656846813668708,
+      "max_auc": 0.5901963010136964,
+      "leakage_flag": false
+    },
+    {
+      "feature": "inv_log",
+      "mean_auc": 0.5489549036239401,
+      "max_auc": 0.5774178428339511,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dilate_log",
+      "mean_auc": 0.5116470390378107,
+      "max_auc": 0.554523394769397,
+      "leakage_flag": false
+    },
+    {
+      "feature": "shear_log",
+      "mean_auc": 0.5410889283657455,
+      "max_auc": 0.5906909093486488,
+      "leakage_flag": false
+    },
+    {
+      "feature": "ieq_log",
+      "mean_auc": 0.5406067117445428,
+      "max_auc": 0.574283692801852,
+      "leakage_flag": false
+    },
+    {
+      "feature": "grav_hg_abs",
+      "mean_auc": 0.5325844349291745,
+      "max_auc": 0.5553349150277204,
+      "leakage_flag": false
+    },
+    {
+      "feature": "grav_slope_abs",
+      "mean_auc": 0.5335386684853841,
+      "max_auc": 0.5793613185259167,
+      "leakage_flag": false
+    },
+    {
+      "feature": "grav_vg_abs",
+      "mean_auc": 0.5042624156916952,
+      "max_auc": 0.5546340760662933,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rtp_grad",
+      "mean_auc": 0.5208098141677923,
+      "max_auc": 0.5507314108835621,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rtp_coh",
+      "mean_auc": 0.5019173478373874,
+      "max_auc": 0.517177450885983,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rtp_curv",
+      "mean_auc": 0.5123578948368148,
+      "max_auc": 0.5309732154031949,
+      "leakage_flag": false
+    },
+    {
+      "feature": "tc_abs",
+      "mean_auc": 0.4258800211638398,
+      "max_auc": 0.46188952540451955,
+      "leakage_flag": false
+    },
+    {
+      "feature": "tmi_log",
+      "mean_auc": 0.5059471178465709,
+      "max_auc": 0.5383427667998509,
+      "leakage_flag": false
+    },
+    {
+      "feature": "tmi_hg_abs",
+      "mean_auc": 0.5128758075723505,
+      "max_auc": 0.5349508107335391,
+      "leakage_flag": false
+    },
+    {
+      "feature": "tmi_vg_abs",
+      "mean_auc": 0.5126431950840374,
+      "max_auc": 0.5406511229770484,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rad_k_halo",
+      "mean_auc": 0.44859493227923275,
+      "max_auc": 0.46353801086740537,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rad_th_halo",
+      "mean_auc": 0.4700548764580213,
+      "max_auc": 0.4834918122023686,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rad_u_halo",
+      "mean_auc": 0.4983172245528258,
+      "max_auc": 0.509920644185386,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rad_thk_halo",
+      "mean_auc": 0.5276118672780155,
+      "max_auc": 0.540375001727994,
+      "leakage_flag": false
+    }
+  ],
+  "leakage_canary_max_auc": 0.5958677161281785,
+  "leakage_canary_pass": true,
+  "evaluator_version": "gems57-pooled-hide-v2"
+}

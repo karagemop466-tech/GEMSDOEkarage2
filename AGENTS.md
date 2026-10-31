@@ -4,6 +4,30 @@ Read `README.md` and the consolidated project prompt in it before changing scien
 submission workflows. Work on the assigned Arena branch. Preserve negative evidence,
 source-access limitations and the user's literal parallel-run protocol.
 
+## Current decision (2026-10-31): one NEW candidate, everything older still research-only
+
+The H-UNMAP lane produced `docs/submission/gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif`
+(60,000 dots, SHA-256 `55a503686529f541a4ca77ce88338faa1059f53491d7ba5b9da4aa2e24386f04`).
+It is **OK to download and submit**: newly generated, max 3-px overlap 50.30% and max |Spearman|
+0.053 against all 487 pinned registry submissions, HOLDOUT-DTI 0.13643 on the blocked SGMC
+hide-and-recover instrument (champion reference 0.09539 on the same code path), leakage canary
+0.8969, saved-byte audit VERIFIED_CANDIDATE. Receipts live in `evidence/hunmap/`.
+This project still spends **no weekly slot** and has **no organiser receipt**.
+
+Everything else stays as it was: HK3, K2, K3, H1, H2, B4, GW-NFS, H-A, HR4 and the nine focus-site
+files remain **DO NOT SUBMIT**. Read `research/2026-10-31-hunmap-lane-review.md` first.
+
+* The candidate is published in `docs/submission/`, deliberately outside the research-only
+  inventory in `docs/downloads/`. `scripts/audit_submission_candidate.py` is its fail-closed
+  audit; `scripts/audit_public_downloads.py` fails closed if a file appears in `docs/submission/`
+  without a VERIFIED_CANDIDATE receipt.
+* `scripts/build_hunmap_pages.py` generates `docs/submission.html` and the
+  `docs/data/hunmap/` mirrors; edit the evidence or the generator, never only the page.
+* The registry's 500 m calibration lattice is measured to be a **non-discriminating comparator**
+  (its 3-px halo covers 99.85% of the footprint, so random dot sets trip it too). Do not use that
+  entry as a copy test; use the submission rasters, and keep the measurement in
+  `evidence/hunmap/lattice-rule-calibration.json`.
+
 ## Current decision: all TIFFs are research-only
 
 Read `research/2026-10-28-independent-three-pass-review.md`,

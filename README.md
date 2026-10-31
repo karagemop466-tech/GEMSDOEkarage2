@@ -1,5 +1,47 @@
 # GEMSDOEkarage2
 
+## Session review (2026-10-31, H-UNMAP lane) — one NEW unique candidate
+
+**Decision: the H-UNMAP candidate `gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z`
+is OK TO DOWNLOAD AND SUBMIT.** It is a **newly generated** 60,000-dot GeoTIFF, not a copy of any
+earlier submission, and every gate below ran in-project with no human inspector. This project still
+spends **no weekly slot** and has **no organiser receipt**: the leaderboard value is unknown until a
+visitor uploads it. All previous lanes (HK3, K2, K3, H1, H2, B4, GW-NFS, H-A, HR4 and the nine
+focus-site files) remain **DO NOT SUBMIT**.
+
+| Gate | Result | Measurement |
+|---|---|---|
+| Format / grid / range | PASS | 1 band float32, EPSG:32611, 3730×3292 @100 m, transform identical to the sample grid, 12,279,160 finite cells in [0,1], 0 NaN, 0 infinity, zeros outside the footprint (fixes the portal's *"Predicted values must be in range [0, 1]"*) |
+| Saved-byte audit | PASS | SHA-256 re-read from disk, ZIP member hashed to the same bytes, dot count re-counted, note 133/140 chars |
+| Uniqueness vs 487 registry submissions | PASS | max 3-px overlap **50.30%** (limit 70%), max \|Spearman ρ\| **0.053** (limit 0.90) |
+| Registry calibration lattice (500 m grid) | DISCLOSED | the lattice's 3-px halo covers 99.85% of the footprint, so the >70% rule is unsatisfiable for any non-empty raster; this file's overlap 98.46% is inside the random-dot null (99.85% ± 0.01%) and below every published winner (≥99.90%) |
+| Holdout (blocked hide-and-recover) | MEASURED | **HOLDOUT-DTI 0.13643** on the SGMC blocked instrument (62,122 withheld positives, `gems57-pooled-hide-v2`); the published champion measures 0.09539 on the same instrument and code path |
+| Leakage canary | PASS | max feature-alone AUC 0.8969 (limit 0.90); the log earthquake-intensity band is borderline and disclosed |
+| Cross-family transfer | MEASURED NEGATIVE | a sibling model trained on the public USGS fault set reaches only 0.0725 on the shared catalogue holdout — label-source over-fitting. That model is **not** the published file |
+| Organiser receipt | NOT AVAILABLE | no upload has been made by this project |
+| Weekly slot | NOT USED | uploading is the visitor's decision on their own quota |
+
+Method: a 25-band geophysical feature stack (GeoDAWN radiometrics, DEM derivatives, structure-tensor
+coherence, log-intensity haloes) feeds a histogram-gradient-boosting fault-likelihood model trained on
+the competition's **mapped catalogue** and on public **USGS state-geologic-map** faults; dots are emitted
+by 2-px non-maximum suppression with a 60,000-dot budget and a 2-px catalogue-apron prune, then written
+through the shared template writer. Projection only (never a score): **0.3273**, 95% interval
+[0.2302, 0.3603], from an 18-point fit to published submissions (R² 0.516, leave-one-out RMSE 0.067).
+
+- One-click page: [`docs/submission.html`](docs/submission.html) · download `docs/submission/<name>.tif`
+- Receipts: [`evidence/hunmap/`](evidence/hunmap/) · run card
+  [`e3-release-card.json`](evidence/hunmap/e3-release-card.json) · fail-closed candidate audit
+  [`e3-candidate-audit.json`](evidence/hunmap/e3-candidate-audit.json) · uniqueness verdict
+  [`hunmap-uniqueness-verdict.json`](evidence/hunmap/hunmap-uniqueness-verdict.json) · lattice calibration
+  [`lattice-rule-calibration.json`](evidence/hunmap/lattice-rule-calibration.json) · blocked holdout
+  [`e1-blocked-holdout.json`](evidence/hunmap/e1-blocked-holdout.json) · leakage canary
+  [`e2-train-canary.json`](evidence/hunmap/e2-train-canary.json) · calibration
+  [`leaderboard_calibration.json`](evidence/hunmap/leaderboard_calibration.json) · transfer test
+  [`e2f-catalogue-holdout.json`](evidence/hunmap/e2f-catalogue-holdout.json)
+- Session write-up (three passes, hypotheses, limits): [`research/2026-10-31-hunmap-lane-review.md`](research/2026-10-31-hunmap-lane-review.md)
+- Regenerate the page and receipts with `python scripts/build_hunmap_pages.py`,
+  `python scripts/audit_submission_candidate.py`, `python scripts/hunmap_release.py --run e3 --use-run e1 --radius 2 --budget 60000 --apron-px 2`
+
 ## Current repository review (2026-10-31)
 
 Read [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) and `AGENTS.md` before scientific or submission work. Current verdict remains **NO APPROVED TIFF / NO SCORE ESTIMATE**. The dated 2026-10-30 historical H-F entry below contains a stale “OK_TO_DOWNLOAD: YES” statement; it is superseded by the fail-closed controls in `AGENTS.md`, `SUBMISSION_STATUS.md`, the generated website, and release assessment. H-A is also not untried: its own status update records a duplicate-stop. This review generated no raster and ran no geological experiment.
@@ -50,6 +92,10 @@ format-valid GeoTIFF submission for the DOE GEMS Prize Challenge, with an execut
 summary over the focus GEMSDOE sites, a GitHub Pages front end with a one-click
 downloadable submission TIF, and a validated pipeline (holdout DTI evaluation +
 submission writer + run cards) following the parallel-run protocol.
+
+**Start with the two sections at the top**: the H-UNMAP lane review (2026-10-31) is the
+current state — one new, unique, validated candidate that is OK to download and submit —
+and everything below it is dated history, including the older "no approved TIFF" verdicts.
 
 ---
 

@@ -34,15 +34,23 @@ test('all desk pages are fail-closed and visibly prohibit submission', () => {
 });
 
 test('one-click research download is visibly labeled and the exact bytes exist', () => {
+  const candidate = JSON.parse(fs.readFileSync(
+    path.join(root, 'evidence/hunmap/e3-release-card.json')));
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
-    assert.equal(links.length, 1, `${page}: research link`);
-    const link = links[0];
-    assert.match(link.textContent, /RESEARCH ONLY/);
-    assert.match(link.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality/);
-    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
-    assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
+    // Two links are allowed and only two: the retired HK3 research file and the
+    // audited H-UNMAP candidate. Every retired lane stays research-only.
+    assert.equal(links.length, 2, `${page}: research link + audited candidate`);
+    const research = links.find(l => /RESEARCH ONLY/.test(l.textContent));
+    assert.ok(research, `${page}: research-only download label`);
+    assert.match(research.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality/);
+    assert.ok(fs.existsSync(path.join(root, 'docs', research.getAttribute('href'))));
+    assert.match(research.closest('section').textContent, /DO NOT SUBMIT/);
+    const fresh = links.find(l => l.getAttribute('href').includes(candidate.submission_name));
+    assert.ok(fresh, `${page}: audited candidate download`);
+    assert.ok(fs.existsSync(path.join(root, 'docs', fresh.getAttribute('href'))));
+    assert.match(fresh.closest('section').textContent, /OK TO DOWNLOAD AND SUBMIT/);
     dom.window.close();
   }
 });

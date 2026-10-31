@@ -1,0 +1,110 @@
+[
+  {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC off-catalogue (>3 px) / gems57 pooled evaluator",
+    "dti": 0.10116333958700564,
+    "tpw": 6326.217523441933,
+    "fpw": 57859.20494701051,
+    "fnw": 55795.782476558066,
+    "withheld_positive_pixels": 62122,
+    "n_emitted": 61328,
+    "file": ".cache/registry/GEMSDOE27/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif"
+  },
+  {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC off-catalogue (>3 px) / gems57 pooled evaluator",
+    "dti": 0.09991134894171928,
+    "tpw": 6221.831895114012,
+    "fpw": 56657.79355569221,
+    "fnw": 55900.16810488599,
+    "withheld_positive_pixels": 62122,
+    "n_emitted": 60069,
+    "file": ".cache/registry/GEMSDOE24/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif"
+  },
+  {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC off-catalogue (>3 px) / gems57 pooled evaluator",
+    "dti": 0.09676998666077825,
+    "tpw": 5621.989874604765,
+    "fpw": 36372.114577488086,
+    "fnw": 56500.01012539524,
+    "withheld_positive_pixels": 62122,
+    "n_emitted": 38854,
+    "file": ".cache/registry/GEMSDOE36/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif"
+  },
+  {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC off-catalogue (>3 px) / gems57 pooled evaluator",
+    "dti": 0.09568259594212596,
+    "tpw": 5615.903777642336,
+    "fpw": 39361.366596038795,
+    "fnw": 56506.096222357664,
+    "withheld_positive_pixels": 62122,
+    "n_emitted": 41865,
+    "file": ".cache/registry/GEMSDOE33/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif"
+  },
+  {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC off-catalogue (>3 px) / gems57 pooled evaluator",
+    "dti": 0.09538611460482532,
+    "tpw": 5517.63670255971,
+    "fpw": 35220.77352594685,
+    "fnw": 56604.363297440286,
+    "withheld_positive_pixels": 62122,
+    "n_emitted": 37654,
+    "file": ".cache/registry/GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif"
+  },
+  {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC off-catalogue (>3 px) / gems57 pooled evaluator",
+    "dti": 0.09529485537964633,
+    "tpw": 5560.733767728848,
+    "fpw": 37715.902716338045,
+    "fnw": 56561.266232271155,
+    "withheld_positive_pixels": 62122,
+    "n_emitted": 40199,
+    "file": ".cache/registry/GEMSDOE31/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif"
+  },
+  {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC off-catalogue (>3 px) / gems57 pooled evaluator",
+    "dti": 0.09417442916119363,
+    "tpw": 5568.5296418767975,
+    "fpw": 41593.23916879607,
+    "fnw": 56553.4703581232,
+    "withheld_positive_pixels": 62122,
+    "n_emitted": 44090,
+    "file": ".cache/registry/GEMSDOE25/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif"
+  },
+  {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC off-catalogue (>3 px) / gems57 pooled evaluator",
+    "dti": 0.09417442916119363,
+    "tpw": 5568.5296418767975,
+    "fpw": 41593.23916879607,
+    "fnw": 56553.4703581232,
+    "withheld_positive_pixels": 62122,
+    "n_emitted": 44090,
+    "file": ".cache/registry/GEMSDOE30/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif"
+  },
+  {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC off-catalogue (>3 px) / gems57 pooled evaluator",
+    "dti": 0.09335640287895453,
+    "tpw": 5400.001443371562,
+    "fpw": 35326.30399495913,
+    "fnw": 56721.99855662844,
+    "withheld_positive_pixels": 62122,
+    "n_emitted": 37660,
+    "file": ".cache/registry/GEMSDOE28/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif"
+  }
+]

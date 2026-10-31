@@ -439,5 +439,16 @@
   "score_estimate": null,
   "organizer_template_authenticated": false,
   "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
-  "slot_authorized": false
+  "slot_authorized": false,
+  "published_candidate": {
+    "audit": "evidence/hunmap/e3-candidate-audit.json",
+    "status": "VERIFIED_CANDIDATE",
+    "file": "docs/submission/gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif",
+    "files_in_docs_submission": [
+      "gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif",
+      "gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.zip"
+    ],
+    "unaccounted_files": [],
+    "note": "One candidate file is published for the visitor to upload. It is audited by its own fail-closed receipt, carries no organiser receipt, and no weekly slot is authorised by this project."
+  }
 }

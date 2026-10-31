@@ -21,11 +21,16 @@ data/
 # Intentionally allow tracked downloadable submission rasters served by Pages.
 !docs/downloads/*.tif
 !docs/downloads/*.tiff
+# The audited H-UNMAP candidate is published from docs/submission/ so that the
+# research-only inventory in docs/downloads/ keeps its meaning.
+!docs/submission/*.tif
+!docs/submission/*.tiff
 # Cache arrays and archives by default; retain only the previously quarantined H1 ZIP.
 *.npy
 *.npz
 *.zip
 !docs/downloads/*.zip
+!docs/submission/*.zip
 # Generated Pages staging and local analysis outputs.
 .pages/
 outputs/

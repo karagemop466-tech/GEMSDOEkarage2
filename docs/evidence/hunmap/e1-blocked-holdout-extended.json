@@ -1,0 +1,186 @@
+{
+  "lane": "H-UNMAP",
+  "label": "E1 catalogue-supervised likelihood surface (extended budget sweep)",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "evidence_class": "HOLDOUT-DTI",
+  "instrument": "SGMC blocked hide-and-recover (12 px buffer, quadrant blocks)",
+  "surface": ".cache/hunmap/runs/e1-score.npy",
+  "rows": [
+    {
+      "radius_px": 2,
+      "budget": 120000,
+      "apron_px": 2,
+      "blocked_pooled_dti": 0.18168767819489076,
+      "withheld_positive_pixels": 62122,
+      "tpw": 13639.221048990947,
+      "fpw": 113220.77129974047,
+      "full_sgmc_cal": 0.181753764598439,
+      "emitted": 118407
+    },
+    {
+      "radius_px": 2,
+      "budget": 120000,
+      "apron_px": 3,
+      "blocked_pooled_dti": 0.1811508121098013,
+      "withheld_positive_pixels": 62122,
+      "tpw": 13498.56167277743,
+      "fpw": 110591.44434232947,
+      "full_sgmc_cal": 0.1812173940952507,
+      "emitted": 115691
+    },
+    {
+      "radius_px": 2,
+      "budget": 100000,
+      "apron_px": 3,
+      "blocked_pooled_dti": 0.1790744154769445,
+      "withheld_positive_pixels": 62122,
+      "tpw": 12765.311432018052,
+      "fpw": 95171.45751163762,
+      "full_sgmc_cal": 0.17914403215461755,
+      "emitted": 100000
+    },
+    {
+      "radius_px": 2,
+      "budget": 100000,
+      "apron_px": 2,
+      "blocked_pooled_dti": 0.17835493395618823,
+      "withheld_positive_pixels": 62122,
+      "tpw": 12711.716664690808,
+      "fpw": 95160.3901942913,
+      "full_sgmc_cal": 0.17842456922996974,
+      "emitted": 100000
+    },
+    {
+      "radius_px": 2,
+      "budget": 80000,
+      "apron_px": 3,
+      "blocked_pooled_dti": 0.16353302939359693,
+      "withheld_positive_pixels": 62122,
+      "tpw": 10966.583625552112,
+      "fpw": 75847.21033673525,
+      "full_sgmc_cal": 0.16359035417280113,
+      "emitted": 80000
+    },
+    {
+      "radius_px": 2,
+      "budget": 80000,
+      "apron_px": 2,
+      "blocked_pooled_dti": 0.16109840026629396,
+      "withheld_positive_pixels": 62122,
+      "tpw": 10798.770521059136,
+      "fpw": 75873.92949858321,
+      "full_sgmc_cal": 0.16115576467143322,
+      "emitted": 80000
+    },
+    {
+      "radius_px": 2,
+      "budget": 60000,
+      "apron_px": 3,
+      "blocked_pooled_dti": 0.1388401412782055,
+      "withheld_positive_pixels": 62122,
+      "tpw": 8715.807336977869,
+      "fpw": 56675.423004385724,
+      "full_sgmc_cal": 0.13888410632200365,
+      "emitted": 60000
+    },
+    {
+      "radius_px": 2,
+      "budget": 60000,
+      "apron_px": 2,
+      "blocked_pooled_dti": 0.1364255220353034,
+      "withheld_positive_pixels": 62122,
+      "tpw": 8560.721423112042,
+      "fpw": 56702.00847685263,
+      "full_sgmc_cal": 0.13646951547280575,
+      "emitted": 60000
+    },
+    {
+      "radius_px": 3,
+      "budget": 60000,
+      "apron_px": 2,
+      "blocked_pooled_dti": 0.11454892821157917,
+      "withheld_positive_pixels": 62122,
+      "tpw": 7103.09521063366,
+      "fpw": 54455.245751796945,
+      "full_sgmc_cal": 0.11458645739332092,
+      "emitted": 57015
+    },
+    {
+      "radius_px": 3,
+      "budget": 80000,
+      "apron_px": 2,
+      "blocked_pooled_dti": 0.11454892821157917,
+      "withheld_positive_pixels": 62122,
+      "tpw": 7103.09521063366,
+      "fpw": 54455.245751796945,
+      "full_sgmc_cal": 0.11458645739332092,
+      "emitted": 57015
+    },
+    {
+      "radius_px": 3,
+      "budget": 100000,
+      "apron_px": 2,
+      "blocked_pooled_dti": 0.11454892821157917,
+      "withheld_positive_pixels": 62122,
+      "tpw": 7103.09521063366,
+      "fpw": 54455.245751796945,
+      "full_sgmc_cal": 0.11458645739332092,
+      "emitted": 57015
+    },
+    {
+      "radius_px": 3,
+      "budget": 120000,
+      "apron_px": 2,
+      "blocked_pooled_dti": 0.11454892821157917,
+      "withheld_positive_pixels": 62122,
+      "tpw": 7103.09521063366,
+      "fpw": 54455.245751796945,
+      "full_sgmc_cal": 0.11458645739332092,
+      "emitted": 57015
+    },
+    {
+      "radius_px": 3,
+      "budget": 60000,
+      "apron_px": 3,
+      "blocked_pooled_dti": 0.11368318379101017,
+      "withheld_positive_pixels": 62122,
+      "tpw": 7016.20477958992,
+      "fpw": 53081.66278760339,
+      "full_sgmc_cal": 0.11372089535744762,
+      "emitted": 55595
+    },
+    {
+      "radius_px": 3,
+      "budget": 80000,
+      "apron_px": 3,
+      "blocked_pooled_dti": 0.11368318379101017,
+      "withheld_positive_pixels": 62122,
+      "tpw": 7016.20477958992,
+      "fpw": 53081.66278760339,
+      "full_sgmc_cal": 0.11372089535744762,
+      "emitted": 55595
+    },
+    {
+      "radius_px": 3,
+      "budget": 100000,
+      "apron_px": 3,
+      "blocked_pooled_dti": 0.11368318379101017,
+      "withheld_positive_pixels": 62122,
+      "tpw": 7016.20477958992,
+      "fpw": 53081.66278760339,
+      "full_sgmc_cal": 0.11372089535744762,
+      "emitted": 55595
+    },
+    {
+      "radius_px": 3,
+      "budget": 120000,
+      "apron_px": 3,
+      "blocked_pooled_dti": 0.11368318379101017,
+      "withheld_positive_pixels": 62122,
+      "tpw": 7016.20477958992,
+      "fpw": 53081.66278760339,
+      "full_sgmc_cal": 0.11372089535744762,
+      "emitted": 55595
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "file": "gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif",
+  "sha256": "55a503686529f541a4ca77ce88338faa1059f53491d7ba5b9da4aa2e24386f04",
+  "bytes": 194872,
+  "submission_name": "gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z",
+  "note": "H-UNMAP: 25-band geophysical unmapped-fault detector (HGB on mapped faults), NMS r=2px, 60000 dots, apron 2px; NEW raster, not a copy",
+  "note_chars": 133,
+  "validator": {
+    "file": "/home/user/GEMSDOEkarage2/docs/submission/gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif",
+    "bytes": 194872,
+    "sha256": "55a503686529f541a4ca77ce88338faa1059f53491d7ba5b9da4aa2e24386f04",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.004886327777057886,
+    "emitted_positive_pixels": 60000,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 60000,
+    "footprint_fraction": 0.011611315846562654
+  },
+  "template_report": {
+    "path": "/home/user/GEMSDOEkarage2/docs/submission/gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif",
+    "bytes": 194872,
+    "sha256": "55a503686529f541a4ca77ce88338faa1059f53491d7ba5b9da4aa2e24386f04",
+    "bands": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "width": 3292,
+    "height": 3730,
+    "bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "ref_bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "blocksize": [
+      256,
+      256
+    ],
+    "fixture_grid": false,
+    "has_validity_mask": false,
+    "nan_pixels": 0,
+    "infinity_pixels": 0,
+    "n_nan": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.004886327777057886,
+    "n_nonzero": 60000,
+    "mass": 60000.0,
+    "mass_outside_footprint": 0,
+    "problems": [],
+    "ok": true,
+    "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+  },
+  "zip_file": "gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.zip",
+  "zip_sha256": "c5f323dbe4df8babee208a848a8d5c61ecf27ed2b26cbbe6db9496ffec323140",
+  "approved_for_weekly_slot": false,
+  "promoted": false,
+  "submission_slots_used": 0,
+  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "metadata": {
+    "lane": "H-UNMAP",
+    "method": "geophysical unmapped-fault likelihood, public SGMC labels, NMS emission, apron prune",
+    "radius_px": 2,
+    "budget": 60000,
+    "apron_px": 2,
+    "training_counts": {
+      "training_labels": "mapped catalogue only (no SGMC label was used)",
+      "n_pos_catalogue": 60988,
+      "n_neg": 400000,
+      "model_type": "hgb",
+      "reused_run": "e1"
+    }
+  }
+}

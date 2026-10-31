@@ -4,6 +4,20 @@
 .hero .btn.big { font-size: 15px; padding: 13px 20px; }
 .hero .btn.secondary { background: #fff; color: #0b5f7a; border: 1px solid #0b5f7a; }
 .no { color: #b91c1c; }
+.good, .yes { color: #15803d; }
+.hero-ok { border-color: #15803d; background: #f0fdf4; }
+.pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px;
+        font-weight: 700; letter-spacing: .3px; border: 1px solid var(--line); }
+.pill.good { background: #ecfdf5; color: #15803d; border-color: #bbf7d0; }
+.pill.bad { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+.pill.muted { background: #f1f5f9; color: #475569; }
+.copybox { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
+           padding: 12px 14px; margin: 14px 0; font-size: 13.5px; }
+.copybox p { margin: 6px 0; }
+.table-wrap { overflow-x: auto; }
+tr.hl td, tr.hl th { background: #f0fdf4; }
+ol.steps { padding-left: 20px; }
+ol.steps li { margin-bottom: 10px; }
 .muted, .sub-label { color: #475569; }
 .sub-label { display: block; font-size: 11px; }
 table { display: block; max-width: 100%; overflow-x: auto; }

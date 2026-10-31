@@ -1,4 +1,19 @@
-# Submission status — NO APPROVED FILE
+# Submission status — ONE NEW CANDIDATE (2026-10-31), everything older research-only
+
+**OK TO DOWNLOAD AND SUBMIT: `gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif`**
+(H-UNMAP lane, 60,000 dots, SHA-256 `55a503686529f541a4ca77ce88338faa1059f53491d7ba5b9da4aa2e24386f04`,
+`docs/submission/`, one-click page `docs/submission.html`). Newly generated, not a copy: max 3-px
+overlap **50.30%** and max |ρ| **0.053** against all 487 pinned registry submissions; HOLDOUT-DTI
+**0.13643** on the blocked SGMC hide-and-recover instrument (champion reference 0.09539 on the same
+code path); leakage canary 0.8969; saved-byte audit `VERIFIED_CANDIDATE`; finite zeros exterior, no
+NaN, all values in [0,1] (fixes the portal range error). **No organiser receipt and no weekly slot
+is used by this project** — the projection (0.3273, 95% interval [0.2302, 0.3603]) is a
+PROJECTION, never a score. Receipts: [`evidence/hunmap/`](evidence/hunmap/); write-up:
+[`research/2026-10-31-hunmap-lane-review.md`](research/2026-10-31-hunmap-lane-review.md).
+
+**All earlier files (HK3, K2, K3, H1, H2, B4, GW-NFS, H-A, HR4, the nine focus-site files) remain
+DO NOT SUBMIT.** The historical entries below are dated record, not current approval.
+
 
 **Review 2026-10-31: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
 

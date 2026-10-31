@@ -98,9 +98,11 @@ def test_homepage_keeps_k2_quarantined_and_offers_only_the_run_card_file():
     import re
     downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', home)
     assert downloads, "the desk must offer a click-to-download link"
+    candidate = json.loads((ROOT / "evidence/hunmap/e3-release-card.json").read_text())
     for href in downloads:
-        assert card["submission"]["name"] in href
         assert not any(x in href for x in ("k2-hgbcont", "h1-parity", "hkarage1"))
+        # Either the retired HK3 research file or the audited H-UNMAP candidate.
+        assert card["submission"]["name"] in href or candidate["submission_name"] in href
 
 
 def test_k2_preplacement_stop_and_cli_are_fail_closed(tmp_path):

@@ -121,6 +121,13 @@ def test_concurrent_publication_adapter_has_no_minimal_card_bypass():
 
 def test_root_submission_status_does_not_reintroduce_retracted_approval():
     text = (ROOT / 'SUBMISSION_STATUS.md').read_text()
-    assert 'NO APPROVED FILE' in text and 'DO NOT SUBMIT' in text
+    assert 'DO NOT SUBMIT' in text
     assert 'will **not** trigger' not in text
     assert 'Verdict:** PROMOTE' not in text
+    # Exactly one file is offered (the audited H-UNMAP candidate); the retracted
+    # HK3 file keeps its negative verdict and is never listed beside it.
+    assert 'OK TO DOWNLOAD AND SUBMIT' in text
+    assert 'gemsdoekarage2-hunmap' in text
+    card = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
+    assert card['verdict'] == 'negative'
+    assert card['submission']['name'] not in text

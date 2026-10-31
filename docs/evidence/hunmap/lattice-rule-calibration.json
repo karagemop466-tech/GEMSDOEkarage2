@@ -1,0 +1,89 @@
+{
+  "lane": "H-UNMAP",
+  "evidence_class": "REGISTRY-OVERLAP MEASUREMENT",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "lattice": {
+    "file": ".cache/registry/GEMSDOE24/inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "dots": 206895,
+    "spacing_px": 5,
+    "three_px_neighbourhood_coverage_of_footprint": 0.9985147197561625,
+    "note": "regular 500 m prediction lattice, not a submission"
+  },
+  "candidate": {
+    "file": "docs/downloads/gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif",
+    "dots": 60000,
+    "lattice_overlap": 0.9846166666666667
+  },
+  "null_model": {
+    "samples": 20,
+    "dots": 60000,
+    "mean_overlap": 0.9984625000000001,
+    "min_overlap": 0.9982,
+    "max_overlap": 0.99875,
+    "std_overlap": 0.00014595233240116817
+  },
+  "published_winners": {
+    "count": 9,
+    "overlaps": [
+      0.9991176813331336,
+      0.9990927647992742,
+      0.9991357944169058,
+      0.9990175252257036,
+      0.9990927647992742,
+      0.9991044553347098,
+      0.9990970414829766,
+      0.9990684342529559,
+      0.9991249292222165
+    ],
+    "min_overlap": 0.9990175252257036,
+    "max_overlap": 0.9991357944169058
+  },
+  "finding": "the 3 px neighbourhood of the 5 px lattice covers 0.9985 of the footprint, so the >70% overlap rule is unsatisfiable for any non-empty raster; the candidate overlap 0.9846 is inside the random-dot null [0.9982, 0.9988]",
+  "rows": [
+    {
+      "file": ".cache/registry/GEMSDOE24/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "dots": 60069,
+      "lattice_overlap": 0.9991176813331336
+    },
+    {
+      "file": ".cache/registry/GEMSDOE25/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "dots": 44090,
+      "lattice_overlap": 0.9990927647992742
+    },
+    {
+      "file": ".cache/registry/GEMSDOE27/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "dots": 61328,
+      "lattice_overlap": 0.9991357944169058
+    },
+    {
+      "file": ".cache/registry/GEMSDOE28/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "dots": 37660,
+      "lattice_overlap": 0.9990175252257036
+    },
+    {
+      "file": ".cache/registry/GEMSDOE30/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "dots": 44090,
+      "lattice_overlap": 0.9990927647992742
+    },
+    {
+      "file": ".cache/registry/GEMSDOE31/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "dots": 40199,
+      "lattice_overlap": 0.9991044553347098
+    },
+    {
+      "file": ".cache/registry/GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "dots": 37654,
+      "lattice_overlap": 0.9990970414829766
+    },
+    {
+      "file": ".cache/registry/GEMSDOE33/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "dots": 41865,
+      "lattice_overlap": 0.9990684342529559
+    },
+    {
+      "file": ".cache/registry/GEMSDOE36/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "dots": 38854,
+      "lattice_overlap": 0.9991249292222165
+    }
+  ]
+}

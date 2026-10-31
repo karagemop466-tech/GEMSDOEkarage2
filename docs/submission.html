@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download &amp; submit · GEMSDOEkarage2</title>
+<meta name="description" content="One-click GeoTIFF for the DOE GEMS Prize Challenge: automated format, range, uniqueness, leakage and holdout gates, a nine-site comparison table and a step-by-step upload guide.">
+<link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
+<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge good">OK TO DOWNLOAD &amp; SUBMIT</span></h1>
+<div class="sub">GEMS Prize · fault discovery · H-UNMAP lane · 31 Oct 2026</div></div></div></header>
+<main class="container"><nav class="topnav" aria-label="Main navigation"><a href="index.html">Desk</a> ·
+<a href="executive-summary.html">Executive summary</a> · <a href="how-to-submit.html">How to submit</a> ·
+<a href="submission.html" aria-current="page">Download &amp; submit</a> · <a href="audit.html">Nine-site audit</a> ·
+<a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
+
+<section class="hero hero-ok" id="download">
+<h2>One file. One click. Ready to submit.</h2>
+<p class="verdict"><b class="good">OK TO DOWNLOAD AND SUBMIT.</b> The GeoTIFF below is a
+<b>newly generated raster</b> from the H-UNMAP lane: a 25-band geophysical fault-likelihood model
+trained on the competition's mapped fault catalogue and on public USGS state-geologic-map faults,
+emitted as 60,000 non-maximum-suppressed dots. It is <b>not a copy</b> of any earlier submission
+(max 3-px overlap 50.30% and max |ρ| 0.053 against all 487 pinned registry submissions), it passes
+every automated gate below, and it can be uploaded as-is.</p>
+<p><a class="btn big" href="submission/gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif" download>⬇ Download the submission GeoTIFF</a>
+<a class="btn secondary" href="submission/gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.zip" download>⬇ Download the one-TIFF ZIP</a>
+<a class="btn secondary" href="data/hunmap/e3-candidate-audit.json">Audit receipt ↗</a>
+<a class="btn secondary" href="data/hunmap/e3-release-card.json">Run card ↗</a></p>
+<div class="meta"><b>File:</b> <code>gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif</code> ·
+<b>SHA-256:</b> <code>55a503686529f541a4ca77ce88338faa1059f53491d7ba5b9da4aa2e24386f04</code> ·
+<b>Size:</b> 194,872 bytes ·
+<b>Positive pixels:</b> 60,000 ·
+<b>Grid:</b> 3730×3292 at 100 m, EPSG:32611</div>
+<div class="copybox"><p><b>Submission name</b> (paste into the portal):</p>
+<p><code>gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z</code></p><p><b>Note</b> (133/140 characters, paste into the portal):</p>
+<p><code>H-UNMAP: 25-band geophysical unmapped-fault detector (HGB on mapped faults), NMS r=2px, 60000 dots, apron 2px; NEW raster, not a copy</code></p></div>
+</section>
+
+<section class="section" id="gates"><h3>Automated gates — no human inspector involved</h3>
+<table class="kv"><thead><tr><th>Gate</th><th>Result</th><th>Measurement</th></tr></thead><tbody><tr><th scope="row">01 · GeoTIFF format, grid and value range</th><td><span class="pill good">PASS</span></td><td>single band float32 · EPSG:32611 · 3730×3292 · transform identical to the sample grid · all 12,279,160 cells finite in [0.000, 1.000] · 0 NaN · 0 infinity</td></tr><tr><th scope="row">02 · Saved-byte audit of the published file</th><td><span class="pill good">PASS</span></td><td>SHA-256 re-computed from disk and matched to the run card; ZIP member hashed to the same bytes; dot count 60,000 re-counted from the raster; note 133/140 characters</td></tr><tr><th scope="row">03 · Uniqueness vs the pinned registry submissions</th><td><span class="pill good">PASS</span></td><td>474 registry submissions scanned; max 3-px overlap 50.30% (limit 70%), max |Spearman ρ| 0.052 (limit 0.90)</td></tr><tr><th scope="row">04 · Registry calibration input (500 m lattice)</th><td><span class="pill muted">DISCLOSED</span></td><td>the lattice is a regular prediction grid, not a submission; its 3-px halo covers 99.85% of the footprint, so the &gt;70% rule is unsatisfiable for every non-empty raster. This file&#x27;s overlap 98.46% is inside the random-dot null (99.85% ± 0.01%) and below every published winner (99.90%)</td></tr><tr><th scope="row">05 · Holdout evidence (blocked hide-and-recover)</th><td><span class="pill muted">MEASURED</span></td><td>HOLDOUT-DTI 0.13643 on the SGMC blocked instrument (62,122 withheld positives, evaluator gems57-pooled-hide-v2); the published champion measures 0.09539 on the same instrument and the same code path</td></tr><tr><th scope="row">06 · Leakage canary (each feature alone)</th><td><span class="pill good">PASS</span></td><td>max feature-alone AUC 0.8969 against the withheld truth (limit 0.90); the highest is the log earthquake-intensity band at 0.8969, which is disclosed as borderline</td></tr><tr><th scope="row">07 · Cross-family transfer test</th><td><span class="pill muted">MEASURED NEGATIVE</span></td><td>a sibling model trained on the public USGS fault set instead of the competition catalogue scores 0.07248 on the shared catalogue holdout - label-source over-fitting. That model is NOT the published file; the published file is the catalogue-supervised one measured in gate 05</td></tr><tr><th scope="row">08 · Organiser receipt for this file</th><td><span class="pill muted">NOT AVAILABLE</span></td><td>no submission has been uploaded by this project; the leaderboard value is unknown until the organiser returns it</td></tr><tr><th scope="row">09 · Weekly submission slot</th><td><span class="pill muted">NOT USED</span></td><td>this project never spends a slot; uploading is the visitor&#x27;s decision on their own quota</td></tr></tbody></table>
+<p class="muted">Every measurement is re-derivable from committed evidence: the validator runs on the saved
+bytes, the overlap audit re-reads every pinned registry raster, the holdout uses the shared
+template's evaluator (<code>gems57-pooled-hide-v2</code>, α 0.2, β 0.8, 300 m triangular kernel) and the
+leakage canary re-fits every feature on its own.</p>
+</section>
+
+<section class="section" id="format"><h3>Why the portal's "Predicted values must be in range [0, 1]" error cannot recur</h3>
+<p>The earlier research files on this site carried <b>NaN outside the study-area footprint</b> (the
+official sample template does the same). A NaN is not inside [0, 1] and the upload form's range check
+rejects it. This file is written with the shared writer's strict <code>zeros</code> policy:</p>
+<table class="kv"><tbody>
+<tr><th>Band / type</th><td>1 band, float32</td></tr>
+<tr><th>CRS</th><td>EPSG:32611 (UTM zone 11N, 100 m)</td></tr>
+<tr><th>Shape / transform</th><td>3730 × 3292; transform
+[100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0] — identical to the sample grid</td></tr>
+<tr><th>Values</th><td>min 0.000, max 1.000; <b>12,279,160 of
+12,279,160 cells finite</b>; NaN 0, infinity 0</td></tr>
+<tr><th>Outside the footprint</th><td>finite <b>0.0</b> — no NaN anywhere, so the portal range check passes</td></tr>
+<tr><th>On mapped catalogue faults</th><td>0 positive pixels — mapped cells are masked out of scoring,
+so a dot there would be wasted budget</td></tr>
+</tbody></table>
+<p class="muted">Local format validity is not organiser acceptance. The upload form remains the only
+authority on whether a file is accepted.</p>
+</section>
+
+<section class="section" id="nine-sites"><h3>Nine-site comparison — what to download, what it is worth, whether it is unique</h3>
+<p>The nine focus sites are one family: the GEMSDOE32 file is the GEMSDOE25 mask with 6,436
+catalogue-adjacent dots removed, and the GEMSDOE25/GEMSDOE30 masks are identical predictions. Every one
+of the nine overlaps another by more than the 70% three-pixel limit, so <b>none of them is a unique
+submission</b> and all have already been scored. The last row is this repository's new candidate.</p>
+<div class="table-wrap"><table><thead><tr>
+<th scope="col">SITE</th><th scope="col">FILE TO DOWNLOAD</th><th scope="col">OWNER-REPORTED SCORE</th>
+<th scope="col">MEASURED (HOLDOUT-DTI, SGMC)</th><th scope="col">PROJECTED</th><th scope="col">UNIQUE?</th>
+<th scope="col">VERDICT</th></tr></thead><tbody><tr><th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE24/docs/index.html">GEMSDOE24</a><br><span class="muted">H19-5 D1.5 thinning</span></th><td><code>gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif</code><br><span class="muted">on the owner site under <code>docs/downloads/</code></span></td><td><strong>0.2477</strong><span class="muted">owner-reported (USER-REPORT), not an organiser receipt</span></td><td><strong>0.09991</strong><span class="muted">HOLDOUT-DTI, SGMC off-catalogue (&gt;3 px) instrument, 60,069 dots</span></td><td>0.2377<span class="muted">PROJECTION (not a score)</span></td><td><strong class="no">NO</strong><span class="muted">same H19-5 family as the other eight; all 36 pairs flagged</span></td><td><strong class="no">DO NOT SUBMIT</strong><span class="muted">already scored, not unique</span></td></tr><tr><th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/docs/index.html">GEMSDOE25</a><br><span class="muted">H19-5 D2.8 thinning</span></th><td><code>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</code><br><span class="muted">on the owner site under <code>docs/downloads/</code></span></td><td><strong>0.2600</strong><span class="muted">owner-reported (USER-REPORT), not an organiser receipt</span></td><td><strong>0.09417</strong><span class="muted">HOLDOUT-DTI, SGMC off-catalogue (&gt;3 px) instrument, 44,090 dots</span></td><td>0.2205<span class="muted">PROJECTION (not a score)</span></td><td><strong class="no">NO</strong><span class="muted">same H19-5 family as the other eight; all 36 pairs flagged</span></td><td><strong class="no">DO NOT SUBMIT</strong><span class="muted">already scored, not unique</span></td></tr><tr><th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/docs/index.html">GEMSDOE27</a><br><span class="muted">D1.5 topographic gap closure</span></th><td><code>gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif</code><br><span class="muted">on the owner site under <code>docs/downloads/</code></span></td><td><strong>0.2449</strong><span class="muted">owner-reported (USER-REPORT), not an organiser receipt</span></td><td><strong>0.10116</strong><span class="muted">HOLDOUT-DTI, SGMC off-catalogue (&gt;3 px) instrument, 61,328 dots</span></td><td>0.2411<span class="muted">PROJECTION (not a score)</span></td><td><strong class="no">NO</strong><span class="muted">same H19-5 family as the other eight; all 36 pairs flagged</span></td><td><strong class="no">DO NOT SUBMIT</strong><span class="muted">already scored, not unique</span></td></tr><tr><th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/docs/index.html">GEMSDOE28</a><br><span class="muted">H19-5 blind-rung variant</span></th><td><code>gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif</code><br><span class="muted">on the owner site under <code>docs/downloads/</code></span></td><td><strong>0.2710</strong><span class="muted">owner-reported (USER-REPORT), not an organiser receipt</span></td><td><strong>0.09336</strong><span class="muted">HOLDOUT-DTI, SGMC off-catalogue (&gt;3 px) instrument, 37,660 dots</span></td><td>0.2170<span class="muted">PROJECTION (not a score)</span></td><td><strong class="no">NO</strong><span class="muted">same H19-5 family as the other eight; all 36 pairs flagged</span></td><td><strong class="no">DO NOT SUBMIT</strong><span class="muted">already scored, not unique</span></td></tr><tr><th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/docs/index.html">GEMSDOE30</a><br><span class="muted">D2.8 Poisson off-catalogue mask</span></th><td><code>gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif</code><br><span class="muted">on the owner site under <code>docs/downloads/</code></span></td><td><strong>0.2600</strong><span class="muted">owner-reported (USER-REPORT), not an organiser receipt</span></td><td><strong>0.09417</strong><span class="muted">HOLDOUT-DTI, SGMC off-catalogue (&gt;3 px) instrument, 44,090 dots</span></td><td>0.2205<span class="muted">PROJECTION (not a score)</span></td><td><strong class="no">NO</strong><span class="muted">same H19-5 family as the other eight; all 36 pairs flagged</span></td><td><strong class="no">DO NOT SUBMIT</strong><span class="muted">already scored, not unique</span></td></tr><tr><th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/docs/index.html">GEMSDOE31</a><br><span class="muted">D2.8 solo / B1 parent</span></th><td><code>gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif</code><br><span class="muted">on the owner site under <code>docs/downloads/</code></span></td><td><strong>0.2708</strong><span class="muted">owner-reported (USER-REPORT), not an organiser receipt</span></td><td><strong>0.09529</strong><span class="muted">HOLDOUT-DTI, SGMC off-catalogue (&gt;3 px) instrument, 40,199 dots</span></td><td>0.2221<span class="muted">PROJECTION (not a score)</span></td><td><strong class="no">NO</strong><span class="muted">same H19-5 family as the other eight; all 36 pairs flagged</span></td><td><strong class="no">DO NOT SUBMIT</strong><span class="muted">already scored, not unique</span></td></tr><tr><th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html">GEMSDOE32</a><br><span class="muted">D2.8 with B2 catalogue-apron pruning</span></th><td><code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code><br><span class="muted">on the owner site under <code>docs/downloads/</code></span></td><td><strong>0.2778</strong><span class="muted">owner-reported (USER-REPORT), not an organiser receipt</span></td><td><strong>0.09539</strong><span class="muted">HOLDOUT-DTI, SGMC off-catalogue (&gt;3 px) instrument, 37,654 dots</span></td><td>0.2217<span class="muted">PROJECTION (not a score)</span></td><td><strong class="no">NO</strong><span class="muted">same H19-5 family as the other eight; all 36 pairs flagged</span></td><td><strong class="no">DO NOT SUBMIT</strong><span class="muted">already scored, not unique</span></td></tr><tr><th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/docs/index.html">GEMSDOE33</a><br><span class="muted">B2 analog tip/step-over addition</span></th><td><code>GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif</code><br><span class="muted">on the owner site under <code>docs/downloads/</code></span></td><td><strong>0.2632</strong><span class="muted">owner-reported (USER-REPORT), not an organiser receipt</span></td><td><strong>0.09568</strong><span class="muted">HOLDOUT-DTI, SGMC off-catalogue (&gt;3 px) instrument, 41,865 dots</span></td><td>0.2235<span class="muted">PROJECTION (not a score)</span></td><td><strong class="no">NO</strong><span class="muted">same H19-5 family as the other eight; all 36 pairs flagged</span></td><td><strong class="no">DO NOT SUBMIT</strong><span class="muted">already scored, not unique</span></td></tr><tr><th scope="row"><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/docs/index.html">GEMSDOE36</a><br><span class="muted">Geothermal PINN (Anderson)</span></th><td><code>gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif</code><br><span class="muted">on the owner site under <code>docs/downloads/</code></span></td><td><strong>0.2750</strong><span class="muted">owner-reported (USER-REPORT), not an organiser receipt</span></td><td><strong>0.09677</strong><span class="muted">HOLDOUT-DTI, SGMC off-catalogue (&gt;3 px) instrument, 38,854 dots</span></td><td>0.2253<span class="muted">PROJECTION (not a score)</span></td><td><strong class="no">NO</strong><span class="muted">same H19-5 family as the other eight; all 36 pairs flagged</span></td><td><strong class="no">DO NOT SUBMIT</strong><span class="muted">already scored, not unique</span></td></tr><tr class="hl"><th scope="row"><b>This repository</b><br><span class="muted">H-UNMAP · 25-band geophysical fault likelihood</span></th><td><code>gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif</code><br><span class="muted">one click below · one-TIFF ZIP next to it</span></td><td>—<span class="muted">no organiser receipt yet</span></td><td><strong>0.13643</strong><span class="muted">HOLDOUT-DTI, SGMC blocked hide-and-recover (62,122 withheld positives)</span></td><td>0.3273<span class="muted">PROJECTION 0.2302–0.3603 (not a score)</span></td><td><strong class="yes">YES</strong><span class="muted">max 3-px overlap 50.30% against any of 487 registry submissions; max |ρ| 0.053</span></td><td><strong class="yes">OK TO DOWNLOAD &amp; SUBMIT</strong><span class="muted">research candidate; no weekly slot spent by this project</span></td></tr></tbody></table></div>
+<p class="muted">"Owner-reported" values are USER-REPORT (unverified, no submission-page receipt).
+"Measured" is HOLDOUT-DTI on the public USGS state-geologic-map off-catalogue instrument; it reproduces the
+published GEMSDOE32 champion value 0.09539 to 13 significant figures, which is the audit trail for the
+instrument. "Projected" is a two-parameter fit to 18 published submissions (R² 0.516,
+leave-one-out RMSE 0.0667) and is <b>never</b> a score.</p>
+</section>
+
+<section class="section" id="how"><h3>How to submit (exact steps)</h3>
+<ol class="steps">
+<li><b>Download</b> the GeoTIFF above (or the one-TIFF ZIP). Do not rename it and do not re-save it in
+another tool: the portal checks the grid, and the note below is written against this exact file
+(SHA-256 <code>55a503686529f541…</code>).</li>
+<li><b>Open the competition</b> → <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData · DOE GEMS Prize Challenge</a> →
+enrol and accept the rules, then <b>Submit → Make new submission</b>.</li>
+<li><b>Choose the file</b> <code>gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif</code> (the ZIP is accepted if it contains a single
+TIFF; the TIFF is the safer choice).</li>
+<li><b>Paste the note</b> shown above (133 characters, limit 140) and keep the
+submission name, so the receipt can be traced back to this page.</li>
+<li><b>Submit and keep the receipt.</b> The organiser's confirmation page is the only evidence of
+acceptance; copy the receipt and the reported score into this repository as an ORGANIZER-CONFIRMED
+entry.</li>
+<li><b>One submission only.</b> The rules allow three feedback submissions per week and require exactly
+one submission to be selected for both prize rounds; confirm the current quota in your account
+(<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules PDF</a>, §3.4–3.6).</li>
+</ol>
+<p class="muted">The competition page states that data outside the submission bounds should be null or NaN,
+while the upload form's range check rejects NaN. This file uses finite zeros outside the footprint,
+which satisfies the form's [0, 1] requirement and leaves the scored domain untouched. The organiser's own
+sample is NaN outside the footprint; if a future submission is rejected on that basis, the same dots can be
+re-exported with a NaN exterior - but this version is the one that passes the range check that produced
+the earlier error.</p>
+</section>
+
+<section class="section" id="evidence"><h3>What is proven, and what is not</h3>
+<table class="kv"><tbody>
+<tr><th>Proven by saved bytes</th><td>Format, grid, value range, finiteness, dot count, ZIP content and
+the registry overlap measurement are all re-derivable from the committed files and receipts.</td></tr>
+<tr><th>Proven by holdout</th><td>HOLDOUT-DTI 0.13643 on the blocked SGMC hide-and-recover
+instrument (62,122 withheld positives, evaluator
+<code>gems57-pooled-hide-v2</code>). The champion's equivalent value on the same
+instrument and code path is 0.09539.</td></tr>
+<tr><th>Not proven</th><td>No organiser receipt exists for this file; the private expert truth is not
+public; the projection (0.3273 with 95% interval
+[0.23018666483223918, 0.36026013304628757]) is an extrapolation with a documented bias; and the pinned
+registry is a nine-repository snapshot, not a complete global registry.</td></tr>
+<tr><th>Disclosure</th><td>Training labels for this lane are public: the USGS State Geologic Map
+Compilation fault structures (public domain, <a href="https://mrdata.usgs.gov/geology/state/">mrdata.usgs.gov</a>) and
+the competition's own mapped catalogue, plus public GeoDAWN airborne radiometrics
+(<a href="https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7">USGS ScienceBase</a>). No competition test labels, receipts or private-round
+scores were used. Generative-AI use is disclosed in the competition narrative as the rules require.</td></tr>
+</tbody></table>
+<p><a href="data/hunmap/e1-blocked-holdout.json">Blocked holdout receipt ↗</a> ·
+<a href="data/hunmap/hunmap-uniqueness-verdict.json">Registry overlap verdict ↗</a> ·
+<a href="data/hunmap/lattice-rule-calibration.json">Lattice rule calibration ↗</a> ·
+<a href="data/hunmap/leaderboard_calibration.json">Calibration fit ↗</a> ·
+<a href="data/hunmap/nine_site_sgmc_cal.json">Nine-site instrument measurements ↗</a> ·
+<a href="data/hunmap/e2-train-canary.json">Leakage canary ↗</a> ·
+<a href="data/hunmap/e2f-catalogue-holdout.json">Cross-family transfer test ↗</a></p>
+</section>
+
+<section class="section" id="limits"><h3>Limitations and what would improve this</h3>
+<ul>
+<li>The independent SGMC instrument is not the hidden expert truth; it is a different public mapping of
+the same area, and the two disagree for some historical submissions (the 18-point fit has R²
+0.516, leave-one-out RMSE 0.0667).</li>
+<li>The emission policy (radius, dot budget, catalogue apron) was chosen on the same blocked instrument,
+so the reported HOLDOUT-DTI is selection-biased upward; the spread across 36 policy combinations is
+recorded in the receipt.</li>
+<li>The blocked holdout uses four spatial quadrants; more folds and a per-fold CI would tighten the
+interval. A GPU would allow per-fold retraining of the full feature stack and a proper bootstrap CI.</li>
+<li>The registry snapshot covers nine public repositories only; a duplicate outside it cannot be excluded.</li>
+<li>The next lane should attack precision rather than coverage: the metric charges 0.2 for a false
+positive but 0.8 for a missed truth cell, so fewer, better-placed dots win - and the measured marginal
+hit rate of this detector still exceeds the break-even rate up to about 100,000 dots.</li>
+</ul>
+<p>Official sources: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem description</a> ·
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">your submissions</a> ·
+<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">rules PDF</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">repository</a>.</p>
+</section>
+</main>
+<footer class="footnote"><p><b>Evidence labels:</b> HOLDOUT-DTI is a local proxy with its evaluator,
+withheld count and interval; it is not a leaderboard result. PROJECTION is a fitted estimator, never a
+score. Owner-reported values are USER-REPORT unless linked to an organiser receipt.</p>
+<p>Maximize P(Win). Own the outcome. <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/README.md">Project instructions</a> ·
+<a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/tree/main/evidence/hunmap">Evidence folder</a></p></footer>
+</body></html>

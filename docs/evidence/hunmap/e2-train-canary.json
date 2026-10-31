@@ -1,0 +1,863 @@
+{
+  "lane": "H-UNMAP",
+  "evidence_class": "LEAKAGE CANARY",
+  "gate_auc": 0.9,
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "instrument": "SGMC blocked hide-and-recover, feature alone",
+  "max_auc": 0.8969091305199652,
+  "leakage_canary_pass": true,
+  "features": [
+    {
+      "feature": "cond_log",
+      "mean_auc": 0.46283624281450364,
+      "max_auc": 0.59523818780611,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dem_coh",
+      "mean_auc": 0.42343019805687343,
+      "max_auc": 0.44929368595979247,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dem_curv",
+      "mean_auc": 0.7208889373977776,
+      "max_auc": 0.7453196124050097,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dem_grad",
+      "mean_auc": 0.7432235942208902,
+      "max_auc": 0.7820228492070487,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dem_slope_abs",
+      "mean_auc": 0.7457864954484116,
+      "max_auc": 0.7818094062918651,
+      "leakage_flag": false
+    },
+    {
+      "feature": "depth_base",
+      "mean_auc": 0.34651094799088755,
+      "max_auc": 0.41512609253328103,
+      "leakage_flag": false
+    },
+    {
+      "feature": "deq_log",
+      "mean_auc": 0.5854849825582044,
+      "max_auc": 0.8607432115245627,
+      "leakage_flag": false
+    },
+    {
+      "feature": "dilate_log",
+      "mean_auc": 0.4742362755206141,
+      "max_auc": 0.6961964143726017,
+      "leakage_flag": false
+    },
+    {
+      "feature": "grav_hg_abs",
+      "mean_auc": 0.4521768120531578,
+      "max_auc": 0.5040242405705568,
+      "leakage_flag": false
+    },
+    {
+      "feature": "grav_slope_abs",
+      "mean_auc": 0.45182963397908094,
+      "max_auc": 0.5188898887496659,
+      "leakage_flag": false
+    },
+    {
+      "feature": "grav_vg_abs",
+      "mean_auc": 0.48107154147041037,
+      "max_auc": 0.5328650227904257,
+      "leakage_flag": false
+    },
+    {
+      "feature": "ieq_log",
+      "mean_auc": 0.581512440166876,
+      "max_auc": 0.8969091305199652,
+      "leakage_flag": false
+    },
+    {
+      "feature": "inv_log",
+      "mean_auc": 0.592802028404759,
+      "max_auc": 0.8875330563596797,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rad_k_halo",
+      "mean_auc": 0.4528083845149294,
+      "max_auc": 0.46850747703948836,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rad_th_halo",
+      "mean_auc": 0.4746911393405809,
+      "max_auc": 0.47855852900552487,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rad_thk_halo",
+      "mean_auc": 0.5162552393538657,
+      "max_auc": 0.5404726625584361,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rad_u_halo",
+      "mean_auc": 0.4852445285315569,
+      "max_auc": 0.4971104131539127,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rtp_coh",
+      "mean_auc": 0.484028475519351,
+      "max_auc": 0.5233410656152984,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rtp_curv",
+      "mean_auc": 0.5266970725833464,
+      "max_auc": 0.6376022145305327,
+      "leakage_flag": false
+    },
+    {
+      "feature": "rtp_grad",
+      "mean_auc": 0.5190932749297013,
+      "max_auc": 0.6522113182543856,
+      "leakage_flag": false
+    },
+    {
+      "feature": "shear_log",
+      "mean_auc": 0.5818745164490214,
+      "max_auc": 0.8056073862151989,
+      "leakage_flag": false
+    },
+    {
+      "feature": "tc_abs",
+      "mean_auc": 0.4290595135374433,
+      "max_auc": 0.5884985968930025,
+      "leakage_flag": false
+    },
+    {
+      "feature": "tmi_hg_abs",
+      "mean_auc": 0.5193384656520895,
+      "max_auc": 0.6525844993057199,
+      "leakage_flag": false
+    },
+    {
+      "feature": "tmi_log",
+      "mean_auc": 0.48484702827142667,
+      "max_auc": 0.5406152597211971,
+      "leakage_flag": false
+    },
+    {
+      "feature": "tmi_vg_abs",
+      "mean_auc": 0.5156912406595694,
+      "max_auc": 0.6275460394445932,
+      "leakage_flag": false
+    }
+  ],
+  "rows": [
+    {
+      "fold": 0,
+      "feature": "cond_log",
+      "auc": 0.5121310308862568,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "depth_base",
+      "auc": 0.41512609253328103,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "deq_log",
+      "auc": 0.5202244912623405,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "dem_grad",
+      "auc": 0.7437278834830253,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "dem_coh",
+      "auc": 0.44929368595979247,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "dem_curv",
+      "auc": 0.71457777139658,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "dem_slope_abs",
+      "auc": 0.7437479414510335,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "inv_log",
+      "auc": 0.6015374788354948,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "dilate_log",
+      "auc": 0.5654344651030325,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "shear_log",
+      "auc": 0.6113678059148653,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "ieq_log",
+      "auc": 0.5713017004711618,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "grav_hg_abs",
+      "auc": 0.4580210559262427,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "grav_slope_abs",
+      "auc": 0.4403765805973633,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "grav_vg_abs",
+      "auc": 0.46129059121975463,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "rtp_grad",
+      "auc": 0.6522113182543856,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "rtp_coh",
+      "auc": 0.48849240974924346,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "rtp_curv",
+      "auc": 0.6376022145305327,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "tc_abs",
+      "auc": 0.32412265783489436,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "tmi_log",
+      "auc": 0.5406152597211971,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "tmi_hg_abs",
+      "auc": 0.6525200760101264,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "tmi_vg_abs",
+      "auc": 0.6275460394445932,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "rad_k_halo",
+      "auc": 0.44936076956333765,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "rad_th_halo",
+      "auc": 0.4735971533182015,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "rad_u_halo",
+      "auc": 0.4971104131539127,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 0,
+      "feature": "rad_thk_halo",
+      "auc": 0.5173312594574145,
+      "n_positive": 23130,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "cond_log",
+      "auc": 0.59523818780611,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "depth_base",
+      "auc": 0.256309763792777,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "deq_log",
+      "auc": 0.2662303721103192,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "dem_grad",
+      "auc": 0.7820228492070487,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "dem_coh",
+      "auc": 0.4414192445131942,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "dem_curv",
+      "auc": 0.7453196124050097,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "dem_slope_abs",
+      "auc": 0.7818094062918651,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "inv_log",
+      "auc": 0.1700483864834208,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "dilate_log",
+      "auc": 0.4165891286748076,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "shear_log",
+      "auc": 0.12764537108017543,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "ieq_log",
+      "auc": 0.27742818697822275,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "grav_hg_abs",
+      "auc": 0.41904088727488276,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "grav_slope_abs",
+      "auc": 0.3751236048827546,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "grav_vg_abs",
+      "auc": 0.4029464230719979,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "rtp_grad",
+      "auc": 0.3632483960083991,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "rtp_coh",
+      "auc": 0.5233410656152984,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "rtp_curv",
+      "auc": 0.3838760206444305,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "tc_abs",
+      "auc": 0.2989808745186756,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "tmi_log",
+      "auc": 0.36973164701980993,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "tmi_hg_abs",
+      "auc": 0.35371469975833186,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "tmi_vg_abs",
+      "auc": 0.38329083414327114,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "rad_k_halo",
+      "auc": 0.4516038512741462,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "rad_th_halo",
+      "auc": 0.47631057476716104,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "rad_u_halo",
+      "auc": 0.4726118494523973,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 1,
+      "feature": "rad_thk_halo",
+      "auc": 0.5059304143131251,
+      "n_positive": 23192,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "cond_log",
+      "auc": 0.31042242794034525,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "depth_base",
+      "auc": 0.39028195174831104,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "deq_log",
+      "auc": 0.8607432115245627,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "dem_grad",
+      "auc": 0.7138132744258896,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "dem_coh",
+      "auc": 0.41644031555461114,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "dem_curv",
+      "auc": 0.6872926484954649,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "dem_slope_abs",
+      "auc": 0.7111716867177118,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "inv_log",
+      "auc": 0.8875330563596797,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "dilate_log",
+      "auc": 0.6961964143726017,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "shear_log",
+      "auc": 0.8056073862151989,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "ieq_log",
+      "auc": 0.8969091305199652,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "grav_hg_abs",
+      "auc": 0.5040242405705568,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "grav_slope_abs",
+      "auc": 0.5188898887496659,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "grav_vg_abs",
+      "auc": 0.5328650227904257,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "rtp_grad",
+      "auc": 0.6493574820431356,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "rtp_coh",
+      "auc": 0.4608380338929027,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "rtp_curv",
+      "auc": 0.6179070849329975,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "tc_abs",
+      "auc": 0.5046359249032009,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "tmi_log",
+      "auc": 0.5089813957746113,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "tmi_hg_abs",
+      "auc": 0.6525844993057199,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "tmi_vg_abs",
+      "auc": 0.6267769511525495,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "rad_k_halo",
+      "auc": 0.44176144018274544,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "rad_th_halo",
+      "auc": 0.47855852900552487,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "rad_u_halo",
+      "auc": 0.48488794092647686,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 2,
+      "feature": "rad_thk_halo",
+      "auc": 0.5404726625584361,
+      "n_positive": 2353,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "cond_log",
+      "auc": 0.4335533246253024,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "depth_base",
+      "auc": 0.3243259838891813,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "deq_log",
+      "auc": 0.6947418553355951,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "dem_grad",
+      "auc": 0.7333303697675974,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "dem_coh",
+      "auc": 0.38656754619989586,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "dem_curv",
+      "auc": 0.736365717294056,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "dem_slope_abs",
+      "auc": 0.746416947333036,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "inv_log",
+      "auc": 0.7120891919404411,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "dilate_log",
+      "auc": 0.21872509393201464,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "shear_log",
+      "auc": 0.782877502585846,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "ieq_log",
+      "auc": 0.5804107426981542,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "grav_hg_abs",
+      "auc": 0.42762106444094883,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "grav_slope_abs",
+      "auc": 0.4729284616865401,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "grav_vg_abs",
+      "auc": 0.5271841287994632,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "rtp_grad",
+      "auc": 0.41155590341288445,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "rtp_coh",
+      "auc": 0.4634423928199598,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "rtp_curv",
+      "auc": 0.46740297022542515,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "tc_abs",
+      "auc": 0.5884985968930025,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "tmi_log",
+      "auc": 0.5200598105700882,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "tmi_hg_abs",
+      "auc": 0.41853458753417977,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "tmi_vg_abs",
+      "auc": 0.42515113789786374,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "rad_k_halo",
+      "auc": 0.46850747703948836,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "rad_th_halo",
+      "auc": 0.47029830027143604,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "rad_u_halo",
+      "auc": 0.4863679105934409,
+      "n_positive": 13447,
+      "n_negative": 80000
+    },
+    {
+      "fold": 3,
+      "feature": "rad_thk_halo",
+      "auc": 0.5012866210864877,
+      "n_positive": 13447,
+      "n_negative": 80000
+    }
+  ]
+}

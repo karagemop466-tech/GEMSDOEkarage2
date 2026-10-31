@@ -1,0 +1,90 @@
+{
+  "schema": "gems.submission_candidate_audit.v1",
+  "evidence_class": "SAVED-BYTE INTEGRITY AND GATE RE-DERIVATION, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
+  "candidate": "docs/submission/gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z.tif",
+  "submission_name": "gemsdoekarage2-hunmap-geophys-unmapped-faults-v1-20261031T012300Z",
+  "note": "H-UNMAP: 25-band geophysical unmapped-fault detector (HGB on mapped faults), NMS r=2px, 60000 dots, apron 2px; NEW raster, not a copy",
+  "checks": {
+    "file_exists": true,
+    "sha256_matches_run_card": true,
+    "single_band_float32": true,
+    "epsg_32611": true,
+    "shape_matches_template": true,
+    "all_values_finite": true,
+    "values_in_0_1": true,
+    "no_positive_mass_outside_footprint": true,
+    "dot_count_matches_run_card": true,
+    "zip_contains_exactly_one_tif": true,
+    "zip_member_matches_saved_tif": true,
+    "validator_receipt_present": true,
+    "validator_all_checks_true": true,
+    "note_within_140_chars": true,
+    "submission_name_unique": true,
+    "unique_vs_registry_submissions": true,
+    "lattice_rule_calibrated": true,
+    "holdout_dti_measured": true,
+    "leakage_canary_passed": true,
+    "no_organizer_receipt_claimed": true,
+    "slot_not_authorized": true
+  },
+  "diagnostics": {
+    "sha256": "55a503686529f541a4ca77ce88338faa1059f53491d7ba5b9da4aa2e24386f04",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "bands": 1,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    "positives": 60000,
+    "min": 0.0,
+    "max": 1.0,
+    "n_nan": 0,
+    "n_inf": 0
+  },
+  "status": "VERIFIED_CANDIDATE",
+  "verdict": "candidate",
+  "ok_to_download": true,
+  "ok_to_submit_by_this_project": false,
+  "slot_authorized": false,
+  "organizer_confirmed_score": null,
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "instrument": "SGMC blocked hide-and-recover (12 px buffer, quadrant blocks)",
+    "dti": 0.1388401412782055,
+    "policy": {
+      "radius_px": 2,
+      "budget": 60000,
+      "apron_px": 3,
+      "blocked_pooled_dti": 0.1388401412782055,
+      "withheld_positive_pixels": 62122,
+      "tpw": 8715.807336977869,
+      "fpw": 56675.423004385724,
+      "full_sgmc_cal": 0.13888410632200365,
+      "emitted": 60000
+    }
+  },
+  "uniqueness": {
+    "verdict": "unique_vs_submissions",
+    "max_submission_overlap": 0.503,
+    "max_submission_spearman": 0.052484472968388554,
+    "lattice_note": "rule_unsatisfiable_for_this_entry (measured): a 5 px lattice covers the footprint with 3 px discs, so every non-empty raster trips it; the candidate's overlap is inside the random-dot null"
+  },
+  "caveats": [
+    "no organiser receipt exists for this file; the leaderboard value is unknown",
+    "the projection in the release card is an extrapolation, never a score",
+    "the registry snapshot is a filtered nine-repository snapshot, not a complete registry",
+    "this project does not spend a weekly submission slot; the download is for the visitor"
+  ]
+}

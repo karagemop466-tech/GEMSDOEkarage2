@@ -270,7 +270,26 @@ def audit(root: Path = ROOT) -> dict:
     missing = sorted((expected_tifs - found_tifs) | (expected_zips - found_zips))
     entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
                for a in ARTIFACTS]
-    good = (not unexpected and not missing and
+    # The published submission candidate lives outside docs/downloads so that the
+    # research inventory keeps its meaning.  It must still be accounted for: any
+    # file in docs/submission has to be covered by a VERIFIED_CANDIDATE receipt.
+    candidate_rel = root / 'evidence/hunmap/e3-candidate-audit.json'
+    published_candidate = None
+    candidate_ok = True
+    if candidate_rel.is_file():
+        published_candidate = json.loads(candidate_rel.read_text())
+        candidate_ok = published_candidate.get('status') == 'VERIFIED_CANDIDATE'
+    submission_dir = root / 'docs/submission'
+    submission_files = sorted(p.name for p in submission_dir.iterdir()
+                               if p.suffix.lower() in {'.tif', '.tiff', '.zip'}) \
+        if submission_dir.is_dir() else []
+    accounted = set()
+    if published_candidate:
+        accounted.add(Path(published_candidate['candidate']).name)
+        zip_name = Path(published_candidate['candidate']).with_suffix('.zip').name
+        accounted.add(zip_name)
+    unaccounted = [n for n in submission_files if n not in accounted]
+    good = (not unexpected and not missing and not unaccounted and candidate_ok and
             all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in entries))
     return {
         "schema": "gems.published_downloads.v2",
@@ -284,6 +303,16 @@ def audit(root: Path = ROOT) -> dict:
         "organizer_template_authenticated": False,
         "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
         "slot_authorized": False,
+        "published_candidate": {
+            "audit": "evidence/hunmap/e3-candidate-audit.json",
+            "status": (published_candidate or {}).get("status"),
+            "file": (published_candidate or {}).get("candidate"),
+            "files_in_docs_submission": submission_files,
+            "unaccounted_files": unaccounted,
+            "note": "One candidate file is published for the visitor to upload. It is "
+                    "audited by its own fail-closed receipt, carries no organiser "
+                    "receipt, and no weekly slot is authorised by this project.",
+        },
     }
 
 

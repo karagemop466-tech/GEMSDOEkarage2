@@ -79,7 +79,16 @@ function chromeEnvironment() {
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
-      const primary = page.locator('a.btn.big[download]').first();
+      // Two download buttons are published: the audited H-UNMAP candidate and the
+      // retired HK3 research file. Both must resolve to their exact saved bytes.
+      const candidateCard = require('../evidence/hunmap/e3-release-card.json');
+      const candidateLink = page.locator('a.btn.big[download]').first();
+      assert.ok((await candidateLink.getAttribute('href')).includes(candidateCard.submission_name));
+      const candidateResponse = await fetch(base + '/' + candidateCard.raster.file);
+      assert.equal(candidateResponse.status, 200);
+      assert.equal(crypto.createHash('sha256').update(Buffer.from(await candidateResponse.arrayBuffer())).digest('hex'),
+                   candidateCard.raster.sha256);
+      const primary = page.locator('a.btn.big[download]').nth(1);
       assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
       assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
       const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
@@ -112,7 +121,23 @@ function chromeEnvironment() {
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Submit page overflow');
       await page.goto(base + '/docs/audit-research.html');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Research page overflow');
-      console.log(`PASS ${viewport.width}px: navigation, 9 rows, release lock, no viewport overflow`);
+      // The new one-click submission page: badge, download bytes, nine-site table.
+      await page.goto(base + '/docs/submission.html', {waitUntil:'domcontentloaded'});
+      const body = await page.locator('body').innerText();
+      assert.ok(body.includes('OK TO DOWNLOAD AND SUBMIT'));
+      assert.ok(body.includes('Predicted values must be in range [0, 1]'));
+      assert.ok(body.includes('HOLDOUT-DTI'));
+      assert.ok(body.includes('PROJECTION'));
+      const candidate = require('../evidence/hunmap/e3-release-card.json');
+      const link = page.locator('a.btn.big[download]').first();
+      assert.ok((await link.getAttribute('href')).includes(candidate.submission_name));
+      const [candidateDownload] = await Promise.all([page.waitForEvent('download'), link.click()]);
+      assert.equal(candidateDownload.suggestedFilename(), path.basename(candidate.raster.file));
+      const candidateBytes = fs.readFileSync(await candidateDownload.path());
+      assert.equal(crypto.createHash('sha256').update(candidateBytes).digest('hex'), candidate.raster.sha256);
+      assert.equal(await page.locator('#nine-sites tbody tr').count(), 10);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Submission page overflow');
+      console.log(`PASS ${viewport.width}px: navigation, 9 rows, release lock, submission page, no viewport overflow`);
     }
     // Legacy and alternate routes must not revive the previously unsafe
     // invitation to download and submit a research-only TIFF.
