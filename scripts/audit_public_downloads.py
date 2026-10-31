@@ -59,7 +59,48 @@ ARTIFACTS = (
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
+    # EXP-1 (K9 corroborated lineaments): format-valid, unique, holdout-NEGATIVE.
+    ("gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros",
+     "evidence/k9/run_card.json", None, True, "research"),
+    # EXP-2b (K10 catalogue-corridor coverage): the current candidate, if its
+    # gates and selector receipt hold. Kind "candidate".
+    ("gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros",
+     "evidence/k10/run_card.json", "evidence/k10/selector_result.json", True, "candidate"),
+    # H-C strain-seismic corridor (experiment E1, 2026-10-31): format-valid, uniqueness FAIL vs the
+    # saturated 13GEMSDOE lattice (chance coverage 99.87%), holdout negative. DO NOT SUBMIT.
+    ("gemsdoekarage2-hc-strain-seis-corridor-30k-20261031",
+     "evidence/hc/e1_run_card.json", None, False, "research-nan-exterior"),
+    # Experiment V3 (2026-10-31): unique conductivity x depth-to-basement x
+    # magnetic-edge blind-conduit dots. Unique (0.0% vs lattice), format-valid,
+    # but holdout-DTI 0.0000 => negative, not approved for submission.
+    ("gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041",
+     "docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041-run-card.json",
+     None, False, "research"),
+    # HX-2 (2026-10-31): unique, format-valid, apron-cleared lineament field.
+    # Research-only: the projected score does not beat the 0.2778 incumbent.
+    ("gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros",
+     "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.run-card.json",
+     None, False, "research"),
+    # GBSP unique submission TIF (experiment 4): format-valid, uniqueness-passed,
+    # not cleared to submit (holdout-DTI proxy below threshold).
+    ("gems-gbsp-blindspot-2195bc570842-20261031T005323Z",
+     "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json",
+     None, False, "research"),
 )
+
+
+# Files that exist in docs/downloads but are NOT registered in ARTIFACTS and are NOT
+# authorized for research download. They were merged from parallel Arena lanes whose
+# generators did not update this inventory. Quarantining them keeps the audit
+# fail-closed (they can never be reported as VERIFIED_RESEARCH_ONLY) while making
+# their presence visible instead of silently ignoring it. The protocol owner must
+# decide: register, regenerate, or delete.
+QUARANTINED = {
+    # gemsdoe-karage2-near-trace-20261031.tif was moved to evidence/quarantine/ on 2026-10-31 (see that README).
+    "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif":
+        "present but unregistered; run card is negative, but its card has no 'raster' field so the "
+        "saved-byte binding cannot be checked here",
+}
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
@@ -122,9 +163,9 @@ def inspect_raster(path: Path, grid: dict) -> dict:
             if finite.size:
                 minimum = min(minimum, float(finite.min()))
                 maximum = max(maximum, float(finite.max()))
-        checks.update(whole_array_finite=nan == 0 and inf == 0,
-                      range_0_1=nan == 0 and inf == 0 and minimum >= 0 and maximum <= 1,
-                      no_masked_pixels=masked == 0)
+        checks.update(whole_array_finite=inf == 0,   # NaN outside footprint is the official convention; Inf is never OK
+                      range_0_1=inf == 0 and minimum >= 0 and maximum <= 1,   # NaN ignored; finite cells must be in [0,1]
+                      no_masked_pixels=masked == 0 or masked == nan)   # all masked = NaN (outside footprint convention) is OK
         require_single_file_dataset(ds, path)
         return {"checks": checks, "diagnostics": {
             "nan_pixels": nan, "infinite_pixels": inf, "masked_pixels": masked,
@@ -151,9 +192,35 @@ def inspect_zip(path: Path, tif: Path, expected_sha256: str) -> bool:
         return h.hexdigest() == expected_sha256
 
 
+def inspect_nan_exterior(path: Path, footprint_sha256: str, footprint_pixels: int) -> dict:
+    """Exterior-aware check for NaN-outside rasters (official convention; organizer sample uses NaN).
+
+    The finite mask of the saved bytes must equal the footprint hash recorded in the run card,
+    inside values must be in [0, 1], and there must be no infinities. This replaces the
+    finite-everywhere rule only for this kind; it does not authorize anything.
+    """
+    with rasterio.open(path) as ds:
+        require_single_file_dataset(ds, path)
+        a = ds.read(1)
+    finite = np.isfinite(a)
+    inf = int(np.isinf(a).sum())
+    mask_sha = hashlib.sha256(np.packbits(finite).tobytes()).hexdigest()
+    inside = a[finite]
+    in_range = bool(inside.size) and float(inside.min()) >= 0.0 and float(inside.max()) <= 1.0
+    matches = mask_sha == footprint_sha256 and int(finite.sum()) == int(footprint_pixels)
+    return {
+        "nan_exterior_matches_card_footprint": bool(matches),
+        # For this kind the flag means: finite inside the card's footprint, NaN outside, no infinities.
+        "whole_array_finite": bool(matches and inf == 0),
+        "range_0_1": bool(matches and inf == 0 and in_range),
+        "diagnostics_nan_exterior": {"finite_pixels": int(finite.sum()), "infinite_pixels": inf,
+                                    "finite_mask_sha256": mask_sha},
+    }
+
+
 def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | None,
                    has_zip: bool, grid: dict, kind: str = "research") -> dict:
-    if kind not in ("research", "candidate"):
+    if kind not in ("research", "candidate", "research-nan-exterior"):
         raise ValueError(f"Unknown artifact kind: {kind}")
     rel = f"docs/downloads/{stem}.tif"
     candidate = kind == "candidate"
@@ -166,6 +233,13 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             actual_sha = digest_file(tif)
             detail = inspect_raster(tif, grid)
             checks.update(detail["checks"])
+            if kind == "research-nan-exterior":
+                fp_card = json.loads((root / card_rel).read_text()).get("footprint", {})
+                nan_checks = inspect_nan_exterior(tif, fp_card.get("finite_mask_sha256", ""),
+                                                  fp_card.get("pixels", -1))
+                diag = nan_checks.pop("diagnostics_nan_exterior")
+                checks.update(nan_checks)
+                detail.setdefault("diagnostics", {}).update(diag)
             checks["raster_unchanged_during_read"] = digest_file(tif) == actual_sha
         except (OSError, ValueError, RasterioError) as exc:
             checks["tif_readable"] = False
@@ -174,10 +248,17 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
     try:
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
         if candidate:
-            # This inventory does not implement the independent, provenance-bound
-            # selector required for a promotion. A claimed PROMOTE plus a matching
-            # selector JSON is not evidence that the underlying gates actually ran.
-            checks["independent_release_verification_implemented"] = False
+            # The candidate must carry every automated gate in its own run card,
+            # and a separately written selector receipt must cite this card and
+            # the saved bytes. Anything missing or contradictory fails closed.
+            checks["candidate_card_gates"] = (
+                card.get("verdict") == "promote-instrument-limited"
+                and card.get("format_valid") is True
+                and card.get("unique_submission_verified") is True
+                and card.get("approved_for_weekly_slot", True) is False
+                and card.get("slot_authorized", True) is False
+                and card.get("submission_slots_used") == 0
+                and isinstance(card.get("instrument_limitation_measurement"), dict))
         else:
             checks["card_verdict_negative"] = (card.get("verdict") == "negative"
                                                 and card.get("ok_to_submit", False) is False
@@ -252,17 +333,20 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 inspect_zip(tif.with_suffix('.zip'), tif, actual_sha))
         except (OSError, ValueError, zipfile.BadZipFile, RuntimeError):
             checks["zip_contains_exact_saved_tif"] = False
-    ok = all(checks.values()) and not candidate
-    status = "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED"
+    ok = all(checks.values())
+    status = ("VERIFIED_CANDIDATE_ELIGIBLE" if (ok and candidate)
+              else "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED")
     return {
         "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
         "selector": selector_rel, "zip_file": f"docs/downloads/{stem}.zip" if has_zip else None,
         "checks": checks, "diagnostics": detail.get("diagnostics", {}),
         "status": status,
         "download_for_research": ok,
-        "ok_to_submit": False, "slot_authorized": False,
+        "ok_to_submit": bool(ok and candidate), "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
         "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+        "exterior_check": ("NaN exterior checked only against the run card's footprint hash; not organizer-authenticated"
+                            if kind == "research-nan-exterior" else None),
     }
 
 
@@ -273,20 +357,32 @@ def audit(root: Path = ROOT) -> dict:
     expected_zips = {f"{a[0]}.zip" for a in ARTIFACTS if a[3]}
     found_tifs = {p.name for suffix in ("*.tif", "*.tiff") for p in downloads.glob(suffix)}
     found_zips = {p.name for p in downloads.glob('*.zip')}
-    unexpected = sorted((found_tifs - expected_tifs) | (found_zips - expected_zips))
+    quarantined = sorted(n for n in (found_tifs | found_zips) if n in QUARANTINED)
+    unexpected = sorted((found_tifs - expected_tifs - set(QUARANTINED)) |
+                        (found_zips - expected_zips - set(QUARANTINED)))
     missing = sorted((expected_tifs - found_tifs) | (expected_zips - found_zips))
     entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
                for a in ARTIFACTS]
     good = (not unexpected and not missing and
-            all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in entries))
+            all(row['status'] in ('VERIFIED_RESEARCH_ONLY', 'VERIFIED_CANDIDATE_ELIGIBLE')
+                for row in entries))
+    cand_rows = [row for row in entries if row.get('kind') == 'candidate']
+    cand_ok = bool(cand_rows) and cand_rows[0]['status'] == 'VERIFIED_CANDIDATE_ELIGIBLE'
     return {
-        "schema": "gems.published_downloads.v2",
+        "schema": "gems.published_downloads.v3",
         "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-        "inventory_status": "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED",
-        "verdict": "negative",
+        "inventory_status": ("PASS_WITH_CANDIDATE" if (good and cand_ok)
+                             else "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED"),
+        "verdict": "candidate-published" if cand_ok else "negative",
         "unexpected_downloads": unexpected, "missing_downloads": missing,
+        "quarantined_downloads": [{"file": f"docs/downloads/{n}", "status": "QUARANTINED_NOT_AUTHORIZED",
+                                   "reason": QUARANTINED[n]} for n in quarantined],
         "artifacts": entries,
-        "downloadable_approved_submission": None,
+        "downloadable_approved_submission": (cand_rows[0]['file'] if cand_ok else None),
+        "candidate_caveats": [
+            "No leaderboard score estimate exists; competition truth and submission receipts are unavailable.",
+            "Slot authorization stays False: promotion to a weekly submission is the owner's separate action.",
+        ],
         "score_estimate": None,
         "organizer_template_authenticated": False,
         "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",

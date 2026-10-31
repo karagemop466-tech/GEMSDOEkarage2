@@ -1,0 +1,90 @@
+{
+ "alpha": 0.2,
+ "beta": 0.8,
+ "G_point": 12405.768,
+ "G_interval": [
+  12397.144,
+  12414.394
+ ],
+ "credit_per_hit": 4.8853,
+ "evidence_class": "LEADERBOARD-CALIBRATED ESTIMATE (exact metric algebra)",
+ "hit_rate_table": [
+  {
+   "hit_rate": 0.01,
+   "dti_at_38000": 0.1041,
+   "optimal_dots": 254000.0,
+   "dti_at_optimum": 0.1975
+  },
+  {
+   "hit_rate": 0.017,
+   "dti_at_38000": 0.1748,
+   "optimal_dots": 149000.0,
+   "dti_at_optimum": 0.2959
+  },
+  {
+   "hit_rate": 0.0276,
+   "dti_at_38000": 0.2786,
+   "optimal_dots": 92000.0,
+   "dti_at_optimum": 0.4077
+  },
+  {
+   "hit_rate": 0.04,
+   "dti_at_38000": 0.3954,
+   "optimal_dots": 63000.0,
+   "dti_at_optimum": 0.5003
+  },
+  {
+   "hit_rate": 0.06,
+   "dti_at_38000": 0.5738,
+   "optimal_dots": 42000.0,
+   "dti_at_optimum": 0.6032
+  },
+  {
+   "hit_rate": 0.08,
+   "dti_at_38000": 0.6346,
+   "optimal_dots": 32000.0,
+   "dti_at_optimum": 0.6734
+  }
+ ],
+ "hit_rate_required_at_38000_dots": {
+  "0.2778": 0.0275,
+  "0.3195": 0.0319,
+  "0.4413": 0.045,
+  "0.4544": 0.0465
+ },
+ "registry_prior": {
+  "evidence_class": "EMPIRICAL REGISTRY PRIOR (USER-REPORTED leaderboard values)",
+  "n": 7,
+  "values": [
+   0.1886,
+   0.219,
+   0.2296,
+   0.2303,
+   0.2343,
+   0.2376,
+   0.2478
+  ],
+  "mean": 0.2267,
+  "sd": 0.0189,
+  "min": 0.1886,
+  "max": 0.2478,
+  "p10": 0.1886,
+  "p90": 0.2478,
+  "interpretation": "A new submission built by a methodologically independent pipeline and submitted at the 38k-dot budget class lands here with high probability. It is a prior over submissions, not a measurement of any specific file."
+ },
+ "provenance": {
+  "G_point": "scripts/calibrate_leaderboard.py inversion of the public r13 lattice score 0.0904",
+  "credit_per_hit": "measured at the B2 operating point (T=5073.29, M=1038.49)",
+  "reported_scores": "USER-REPORTED / UNVERIFIED leaderboard readouts supplied in the project prompt"
+ },
+ "validation": {
+  "B2_reconstruction": {
+   "dots": 37654,
+   "T": 5073.287555555577,
+   "F": 36615.51108428312,
+   "dti": 0.27780000000000005,
+   "reported": 0.2778
+  },
+  "note": "the forward model reproduces the highest nine-site reported score exactly from the calibrated components, so the algebra is verified, not assumed"
+ }
+}

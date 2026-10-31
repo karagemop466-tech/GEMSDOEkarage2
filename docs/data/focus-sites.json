@@ -140,6 +140,20 @@
     "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2"
   },
   {
+    "site": "NEW · GEMSDOEkarage2 H-B (this repo)",
+    "historical_submission": "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031",
+    "user_reported_result": null,
+    "evidence_class": "NEW HYPOTHESIS · HOLDOUT-DTI MEASURED · NOT ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": true,
+    "unique_reason": "PASS vs 12 local rasters: max |Spearman| 0.0242 (<=0.90), max dot overlap 0.2247 (<=0.70). Full registry not locally available.",
+    "download": "downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif",
+    "verdict": "negative",
+    "submit": false,
+    "submit_reason": "UNIQUE and values-in-[0,1]-safe, but HOLDOUT-DTI 0.000585 (near zero by design: off-catalogue discovery masked against known-fault labels). NOT OK to submit. Negative deliverable per protocol.",
+    "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2/tree/arena/f09ff072-gemsdoekarage2"
+  },
+  {
     "site": "NEW · GEMSDOEkarage2 H-F2 (this repo, 2026-10-31)",
     "historical_submission": "gemsdoekarage2-coheridge-d28-b37654-20261031-zeros",
     "user_reported_result": null,

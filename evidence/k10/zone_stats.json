@@ -1,0 +1,18 @@
+{
+  "10": {
+    "zone_cells": 977718,
+    "zone_frac_of_footprint": 0.18920987511449242
+  },
+  "20": {
+    "zone_cells": 1965676,
+    "zone_frac_of_footprint": 0.3804014148001315
+  },
+  "30": {
+    "zone_cells": 2712519,
+    "zone_frac_of_footprint": 0.5249319141467047
+  },
+  "50": {
+    "zone_cells": 3698718,
+    "zone_frac_of_footprint": 0.7157830487561088
+  }
+}
