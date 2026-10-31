@@ -1,45 +1,13 @@
 #!/usr/bin/env python3
-"""
-Generate a unique, hypothesis-driven GeoTIFF submission for the DOE GEMS Prize
-Challenge.
+"""RETIRED H-F prototype; execution is deliberately disabled.
 
-Hypothesis H-F (rank 1 of proposed untried slate): Multi-scale radiometric
-alteration + curvature-convergence at fault intersections.
-
-Physical rationale:
-  * Hydrothermal alteration along blind fault-controlled fluid pathways mobilises
-    uranium and thorium while leaching potassium, producing a characteristic
-    radiometric anomaly (K/Th depletion, eU/eTh enrichment) that extends beyond
-    mapped surface traces.
-  * Fault intersections and relay ramps concentrate permeability; multi-scale
-    curvature convergence (profile + plan curvature at 100m, 500m, 2km smoothing)
-    marks structural intersections even where no surface fault is mapped.
-  * Combining the radiometric alteration index with curvature convergence and a
-    soft distance decay from known faults targets blind/off-catalogue structures
-    rather than re-drawing catalogue traces.
-
-Why it is distinct from existing work:
-  * Existing focus-site submissions (GEMSDOE24/25/27/28/30/31/32/33/36) use
-    dotted ridge/scarf following (D2.8, Poisson, lattice), stepover/tip models,
-    or single-scale scarp openness. None uses a radiometric ternary alteration
-    index combined with multi-scale curvature convergence.
-  * Repo lanes H1/H2/K2/K3/B4/GW-NFS used signed parity, step asymmetry, edge
-    centrality, lineament density, conductivity-gravity saddles, and seismicity
-    asymmetry — not radiometric alteration × curvature intersection.
-  * This is a continuous probability field (not a dot mask), so it does not
-    reproduce the dot-overlap geometry that blocks the nine historical files
-    under the literal 70% / 3-px uniqueness rule.
-
-Protocol compliance:
-  * Continuous field in [0, 1], NaN outside the organizer template footprint.
-  * Known faults masked pixel-exactly (visible-fault masking).
-  * Features derived only from the feature stack (not from labels/truth).
-  * Outputs: GeoTIFF + audit JSON + run card JSON.
-  * Does NOT spend a submission slot; verdict is promote/negative for the
-    separate selector step.
-
-Usage:
-  python scripts/generate_hypothesis_submission.py
+The saved artifact is research-only. Its strict exterior-NaN check and
+feature-alone fault-proximity leakage gate fail; complete-registry uniqueness and
+protocol-compliant whole-segment holdout clearance are not established. The
+claimed radiometric mapping also conflicts with the pinned owner-mirror manifest
+(bands 4/5/6 are geod_2ndinv / iso_grav_anom_slope / tc, not K / eTh / eU ratio).
+The owner mirror is not organizer-authenticated. Do not regenerate or promote.
+See evidence/hf-correction-2026-10-31.json.
 """
 
 from __future__ import annotations
@@ -73,23 +41,21 @@ OFFICIAL_BOUNDS = (243350.0, 4135550.0, 572550.0, 4508550.0)
 NODATA = -3.4028234663852886e+38
 
 # Band indices (confident mapping from gw_nfs_features.py and build_site.py)
-B_ELEV = 1          # DEM elevation
-B_DETREND_ELEV = 12 # detrended elevation
+B_ELEV = 1          # owner-mirror mag_anom; historically loaded only for a missing-input mask
+B_DETREND_ELEV = 12 # owner-mirror det_elev; input actually passed to curvature_convergence
 B_ISO_GRAV = 13     # isostatic gravity
 B_COND = 17         # conductivity surface
 B_SLOPE = 19        # elevation slope
 
-# Candidate radiometric bands (not documented in this checkout; flagged for review)
-# Band 4 (1.2-87.45) and Band 6 (2.95-88.57) are plausible K/eTh proxies;
-# Band 5 (0.0014-0.6517) is plausible eU/eTh ratio. IRREGULARITY: band-to-layer
-# mapping is NOT verified by organizer documentation.
+# Historical claimed radiometric mapping; contradicted by the pinned owner mirror.
+# Manifest names bands 4/5/6 geod_2ndinv / iso_grav_anom_slope / tc. These
+# constants remain only to read the retired code; do not interpret them as K/eTh/ratio.
 B_RAD_K = 4
 B_RAD_TH = 6
 B_RAD_RATIO = 5
 
 SUBMISSION_NAME = "gemsdoe-hf-alteration-curvature-intersection-20261030"
-SUBMISSION_NOTE = ("Unique H-F radiometric alteration x curvature intersection "
-                   "field; research-only, not organizer-confirmed")[:140]
+SUBMISSION_NOTE = "Retired H-F research prototype; validation failed; do not submit"
 
 
 # --------------------------------------------------------------------------- #
@@ -241,6 +207,14 @@ def distance_to_faults(fault_mask: np.ndarray, footprint: np.ndarray) -> np.ndar
 # --------------------------------------------------------------------------- #
 
 def main() -> int:
+    raise SystemExit(
+        "DISABLED: H-F is a negative research artifact; strict-format and leakage checks "
+        "fail, complete-registry uniqueness and compliant holdout are not established, "
+        "and the claimed radiometric band mapping conflicts with the pinned owner mirror. "
+        "No lane is assigned; do not regenerate or submit. See "
+        "evidence/hf-correction-2026-10-31.json."
+    )
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # ---- Load inputs -------------------------------------------------------
@@ -455,7 +429,7 @@ def main() -> int:
     fold_dtis = [t["DTI"] for t in terms]
     n_withheld = sum(t["n_pos_gt"] for t in terms)
 
-    print(f"[H-F] Holdout: pooled_DTI={pooled_dti:.6f} "
+    print(f"[H-F] Legacy fixed-field diagnostic (not HOLDOUT-DTI): {pooled_dti:.6f} "
           f"TPw={TPw:.2f} FPw={FPw:.2f} FNw={FNw:.2f} "
           f"withheld={n_withheld:,} fold_DTIs={[round(d,4) for d in fold_dtis]}",
           flush=True)
@@ -511,34 +485,39 @@ def main() -> int:
             "diagnostics": val_result.get("diagnostics", {}),
         },
         "uniqueness": {
-            "passed": uniqueness_pass,
+            "passed": False,
+            "local_subset_passed": uniqueness_pass,
+            "unique_gate_cleared": False,
             "max_spearman_abs": max_rho,
             "max_dot_overlap_3px": max_overlap,
-            "duplicate_found": duplicate_found,
+            "duplicate_found_in_local_subset": duplicate_found,
             "n_local_registry_compared": len(uniqueness_results),
+            "registry_total_reported": 472,
             "comparisons": uniqueness_results,
-            "note": "Only locally available registry rasters compared; 465 focus-site rasters not downloaded.",
+            "note": "Only locally available rasters compared; incomplete registry cannot establish uniqueness.",
         },
         "holdout": {
-            "pooled_DTI": round(float(pooled_dti), 6),
+            "legacy_fixed_field_dti_diagnostic": round(float(pooled_dti), 6),
             "TPw": round(TPw, 2),
             "FPw": round(FPw, 2),
             "FNw": round(FNw, 2),
-            "n_withheld_total": n_withheld,
-            "fold_DTIs": [round(d, 4) for d in fold_dtis],
-            "fold_range": [round(min(fold_dtis), 4), round(max(fold_dtis), 4)],
-            "evaluator": "evaluate_holdout.dti_weighted_terms (alpha=0.2, beta=0.8, R=300m)",
-            "classification": "PROXY (fixed field scored against withheld positives; not strict hide-and-recover OOF)",
+            "withheld_positive_count_recorded": n_withheld,
+            "fold_values": [round(d, 4) for d in fold_dtis],
+            "foldwise_range_not_ci95": [round(min(fold_dtis), 4), round(max(fold_dtis), 4)],
+            "evaluator_recorded": "evaluate_holdout.dti_weighted_terms (alpha=0.2, beta=0.8, R=300m)",
+            "classification": "LEGACY FIXED-FIELD DIAGNOSTIC; NOT PROTOCOL-COMPLIANT HOLDOUT-DTI; NOT ORGANIZER-CONFIRMED",
+            "ci95": None,
         },
         "leakage_canary": canary_results,
-        "verdict": "negative" if not (val_passed and uniqueness_pass) else "promote",
+        "verdict": "negative",
         "ok_to_submit": False,
         "slot_authorized": False,
         "irregularities": [
-            "Band-to-radiometric-layer mapping (bands 4/5/6 = K/eTh/ratio) is NOT verified by organizer documentation.",
-            "Holdout is a proxy: the fixed field used all faults for distance computation, so it is not strict hide-and-recover OOF.",
-            "Only 7 of 472 registry rasters are locally available for uniqueness comparison.",
-            "Values in [0,1]; zeros outside footprint (matches repo convention; exterior NaN-vs-zero convention unresolved in this checkout).",
+            "The claimed K/eTh/eU-ratio mapping for bands 4/6/5 conflicts with the pinned owner-mirror manifest (4/5/6 = geod_2ndinv / iso_grav_anom_slope / tc); mirror is not organizer-authenticated.",
+            "Curvature uses band 12 det_elev; band 1 is loaded only for missing-input masking, despite its old B_ELEV comment.",
+            "The fixed field used all-catalogue fault distance and is not strict whole-segment hide-and-recover OOF; do not label its diagnostic HOLDOUT-DTI.",
+            "Feature-alone fault-proximity AUC is a recorded leakage stop; only 7 of 472 registry rasters were compared, with no pre-placement clearance.",
+            "The saved raster has finite values outside the owner-mirror footprint; strict outside-NaN validation fails. The mirror is unauthenticated.",
         ],
     }
 
@@ -555,20 +534,25 @@ def main() -> int:
         "mechanism": audit["mechanism"],
         "named_non_fault_process": audit["named_non_fault_mimic"],
         "holdout": {
-            "classification": "HOLDOUT-DTI (proxy; fixed field)",
-            "evaluator_version": "evaluate_holdout.dti_weighted_terms alpha=0.2 beta=0.8 R=300m",
-            "withheld_positives": n_withheld,
-            "dti": round(float(pooled_dti), 6),
-            "confidence_interval_95": [
+            "classification": "LEGACY FIXED-FIELD DIAGNOSTIC; NOT PROTOCOL-COMPLIANT HOLDOUT-DTI",
+            "evaluator_recorded": "evaluate_holdout.dti_weighted_terms (alpha=0.2, beta=0.8, R=300m)",
+            "withheld_positive_count_recorded": n_withheld,
+            "legacy_diagnostic_value": round(float(pooled_dti), 6),
+            "ci95": None,
+            "foldwise_range_not_ci95": [
                 round(min(fold_dtis), 6), round(max(fold_dtis), 6)
             ],
-            "note": "Fold-wise range over 4 spatial blocks; not a bootstrap CI.",
+            "note": "Fixed field used all-catalogue fault distance; legacy quadrant range is not a confidence interval.",
         },
         "correlation_and_overlap_vs_registry": {
             "candidate_surface_spearman_max_abs": round(max_rho, 6),
             "candidate_final_dot_overlap_max": round(max_overlap, 6),
-            "duplicate_found": duplicate_found,
+            "duplicate_found_in_local_subset": duplicate_found,
             "n_registry_compared": len(uniqueness_results),
+            "registry_total_reported": 472,
+            "registry_coverage_complete": False,
+            "preplacement_surface_overlap_recorded": None,
+            "unique_gate_cleared": False,
             "threshold": "Spearman <= 0.90 AND dot overlap <= 70%",
         },
         "leakage_canary": canary_results,
@@ -583,7 +567,7 @@ def main() -> int:
         "ok_to_submit": False,
         "slot_authorized": False,
         "experiments_run": 1,
-        "budget": "1 of 3 experiments; under 2 hours",
+        "budget": "Historical count and elapsed time are unreconciled; no current lane authorizes execution",
     }
 
     card_path = OUT_DIR / f"{SUBMISSION_NAME}.run-card.json"

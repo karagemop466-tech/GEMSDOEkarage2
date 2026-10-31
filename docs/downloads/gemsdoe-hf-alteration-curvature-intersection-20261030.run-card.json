@@ -1,26 +1,33 @@
 {
   "schema_version": 1,
   "recorded_utc": "2026-10-30T02:01:25.240127+00:00",
-  "hypothesis": "H-F: Multi-scale radiometric alteration + curvature convergence at fault intersections",
-  "mechanism": "Alteration (low K, high eTh/eU ratio) x curvature convergence at fault intersections x soft distance decay from known faults; faults masked pixel-exactly",
-  "named_non_fault_process": "Paleo-weathering fronts, lithologic contacts, survey-line striping in radiometrics",
+  "hypothesis": "Claimed H-F (not substantiated): multi-scale radiometric alteration plus curvature convergence at fault intersections; the saved source code uses owner-mirror bands whose names do not support the claimed radiometric mapping.",
+  "mechanism": "The prototype combines curvature from band 12 (owner-mirror name det_elev), purported radiometric inputs from bands 4/6/5, and distance to all catalogue faults. The owner-mirror manifest names bands 4/5/6 geod_2ndinv / iso_grav_anom_slope / tc, contradicting the K/eTh/ratio mapping. This mirror is not organizer-authenticated; the claimed geological mechanism is unverified.",
+  "named_non_fault_process": "Original proposed mimics: paleo-weathering fronts, lithologic contacts, and radiometric survey striping; not validated against the actual owner-mirror band mapping.",
   "holdout": {
-    "classification": "HOLDOUT-DTI (proxy; fixed field)",
-    "evaluator_version": "evaluate_holdout.dti_weighted_terms alpha=0.2 beta=0.8 R=300m",
-    "withheld_positives": 60988,
-    "dti": 0.018385,
-    "confidence_interval_95": [
-      0.008563,
-      0.038431
+    "evidence_class": "LEGACY FIXED-FIELD DTI DIAGNOSTIC; NOT PROTOCOL-COMPLIANT HOLDOUT-DTI; NOT ORGANIZER-CONFIRMED",
+    "evaluator_recorded": "evaluate_holdout.dti_weighted_terms (as stated in the saved audit; alpha=0.2 beta=0.8 R=300m; no authenticated evaluator pin)",
+    "legacy_diagnostic_value": 0.018385,
+    "withheld_positive_count_recorded": 60988,
+    "foldwise_range_not_ci95": [
+      0.0086,
+      0.0384
     ],
-    "note": "Fold-wise range over 4 spatial blocks; not a bootstrap CI."
+    "ci95": null,
+    "strict_hide_recover_oof": false,
+    "uses_full_catalogue_fault_distance": true,
+    "reason": "The prior audit states the fixed prediction field used all-catalogue fault distance and is not strict hide-and-recover OOF. The prior field named confidence_interval_95 is superseded; the audit reports a four-fold range, not a confidence interval."
   },
   "correlation_and_overlap_vs_registry": {
     "candidate_surface_spearman_max_abs": 0.011519,
     "candidate_final_dot_overlap_max": 0.617889,
     "duplicate_found": false,
     "n_registry_compared": 7,
-    "threshold": "Spearman <= 0.90 AND dot overlap <= 70%"
+    "threshold": "Spearman <= 0.90 AND dot overlap <= 70%",
+    "registry_coverage_complete": false,
+    "unique_gate_cleared": false,
+    "preplacement_surface_3px_overlap": null,
+    "correction": "Only seven local rasters were compared; this is not a complete-registry uniqueness result."
   },
   "leakage_canary": {
     "curvature": {
@@ -67,10 +74,33 @@
     }
   },
   "submission_name": "gemsdoe-hf-alteration-curvature-intersection-20261030",
-  "note": "Unique H-F radiometric alteration x curvature intersection field; research-only, not organizer-confirmed",
+  "note": "H-F research-only; incomplete registry, leakage, and exterior-format gates; do not submit",
   "verdict": "negative",
   "ok_to_submit": false,
   "slot_authorized": false,
   "experiments_run": 1,
-  "budget": "1 of 3 experiments; under 2 hours"
+  "budget": "1 of 3 experiments; under 2 hours",
+  "superseding_correction": "evidence/hf-correction-2026-10-31.json",
+  "correction_status": "Supersedes prior HOLDOUT-DTI, CI, uniqueness-clearance, and exterior-format wording; raster bytes unchanged.",
+  "band_mapping_review": {
+    "evidence_class": "PINNED OWNER-MIRROR MANIFEST AND LOCAL SCRIPT INSPECTION; NOT ORGANIZER AUTHENTICATION",
+    "source_manifest": "evidence/upstream/GEMSDOE32/registry/data_manifest.json",
+    "source_manifest_sha256": "463cf26c840a9338816e873a762beb8186c50952ae26ae572e73d71eb329bd34",
+    "claimed_radiometric_band_indices_1_based": {
+      "K": 4,
+      "eTh": 6,
+      "eU_over_eTh_ratio": 5
+    },
+    "owner_mirror_names_by_index_1_based": {
+      "4": "geod_2ndinv",
+      "5": "iso_grav_anom_slope",
+      "6": "tc"
+    },
+    "curvature_input_index_1_based": 12,
+    "curvature_input_owner_mirror_name": "det_elev",
+    "band_1_note": "The code loads band 1 under the B_ELEV/DEM comment and includes it in the missing-input mask, but calls curvature_convergence with the band-12 detrend array; band 1 is not the curvature input.",
+    "official_band_mapping_authenticated": false,
+    "interpretation": "The local pinned owner-mirror names contradict the prototype\u2019s claimed radiometric mapping. Do not describe the saved field as a validated radiometric-alteration model."
+  },
+  "correction_url": "../evidence/hf-correction-2026-10-31.json"
 }

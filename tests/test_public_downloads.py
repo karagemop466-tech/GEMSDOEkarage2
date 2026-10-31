@@ -258,4 +258,107 @@ def test_unknown_published_raster_is_never_silently_allowed(tmp_path, monkeypatc
     result = mod.audit(tmp_path)
     assert result['inventory_status'] == 'FAIL_CLOSED'
     assert result['unexpected_downloads'] == ['new-unreviewed.tif']
-    assert result['downloadable_approved_submission'] is None
+
+
+def test_hf_correction_reconciles_saved_bytes_and_withdraws_stale_claims():
+    tif = ROOT / 'docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif'
+    card = json.loads((ROOT / 'docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json').read_text())
+    sidecar = json.loads((ROOT / 'docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.audit.json').read_text())
+    correction = json.loads((ROOT / 'evidence/hf-correction-2026-10-31.json').read_text())
+    measured = mod.digest_file(tif)
+    assert measured == 'e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224'
+    assert card['raster_sha256'] == correction['artifact']['sha256_in_current_run_card'] == measured
+    assert card['correction_url'] == '../evidence/hf-correction-2026-10-31.json'
+    public_correction = ROOT / 'docs/evidence/hf-correction-2026-10-31.json'
+    assert public_correction.read_text() == (ROOT / 'evidence/hf-correction-2026-10-31.json').read_text()
+    assert sidecar['superseding_correction'] == '../evidence/hf-correction-2026-10-31.json'
+    assert (ROOT / 'docs/downloads' / sidecar['superseding_correction']).resolve() == public_correction.resolve()
+    verification = correction['verification']
+    assert verification['saved_tiff_recomputed']['whole_array_finite_in_range_0_1'] is True
+    assert verification['saved_tiff_recomputed']['nan_pixels_all_raster'] == 0
+    assert verification['saved_tiff_recomputed']['positive_pixels'] == 18000
+    assert verification['owner_mirror_footprint']['outside_finite_count_derived_from_full_raster_finite_count'] == 7111787
+    assert all(verification['hash_bindings'][key] for key in (
+        'actual_tiff_matches_current_run_card',
+        'actual_tiff_matches_saved_audit_sidecar',
+        'precorrection_run_card_sha256_matches_prior_revision',
+        'precorrection_audit_sidecar_sha256_matches_prior_revision',
+        'precorrection_focus_sites_sha256_matches_prior_revision',
+        'prior_revision_hashes_independently_checked_with_git_show'))
+    assert card['holdout']['evidence_class'].startswith('LEGACY FIXED-FIELD DTI DIAGNOSTIC')
+    assert card['holdout']['strict_hide_recover_oof'] is False
+    assert card['holdout']['ci95'] is None
+    assert card['correlation_and_overlap_vs_registry']['unique_gate_cleared'] is False
+    assert card['validator']['strict_format_pass'] is False
+    assert card['leakage_canary']['fault_proximity']['auc'] == 1.0
+    assert card['leakage_canary']['fault_proximity']['leakage'] is True
+    mapping = card['band_mapping_review']
+    assert mapping['owner_mirror_names_by_index_1_based'] == {
+        '4': 'geod_2ndinv', '5': 'iso_grav_anom_slope', '6': 'tc'}
+    assert mapping['curvature_input_index_1_based'] == 12
+    assert mapping['official_band_mapping_authenticated'] is False
+    assert mapping['source_manifest_sha256'] == mod.digest_file(ROOT / mapping['source_manifest'])
+    assert card['ok_to_submit'] is False and card['slot_authorized'] is False
+    geological = correction['corrections']['geological_interpretation']
+    assert geological['owner_mirror_manifest_sha256'] == mapping['source_manifest_sha256']
+    assert geological['official_band_mapping_authenticated'] is False
+    assert geological['claimed_radiometric_bands_1_based'] == {'K': 4, 'eTh': 6, 'eU_over_eTh_ratio': 5}
+    assert geological['curvature_input_1_based'] == 12
+    assert sidecar['sha256'] == correction['artifact']['sha256_measured'] == measured
+    assert sidecar['format_validation']['diagnostics']['outside_nan'] == 0
+    assert sidecar['format_validation']['diagnostics']['outside_finite'] == 7111787
+    assert sidecar['format_validation']['passed'] is False
+    assert 'not NaN' in sidecar['irregularities'][-1]
+    focus = json.loads((ROOT / 'docs/data/focus-sites.json').read_text())
+    row = next(r for r in focus if r.get('site') == 'NEW · GEMSDOEkarage2 H-F (this repo)')
+    assert row['unique'] is None and row['submit'] is False and row['ok_to_submit'] is False
+    assert 'not established' in row['unique_reason'].lower()
+    archived = (ROOT / 'docs/archive-initial-dashboard.html').read_text()
+    assert 'evidence/hf-correction-2026-10-31.json' in archived
+    assert 'DO NOT SUBMIT' in archived
+    inventory = mod.audit()
+    artifact = next(r for r in inventory['artifacts'] if r['file'] == correction['artifact']['path'])
+    assert artifact['checks']['superseding_correction_hash_bound'] is True
+    assert artifact['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert inventory['downloadable_approved_submission'] is None
+
+
+def test_superseding_correction_is_confined_and_hash_bound(tmp_path, monkeypatch):
+    args, card_path = make_fixture(tmp_path)
+    root, stem, card_rel, _, _, _ = args
+    tif = root / 'docs/downloads' / f'{stem}.tif'
+    measured = mod.digest_file(tif)
+    correction_rel = 'evidence/correction.json'
+    monkeypatch.setitem(mod.REQUIRED_CORRECTIONS, f'docs/downloads/{stem}.tif', correction_rel)
+    card = json.loads(card_path.read_text())
+    card_path.write_text(json.dumps(card))
+    missing = mod.audit_artifact(*args)
+    assert missing['checks']['superseding_correction_hash_bound'] is False
+    assert missing['status'] == 'FAIL_CLOSED'
+    correction = {
+        'schema': 'gems.historical-artifact-correction.v1',
+        'artifact': {
+            'path': f'docs/downloads/{stem}.tif',
+            'sha256_measured': measured,
+            'sha256_in_current_run_card': measured,
+        },
+        'verdict': 'negative', 'ok_to_submit': False, 'slot_authorized': False,
+    }
+    correction_path = root / 'evidence/correction.json'
+    correction_path.write_text(json.dumps(correction))
+    card = json.loads(card_path.read_text())
+    card['superseding_correction'] = 'evidence/correction.json'
+    card_path.write_text(json.dumps(card))
+    result = mod.audit_artifact(*args)
+    assert result['checks']['superseding_correction_hash_bound'] is True
+    assert result['status'] == 'VERIFIED_RESEARCH_ONLY'
+    correction['artifact']['sha256_measured'] = '0' * 64
+    correction_path.write_text(json.dumps(correction))
+    result = mod.audit_artifact(*args)
+    assert result['checks']['superseding_correction_hash_bound'] is False
+    assert result['status'] == 'FAIL_CLOSED'
+    card['superseding_correction'] = '../docs/outside.json'
+    card_path.write_text(json.dumps(card))
+    result = mod.audit_artifact(*args)
+    assert result['checks']['superseding_correction_hash_bound'] is False
+    assert result['status'] == 'FAIL_CLOSED'

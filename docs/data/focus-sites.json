@@ -126,17 +126,21 @@
     "source": "https://github.com/buffedlizard55-lab/GEMSDOE36"
   },
   {
-    "site": "NEW · GEMSDOEkarage2 H-F (this repo)",
+    "site": "NEW \u00b7 GEMSDOEkarage2 H-F (this repo)",
     "historical_submission": "gemsdoe-hf-alteration-curvature-intersection-20261030",
     "user_reported_result": null,
-    "evidence_class": "NEW HYPOTHESIS · HOLDOUT-DTI MEASURED · NOT ORGANIZER-CONFIRMED",
+    "evidence_class": "LOCAL FIXED-FIELD DTI DIAGNOSTIC \u00b7 CLAIMED GEOLOGY UNSUBSTANTIATED \u00b7 NOT HOLDOUT-DTI \u00b7 NOT ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": true,
-    "unique_reason": "PASS vs 7 local registry rasters: max |Spearman| 0.0115 (<=0.90), max dot overlap 0.6179 (<=0.70). 465 focus-site rasters not locally available for comparison.",
+    "unique": null,
+    "unique_reason": "Not established: only 7 local registry rasters were compared; 465 focus-site rasters were reported missing, and pre-placement surface overlap was not recorded.",
     "download": "downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
     "verdict": "negative",
     "submit": false,
-    "submit_reason": "UNIQUE and format-valid, but HOLDOUT-DTI 0.0184 (far below submission-worthy threshold). NOT OK to submit. Negative deliverable per protocol.",
-    "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2"
+    "submit_reason": "DO NOT SUBMIT: the owner-mirror band names contradict the claimed K/eTh/ratio mapping; fault-proximity feature-alone AUC was 1.0; fixed-field diagnostic is not protocol-compliant HOLDOUT-DTI; strict local outside-NaN check fails; full-registry uniqueness is unverified.",
+    "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2",
+    "download_for_research": true,
+    "ok_to_submit": false,
+    "correction": "../evidence/hf-correction-2026-10-31.json",
+    "band_mapping_review": "evidence/upstream/GEMSDOE32/registry/data_manifest.json (owner mirror only; not organizer-authenticated)"
   }
 ]

@@ -48,11 +48,15 @@ ARTIFACTS = (
      "evidence/hA-intersection/run_card.json", None, False),
     ("gemsdoe-karage2-hr4-intersection-20261029-nan",
      "evidence/hr4-intersection/run_card.json", None, False),
-    # New H-F hypothesis TIF (experiment 1): unique, format-valid, negative verdict.
+    # Historical H-F TIF: research-only; corrected sidecar/hash binding is mandatory.
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
 )
+REQUIRED_CORRECTIONS = {
+    "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif":
+        "evidence/hf-correction-2026-10-31.json",
+}
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
@@ -181,6 +185,28 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         checks["card_sha_matches_saved_bytes"] = actual_sha is not None and card.get("raster_sha256") == actual_sha
         checks["card_note_within_140_chars"] = (isinstance(card.get("note"), str) and
                                                 0 < len(card["note"]) <= 140)
+        correction_rel = card.get("superseding_correction")
+        required_correction = REQUIRED_CORRECTIONS.get(rel)
+        if required_correction is not None or correction_rel is not None:
+            checks["superseding_correction_hash_bound"] = False
+            try:
+                if (isinstance(correction_rel, str)
+                        and (required_correction is None or correction_rel == required_correction)):
+                    correction_path = (root / correction_rel).resolve()
+                    if correction_path.is_relative_to((root / "evidence").resolve()):
+                        correction = json.loads(correction_path.read_text())
+                        artifact = correction.get("artifact", {})
+                        checks["superseding_correction_hash_bound"] = (
+                            correction.get("schema") == "gems.historical-artifact-correction.v1"
+                            and artifact.get("path") == rel
+                            and artifact.get("sha256_measured") == actual_sha
+                            and artifact.get("sha256_in_current_run_card") == actual_sha
+                            and correction.get("verdict") == "negative"
+                            and correction.get("ok_to_submit") is False
+                            and correction.get("slot_authorized") is False
+                        )
+            except (OSError, ValueError, TypeError, AttributeError):
+                checks["superseding_correction_hash_bound"] = False
     except (OSError, ValueError, TypeError, AttributeError):
         checks["card_readable"] = False
     metadata_path = tif.with_suffix('.json')

@@ -1,0 +1,169 @@
+{
+  "schema": "gems.historical-artifact-correction.v1",
+  "recorded_utc": "2026-10-31T00:45:00Z",
+  "review_type": "SAVED-BYTE AND RECORD RECONCILIATION ONLY; NO GEOLOGICAL EXPERIMENT",
+  "artifact": {
+    "path": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+    "sha256_measured": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224",
+    "sha256_in_current_run_card": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224",
+    "prior_run_card_sha256": "db5c8583079e3f0d2c68ca7f6e87725eed99e87459d7b02d457cd2057e6bbc7a",
+    "prior_audit_sidecar_sha256": "e74fccc6abd12c6d566612ba0530df281362efec979ab46e1933c7c3664e9395",
+    "prior_focus_sites_json_sha256": "54899d4a7288777a00a88cc6173a6b68577304e252fd43b9a81e0df955cb0e51",
+    "prior_revision": "26a677c4f61f4f1676cfcdf0cc4271aa4884d248"
+  },
+  "corrections": {
+    "raster_identity": {
+      "superseded_readme_sha256_claim": "4fe3104c38ae32eb04dbea9a75ba882feaef3d3b282249aeb635f83f9083abe3",
+      "measured_sha256": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224",
+      "status": "The prior README hash does not match the saved TIFF; the measured hash matches the H-F run card and audit sidecar."
+    },
+    "format": {
+      "evidence_class": "LOCAL FORMAT AUDIT AGAINST AN OWNER-MIRRORED GRID; NOT ORGANIZER AUTHENTICATION OR PORTAL ACCEPTANCE",
+      "whole_array_finite_and_in_range_0_1": true,
+      "inside_footprint_finite_and_in_range_0_1": true,
+      "strict_outside_nan_check": false,
+      "outside_nan_pixels": 0,
+      "outside_finite_pixels": 7111787,
+      "strict_format_pass": false,
+      "organizer_template_match": null,
+      "organizer_acceptance": null,
+      "status": "The saved-byte audit reports 7,111,787 finite exterior cells and zero exterior NaNs against the unauthenticated owner-mirror footprint. The generator intended zeros outside, but that per-cell exterior pattern was not independently recomputed. The local strict outside-NaN check fails; this does not establish the cause of the portal range error."
+    },
+    "performance_and_leakage": {
+      "evidence_class": "LEGACY FIXED-FIELD DTI DIAGNOSTIC; NOT PROTOCOL-COMPLIANT HOLDOUT-DTI, NOT ORGANIZER-CONFIRMED",
+      "legacy_diagnostic_value": 0.018385,
+      "evaluator_recorded": "evaluate_holdout.dti_weighted_terms, alpha=0.2, beta=0.8, triangular R=300 m",
+      "withheld_positive_count_recorded": 60988,
+      "foldwise_range_not_ci95": [
+        0.0086,
+        0.0384
+      ],
+      "ci95": null,
+      "reason_not_holdout": "The H-F audit says the fixed prediction field used full-catalogue fault distance and was not strict hide-and-recover out-of-fold evaluation. Its recorded fold range is not a confidence interval.",
+      "feature_alone_auc_recorded_not_rerun": {
+        "curvature": 0.489928,
+        "alteration": 0.488236,
+        "fault_proximity": 1.0,
+        "combined_score": 0.498238
+      },
+      "leakage_gate": "AUC > 0.90 is a stop; the fault-proximity feature alone is a recorded leakage failure.",
+      "status": "The combined-score AUC does not override the feature-alone fault-proximity failure. No compliant HOLDOUT-DTI is available for H-F."
+    },
+    "uniqueness": {
+      "evidence_class": "PARTIAL LOCAL COMPARISON; NOT A COMPLETE-REGISTRY CLEARANCE",
+      "available_registry_rasters_compared": 7,
+      "other_focus_rasters_reported_missing": 465,
+      "candidate_surface_max_abs_spearman_recorded": 0.011519,
+      "final_dot_max_3px_overlap_recorded": 0.617889,
+      "preplacement_surface_3px_overlap_recorded": null,
+      "complete_registry_verified": false,
+      "unique_gate_cleared": false,
+      "status": "The recorded values describe only the seven locally available comparators. They cannot establish the required uniqueness result against every registry raster, either before placement or on final dots."
+    },
+    "publication": {
+      "prior_focus_sites_json_claim": "unique=true; HOLDOUT-DTI measured; unique and format-valid",
+      "corrected_status": "not cleared; research-only; no leaderboard estimate",
+      "one_click_download_claim": "The current generated desk pages do not link to the H-F TIFF. The visible one-click link is explicitly a different research-only TIFF.",
+      "ok_to_submit": false,
+      "slot_authorized": false,
+      "downloadable_approved_submission": null
+    },
+    "geological_interpretation": {
+      "evidence_class": "LOCAL SCRIPT AND PINNED OWNER-MIRROR MANIFEST REVIEW; NOT ORGANIZER AUTHENTICATION",
+      "source_code": "scripts/generate_hypothesis_submission.py",
+      "owner_mirror_manifest": "evidence/upstream/GEMSDOE32/registry/data_manifest.json",
+      "owner_mirror_manifest_sha256": "463cf26c840a9338816e873a762beb8186c50952ae26ae572e73d71eb329bd34",
+      "claimed_radiometric_bands_1_based": {
+        "K": 4,
+        "eTh": 6,
+        "eU_over_eTh_ratio": 5
+      },
+      "owner_mirror_names_by_index_1_based": {
+        "4": "geod_2ndinv",
+        "5": "iso_grav_anom_slope",
+        "6": "tc"
+      },
+      "curvature_input_1_based": 12,
+      "curvature_input_owner_mirror_name": "det_elev",
+      "band_1_usage": "Loaded as B_ELEV and included in missing-input masking, but not passed to curvature_convergence.",
+      "official_band_mapping_authenticated": false,
+      "status": "The owner-mirror band names contradict the claimed K/eTh/ratio mapping. The saved artifact cannot be scientifically described as a verified radiometric-alteration model; official band semantics remain unestablished."
+    }
+  },
+  "review_scope": {
+    "new_experiment": false,
+    "new_tiff_created": false,
+    "slot_used": false,
+    "official_pages_refetched": false,
+    "notes": "This correction reconciles existing local files, byte hashes and the pinned owner-mirror manifest. It does not execute the H-F/H-G code, authenticate the mirror or organizer bands, reproduce the H-F DTI/leakage/registry metrics, refresh the leaderboard, estimate a competition score, or validate portal acceptance."
+  },
+  "sources": {
+    "current_tiff": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+    "current_run_card": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
+    "current_audit_sidecar": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.audit.json",
+    "public_download_inventory": "evidence/public_downloads_audit.json",
+    "prior_version": "https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/26a677c4f61f4f1676cfcdf0cc4271aa4884d248/docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
+    "owner_mirror_band_manifest": "evidence/upstream/GEMSDOE32/registry/data_manifest.json"
+  },
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "leaderboard_score_estimate": null,
+  "verification": {
+    "saved_tiff_recomputed": {
+      "sha256_measured": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224",
+      "bytes": 806001,
+      "driver": "GTiff",
+      "band_count": 1,
+      "dtype": "float32",
+      "shape": [
+        3730,
+        3292
+      ],
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nan_pixels_all_raster": 0,
+      "infinite_pixels_all_raster": 0,
+      "masked_pixels_all_raster": 0,
+      "finite_pixels_all_raster": 12279160,
+      "finite_min": 0.0,
+      "finite_max": 1.0,
+      "positive_pixels": 18000,
+      "whole_array_finite_in_range_0_1": true
+    },
+    "hash_bindings": {
+      "actual_tiff_matches_current_run_card": true,
+      "actual_tiff_matches_saved_audit_sidecar": true,
+      "precorrection_run_card_sha256_matches_prior_revision": true,
+      "precorrection_audit_sidecar_sha256_matches_prior_revision": true,
+      "precorrection_focus_sites_sha256_matches_prior_revision": true,
+      "prior_revision": "26a677c4f61f4f1676cfcdf0cc4271aa4884d248",
+      "prior_revision_hashes_independently_checked_with_git_show": true
+    },
+    "owner_mirror_footprint": {
+      "source": "evidence/geometry-audit.json",
+      "footprint_pixels_recorded": 5167373,
+      "authenticated_organizer_input": false,
+      "outside_cell_count_arithmetic": 7111787,
+      "outside_nan_count_derived_from_full_raster_nan_count": 0,
+      "outside_finite_count_derived_from_full_raster_finite_count": 7111787,
+      "note": "Footprint comes from an unauthenticated owner mirror; score, leakage, and registry comparisons were read from historical sidecars and were not rerun."
+    },
+    "metrics_not_recomputed": [
+      "H-F model outputs and geology were not recomputed; source code and the owner-mirror band manifest were inspected only",
+      "fixed-field DTI diagnostic and fold range",
+      "feature-alone AUC values",
+      "seven-raster correlation/dot-overlap comparisons",
+      "pre-placement overlap (not recorded)",
+      "portal acceptance and organizer-template match (not available)"
+    ]
+  },
+  "finalized_utc": "2026-10-31T01:02:27Z"
+}

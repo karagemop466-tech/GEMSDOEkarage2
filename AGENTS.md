@@ -21,7 +21,10 @@ remain negative. Do not submit, regenerate, tune or relabel these TIFFs as candi
 `scripts/hk3.py` is retired: its original lane used three experiments and exceeded its
 recorded two-hour budget; its historical placement and promoter implementations exist
 only in Git history. Do not bypass the blocking CLI or resurrect retired functions.
-No new experiment, TIFF or slot was used for the correction.
+The H-F saved-artifact correction is recorded in `evidence/hf-correction-2026-10-31.json`;
+its generator and the unreceipted H-G prototype now fail closed because no lane is
+assigned. Do not bypass those entry-point guards or regenerate either prototype.
+No new experiment, TIFF or slot was used for these corrections.
 
 ## Evidence, sites and validation
 

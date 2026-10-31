@@ -4,12 +4,12 @@
   "sha256": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224",
   "bytes": 806001,
   "submission_name": "gemsdoe-hf-alteration-curvature-intersection-20261030",
-  "note": "Unique H-F radiometric alteration x curvature intersection field; research-only, not organizer-confirmed",
-  "note_chars": 104,
+  "note": "H-F research-only; incomplete registry, leakage, and exterior-format gates; do not submit",
+  "note_chars": 89,
   "generated_utc": "2026-10-30T02:01:25.238969+00:00",
-  "hypothesis": "H-F: Multi-scale radiometric alteration + curvature convergence at fault intersections",
-  "mechanism": "Alteration (low K, high eTh/eU ratio) x curvature convergence at fault intersections x soft distance decay from known faults; faults masked pixel-exactly",
-  "named_non_fault_mimic": "Paleo-weathering fronts, lithologic contacts, survey-line striping in radiometrics",
+  "hypothesis": "Claimed H-F, not substantiated: multi-scale radiometric alteration plus curvature convergence; owner-mirror band names contradict the claimed radiometric mapping.",
+  "mechanism": "The prototype uses curvature from band 12 (owner-mirror det_elev), claimed radiometric inputs from bands 4/6/5, and all-catalogue fault distance. The pinned owner-mirror manifest names 4/5/6 geod_2ndinv / iso_grav_anom_slope / tc; the mirror is not organizer-authenticated.",
+  "named_non_fault_mimic": "Original proposed mimics (not validated against actual mapped inputs): paleo-weathering fronts, lithologic contacts, survey-line striping in radiometrics.",
   "format_validation": {
     "passed": false,
     "checks": {
@@ -41,7 +41,7 @@
     }
   },
   "uniqueness": {
-    "passed": true,
+    "passed": false,
     "max_spearman_abs": 0.011519076381114848,
     "max_dot_overlap_3px": 0.6178888888888889,
     "duplicate_found": false,
@@ -111,10 +111,15 @@
         "duplicate": false
       }
     ],
-    "note": "Only locally available registry rasters compared; 465 focus-site rasters not downloaded."
+    "note": "Only locally available registry rasters compared; 465 focus-site rasters not downloaded.",
+    "local_comparison_passed": true,
+    "evidence_class": "PARTIAL LOCAL COMPARISON; NOT A COMPLETE-REGISTRY CLEARANCE",
+    "complete_registry_verified": false,
+    "unique_gate_cleared": false,
+    "preplacement_surface_3px_overlap_recorded": null,
+    "status": "Not cleared: only seven local rasters were compared; 465 focus-site rasters were reported missing."
   },
   "holdout": {
-    "pooled_DTI": 0.018385,
     "TPw": 924.92,
     "FPw": 6658.71,
     "FNw": 60063.08,
@@ -130,7 +135,11 @@
       0.0384
     ],
     "evaluator": "evaluate_holdout.dti_weighted_terms (alpha=0.2, beta=0.8, R=300m)",
-    "classification": "PROXY (fixed field scored against withheld positives; not strict hide-and-recover OOF)"
+    "classification": "LEGACY FIXED-FIELD DIAGNOSTIC (NOT PROTOCOL-COMPLIANT HOLDOUT-DTI; NOT ORGANIZER-CONFIRMED)",
+    "legacy_fixed_field_dti_diagnostic": 0.018385,
+    "ci95": null,
+    "fold_range_classification": "FOUR-FOLD RANGE ONLY; NOT A 95% CONFIDENCE INTERVAL",
+    "reason_not_holdout": "The fixed field used full-catalogue fault distance and was not strict hide-and-recover out-of-fold evaluation."
   },
   "leakage_canary": {
     "curvature": {
@@ -162,9 +171,32 @@
   "ok_to_submit": false,
   "slot_authorized": false,
   "irregularities": [
-    "Band-to-radiometric-layer mapping (bands 4/5/6 = K/eTh/ratio) is NOT verified by organizer documentation.",
+    "The claimed K/eTh/eU-ratio mapping for bands 4/6/5 conflicts with the pinned owner-mirror manifest: bands 4/5/6 are geod_2ndinv / iso_grav_anom_slope / tc. Band 12 det_elev is the actual curvature input in the script. Mirror names are not organizer authentication.",
     "Holdout is a proxy: the fixed field used all faults for distance computation, so it is not strict hide-and-recover OOF.",
     "Only 7 of 472 registry rasters are locally available for uniqueness comparison.",
-    "Values in [0,1]; NaN outside footprint per official template convention."
-  ]
+    "Saved values are finite in [0,1] on the whole raster, but all 7,111,787 cells outside the owner-mirror footprint are finite (not NaN); strict outside-NaN check fails. The mirror is not organizer-authenticated."
+  ],
+  "superseding_correction": "../evidence/hf-correction-2026-10-31.json",
+  "correction_status": "See the linked 2026-10-31 correction record; this audit sidecar is not organizer acceptance.",
+  "release_status": "RESEARCH ONLY / DO NOT SUBMIT",
+  "band_mapping_review": {
+    "evidence_class": "PINNED OWNER-MIRROR MANIFEST AND LOCAL SCRIPT INSPECTION; NOT ORGANIZER AUTHENTICATION",
+    "source_manifest": "evidence/upstream/GEMSDOE32/registry/data_manifest.json",
+    "source_manifest_sha256": "463cf26c840a9338816e873a762beb8186c50952ae26ae572e73d71eb329bd34",
+    "claimed_radiometric_band_indices_1_based": {
+      "K": 4,
+      "eTh": 6,
+      "eU_over_eTh_ratio": 5
+    },
+    "owner_mirror_names_by_index_1_based": {
+      "4": "geod_2ndinv",
+      "5": "iso_grav_anom_slope",
+      "6": "tc"
+    },
+    "curvature_input_index_1_based": 12,
+    "curvature_input_owner_mirror_name": "det_elev",
+    "band_1_note": "The code loads band 1 under the B_ELEV/DEM comment and includes it in the missing-input mask, but calls curvature_convergence with the band-12 detrend array; band 1 is not the curvature input.",
+    "official_band_mapping_authenticated": false,
+    "interpretation": "The local pinned owner-mirror names contradict the prototype\u2019s claimed radiometric mapping. Do not describe the saved field as a validated radiometric-alteration model."
+  }
 }

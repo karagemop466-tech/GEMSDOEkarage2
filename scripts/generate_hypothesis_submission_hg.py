@@ -1,29 +1,9 @@
 #!/usr/bin/env python3
-"""
-Experiment 2: H-G annulus-targeted fault-intersection propensity.
+"""RETIRED H-G prototype; execution is deliberately disabled.
 
-Hypothesis H-G: Blind geothermal faults occur in an annulus around known
-catalogue faults (200 m to 1 km offset), where hydrothermal alteration and
-structural curvature converge but no surface trace is mapped.
-
-Physical rationale:
-  * Known catalogue faults are the pressure-release structures; blind strands
-    splay off them at 200 m - 1 km offsets in relay-ramp and stepover geometry.
-  * These off-trace zones show alteration halos (radiometric K/U/Th anomaly)
-    and curvature convergence (structural flexure) without surface expression.
-  * Targeting the annulus avoids the catalogue-leakage of on-fault dots while
-    still intersecting the damage zone where hidden faults may exist.
-
-Why distinct:
-  * Not dot-on-catalogue (like D2.8/Poisson submissions) — dots are OFF-trace.
-  * Not grid/lattice (like 13GEMSDOE) — dots follow geological propensity.
-  * Not previously implemented in this repo or the nine focus sites.
-
-Protocol:
-  * 18,000 dots placed in annulus 200m-1000m from known faults.
-  * Weighted by radiometric alteration × curvature convergence.
-  * Known faults masked pixel-exactly.
-  * NaN outside footprint, [0,1] inside.
+The historical script relies on unverified band semantics and a legacy quadrant
+pixel evaluator. No committed H-G output/run card establishes a compliant result;
+no method paragraph or lane is assigned. Do not generate or promote a candidate.
 """
 
 from __future__ import annotations
@@ -53,14 +33,15 @@ OFFICIAL_HEIGHT = 3730
 OFFICIAL_TRANSFORM = Affine(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)
 NODATA = -3.4028234663852886e+38
 
-B_DETREND_ELEV = 12
+B_DETREND_ELEV = 12  # owner-mirror det_elev
+# Historical claimed radiometric mapping; owner mirror names 4/5/6
+# geod_2ndinv / iso_grav_anom_slope / tc, not K/eTh/eU ratio.
 B_RAD_K = 4
 B_RAD_TH = 6
 B_RAD_RATIO = 5
 
 SUBMISSION_NAME = "gemsdoe-hg-annulus-intersection-20261030"
-SUBMISSION_NOTE = ("H-G annulus-targeted alteration x curvature intersection, "
-                   "200m-1km off known faults; research-only")[:140]
+SUBMISSION_NOTE = "Retired H-G prototype; unverified and not approved for submission"
 TOP_K = 18000
 
 
@@ -143,6 +124,12 @@ def radiometric_alteration(k, th, ratio, footprint):
 
 
 def main():
+    raise SystemExit(
+        "DISABLED: H-G is a retired research prototype with unverified band semantics "
+        "and no committed result card. No method lane is assigned. Do not generate or "
+        "promote a candidate; reconcile prerequisites before any new experiment."
+    )
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     print("[H-G] Loading inputs...", flush=True)
@@ -285,7 +272,7 @@ def main():
     pooled_dti = TPw / denom
     fold_dtis = [t["DTI"] for t in terms]
     n_withheld = sum(t["n_pos_gt"] for t in terms)
-    print(f"[H-G] Holdout: pooled_DTI={pooled_dti:.6f} TPw={TPw:.2f} FPw={FPw:.2f} "
+    print(f"[H-G] Legacy fixed-field diagnostic (not HOLDOUT-DTI): {pooled_dti:.6f} TPw={TPw:.2f} FPw={FPw:.2f} "
           f"FNw={FNw:.2f} withheld={n_withheld:,} fold_DTIs={[round(d,4) for d in fold_dtis]}",
           flush=True)
 
@@ -327,38 +314,42 @@ def main():
         "note": SUBMISSION_NOTE,
         "note_chars": len(SUBMISSION_NOTE),
         "generated_utc": datetime.now(timezone.utc).isoformat(),
-        "hypothesis": "H-G: Annulus-targeted fault-intersection propensity (200m-1km off known faults)",
-        "mechanism": ("Dots placed 200m-1000m from known catalogue faults, weighted by "
-                      "radiometric alteration x curvature convergence; on-fault pixels masked"),
-        "named_non_fault_mimic": "Paleo-weathering fronts, lithologic contacts, radiometric survey striping",
+        "hypothesis": "Claimed H-G (not validated): annulus-targeted fault-intersection propensity, 200m-1km off known faults.",
+        "mechanism": ("Historical prototype claimed to weight an off-fault annulus by radiometric alteration and curvature; its band mapping is unsupported by the owner-mirror manifest and the method has no committed result card."),
+        "named_non_fault_mimic": "Original proposed mimics (not validated against mapped inputs): weathering fronts, lithologic contacts, survey striping.",
         "format_validation": {"passed": val_passed, "checks": val_result["checks"],
                               "diagnostics": val_result.get("diagnostics", {})},
         "uniqueness": {
-            "passed": uniqueness_pass,
+            "passed": False,
+            "local_subset_passed": uniqueness_pass,
+            "unique_gate_cleared": False,
             "max_spearman_abs": max_rho,
             "max_dot_overlap_3px": max_overlap,
-            "duplicate_found": duplicate_found,
+            "duplicate_found_in_local_subset": duplicate_found,
             "n_local_registry_compared": len(uniqueness_results),
+            "registry_total_reported": 472,
             "comparisons": uniqueness_results,
-            "note": "Only locally available registry rasters compared.",
+            "note": "Incomplete local registry comparison cannot establish uniqueness.",
         },
         "holdout": {
-            "pooled_DTI": round(float(pooled_dti), 6),
+            "legacy_fixed_field_dti_diagnostic": round(float(pooled_dti), 6),
             "TPw": round(TPw, 2), "FPw": round(FPw, 2), "FNw": round(FNw, 2),
-            "n_withheld_total": n_withheld,
-            "fold_DTIs": [round(d, 4) for d in fold_dtis],
-            "fold_range": [round(min(fold_dtis), 4), round(max(fold_dtis), 4)],
-            "evaluator": "evaluate_holdout.dti_weighted_terms (alpha=0.2, beta=0.8, R=300m)",
-            "classification": "HOLDOUT-DTI proxy (fixed field)",
+            "withheld_positive_count_recorded": n_withheld,
+            "fold_values": [round(d, 4) for d in fold_dtis],
+            "foldwise_range_not_ci95": [round(min(fold_dtis), 4), round(max(fold_dtis), 4)],
+            "evaluator_recorded": "evaluate_holdout.dti_weighted_terms (alpha=0.2, beta=0.8, R=300m)",
+            "classification": "LEGACY FIXED-FIELD DIAGNOSTIC; NOT PROTOCOL-COMPLIANT HOLDOUT-DTI; NOT ORGANIZER-CONFIRMED",
+            "ci95": None,
         },
         "leakage_canary": canary,
-        "verdict": "negative" if pooled_dti < 0.05 else "promote",
+        "verdict": "negative",
         "ok_to_submit": False,
         "slot_authorized": False,
         "irregularities": [
-            "Band-to-radiometric-layer mapping unverified.",
-            "Holdout is a proxy, not strict hide-and-recover OOF.",
-            "Only 7 of 472 registry rasters locally available.",
+            "The claimed radiometric bands 4/6/5 conflict with the pinned owner-mirror names for bands 4/5/6: geod_2ndinv / iso_grav_anom_slope / tc; mirror is not organizer-authenticated.",
+            "Fixed-field legacy quadrant diagnostic is not strict whole-segment hide-and-recover OOF; do not label it HOLDOUT-DTI.",
+            "Only 7 of 472 reported registry rasters were compared; full-registry uniqueness is not established.",
+            "No committed H-G output/run card exists; all prototype outputs remain unverified and research-only.",
         ],
     }
     audit_path = OUT_DIR / f"{SUBMISSION_NAME}.audit.json"
@@ -374,18 +365,23 @@ def main():
         "mechanism": audit["mechanism"],
         "named_non_fault_process": audit["named_non_fault_mimic"],
         "holdout": {
-            "classification": "HOLDOUT-DTI (proxy; fixed field)",
-            "evaluator_version": "evaluate_holdout.dti_weighted_terms alpha=0.2 beta=0.8 R=300m",
-            "withheld_positives": n_withheld,
-            "dti": round(float(pooled_dti), 6),
-            "confidence_interval_95": [round(min(fold_dtis), 6), round(max(fold_dtis), 6)],
-            "note": "Fold-wise range over 4 spatial blocks; not a bootstrap CI.",
+            "classification": "LEGACY FIXED-FIELD DIAGNOSTIC; NOT PROTOCOL-COMPLIANT HOLDOUT-DTI",
+            "evaluator_recorded": "evaluate_holdout.dti_weighted_terms (alpha=0.2, beta=0.8, R=300m)",
+            "withheld_positive_count_recorded": n_withheld,
+            "legacy_diagnostic_value": round(float(pooled_dti), 6),
+            "ci95": None,
+            "foldwise_range_not_ci95": [round(min(fold_dtis), 6), round(max(fold_dtis), 6)],
+            "note": "Fixed field used the full catalogue; four legacy quadrant values do not form a 95% CI.",
         },
         "correlation_and_overlap_vs_registry": {
             "candidate_surface_spearman_max_abs": round(max_rho, 6),
             "candidate_final_dot_overlap_max": round(max_overlap, 6),
-            "duplicate_found": duplicate_found,
+            "duplicate_found_in_local_subset": duplicate_found,
             "n_registry_compared": len(uniqueness_results),
+            "registry_total_reported": 472,
+            "registry_coverage_complete": False,
+            "preplacement_surface_overlap_recorded": None,
+            "unique_gate_cleared": False,
             "threshold": "Spearman <= 0.90 AND dot overlap <= 70%",
         },
         "leakage_canary": canary,
@@ -397,13 +393,13 @@ def main():
         "ok_to_submit": False,
         "slot_authorized": False,
         "experiments_run": 2,
-        "budget": "2 of 3 experiments; under 2 hours",
+        "budget": "Historical count and elapsed time are unreconciled; no current lane authorizes execution",
     }
     card_path = OUT_DIR / f"{SUBMISSION_NAME}.run-card.json"
     with open(card_path, "w") as f:
         json.dump(card, f, indent=2)
     print(f"[H-G] Run card -> {card_path}", flush=True)
-    print(f"[H-G] Verdict: {audit['verdict']} (DTI={pooled_dti:.6f})", flush=True)
+    print(f"[H-G] Verdict: negative (legacy fixed-field diagnostic={pooled_dti:.6f})", flush=True)
     return 0
 
 
