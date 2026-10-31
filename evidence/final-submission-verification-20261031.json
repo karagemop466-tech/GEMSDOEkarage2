@@ -1,0 +1,85 @@
+{
+  "session": "arena/cfc01e92-gemsdoekarage2",
+  "generated_utc": "2026-10-31T00:00:00Z",
+  "evidence_class": "SESSION FINAL VERIFICATION (line-by-line re-check of committed artifacts; not a portal receipt, not organizer-confirmed)",
+  "submission_file": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+  "submission_sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+  "submission_name": "gemsdoe-karage2-halo39-b44090-sep2-20261031",
+  "submission_note": "Off-apron 300-900 m halo of mapped traces; 44,090 min-spaced dots, none on the catalogue. No registry file reused.",
+  "submission_note_length_chars": 114,
+  "note_limit_chars": 140,
+  "checks": {
+    "python_tests": {"passed": 302, "skipped": 10, "command": "python -m pytest -q"},
+    "format_audit": {
+      "tool": "scripts/validate_tif.py",
+      "template": "reference/gemsdoe36/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif (official grid proxy; template authenticity not established by this check)",
+      "strict_format_pass": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "crs": "EPSG:32611",
+      "shape": [3730, 3292],
+      "transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0],
+      "nodata": null,
+      "whole_array_finite_in_range": true,
+      "inside_nan": 0,
+      "inside_inf": 0,
+      "inside_min": 0.0,
+      "inside_max": 1.0,
+      "portal_range_error_status": "all 12,279,160 cells finite and inside [0, 1]; cannot trigger a whole-array [0, 1] rejection; exterior uses finite zeros (owner-scored champion convention)"
+    },
+    "uniqueness": {
+      "registry_rasters_compared": 473,
+      "submission_rasters_compared": 471,
+      "worst_dot_overlap_3px": 0.6547,
+      "overlap_rule_limit": 0.70,
+      "worst_abs_spearman": 0.0557,
+      "rho_rule_limit": 0.90,
+      "dots_on_mapped_catalogue": 0,
+      "min_realised_dot_separation_px": 3.0,
+      "unique_vs_submission_rasters": true,
+      "lattice_probe_note": "the 13GEMSDOE spacing-5 lattice is a space-filling sampling probe (99.87% of footprint within 3 px); reported separately and not counted as a duplicate witness (IR-LATTICE-01)"
+    },
+    "holdout": {
+      "evidence_class": "HOLDOUT-DTI (pooled over 4 spatial quadrant folds, whole components withheld, 3 px feature buffer, alpha 0.2 / beta 0.8 / 300 m triangular kernel)",
+      "pooled_dti_at_released_count": 0.1367,
+      "n_withheld_total": 58259,
+      "lane_curve_max": 0.1452,
+      "note": "local catalogue-based proxy, not a leaderboard score and not organizer-confirmed"
+    },
+    "release_pages": {
+      "tool": "scripts/build_release.py --check",
+      "result": "release pages are current",
+      "landing": "docs/release.html (OK TO SUBMIT: YES · 1 FILE, one-click download at top of page)",
+      "how_to_submit": "docs/release-how-to-submit.html",
+      "executive_summary": "docs/release-gbm-summary.html plus decision table in docs/release.html listing all nine focus sites"
+    },
+    "verdict": {
+      "format_valid": true,
+      "unique_vs_registry": true,
+      "ok_to_download": true,
+      "ok_to_submit": true,
+      "obvious_on_site": true,
+      "leaderboard_estimate": "CALIBRATED-PRIVATE range 0.222–0.605 across per-dot hit rates 2–8% (projection, not a score; central 0.478 at h=4.5%); needs h >= 2.52% to beat the 0.2778 user-reported focus-site best and h >= 4.25% to beat the 0.4544 public rank-1 snapshot observed 2026-10-30"
+    },
+    "limitations": [
+      "No DrivenData session in this sandbox; training_features.tif, labels.tif, sample_submission.tif and the organizer template are login-only and were not downloaded. The official grid/transform were taken from hash-pinned owner mirrors (not organizer-authenticated).",
+      "No ORGANIZER-CONFIRMED score exists for any local file. Every published focus-site score is USER-REPORTED / UNVERIFIED.",
+      "The holdout (catalogue-based hide-and-recover) cannot be transferred as a private score; the estimate is a projection from stated assumptions.",
+      "The literal uniqueness rule cannot exclude the space-filling 13GEMSDOE lattice probe; that probe is reported separately (IR-LATTICE-01).",
+      "One same-day parallel-lane candidate (K10 corridor) has 68.5% of its dots within 3 px of this file under the directional reading; this file is the recommended one because it carries a holdout measurement and score estimate the other lacks.",
+      "Generative-AI use in this work must be disclosed in the competition narrative (official rules).",
+      "Weekly submission cap (3 scored attempts/week) is shown on the DrivenData submission page and is not visible here; slot spending is a separate selector step, not automated."
+    ],
+    "sources_referenced": [
+      "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "https://github.com/drivendataorg/gems-prize-reference-solution",
+      "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "https://gbcge.org/current-projects/ingenious/",
+      "https://gdr.openei.org/submissions/1391",
+      "https://epsg.io/32611",
+      "https://en.wikipedia.org/wiki/Tversky_index"
+    ]
+  }
+}
