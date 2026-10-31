@@ -4,7 +4,11 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-30, current Arena branch)
+## Latest review (2026-10-31, current Arena branch)
+
+**Decision: NO APPROVED SUBMISSION.** Three-pass repository review and full local verification are recorded in [`research/2026-10-31-repository-review.md`](research/2026-10-31-repository-review.md). Python tests passed (257 passed, 8 skipped); Node feed/site/browser suites and all generated-page checks passed. The release assessor remains negative and authorizes no slot. No new experiment, TIFF, holdout score, leaderboard estimate, organizer data fetch, or slot use occurred. The newest saved official leaderboard observation remains dated 2026-10-30 and is not a current 2026-10-31 value. Existing one-click TIFFs remain **RESEARCH ONLY / DO NOT SUBMIT**.
+
+## Previous review (2026-10-30, current Arena branch)
 
 **Decision: NO APPROVED SUBMISSION. Do not submit any existing TIFF.** This review refreshed the official public-page observation and GitHub-only upstream HEAD metadata, updated the fail-closed page generator, and passed the local test/audit suite. It did **not** run a geological experiment, generate a TIFF, estimate a local leaderboard score, upload, or use a competition slot. No method paragraph is assigned; authenticated organizer inputs/template and complete current registry evidence remain unavailable. Review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); run card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
 
