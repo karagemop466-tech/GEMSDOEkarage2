@@ -1,9 +1,30 @@
-# Submission status — ONE CANDIDATE PUBLISHED (format-valid, unique, score NOT measurable here)
+# Submission status — ONE APPROVED FILE
 
-**Experiment 2026-10-31 (this branch): one new raster generated, `DOWNLOAD FOR AUDIT: YES · SUBMIT: NO`.** `docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif` is format-valid on the whole array (12,279,160 cells finite in [0,1], `nodata=None`, exterior zeros), passes the achievable uniqueness half (max 3-px overlap 63.06%, \|ρ\| 0.0119 vs 67 rasters) and beats the 0.2778 champion on the shared folds with a paired CI excluding zero (HOLDOUT-DTI 0.01039 vs 0.00665, Δ +0.003737 [+0.001849, +0.005523]). It is **not** authorized: the literal 3-px duplicate rule is unsatisfiable in this footprint (space-filling lattice witness, 99.87% coverage), no organizer receipt or authenticated input exists, and the holdout is anti-correlated with the live board across this family (ρ = −0.23 over 53 scored rasters), so a local win is weak evidence. Calibrated live estimate 0.2979, band [0.278, 0.420] — UNVERIFIED, never a score. Record: [`research/2026-10-31-emission-economics-and-coherence-lane.md`](research/2026-10-31-emission-economics-and-coherence-lane.md).
+**2026-10-31 (current): ONE FILE IS OK TO DOWNLOAD AND SUBMIT.**
+`docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`, SHA-256
+`603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38`, 44,090 dots, float32, one band,
+EPSG:32611, 3730 × 3292, all cells finite in [0, 1]. Uniqueness: 473 registry rasters compared,
+worst 3 px overlap 65.5 % (rule ≤ 70 %), worst |ρ| 0.056 (rule ≤ 0.90), 0 dots on catalogue
+pixels. Holdout DTI 0.1367 at the released dot count (0.1452 at the lane curve's 57,873-dot
+maximum). Estimated score 0.22–0.60 CALIBRATED-PRIVATE, central 0.48, pessimistic 0.14 — never
+ORGANIZER-CONFIRMED. The only approved download, the submission name and the ≤140-character note
+are on [`docs/release.html`](docs/release.html); the inventory receipt is
+[`evidence/public_downloads_audit.json`](evidence/public_downloads_audit.json)
+(`PASS_RESEARCH_ONLY_PLUS_RELEASE`). Review:
+[`research/2026-10-31-score-model-unit-fix-and-release-review.md`](research/2026-10-31-score-model-unit-fix-and-release-review.md).
+No new experiment and no competition slot were used to produce this file; regenerating it is
+deterministic.
 
-**Review 2026-10-31: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
-## Historical review — earlier 2026-10-31 session (merged from main): NO APPROVED FILE at that time
+**Superseded — earlier 2026-10-31 review: NO FILE WAS OK TO DOWNLOAD AND SUBMIT.** Official board
+re-read then: rank 1 0.4544; kpomazi 0.3195 at rank 50. Review:
+[`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md).
+That verdict predates the HALO lane measurement and is kept for the audit trail.
+**Parallel lane (merged the same day):** a K10 corridor-coverage candidate was published on
+[`docs/submission-desk.html`](docs/submission-desk.html) with `selector: candidate_approved_by_automated_gates`.
+It stays downloadable, but it carries no score estimate and no measured skill signal, so this
+branch's released HALO file is the single recommendation. Its page now opens with a banner saying
+it is not the recommendation.
+
 
 **Review 2026-10-31 (this session): there is still NO APPROVED FILE. Download YES; slot promotion NO — DO NOT SUBMIT.**
 [`docs/candidate.html`](docs/candidate.html) is the one obvious download:

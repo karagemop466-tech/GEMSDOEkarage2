@@ -30,6 +30,40 @@ def pct(x) -> str:
     return "—" if x is None else f"{100 * x:.1f}%"
 
 
+RELEASE_RECEIPT = "evidence/halo/final_generation.json"
+
+
+def release_notice() -> str:
+    """Top-of-page notice when a newer file supersedes this page's candidate.
+
+    The desk page documents the K10 corridor candidate from a parallel lane. Once
+    a release receipt certifies a different file, this page must not present
+    itself as the primary recommendation, so the notice is derived from the
+    receipt rather than written by hand.
+    """
+    try:
+        rel = load(RELEASE_RECEIPT)
+    except (FileNotFoundError, ValueError):
+        return ""
+    if not rel.get("verdict", {}).get("ok_to_submit"):
+        return ""
+    name = Path(rel["submission_file"]).name
+    cand = ""
+    try:
+        cand = Path(load("evidence/k10/run_card.json")["raster"]).name
+    except (FileNotFoundError, ValueError, KeyError):
+        pass
+    if not cand or cand == name:
+        return ""
+    return (f'<section class="section" style="border-left:4px solid #1d6850">'
+            f'<p class="lead"><strong>This page is not the recommendation.</strong> '
+            f'The file this repository recommends is <code>{esc(name)}</code> on the '
+            f'<a href="release.html"><b>release decision page</b></a>. The K10 corridor '
+            f'candidate below stays published as an alternative: it is format-valid and '
+            f'registry-clean but carries no score estimate and no measured skill signal, '
+            f'and the release supersedes it for the single submission slot.</p></section>')
+
+
 def main() -> int:
     card = load("evidence/k10/run_card.json")
     selector = load("evidence/k10/selector_result.json")
@@ -90,8 +124,9 @@ def main() -> int:
 <nav aria-label="Main navigation"><a href="index.html">Desk</a><a href="executive-summary.html">Executive summary</a><a href="submission-desk.html" aria-current="page">Submission desk</a><a href="how-to-submit.html">How to submit</a><a href="audit.html">Nine-site audit</a></nav>
 <a class="repo" href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></header>
 <main id="main">
+{release_notice()}
 <section class="hero"><div>
-<span class="kicker"><span class="status-dot"></span>CURRENT COMPETITION CANDIDATE · GENERATED {esc(gen_utc)}</span>
+<span class="kicker"><span class="status-dot"></span>ALTERNATIVE CANDIDATE · GENERATED {esc(gen_utc)}</span>
 <h1>Download and submit the current candidate</h1>
 <p class="lead">One validated, machine-checked candidate GeoTIFF. Every claim on this page is a
 link to a committed evidence receipt. No leaderboard score is claimed anywhere — competition truth

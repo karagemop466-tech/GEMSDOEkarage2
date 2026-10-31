@@ -1,0 +1,157 @@
+{
+  "schema": "gems.release_overlap_vs_published.v1",
+  "evidence_class": "SAVED-BYTE MEASUREMENT over every raster in docs/downloads at the time of writing; not the organizer's complete submission registry",
+  "generated_by": "scripts/audit_release_vs_newest.py",
+  "release": {
+    "file": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+    "sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+    "dots": 44090
+  },
+  "rule": {
+    "direction": "candidate dots within 3 px of the other raster",
+    "threshold": 0.7,
+    "note": "The reverse percentage is context only. A candidate that is itself a duplicate is not excused because the other file is also similar."
+  },
+  "rasters_compared": 18,
+  "rasters_with_2000_plus_dots": 17,
+  "worst_directed_overlap": {
+    "file": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif",
+    "fraction": 0.6849398956679519,
+    "passes_rule": true,
+    "margin_pp": 1.5060104332048074
+  },
+  "worst_reverse_overlap": {
+    "file": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif",
+    "fraction": 0.8132631578947368,
+    "other_fails_own_direction": true
+  },
+  "rows": [
+    {
+      "file": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif",
+      "their_dots": 38000,
+      "mine_within_3px_of_theirs": 0.6849398956679519,
+      "theirs_within_3px_of_mine": 0.8132631578947368,
+      "sha256": "6045978441319d450fca260af432d1f1915ee9d692178c619d4c6b708451cd27"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
+      "their_dots": 1893817,
+      "mine_within_3px_of_theirs": 0.5206396008165117,
+      "theirs_within_3px_of_mine": 0.19522583227418489,
+      "sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+      "their_dots": 54491,
+      "mine_within_3px_of_theirs": 0.5177364481741892,
+      "theirs_within_3px_of_mine": 0.5759850250500083,
+      "sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+      "their_dots": 45108,
+      "mine_within_3px_of_theirs": 0.4733046042186437,
+      "theirs_within_3px_of_mine": 0.5471313292542342,
+      "sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+      "their_dots": 51914,
+      "mine_within_3px_of_theirs": 0.36609208437287366,
+      "theirs_within_3px_of_mine": 0.6149208306044612,
+      "sha256": "d011e9e12ef3eb506c61bf81c88aa5c24a45532733bea4a9a2100d9df90dfc61"
+    },
+    {
+      "file": "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif",
+      "their_dots": 36000,
+      "mine_within_3px_of_theirs": 0.1483556361986845,
+      "theirs_within_3px_of_mine": 0.20208333333333334,
+      "sha256": "a77a78e8cc9cd0ca4a795c6c4c346d3cd1d29bac96afa333b5c0413ba32ec39b"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif",
+      "their_dots": 51914,
+      "mine_within_3px_of_theirs": 0.14776593331821275,
+      "theirs_within_3px_of_mine": 0.21319875178179296,
+      "sha256": "2f5536922ef26457720de4a7a2087dcbc1e1cd67435e85f8f39b4df0221004a7"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif",
+      "their_dots": 37654,
+      "mine_within_3px_of_theirs": 0.12553867090043094,
+      "theirs_within_3px_of_mine": 0.2145057629999469,
+      "sha256": "5e7255d7abb4902ab95acbe7c13e4322ab5956606bc199501c3649c6dd4dc420"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros.tif",
+      "their_dots": 38000,
+      "mine_within_3px_of_theirs": 0.10326604672261283,
+      "theirs_within_3px_of_mine": 0.22186842105263158,
+      "sha256": "82f54249afc6224bec2073d397581c48b8ac13125189b96f4ca39aa2a71247a3"
+    },
+    {
+      "file": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+      "their_dots": 18000,
+      "mine_within_3px_of_theirs": 0.037967793150374234,
+      "theirs_within_3px_of_mine": 0.5925555555555555,
+      "sha256": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
+      "their_dots": 37654,
+      "mine_within_3px_of_theirs": 0.028509866182807892,
+      "theirs_within_3px_of_mine": 0.2836086471556807,
+      "sha256": "313d207480fc7c8ac81d3cdf60fe5012d4c1ef778bb2600b7ac469ee104fc4f1"
+    },
+    {
+      "file": "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif",
+      "their_dots": 12195,
+      "mine_within_3px_of_theirs": 0.022816965298253573,
+      "theirs_within_3px_of_mine": 0.08626486264862648,
+      "sha256": "28451a64b659b4e206bb483140fac169987db2edea7dc6a2cdc54f1c0f5fbfff"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-hc-strain-seis-corridor-30k-20261031.tif",
+      "their_dots": 28107,
+      "mine_within_3px_of_theirs": 0.015128146972102517,
+      "theirs_within_3px_of_mine": 0.18575443839612907,
+      "sha256": "f30a095e4137abb1ea79e25e4920bd49d9bf991eed61ddf6a74281ed6ca09331"
+    },
+    {
+      "file": "docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif",
+      "their_dots": 18000,
+      "mine_within_3px_of_theirs": 0.01292810161034248,
+      "theirs_within_3px_of_mine": 0.1575,
+      "sha256": "cf70780c4f11209e15cbb448f0f2da36b3818ff98fddca504997efee9c3276b0"
+    },
+    {
+      "file": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+      "their_dots": 5761,
+      "mine_within_3px_of_theirs": 0.008958947607167159,
+      "theirs_within_3px_of_mine": 0.09130359312619336,
+      "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932"
+    },
+    {
+      "file": "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif",
+      "their_dots": 4525,
+      "mine_within_3px_of_theirs": 0.005647539124518031,
+      "theirs_within_3px_of_mine": 0.14519337016574585,
+      "sha256": "855b94aabbf36cbbc5423e953509ae095a89baf037f55cddbb04ea6a98de73a5"
+    },
+    {
+      "file": "docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041.tif",
+      "their_dots": 495,
+      "mine_within_3px_of_theirs": 0.001519618961215695,
+      "theirs_within_3px_of_mine": 0.2545454545454545,
+      "sha256": "afe07d0cde063ec4ad9f906bef206286dffa5a374761d64fa2b4811ca41fe3e8"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+      "their_dots": 2524,
+      "mine_within_3px_of_theirs": 0.00036289408029031525,
+      "theirs_within_3px_of_mine": 0.09429477020602219,
+      "sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e"
+    }
+  ],
+  "verdict": "PASS"
+}

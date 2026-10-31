@@ -1,8 +1,8 @@
 {
   "schema": "gems.published_downloads.v3",
   "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-  "inventory_status": "PASS_WITH_CANDIDATE",
-  "verdict": "candidate-published",
+  "inventory_status": "PASS_RESEARCH_ONLY_PLUS_RELEASE",
+  "verdict": "release-published",
   "unexpected_downloads": [],
   "missing_downloads": [],
   "quarantined_downloads": [
@@ -753,14 +753,68 @@
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
+    },
+    {
+      "file": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+      "raster_sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+      "run_card": "evidence/halo/final_generation.json",
+      "kind": "release",
+      "selector": null,
+      "zip_file": null,
+      "checks": {
+        "tif_exists": true,
+        "card_sha_matches_saved_bytes": true,
+        "card_verdict_release": true,
+        "card_slot_not_authorized": true,
+        "card_note_within_140_chars": true,
+        "card_names_this_file": true,
+        "single_file": true,
+        "grid_matches_template": true,
+        "all_values_finite": true,
+        "values_in_unit_range": true,
+        "has_positive_cells": true,
+        "uniqueness_inside_literal_thresholds": true,
+        "holdout_and_projection_present": true
+      },
+      "diagnostics": {
+        "worst_dot_overlap": 0.6546609208437287,
+        "worst_spearman": 0.05566645743662113,
+        "submission_rasters_compared": 471,
+        "estimated_score_range": [
+          0.2219,
+          0.275,
+          0.3168,
+          0.3784,
+          0.4782,
+          0.5995,
+          0.6046
+        ],
+        "evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION (never ORGANIZER-CONFIRMED)"
+      },
+      "status": "VERIFIED_RELEASE_CANDIDATE",
+      "download_for_research": true,
+      "ok_to_submit": true,
+      "slot_authorized": false,
+      "template_authority": "pinned owner-mirror grid; the receipt records portal acceptance as unverified",
+      "exterior_convention": "zeros outside the footprint (all cells finite); no NaN can be out of range"
     }
   ],
-  "downloadable_approved_submission": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif",
+  "downloadable_approved_submission": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+  "release_evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION; not ORGANIZER-CONFIRMED",
+  "candidate_superseded_by_release": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
   "candidate_caveats": [
-    "No leaderboard score estimate exists; competition truth and submission receipts are unavailable.",
+    "No leaderboard score estimate exists for the candidate; competition truth and submission receipts are unavailable.",
     "Slot authorization stays False: promotion to a weekly submission is the owner's separate action."
   ],
-  "score_estimate": null,
+  "score_estimate": [
+    0.2219,
+    0.275,
+    0.3168,
+    0.3784,
+    0.4782,
+    0.5995,
+    0.6046
+  ],
   "organizer_template_authenticated": false,
   "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
   "slot_authorized": false
