@@ -52,6 +52,10 @@ ARTIFACTS = (
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
+    # H-C strain-seismic corridor (experiment E1, 2026-10-31): format-valid, uniqueness FAIL vs the
+    # saturated 13GEMSDOE lattice (chance coverage 99.87%), holdout negative. DO NOT SUBMIT.
+    ("gemsdoekarage2-hc-strain-seis-corridor-30k-20261031",
+     "evidence/hc/e1_run_card.json", None, False, "research-nan-exterior"),
     # Experiment V3 (2026-10-31): unique conductivity x depth-to-basement x
     # magnetic-edge blind-conduit dots. Unique (0.0% vs lattice), format-valid,
     # but holdout-DTI 0.0000 => negative, not approved for submission.
@@ -78,9 +82,7 @@ ARTIFACTS = (
 # their presence visible instead of silently ignoring it. The protocol owner must
 # decide: register, regenerate, or delete.
 QUARANTINED = {
-    "gemsdoe-karage2-near-trace-20261031.tif":
-        "present but unregistered; its run card says verdict 'promote' and ok_to_submit false, "
-        "and docs/how-to-submit.html (hand-edited in a parallel lane) records a lattice-overlap block",
+    # gemsdoe-karage2-near-trace-20261031.tif was moved to evidence/quarantine/ on 2026-10-31 (see that README).
     "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif":
         "present but unregistered; run card is negative, but its card has no 'raster' field so the "
         "saved-byte binding cannot be checked here",
@@ -176,9 +178,35 @@ def inspect_zip(path: Path, tif: Path, expected_sha256: str) -> bool:
         return h.hexdigest() == expected_sha256
 
 
+def inspect_nan_exterior(path: Path, footprint_sha256: str, footprint_pixels: int) -> dict:
+    """Exterior-aware check for NaN-outside rasters (official convention; organizer sample uses NaN).
+
+    The finite mask of the saved bytes must equal the footprint hash recorded in the run card,
+    inside values must be in [0, 1], and there must be no infinities. This replaces the
+    finite-everywhere rule only for this kind; it does not authorize anything.
+    """
+    with rasterio.open(path) as ds:
+        require_single_file_dataset(ds, path)
+        a = ds.read(1)
+    finite = np.isfinite(a)
+    inf = int(np.isinf(a).sum())
+    mask_sha = hashlib.sha256(np.packbits(finite).tobytes()).hexdigest()
+    inside = a[finite]
+    in_range = bool(inside.size) and float(inside.min()) >= 0.0 and float(inside.max()) <= 1.0
+    matches = mask_sha == footprint_sha256 and int(finite.sum()) == int(footprint_pixels)
+    return {
+        "nan_exterior_matches_card_footprint": bool(matches),
+        # For this kind the flag means: finite inside the card's footprint, NaN outside, no infinities.
+        "whole_array_finite": bool(matches and inf == 0),
+        "range_0_1": bool(matches and inf == 0 and in_range),
+        "diagnostics_nan_exterior": {"finite_pixels": int(finite.sum()), "infinite_pixels": inf,
+                                    "finite_mask_sha256": mask_sha},
+    }
+
+
 def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | None,
                    has_zip: bool, grid: dict, kind: str = "research") -> dict:
-    if kind not in ("research", "candidate"):
+    if kind not in ("research", "candidate", "research-nan-exterior"):
         raise ValueError(f"Unknown artifact kind: {kind}")
     rel = f"docs/downloads/{stem}.tif"
     candidate = kind == "candidate"
@@ -191,6 +219,13 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             actual_sha = digest_file(tif)
             detail = inspect_raster(tif, grid)
             checks.update(detail["checks"])
+            if kind == "research-nan-exterior":
+                fp_card = json.loads((root / card_rel).read_text()).get("footprint", {})
+                nan_checks = inspect_nan_exterior(tif, fp_card.get("finite_mask_sha256", ""),
+                                                  fp_card.get("pixels", -1))
+                diag = nan_checks.pop("diagnostics_nan_exterior")
+                checks.update(nan_checks)
+                detail.setdefault("diagnostics", {}).update(diag)
             checks["raster_unchanged_during_read"] = digest_file(tif) == actual_sha
         except (OSError, ValueError, RasterioError) as exc:
             checks["tif_readable"] = False
@@ -288,6 +323,8 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         "ok_to_submit": False, "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
         "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+        "exterior_check": ("NaN exterior checked only against the run card's footprint hash; not organizer-authenticated"
+                            if kind == "research-nan-exterior" else None),
     }
 
 

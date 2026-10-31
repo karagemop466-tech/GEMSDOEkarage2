@@ -1,0 +1,53 @@
+{
+  "schema": "gems.gems32_b2_verification.v1",
+  "date": "2026-10-31",
+  "labels": {
+    "measured_from_bytes": true,
+    "user_reported_leaderboard": {
+      "GEMSDOE28_base": 0.2708,
+      "GEMSDOE32_B2": 0.2778,
+      "delta": 0.007
+    },
+    "illustrative_only": "\u0394D estimate is a first-order model, not a score or projection of a score"
+  },
+  "inputs_sha256": {
+    "base_nan_tif_repo_cache": "ab02300152248fdda04e988e2cd2a0c13f35eec42fcf670a15e8b76b19e24a73",
+    "b2_zeros_tif": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+    "labels_tif": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+  },
+  "measured": {
+    "base_dots": 40199,
+    "b2_dots": 37654,
+    "dots_removed": 2545,
+    "base_dots_within_200m_of_catalogue": 2545,
+    "base_min_distance_m": 141.4213562373095,
+    "b2_min_distance_m": 223.60679774997897,
+    "b2_fraction_within_3px_of_base": 1.0,
+    "catalogue_positives": 60988
+  },
+  "illustrative": {
+    "formula": "delta_D ~ T * alpha * delta_F / Den^2",
+    "T": 5073.2875555555665,
+    "Den": 18734.444444444485,
+    "alpha": 0.2,
+    "delta_F": 2545.0,
+    "delta_D": 0.007357,
+    "inputs_source": "evidence/gems32-h33-source-excerpts.json:live_anchor_inversion (owner repo, labelled not measured)"
+  },
+  "checks": {
+    "b2_sha_matches_owner_audit": true,
+    "catalogue_sha_starts_7ba308cc": true,
+    "base_dots_40199": true,
+    "b2_dots_37654": true,
+    "catalogue_positives_60988": true,
+    "b2_is_subset_of_base": true,
+    "dots_inside_footprint": true,
+    "base_within_200m_is_2545": true,
+    "removed_equals_base_within_200m": true,
+    "b2_has_no_dot_within_200m": true,
+    "b2_min_distance_is_223_6m": true,
+    "b2_within_3px_of_base_ge_0_99": true,
+    "illustrative_delta_near_0_00736": true
+  },
+  "all_checks_pass": true
+}
