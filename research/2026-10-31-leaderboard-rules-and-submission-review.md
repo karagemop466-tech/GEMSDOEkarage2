@@ -2,7 +2,7 @@
 
 **Decision: NO TIFF IS OK TO DOWNLOAD AND SUBMIT.** No new TIFF was generated in this session. No experiment, slot, upload, or score estimate was produced. This is a deliberate outcome, not a skipped step. The reasons are in section 4.
 
-Machine-readable receipt: [`evidence/official-review-2026-10-31.json`](../evidence/official-review-2026-10-31.json).
+Machine-readable receipt: [`evidence/leaderboard-rules-receipt-2026-10-31.json`](../evidence/leaderboard-rules-receipt-2026-10-31.json).
 Executive summary (decision table): [GitHub Pages](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html).
 
 Labels used below: **ORGANIZER-PUBLISHED** (public leaderboard or problem page), **OFFICIAL RULE** (NLR rules PDF), **OWNER-REPORT** (a team's own claim), **USER-REPORTED** (supplied in the request), **PROTOCOL** (this repository's internal gate), **INFERENCE** (my reasoning, not verified).
@@ -138,3 +138,17 @@ Also run and passing after the feed update: `npm run test:browser` (desktop and 
 - Its hand-written HTML sections in `docs/executive-summary.html` and `docs/how-to-submit.html` called the file a "UNIQUE submission," said it "cannot trigger the portal error," and labelled the download a "submission TIF." Those claims are contradicted by its own run card and by the repo's release-language tests. In this branch I corrected the wording to research-only, 12-raster scope, failing strict format, and no portal claim. The download and its evidence were not changed.
 - **Not merged.** `main` is red at its head (`Evidence checks` and `Publish research desk` failing). In this branch the remaining red tests are: (a) `build_hk3_pages.py --check` fails because the H-B sections are hand edits that the generator overwrites; (b) the public-download inventory does not list the H-B TIFF; (c) the legacy-stop policy test requires every primary download link to be the HK3 research file. Resolving (c) is a **policy decision** (which file is the primary research download), not a formatting fix, so it was not made here.
 - **Decision for the owner:** either (1) move the H-B sections into the generator and register the H-B TIFF in the inventory, with the primary-download policy updated; or (2) remove the H-B download from the primary pages until the strict format check passes. Until one is chosen, PR #93 stays open.
+
+## 10. Status of main at the final merge attempt (2026-10-31, after main moved to 401a918)
+
+Main is **red** and this PR is **not merged**. Measured on this branch and on `origin/main` with the same venv and node_modules: `pytest` 19 failed / 238 passed / 8 skipped (identical on both, so this PR adds no failures); `test:site` 7 failed (identical on both).
+
+Concrete irregularities found on main, for owner review:
+
+1. **Near-trace TIF (`docs/downloads/gemsdoe-karage2-near-trace-20261031.tif`).** Its run card says `verdict: promote`, but `ok_to_submit: false`, `duplicate_found: true` (max 3-px dot overlap **0.9984**), and `lattice_blocker` set. A `promote` verdict contradicts the card's own duplicate result and the protocol's >70% stop, so it must not be read as promotion.
+2. **Its HOLDOUT-DTI of 0.6242 (CI [0.6227, 0.6273]) is labelled "upper-bound proxy; fixed field."** A fixed field that was not refit per fold is not a fold-local estimate. A value this high on a catalogue holdout is a leakage warning under protocol item 4 (canary AUC > 0.90 means leakage until proven otherwise). Treat it as invalid until the features are rebuilt from visible faults only and the canaries are rerun. Do not present it as a score.
+3. **The `main` homepage headlines that 0.6242 figure** next to "New unique submission · downloadable" and "OK to download and submit? NO". The page's own text says "not cleared," but the headline number and the word "downloadable" are the risk, and the site test that requires "DO NOT SUBMIT" on every desk page fails for that reason.
+4. Its strict format check passes (`outside_is_nan: true`), so it is the first file on main that meets the official NaN-outside rule. That does not make it eligible: items 1–2 block it.
+5. H-B (the earlier TIF, §9) is still on main with its overclaims corrected on this branch only; main's pages were rewritten by later sessions.
+
+**Owner decision needed before any merge:** (a) withdraw or re-label the near-trace homepage headline and its `promote` verdict; (b) rerun its holdout fold-locally with visible-only features; (c) decide the lattice policy (§4, §9). Until then, PR #93 stays open.

@@ -1,23 +1,23 @@
 {
   "generated_utc": "2026-10-30T01:58:58Z",
-  "note": "GitHub metadata only; leaderboard is a dated manual public-page observation (2026-10-31) and is not refreshed automatically. Freshness is not a scientific, format or submission-approval gate.",
+  "note": "GitHub metadata only; leaderboard is a dated manual public-page observation and is not refreshed automatically. Freshness is not a scientific, format or submission-approval gate.",
   "leaderboard": {
     "status": "snapshot",
     "score_text": "0.4544",
     "rank": 1,
     "participant": "xiaofanhu",
-    "checked_utc": "2026-10-31T00:39:00Z",
-    "observation_precision": "APPROXIMATE session-start UTC; the public leaderboard does not expose a snapshot-generation timestamp and the page reader records no fetch time.",
-    "access_method": "Arena public page reader; all three leaderboard chunks read 2026-10-31 (ranks 1-50 rendered).",
+    "checked_utc": "2026-10-30T01:57:20Z",
+    "observation_precision": "Session-side UTC read time; the public leaderboard itself does not expose a snapshot-generation timestamp.",
+    "access_method": "Arena public page reader; all three leaderboard chunks read 2026-10-30.",
     "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
     "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a file-linked submission-page receipt",
     "user_cited_0_3195": {
-      "rank": 50,
+      "rank": 48,
       "participant": "kpomazi",
       "score_text": "0.3195"
     },
-    "limitations": "Public rows only; not a private-round result, HOLDOUT-DTI result, submission-page receipt, or score for any local raster. The 0.3195 is rank 50 of the rows rendered, not the high.",
-    "evidence_file": "evidence/official-review-2026-10-31.json"
+    "limitations": "Public rows only; not a private-round result, HOLDOUT-DTI result, submission-page receipt, or score for any local raster.",
+    "evidence_file": "evidence/official-review-2026-10-30.json"
   },
   "sites": [
     {
