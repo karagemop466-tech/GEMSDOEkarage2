@@ -8,6 +8,17 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest review (2026-10-31, current Arena branch) — read first
+
+**Decision: still NO TIFF is OK to download and submit. No new TIFF was generated.** Review: [`research/2026-10-31-leaderboard-rules-and-submission-review.md`](research/2026-10-31-leaderboard-rules-and-submission-review.md); receipt: [`evidence/leaderboard-rules-receipt-2026-10-31.json`](evidence/leaderboard-rules-receipt-2026-10-31.json).
+
+- **Leaderboard correction (live, 2026-10-31):** rank 1 is xiaofanhu at **0.4544**. kpomazi's **0.3195 is rank 50** of the 50 rows rendered, not the high and not rank 48. The user-cited 0.4413 is not among the rows read. The GEMSDOE32 0.2778 is an owner report and is below the rendered cutoff.
+- **Official rules, verified from the NLR PDF:** the rules contain **no numeric uniqueness test**; the 70%-within-3-px gate is this project's internal protocol. Rules require: one final submission; three submissions per week; original work (A.5); and disclosure of generative-AI use in the narrative (§3.2).
+- **Official problem page, verified:** values in [0, 1]; float32; EPSG:32611; 100 m; "data outside the bounds is null or nan."
+- **Blockers:** DrivenData data tab requires login (the sandbox cannot reach DrivenData); the uniqueness standard needs an owner decision; the portal range error still lacks a submission-page receipt.
+
+## Previous review (2026-10-30, Arena branch)
+
 ## Latest review (2026-10-31, current Arena branch)
 
 **Decision: NEGATIVE. No TIFF is OK to download and submit.** The official board was re-read today (2026-10-31 UTC): rank 1 is xiaofanhu at **0.4544**, so 0.3195 is not the high. kpomazi's 0.3195 is at rank **50** today (the 2026-10-30 record said 48). The brief's 0.4413 is not on the board. The data tab still redirects to login, and the portal range error remains unexplained. Full official recheck: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md); records: [`evidence/leaderboard-recheck-2026-10-31.json`](evidence/leaderboard-recheck-2026-10-31.json), [`evidence/session-2026-10-31-recheck-run-card.json`](evidence/session-2026-10-31-recheck-run-card.json).
