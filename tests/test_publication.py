@@ -28,22 +28,22 @@ def test_published_audit_is_scoped_and_not_authorized():
 def test_renderer_selects_newest_date_matched_official_observation():
     from scripts.build_hk3_pages import latest_official_observation
     observation, filename = latest_official_observation()
-    assert filename == 'official-review-2026-10-30.json'
-    assert observation['observed_date_utc'] == '2026-10-30'
+    assert filename == 'official-review-2026-10-31.json'
+    assert observation['observed_date_utc'] == '2026-10-31'
 
 
 def test_current_leaderboard_snapshot_matches_monitor_but_is_not_a_local_score():
-    review = json.loads((ROOT/'evidence/official-review-2026-10-30.json').read_text())
+    review = json.loads((ROOT/'evidence/official-review-2026-10-31.json').read_text())
     historical = json.loads((ROOT/'evidence/official-review-2026-10-29.json').read_text())
     monitor = json.loads((ROOT/'docs/data/monitor.json').read_text())
     board = next(s for s in review['sources'] if s['url'].endswith('/leaderboard/'))
     first = board['first_place']
     cited = board['user_cited_0_3195']
-    assert review['observed_date_utc'] == '2026-10-30'
+    assert review['observed_date_utc'] == '2026-10-31'
     assert first == {'rank': 1, 'participant': 'xiaofanhu', 'value': 0.4544}
-    assert cited == {'rank': 48, 'participant': 'kpomazi', 'value': 0.3195}
-    assert board['rank_47'] == {'rank': 47, 'participant': 'like60986', 'value': 0.3217}
-    assert board['rank_50'] == {'rank': 50, 'participant': 'twang', 'value': 0.3169}
+    assert cited == {'rank': 50, 'participant': 'kpomazi', 'value': 0.3195}
+    assert board['rank_49'] == {'rank': 49, 'participant': 'like60986', 'value': 0.3217}
+    assert board['rank_50'] == {'rank': 50, 'participant': 'kpomazi', 'value': 0.3195}
     assert historical['observed_date_utc'] == '2026-10-29'
     assert next(s for s in historical['sources'] if s['url'].endswith('/leaderboard/'))['user_cited_0_3195']['rank'] == 47
     assert 'not a file-linked submission-page receipt' in board['observation_type']
@@ -56,9 +56,9 @@ def test_current_leaderboard_snapshot_matches_monitor_but_is_not_a_local_score()
     assert monitor['note'].startswith('GitHub metadata only; leaderboard is a dated manual public-page observation')
     assert len(monitor['sites']) == 9
     homepage = (ROOT/'docs/index.html').read_text()
-    assert '0.4544' in homepage and 'rank 48' in homepage
-    assert '2026-10-30' in homepage
-    assert 'evidence/official-review-2026-10-30.json' in homepage
+    assert '0.4544' in homepage and 'rank 50' in homepage
+    assert '2026-10-31' in homepage
+    assert 'evidence/official-review-2026-10-31.json' in homepage
     assert 'GITHUB METADATA ONLY' in homepage
     assert 'No latest-head raster/score audit is claimed' in homepage
     assert 'Three-pass review' in homepage

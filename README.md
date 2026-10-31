@@ -4,7 +4,16 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-30, current Arena branch)
+## Latest review (2026-10-31, current Arena branch) — read first
+
+**Decision: still NO TIFF is OK to download and submit. No new TIFF was generated.** Review: [`research/2026-10-31-leaderboard-rules-and-submission-review.md`](research/2026-10-31-leaderboard-rules-and-submission-review.md); receipt: [`evidence/official-review-2026-10-31.json`](evidence/official-review-2026-10-31.json).
+
+- **Leaderboard correction (live, 2026-10-31):** rank 1 is xiaofanhu at **0.4544**. kpomazi's **0.3195 is rank 50** of the 50 rows rendered, not the high and not rank 48. The user-cited 0.4413 is not among the rows read. The GEMSDOE32 0.2778 is an owner report and is below the rendered cutoff.
+- **Official rules, verified from the NLR PDF:** the rules contain **no numeric uniqueness test**; the 70%-within-3-px gate is this project's internal protocol. Rules require: one final submission; three submissions per week; original work (A.5); and disclosure of generative-AI use in the narrative (§3.2).
+- **Official problem page, verified:** values in [0, 1]; float32; EPSG:32611; 100 m; "data outside the bounds is null or nan."
+- **Blockers:** DrivenData data tab requires login (the sandbox cannot reach DrivenData); the uniqueness standard needs an owner decision; the portal range error still lacks a submission-page receipt.
+
+## Previous review (2026-10-30, Arena branch)
 
 **Decision: NO APPROVED SUBMISSION. Do not submit any existing TIFF.** This review refreshed the official public-page observation and GitHub-only upstream HEAD metadata, updated the fail-closed page generator, and passed the local test/audit suite. It did **not** run a geological experiment, generate a TIFF, estimate a local leaderboard score, upload, or use a competition slot. No method paragraph is assigned; authenticated organizer inputs/template and complete current registry evidence remain unavailable. Review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); run card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
 
