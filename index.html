@@ -3,19 +3,72 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=docs/release.html">
-  <title>GEMSDOEkarage2 · submission desk</title>
+  <meta name="description" content="GEMS submission desk: release status, unique-file audits, and score evidence.">
+  <title>GEMSDOEkarage2 · submission status</title>
+  <link rel="stylesheet" href="docs/assets/release.css">
+  <style>
+    .table-wrap { max-width: 100%; overflow-x: auto; }
+    table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+    th, td { overflow-wrap: anywhere; vertical-align: top; }
+  </style>
 </head>
 <body>
-  <main>
-    <h1>GEMSDOEkarage2 submission desk</h1>
-    <p><strong>Current release: one file is CLEARED TO SUBMIT.</strong> All earlier artifacts remain
-       research-only.</p>
-    <p><a href="docs/release.html">Open the release desk (download + executive summary)</a> ·
-       <a href="docs/release-summary.html">Executive summary</a> ·
-       <a href="docs/release-how-to-submit.html">How to submit</a> ·
-       <a href="docs/executive-summary.html">Historical executive summary (negative artifacts)</a> ·
-       <a href="docs/index.html">Historical desk (negative artifacts)</a></p>
+  <header class="hdr">
+    <div class="inner">
+      <h1>GEMSDOEkarage2 <span class="badge no">NO SINGLE SUBMISSION SELECTED</span></h1>
+      <div class="sub">DOE GEMS Prize · evidence-first submission desk</div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="status-heading">
+      <h2 id="status-heading">Release status: selector conflict — stop before using a weekly slot</h2>
+      <p><strong>There is no consistent project-wide submission recommendation in this checkout.</strong>
+        Different committed pages currently advertise two different candidate GeoTIFFs, while the
+        root release assessor returns <code>negative</code> and <code>slot_authorized: false</code>.
+        The competition owner, not this site, controls whether a weekly submission slot is used.</p>
+      <p class="warn"><strong>Do not treat an “OK TO SUBMIT” badge on either candidate page as slot authorization.</strong>
+        Both files can be downloaded for review; the selector and release evidence must first be reconciled.
+        No upload is performed by this project.</p>
+    </section>
+
+    <section class="sec" aria-labelledby="candidate-heading">
+      <h2 id="candidate-heading">Conflicting candidate pages</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Candidate</th><th>File / hash</th><th>Recorded state</th><th>Review</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>HALO · 44,090 dots</strong></td>
+              <td><code>gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</code><br>
+                <small>SHA-256 <code>603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38</code></small></td>
+              <td>Inventory names this the downloadable release. Score range on its page is a private model projection, not an organizer result. No slot authorization is recorded.</td>
+              <td><a class="btn" href="docs/release.html">Open HALO candidate dossier</a></td>
+            </tr>
+            <tr>
+              <td><strong>GBM off-catalogue · 100,000 dots</strong></td>
+              <td><code>gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif</code><br>
+                <small>SHA-256 <code>18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e</code></small></td>
+              <td>Lane card says promote, but explicitly records <code>weekly_slot_used: false</code>; its score figures are model projections, not organizer results.</td>
+              <td><a class="btn" href="docs/release-summary.html">Open GBM candidate dossier</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>These are distinct files and methods. This landing page intentionally does not select between them.
+        The latest review documents the contradictory evidence and required resolution.</p>
+      <p><a class="btn secondary" href="research/2026-10-31-repository-review-followup.md">Read the repository review</a>
+        <a class="btn secondary" href="README.md#project-prompt-consolidated">Read the consolidated project prompt</a>
+        <a class="btn secondary" href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">Official public leaderboard ↗</a></p>
+      <p><a href="docs/executive-summary.html">Historical executive summary and nine-site table</a> ·
+        <a href="docs/index.html">Historical research desk</a></p>
+    </section>
+
+    <footer class="foot">
+      <p><strong>Evidence labels matter.</strong> USER-REPORTED / UNVERIFIED is not an organizer receipt;
+        HOLDOUT-DTI is a catalogue proxy; MODEL-PROJECTION is not a score; only a submission-page receipt
+        can establish ORGANIZER-CONFIRMED results.</p>
+      <p>Maximize P(Win). Own the Outcome. No slot is spent automatically.</p>
+    </footer>
   </main>
 </body>
 </html>

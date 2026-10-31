@@ -1,5 +1,11 @@
 # GEMSDOEkarage2
 
+## Repository review alert — 2026-10-31 (read before release work)
+
+The consolidated project prompt below is the standing brief and must be read before changing research or submission workflows. The latest review found **conflicting release pages**: the root release route points to HALO, the separate release summary/how-to pages point to GBM, the inventory names HALO as downloadable, and the generic release assessor returns `negative` with `slot_authorized: false`. These distinctions are not a selector decision. The root landing page now fails closed and shows both candidate dossiers, but **no project-wide file is selected and no weekly slot is authorized**. Do not use either page badge as slot approval. Full three-pass review: [`research/2026-10-31-repository-review-followup.md`](research/2026-10-31-repository-review-followup.md); machine card: [`evidence/repository-review-followup-2026-10-31.json`](evidence/repository-review-followup-2026-10-31.json).
+
+The official public leaderboard was re-read at 2026-10-31 04:33:42 UTC: #1 was 0.4544; 0.3195 was #50. It is a time-stamped public snapshot, not a local-file result or private-round receipt: [`evidence/leaderboard-live-read-2026-10-31T0433Z.json`](evidence/leaderboard-live-read-2026-10-31T0433Z.json).
+
 ## Parallel lane 2026-10-31 — independent structural-habitat raster (arena/788c0b40)
 
 **One new raster, generated from the 19-band GeoDAWN stack alone — no published raster is an input.**
@@ -242,13 +248,16 @@ for research, but are not authenticated organizer inputs. The mirror sample cont
 positive cells even though the official description says it predicts total absence;
 its provenance/footprint and exterior handling therefore remain unresolved.
 
-## Leaderboard status (public observation, 2026-10-30)
+## Leaderboard status (dated public observations; values move)
 
-The public organizer page showed **0.4544** for xiaofanhu at rank 1. The user-cited
-**0.3195** appeared for kpomazi at rank 48 (rank 47 was like60986 at 0.3217) in the
-same snapshot; it was not the leaderboard high. These are **ORGANIZER-PUBLISHED
-PUBLIC LEADERBOARD SNAPSHOT** values, not file-linked submission-page receipts,
-private-round scores, or scores for any local raster. The 2026-10-29 snapshot placing
+The latest direct read in this repository is **2026-10-31 04:33:42 UTC**: the official
+page showed **0.4544** for xiaofanhu at rank 1 and **0.3195** for kpomazi at rank 50
+(rank 49 was like60986 at 0.3217). See
+[`evidence/leaderboard-live-read-2026-10-31T0433Z.json`](evidence/leaderboard-live-read-2026-10-31T0433Z.json).
+The earlier 2026-10-30 read also showed 0.4544 at rank 1 but 0.3195 at rank 48;
+ranks move as submissions arrive. These are **ORGANIZER-PUBLISHED PUBLIC LEADERBOARD
+SNAPSHOT** values, not file-linked submission-page receipts, private-round scores,
+or scores for any local raster. The 2026-10-29 snapshot placing
 0.3195 at rank 47 and the 2026-10-28 snapshot placing it at rank 27 are retained as
 dated history, not current rank evidence. The user-cited 0.4413 is not the current
 rank-one value. The automatic site feed checks GitHub metadata only and does not
@@ -283,8 +292,11 @@ reference. The lattice counting bound depends on footprint and budget, and does
 not establish failure for every smaller raster. See
 `evidence/geometry-audit.json` and `docs/evidence/saturation_certificate.json`.
 
-**No validated leaderboard estimate exists for any of them** ("Unavailable" — catalogue
-holdout cannot reliably estimate the expert-hidden private score).
+**No validated leaderboard estimate exists for any of them.** Some current pages display
+model projections derived from USER-REPORTED scores; those are not organizer-confirmed
+estimates and are not validated predictors of the expert-hidden private score. The saved
+catalogue holdout is not a reliable leaderboard ranker (see the -1.00 rank-correlation
+warning in the evidence).
 
 ## Mandate (highest urgency)
 
