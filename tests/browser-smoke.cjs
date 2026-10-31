@@ -73,12 +73,9 @@ function chromeEnvironment() {
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
     assert.equal(hk3.verdict, 'negative');
-    // The badge is derived from the release receipt, never hard-coded: the desk says
-    // "1 FILE" exactly when a release receipt certifies one file for submission.
-    const releaseReceipt = require('../evidence/halo/final_generation.json');
-    const expectBadge = releaseReceipt.verdict.ok_to_submit
-      ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE'
-      : 'OK TO SUBMIT: NO';
+    // Fail closed under the literal all-registry uniqueness rule: the existing
+    // HALO artifact overlaps the registered lattice witness above the limit.
+    const expectBadge = 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
