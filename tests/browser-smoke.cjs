@@ -69,6 +69,8 @@ function chromeEnvironment() {
     assert.equal(parallelCard.approved_for_weekly_slot, false);
     // HK3 is an existing research-only file, never an upload candidate.
     const hk3 = require('../evidence/hk3/run_card.json');
+    const hm1 = require('../docs/downloads/gemsdoekarage2-hm1-offcat-magridge-35079-20261031-DO-NOT-SUBMIT-run-card.json');
+    assert.equal(hm1.ok_to_submit, false);
     const hk3Response = await fetch(base + '/' + hk3.raster.file);
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
@@ -79,13 +81,16 @@ function chromeEnvironment() {
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
+      // Top-of-desk answer offers the 2026-10-31 HM1 research TIFF first (DO NOT SUBMIT); the HK3
+      // research file is still offered. Both are negative research files; neither is approved.
       const primary = page.locator('a.btn.big[download]').first();
-      assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
+      assert.ok((await primary.getAttribute('href')).includes(hm1.submission.name));
       assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
+      assert.ok(await page.locator(`a[download][href*="${hk3.submission.name}"]`).count() >= 1);
       const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
-      assert.equal(download.suggestedFilename(), path.basename(hk3.raster.file));
+      assert.equal(download.suggestedFilename(), path.basename(hm1.raster.file));
       const downloaded = fs.readFileSync(await download.path());
-      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), hk3.raster.sha256);
+      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), hm1.raster.sha256);
       assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('body').innerText()).includes('not unique'));
       assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);
