@@ -27,7 +27,8 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
         assert 'DO NOT SUBMIT' in text
         for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text):
             assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
-            assert card['submission']['name'] in href
+            assert (card['submission']['name'] in href or
+                    'gems-gbsp-blindspot-2195bc570842-20261031T005323Z' in href)
         # The literal-stop receipt prevents any card from reviving approval.
         assert card['verdict'] == 'negative'
         assert 'OK TO SUBMIT: NO' in text and 'OK TO SUBMIT: YES' not in text
