@@ -153,8 +153,11 @@ def test_desk_pages_are_explicitly_research_only(card):
         assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
         assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
-        assert len(downloads) == 1
-        assert (DOCS / downloads[0]).resolve() == (ROOT / card["raster"]["file"]).resolve()
+        # the legacy research file, plus the single uniqueness-cleared 2026-10-31 release
+        assert 1 <= len(downloads) <= 2
+        assert any((DOCS / d).resolve() == (ROOT / card["raster"]["file"]).resolve() for d in downloads)
+        assert all("gemsdoekarage2-geo-habitat-dti-20261031" in d or (DOCS / d).resolve() == (ROOT / card["raster"]["file"]).resolve()
+                   for d in downloads)
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
     assert "45,046 of 45,108" in home and "99.86%" in home

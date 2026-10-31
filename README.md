@@ -1,5 +1,35 @@
 # GEMSDOEkarage2
 
+## Release 2026-10-31 — a unique, format-valid TIF exists (read the verdict before submitting)
+
+**A new raster was generated today, from scratch, by this project.**
+`docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif` — 40,561 dots, single-band float32,
+EPSG:32611, 100 m, 3730 × 3292 template grid, all values in [0,1], SHA-256
+`ff22311cb19c83926b1b3d3f66a0f960c863fb9d3c3d603a682a0b7870d0402f`.
+
+| Question | Answer |
+| --- | --- |
+| Is it a copy of a previous submission? | **No.** Built from the 19-band GeoDAWN stack only. No published raster is an input. |
+| Is it unique vs the other GEMSDOE sites? | **Yes, measured.** Max fraction of our dots within 3 px of any one pinned published raster: **23.3%** (stop threshold 70%). Max Jaccard: **0.0057**. |
+| Is the format valid? | **Yes, measured.** Min 0.0 / max 1.0, 12,279,160 finite values, single band, template CRS/shape/transform. |
+| HOLDOUT-DTI | **0.0172**, 95% CI [0.0130, 0.0227]. Vendored official metric (α=0.2, β=0.8, R=300 m triangular kernel), 60,661 withheld isolated positives, pooled over 11 qualified folds of 16. This is a **proxy** against withheld *catalogue* faults. |
+| Forward projection against the 21 published scores | **PROJECTION 0.007 – 0.013** (model-based, **not** an organizer score). |
+| **Verdict** | **OK to download and submit if you want a genuinely independent, unique entry. NOT forecast to beat the 0.2778 focus-site high.** |
+
+**Why it is not forecast to win, in one sentence:** the highest-scoring published files occupy one
+compact territory, and the R = 3 px credit kernel only pays dots inside their ±3 px halo — so under
+the best model we can fit, "unique" and "high-scoring" are in direct tension. The moment we let the
+published territory into our density, 99% of our dots land within 3 px of a published raster and the
+uniqueness rule stops us. Full reasoning on the site under *Why GEMSDOE32 reported 0.2778*.
+
+Evidence: [`evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json`](evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json) ·
+[`evidence/habitat-holdout-2026-10-31.json`](evidence/habitat-holdout-2026-10-31.json) ·
+[`evidence/projection-range-2026-10-31.json`](evidence/projection-range-2026-10-31.json).
+Site: <https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/index.html>.
+
+This release does not supersede the fail-closed controls below: it adds one measured, uniquely
+generated file whose expected score is honestly bounded.
+
 ## Current repository review (2026-10-31)
 
 Read [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) and `AGENTS.md` before scientific or submission work. Current verdict remains **NO APPROVED TIFF / NO SCORE ESTIMATE**. The dated 2026-10-30 historical H-F entry below contains a stale “OK_TO_DOWNLOAD: YES” statement; it is superseded by the fail-closed controls in `AGENTS.md`, `SUBMISSION_STATUS.md`, the generated website, and release assessment. H-A is also not untried: its own status update records a duplicate-stop. This review generated no raster and ran no geological experiment.

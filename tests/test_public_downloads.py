@@ -44,12 +44,16 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
+    assert result['inventory_status'].startswith('PASS_RESEARCH_ONLY')
+    # exactly one download may be cleared: the 2026-10-31 habitat release, never slot-authorized
+    cleared = [r['file'] for r in result['artifacts'] if r.get('ok_to_submit')]
+    assert cleared == ['docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif']
+    assert all(r['slot_authorized'] is False for r in result['artifacts'])
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 10
+    assert len(result['artifacts']) == 11  # 10 research-only + 1 uniqueness-cleared release
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())
@@ -74,6 +78,12 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert assessment['validator_output']['portal_acceptance'] is None
     assert assessment['submission_name'] is None and assessment['submission_note'] is None
     for record in result['artifacts']:
+        if record['kind'] == 'cleared':
+            # the single uniqueness-cleared 2026-10-31 release: safe to upload, no slot spent
+            assert record['status'] == 'VERIFIED_CLEARED_UNIQUE_NOT_FORECAST_TO_WIN'
+            assert record['ok_to_submit'] is True and record['slot_authorized'] is False
+            assert record['checks']['uniqueness_below_duplicate_stop']
+            continue
         assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
         assert record['ok_to_submit'] is False and record['slot_authorized'] is False
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
@@ -91,7 +101,10 @@ def test_stale_unverified_tif_is_not_published_as_a_submission():
     assert 'docs/index.html' in (ROOT / 'index.html').read_text()
     report = mod.audit()
     assert report['downloadable_approved_submission'] is None
-    assert all(r['ok_to_submit'] is False for r in report['artifacts'])
+    # only the one byte-verified, uniqueness-cleared 2026-10-31 release may be offered for upload
+    assert [r['file'] for r in report['artifacts'] if r['ok_to_submit']] == \
+        ['docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif']
+    assert report['slot_authorized'] is False
 
 
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):

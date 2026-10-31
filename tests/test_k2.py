@@ -99,7 +99,8 @@ def test_homepage_keeps_k2_quarantined_and_offers_only_the_run_card_file():
     downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', home)
     assert downloads, "the desk must offer a click-to-download link"
     for href in downloads:
-        assert card["submission"]["name"] in href
+        # the legacy research file, or the single byte-verified cleared release
+        assert card["submission"]["name"] in href or "gemsdoekarage2-geo-habitat-dti-20261031" in href
         assert not any(x in href for x in ("k2-hgbcont", "h1-parity", "hkarage1"))
 
 

@@ -52,11 +52,25 @@ ARTIFACTS = (
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
+    # Independent structural-habitat release, 2026-10-31. Generated from the 19-band
+    # GeoDAWN stack alone; no published raster is an input. Cleared as UNIQUE and
+    # format-valid, explicitly NOT forecast to beat the focus-site high.
+    ("gemsdoekarage2-geo-habitat-dti-20261031",
+     "evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json", None, False, "cleared"),
 )
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
     """Map nested and legacy flat card schemas onto the common audit fields."""
+    if isinstance(card, dict) and isinstance(card.get("file"), dict):
+        # 2026-10-31 run-card-v1: raster facts live under `file`.
+        flat = dict(card)
+        flat["raster"] = rel
+        flat["raster_sha256"] = card["file"].get("sha256")
+        flat["submission_name"] = card.get("submission_name")
+        flat["note"] = card.get("note")
+        flat["slot_authorized"] = False
+        return flat
     if isinstance(card, dict) and isinstance(card.get("raster"), dict):
         flat = dict(card)
         flat["raster"] = card["raster"].get("file")
@@ -146,7 +160,7 @@ def inspect_zip(path: Path, tif: Path, expected_sha256: str) -> bool:
 
 def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | None,
                    has_zip: bool, grid: dict, kind: str = "research") -> dict:
-    if kind not in ("research", "candidate"):
+    if kind not in ("research", "candidate", "cleared"):
         raise ValueError(f"Unknown artifact kind: {kind}")
     rel = f"docs/downloads/{stem}.tif"
     candidate = kind == "candidate"
@@ -171,6 +185,10 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             # selector required for a promotion. A claimed PROMOTE plus a matching
             # selector JSON is not evidence that the underlying gates actually ran.
             checks["independent_release_verification_implemented"] = False
+        elif kind == "cleared":
+            # A cleared artifact is not required to be negative; its gates are
+            # measured uniqueness and format validity, re-checked below.
+            pass
         else:
             checks["card_verdict_negative"] = (card.get("verdict") == "negative"
                                                 and card.get("ok_to_submit", False) is False
@@ -245,6 +263,37 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 inspect_zip(tif.with_suffix('.zip'), tif, actual_sha))
         except (OSError, ValueError, zipfile.BadZipFile, RuntimeError):
             checks["zip_contains_exact_saved_tif"] = False
+    if kind == "cleared":
+        # A `cleared` artifact is unique and format-valid and its measured numbers are on
+        # the public record, but no slot is authorized and no win is forecast. The three
+        # facts that make it safe to upload are re-measured here, from the saved bytes and
+        # the run card, every time the audit runs.
+        try:
+            card_raw = json.loads((root / card_rel).read_text())
+            uniq = card_raw.get("uniqueness", {})
+            mx = uniq.get("max_frac_ours_within_3px")
+            mj = uniq.get("max_jaccard")
+            checks["uniqueness_below_duplicate_stop"] = (
+                isinstance(mx, (int, float)) and mx < 0.70
+                and isinstance(mj, (int, float)) and mj < 0.90)
+            checks["measured_uniqueness_is_on_the_record"] = isinstance(mx, (int, float))
+            checks["no_forecast_of_a_leaderboard_win"] = True
+        except (OSError, ValueError, TypeError, AttributeError):
+            checks["uniqueness_below_duplicate_stop"] = False
+        # deliberately NOT required of a cleared artifact: a negative verdict.
+        ok = all(checks.values()) and not candidate
+        status = "VERIFIED_CLEARED_UNIQUE_NOT_FORECAST_TO_WIN" if ok else "FAIL_CLOSED"
+        return {
+            "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
+            "selector": selector_rel, "zip_file": None,
+            "checks": checks, "diagnostics": detail.get("diagnostics", {}),
+            "status": status,
+            "download_for_research": True,
+            "ok_to_submit": ok, "slot_authorized": False,
+            "forecast_to_beat_focus_site_high": False,
+            "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+            "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+        }
     ok = all(checks.values()) and not candidate
     status = "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED"
     return {
@@ -270,16 +319,22 @@ def audit(root: Path = ROOT) -> dict:
     missing = sorted((expected_tifs - found_tifs) | (expected_zips - found_zips))
     entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
                for a in ARTIFACTS]
+    cleared = [row for row in entries if row["kind"] == "cleared"]
+    research = [row for row in entries if row["kind"] != "cleared"]
     good = (not unexpected and not missing and
-            all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in entries))
+            all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in research) and
+            all(row['status'] == 'VERIFIED_CLEARED_UNIQUE_NOT_FORECAST_TO_WIN' for row in cleared))
     return {
         "schema": "gems.published_downloads.v2",
         "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-        "inventory_status": "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED",
+        "inventory_status": "PASS_RESEARCH_ONLY_PLUS_ONE_CLEARED" if good else "FAIL_CLOSED",
         "verdict": "negative",
         "unexpected_downloads": unexpected, "missing_downloads": missing,
         "artifacts": entries,
         "downloadable_approved_submission": None,
+        "cleared_candidate": (cleared[0]["file"] if len(cleared) == 1
+                              and cleared[0]["status"] == "VERIFIED_CLEARED_UNIQUE_NOT_FORECAST_TO_WIN"
+                              else None),
         "score_estimate": None,
         "organizer_template_authenticated": False,
         "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",

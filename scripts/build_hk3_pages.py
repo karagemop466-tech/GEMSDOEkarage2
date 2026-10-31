@@ -134,12 +134,19 @@ def gather() -> dict:
             or registry["unique"] is not False or registry["stop_required"] is not True):
         raise ValueError("Inconsistent negative literal-registry decision")
     hk3_inventory = [r for r in inventory["artifacts"] if r["file"] == filename]
-    if (inventory["inventory_status"] != "PASS_RESEARCH_ONLY"
+    if (inventory["inventory_status"] != "PASS_RESEARCH_ONLY_PLUS_ONE_CLEARED"
             or inventory["downloadable_approved_submission"] is not None
             or inventory["slot_authorized"] is not False or len(hk3_inventory) != 1
             or hk3_inventory[0]["raster_sha256"] != sha
-            or any(row["ok_to_submit"] is not False or row["status"] != "VERIFIED_RESEARCH_ONLY"
-                   for row in inventory["artifacts"])):
+            or not inventory["inventory_status"].startswith("PASS_RESEARCH_ONLY")
+            or any(row["status"] not in ("VERIFIED_RESEARCH_ONLY",
+                                         "VERIFIED_CLEARED_UNIQUE_NOT_FORECAST_TO_WIN")
+                   for row in inventory["artifacts"])
+            or any(row["ok_to_submit"] is not False for row in inventory["artifacts"]
+                   if row["kind"] != "cleared")
+            or any(row["slot_authorized"] is not False for row in inventory["artifacts"])
+            or [row["file"] for row in inventory["artifacts"] if row["kind"] == "cleared"]
+               != ["docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif"]):
         raise ValueError("Public download inventory is not research-only")
     records = focus["sites"]
     measured = {r["site"]: r for r in geometry["historical_final_dots"]}
@@ -263,6 +270,173 @@ def shell(title: str, active: str, body: str, *, base_href: str | None = None,
 <p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="{esc(official_ref)}">Source observations</a> · <a href="../research/2026-10-30-live-source-and-code-review.md">Three-pass review</a> · <a href="evidence/live-source-review-card-2026-10-30.json">Review card</a></p></footer>
 </main></body></html>'''
 
+
+
+def _new_release() -> dict | None:
+    """Load the 2026-10-31 independent-habitat release, if all receipts exist."""
+    root = ROOT
+    rc = root / "evidence" / "run-card-gemsdoekarage2-geo-habitat-dti-20261031.json"
+    hold = root / "evidence" / "habitat-holdout-2026-10-31.json"
+    proj = root / "evidence" / "projection-range-2026-10-31.json"
+    if not (rc.exists() and hold.exists() and proj.exists()):
+        return None
+    out = {"run_card": json.loads(rc.read_text()),
+           "holdout": json.loads(hold.read_text()),
+           "projection": json.loads(proj.read_text())}
+    card = rc.parent.parent / "docs" / "downloads" / "gemsdoekarage2-geo-habitat-dti-20261031.run-card.json"
+    if card.exists():
+        out["site_card"] = json.loads(card.read_text())
+    return out
+
+
+def release_banner(d: dict) -> str:
+    """Top-of-page answer: what the new file is, whether it is safe to submit, one click."""
+    r = _new_release()
+    if r is None:
+        return ""
+    rc, ho, pr = r["run_card"], r["holdout"], r["projection"]
+    finfo = rc.get("file", rc.get("raster", {}))
+    tif = finfo.get("path", "")
+    name = Path(tif).name
+    sha = finfo.get("sha256", "")
+    nd = finfo.get("positive_pixels", 0)
+    h = ho["HOLDOUT_DTI"]
+    cand = pr["candidate_projections"].get(name, {})
+    gammas = [(k, v) for k, v in cand.items() if k.startswith("gamma_")]
+    gtxt = " · ".join(f"γ={k.split('_')[1]}: <b>{v:.3f}</b>" for k, v in sorted(gammas, key=lambda kv: float(kv[0].split("_")[1])))
+    best_proj = max([v for _, v in gammas]) if gammas else 0.0
+    worst_proj = min([v for _, v in gammas]) if gammas else 0.0
+    uniq = rc.get("uniqueness", {})
+    mx = uniq.get("max_frac_ours_within_3px")
+    mx_txt = f"{mx * 100:.1f}%" if isinstance(mx, (int, float)) else "measured"
+    note = rc.get("note", "")
+    return f'''<section class="hero" id="new-release">
+<h2>New download · {nd:,} dots · generated 2026-10-31</h2>
+<p class="verdict"><b class="warn">OK TO DOWNLOAD. UNIQUE. NOT EXPECTED TO BEAT 0.2778.</b>
+This file was generated from scratch by this project — it is <b>not</b> a copy, rename or re-encode of anyone
+else's submission. Every gate that can be checked without private data passes. But no available evidence
+supports a claim that it will out-score the current focus-site high.</p>
+<table class="kv"><tbody>
+<tr><th>Format gates</th><td><b class="yes">PASS.</b> Single-band float32, EPSG:32611, 100 m, {finfo.get("height", "?")} × {finfo.get("width", "?")} template grid, {nd:,} dots, min {finfo.get("min")} / max {finfo.get("max")}, all {finfo.get("finite_pixels", 0):,} saved values finite. <code>{esc(name)}</code></td></tr>
+<tr><th>Uniqueness vs the other GEMSDOE sites</th><td><b class="yes">UNIQUE.</b> Largest fraction of our dots within 3 px of any one pinned published raster: <b>{mx_txt}</b> (stop threshold 70%). Largest Jaccard against any of them: <b>{uniq.get("max_jaccard", 0):.4f}</b>. Well clear of both duplicate clauses.</td></tr>
+<tr><th>HOLDOUT-DTI</th><td><b>{h["estimate"]:.4f}</b>, 95% CI [{h["ci95"][0]:.4f}, {h["ci95"][1]:.4f}]. {ho["metric"]}. {ho["withheld_positives_isolated"]:,} withheld isolated positives, {ho["emitted_total"]:,} emitted dots, pooled over {len(ho["per_fold"])} interleaved spatial folds. <b>This is a proxy measured against withheld catalogue faults, not the organizer score.</b></td></tr>
+<tr><th>Forward projection vs the 21 published scores</th><td><b>PROJECTION: {worst_proj:.3f}–{best_proj:.3f}</b> ({gtxt}). Model: a hidden-truth density proportional to the smoothed union of the eight best published rasters, its scale fitted to the 21 USER-REPORTED scores (in-sample RMSE {min(v["rmse"] for v in pr["gamma_fits"].values()):.3f}–{max(v["rmse"] for v in pr["gamma_fits"].values()):.3f} across the sharpness sweep). <b>This is a model, not an organizer score.</b></td></tr>
+<tr><th>Verdict</th><td><b class="warn">Submitting this file is a defensible but low-expected-score choice.</b> It is safe (unique, valid, genuinely ours). It is not forecast to win: the point of the forward model is that the highest-scoring published files occupy a compact territory that a novel placement, by construction, does not.</td></tr>
+</tbody></table>
+<p><a class="btn big" href="downloads/{esc(name)}" download>↓ Download {esc(name)}</a>
+<a class="btn secondary" href="{esc('evidence/run-card-' + name.replace('.tif', '') + '.json')}">Run card</a>
+<a class="btn secondary" href="evidence/habitat-holdout-2026-10-31.json">Holdout receipt</a>
+<a class="btn secondary" href="evidence/projection-range-2026-10-31.json">Projection receipt</a></p>
+<div class="meta"><b>SHA-256:</b> <code>{esc(sha)}</code><br><b>Submission name:</b> <code>{esc(rc.get("submission_name", name))}</code><br><b>Note ({len(note)} chars):</b> {esc(note)}</div>
+</section>'''
+
+
+
+def hypotheses_2026_10_31() -> str:
+    """Five ranked hypotheses. Rank = expected DTI gain per unit implementation cost,
+    subject to the uniqueness gate being non-negotiable."""
+    rows = [
+        ("H3", "Relay-ramp and fault-tip localisation along range fronts",
+         "Layers: skeletonised detrended-elevation gradient ridges + magnetic horizontal-gradient maxima. "
+         "Transform: segment the ridges, then score each pixel by its distance to the nearest ridge *tip* or "
+         "along-strike stepover rather than to the ridge itself.",
+         "Fault maps trace the principal scarp and terminate it at the last unambiguous break. Displacement "
+         "transfer at relay ramps and tip splays produces real, continuous, but shorter and less expressive "
+         "scarps — exactly the population an expert panel adds and a catalogue omits. It is a *position* the "
+         "habitat index smears out, not a stronger version of the same ranking.",
+         "Medium. Needs a lineament segmentation pass (one session). Must be validated on the 16-fold spatial "
+         "holdout before any slot."),
+        ("H4", "Geothermal pathway intersections: basement step × conductivity boundary",
+         "Layers: horizontal gradient of depth-to-basement, gradient of the conductivity surface, "
+         "and their intersection (product of the two gradient magnitudes, thresholded).",
+         "The prize rewards geothermal fault discovery, so the labelled faults are plausibly "
+         "prospectivity-biased rather than a uniform structural sample. A basement step provides the "
+         "permeability contrast; a conductivity boundary marks the fluid. Their intersection is a narrower, "
+         "more physically specific target than 'a fault'.",
+         "Medium-high. Premise is unvalidated and could be orthogonal to the label set. Cheap to test: "
+         "block-level correlation against the published-territory proxy decides it in minutes."),
+        ("H5", "Potential-field-only edge coincidence (no topography)",
+         "Layers: |gravity horizontal gradient| × |magnetic horizontal gradient| × tilt-derivative edge "
+         "magnitude, with detrended elevation deliberately excluded.",
+         "The best published files are strongly topographic (detrended-elevation slope ρ = +0.46 at 10 km "
+         "block scale). A purely potential-field detector is an orthogonal line of evidence and would either "
+         "confirm the structural signal independently or expose an erosional mimic.",
+         "Low cost — all bands are already in the stack. Expected gain low-moderate; main value is as an "
+         "independent check, since it will partly duplicate H2."),
+        ("H2", "Relief + magnetic-contact structural habitat (RELEASED 2026-10-31)",
+         "Layers: z(log1p det_elev_slope) + z(log1p tmi_hg) − z(tc) + 0.5·z(|iso_grav_anom_hg|), "
+         "rank-transformed, × (1 − exp(−d_cat/3 px)), zeroed within 100 m of a mapped fault; dots placed by "
+         "lazy-greedy maximisation of expected DTI.",
+         "The scored faults are not where the catalogue is, so a model must rank *under-mapped* ground. "
+         "Measured: median dot-to-catalogue distance 35 px, 0% of dots within 3 px of a mapped fault, "
+         "40,561 dots at ~300 m spacing.",
+         "Done. HOLDOUT-DTI 0.0172 [0.0130, 0.0227]; forward projection 0.007–0.013. Released as the "
+         "download on this page."),
+        ("H1", "Consensus-territory model (learned from the published winners)",
+         "Layers: a hidden-truth density proportional to smooth(union of the eight best published rasters)^γ, "
+         "with K fitted to the 21 USER-REPORTED scores.",
+         "It reproduces all 21 reported scores to RMSE 0.029–0.037, far better than any geophysical "
+         "parameterisation we tried (0.139–0.193). It implies the expert label set has absorbed where the "
+         "community already dotted.",
+         "BLOCKED — not by cost but by the rule. Measured: 99% of the dots it emits land within 3 px of a "
+         "published raster, against a 70% stop. It is excluded from the ranking on the uniqueness "
+         "constraint, not on expected score."),
+    ]
+    body = "".join(
+        f'<tr><td><b>{esc(h)}</b></td><td><b>{esc(t)}</b><span class="sub-label">{esc(lays)}</span></td>'
+        f'<td>{esc(why)}</td><td>{esc(cost)}</td></tr>'
+        for h, t, lays, why, cost in rows)
+    return (
+        '<section class="section" id="hypotheses-2026-10-31"><h3>Five new geological hypotheses, ranked</h3>\n'
+        '<p>Ranked by expected DTI gain per unit implementation cost, with the uniqueness gate treated as '
+        'non-negotiable. H1 is listed last because it is disqualified, not because it is weak — it is the '
+        'strongest predictor we measured and the reason is stated in its row. <b>None of H3–H5 has been '
+        'validated on the spatial holdout yet; a slot may not be spent on one until it has.</b></p>\n'
+        '<table><thead><tr><th>#</th><th>Hypothesis · layers</th><th>Why it should catch off-catalogue faults, '
+        'and how it differs from everything in this repo</th><th>Cost / status</th></tr></thead><tbody>'
+        + body + '</tbody></table></section>')
+
+def why_2778() -> str:
+    return '''<section class="section" id="why-2778"><h3>Why GEMSDOE32 <code>h33-h33-2-b2</code> reported 0.2778</h3>
+<p>The value is <b>USER-REPORTED / UNVERIFIED</b> — no organizer receipt was retrievable from this sandbox.
+The explanation below is inferred from measurements on the 21 pinned rasters plus the fitted forward model,
+not from any private data. It is a hypothesis with quantitative support, not an established fact.</p>
+<ol>
+<li><b>It is a lineage effect, not a single-file effect.</b> Thirteen of the 21 pinned rasters share one
+construction (dotted habitat at ~300 m spacing, every dot deleted within 100 m of a mapped fault). They score
+0.245–0.278. The eight that do not, score 0.021–0.165. No smooth geophysical basis we fitted separates
+winners from losers; the lineage does.</li>
+<li><b>Placement beats dot count.</b> Among the seven pinned files with exactly 37,654 dots the pairwise
+Jaccard is only 0.010–0.089 while the reported scores span 0.0206–0.2778. Overlap between files does not
+explain the score; where the dots land does.</li>
+<li><b>The winners sit 1.4–2.0 km from mapped faults; the losers sit 0.4–0.6 km.</b> Median distance from
+each dot to the nearest catalogue pixel is 15.0–19.7 px for every file scoring ≥ 0.245 and 4.1–5.8 px for
+every file scoring ≤ 0.15. <b>Zero</b> percent of dots in <em>any</em> file lie within 1 px of the catalogue.</li>
+<li><b>The winners are in the sparsely mapped north-west and centre.</b> 10 km block maps show the top
+scorers concentrating density where the catalogue is thinnest; the bottom scorers reproduce the catalogue
+map block for block.</li>
+<li><b>The forward model says the scored label set has absorbed that territory.</b> Fitting a hidden-truth
+density of the form <code>K · w/Σw</code> with <code>w = smooth(union of the eight best rasters)^γ</code>
+reproduces all 21 reported scores to RMSE 0.029–0.037, whereas every smooth geophysical parameterisation we
+tried (catalogue buffer; <code>K·s^η·(1−e^{−d/λ})</code>; 5- and 9-basis log-linear densities) had RMSE
+0.139–0.193 or collapsed to uniform. The reading is that the expert panel's newly identified faults sit where
+the community already dotted, because those dots were reviewed.</li>
+</ol>
+<p><b>Can we exceed it?</b> Not with a method that is genuinely independent. Two measured results bound the
+answer. First, our independent habitat index — built only from relief, magnetic horizontal gradient, gravity
+gradient and tilt angle, with no reference to any published file — correlates only ρ = +0.26 with that fitted
+truth density, and the raster it produces projects to 0.007–0.013. Second, the moment we let the published
+territory into the density, the emitted dots become a duplicate: 99% of them land within 3 px of a published
+raster, far above the 70% stop. <b>Under this model, "unique" and "high-scoring" are in direct tension,
+because the R = 3 px credit kernel only pays dots that sit inside the winners' ±3 px halo.</b></p>
+<p>The honest escape routes are: (a) obtain an organizer-confirmed receipt for one published file and
+re-calibrate; (b) find covariate evidence for the winners' territory that is independent of the winners —
+the block-level correlations (relief slope +0.46, magnetic gradient +0.36, tilt −0.18) are the strongest such
+handle found so far and are already built into the released file; or (c) accept a slot on a lower-expected-
+score but genuinely novel entry.</p>
+<p class="muted">Every number above is either HOLDOUT-DTI (measured here, with its evaluator and CI) or
+labelled USER-REPORTED / UNVERIFIED / PROJECTION. Nothing on this page is ORGANIZER-CONFIRMED.</p>
+</section>'''
 
 def hero(d: dict) -> str:
     c, w = d["card"], d["witness"]
@@ -590,12 +764,12 @@ def champion_panel() -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    desk = release_banner(d) + decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + why_2778() + hypotheses_2026_10_31() + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),
              "executive-summary.html": shell("Executive summary", "summary", desk, official_ref=official_ref),
-             "how-to-submit.html": shell("How to submit", "guide", how, official_ref=official_ref),
+             "how-to-submit.html": shell("How to submit", "guide", release_banner(d) + how + hypotheses_2026_10_31(), official_ref=official_ref),
              "submit.html": shell("How to submit", "guide", how, official_ref=official_ref),
              "assets/hk3.css": CSS}
     geometry = {row["site"]: row for row in d["geometry"]["historical_final_dots"]}

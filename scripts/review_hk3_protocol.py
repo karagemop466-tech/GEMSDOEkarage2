@@ -49,7 +49,9 @@ def review():
         "raster_unchanged_since_original_card": entry["raster_sha256"] == raster["sha256"] == old["raster"]["sha256"],
         "historical_registry_bound_to_same_tiff": registry["candidate_file_sha256"] == raster["sha256"],
         "saved_download_checks_pass_research_only": entry["status"] == "VERIFIED_RESEARCH_ONLY",
-        "all_downloads_research_only": inventory["inventory_status"] == "PASS_RESEARCH_ONLY",
+        "all_legacy_downloads_research_only": inventory["inventory_status"].startswith("PASS_RESEARCH_ONLY"),
+        "new_release_cleared_unique_and_no_slot": inventory.get("cleared_candidate") == "docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif"
+        and all(r["slot_authorized"] is False for r in inventory["artifacts"] if r["kind"] == "cleared"),
     }
     if not all(checks.values()):
         raise ValueError(f"Protocol-review integrity failed: {checks}")

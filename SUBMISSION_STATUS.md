@@ -1,5 +1,18 @@
 # Submission status — NO APPROVED FILE
 
+**Release 2026-10-31: one new unique TIF exists and is cleared as *safe*, not as *forecast to win*.**
+`docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif` (40,561 dots, float32, EPSG:32611,
+100 m, values [0,1], SHA-256 `ff22311c…d0402f`) was generated from the 19-band GeoDAWN stack alone;
+no published raster is an input. Measured uniqueness: **23.3%** of its dots within 3 px of any one
+pinned published raster (stop threshold 70%), max Jaccard **0.0057**. HOLDOUT-DTI **0.0172**
+[0.0130, 0.0227] (vendored official metric, 60,661 withheld isolated positives, 11 of 16 folds
+qualified). Forward projection against the 21 USER-REPORTED scores: **0.007–0.013 (PROJECTION, not
+an organizer score)**. Verdict: **OK to download and submit as a unique independent entry; NOT
+expected to beat the 0.2778 focus-site high.** No slot has been spent. Receipts:
+`evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json`,
+`evidence/habitat-holdout-2026-10-31.json`, `evidence/projection-range-2026-10-31.json`.
+Every other TIFF in `docs/downloads/` remains **RESEARCH ONLY / DO NOT SUBMIT**.
+
 **Review 2026-10-31: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
 
 **Current review (2026-10-30): NO FILE IS OK TO DOWNLOAD AND SUBMIT.** The audited public-download inventory contains research-only files and `downloadable_approved_submission: null`. No new experiment, TIFF, score estimate, upload, or slot was created. The 2026-10-30 public leaderboard snapshot shows rank 1 at 0.4544 and the user-cited 0.3195 at rank 48; these are public-board observations, not receipts for local files. Full review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); source snapshot: [`evidence/official-review-2026-10-30.json`](evidence/official-review-2026-10-30.json); review card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
