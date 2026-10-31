@@ -8,7 +8,11 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-30, current Arena branch)
+## Latest review (2026-10-31, current Arena branch)
+
+**Decision: NO APPROVED SUBMISSION.** This three-pass repo review generated no TIFF and ran no geological experiment. Existing downloadable artifacts remain RESEARCH ONLY / DO NOT SUBMIT. The authenticated organizer template/feature stack and `data/` are absent, no method paragraph is assigned, and the dense-registry uniqueness conflict remains unresolved. No new-file leaderboard estimate is supportable. Verification: 257 Python tests passed, 8 skipped (optional/missing-input checks); Node feed 3 passed; site tests 8 passed; browser smoke passed at 1440/390/320 px; readiness exited 0. The nine-site raster audit could not be freshly rerun because `.cache/gems_data/sample_submission.tif` is absent. Detailed report: [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md); run card: [`evidence/repo-review-run-card-2026-10-31.json`](evidence/repo-review-run-card-2026-10-31.json). Latest stored official leaderboard observation remains dated 2026-10-30 and is not refreshed here.
+
+## Latest source review (2026-10-30, current Arena branch)
 
 **Decision: NO APPROVED SUBMISSION. Do not submit any existing TIFF.** This review refreshed the official public-page observation and GitHub-only upstream HEAD metadata, updated the fail-closed page generator, and passed the local test/audit suite. It did **not** run a geological experiment, generate a TIFF, estimate a local leaderboard score, upload, or use a competition slot. No method paragraph is assigned; authenticated organizer inputs/template and complete current registry evidence remain unavailable. Review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); run card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
 
