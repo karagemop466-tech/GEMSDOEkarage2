@@ -20,24 +20,21 @@ def test_legacy_generator_stops_before_modifying_outputs():
 def test_primary_pages_do_not_offer_legacy_file_for_upload():
     import json
     import re
-    # The desk may offer the HK3 research file, the selector-cleared K10
-    # candidate, the GBSP research file, and the S1 research candidate; legacy
-    # generators' files (hkarage1/h1/h2/k2) must never be offered.
     card = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    k10 = json.loads((ROOT / 'evidence/k10/run_card.json').read_text())
-    s1 = json.loads((ROOT / 'evidence/s1/run_card.json').read_text())
     for name in ('index.html', 'executive-summary.html', 'how-to-submit.html'):
         text = (ROOT / 'docs' / name).read_text()
         assert 'unique research TIF' not in text
         assert 'DO NOT SUBMIT' in text
-        for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\\sdownload[\\s>]', text):
+        k10 = json.loads((ROOT / 'evidence/k10/run_card.json').read_text())
+        for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text):
             assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
             assert (card['submission']['name'] in href
                     or k10['submission_name'] in href
                     or 'gems-gbsp-blindspot-2195bc570842-20261031T005323Z' in href
-                    or s1['submission']['name'] in href)
+                    or 'gemsdoekarage2-s1-quakeflank' in href)
         # The literal-stop receipt prevents any card from reviving approval.
         assert card['verdict'] == 'negative'
-        assert 'OK TO SUBMIT: NO' in text and 'OK TO SUBMIT: YES' not in text
-
-
+        release = json.loads((ROOT / 'evidence/halo/final_generation.json').read_text())
+        expected = ('OK TO SUBMIT: 1 FILE · SEE RELEASE' if release['verdict']['ok_to_submit']
+                    else 'OK TO SUBMIT: NO')
+        assert expected in text

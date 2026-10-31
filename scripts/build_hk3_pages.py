@@ -134,21 +134,30 @@ def gather() -> dict:
             or registry["unique"] is not False or registry["stop_required"] is not True):
         raise ValueError("Inconsistent negative literal-registry decision")
     hk3_inventory = [r for r in inventory["artifacts"] if r["file"] == filename]
+    research_rows = [r for r in inventory["artifacts"]
+                     if r.get("kind") not in ("release", "candidate")]
+    release_rows = [r for r in inventory["artifacts"] if r.get("kind") == "release"]
     candidate_rows = [r for r in inventory["artifacts"] if r.get("kind") == "candidate"]
-    research_rows = [r for r in inventory["artifacts"] if r.get("kind") != "candidate"]
     candidate_ok = (len(candidate_rows) == 1
                     and candidate_rows[0]["status"] == "VERIFIED_CANDIDATE_ELIGIBLE"
                     and candidate_rows[0]["ok_to_submit"] is True
                     and candidate_rows[0]["slot_authorized"] is False
                     and inventory["downloadable_approved_submission"] == candidate_rows[0]["file"])
-    if (inventory["inventory_status"] not in ("PASS_RESEARCH_ONLY", "PASS_WITH_CANDIDATE")
+    if (inventory["inventory_status"] not in ("PASS_RESEARCH_ONLY", "PASS_WITH_CANDIDATE",
+                                              "PASS_RESEARCH_ONLY_PLUS_RELEASE")
             or inventory["slot_authorized"] is not False or len(hk3_inventory) != 1
             or hk3_inventory[0]["raster_sha256"] != sha
             or any(row["ok_to_submit"] is not False or row["status"] != "VERIFIED_RESEARCH_ONLY"
                    for row in research_rows)
+            or len(release_rows) > 1
+            or any(row["status"] != "VERIFIED_RELEASE_CANDIDATE" or row["ok_to_submit"] is not True
+                   or row["slot_authorized"] is not False for row in release_rows)
+            or (inventory["downloadable_approved_submission"]
+                != (release_rows[0]["file"] if release_rows else None))
             or (inventory["inventory_status"] == "PASS_WITH_CANDIDATE" and not candidate_ok)
-            or (inventory["inventory_status"] == "PASS_RESEARCH_ONLY" and candidate_rows)):
-        raise ValueError("Public download inventory is not research-only")
+            or (inventory["inventory_status"] == "PASS_RESEARCH_ONLY"
+                and (candidate_rows or release_rows))):
+        raise ValueError("Public download inventory contradicts its own release classification")
     records = focus["sites"]
     measured = {r["site"]: r for r in geometry["historical_final_dots"]}
     if len(records) != 9 or len({r["site"] for r in records}) != 9 or set(measured) != {r["site"] for r in records}:
@@ -284,9 +293,28 @@ def registry_audit_section(d: dict) -> str:
 <p><a href="evidence/uniqueness/nine-site-pairwise-recheck.json">Pairwise receipt</a> · <a href="evidence/uniqueness/gwnfs-quarantined-h1.full-registry.json">gw-nfs receipt</a> · <a href="evidence/uniqueness/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.full-registry.json">hA receipt</a></p></section>'''
 
 
+def release_badge() -> str:
+    """Badge text for every generated page, driven by the release receipt.
+
+    The desk pages are an audit trail of historical files.  They now carry the
+    *current* release state so no page contradicts the release decision page:
+    if `evidence/halo/final_generation.json` says one file passed every gate, the
+    badge says so and links to `release.html`; otherwise it stays fail-closed.
+    """
+    try:
+        rel = json.loads((EV / "halo" / "final_generation.json").read_text())
+        ok = bool(rel.get("verdict", {}).get("ok_to_submit"))
+    except (OSError, ValueError):
+        ok = False
+    if ok:
+        return '<span class="badge ok">OK TO SUBMIT: 1 FILE · SEE RELEASE</span>'
+    return '<span class="badge no">OK TO SUBMIT: NO</span>'
+
+
 def shell(title: str, active: str, body: str, *, base_href: str | None = None,
           official_ref: str = "evidence/official-review-2026-10-29.json") -> str:
-    items = [("index.html", "desk", "Submission desk"), ("executive-summary.html", "summary", "Executive summary"),
+    BADGE = release_badge()
+    items = [("release.html", "release", "Release decision"), ("index.html", "desk", "Submission desk"), ("executive-summary.html", "summary", "Executive summary"),
              ("how-to-submit.html", "guide", "How to submit"), ("audit.html", "audit", "Nine-site audit"),
              ("hypotheses.html", "research", "Earlier research"), ("candidate.html", "candidate", "Unique candidate"), ("sources.html", "sources", "Sources")]
     links = " · ".join(f'<a href="{url}"{(" aria-current=page" if key == active else "")}>{label}</a>'
@@ -296,7 +324,7 @@ def shell(title: str, active: str, body: str, *, base_href: str | None = None,
 <title>{esc(title)} · GEMSDOEkarage2</title>
 <meta name="description" content="Evidence-led GEMS fault discovery desk. Research files are not approved for submission.">
 <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
-<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
+<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 {BADGE}</h1>
 <div class="sub">GEMS Prize · fault discovery · evidence-first decision desk</div></div></div></header>
 <main class="container"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
 {body}
@@ -571,19 +599,27 @@ def decision_section(d: dict) -> str:
     best_pct = prof[best["site"]]["frac_dots_within_3px_of_lattice"] * 100
     return (
         '<section class="hero" id="decision">\n'
-        '<h2>Which file to submit? None is approved.</h2>\n'
-        f'<p class="verdict"><b class="no">Best reported file: {esc(best["site"])} at {best["owner_reported_unverified"]:.4f}</b> '
-        '(USER-REPORTED / UNVERIFIED). It is <b class="no">not eligible</b>: the shared uniqueness gate stops it against the '
-        f'13GEMSDOE lattice, with <b>{best_pct:.2f}%</b> of its dots within three pixels. The gate allows at most 70%.</p>\n'
-        '<p><b>Every</b> one of the nine focus files fails the same gate, so this is a property of the lattice witness, not a '
-        'defect of one file. Changing the file name, the exterior value, or a few dots does not change this. The decision '
-        'needs a policy answer before any file can be eligible; see <a href="#policy">the policy decision</a>.</p>\n'
+        '<h2>Which file to submit? One file — the released candidate, not any of the nine.</h2>\n'
+        f'<div class="cta-row"><a class="cta" href="release.html">Open the release decision and download the approved .tif</a></div>\n'
+        f'<p class="verdict"><b class="ok">Approved for submission: {esc(released_name())}</b> — unique against all '
+        f'473 registry rasters, 0 dots on catalogue pixels, estimated score '
+        f'≈{released_scenarios()["h=0.045"]["dti"]:.2f} (CALIBRATED-PRIVATE range '
+        f'{min(v["dti"] for v in released_scenarios().values()):.2f}–'
+        f'{max(v["dti"] for v in released_scenarios().values()):.2f}; see '
+        '<a href="release.html#estimate">the estimate section</a>).</p>\n'
+        f'<p><b>None of the nine focus files is eligible.</b> The best reported one, {esc(best["site"])} at '
+        f'{best["owner_reported_unverified"]:.4f} (USER-REPORTED / UNVERIFIED), fails the shared uniqueness gate against the '
+        f'13GEMSDOE lattice with <b>{best_pct:.2f}%</b> of its dots within three pixels, where at most 70% is allowed. '
+        '<b>Every</b> one of the nine fails the same gate, so this is a property of the lattice witness, not a defect of one '
+        'file. They stay on this site as an audit trail; they are not submission options.</p>\n'
         f'<p class="muted">Lattice coverage: {lat["footprint_cover_within_3px"] * 100:.2f}% of the template footprint lies within '
         '3 px of the witness. Dots placed in the uncovered cells would be gaming the gate and are not used here.</p>\n'
         '</section>\n'
         '<section class="section"><h3>Submission decision table · nine focus sites</h3>\n'
-        '<p>Every number is a measurement on the pinned bytes, or a copied user report. <b>No estimated leaderboard score exists.</b> '
-        'Download links are research references, not submissions.</p>\n'
+        '<p>Every number is a measurement on the pinned bytes, or a copied user report, read on 2026-10-31. '
+        '<b>No estimated leaderboard score is claimed for any of the nine</b> — each fails the uniqueness gate first, so an '
+        'estimate would be moot. Download links are research references, not submissions; the only approved download is on '
+        '<a href="release.html">the release page</a>.</p>\n'
         '<table id="decision-table"><thead><tr><th>Site</th><th>Pinned file (research reference)</th><th>Reported score</th>'
         '<th>Estimated score</th><th>Unique vs lattice witness?</th><th>Download and submit?</th></tr></thead>\n'
         f'<tbody>{"".join(rows)}</tbody></table>\n'
@@ -776,6 +812,41 @@ def champion_panel() -> str:
 </section>'''
 
 
+def released_name() -> str:
+    """Basename of the released file, straight from the release receipt."""
+    rel = json.loads((EV / "halo" / "final_generation.json").read_text())
+    return Path(rel["submission_file"]).name
+
+
+def released_scenarios() -> dict:
+    rel = json.loads((EV / "halo" / "final_generation.json").read_text())
+    return rel["score_projection"]["scenarios"]
+
+
+def release_banner() -> str:
+    """One-line banner at the top of the desk pages pointing at the live decision."""
+    try:
+        rel = json.loads((EV / "halo" / "final_generation.json").read_text())
+    except (OSError, ValueError):
+        return ""
+    if not rel.get("verdict", {}).get("ok_to_submit"):
+        return ""
+    name = Path(rel["submission_file"]).name
+    dti = rel["score_projection"]["scenarios"]["h=0.045"]["dti"]
+    return f'''<section class="section" id="release-banner" style="border-left:4px solid var(--ok)">
+<p class="verdict"><b class="ok">UPDATE 2026-10-31 — one file is released for submission:</b>
+<code>{esc(name)}</code>. It passes the format, range, grid, uniqueness and holdout gates, and its
+estimated score is ≈{dti:.2f} (CALIBRATED-PRIVATE range
+{min(v["dti"] for v in rel["score_projection"]["scenarios"].values()):.2f}–
+{max(v["dti"] for v in rel["score_projection"]["scenarios"].values()):.2f}; the pessimistic anchor is
+{rel["holdout_dti"]["at_released_dot_count"]["dti"]:.2f} if only the holdout's coverage transfers).
+It needs h ≥ {rel["break_even"]["hit_rate_needed"] * 100:.2f}% to beat the 0.2778 file.</p>
+<p>The pages below are the audit trail of the earlier research files and keep their original
+negative verdicts. For the current decision, the download, the score model and the exact
+submission steps see <a href="release.html">the release decision page</a>.</p>
+</section>'''
+
+
 def candidate_banner() -> str:
     """Prominent banner for the current candidate, if its selector cleared it.
 
@@ -790,8 +861,11 @@ def candidate_banner() -> str:
     if sel.get("ok_to_submit") is not True:
         return ""
     name = Path(card["raster"]).name
+    heading = ('<h3 style="margin-top:0">Alternative file from a parallel lane — published, '
+               'not the recommended submission</h3>' if release_banner() else
+               '<h3 style="margin-top:0">Current competition candidate — validated and published</h3>')
     return f"""<section class="section" id="current-candidate" style="border:2px solid #1d6850;padding:18px 20px;border-radius:10px;background:#eef6f1">
-<h3 style="margin-top:0">Current competition candidate — validated and published</h3>
+{heading}
 <p>The 2026-10-31 corridor-coverage candidate passed this repository's automated format gate
 (all-finite float32 in [0,1] on the pinned grid — the convention that fixes the earlier
 "must be in range [0, 1]" portal error) and the measured uniqueness scan against 480+ prior
@@ -961,8 +1035,18 @@ def gbsp_section() -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    banner = candidate_banner()
-    desk = banner + s1_panel(d) + session_decision_20261031() + hx2_teaser() + decision_section(d) + gbsp_section() + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    """Desk pages: the release decision first, then the parallel-lane artifacts.
+
+    Order matters. The released file is the single recommendation, so its banner
+    is the first thing on every desk page. The K10 candidate banner is kept
+    immediately below it and its heading is demoted when a release exists, so the
+    site never shows two equally authoritative recommendations.
+    """
+    desk = (release_banner() + candidate_banner() + s1_panel(d) + session_decision_20261031()
+            + hx2_teaser() + decision_section(d) + gbsp_section() + candidate_section(d)
+            + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d)
+            + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d)
+            + nested_section(d) + science_and_sources(d) + legacy())
     how = hero(d) + s1_panel(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),

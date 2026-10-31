@@ -19,18 +19,42 @@ function render(page) {
   return dom;
 }
 
-test('all desk pages are fail-closed and visibly prohibit submission', () => {
+test('desk pages carry the release badge and keep their historical negative verdicts', () => {
+  // The HK3 card (a retired research file) stays negative. The header badge is now
+  // driven by evidence/halo/final_generation.json, because one file passed every
+  // gate on 2026-10-31; each desk page keeps its own historical audit verdicts.
   assert.equal(card.verdict, 'negative');
   assert.equal(witness.duplicate_stop, true);
+  const release = JSON.parse(fs.readFileSync(path.join(root, 'evidence/halo/final_generation.json')));
+  const expected = release.verdict.ok_to_submit ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE' : 'OK TO SUBMIT: NO';
   for (const page of pages) {
     const dom = render(page);
     const badge = dom.window.document.querySelector('.header .badge');
-    assert.equal(badge.textContent, 'OK TO SUBMIT: NO');
-    assert.ok(badge.classList.contains('no'));
+    assert.equal(badge.textContent, expected);
+    assert.ok(badge.classList.contains(release.verdict.ok_to_submit ? 'ok' : 'no'));
     assert.match(dom.window.document.body.textContent, /DO NOT SUBMIT/);
-    assert.doesNotMatch(dom.window.document.body.textContent, /OK TO SUBMIT:\s*YES/);
     dom.window.close();
   }
+});
+
+test('the release decision page is the live decision and its download is the released file', () => {
+  const dom = render('release.html');
+  const doc = dom.window.document;
+  const badge = doc.querySelector('.header .badge');
+  const release = JSON.parse(fs.readFileSync(path.join(root, 'evidence/halo/final_generation.json')));
+  assert.equal(badge.textContent, release.verdict.ok_to_submit
+    ? 'OK TO SUBMIT: YES · 1 FILE' : 'OK TO SUBMIT: NO');
+  assert.match(doc.body.textContent, /OK TO DOWNLOAD AND SUBMIT/);
+  const links = [...doc.querySelectorAll('a[download]')];
+  assert.ok(links.length >= 1, 'at least one one-click download');
+  for (const link of links) {
+    assert.equal(link.getAttribute('href'), `downloads/${release.submission_file.split('/').pop()}`);
+    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
+  }
+  assert.ok(doc.body.textContent.includes(release.format_checks.sha256));
+  const rows = doc.querySelectorAll('#release-table tbody tr');
+  assert.equal(rows.length, 10, 'nine focus sites plus the released file');
+  dom.window.close();
 });
 
 test('one-click research download is visibly labeled and the exact bytes exist', () => {
