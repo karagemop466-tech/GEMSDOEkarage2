@@ -1,6 +1,22 @@
 # GEMSDOEkarage2
 
-## 2026-10-31 session — one unique candidate, the apron law, and an invalid holdout
+## Session 2026-10-31 (current branch) — FIRST CANDIDATE PUBLISHED
+
+**Result: one competition candidate passed every automated gate this repository can run and is published on the [Submission desk](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/submission-desk.html).** Files: `docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif` (+ `.zip`, identical bytes; sha256 pinned in `evidence/k10/validator.json`). The submission-form note is on the desk page.
+
+- **Why this design:** EXP-1 (K9, corroborated magnetic×gravity lineaments) measured NEGATIVE on the shared hide-and-recover instrument — below budget-matched random dots (candidate 0.0546 vs random 0.0735) with its dot placement anti-located vs withheld strands. EXP-2a (3 km corridor) was negative (zone = 52% of the map; per-fold budget starvation). EXP-2b narrowed the zone to the 1 km fault damage-zone scale, off the 200 m catalogue apron (the one lever with a measured leaderboard effect in the champion family: 0.2600 → 0.2778, USER-REPORTED).
+- **Instrument limitation (measured, decisive):** the 0.2778-reported GEMSDOE32 champion scores **0.00665** on the shared instrument vs **0.0714** for budget-matched random dots, and 96.6% of fold-0 withheld truth lies >3 km of visible context — whole-component withholding detaches fault systems, so the instrument cannot rank leaderboard-class corridor emissions and was not used as the promotion bar. Receipts: `evidence/k10a-r30-negative/champion_on_instrument.json`, `evidence/k10/holdout.json`.
+- **Uniqueness (measured):** zero Spearman and zero like-for-like overlap firings vs 487 hash-verified registry rasters (fresh enumeration of all nine focus repos at current heads); worst Jaccard 0.022. The only firing is the spacing-5 lattice witness, which the champion itself fires at 99.92% — disclosed as a geometry property of dense emissions, not waived silently. Receipt: `evidence/k10/final_registry.json`.
+- **Portal-error fix:** the earlier "Predicted values must be in range [0, 1]" rejection is answered by the all-finite convention: this candidate has 0 NaN/inf, all values in [0,1], zeros outside the footprint, float32, exact CRS/shape/transform (validator receipt re-reads the saved bytes).
+- **Score honesty:** no numeric estimate is claimed anywhere. Anchors only: same 38k-dot value-1.0 budget class as the family reporting 0.26–0.278; the apron lever; corridor geography. Risk stated: if hidden faults are not corridor-clustered, the candidate underperforms.
+- **Governance:** selector `candidate_approved_by_automated_gates`, `slot_authorized: false` — the owner spends the weekly slot. This repo used 0 slots. Legacy TIFFs (HK3, K2, K3, B4, H1, H2, H-A, HR4, H-F, gw-nfs, K9) remain RESEARCH ONLY / DO NOT SUBMIT.
+- **Three experiments used of three.** K9 raster kept as a negative research artifact with its own run card (`evidence/k9/run_card.json`, assembled post-hoc after a serialization crash — disclosed there).
+
+## 2026-10-31 session (earlier same day, merged from main) — the apron law, and an invalid holdout
+
+*(Superseded session note; its measurements stand and are used by the current candidate section above.)*
+
+## One unique research field, the apron law, and an invalid holdout
 
 **Download (unique, format-valid, NOT promoted):**
 [`docs/candidate.html`](docs/candidate.html) →

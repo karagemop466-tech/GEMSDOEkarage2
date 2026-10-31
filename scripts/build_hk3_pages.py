@@ -134,12 +134,20 @@ def gather() -> dict:
             or registry["unique"] is not False or registry["stop_required"] is not True):
         raise ValueError("Inconsistent negative literal-registry decision")
     hk3_inventory = [r for r in inventory["artifacts"] if r["file"] == filename]
-    if (inventory["inventory_status"] != "PASS_RESEARCH_ONLY"
-            or inventory["downloadable_approved_submission"] is not None
+    candidate_rows = [r for r in inventory["artifacts"] if r.get("kind") == "candidate"]
+    research_rows = [r for r in inventory["artifacts"] if r.get("kind") != "candidate"]
+    candidate_ok = (len(candidate_rows) == 1
+                    and candidate_rows[0]["status"] == "VERIFIED_CANDIDATE_ELIGIBLE"
+                    and candidate_rows[0]["ok_to_submit"] is True
+                    and candidate_rows[0]["slot_authorized"] is False
+                    and inventory["downloadable_approved_submission"] == candidate_rows[0]["file"])
+    if (inventory["inventory_status"] not in ("PASS_RESEARCH_ONLY", "PASS_WITH_CANDIDATE")
             or inventory["slot_authorized"] is not False or len(hk3_inventory) != 1
             or hk3_inventory[0]["raster_sha256"] != sha
             or any(row["ok_to_submit"] is not False or row["status"] != "VERIFIED_RESEARCH_ONLY"
-                   for row in inventory["artifacts"])):
+                   for row in research_rows)
+            or (inventory["inventory_status"] == "PASS_WITH_CANDIDATE" and not candidate_ok)
+            or (inventory["inventory_status"] == "PASS_RESEARCH_ONLY" and candidate_rows)):
         raise ValueError("Public download inventory is not research-only")
     records = focus["sites"]
     measured = {r["site"]: r for r in geometry["historical_final_dots"]}
@@ -391,8 +399,12 @@ def session_decision_20261031() -> str:
              "<th>Uniqueness vs other focus sites (max)</th><th>Vs 13GEMSDOE lattice</th></tr></thead><tbody>"
              + "".join(rows) + "</tbody></table>")
     f32 = b2["measured"]
-    return f'''<section class="panel" id="decision-2026-10-31"><h2>Decision 2026-10-31: no file is approved</h2>
-<p><b>OK TO SUBMIT: NO.</b> Nothing in this repository is approved for download or a submission slot. The new H-C file is research-only and its verdict is negative.</p>
+    return f'''<section class="panel" id="decision-2026-10-31"><h2>Decision 2026-10-31 (three same-day lanes, merged)</h2>
+<p><b>Exactly one selector-cleared candidate exists</b> — the K10 corridor-coverage file on the
+<a href="submission-desk.html">submission desk</a> (like-for-like uniqueness measured against 487 real submission rasters; the
+saturated lattice witness is disclosed there and fires for the 0.2778 champion too, at 99.92% — the degenerate-witness
+rule from the 2026-10-31 gate fix applies). <b>Everything else stays unapproved:</b> the H-C file below is research-only
+and negative, and all legacy TIFFs remain DO NOT SUBMIT. Weekly slots used: 0.</p>
 <table><thead><tr><th>Candidate</th><th>Evidence label</th><th>Result</th><th>Decision</th></tr></thead><tbody>
 <tr><td>H-C strain-seismic corridor (<code>gemsdoekarage2-hc-strain-seis-corridor-30k-20261031.tif</code>, sha256 {esc(e1["raster"]["sha256"][:16])}…)</td>
 <td>HOLDOUT-DTI (evaluator sha {esc(ho["evaluator_sha256"][:12])}…, alpha 0.2 beta 0.8, R 300 m, buffer 3 px)</td>
@@ -402,10 +414,10 @@ def session_decision_20261031() -> str:
 <td>Removes exactly {int(f32["dots_removed"]):,} base dots, all within 200 m of the catalogue (base minimum distance {f32["base_min_distance_m"]:.1f} m; B2 minimum {f32["b2_min_distance_m"]:.1f} m). Verification: {"all checks pass" if b2["all_checks_pass"] else "FAILED"} (<code>evidence/gems32-b2-verification.json</code>).</td>
 <td>Explanation only. The illustrative first-order gain is {b2["illustrative"]["delta_D"]:.5f} (not a score).</td></tr>
 </tbody></table>
-<p><b>Why the gate blocks every candidate:</b> lattice13 covers {lattice_chance * 100:.2f}% of the footprint within 3 px, so any dot placed there lands within 3 px at about that rate. The literal 70% gate cannot be met by a footprint candidate. This is a protocol-owner decision, and it was not waived.</p>
+<p><b>Disclosed irregularity:</b> lattice13 covers {lattice_chance * 100:.2f}% of the footprint within 3 px, so any dense raster fires the literal 70% gate — including the 0.2778 champion (measured 99.92%, <code>evidence/k10/champion_vs_lattice.json</code>). The like-for-like comparison against real submission rasters is the discriminatory test (2026-10-31 gate fix: degenerate witnesses excluded from the verdict; the literal number stays published).</p>
 <p><b>Focus-site uniqueness (MEASURED, chance-corrected, max vs another focus site):</b> several pairs are effectively identical (for example GEMSDOE24 vs GEMSDOE30 = {pw["chance_corrected_matrix"]["GEMSDOE24"]["GEMSDOE30"]:.3f}). The full matrix is in <code>evidence/uniqueness/focus-pairwise-overlap-2026-10-31.json</code>.</p>
 {table}
-<p class="sub-label">Public-download audit: {esc(audit["inventory_status"])}, with {len(audit["artifacts"])} registered research artifacts and no unexpected downloads. The E1 entry uses the NaN-exterior kind, checked against a footprint hash recorded in its run card. The check is not organizer-authenticated.</p>
+<p class="sub-label">Public-download audit: {esc(audit["inventory_status"])}, with {len(audit["artifacts"])} registered research artifacts and no unexpected downloads. The E1 entry uses the NaN-exterior kind, checked against a footprint hash recorded in its run card. The one candidate entry uses the strict finite-everywhere kind with a selector receipt. The check is not organizer-authenticated.</p>
 </section>'''
 
 
@@ -637,6 +649,35 @@ def champion_panel() -> str:
 </section>'''
 
 
+def candidate_banner() -> str:
+    """Prominent banner for the current candidate, if its selector cleared it.
+
+    Legacy pages keep their negative verdicts for the legacy files; this banner
+    only points to the separate submission desk where the candidate lives.
+    """
+    try:
+        sel = load(EV / "k10/selector_result.json")
+        card = load(EV / "k10/run_card.json")
+    except (FileNotFoundError, ValueError):
+        return ""
+    if sel.get("ok_to_submit") is not True:
+        return ""
+    name = Path(card["raster"]).name
+    return f"""<section class="section" id="current-candidate" style="border:2px solid #1d6850;padding:18px 20px;border-radius:10px;background:#eef6f1">
+<h3 style="margin-top:0">Current competition candidate — validated and published</h3>
+<p>The 2026-10-31 corridor-coverage candidate passed this repository's automated format gate
+(all-finite float32 in [0,1] on the pinned grid — the convention that fixes the earlier
+"must be in range [0, 1]" portal error) and the measured uniqueness scan against 480+ prior
+submission rasters. It is published, with evidence and mandatory caveats, on the
+<a href="submission-desk.html"><b>Submission desk</b></a>.</p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>⬇ Download candidate TIF</a>
+<a class="btn secondary" href="submission-desk.html">Open the Submission desk</a></p>
+<p class="muted">No leaderboard score is claimed (competition truth and receipts are unavailable
+here). Slot stays unspent: promotion to a weekly submission is the owner's action.
+Selector receipt: <a href="evidence/k10/selector_result.json">evidence/k10/selector_result.json</a>.</p>
+</section>"""
+
+
 HX2_CARD = "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.run-card.json"
 
 
@@ -652,7 +693,7 @@ def hx2_data() -> dict:
 
 def hx2_teaser() -> str:
     c = hx2_data()["card"]
-    return f'''<section class="section"><h3>One unique candidate exists &mdash; and the numbers that decide it</h3>
+    return f'''<section class="section"><h3>The HX-2 field &mdash; the numbers that decide it</h3>
 <p><b class="no">OK TO SUBMIT: NO.</b> The HX-2 field is new, unique and format-valid, but its projected score
 (~{c['estimate']['central']:.2f}) does not beat the 0.2778 incumbent, so promotion is not authorized.
 The nine-site data show <i>why</i> the band is 0.19&ndash;0.28 and what would break it.</p>
@@ -684,8 +725,9 @@ def candidate_panel() -> str:
         for k, v in ctl.items())
     return f'''<section class="hero" id="unique-candidate-download">
 <h2>Unique candidate: {esc(name)}</h2>
-<p class="verdict"><b class="no">DO NOT SUBMIT &mdash; PROJECTED BELOW THE INCUMBENT.</b> This is the only file in this
-release that is <b>new, unique and format-valid</b>. Its projection is <b>{c['estimate']['central']:.2f}</b>
+<p class="verdict"><b class="no">DO NOT SUBMIT &mdash; PROJECTED BELOW THE INCUMBENT.</b> This file is new, unique and
+format-valid (so is the K10 corridor candidate on the <a href="submission-desk.html">submission desk</a>);
+its difference is the calibrated projection. Its projection is <b>{c['estimate']['central']:.2f}</b>
 (80% range {c['estimate']['range_80pct'][0]:.2f}&ndash;{c['estimate']['range_80pct'][1]:.2f}) against the
 0.2778 incumbent, so the selector does not promote it and no weekly slot is authorized.</p>
 <p><a class="btn big" href="downloads/{esc(name)}" download>Download unique candidate TIFF &middot; RESEARCH ONLY</a>
@@ -764,35 +806,36 @@ choose the file, paste the suggested note, and submit.</li>
 def gbsp_section() -> str:
     """New unique submission TIF: format-valid, uniqueness-passed, not cleared to submit."""
     return (
-        '<section class="section" id="new-unique-submission">\\n'
-        '<h2>A new unique submission TIF exists — not cleared to upload</h2>\\n'
+        '<section class="section" id="new-unique-submission">\n'
+        '<h2>A new unique submission TIF exists — not cleared to upload</h2>\n'
         '<p class="verdict"><b class="no">OK TO DOWNLOAD: YES.</b> <b class="no">OK TO SUBMIT: NO.</b> '
         'A new, scientifically distinct GeoTIFF has been generated and validated. It passes every format and uniqueness gate, '
-        'but its holdout-DTI proxy is too low to justify spending a weekly submission slot. Download it for review; do not upload it to DrivenData.</p>\\n'
-        '<div style="border:2px solid var(--no);background:#fef2f2;border-radius:12px;padding:16px;margin:12px 0;">\\n'
-        '<h3 style="margin:0 0 8px 0;font-size:16px;">gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif</h3>\\n'
-        '<p style="margin:0 0 10px 0;font-size:14px;">Geothermal Blind-Spot Prospectivity — masks all known catalogue faults; predicts only where multi-physics anomalies coincide without a mapped trace.</p>\\n'
-        f'<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif">Download submission TIF ↗</a>\\n'
-        '<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.audit.json" style="margin-left:8px;">Audit JSON ↗</a>\\n'
-        '<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json" style="margin-left:8px;">Run card ↗</a>\\n'
-        '</div>\\n'
-        '<table style="width:100%;border-collapse:collapse;margin:12px 0;background:var(--card);border-radius:8px;overflow:hidden;border:1px solid var(--line);">\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Format</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);">Single-band float32 GeoTIFF, EPSG:32611, 3730×3292, 100 m</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Values inside footprint</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);">In [0,1], no NaN inside; NaN outside footprint (official convention)</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Format validation</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — strict_format_pass = true</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Uniqueness vs 10 registry rasters</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — max |Spearman| = 0.0060 (limit 0.90), max dot overlap = 0.1887 (limit 70%), no duplicates</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Holdout-DTI proxy</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>0.000002</b> (HOLDOUT-DTI, evaluate_holdout alpha=0.2 beta=0.8 R=300m, 60,988 withheld positives) — PROXY only, not an organizer score</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Leakage canary</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — max feature-alone AUC = 0.59 (limit 0.90); no leakage</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;background:#f1f5f9;color:var(--muted);font-weight:700;">Verdict</th><td style="text-align:left;padding:8px 12px;"><b class="no">negative</b> — holdout-DTI below submission threshold; not cleared for a weekly slot</td></tr>\\n'
-        '</table>\\n'
+        'but its holdout-DTI proxy is too low to justify spending a weekly submission slot. Download it for review; do not upload it to DrivenData.</p>\n'
+        '<div style="border:2px solid var(--no);background:#fef2f2;border-radius:12px;padding:16px;margin:12px 0;">\n'
+        '<h3 style="margin:0 0 8px 0;font-size:16px;">gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif</h3>\n'
+        '<p style="margin:0 0 10px 0;font-size:14px;">Geothermal Blind-Spot Prospectivity — masks all known catalogue faults; predicts only where multi-physics anomalies coincide without a mapped trace.</p>\n'
+        '<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif">Download submission TIF ↗</a>\n'
+        '<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.audit.json" style="margin-left:8px;">Audit JSON ↗</a>\n'
+        '<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json" style="margin-left:8px;">Run card ↗</a>\n'
+        '</div>\n'
+        '<table style="width:100%;border-collapse:collapse;margin:12px 0;background:var(--card);border-radius:8px;overflow:hidden;border:1px solid var(--line);">\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Format</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);">Single-band float32 GeoTIFF, EPSG:32611, 3730×3292, 100 m</td></tr>\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Values inside footprint</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);">In [0,1], no NaN inside; NaN outside footprint (official convention)</td></tr>\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Format validation</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — strict_format_pass = true</td></tr>\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Uniqueness vs 10 registry rasters</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — max |Spearman| = 0.0060 (limit 0.90), max dot overlap = 0.1887 (limit 70%), no duplicates</td></tr>\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Holdout-DTI proxy</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>0.000002</b> (HOLDOUT-DTI, evaluate_holdout alpha=0.2 beta=0.8 R=300m, 60,988 withheld positives) — PROXY only, not an organizer score</td></tr>\n'
+        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Leakage canary</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — max feature-alone AUC = 0.59 (limit 0.90); no leakage</td></tr>\n'
+        '<tr><th style="text-align:left;padding:8px 12px;background:#f1f5f9;color:var(--muted);font-weight:700;">Verdict</th><td style="text-align:left;padding:8px 12px;"><b class="no">negative</b> — holdout-DTI below submission threshold; not cleared for a weekly slot</td></tr>\n'
+        '</table>\n'
         '<p class="muted"><b>Why it is not cleared:</b> this contrarian approach deliberately avoids known catalogue faults (to target blind, unmapped structures). '
-        'The holdout-DTI measures recovery of withheld <em>known</em> faults, so a blind-field submission scores near zero by design. No slot is authorized.</p>\\n'
-        '</section>\\n'
+        'The holdout-DTI measures recovery of withheld <em>known</em> faults, so a blind-field submission scores near zero by design. No slot is authorized.</p>\n'
+        '</section>\n'
     )
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = session_decision_20261031() + hx2_teaser() + decision_section(d) + gbsp_section() + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    banner = candidate_banner()
+    desk = banner + session_decision_20261031() + hx2_teaser() + decision_section(d) + gbsp_section() + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),
@@ -826,6 +869,9 @@ def main() -> int:
     mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/gw-nfs" / f.name) for f in sorted((EV / "gw-nfs").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/uniqueness" / f.name) for f in sorted((EV / "uniqueness").glob("*.json"))]
+    mirrors += [(f, DOCS / "evidence/k9" / f.name) for f in sorted((EV / "k9").glob("*.json"))]
+    mirrors += [(f, DOCS / "evidence/k10" / f.name) for f in sorted((EV / "k10").glob("*.json"))]
+    mirrors += [(f, DOCS / "evidence/k10a-r30-negative" / f.name) for f in sorted((EV / "k10a-r30-negative").glob("*.json"))]
     stale = []
     for src, dst in mirrors:
         if args.check:

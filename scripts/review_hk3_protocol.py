@@ -49,7 +49,15 @@ def review():
         "raster_unchanged_since_original_card": entry["raster_sha256"] == raster["sha256"] == old["raster"]["sha256"],
         "historical_registry_bound_to_same_tiff": registry["candidate_file_sha256"] == raster["sha256"],
         "saved_download_checks_pass_research_only": entry["status"] == "VERIFIED_RESEARCH_ONLY",
-        "all_downloads_research_only": inventory["inventory_status"] == "PASS_RESEARCH_ONLY",
+        # Research-only for every legacy file; a single verified candidate with
+        # slot authorization still False is permitted since 2026-10-31.
+        "all_downloads_research_only": (
+            inventory["inventory_status"] in ("PASS_RESEARCH_ONLY", "PASS_WITH_CANDIDATE")
+            and (inventory["inventory_status"] != "PASS_WITH_CANDIDATE"
+                 or (sum(1 for row in inventory["artifacts"] if row.get("kind") == "candidate") == 1
+                     and all(row["slot_authorized"] is False for row in inventory["artifacts"])
+                     and all(row["status"] == "VERIFIED_RESEARCH_ONLY"
+                             for row in inventory["artifacts"] if row.get("kind") != "candidate")))),
     }
     if not all(checks.values()):
         raise ValueError(f"Protocol-review integrity failed: {checks}")

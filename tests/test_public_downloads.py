@@ -44,15 +44,14 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
-    assert result['downloadable_approved_submission'] is None
+    assert result['inventory_status'] in ('PASS_RESEARCH_ONLY', 'PASS_WITH_CANDIDATE')
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     # Unregistered leftovers from parallel lanes are quarantined, never authorized.
     assert [q['status'] for q in result['quarantined_downloads']] == ['QUARANTINED_NOT_AUTHORIZED'] * len(result['quarantined_downloads'])
     assert not result['unexpected_downloads']
     assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 14  # main's registered set + H-C E1 (NaN exterior)
+    assert len(result['artifacts']) == 16  # main's registered set + H-C E1 + K9 + K10 candidate
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())
@@ -77,8 +76,13 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert assessment['validator_output']['portal_acceptance'] is None
     assert assessment['submission_name'] is None and assessment['submission_note'] is None
     for record in result['artifacts']:
-        assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
-        assert record['ok_to_submit'] is False and record['slot_authorized'] is False
+        if record.get('kind') == 'candidate':
+            assert record['status'] == 'VERIFIED_CANDIDATE_ELIGIBLE'
+            assert record['ok_to_submit'] is True and record['slot_authorized'] is False
+            assert record['file'] == result['downloadable_approved_submission']
+        else:
+            assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
+            assert record['ok_to_submit'] is False and record['slot_authorized'] is False
         assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
         assert record['checks']['card_sha_matches_saved_bytes']
         assert record['checks']['mirror_transform_match']
@@ -93,8 +97,12 @@ def test_stale_unverified_tif_is_not_published_as_a_submission():
         assert 'gw-nfs-h1-20261029-zeros' not in page
     assert 'docs/index.html' in (ROOT / 'index.html').read_text()
     report = mod.audit()
-    assert report['downloadable_approved_submission'] is None
-    assert all(r['ok_to_submit'] is False for r in report['artifacts'])
+    cand = [r for r in report['artifacts'] if r.get('kind') == 'candidate']
+    assert all(r['ok_to_submit'] is False for r in report['artifacts'] if r.get('kind') != 'candidate')
+    if report['inventory_status'] == 'PASS_WITH_CANDIDATE':
+        assert len(cand) == 1 and cand[0]['ok_to_submit'] is True and cand[0]['slot_authorized'] is False
+    else:
+        assert report['downloadable_approved_submission'] is None
 
 
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):
@@ -109,7 +117,7 @@ def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch)
             ok_to_submit=True, slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
         result = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
         assert result['status'] == 'FAIL_CLOSED' and result['ok_to_submit'] is False
-        assert result['checks']['independent_release_verification_implemented'] is False
+        assert result['checks']['candidate_card_gates'] is False
     monkeypatch.setattr(mod, 'ARTIFACTS', ((stem, card_rel, selector_rel, True, 'candidate'),))
     result = mod.audit(root)
     assert result['inventory_status'] == 'FAIL_CLOSED'
