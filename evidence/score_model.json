@@ -1,0 +1,515 @@
+{
+  "evidence_class": "CALIBRATED-PRIVATE (algebra on USER-REPORTED leaderboard values) + SAVED-BYTE / geometry checks; never ORGANIZER-CONFIRMED",
+  "generated_by": "scripts/score_model.py",
+  "grid": {
+    "height": 3730,
+    "width": 3292,
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "footprint_px": 5167373,
+    "catalogue_px": 60988,
+    "scored_domain_px": 5106385
+  },
+  "kernel": {
+    "alpha": 0.2,
+    "beta": 0.8,
+    "radius_px": 3.0,
+    "kernel_area_px": 9.380297810508184,
+    "kappa_catalogue": 3.4538193756778317
+  },
+  "hidden_truth": {
+    "G_px": 12405.76810261941,
+    "G_interval_px": [
+      12397.144394770015,
+      12414.394262337632
+    ],
+    "G_as_fraction_of_catalogue": 0.20341326330785417,
+    "source": "r13 uniform-lattice probe at the reported 0.0904"
+  },
+  "credits_per_hit": {
+    "value": 4.889756555772709,
+    "fitted_from": "GEMSDOE25 -> GEMSDOE31 zero-hit removal + B1 hit rate",
+    "note": "mean truth credit earned per hit dot on a line-shaped truth set"
+  },
+  "files": {
+    "r13_lattice": {
+      "site": "13GEMSDOE",
+      "submission": "20261001_r13-lattice-s5_v2_nan-outside",
+      "reported_score_user_reported": 0.0904,
+      "raster": "r13_lattice_nan.tif",
+      "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "dots": 206895,
+      "dots_on_catalogue_excluded": 2391,
+      "dots_scored": 204504,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/r13_lattice_nan.tif",
+      "T_truth_credit": 4647.621598585785,
+      "coverage_T_over_G": 0.3746339251339436
+    },
+    "GEMSDOE24": {
+      "site": "GEMSDOE24",
+      "submission": "h25-1-dotted-h19-5-d1-5",
+      "reported_score_user_reported": 0.2477,
+      "raster": "GEMSDOE24.tif",
+      "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+      "dots": 60069,
+      "dots_on_catalogue_excluded": 0,
+      "dots_scored": 60069,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/GEMSDOE24.tif",
+      "hit_rate": 0.01925993944887236,
+      "T_truth_credit": 5657.0830836822315,
+      "F_false_positive_mass": 58912.07469724568,
+      "coverage_T_over_G": 0.4560042584132916,
+      "reproduced_dti": 0.2477,
+      "random_control": {
+        "hit_rate": 0.02226842348335767,
+        "n": 60069,
+        "expected_dti": 0.28520187864355373
+      },
+      "skill_vs_random": 0.8685076030287174,
+      "marginal_hit_rate_bar": 0.010547027486407538,
+      "legacy_alpha_dti_bar_retired": {
+        "value": 0.04954,
+        "why_retired": "alpha*DTI is a credit bar, not a hit-rate bar; comparing a hit rate with it mixed units and understated the bar by a factor of K. Retained only so old page text can be traced."
+      },
+      "dots_are_profitable": true,
+      "budget_headroom_x": 1.826101190472251,
+      "dots_at_constant_precision_optimum": 131729
+    },
+    "GEMSDOE25": {
+      "site": "GEMSDOE25",
+      "submission": "dotted-h19-5-d2-8",
+      "reported_score_user_reported": 0.26,
+      "raster": "GEMSDOE25.tif",
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "dots": 44090,
+      "dots_on_catalogue_excluded": 0,
+      "dots_scored": 44090,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/GEMSDOE25.tif",
+      "hit_rate": 0.023578878245939745,
+      "T_truth_credit": 5083.355424860693,
+      "F_false_positive_mass": 43050.40725813652,
+      "coverage_T_over_G": 0.40975741145664096,
+      "reproduced_dti": 0.26000000000000006,
+      "random_control": {
+        "hit_rate": 0.02226842348335767,
+        "n": 44090,
+        "expected_dti": 0.2466058249172591
+      },
+      "skill_vs_random": 1.0543141066811172,
+      "marginal_hit_rate_bar": 0.011093358857235067,
+      "legacy_alpha_dti_bar_retired": {
+        "value": 0.052000000000000005,
+        "why_retired": "alpha*DTI is a credit bar, not a hit-rate bar; comparing a hit rate with it mixed units and understated the bar by a factor of K. Retained only so old page text can be traced."
+      },
+      "dots_are_profitable": true,
+      "budget_headroom_x": 2.1254949514737502,
+      "dots_at_constant_precision_optimum": 107600
+    },
+    "GEMSDOE27": {
+      "site": "GEMSDOE27",
+      "submission": "topo-gap-closure-t-v2-on-d1-5",
+      "reported_score_user_reported": 0.2449,
+      "raster": "GEMSDOE27.tif",
+      "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+      "dots": 61328,
+      "dots_on_catalogue_excluded": 0,
+      "dots_scored": 61328,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/GEMSDOE27.tif",
+      "hit_rate": 0.01885663527816608,
+      "T_truth_credit": 5654.708743003442,
+      "F_false_positive_mass": 60171.56027166063,
+      "coverage_T_over_G": 0.45581286835512275,
+      "reproduced_dti": 0.2449,
+      "random_control": {
+        "hit_rate": 0.02226842348335767,
+        "n": 61328,
+        "expected_dti": 0.2877529155081286
+      },
+      "skill_vs_random": 0.8510773889729084,
+      "marginal_hit_rate_bar": 0.010422970262612451,
+      "legacy_alpha_dti_bar_retired": {
+        "value": 0.04898,
+        "why_retired": "alpha*DTI is a credit bar, not a hit-rate bar; comparing a hit rate with it mixed units and understated the bar by a factor of K. Retained only so old page text can be traced."
+      },
+      "dots_are_profitable": true,
+      "budget_headroom_x": 1.80914219297022,
+      "dots_at_constant_precision_optimum": 134546
+    },
+    "GEMSDOE28": {
+      "site": "GEMSDOE28",
+      "submission": "h36-1-rung30-blind-r1",
+      "reported_score_user_reported": 0.271,
+      "raster": "GEMSDOE28.tif",
+      "sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+      "dots": 37660,
+      "dots_on_catalogue_excluded": 0,
+      "dots_scored": 37660,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/GEMSDOE28.tif",
+      "hit_rate": 0.026847403234207416,
+      "T_truth_credit": 4943.901836427908,
+      "F_false_positive_mass": 36648.926794199746,
+      "coverage_T_over_G": 0.3985163833091504,
+      "reproduced_dti": 0.2710000000000001,
+      "random_control": {
+        "hit_rate": 0.02226842348335767,
+        "n": 37660,
+        "expected_dti": 0.22689741732244817
+      },
+      "skill_vs_random": 1.1943723432289088,
+      "marginal_hit_rate_bar": 0.011583840690728021,
+      "legacy_alpha_dti_bar_retired": {
+        "value": 0.054200000000000005,
+        "why_retired": "alpha*DTI is a credit bar, not a hit-rate bar; comparing a hit rate with it mixed units and understated the bar by a factor of K. Retained only so old page text can be traced."
+      },
+      "dots_are_profitable": true,
+      "budget_headroom_x": 2.3176599153074258,
+      "dots_at_constant_precision_optimum": 94501
+    },
+    "GEMSDOE30": {
+      "site": "GEMSDOE30",
+      "submission": "d28-poisson300m-offcat-44090",
+      "reported_score_user_reported": 0.26,
+      "raster": "GEMSDOE30.tif",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "dots": 44090,
+      "dots_on_catalogue_excluded": 0,
+      "dots_scored": 44090,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/GEMSDOE30.tif",
+      "hit_rate": 0.023578878245939745,
+      "T_truth_credit": 5083.355424860693,
+      "F_false_positive_mass": 43050.40725813652,
+      "coverage_T_over_G": 0.40975741145664096,
+      "reproduced_dti": 0.26000000000000006,
+      "random_control": {
+        "hit_rate": 0.02226842348335767,
+        "n": 44090,
+        "expected_dti": 0.2466058249172591
+      },
+      "skill_vs_random": 1.0543141066811172,
+      "marginal_hit_rate_bar": 0.011093358857235067,
+      "legacy_alpha_dti_bar_retired": {
+        "value": 0.052000000000000005,
+        "why_retired": "alpha*DTI is a credit bar, not a hit-rate bar; comparing a hit rate with it mixed units and understated the bar by a factor of K. Retained only so old page text can be traced."
+      },
+      "dots_are_profitable": true,
+      "budget_headroom_x": 2.1254949514737502,
+      "dots_at_constant_precision_optimum": 107600
+    },
+    "GEMSDOE31": {
+      "site": "GEMSDOE31",
+      "submission": "h27-4-solo-d28",
+      "reported_score_user_reported": 0.2708,
+      "raster": "GEMSDOE31.tif",
+      "sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+      "dots": 40199,
+      "dots_on_catalogue_excluded": 0,
+      "dots_scored": 40199,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/GEMSDOE31.tif",
+      "hit_rate": 0.025863382648322213,
+      "T_truth_credit": 5083.792457690625,
+      "F_false_positive_mass": 39159.3178809201,
+      "coverage_T_over_G": 0.40979263965261536,
+      "reproduced_dti": 0.2708,
+      "random_control": {
+        "hit_rate": 0.02226842348335767,
+        "n": 40199,
+        "expected_dti": 0.23503232015481101
+      },
+      "skill_vs_random": 1.152181962981217,
+      "marginal_hit_rate_bar": 0.011574906826115788,
+      "legacy_alpha_dti_bar_retired": {
+        "value": 0.05416,
+        "why_retired": "alpha*DTI is a credit bar, not a hit-rate bar; comparing a hit rate with it mixed units and understated the bar by a factor of K. Retained only so old page text can be traced."
+      },
+      "dots_are_profitable": true,
+      "budget_headroom_x": 2.2344354936808797,
+      "dots_at_constant_precision_optimum": 98096
+    },
+    "GEMSDOE32": {
+      "site": "GEMSDOE32",
+      "submission": "h33-h33-2-b2",
+      "reported_score_user_reported": 0.2778,
+      "raster": "GEMSDOE32.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "dots": 37654,
+      "dots_on_catalogue_excluded": 0,
+      "dots_scored": 37654,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/GEMSDOE32.tif",
+      "hit_rate": 0.027554711985369112,
+      "T_truth_credit": 5073.343077353504,
+      "F_false_positive_mass": 36616.45487490291,
+      "coverage_T_over_G": 0.40895033950233967,
+      "reproduced_dti": 0.27779999999999994,
+      "random_control": {
+        "hit_rate": 0.02226842348335767,
+        "n": 37654,
+        "expected_dti": 0.22687760619945752
+      },
+      "skill_vs_random": 1.2244487442086924,
+      "marginal_hit_rate_bar": 0.011887946014244756,
+      "legacy_alpha_dti_bar_retired": {
+        "value": 0.05556,
+        "why_retired": "alpha*DTI is a credit bar, not a hit-rate bar; comparing a hit rate with it mixed units and understated the bar by a factor of K. Retained only so old page text can be traced."
+      },
+      "dots_are_profitable": true,
+      "budget_headroom_x": 2.317869878644437,
+      "dots_at_constant_precision_optimum": 92075
+    },
+    "GEMSDOE33": {
+      "site": "GEMSDOE33",
+      "submission": "h33d-analog-tip-stepover-r30",
+      "reported_score_user_reported": 0.2632,
+      "raster": "GEMSDOE33.tif",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "dots": 41865,
+      "dots_on_catalogue_excluded": 0,
+      "dots_scored": 41865,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/GEMSDOE33.tif",
+      "hit_rate": 0.024553855094376444,
+      "T_truth_credit": 5026.4112840444295,
+      "F_false_positive_mass": 40837.05285647393,
+      "coverage_T_over_G": 0.4051672772267225,
+      "reproduced_dti": 0.26320000000000005,
+      "random_control": {
+        "hit_rate": 0.02226842348335767,
+        "n": 41865,
+        "expected_dti": 0.24011369537414354
+      },
+      "skill_vs_random": 1.0961473879692016,
+      "marginal_hit_rate_bar": 0.011235859674843739,
+      "legacy_alpha_dti_bar_retired": {
+        "value": 0.05264,
+        "why_retired": "alpha*DTI is a credit bar, not a hit-rate bar; comparing a hit rate with it mixed units and understated the bar by a factor of K. Retained only so old page text can be traced."
+      },
+      "dots_are_profitable": true,
+      "budget_headroom_x": 2.1853116543766307,
+      "dots_at_constant_precision_optimum": 103328
+    },
+    "GEMSDOE36": {
+      "site": "GEMSDOE36",
+      "submission": "anderson-geothermal-pinn-38854",
+      "reported_score_user_reported": 0.275,
+      "raster": "GEMSDOE36.tif",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "dots": 38854,
+      "dots_on_catalogue_excluded": 0,
+      "dots_scored": 38854,
+      "file": "/home/user/GEMSDOEkarage2/.cache/registry_focus/GEMSDOE36.tif",
+      "hit_rate": 0.02678550991663374,
+      "T_truth_credit": 5088.8879909520865,
+      "F_false_positive_mass": 37813.27579769911,
+      "coverage_T_over_G": 0.4102033786910458,
+      "reproduced_dti": 0.27499999999999997,
+      "random_control": {
+        "hit_rate": 0.02226842348335767,
+        "n": 38854,
+        "expected_dti": 0.23078385169995724
+      },
+      "skill_vs_random": 1.1915911705881759,
+      "marginal_hit_rate_bar": 0.011762642840086136,
+      "legacy_alpha_dti_bar_retired": {
+        "value": 0.05500000000000001,
+        "why_retired": "alpha*DTI is a credit bar, not a hit-rate bar; comparing a hit rate with it mixed units and understated the bar by a factor of K. Retained only so old page text can be traced."
+      },
+      "dots_are_profitable": true,
+      "budget_headroom_x": 2.27716766383069,
+      "dots_at_constant_precision_optimum": 94719
+    }
+  },
+  "projection_grid_private_dti": {
+    "h=0.03": {
+      "10000": 0.1209,
+      "20000": 0.2043,
+      "30000": 0.2652,
+      "44090": 0.3278,
+      "60000": 0.3781
+    },
+    "h=0.04": {
+      "10000": 0.1602,
+      "20000": 0.2694,
+      "30000": 0.3487,
+      "44090": 0.4295,
+      "60000": 0.4942
+    },
+    "h=0.05": {
+      "10000": 0.199,
+      "20000": 0.3332,
+      "30000": 0.43,
+      "44090": 0.5279,
+      "60000": 0.5211
+    },
+    "h=0.06": {
+      "10000": 0.2372,
+      "20000": 0.3957,
+      "30000": 0.509,
+      "44090": 0.5995,
+      "60000": 0.5238
+    },
+    "h=0.08": {
+      "10000": 0.3124,
+      "20000": 0.5167,
+      "30000": 0.6608,
+      "44090": 0.6046,
+      "60000": 0.5291
+    },
+    "h=0.10": {
+      "10000": 0.3857,
+      "20000": 0.6329,
+      "30000": 0.6967,
+      "44090": 0.6099,
+      "60000": 0.5346
+    }
+  },
+  "break_even_hit_rate": {
+    "target_0.2778": {
+      "10000": {
+        "target": 0.2778,
+        "n": 10000,
+        "hit_rate_needed": 0.07073317075179505,
+        "reachable": true
+      },
+      "20000": {
+        "target": 0.2778,
+        "n": 20000,
+        "hit_rate_needed": 0.04129827992736491,
+        "reachable": true
+      },
+      "30000": {
+        "target": 0.2778,
+        "n": 30000,
+        "hit_rate_needed": 0.03148664965255486,
+        "reachable": true
+      },
+      "44090": {
+        "target": 0.2778,
+        "n": 44090,
+        "hit_rate_needed": 0.02521557364565653,
+        "reachable": true
+      },
+      "60000": {
+        "target": 0.2778,
+        "n": 60000,
+        "hit_rate_needed": 0.02167501937774481,
+        "reachable": true
+      }
+    },
+    "target_0.3195": {
+      "10000": {
+        "target": 0.3195,
+        "n": 10000,
+        "hit_rate_needed": 0.08191972389700505,
+        "reachable": true
+      },
+      "20000": {
+        "target": 0.3195,
+        "n": 20000,
+        "hit_rate_needed": 0.047829662563021784,
+        "reachable": true
+      },
+      "30000": {
+        "target": 0.3195,
+        "n": 30000,
+        "hit_rate_needed": 0.03646630878502736,
+        "reachable": true
+      },
+      "44090": {
+        "target": 0.3195,
+        "n": 44090,
+        "hit_rate_needed": 0.02920345304758388,
+        "reachable": true
+      },
+      "60000": {
+        "target": 0.3195,
+        "n": 60000,
+        "hit_rate_needed": 0.02510295500703293,
+        "reachable": true
+      }
+    },
+    "target_0.4544": {
+      "10000": {
+        "target": 0.4544,
+        "n": 10000,
+        "hit_rate_needed": 0.11920501069754558,
+        "reachable": true
+      },
+      "20000": {
+        "target": 0.4544,
+        "n": 20000,
+        "hit_rate_needed": 0.06959905583487266,
+        "reachable": true
+      },
+      "30000": {
+        "target": 0.4544,
+        "n": 30000,
+        "hit_rate_needed": 0.053063737547315026,
+        "reachable": true
+      },
+      "44090": {
+        "target": 0.4544,
+        "n": 44090,
+        "hit_rate_needed": 0.042495235180715456,
+        "reachable": true
+      },
+      "60000": {
+        "target": 0.4544,
+        "n": 60000,
+        "hit_rate_needed": 0.03652841925975739,
+        "reachable": true
+      }
+    }
+  },
+  "optimal_budget_by_precision": {
+    "h=0.03": {
+      "n": 84500,
+      "hit_rate": 0.03,
+      "T": 12405.76810261941,
+      "F": 81965.0,
+      "projected_dti": 0.4307742629272755,
+      "coverage": 1.0
+    },
+    "h=0.04": {
+      "n": 63500,
+      "hit_rate": 0.04,
+      "T": 12405.76810261941,
+      "F": 60960.0,
+      "projected_dti": 0.5043452743705769,
+      "coverage": 1.0
+    },
+    "h=0.05": {
+      "n": 50500,
+      "hit_rate": 0.05,
+      "T": 12372.5,
+      "F": 47975.0,
+      "projected_dti": 0.56253685548795,
+      "coverage": 0.997318335926948
+    },
+    "h=0.06": {
+      "n": 42000,
+      "hit_rate": 0.06,
+      "T": 12348.0,
+      "F": 39480.0,
+      "projected_dti": 0.6085692199506373,
+      "coverage": 0.9953434481330332
+    },
+    "h=0.08": {
+      "n": 31500,
+      "hit_rate": 0.08,
+      "T": 12348.0,
+      "F": 28980.0,
+      "projected_dti": 0.6788265202784733,
+      "coverage": 0.9953434481330332
+    }
+  },
+  "brief_claims_vs_model": {
+    "user_cited_high_2026_10_28": 0.3195,
+    "user_cited_high_2026_10_31": 0.4413,
+    "official_rank1_observation_2026_10_31": 0.4544
+  }
+}

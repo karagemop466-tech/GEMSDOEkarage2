@@ -1,0 +1,7 @@
+{
+  "train_pos": 58308,
+  "train_neg": 300000,
+  "allowed_px": 4723741,
+  "eligible_px": 5016432,
+  "feature_channels": 34
+}

@@ -71,8 +71,8 @@
     "raster_unchanged_since_original_card": true,
     "historical_registry_bound_to_same_tiff": true,
     "saved_download_checks_pass_research_only": true,
-    "all_legacy_downloads_research_only": true,
-    "new_release_cleared_unique_and_no_slot": true
+    "all_downloads_research_only": true,
+    "release_entries_verified": true
   },
   "verdict": "negative"
 }

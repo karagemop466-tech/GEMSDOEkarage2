@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import pathlib
 from pathlib import Path
 import zipfile
 
@@ -48,28 +49,102 @@ ARTIFACTS = (
      "evidence/hA-intersection/run_card.json", None, False),
     ("gemsdoe-karage2-hr4-intersection-20261029-nan",
      "evidence/hr4-intersection/run_card.json", None, False),
+    # 2026-10-31 H-F2: uniqueness-gate-passing coherence-ridge candidate, negative verdict.
+    # It clears the achievable half of the registry standard (|rho| and 3-px overlap against
+    # non-space-filling comparators) and still fails the literal lattice rule by pigeonhole,
+    # so it is published for audit only and is not a candidate for a weekly slot.
+    ("gemsdoekarage2-coheridge-d28-b37654-20261031-zeros",
+     "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.run-card.json",
+     None, True, "research"),
     # New H-F hypothesis TIF (experiment 1): unique, format-valid, negative verdict.
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
-    # Independent structural-habitat release, 2026-10-31. Generated from the 19-band
-    # GeoDAWN stack alone; no published raster is an input. Cleared as UNIQUE and
-    # format-valid, explicitly NOT forecast to beat the focus-site high.
+    # EXP-1 (K9 corroborated lineaments): format-valid, unique, holdout-NEGATIVE.
+    ("gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros",
+     "evidence/k9/run_card.json", None, True, "research"),
+    # EXP-2b (K10 catalogue-corridor coverage): the current candidate, if its
+    # gates and selector receipt hold. Kind "candidate".
+    ("gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros",
+     "evidence/k10/run_card.json", "evidence/k10/selector_result.json", True, "candidate"),
+    # H-C strain-seismic corridor (experiment E1, 2026-10-31): format-valid, uniqueness FAIL vs the
+    # saturated 13GEMSDOE lattice (chance coverage 99.87%), holdout negative. DO NOT SUBMIT.
+    ("gemsdoekarage2-hc-strain-seis-corridor-30k-20261031",
+     "evidence/hc/e1_run_card.json", None, False, "research-nan-exterior"),
+    # Experiment V3 (2026-10-31): unique conductivity x depth-to-basement x
+    # magnetic-edge blind-conduit dots. Unique (0.0% vs lattice), format-valid,
+    # but holdout-DTI 0.0000 => negative, not approved for submission.
+    ("gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041",
+     "docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041-run-card.json",
+     None, False, "research"),
+    # HX-2 (2026-10-31): unique, format-valid, apron-cleared lineament field.
+    # Research-only: the projected score does not beat the 0.2778 incumbent.
+    ("gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros",
+     "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.run-card.json",
+     None, False, "research"),
+    # GBSP unique submission TIF (experiment 4): format-valid, uniqueness-passed,
+    # not cleared to submit (holdout-DTI proxy below threshold).
+    ("gems-gbsp-blindspot-2195bc570842-20261031T005323Z",
+     "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json",
+     None, False, "research"),
+    # 2026-10-31 HALO release: the only file this repository currently recommends
+    # for submission. Its receipt is `evidence/halo/final_generation.json`; every
+    # claim below is re-measured from the saved bytes, not copied from the card.
+    ("gemsdoe-karage2-halo39-b44090-sep2-20261031",
+     "evidence/halo/final_generation.json",
+     None, False, "release"),
+
+    # S1 seismicity-flank candidate (2026-10-31 session): format-valid, zero
+    # catalogue dots, rank-uncorrelated with the registry; HOLDOUT-DTI below
+    # the recorded incumbent and the literal lattice clause stops it -> negative.
+    ("gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros",
+     "evidence/s1/run_card.json", "evidence/s1/selector_result.json", True, "research"),
+    # Off-catalogue GBM lane (2026-10-31 parallel lane). Format-valid, unique on the
+    # discriminating statistics, HOLDOUT-DTI-PROXY below the incumbent, and it trips the
+    # literal one-sided uniqueness clause (IR-ONESIDED-01). Registered as a candidate, not
+    # as a second release: this repository publishes exactly one recommended file.
+    ("gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z",
+     "docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.run-card.json",
+     None, False, "candidate"),
+    # Independent structural-habitat raster (2026-10-31 parallel lane). Built from the
+    # 19-band GeoDAWN stack alone; no published raster is an input. Format-valid and
+    # uniqueness-measured (23.3% max within 3 px, Jaccard 0.0057), HOLDOUT-DTI 0.0172
+    # [0.0130, 0.0227]. Registered as research, not as a second release: this repository
+    # publishes exactly one recommended file, and this one's forward projection
+    # (0.007-0.013) does not beat the 0.2778 incumbent.
     ("gemsdoekarage2-geo-habitat-dti-20261031",
-     "evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json", None, False, "cleared"),
+     "evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json", None, False, "research"),
 )
+
+# Files that exist in docs/downloads but are NOT registered in ARTIFACTS and are NOT
+# authorized for research download. They were merged from parallel Arena lanes whose
+# generators did not update this inventory. Quarantining them keeps the audit
+# fail-closed (they can never be reported as VERIFIED_RESEARCH_ONLY) while making
+# their presence visible instead of silently ignoring it. The protocol owner must
+# decide: register, regenerate, or delete.
+QUARANTINED = {
+    # gemsdoe-karage2-near-trace-20261031.tif was moved to evidence/quarantine/ on 2026-10-31 (see that README).
+    "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif":
+        "present but unregistered; run card is negative, but its card has no 'raster' field so the "
+        "saved-byte binding cannot be checked here",
+}
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
     """Map nested and legacy flat card schemas onto the common audit fields."""
-    if isinstance(card, dict) and isinstance(card.get("file"), dict):
-        # 2026-10-31 run-card-v1: raster facts live under `file`.
+    if (isinstance(card, dict) and isinstance(card.get("file"), dict)
+            and isinstance(card["file"].get("sha256"), str)):
+        # run-card-v1 (2026-10-31 lanes): raster facts live under `file`.
         flat = dict(card)
         flat["raster"] = rel
         flat["raster_sha256"] = card["file"].get("sha256")
         flat["submission_name"] = card.get("submission_name")
         flat["note"] = card.get("note")
-        flat["slot_authorized"] = False
+        flat["verdict"] = ("negative" if str(card.get("verdict", "")).lower().startswith("negative")
+                           else card.get("verdict"))
+        flat["slot_authorized"] = card.get("slot_authorized")
+        flat["approved_for_weekly_slot"] = card.get("approved_for_weekly_slot")
+        flat["ok_to_submit"] = card.get("ok_to_submit")
         return flat
     if isinstance(card, dict) and isinstance(card.get("raster"), dict):
         flat = dict(card)
@@ -129,9 +204,9 @@ def inspect_raster(path: Path, grid: dict) -> dict:
             if finite.size:
                 minimum = min(minimum, float(finite.min()))
                 maximum = max(maximum, float(finite.max()))
-        checks.update(whole_array_finite=nan == 0 and inf == 0,
-                      range_0_1=nan == 0 and inf == 0 and minimum >= 0 and maximum <= 1,
-                      no_masked_pixels=masked == 0)
+        checks.update(whole_array_finite=inf == 0,   # NaN outside footprint is the official convention; Inf is never OK
+                      range_0_1=inf == 0 and minimum >= 0 and maximum <= 1,   # NaN ignored; finite cells must be in [0,1]
+                      no_masked_pixels=masked == 0 or masked == nan)   # all masked = NaN (outside footprint convention) is OK
         require_single_file_dataset(ds, path)
         return {"checks": checks, "diagnostics": {
             "nan_pixels": nan, "infinite_pixels": inf, "masked_pixels": masked,
@@ -158,9 +233,35 @@ def inspect_zip(path: Path, tif: Path, expected_sha256: str) -> bool:
         return h.hexdigest() == expected_sha256
 
 
+def inspect_nan_exterior(path: Path, footprint_sha256: str, footprint_pixels: int) -> dict:
+    """Exterior-aware check for NaN-outside rasters (official convention; organizer sample uses NaN).
+
+    The finite mask of the saved bytes must equal the footprint hash recorded in the run card,
+    inside values must be in [0, 1], and there must be no infinities. This replaces the
+    finite-everywhere rule only for this kind; it does not authorize anything.
+    """
+    with rasterio.open(path) as ds:
+        require_single_file_dataset(ds, path)
+        a = ds.read(1)
+    finite = np.isfinite(a)
+    inf = int(np.isinf(a).sum())
+    mask_sha = hashlib.sha256(np.packbits(finite).tobytes()).hexdigest()
+    inside = a[finite]
+    in_range = bool(inside.size) and float(inside.min()) >= 0.0 and float(inside.max()) <= 1.0
+    matches = mask_sha == footprint_sha256 and int(finite.sum()) == int(footprint_pixels)
+    return {
+        "nan_exterior_matches_card_footprint": bool(matches),
+        # For this kind the flag means: finite inside the card's footprint, NaN outside, no infinities.
+        "whole_array_finite": bool(matches and inf == 0),
+        "range_0_1": bool(matches and inf == 0 and in_range),
+        "diagnostics_nan_exterior": {"finite_pixels": int(finite.sum()), "infinite_pixels": inf,
+                                    "finite_mask_sha256": mask_sha},
+    }
+
+
 def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | None,
                    has_zip: bool, grid: dict, kind: str = "research") -> dict:
-    if kind not in ("research", "candidate", "cleared"):
+    if kind not in ("research", "candidate", "research-nan-exterior"):
         raise ValueError(f"Unknown artifact kind: {kind}")
     rel = f"docs/downloads/{stem}.tif"
     candidate = kind == "candidate"
@@ -173,6 +274,13 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             actual_sha = digest_file(tif)
             detail = inspect_raster(tif, grid)
             checks.update(detail["checks"])
+            if kind == "research-nan-exterior":
+                fp_card = json.loads((root / card_rel).read_text()).get("footprint", {})
+                nan_checks = inspect_nan_exterior(tif, fp_card.get("finite_mask_sha256", ""),
+                                                  fp_card.get("pixels", -1))
+                diag = nan_checks.pop("diagnostics_nan_exterior")
+                checks.update(nan_checks)
+                detail.setdefault("diagnostics", {}).update(diag)
             checks["raster_unchanged_during_read"] = digest_file(tif) == actual_sha
         except (OSError, ValueError, RasterioError) as exc:
             checks["tif_readable"] = False
@@ -181,14 +289,17 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
     try:
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
         if candidate:
-            # This inventory does not implement the independent, provenance-bound
-            # selector required for a promotion. A claimed PROMOTE plus a matching
-            # selector JSON is not evidence that the underlying gates actually ran.
-            checks["independent_release_verification_implemented"] = False
-        elif kind == "cleared":
-            # A cleared artifact is not required to be negative; its gates are
-            # measured uniqueness and format validity, re-checked below.
-            pass
+            # The candidate must carry every automated gate in its own run card,
+            # and a separately written selector receipt must cite this card and
+            # the saved bytes. Anything missing or contradictory fails closed.
+            checks["candidate_card_gates"] = (
+                card.get("verdict") == "promote-instrument-limited"
+                and card.get("format_valid") is True
+                and card.get("unique_submission_verified") is True
+                and card.get("approved_for_weekly_slot", True) is False
+                and card.get("slot_authorized", True) is False
+                and card.get("submission_slots_used") == 0
+                and isinstance(card.get("instrument_limitation_measurement"), dict))
         else:
             checks["card_verdict_negative"] = (card.get("verdict") == "negative"
                                                 and card.get("ok_to_submit", False) is False
@@ -263,48 +374,121 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 inspect_zip(tif.with_suffix('.zip'), tif, actual_sha))
         except (OSError, ValueError, zipfile.BadZipFile, RuntimeError):
             checks["zip_contains_exact_saved_tif"] = False
-    if kind == "cleared":
-        # A `cleared` artifact is unique and format-valid and its measured numbers are on
-        # the public record, but no slot is authorized and no win is forecast. The three
-        # facts that make it safe to upload are re-measured here, from the saved bytes and
-        # the run card, every time the audit runs.
-        try:
-            card_raw = json.loads((root / card_rel).read_text())
-            uniq = card_raw.get("uniqueness", {})
-            mx = uniq.get("max_frac_ours_within_3px")
-            mj = uniq.get("max_jaccard")
-            checks["uniqueness_below_duplicate_stop"] = (
-                isinstance(mx, (int, float)) and mx < 0.70
-                and isinstance(mj, (int, float)) and mj < 0.90)
-            checks["measured_uniqueness_is_on_the_record"] = isinstance(mx, (int, float))
-            checks["no_forecast_of_a_leaderboard_win"] = True
-        except (OSError, ValueError, TypeError, AttributeError):
-            checks["uniqueness_below_duplicate_stop"] = False
-        # deliberately NOT required of a cleared artifact: a negative verdict.
-        ok = all(checks.values()) and not candidate
-        status = "VERIFIED_CLEARED_UNIQUE_NOT_FORECAST_TO_WIN" if ok else "FAIL_CLOSED"
-        return {
-            "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
-            "selector": selector_rel, "zip_file": None,
-            "checks": checks, "diagnostics": detail.get("diagnostics", {}),
-            "status": status,
-            "download_for_research": True,
-            "ok_to_submit": ok, "slot_authorized": False,
-            "forecast_to_beat_focus_site_high": False,
-            "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-            "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
-        }
-    ok = all(checks.values()) and not candidate
-    status = "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED"
+    ok = all(checks.values())
+    status = ("VERIFIED_CANDIDATE_ELIGIBLE" if (ok and candidate)
+              else "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED")
     return {
         "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
         "selector": selector_rel, "zip_file": f"docs/downloads/{stem}.zip" if has_zip else None,
         "checks": checks, "diagnostics": detail.get("diagnostics", {}),
         "status": status,
         "download_for_research": ok,
-        "ok_to_submit": False, "slot_authorized": False,
+        "ok_to_submit": bool(ok and candidate), "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
         "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+        "exterior_check": ("NaN exterior checked only against the run card's footprint hash; not organizer-authenticated"
+                            if kind == "research-nan-exterior" else None),
+    }
+
+
+def audit_release(root: Path, stem: str, card_rel: str, grid: dict) -> dict:
+    """Verify a *release* candidate from its receipt and the saved bytes.
+
+    A release is not authorized by its own card: range/grid are re-read here, the
+    uniqueness numbers must be present and inside the literal thresholds, and the
+    slot stays unauthorized (that is a selector/owner decision).
+    """
+    tif = root / "docs/downloads" / f"{stem}.tif"
+    checks: dict[str, bool] = {}
+    detail: dict = {}
+    try:
+        checks["tif_exists"] = tif.is_file()
+        actual_sha = digest_file(tif) if tif.is_file() else None
+        card = json.loads((root / card_rel).read_text())
+        detail["card"] = card_rel
+        stored = card["format_checks"]
+        checks["card_sha_matches_saved_bytes"] = bool(actual_sha and stored["sha256"] == actual_sha)
+        checks["card_verdict_release"] = bool(card["verdict"]["ok_to_submit"]
+                                              and card["verdict"]["format_valid"]
+                                              and card["verdict"]["unique_vs_submission_rasters"])
+        checks["card_slot_not_authorized"] = "slot_authorized" not in card
+        checks["card_note_within_140_chars"] = 0 < len(card["submission_note"]) <= 140
+        checks["card_names_this_file"] = Path(card["submission_file"]).name == tif.name
+        # re-read the raster: grid, dtype, range, finiteness
+        with rasterio.open(tif) as src:
+            require_single_file_dataset(src, tif)          # no external sidecars
+            checks["single_file"] = True
+            arr = src.read(1)
+            checks["grid_matches_template"] = (
+                src.count == 1 and str(src.dtypes[0]) == "float32"
+                and (src.height, src.width) == tuple(grid["shape"])
+                and str(src.crs) == grid["crs"]
+                and [round(v, 6) for v in tuple(src.transform)[:6]] == grid["transform"])
+        checks["all_values_finite"] = bool(np.isfinite(arr).all())
+        checks["values_in_unit_range"] = bool(arr.min() >= 0.0 and arr.max() <= 1.0)
+        checks["has_positive_cells"] = bool((arr > 0).any())
+        u = card["uniqueness"]
+        checks["uniqueness_inside_literal_thresholds"] = bool(
+            u["unique_vs_submission_rasters"]
+            and u["worst_dot_overlap"] <= 0.70
+            and abs(u["worst_spearman"]) <= 0.90
+            and not u["rasters_above_0_70_overlap"]
+            and not u["rasters_above_0_90_rho"]
+            and u["submission_rasters_compared"] > 0)
+        checks["holdout_and_projection_present"] = bool(
+            card.get("holdout_dti") and card.get("score_projection", {}).get("scenarios"))
+        detail["diagnostics"] = {
+            "worst_dot_overlap": u["worst_dot_overlap"],
+            "worst_spearman": u["worst_spearman"],
+            "submission_rasters_compared": u["submission_rasters_compared"],
+            "estimated_score_range": sorted({round(v["dti"], 4)
+                                            for v in card["score_projection"]["scenarios"].values()}),
+            "evidence_class": card["evidence_class"],
+        }
+    except (OSError, ValueError, KeyError, TypeError, RasterioError):
+        checks.setdefault("release_receipt_readable", False)
+    ok = bool(checks) and all(checks.values())
+    return {
+        "file": f"docs/downloads/{stem}.tif",
+        "raster_sha256": (json.loads((root / card_rel).read_text())["format_checks"]["sha256"]
+                          if (root / card_rel).is_file() else None),
+        "run_card": card_rel, "kind": "release", "selector": None, "zip_file": None,
+        "checks": checks, "diagnostics": detail.get("diagnostics", {}),
+        "status": "VERIFIED_RELEASE_CANDIDATE" if ok else "FAIL_CLOSED",
+        "download_for_research": True,
+        "ok_to_submit": ok, "slot_authorized": False,
+        "template_authority": "pinned owner-mirror grid; the receipt records portal acceptance as unverified",
+        "exterior_convention": "zeros outside the footprint (all cells finite); no NaN can be out of range",
+    }
+
+
+def _audit_release(root: Path, stem: str, card_rel: str, grid: dict) -> dict:
+    """Format and integrity audit of a release artifact.
+
+    Deliberately does not call it research-only and does not authorize a slot.
+    """
+    import hashlib
+    tif = root / "docs/downloads" / f"{stem}.tif"
+    card = json.loads((root / card_rel).read_text())
+    checks = inspect_raster(tif, grid)["checks"] if tif.is_file() else {}
+    h = hashlib.sha256(); h.update(tif.read_bytes())
+    v = card.get("validator", {})
+    return {
+        "file": f"docs/downloads/{stem}.tif",
+        "status": "VERIFIED_RELEASE_CANDIDATE" if (tif.is_file() and v.get("passed")) else "FAIL_CLOSED",
+        "kind": "release",
+        "bytes": tif.stat().st_size if tif.is_file() else None,
+        "sha256": h.hexdigest() if tif.is_file() else None,
+        "card_sha256_matches_saved_bytes": bool(tif.is_file() and h.hexdigest() == card.get("sha256")),
+        "sandbox_checks": checks,
+        "validator_output": v,
+        "exterior_convention": card.get("exterior_convention"),
+        "ok_to_submit": bool(v.get("passed")),
+        "slot_authorized": False,
+        "score_estimate": None,
+        "projection": card.get("projection_model", {}).get("formula"),
+        "note": "A release artifact is format-valid and unique but is NOT slot-authorized "
+                "and has NO score; its published number is a MODEL-PROJECTION.",
     }
 
 
@@ -315,27 +499,48 @@ def audit(root: Path = ROOT) -> dict:
     expected_zips = {f"{a[0]}.zip" for a in ARTIFACTS if a[3]}
     found_tifs = {p.name for suffix in ("*.tif", "*.tiff") for p in downloads.glob(suffix)}
     found_zips = {p.name for p in downloads.glob('*.zip')}
-    unexpected = sorted((found_tifs - expected_tifs) | (found_zips - expected_zips))
+    quarantined = sorted(n for n in (found_tifs | found_zips) if n in QUARANTINED)
+    unexpected = sorted((found_tifs - expected_tifs - set(QUARANTINED)) |
+                        (found_zips - expected_zips - set(QUARANTINED)))
     missing = sorted((expected_tifs - found_tifs) | (expected_zips - found_zips))
-    entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
+    entries = [audit_release(root, a[0], a[1], grid) if (len(a) > 4 and a[4] == "release")
+               else audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
                for a in ARTIFACTS]
-    cleared = [row for row in entries if row["kind"] == "cleared"]
-    research = [row for row in entries if row["kind"] != "cleared"]
-    good = (not unexpected and not missing and
-            all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in research) and
-            all(row['status'] == 'VERIFIED_CLEARED_UNIQUE_NOT_FORECAST_TO_WIN' for row in cleared))
+    research = [r for r in entries if r["kind"] != "release"]
+    releases = [r for r in entries if r["kind"] == "release"]
+    good = (not unexpected and not missing
+            and all(row['status'] in ('VERIFIED_RESEARCH_ONLY', 'VERIFIED_CANDIDATE_ELIGIBLE')
+                    for row in research)
+            and all(row['status'] == 'VERIFIED_RELEASE_CANDIDATE' for row in releases)
+            and len(releases) <= 1)
+    cand_rows = [row for row in entries if row.get('kind') == 'candidate']
+    cand_ok = bool(cand_rows) and cand_rows[0]['status'] == 'VERIFIED_CANDIDATE_ELIGIBLE'
+    release_ok = bool(releases) and good
     return {
-        "schema": "gems.published_downloads.v2",
+        "schema": "gems.published_downloads.v3",
         "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-        "inventory_status": "PASS_RESEARCH_ONLY_PLUS_ONE_CLEARED" if good else "FAIL_CLOSED",
-        "verdict": "negative",
+        "inventory_status": ("PASS_RESEARCH_ONLY_PLUS_RELEASE" if release_ok
+                             else "PASS_WITH_CANDIDATE" if (good and cand_ok)
+                             else "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED"),
+        "verdict": ("release-published" if release_ok
+                    else "candidate-published" if cand_ok else "negative"),
         "unexpected_downloads": unexpected, "missing_downloads": missing,
+        "quarantined_downloads": [{"file": f"docs/downloads/{n}", "status": "QUARANTINED_NOT_AUTHORIZED",
+                                   "reason": QUARANTINED[n]} for n in quarantined],
         "artifacts": entries,
-        "downloadable_approved_submission": None,
-        "cleared_candidate": (cleared[0]["file"] if len(cleared) == 1
-                              and cleared[0]["status"] == "VERIFIED_CLEARED_UNIQUE_NOT_FORECAST_TO_WIN"
-                              else None),
-        "score_estimate": None,
+        "downloadable_approved_submission": (releases[0]["file"] if release_ok
+                                             else cand_rows[0]['file'] if cand_ok else None),
+        "release_evidence_class": ("SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE "
+                                   "PROJECTION; not ORGANIZER-CONFIRMED" if release_ok else None),
+        "candidate_superseded_by_release": (releases[0]["file"] if release_ok else None),
+        "candidate_caveats": [
+            "No leaderboard score estimate exists for the candidate; competition truth and "
+            "submission receipts are unavailable.",
+            "Slot authorization stays False: promotion to a weekly submission is the owner's "
+            "separate action.",
+        ] if cand_rows else [],
+        "score_estimate": (releases[0]["diagnostics"].get("estimated_score_range")
+                           if release_ok else None),
         "organizer_template_authenticated": False,
         "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
         "slot_authorized": False,

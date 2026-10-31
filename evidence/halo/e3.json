@@ -1,0 +1,43 @@
+{
+  "experiment": "E3",
+  "question": "Does a ridge/curvature tie-break inside the measured rings beat uniform placement?",
+  "evidence_class": "HOLDOUT-DTI (gems57 holdout, draw seed 21)",
+  "leakage_canary_auc_vs_catalogue": {
+    "geod_2ndinv": 0.5701787515350865,
+    "geod_shearrate": 0.5689810121873415,
+    "ieq_n100a15": 0.5686181488279214,
+    "deq_n100a15": 0.5504764200773749,
+    "det_elev_slope": 0.5576879301873665,
+    "tmi_hg": 0.5268437923267116,
+    "iso_grav_anom_slope": 0.533575573845787
+  },
+  "canary_limit": 0.9,
+  "canary_ok": true,
+  "variants": {
+    "uniform": {
+      "tp": 2428.8405730125296,
+      "fp": 40150.537109375,
+      "fn": 9143.159426987471,
+      "n_truth": 11572,
+      "n_emit": 41242,
+      "hits": 2095,
+      "dti": 0.13665535297402484,
+      "coverage": 0.2098894376955176,
+      "hit_rate": 0.05079773046893943,
+      "per_dot_credit": 0.05889240514554409
+    },
+    "ridge_ensemble": {
+      "tp": 2075.750791311708,
+      "fp": 39432.384765625,
+      "fn": 9496.249208688292,
+      "n_truth": 11572,
+      "n_emit": 40484,
+      "hits": 2011,
+      "dti": 0.11821424588588877,
+      "coverage": 0.17937701273001277,
+      "hit_rate": 0.04967394526232586,
+      "per_dot_credit": 0.05127336210136617
+    }
+  },
+  "best": "uniform"
+}

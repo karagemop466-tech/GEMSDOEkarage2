@@ -1,0 +1,26 @@
+{
+  "schema": "gems.selector_decision.v1",
+  "date": "2026-10-31",
+  "candidate": "docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif",
+  "raster_sha256": "fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c",
+  "verdict": "negative",
+  "slot_authorized": false,
+  "ok_to_download_for_research": true,
+  "ok_to_submit": false,
+  "reasons": [
+    "HOLDOUT-DTI 0.18791 does not beat the recorded incumbent k3dti_b110 at 0.19157.",
+    "Paired novelty-vs-ablation CI crosses zero at matched placement: mechanism not established.",
+    "Literal uniqueness clause fails vs the degenerate lattice witness (flagged protocol irregularity) and vs 55 non-lattice registry rasters whose independently-produced dots converge on the same off-catalogue ridge (worst 0.8977, GEMSDOE32 h45-kernelspacing); rank correlation is <=0.146 everywhere. Policy owner ruling required before a competitive supervised emission can be eligible.",
+    "Competition inputs and footprint are hash-pinned owner mirrors, not organizer-authenticated bytes; portal acceptance unverified.",
+    "Weekly quota and account-side final-selection status are unavailable; promotion is a separate selector step outside automated gates."
+  ],
+  "passed_gates": {
+    "format_grid_range": "gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif: float32, EPSG:32611, 3730x3292, nodata=None, zeros exterior, whole array in [0,1], 0 NaN/inf, ZIP round-trips the exact bytes.",
+    "leakage_canaries": "34 of 34 feature-alone canaries passed; worst 0.6173.",
+    "uniqueness_vs_real_submissions": "473 unique registry rasters compared: |Spearman| <= 0.1460 everywhere (rank-uncorrelated), but 55 non-lattice rasters exceed the 70%-overlap clause (worst 0.8977, GEMSDOE32 h45-kernelspacing) - independent-lane consensus convergence, same pattern k3 recorded.",
+    "novelty_vs_ablation_fixed": "+0.01325 CI [+0.00069, +0.02519] (significant) at fixed emission."
+  },
+  "score_statement": "No leaderboard estimate is available. HOLDOUT-DTI is not an organizer score; no projection is recorded.",
+  "decision_basis": "Preregistered gates are conjunctive: the failed holdout bar and the literal lattice stop cannot be overridden. Fail closed. The file is research-only; the policy question on the lattice witness is documented for the protocol owner.",
+  "source_run_card": "evidence/s1/run_card.json"
+}

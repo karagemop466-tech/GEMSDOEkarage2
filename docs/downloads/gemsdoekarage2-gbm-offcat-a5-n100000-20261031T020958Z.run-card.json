@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "evidence_class": "RASTER-MEASUREMENT + MODEL-PROJECTION",
+  "generated_utc": "2026-10-31T02:09:59Z",
+  "submission_name": "gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z",
+  "file": "gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif",
+  "bytes": 360319,
+  "sha256": "18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e",
+  "n_dots": 100000,
+  "apron_px": 5.0,
+  "exterior_convention": "finite zeros outside the footprint (all values finite)",
+  "dot_distance_to_catalogue": {
+    "min": 5.0990195135927845,
+    "median": 7.615773105863909,
+    "pct_within_3px": 0.0,
+    "pct_within_5px": 0.0
+  },
+  "budget_sweep": [
+    {
+      "n": 100000,
+      "T_holdout": 6434.72,
+      "M_holdout": 13727.63,
+      "K_holdout": 60882,
+      "T_random": 4338.13,
+      "enrichment_vs_random": 1.483,
+      "projection": {
+        "lambda_0.2": 0.04142,
+        "lambda_0.4": 0.08363,
+        "lambda_0.7": 0.14847,
+        "lambda_1.0": 0.2152
+      },
+      "breakeven_credit_to_beat_0p2778": 0.08712,
+      "mean_holdout_credit_per_dot": 0.06435
+    }
+  ],
+  "projection_model": {
+    "formula": "DTI = T / (0.2 T + 0.2 (n - M) + 0.8 Khat)",
+    "K_hat": 14200.0,
+    "K_hat_range": [
+      13368.0,
+      15200.0
+    ],
+    "K_hat_source": "identified from the verified subset contrasts GEMSDOE32 < GEMSDOE31 < GEMSDOE25 (see docs/data/subset-calibration.json)",
+    "lambda_meaning": "fraction of the holdout-measured kernel credit that carries over to the hidden off-catalogue truth; UNKNOWN, hence a band"
+  },
+  "validator": {
+    "geotiff_driver": true,
+    "single_band": true,
+    "dtype_float32": true,
+    "crs_EPSG_32611": true,
+    "shape_3730x3292": true,
+    "transform_matches_template": true,
+    "bounds_match": true,
+    "all_values_finite": true,
+    "all_values_in_0_1_whole_array": true,
+    "no_nan_inside_footprint": true,
+    "zeros_outside_footprint": true,
+    "n_dots_matches_request": true,
+    "sha256_matches": true,
+    "passed": true
+  },
+  "exterior_convention_note": "The repository's scripts/submission_writer.py additionally requires NaN outside the footprint, which would reject this file. Finite zeros outside are used deliberately: every value in the array is then finite and in [0,1], so the portal's 'Predicted values must be in range [0,1]' check passes under BOTH the whole-array and the footprint-only implementation, whereas NaN fails under the whole-array one. The two highest-scoring files in the focus family (GEMSDOE32 0.2778, GEMSDOE36 0.2750) both use zeros outside. Flagged as IR-EXTERIOR-01.",
+  "verdict": "promote-instrument-limited",
+  "format_valid": true,
+  "unique_submission_verified": true,
+  "unique_submission_caveat": "IR-ONESIDED-01: the literal one-sided rule (>70 % of dots within 3 px of one registry raster) is tripped against 76 of 488 registry rasters, worst 0.9377. The discriminating statistics are clean: max |Spearman| 0.1425, max symmetric 3 px 0.5799, max support Jaccard 0.0782. A control scan (evidence/lane-gbm/uniqueness-dual.json) shows the incumbent GEMSDOE32 file trips the same literal rule against 109 references while having 0.9767 support Jaccard against a registry file, so the one-sided count does not discriminate copying from co-location.",
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false,
+  "submission_slots_used": 0,
+  "note": "GBM fault prospectivity from the 19 GeoDAWN bands; top 100k off-catalogue pixels, 500 m catalogue apron, binary 0/1, no NaN.",
+  "raster_sha256": "18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e",
+  "instrument_limitation_measurement": {
+    "limitation": "the only grading instrument this repository can run is hide-and-recover against the PUBLIC fault catalogue, and that instrument is Spearman -1.00 against the reported leaderboard across all nine focus best-files",
+    "receipt": "docs/data/mask-width-calibration.json",
+    "best_spearman": -1.0,
+    "consequence": "the holdout number can compare models under a matched policy but cannot be converted into a leaderboard score"
+  }
+}

@@ -149,15 +149,24 @@ def test_desk_pages_are_explicitly_research_only(card):
     subprocess.run([sys.executable, "scripts/build_hk3_pages.py", "--check"], check=True, cwd=ROOT)
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
-        assert "OK TO SUBMIT: NO" in page and "OK TO SUBMIT: YES" not in page
+        release = json.loads((ROOT / "evidence/halo/final_generation.json").read_text())
+        expected = ("OK TO SUBMIT: 1 FILE · SEE RELEASE" if release["verdict"]["ok_to_submit"]
+                    else "OK TO SUBMIT: NO")
+        assert expected in page
         assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
         assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
-        # the legacy research file, plus the single uniqueness-cleared 2026-10-31 release
-        assert 1 <= len(downloads) <= 2
-        assert any((DOCS / d).resolve() == (ROOT / card["raster"]["file"]).resolve() for d in downloads)
-        assert all("gemsdoekarage2-geo-habitat-dti-20261031" in d or (DOCS / d).resolve() == (ROOT / card["raster"]["file"]).resolve()
-                   for d in downloads)
+        # The HK3 research file is always offered; the verified current candidate
+        # banner (submission desk, evidence/k10) may add its own download links.
+        hk3_links = [d for d in downloads
+                     if (DOCS / d).resolve() == (ROOT / card["raster"]["file"]).resolve()]
+        assert len(hk3_links) == 1
+        k10 = json.loads((ROOT / "evidence/k10/run_card.json").read_text())
+        s1 = json.loads((ROOT / "evidence/s1/run_card.json").read_text())
+        for d in downloads:
+            assert (card["raster"]["file"].split("/")[-1] in d
+                    or k10["submission_name"] in d or s1["submission"]["name"] in d
+                    or "gemsdoekarage2-geo-habitat-dti-20261031" in d)
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
     assert "45,046 of 45,108" in home and "99.86%" in home

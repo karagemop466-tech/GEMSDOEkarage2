@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-31T02:09:59Z",
+  "lane": "off-catalogue GBM prospectivity (independent dot pool)",
+  "hypothesis": "Faults missing from the public USGS/INGENIOUS compilation still produce the potential-field, basement-depth, topographic and strain-rate signatures that a model trained on MAPPED faults learns to recognise. Ranking the off-catalogue domain by that model therefore ranks genuinely unmapped faults.",
+  "mechanism": "Gradient-boosted trees over 34 features derived only from the 19 official GeoDAWN bands (no catalogue-derived feature), trained with 4-quadrant spatial blocking, emitted as the top 100,000 pixels restricted to > 500 m from any mapped fault, at value 1.0.",
+  "named_non_fault_mimic": "Lithologic contacts, igneous margins and basin-bounding stratigraphic edges generate the same gravity and magnetic gradients as faults; fluvial terraces, alluvial-fan edges and road cuts generate the same topographic slope breaks. None can be excluded at 100 m resolution without seismic or field control.",
+  "holdout": {
+    "classification": "HOLDOUT-DTI-PROXY (hide-and-recover against the PUBLIC catalogue; the competition truth is a disjoint, off-catalogue set)",
+    "evaluator": "scripts/evaluate_holdout.py dti_weighted_terms",
+    "evaluator_constants": {
+      "alpha": 0.2,
+      "beta": 0.8,
+      "R_m": 300.0,
+      "buffer_px": 3.0,
+      "apron_px": 2.0
+    },
+    "protocol_number": {
+      "value": 0.06368743084772556,
+      "what": "fold-wise model, apron computed from VISIBLE faults only, matched emission mass",
+      "n_dots": 37656,
+      "withheld_positive_pixels": 60988,
+      "fold_DTIs": [
+        0.03075,
+        0.106092,
+        0.091053,
+        0.072284
+      ],
+      "interval95_note": "reported as the fold range over the 4 spatial blocks (0.03075, 0.106092, 0.091053, 0.072284); a 4-block percentile interval is degenerate, so no 95% CI is claimed from it",
+      "interval95_fold_range": [
+        0.03075,
+        0.106092
+      ]
+    },
+    "shipped_raster_recomputed": {
+      "value": 0.0,
+      "why_zero": "the shipped file applies a 500 m apron computed from the FULL public catalogue, which is correct for the real task (every mapped fault is given to every competitor and is masked by the scorer) but hides the withheld segments from itself inside a hide-and-recover run. Its hide-and-recover number is therefore 0 by construction and is NOT a quality measurement. The protocol number above is the one that counts.",
+      "withheld_positive_pixels": 60988
+    },
+    "references": {
+      "GEMSDOE32": {
+        "pooled_DTI": 0.006697,
+        "n_dots": 37654,
+        "n_truth": 60988,
+        "fold_DTIs": [
+          0.006132,
+          0.008544,
+          0.007532,
+          0.005094
+        ]
+      },
+      "GEMSDOE25": {
+        "pooled_DTI": 0.161506,
+        "n_dots": 44090,
+        "n_truth": 60988,
+        "fold_DTIs": [
+          0.139701,
+          0.201018,
+          0.17434,
+          0.161244
+        ]
+      },
+      "random_uniform": {
+        "pooled_DTI": 0.029599,
+        "n_dots": 37656
+      }
+    },
+    "anticorrelation_warning": "Across the nine focus best-files this same evaluator is Spearman -1.00 against the user-reported leaderboard, so it is valid only for matched-policy model comparison."
+  },
+  "leakage_canary": {
+    "per_feature_auc": {
+      "mag_anom": 0.4915,
+      "rtp": 0.4988,
+      "tmi_hg": 0.5271,
+      "geod_2ndinv": 0.5696,
+      "iso_grav_anom_slope": 0.5339,
+      "tc": 0.4486,
+      "geod_shearrate": 0.5686,
+      "geod_dilaterate": 0.5253,
+      "tmi_vg": 0.4868,
+      "deq_n100a15": 0.5498,
+      "iso_grav_anom_vg": 0.5275,
+      "det_elev": 0.4851,
+      "iso_grav_anom": 0.4588,
+      "tmi": 0.4891,
+      "depth_to_base_surf": 0.5123,
+      "ieq_n100a15": 0.5678,
+      "cond_surf": 0.4831,
+      "iso_grav_anom_hg": 0.499,
+      "det_elev_slope": 0.5573,
+      "grad_rtp_s1": 0.5322,
+      "grad_rtp_s4": 0.5372,
+      "grad_grav_s1": 0.5357,
+      "grad_grav_s4": 0.5415,
+      "grad_detlev_s1": 0.5646,
+      "grad_detlev_s4": 0.5848,
+      "grad_tmi_s1": 0.5273,
+      "grad_depthbase": 0.5324,
+      "grad_cond_s1": 0.5035,
+      "grad_2ndinv_s1": 0.514,
+      "lap_detlev_s2": 0.5395,
+      "lap_rtp_s2": 0.5224,
+      "std_detlev_5": 0.5657,
+      "std_rtp_5": 0.533,
+      "grad_maganom_s1": 0.531
+    },
+    "max_single_feature_auc": 0.5848,
+    "threshold": 0.9,
+    "flagged": {},
+    "result": "PASS \u2014 no single feature approaches the escalation threshold"
+  },
+  "fold_auc": {
+    "fold0_auc": 0.62711,
+    "fold1_auc": 0.71012,
+    "fold2_auc": 0.62959,
+    "fold3_auc": 0.69051
+  },
+  "correlation_overlap_vs_registry": {
+    "final_scan_complete": true,
+    "rasters_compared": 488,
+    "rasters_unreachable": 1,
+    "worst_abs_spearman": 0.142465,
+    "worst_abs_spearman_raster": "docs/downloads/gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif",
+    "worst_symmetric_within_3px": 0.579883,
+    "worst_one_sided_non_space_filling": 0.93771,
+    "space_filling_references_excluded": 1,
+    "verdict": "UNIQUE"
+  },
+  "raster": {
+    "file": "gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif",
+    "bytes": 360319,
+    "sha256": "18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e",
+    "n_dots": 100000,
+    "apron_px": 5.0,
+    "exterior": "finite zeros outside the footprint"
+  },
+  "validator": {
+    "geotiff_driver": true,
+    "single_band": true,
+    "dtype_float32": true,
+    "crs_EPSG_32611": true,
+    "shape_3730x3292": true,
+    "transform_matches_template": true,
+    "bounds_match": true,
+    "all_values_finite": true,
+    "all_values_in_0_1_whole_array": true,
+    "no_nan_inside_footprint": true,
+    "zeros_outside_footprint": true,
+    "n_dots_matches_request": true,
+    "sha256_matches": true,
+    "passed": true
+  },
+  "validator_summary": {
+    "no_nan_anywhere": true,
+    "values_in_0_1_whole_array": true,
+    "crs_shape_transform_match": true,
+    "all_gates_passed": true
+  },
+  "projection": {
+    "model": "DTI = T / (0.2 T + 0.2 (n - M) + 0.8 Khat)",
+    "K_hat": 14200.0,
+    "K_hat_range": [
+      13368.0,
+      15200.0
+    ],
+    "band": {
+      "lambda_0.2": 0.04142,
+      "lambda_0.4": 0.08363,
+      "lambda_0.7": 0.14847,
+      "lambda_1.0": 0.2152
+    },
+    "breakeven_credit_to_beat_0p2778": 0.08712,
+    "label": "MODEL-PROJECTION \u2014 not a score, not organizer-confirmed"
+  },
+  "submission_name": "gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z",
+  "note": "GBM fault prospectivity from the 19 GeoDAWN bands; top 100k off-catalogue pixels, 500 m catalogue apron, binary 0/1, no NaN.",
+  "note_length": 124,
+  "note_within_140": true,
+  "weekly_slot_used": false,
+  "weekly_slot_note": "Promotion to a real submission slot is a separate selector step within the weekly cap shown on the submission page. This project never spends a slot automatically.",
+  "verdict": "promote",
+  "verdict_basis": "Every gate that can be checked without a DrivenData session passes: format, CRS, shape, transform, full-array finiteness and range, leakage canary, registry uniqueness. The score is a labelled projection with a stated break-even, not a claimed result."
+}

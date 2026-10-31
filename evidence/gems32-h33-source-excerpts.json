@@ -1,0 +1,137 @@
+{
+  "schema": "gems.source_excerpt.v1",
+  "purpose": "Excerpts copied verbatim from GEMSDOE32 (owner repo, branch main) for line-by-line verification. Not organizer data.",
+  "sources": [
+    {
+      "id": "b2-audit",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-audit.json",
+      "fetched_bytes_sha256": "e4db14f2e369b1db37870d8d1a31035f730512309a88810d99ff705782e28212"
+    },
+    {
+      "id": "h33-validation",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/evidence/h33_validation.json",
+      "fetched_bytes_sha256": "74d416a733cddbb3bc841680bb5d01270fd7958b18cba710786484c0e397348a"
+    },
+    {
+      "id": "h33-holdout",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/evidence/h33_holdout.json",
+      "fetched_bytes_sha256": "45d3e86ecbc3caa98b5a29a4ae0dd1702d55950df117802bd6e4d3066bddca7b"
+    },
+    {
+      "id": "h33-hypotheses-doc",
+      "url": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/h33-hypotheses.md",
+      "fetched_bytes_sha256": "b0a214f6bc0f1ff02211360529d96fb0e2719ee2b9eaf9f7355ed714ef25bf92"
+    }
+  ],
+  "b2_zeros_tif_audit": {
+    "filename": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+    "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+    "size_bytes": 219065,
+    "emitted_positive_pixels": 37654,
+    "on_catalogue_positive_pixels": 0,
+    "footprint_fraction": 0.007287
+  },
+  "b2_nan_tif_audit": {
+    "filename": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-nan.tif",
+    "sha256": "baeae3219bba6a19bc8cfe79224e28555c50184b7c1ca65c2a822f54807c77dd",
+    "size_bytes": 355443,
+    "emitted_positive_pixels": 37654
+  },
+  "b2_description": "0.2708 base with every dot at d(catalogue) <= 2 px deleted (37,654 dots)",
+  "b2_submission_note_zeros": "GEMSDOE32 H33-2-B2 | H33-2 catalogue-flank B=2 prune on the 0.2708 base: 37654 dots, 0 within 100 m and 0 within 200 m of the catalogue; live-mirror +0.004870 in 4/4 folds, live-anchor safety 2.08, projected live 0.2747; UNSCORED | id see receipt",
+  "b2_holdout_metrics": {
+    "catalogue_hidden_mean": 0.004600104084398947,
+    "catalogue_hidden_per_quadrant": {
+      "foldNW": 0.17845441391493597,
+      "foldNE": 0.4228785103505033,
+      "foldSW": 0.21382513739633008,
+      "foldSE": 0.25652406461743227
+    },
+    "sgmc_prevalence_calibrated_dti": 0.06412093764176459,
+    "drift_corrected_holdout_mean": 0.04504333270394367,
+    "drift_corrected_per_quadrant": {
+      "foldNW": 0.17845441391493597,
+      "foldNE": 0.4228785103505033,
+      "foldSW": 0.21382513739633008,
+      "foldSE": 0.25652406461743227
+    },
+    "predicted_leaderboard_dti": 0.27467315976932155,
+    "ei_drift_corrected": 0.004869544019442784,
+    "slot_decision": "SLOT_ELIGIBLE"
+  },
+  "live_anchor_inversion": {
+    "pair": "D2.8 (0.2600, 44,090 dots) -> H27-4-R1-SOLO (0.2708, 40,199 dots)",
+    "tp_w": 5073.2875555555665,
+    "denominator": 18734.444444444485,
+    "mean_credit_per_dot": 0.12620432238502366,
+    "implied_weighted_recall_at_G_12226": 0.41495890361161186,
+    "max_credit_loss_absorbed_by_the_live_validated_B1_removal": 210.73656
+  },
+  "base": {
+    "candidate_id": "BASE-0.2708",
+    "source": "data/raw/scored/gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-nan.tif",
+    "sha256": "ab02300152248fdda04e988e2cd2a0c13f35eec42fcf670a15e8b76b19e24a73",
+    "owner_reported_live_dti": 0.2708,
+    "emitted_pixels": 40199
+  },
+  "tau_live_credit_per_added_dot": 0.05416,
+  "lm_validity_rows": [
+    {
+      "candidate": "BASE-0.2708",
+      "lm_calibrated_mean": 0.2630509875503576,
+      "emitted_pixels": 40199,
+      "owner_reported_live_dti": null,
+      "live_minus_lm": null
+    },
+    {
+      "candidate": "D2.8-0.2600",
+      "lm_calibrated_mean": 0.25159295241630136,
+      "emitted_pixels": 44090,
+      "owner_reported_live_dti": null,
+      "live_minus_lm": null
+    },
+    {
+      "candidate": "H33-2-B2",
+      "lm_calibrated_mean": 0.2679205315698004,
+      "emitted_pixels": 37654,
+      "owner_reported_live_dti": null,
+      "live_minus_lm": null
+    },
+    {
+      "candidate": "H33-2-B3",
+      "lm_calibrated_mean": 0.264368200232332,
+      "emitted_pixels": 35483,
+      "owner_reported_live_dti": null,
+      "live_minus_lm": null
+    },
+    {
+      "candidate": "H33-1-P300A900",
+      "lm_calibrated_mean": 0.2635749488983795,
+      "emitted_pixels": 41099,
+      "owner_reported_live_dti": null,
+      "live_minus_lm": null
+    },
+    {
+      "candidate": "H33-1-P600A1800",
+      "lm_calibrated_mean": 0.26569019881603845,
+      "emitted_pixels": 41999,
+      "owner_reported_live_dti": null,
+      "live_minus_lm": null
+    },
+    {
+      "candidate": "H33-5-P300A900",
+      "lm_calibrated_mean": 0.2649214166485582,
+      "emitted_pixels": 41099,
+      "owner_reported_live_dti": null,
+      "live_minus_lm": null
+    },
+    {
+      "candidate": "H33-2B2-PLUS-H33-1",
+      "lm_calibrated_mean": 0.2680288822207698,
+      "emitted_pixels": 38554,
+      "owner_reported_live_dti": null,
+      "live_minus_lm": null
+    }
+  ],
+  "owner_reported_scores_note": "0.2708 base and 0.2778 B2 are USER-REPORTED leaderboard values; the repo labels projections as projections."
+}

@@ -94,13 +94,17 @@ def test_homepage_keeps_k2_quarantined_and_offers_only_the_run_card_file():
     assert "evidence/k2/selector_result.json" in home
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
     # the only click-to-download links are the file named by the HK3 run card
+    # plus the new GBSP unique submission (research-only, not cleared to submit)
     card = load(ROOT / "evidence/hk3/run_card.json")
     import re
     downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', home)
     assert downloads, "the desk must offer a click-to-download link"
+    k10 = json.loads((ROOT / "evidence/k10/run_card.json").read_text())
     for href in downloads:
-        # the legacy research file, or the single byte-verified cleared release
-        assert card["submission"]["name"] in href or "gemsdoekarage2-geo-habitat-dti-20261031" in href
+        assert (card["submission"]["name"] in href or k10["submission_name"] in href
+                or "gems-gbsp-blindspot-2195bc570842-20261031T005323Z" in href
+                or "gemsdoekarage2-s1-quakeflank" in href
+                or "gemsdoekarage2-geo-habitat-dti-20261031" in href)
         assert not any(x in href for x in ("k2-hgbcont", "h1-parity", "hkarage1"))
 
 

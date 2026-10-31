@@ -1,0 +1,756 @@
+{
+  "experiment": "S1 E1 leakage canaries + primitives",
+  "evidence_class": "HOLDOUT-DTI (primitives) / LEAKAGE-CANARY (AUC)",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "seed": 20261031,
+  "channels_tested": 34,
+  "canaries": [
+    {
+      "fold": 0,
+      "positives": 28712,
+      "unlabeled_sample": 60000,
+      "features": {
+        "band01": {
+          "auc": 0.49829633950961266,
+          "canary_max_auc_1m": 0.5017036604903873,
+          "pass": true
+        },
+        "band02": {
+          "auc": 0.5077553287823906,
+          "canary_max_auc_1m": 0.5077553287823906,
+          "pass": true
+        },
+        "band03": {
+          "auc": 0.5263515501648555,
+          "canary_max_auc_1m": 0.5263515501648555,
+          "pass": true
+        },
+        "band04": {
+          "auc": 0.5691939493939817,
+          "canary_max_auc_1m": 0.5691939493939817,
+          "pass": true
+        },
+        "band05": {
+          "auc": 0.5291320188422959,
+          "canary_max_auc_1m": 0.5291320188422959,
+          "pass": true
+        },
+        "band06": {
+          "auc": 0.46361923382790005,
+          "canary_max_auc_1m": 0.5363807661721,
+          "pass": true
+        },
+        "band07": {
+          "auc": 0.5734846559510541,
+          "canary_max_auc_1m": 0.5734846559510541,
+          "pass": true
+        },
+        "band08": {
+          "auc": 0.4952399803798644,
+          "canary_max_auc_1m": 0.5047600196201356,
+          "pass": true
+        },
+        "band09": {
+          "auc": 0.4949647223576669,
+          "canary_max_auc_1m": 0.505035277642333,
+          "pass": true
+        },
+        "band10": {
+          "auc": 0.5298749259891334,
+          "canary_max_auc_1m": 0.5298749259891334,
+          "pass": true
+        },
+        "band11": {
+          "auc": 0.5132634804263025,
+          "canary_max_auc_1m": 0.5132634804263025,
+          "pass": true
+        },
+        "band12": {
+          "auc": 0.49632507952540167,
+          "canary_max_auc_1m": 0.5036749204745983,
+          "pass": true
+        },
+        "band13": {
+          "auc": 0.457396969327575,
+          "canary_max_auc_1m": 0.542603030672425,
+          "pass": true
+        },
+        "band14": {
+          "auc": 0.49875270908795394,
+          "canary_max_auc_1m": 0.501247290912046,
+          "pass": true
+        },
+        "band15": {
+          "auc": 0.5186614713940745,
+          "canary_max_auc_1m": 0.5186614713940745,
+          "pass": true
+        },
+        "band16": {
+          "auc": 0.551349710341785,
+          "canary_max_auc_1m": 0.551349710341785,
+          "pass": true
+        },
+        "band17": {
+          "auc": 0.5059870919243986,
+          "canary_max_auc_1m": 0.5059870919243986,
+          "pass": true
+        },
+        "band18": {
+          "auc": 0.4668243446410328,
+          "canary_max_auc_1m": 0.5331756553589673,
+          "pass": true
+        },
+        "band19": {
+          "auc": 0.545137190605554,
+          "canary_max_auc_1m": 0.545137190605554,
+          "pass": true
+        },
+        "curv_s1": {
+          "auc": 0.5426185050385437,
+          "canary_max_auc_1m": 0.5426185050385437,
+          "pass": true
+        },
+        "curv_s2": {
+          "auc": 0.5578411953190304,
+          "canary_max_auc_1m": 0.5578411953190304,
+          "pass": true
+        },
+        "ridge_s1": {
+          "auc": 0.4933971626265441,
+          "canary_max_auc_1m": 0.5066028373734559,
+          "pass": true
+        },
+        "ridge_s2": {
+          "auc": 0.49366256936704744,
+          "canary_max_auc_1m": 0.5063374306329526,
+          "pass": true
+        },
+        "ridge_s3": {
+          "auc": 0.49134603708089525,
+          "canary_max_auc_1m": 0.5086539629191047,
+          "pass": true
+        },
+        "relief5": {
+          "auc": 0.5507577157053961,
+          "canary_max_auc_1m": 0.5507577157053961,
+          "pass": true
+        },
+        "tophat2": {
+          "auc": 0.48738894683988104,
+          "canary_max_auc_1m": 0.5126110531601189,
+          "pass": true
+        },
+        "tmi_edge": {
+          "auc": 0.5272961540470883,
+          "canary_max_auc_1m": 0.5272961540470883,
+          "pass": true
+        },
+        "rtp_edge": {
+          "auc": 0.5257873531392216,
+          "canary_max_auc_1m": 0.5257873531392216,
+          "pass": true
+        },
+        "grav_edge": {
+          "auc": 0.5311789841065292,
+          "canary_max_auc_1m": 0.5311789841065292,
+          "pass": true
+        },
+        "cond_edge": {
+          "auc": 0.5032328823024056,
+          "canary_max_auc_1m": 0.5032328823024056,
+          "pass": true
+        },
+        "depth_grad": {
+          "auc": 0.5272108984628958,
+          "canary_max_auc_1m": 0.5272108984628958,
+          "pass": true
+        },
+        "coherence_s2": {
+          "auc": 0.5595325891613263,
+          "canary_max_auc_1m": 0.5595325891613263,
+          "pass": true
+        },
+        "strike_cos": {
+          "auc": 0.5668608952702703,
+          "canary_max_auc_1m": 0.5668608952702703,
+          "pass": true
+        },
+        "strike_sin": {
+          "auc": 0.5212761333820934,
+          "canary_max_auc_1m": 0.5212761333820934,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 1,
+      "positives": 12123,
+      "unlabeled_sample": 60000,
+      "features": {
+        "band01": {
+          "auc": 0.5163596455772774,
+          "canary_max_auc_1m": 0.5163596455772774,
+          "pass": true
+        },
+        "band02": {
+          "auc": 0.4989648601831229,
+          "canary_max_auc_1m": 0.5010351398168771,
+          "pass": true
+        },
+        "band03": {
+          "auc": 0.4844342372625038,
+          "canary_max_auc_1m": 0.5155657627374962,
+          "pass": true
+        },
+        "band04": {
+          "auc": 0.529408606230581,
+          "canary_max_auc_1m": 0.529408606230581,
+          "pass": true
+        },
+        "band05": {
+          "auc": 0.5738351109461354,
+          "canary_max_auc_1m": 0.5738351109461354,
+          "pass": true
+        },
+        "band06": {
+          "auc": 0.4302921258489373,
+          "canary_max_auc_1m": 0.5697078741510627,
+          "pass": true
+        },
+        "band07": {
+          "auc": 0.49586343795540166,
+          "canary_max_auc_1m": 0.5041365620445983,
+          "pass": true
+        },
+        "band08": {
+          "auc": 0.5346986203909924,
+          "canary_max_auc_1m": 0.5346986203909924,
+          "pass": true
+        },
+        "band09": {
+          "auc": 0.48768919821826284,
+          "canary_max_auc_1m": 0.5123108017817372,
+          "pass": true
+        },
+        "band10": {
+          "auc": 0.5536725219280156,
+          "canary_max_auc_1m": 0.5536725219280156,
+          "pass": true
+        },
+        "band11": {
+          "auc": 0.5367213114190656,
+          "canary_max_auc_1m": 0.5367213114190656,
+          "pass": true
+        },
+        "band12": {
+          "auc": 0.45428504083147736,
+          "canary_max_auc_1m": 0.5457149591685226,
+          "pass": true
+        },
+        "band13": {
+          "auc": 0.4813321853776569,
+          "canary_max_auc_1m": 0.5186678146223431,
+          "pass": true
+        },
+        "band14": {
+          "auc": 0.5065107392284638,
+          "canary_max_auc_1m": 0.5065107392284638,
+          "pass": true
+        },
+        "band15": {
+          "auc": 0.5192610471830406,
+          "canary_max_auc_1m": 0.5192610471830406,
+          "pass": true
+        },
+        "band16": {
+          "auc": 0.5383421340977206,
+          "canary_max_auc_1m": 0.5383421340977206,
+          "pass": true
+        },
+        "band17": {
+          "auc": 0.47179480257911965,
+          "canary_max_auc_1m": 0.5282051974208803,
+          "pass": true
+        },
+        "band18": {
+          "auc": 0.5750006812120212,
+          "canary_max_auc_1m": 0.5750006812120212,
+          "pass": true
+        },
+        "band19": {
+          "auc": 0.5536897701339053,
+          "canary_max_auc_1m": 0.5536897701339053,
+          "pass": true
+        },
+        "curv_s1": {
+          "auc": 0.5794753533228849,
+          "canary_max_auc_1m": 0.5794753533228849,
+          "pass": true
+        },
+        "curv_s2": {
+          "auc": 0.6163633712777365,
+          "canary_max_auc_1m": 0.6163633712777365,
+          "pass": true
+        },
+        "ridge_s1": {
+          "auc": 0.49218977632049277,
+          "canary_max_auc_1m": 0.5078102236795072,
+          "pass": true
+        },
+        "ridge_s2": {
+          "auc": 0.4921599906513789,
+          "canary_max_auc_1m": 0.5078400093486211,
+          "pass": true
+        },
+        "ridge_s3": {
+          "auc": 0.48765330707470644,
+          "canary_max_auc_1m": 0.5123466929252936,
+          "pass": true
+        },
+        "relief5": {
+          "auc": 0.5605790645879732,
+          "canary_max_auc_1m": 0.5605790645879732,
+          "pass": true
+        },
+        "tophat2": {
+          "auc": 0.45115310772911,
+          "canary_max_auc_1m": 0.54884689227089,
+          "pass": true
+        },
+        "tmi_edge": {
+          "auc": 0.4815341568368666,
+          "canary_max_auc_1m": 0.5184658431631334,
+          "pass": true
+        },
+        "rtp_edge": {
+          "auc": 0.4877240754488713,
+          "canary_max_auc_1m": 0.5122759245511287,
+          "pass": true
+        },
+        "grav_edge": {
+          "auc": 0.57796412054222,
+          "canary_max_auc_1m": 0.57796412054222,
+          "pass": true
+        },
+        "cond_edge": {
+          "auc": 0.4960846744480189,
+          "canary_max_auc_1m": 0.503915325551981,
+          "pass": true
+        },
+        "depth_grad": {
+          "auc": 0.5537969025818692,
+          "canary_max_auc_1m": 0.5537969025818692,
+          "pass": true
+        },
+        "coherence_s2": {
+          "auc": 0.6153508083807638,
+          "canary_max_auc_1m": 0.6153508083807638,
+          "pass": true
+        },
+        "strike_cos": {
+          "auc": 0.5743483399323599,
+          "canary_max_auc_1m": 0.5743483399323599,
+          "pass": true
+        },
+        "strike_sin": {
+          "auc": 0.5513346407654871,
+          "canary_max_auc_1m": 0.5513346407654871,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 2,
+      "positives": 8241,
+      "unlabeled_sample": 60000,
+      "features": {
+        "band01": {
+          "auc": 0.47202344577923394,
+          "canary_max_auc_1m": 0.5279765542207661,
+          "pass": true
+        },
+        "band02": {
+          "auc": 0.5594500879747604,
+          "canary_max_auc_1m": 0.5594500879747604,
+          "pass": true
+        },
+        "band03": {
+          "auc": 0.55450166747563,
+          "canary_max_auc_1m": 0.55450166747563,
+          "pass": true
+        },
+        "band04": {
+          "auc": 0.5548420772155482,
+          "canary_max_auc_1m": 0.5548420772155482,
+          "pass": true
+        },
+        "band05": {
+          "auc": 0.46278327367228894,
+          "canary_max_auc_1m": 0.537216726327711,
+          "pass": true
+        },
+        "band06": {
+          "auc": 0.4233062108158395,
+          "canary_max_auc_1m": 0.5766937891841605,
+          "pass": true
+        },
+        "band07": {
+          "auc": 0.578090642316871,
+          "canary_max_auc_1m": 0.578090642316871,
+          "pass": true
+        },
+        "band08": {
+          "auc": 0.45607860292035757,
+          "canary_max_auc_1m": 0.5439213970796424,
+          "pass": true
+        },
+        "band09": {
+          "auc": 0.477747933098734,
+          "canary_max_auc_1m": 0.522252066901266,
+          "pass": true
+        },
+        "band10": {
+          "auc": 0.500576161873559,
+          "canary_max_auc_1m": 0.500576161873559,
+          "pass": true
+        },
+        "band11": {
+          "auc": 0.5273250202240829,
+          "canary_max_auc_1m": 0.5273250202240829,
+          "pass": true
+        },
+        "band12": {
+          "auc": 0.5555101352991141,
+          "canary_max_auc_1m": 0.5555101352991141,
+          "pass": true
+        },
+        "band13": {
+          "auc": 0.4765791398697569,
+          "canary_max_auc_1m": 0.523420860130243,
+          "pass": true
+        },
+        "band14": {
+          "auc": 0.48399983921854145,
+          "canary_max_auc_1m": 0.5160001607814586,
+          "pass": true
+        },
+        "band15": {
+          "auc": 0.47367314039558306,
+          "canary_max_auc_1m": 0.5263268596044169,
+          "pass": true
+        },
+        "band16": {
+          "auc": 0.5131022195930914,
+          "canary_max_auc_1m": 0.5131022195930914,
+          "pass": true
+        },
+        "band17": {
+          "auc": 0.4706866531165312,
+          "canary_max_auc_1m": 0.5293133468834688,
+          "pass": true
+        },
+        "band18": {
+          "auc": 0.4963113093071229,
+          "canary_max_auc_1m": 0.503688690692877,
+          "pass": true
+        },
+        "band19": {
+          "auc": 0.5873999908991627,
+          "canary_max_auc_1m": 0.5873999908991627,
+          "pass": true
+        },
+        "curv_s1": {
+          "auc": 0.5868737137483315,
+          "canary_max_auc_1m": 0.5868737137483315,
+          "pass": true
+        },
+        "curv_s2": {
+          "auc": 0.5822158678153946,
+          "canary_max_auc_1m": 0.5822158678153946,
+          "pass": true
+        },
+        "ridge_s1": {
+          "auc": 0.4941316243983336,
+          "canary_max_auc_1m": 0.5058683756016664,
+          "pass": true
+        },
+        "ridge_s2": {
+          "auc": 0.4799630020628565,
+          "canary_max_auc_1m": 0.5200369979371435,
+          "pass": true
+        },
+        "ridge_s3": {
+          "auc": 0.4809857814585609,
+          "canary_max_auc_1m": 0.519014218541439,
+          "pass": true
+        },
+        "relief5": {
+          "auc": 0.587908145249363,
+          "canary_max_auc_1m": 0.587908145249363,
+          "pass": true
+        },
+        "tophat2": {
+          "auc": 0.49513720220038016,
+          "canary_max_auc_1m": 0.5048627977996198,
+          "pass": true
+        },
+        "tmi_edge": {
+          "auc": 0.5586598117137888,
+          "canary_max_auc_1m": 0.5586598117137888,
+          "pass": true
+        },
+        "rtp_edge": {
+          "auc": 0.5745399648100958,
+          "canary_max_auc_1m": 0.5745399648100958,
+          "pass": true
+        },
+        "grav_edge": {
+          "auc": 0.466954824454961,
+          "canary_max_auc_1m": 0.5330451755450389,
+          "pass": true
+        },
+        "cond_edge": {
+          "auc": 0.502809877442058,
+          "canary_max_auc_1m": 0.502809877442058,
+          "pass": true
+        },
+        "depth_grad": {
+          "auc": 0.4688111808841969,
+          "canary_max_auc_1m": 0.5311888191158032,
+          "pass": true
+        },
+        "coherence_s2": {
+          "auc": 0.4775911266836549,
+          "canary_max_auc_1m": 0.5224088733163451,
+          "pass": true
+        },
+        "strike_cos": {
+          "auc": 0.5349621759090726,
+          "canary_max_auc_1m": 0.5349621759090726,
+          "pass": true
+        },
+        "strike_sin": {
+          "auc": 0.4991016785988755,
+          "canary_max_auc_1m": 0.5008983214011244,
+          "pass": true
+        }
+      }
+    },
+    {
+      "fold": 3,
+      "positives": 9232,
+      "unlabeled_sample": 60000,
+      "features": {
+        "band01": {
+          "auc": 0.5091604392331023,
+          "canary_max_auc_1m": 0.5091604392331023,
+          "pass": true
+        },
+        "band02": {
+          "auc": 0.5063255226386482,
+          "canary_max_auc_1m": 0.5063255226386482,
+          "pass": true
+        },
+        "band03": {
+          "auc": 0.503443496353264,
+          "canary_max_auc_1m": 0.503443496353264,
+          "pass": true
+        },
+        "band04": {
+          "auc": 0.4985585942013287,
+          "canary_max_auc_1m": 0.5014414057986714,
+          "pass": true
+        },
+        "band05": {
+          "auc": 0.5597337286972849,
+          "canary_max_auc_1m": 0.5597337286972849,
+          "pass": true
+        },
+        "band06": {
+          "auc": 0.3827411864529174,
+          "canary_max_auc_1m": 0.6172588135470827,
+          "pass": true
+        },
+        "band07": {
+          "auc": 0.4812224364529174,
+          "canary_max_auc_1m": 0.5187775635470826,
+          "pass": true
+        },
+        "band08": {
+          "auc": 0.5764283912839399,
+          "canary_max_auc_1m": 0.5764283912839399,
+          "pass": true
+        },
+        "band09": {
+          "auc": 0.4827502798238013,
+          "canary_max_auc_1m": 0.5172497201761987,
+          "pass": true
+        },
+        "band10": {
+          "auc": 0.4650975700462161,
+          "canary_max_auc_1m": 0.5349024299537839,
+          "pass": true
+        },
+        "band11": {
+          "auc": 0.5588165366839978,
+          "canary_max_auc_1m": 0.5588165366839978,
+          "pass": true
+        },
+        "band12": {
+          "auc": 0.4807331735629694,
+          "canary_max_auc_1m": 0.5192668264370306,
+          "pass": true
+        },
+        "band13": {
+          "auc": 0.49098514045349506,
+          "canary_max_auc_1m": 0.5090148595465049,
+          "pass": true
+        },
+        "band14": {
+          "auc": 0.5021546044555171,
+          "canary_max_auc_1m": 0.5021546044555171,
+          "pass": true
+        },
+        "band15": {
+          "auc": 0.5317793842071057,
+          "canary_max_auc_1m": 0.5317793842071057,
+          "pass": true
+        },
+        "band16": {
+          "auc": 0.569228082575101,
+          "canary_max_auc_1m": 0.569228082575101,
+          "pass": true
+        },
+        "band17": {
+          "auc": 0.5415410014081455,
+          "canary_max_auc_1m": 0.5415410014081455,
+          "pass": true
+        },
+        "band18": {
+          "auc": 0.5141512050476603,
+          "canary_max_auc_1m": 0.5141512050476603,
+          "pass": true
+        },
+        "band19": {
+          "auc": 0.5702182381932408,
+          "canary_max_auc_1m": 0.5702182381932408,
+          "pass": true
+        },
+        "curv_s1": {
+          "auc": 0.5676973182047949,
+          "canary_max_auc_1m": 0.5676973182047949,
+          "pass": true
+        },
+        "curv_s2": {
+          "auc": 0.5750352090554592,
+          "canary_max_auc_1m": 0.5750352090554592,
+          "pass": true
+        },
+        "ridge_s1": {
+          "auc": 0.4909905040439052,
+          "canary_max_auc_1m": 0.5090094959560948,
+          "pass": true
+        },
+        "ridge_s2": {
+          "auc": 0.4818670502960718,
+          "canary_max_auc_1m": 0.5181329497039282,
+          "pass": true
+        },
+        "ridge_s3": {
+          "auc": 0.4851764767475447,
+          "canary_max_auc_1m": 0.5148235232524553,
+          "pass": true
+        },
+        "relief5": {
+          "auc": 0.5734918345609474,
+          "canary_max_auc_1m": 0.5734918345609474,
+          "pass": true
+        },
+        "tophat2": {
+          "auc": 0.4827394479347198,
+          "canary_max_auc_1m": 0.5172605520652802,
+          "pass": true
+        },
+        "tmi_edge": {
+          "auc": 0.5025863951473137,
+          "canary_max_auc_1m": 0.5025863951473137,
+          "pass": true
+        },
+        "rtp_edge": {
+          "auc": 0.5114390597920278,
+          "canary_max_auc_1m": 0.5114390597920278,
+          "pass": true
+        },
+        "grav_edge": {
+          "auc": 0.5574521257582322,
+          "canary_max_auc_1m": 0.5574521257582322,
+          "pass": true
+        },
+        "cond_edge": {
+          "auc": 0.5051888765525707,
+          "canary_max_auc_1m": 0.5051888765525707,
+          "pass": true
+        },
+        "depth_grad": {
+          "auc": 0.5693521492273252,
+          "canary_max_auc_1m": 0.5693521492273252,
+          "pass": true
+        },
+        "coherence_s2": {
+          "auc": 0.5606886996317157,
+          "canary_max_auc_1m": 0.5606886996317157,
+          "pass": true
+        },
+        "strike_cos": {
+          "auc": 0.5815296965265743,
+          "canary_max_auc_1m": 0.5815296965265743,
+          "pass": true
+        },
+        "strike_sin": {
+          "auc": 0.5466438872039283,
+          "canary_max_auc_1m": 0.5466438872039283,
+          "pass": true
+        }
+      }
+    }
+  ],
+  "worst_canary_by_channel": {
+    "band01": 0.5279765542207661,
+    "band02": 0.5594500879747604,
+    "band03": 0.55450166747563,
+    "band04": 0.5691939493939817,
+    "band05": 0.5738351109461354,
+    "band06": 0.6172588135470827,
+    "band07": 0.578090642316871,
+    "band08": 0.5764283912839399,
+    "band09": 0.522252066901266,
+    "band10": 0.5536725219280156,
+    "band11": 0.5588165366839978,
+    "band12": 0.5555101352991141,
+    "band13": 0.542603030672425,
+    "band14": 0.5160001607814586,
+    "band15": 0.5317793842071057,
+    "band16": 0.569228082575101,
+    "band17": 0.5415410014081455,
+    "band18": 0.5750006812120212,
+    "band19": 0.5873999908991627,
+    "curv_s1": 0.5868737137483315,
+    "curv_s2": 0.6163633712777365,
+    "ridge_s1": 0.5090094959560948,
+    "ridge_s2": 0.5200369979371435,
+    "ridge_s3": 0.519014218541439,
+    "relief5": 0.587908145249363,
+    "tophat2": 0.54884689227089,
+    "tmi_edge": 0.5586598117137888,
+    "rtp_edge": 0.5745399648100958,
+    "grav_edge": 0.57796412054222,
+    "cond_edge": 0.5051888765525707,
+    "depth_grad": 0.5693521492273252,
+    "coherence_s2": 0.6153508083807638,
+    "strike_cos": 0.5815296965265743,
+    "strike_sin": 0.5513346407654871
+  },
+  "canary_all_pass": true,
+  "worst_channel": "band06",
+  "incumbent_reference": "k3dti_b110 recorded same-instrument HOLDOUT-DTI 0.19157 [0.17474, 0.20880], n=58258, gems57-pooled-hide-v2"
+}

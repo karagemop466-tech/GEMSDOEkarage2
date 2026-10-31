@@ -14,14 +14,21 @@ Validation gates (run before any file is labelled OK to download):
   1. CRS / shape / transform match the official template exactly
   2. dtype float32, single band
   3. finite values inside the footprint lie in [0, 1]
-  4. no NaN inside the footprint, and NaN outside it (the organizer sample
-     template is NaN outside its footprint; zeros outside are NOT the
-     official convention). The footprint_mask is required for this gate.
-     Whether this resolves the portal's "must be in range [0, 1]" message
-     is UNVERIFIED; the cause was never established.
+  4. no NaN inside the footprint; the EXTERIOR must be uniform - either all
+     finite zeros or all NaN ("data outside the bounds is null or nan",
+     problem page 967).  2026-10-31 evidence correction: the earlier
+     NaN-only requirement was too strict.  BOTH conventions occur among
+     owner-SCORED focus files (zeros: GEMSDOE30/32/33/36 incl. the 0.2778
+     champion, nodata tag None; NaN: GEMSDOE24/27/28/21 reported variants),
+     and the one file with a user-reported portal range failure
+     (H-F, 20261030) was all-finite with an inconsistent nodata=NaN TAG.
+     The exact portal cause remains UNVERIFIED; the tags are now checked
+     for internal consistency instead of one exterior being mandated.
   5. sha256 of saved bytes recorded
   6. uniqueness vs reference registry rasters: |Spearman| <= 0.90 and
      <= 70% of dots within 3 px of any one registry raster's dots
+  7. nodata tag consistency: nodata=NaN requires an all-NaN exterior;
+     a numeric nodata must not occur inside the footprint
 
 Outputs:
   * the GeoTIFF
@@ -132,9 +139,13 @@ def validate_geotiff(path, template_meta=None, reference_rasters=None,
         vmin = vmax = float("nan")
 
     # Official convention (problem page, "Submission format"): data outside the
-    # bounds is null or nan. The organizer sample template is NaN outside its
-    # footprint. Test np.isnan explicitly: infinity is non-finite but is not a
-    # null/NaN exterior and must not pass this gate.
+    # bounds is null or nan. Both uniform exteriors are attested among
+    # owner-scored files; require ONE of them (no mixed/inf exterior) and
+    # record which. test np.isnan explicitly: infinity is non-finite but is
+    # neither a zeros nor a NaN exterior and must not pass this gate.
+    nodata_raw = None
+    with rasterio.open(path) as _ds:
+        nodata_raw = _ds.nodata
     if footprint_mask is not None:
         footprint_mask = np.asarray(footprint_mask, dtype=bool)
         inside_ok = footprint_mask.shape == data.shape
@@ -145,29 +156,56 @@ def validate_geotiff(path, template_meta=None, reference_rasters=None,
             inf_inside = int(np.isinf(inside).sum())
             inside_finite = bool(np.isfinite(inside).all())
             outside_is_nan = bool(np.isnan(outside).all())
+            outside_is_zeros = bool((outside == 0.0).all())
+            exterior = ("nan" if outside_is_nan else
+                        "zeros" if outside_is_zeros else "mixed/other")
             add("no_nan_inside_footprint", nan_inside == 0, f"nan_inside={nan_inside}")
             add("finite_inside_footprint", inside_finite,
                 f"infinite_inside={inf_inside}")
-            add("outside_footprint_is_nan", outside_is_nan,
-                f"outside_nan={int(np.isnan(outside).sum())} outside_inf={int(np.isinf(outside).sum())}")
+            add("exterior_uniform_zeros_or_nan",
+                outside_is_nan or outside_is_zeros,
+                f"exterior_convention={exterior}; "
+                f"outside_nan={int(np.isnan(outside).sum())} "
+                f"outside_zero={int((outside == 0.0).sum())} "
+                f"outside_inf={int(np.isinf(outside).sum())} "
+                f"outside_total={outside.size}")
             add("in_range_0_1",
                 bool(inside_finite and np.all((inside >= 0.0) & (inside <= 1.0))),
                 f"min={vmin} max={vmax}")
         else:
             add("no_nan_inside_footprint", False, "footprint_mask shape mismatch")
             add("finite_inside_footprint", False, "footprint_mask shape mismatch")
-            add("outside_footprint_is_nan", False, "footprint_mask shape mismatch")
+            add("exterior_uniform_zeros_or_nan", False, "footprint_mask shape mismatch")
             add("in_range_0_1", False, "footprint_mask shape mismatch")
+        # nodata tag consistency (2026-10-31): a nodata=NaN tag on an all-finite
+        # file (the H-F signature) is rejected; a NaN tag requires a NaN exterior.
+        if nodata_raw is None:
+            add("nodata_tag_consistent_with_pixels", True, "nodata=None")
+        elif isinstance(nodata_raw, float) and math.isnan(nodata_raw):
+            exterior_nan = (inside_ok and
+                            bool(np.isnan(data[~np.asarray(footprint_mask,
+                                                           dtype=bool)]).all()))
+            add("nodata_tag_consistent_with_pixels", exterior_nan,
+                "nodata=NaN requires an all-NaN exterior")
+        else:
+            exterior_nan = (inside_ok and
+                            bool(np.isnan(data[~np.asarray(footprint_mask,
+                                                           dtype=bool)]).all()))
+            add("nodata_tag_consistent_with_pixels", True,
+                f"nodata={nodata_raw} (numeric tag recorded; "
+                f"exterior_nan={exterior_nan})")
     else:
         add("no_nan_inside_footprint", False,
             "no footprint mask supplied: NaN-outside convention cannot be verified")
         add("finite_inside_footprint", False,
             "no footprint mask supplied: inside finiteness cannot be verified")
-        add("outside_footprint_is_nan", False,
-            "no footprint mask supplied: NaN-outside convention cannot be verified")
+        add("exterior_uniform_zeros_or_nan", False,
+            "no footprint mask supplied: exterior convention cannot be verified")
         add("in_range_0_1",
             bool(np.all((data[finite_mask] >= 0.0) & (data[finite_mask] <= 1.0))),
             f"min={vmin} max={vmax} (finite cells only; nan={n_nan}, inf={n_inf})")
+        add("nodata_tag_consistent_with_pixels", True,
+            f"nodata={nodata_raw} recorded without footprint context")
 
     if reference_rasters:
         dots = data > 0.0

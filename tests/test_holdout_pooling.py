@@ -51,3 +51,24 @@ def test_predictions_outside_fold_block_are_not_fp_of_that_fold():
     out = pooled_dti_over_folds(p, gt, TRANSFORM, folds)
     assert out["pooled_DTI"] == 1.0
     assert out["FPw"] == 0.0
+
+
+def test_hide_and_recover_perfect_everywhere_scores_one():
+    # Regression 2026-10-31: pooled_dti_hide_and_recover previously scored a predictor that
+    # is exactly the truth everywhere as 0.625 (predictions outside each fold block were FP).
+    from evaluate_holdout import pooled_dti_hide_and_recover  # noqa: E402
+
+    gt = _toy_truth()
+    folds = make_quadrant_folds(*gt.shape)
+    out = pooled_dti_hide_and_recover(lambda visible, i: gt.astype(float), gt, folds, buffer_px=0.0)
+    assert out["pooled_DTI"] == 1.0, out
+    assert out["FPw"] == 0.0, out
+
+
+def test_hide_and_recover_empty_predictor_scores_zero():
+    from evaluate_holdout import pooled_dti_hide_and_recover  # noqa: E402
+
+    gt = _toy_truth()
+    folds = make_quadrant_folds(*gt.shape)
+    out = pooled_dti_hide_and_recover(lambda visible, i: np.zeros(gt.shape), gt, folds, buffer_px=0.0)
+    assert out["pooled_DTI"] == 0.0, out

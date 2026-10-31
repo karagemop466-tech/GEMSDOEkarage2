@@ -255,8 +255,10 @@
   },
   "submission_name": "gemsdoekarage2-geo-habitat-dti-20261031",
   "note": "Independent relief+magnetic-contact habitat, DTI-optimal greedy covering, >=100 m from mapped faults",
-  "verdict": "promote_unique_not_forecast_to_win",
-  "ok_to_submit": true,
+  "verdict": "negative_research_only",
+  "ok_to_submit": false,
   "slot_authorized": false,
-  "forecast_to_beat_focus_site_high": false
+  "forecast_to_beat_focus_site_high": false,
+  "approved_for_weekly_slot": false,
+  "repository_recommendation": "Not this repository's recommended file. main publishes exactly one recommended raster (gemsdoe-karage2-halo39-b44090-sep2-20261031); this raster is registered as a byte-verified, uniqueness-measured alternative candidate with a lower projected score."
 }
