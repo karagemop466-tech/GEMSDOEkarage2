@@ -1,5 +1,9 @@
 # GEMSDOEkarage2
 
+## Current repository review (2026-10-31)
+
+Read [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) and `AGENTS.md` before scientific or submission work. Current verdict remains **NO APPROVED TIFF / NO SCORE ESTIMATE**. The dated 2026-10-30 historical H-F entry below contains a stale “OK_TO_DOWNLOAD: YES” statement; it is superseded by the fail-closed controls in `AGENTS.md`, `SUBMISSION_STATUS.md`, the generated website, and release assessment. H-A is also not untried: its own status update records a duplicate-stop. This review generated no raster and ran no geological experiment.
+
 DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
@@ -14,6 +18,14 @@ Work on the Arena-assigned branch for the current session.
 - **Blockers:** DrivenData data tab requires login (the sandbox cannot reach DrivenData); the uniqueness standard needs an owner decision; the portal range error still lacks a submission-page receipt.
 
 ## Previous review (2026-10-30, Arena branch)
+
+## Latest review (2026-10-31, current Arena branch)
+
+**Decision: NEGATIVE. No TIFF is OK to download and submit.** The official board was re-read today (2026-10-31 UTC): rank 1 is xiaofanhu at **0.4544**, so 0.3195 is not the high. kpomazi's 0.3195 is at rank **50** today (the 2026-10-30 record said 48). The brief's 0.4413 is not on the board. The data tab still redirects to login, and the portal range error remains unexplained. Full review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md); records: [`evidence/leaderboard-recheck-2026-10-31.json`](evidence/leaderboard-recheck-2026-10-31.json), [`evidence/session-2026-10-31-recheck-run-card.json`](evidence/session-2026-10-31-recheck-run-card.json).
+
+**Parallel 2026-10-31 review (merged to main via PR #89):** **Decision: NO APPROVED SUBMISSION.** This three-pass repo review generated no TIFF and ran no geological experiment. Existing downloadable artifacts remain RESEARCH ONLY / DO NOT SUBMIT. The authenticated organizer template/feature stack and `data/` are absent, no method paragraph is assigned, and the dense-registry uniqueness conflict remains unresolved. No new-file leaderboard estimate is supportable. Verification: 257 Python tests passed, 8 skipped (optional/missing-input checks); Node feed 3 passed; site tests 8 passed; browser smoke passed at 1440/390/320 px; readiness exited 0. The nine-site raster audit could not be freshly rerun because `.cache/gems_data/sample_submission.tif` is absent. Detailed report: [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md); run card: [`evidence/repo-review-run-card-2026-10-31.json`](evidence/repo-review-run-card-2026-10-31.json). Latest stored official leaderboard observation remains dated 2026-10-30 and is not refreshed here.
+
+## Latest source review (2026-10-30, prior Arena branch)
 
 **Decision: NO APPROVED SUBMISSION. Do not submit any existing TIFF.** This review refreshed the official public-page observation and GitHub-only upstream HEAD metadata, updated the fail-closed page generator, and passed the local test/audit suite. It did **not** run a geological experiment, generate a TIFF, estimate a local leaderboard score, upload, or use a competition slot. No method paragraph is assigned; authenticated organizer inputs/template and complete current registry evidence remain unavailable. Review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); run card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
 
