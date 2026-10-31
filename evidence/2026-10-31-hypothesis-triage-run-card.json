@@ -1,0 +1,97 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "session_date_utc": "2026-10-31",
+  "classification": "THREE-PASS REPOSITORY REVIEW AND HYPOTHESIS TRIAGE; NO GEOLOGICAL EXPERIMENT OR SUBMISSION",
+  "hypothesis": "No hypothesis tested. First-ranked future proposal: USGS Great Basin heat-flow residuals conditioned on independently derived gravity/magnetic edge locations; viability is blocked pending dataset acquisition, provenance/coverage checks, and lane assignment.",
+  "mechanism": "Repository/source review, official web-page verification, and software checks only. No candidate surface or raster was generated.",
+  "named_non_fault_mimic": "Groundwater circulation, well depth/quality, and uneven sampling can mimic heat-flow residual patterns; no classifier or candidate surface was run.",
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "holdout_evaluator_version": null,
+  "holdout_withheld_positives": null,
+  "holdout_status": "NOT RUN: authenticated training labels/features/template are absent; no method paragraph is assigned; candidate heat-flow archive bytes/coverage are not verified.",
+  "leaderboard_estimate": null,
+  "leaderboard_observation": {
+    "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; NOT a submission-page receipt, NOT a private-round result, NOT HOLDOUT-DTI, and NOT a score for a local raster.",
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "read_date_utc": "2026-10-31",
+    "read_scope": "All three page-reader chunks; displayed rows 1 through 50.",
+    "rank_1": {
+      "participant": "xiaofanhu",
+      "public_dw_tversky": 0.4544
+    },
+    "kpomazi_row": {
+      "rank": 50,
+      "public_dw_tversky": 0.3195
+    },
+    "notes": "The user-cited 0.4413 was not in the 50 displayed rows. Public page is time-varying and does not link the GEMSDOE32 owner claim to a local raster hash."
+  },
+  "hypotheses_proposed": 4,
+  "hypothesis_slate": [
+    {
+      "rank": 1,
+      "name": "USGS background heat-flow residual x gravity/magnetic edge",
+      "state": "proposed, not tested; source metadata/page reachable, archive bytes not fetched",
+      "external_source": "https://doi.org/10.5066/P9BZPVUC",
+      "mimic": "Groundwater circulation and uneven well depth/quality"
+    },
+    {
+      "rank": 2,
+      "name": "High-resolution lidar multi-scale slope-break and scarp asymmetry",
+      "state": "proposed, not tested; free source family verified, exact tiles/coverage unavailable",
+      "external_source": "https://www.usgs.gov/3d-elevation-program",
+      "mimic": "Shorelines, terraces, roads, canals, and lidar artifacts"
+    },
+    {
+      "rank": 3,
+      "name": "INGENIOUS shallow temperature/well chemistry residual x structural edge",
+      "state": "proposed, not tested; official public resource listing reachable, archive bytes not fetched",
+      "external_source": "https://gdr.openei.org/submissions/1391",
+      "mimic": "Shallow groundwater, seasonality, land use, and sample depth"
+    },
+    {
+      "rank": 4,
+      "name": "Geodetic shear/dilatation regime change x magnetic edge persistence",
+      "state": "proposed, not tested; depends on absent organizer feature stack and verified band mapping",
+      "external_source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "mimic": "Intrusive/lithologic contacts, interpolation boundaries, or smooth strain gradients"
+    }
+  ],
+  "registry_correlation_or_overlap": null,
+  "preplacement_surface_check": "NOT RUN; no candidate surface exists.",
+  "final_dot_check": "NOT RUN; no candidate dots or final raster exist.",
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_generated": false,
+    "candidate_validator": "NOT RUN",
+    "existing_download_inventory": "PASS_RESEARCH_ONLY; 10 artifacts; downloadable_approved_submission is null",
+    "authenticated_template_available": false,
+    "portal_acceptance": null,
+    "approved_for_submission": false
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "experiments_run": 0,
+  "submission_slots_used": 0,
+  "verdict": "negative",
+  "software_checks": {
+    "pytest": "257 passed, 8 skipped, 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "8 passed",
+    "browser": "passed at 1440, 390, and 320 px",
+    "readiness": "exit 0",
+    "public_download_audit": "PASS_RESEARCH_ONLY; no approved download",
+    "audit_site_check": "exit 0",
+    "nine_site_best_audit": "blocked: .cache/gems_data/sample_submission.tif absent"
+  },
+  "limitations": [
+    "No authenticated organizer template, training feature stack, labels, or cache is present.",
+    "No single method paragraph is assigned; protocol does not permit inventing a lane.",
+    "USGS heat-flow ZIP and INGENIOUS temperature/chemistry archives were listed in reachable official metadata but not downloaded or checked for coverage/CRS/units in this network-restricted runtime.",
+    "The exact 1 m DEM tile coverage and competition DEM link table are unavailable locally.",
+    "No geological experiment, holdout DTI, confidence interval, leakage canary, surface uniqueness check, final-dot check, or new-file score estimate exists.",
+    "All existing TIF artifacts remain research-only; the current public site marks the release NO / DO NOT SUBMIT.",
+    "The official leaderboard is a time-varying public-test snapshot and not a submission receipt or private-round outcome."
+  ],
+  "report": "research/2026-10-31-hypothesis-triage-and-branch-review.md"
+}
