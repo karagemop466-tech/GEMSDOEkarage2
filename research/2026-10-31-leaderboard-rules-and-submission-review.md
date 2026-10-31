@@ -126,3 +126,15 @@ The repository already holds four untested hypotheses in [`research/2026-10-28-n
 - Live fetches on 2026-10-31: leaderboard (3 chunks), problem page (2 chunks), rules PDF (chunks 0, 2–5), data tab (login redirect), owner GEMSDOE32 index (chunk 0), GitHub Pages executive summary (chunk 0).
 
 Also run and passing after the feed update: `npm run test:browser` (desktop and 390 px layouts, freshness states), `scripts/build_hk3_pages.py --check`, `scripts/build_audit_site.py --check`, `scripts/build_site.py`, and the evidence-workflow scripts (`assess_release.py`, `audit_k2_release.py`, `review_hk3_protocol.py --check`, `compileall`). Generated `docs/` pages changed only to show the 2026-10-31 leaderboard snapshot.
+
+---
+
+## 9. Merge status and the H-B commit on main (added after the merge attempt)
+
+- While this review was in progress, another session merged an **H-B blind-geothermal TIF** into `main` (`docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif`, sha256 `cf70780c…`). Its own run card (`verdict: negative`, `ok_to_submit` false) records:
+  - `strict_format_pass: false`: outside-footprint cells are **finite zeros** (7,111,787 finite outside cells), while the official problem page specifies null or NaN outside the bounds. The run card's `outside_is_nan` check is false.
+  - HOLDOUT-DTI proxy **0.000585**, 95% CI [0.000126, 0.001476], fold-range CI, evaluator `evaluate_holdout.dti_weighted_terms alpha=0.2 beta=0.8 R=300m`, 60,988 withheld positives.
+  - "Uniqueness passed" against **12 locally available rasters**, not the 440-raster registry audited in `evidence/lattice-gate-audit-2026-10-29.json`.
+- Its hand-written HTML sections in `docs/executive-summary.html` and `docs/how-to-submit.html` called the file a "UNIQUE submission," said it "cannot trigger the portal error," and labelled the download a "submission TIF." Those claims are contradicted by its own run card and by the repo's release-language tests. In this branch I corrected the wording to research-only, 12-raster scope, failing strict format, and no portal claim. The download and its evidence were not changed.
+- **Not merged.** `main` is red at its head (`Evidence checks` and `Publish research desk` failing). In this branch the remaining red tests are: (a) `build_hk3_pages.py --check` fails because the H-B sections are hand edits that the generator overwrites; (b) the public-download inventory does not list the H-B TIFF; (c) the legacy-stop policy test requires every primary download link to be the HK3 research file. Resolving (c) is a **policy decision** (which file is the primary research download), not a formatting fix, so it was not made here.
+- **Decision for the owner:** either (1) move the H-B sections into the generator and register the H-B TIFF in the inventory, with the primary-download policy updated; or (2) remove the H-B download from the primary pages until the strict format check passes. Until one is chosen, PR #93 stays open.
