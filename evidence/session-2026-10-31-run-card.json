@@ -1,0 +1,80 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "session_date_utc": "2026-10-31",
+  "classification": "DECISION VERIFICATION AND UNIQUENESS AUDIT; NO CANDIDATE, NO SUBMISSION, NO EXPERIMENT",
+  "hypothesis": "Why did GEMSDOE32 (USER-REPORTED 0.2778) score above its D2.8 family, and can any file pass the uniqueness rule while scoring above it? Not a geological hypothesis test.",
+  "mechanism": "The 0.2778 file equals the D2.8 reference with its 6,436 catalogue-adjacent dots removed (all within 3 px of a labelled catalogue fault). Under the expected-count model with alpha+beta=1, removing dots raises DTI iff their mean hit probability is below alpha times DTI (DERIVED; a bound of 0.052 from the user-reported 0.2600). The hidden test set is new faults not in the USGS database (OFFICIAL-PAGE-TEXT).",
+  "named_non_fault_mimic": "Mapping-coverage gap: areas with no USGS fault mapping because survey coverage is sparse. Not tested; no candidate exists.",
+  "hypothesis_status": "Explanation of a user-reported score only. No candidate was generated and no new method was tested. Ranked hypotheses are in research/2026-10-31-decision-verification-and-hypotheses.md section 6.",
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "holdout_evaluator_version": null,
+  "holdout_withheld_positives": null,
+  "holdout_status": "NOT RUN; no candidate experiment. Existing reference values (HK3 0.1845, K3 0.1916) are HOLDOUT-DTI from earlier sessions and are not attributed to this run.",
+  "leaderboard_estimate": null,
+  "registry_correlation_or_overlap": {
+    "scope": "Reference measurements of existing files only; no candidate raster.",
+    "gems32_vs_d28_spearman": 0.9235552787928604,
+    "gems32_vs_d28_spearman_limit": 0.9,
+    "gems32_vs_d28_subset": true,
+    "gems32_dots_within_3px_of_lattice": 0.9991501566898603,
+    "lattice_footprint_within_3px": 0.9987132726822701,
+    "lattice_uncovered_cells": 6649,
+    "evidence_class": "REGISTRY-MEASUREMENT"
+  },
+  "registry_complete": false,
+  "preplacement_surface_check": null,
+  "final_dot_check": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_generated": false,
+    "candidate_validator": "NOT RUN; no candidate raster",
+    "published_download_inventory": "PASS_RESEARCH_ONLY; ten docs/downloads TIFFs finite, in [0,1], no NaN; EPSG:32611; 3730x3292 (scripts/verify_decision_evidence.py portal_range_check)",
+    "organizer_template_authenticated": false,
+    "portal_acceptance": null,
+    "portal_range_error_reproduced_locally": false,
+    "approved_for_submission": false
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "software_checks": {
+    "verification_script": "PASS; scripts/verify_decision_evidence.py ran in about 10 s and wrote evidence/decision-verification-2026-10-31.json",
+    "verification_tests": "30 passed (tests/test_decision_verification.py)",
+    "python_pytest": "287 passed, 8 skipped, 98 subtests passed, 98 warnings; the eight skips are the optional mirror/template integration tests",
+    "node_feed": "3 passed (npm test)",
+    "node_site": "8 passed (npm run test:site, after npm ci from the committed package-lock.json)",
+    "browser": "passed at 1440, 390 and 320 px (npm run test:browser)",
+    "compile_shell_and_generated_pages": "PASS; build_hk3_pages.py regenerated docs and --check passes",
+    "download_inventory": "PASS_RESEARCH_ONLY"
+  },
+  "verdict": "negative",
+  "reasons": [
+    "No file is eligible: the literal uniqueness clause (overlap at most 70%) cannot be met on this footprint without placing dots in the 6,649 uncovered cells (edge-hole gaming).",
+    "GEMSDOE32 fails the rho clause as well: Spearman 0.9236 against D2.8 (above 0.90).",
+    "The uploaded file behind the portal error 'Predicted values must be in range [0, 1]' is unknown; the repo's files are in range and cannot reproduce it.",
+    "No organizer-authenticated template or data is available; the hidden test cannot be measured locally.",
+    "Rule citation: the weekly limit is stated in rules section 3.2 (Process Overview), not 3.4 as older repo notes say."
+  ],
+  "limitations": [
+    "Scores and ranks are user-reported or organizer-published public snapshots. Nothing here is a local score.",
+    "Leaderboard values were read by the public page reader on 2026-10-31; the data tab requires login and was not read.",
+    "Owner mirrors are integrity-pinned research copies, not organizer-authenticated data.",
+    "The 0.2778 mechanism is verified for the geometry, but its score effect is not measured."
+  ],
+  "next_step": "Owner decision on the uniqueness rule (research/2026-10-31-decision-verification-and-hypotheses.md section 5), then re-run the verification under that rule before any candidate is generated.",
+  "sources": [
+    "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "https://github.com/drivendataorg/gems-prize-reference-solution/tree/aebe92f7c8a990f0e3443451b7a825d9afd6336b"
+  ],
+  "review_passes": {
+    "record": "research/repo-review-2026-10-31.md",
+    "passes": 3,
+    "outcome": "five pass-1 corrections, five pass-2 corrections, and pass-3 link and source checks; all fixed or recorded as unresolved in the review"
+  }
+}

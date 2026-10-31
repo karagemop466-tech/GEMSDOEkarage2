@@ -208,10 +208,31 @@ def gather() -> dict:
     pairs = load(EV / "uniqueness/nine-site-pairwise-recheck.json")
     if len(pairs["summary"]) != 9 or any(r["unique_vs_other_eight"] for r in pairs["summary"]):
         raise ValueError("Nine-site pairwise recheck disagrees with the non-unique finding")
+    verification = load(EV / "decision-verification-2026-10-31.json")
+    page_read = load(EV / "official-page-read-2026-10-31.json")
+    check_verification(verification, page_read, profile)
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official,
             "official_filename": official_filename, "monitor": monitor, "k3": k3,
-            "profile": profile, "uniq": uniq, "pairs": pairs}
+            "profile": profile, "uniq": uniq, "pairs": pairs,
+            "verification": verification, "page_read": page_read}
+
+
+def check_verification(v: dict, page: dict, profile: dict) -> None:
+    """Fail closed if the 2026-10-31 receipts disagree with each other or with the pinned profile."""
+    lat = profile["lattice_witness"]
+    sub = v["gems32_vs_d28"]
+    if (v["decision"]["ok_to_download_and_submit_any_file"] is not False
+            or round(v["lattice_coverage"]["coverage_fraction"], 6) != lat["footprint_cover_within_3px"]
+            or sub["candidate_subset_of_reference"] is not True
+            or sub["removed_dots"] != sub["removed_catalogue_adjacent_dots"]
+            or sub["candidate_dots"] + sub["removed_dots"] != sub["reference_dots"]
+            or not v["spearman_full_footprint"]["gems32_vs_d28"] > v["spearman_full_footprint"]["rho_limit"]
+            or v["marginal_dot_lemma"]["all_rows_match_rule"] is not True
+            or v["portal_range_check"]["files_with_values_outside_0_1_or_nan"] != []
+            or page["decision"]["ok_to_download_and_submit_any_file"] is not False
+            or page["decision"]["experiments_run"] != 0 or page["decision"]["tifs_generated"] != 0):
+        raise ValueError("2026-10-31 verification evidence disagrees with the pinned profile or itself")
 
 
 UNIQUENESS_CANDIDATES = [
@@ -409,6 +430,58 @@ def decision_section(d: dict) -> str:
     )
 
 
+def verification_section(d: dict) -> str:
+    """Why the 0.2778 file scored higher, and why no file is eligible. All numbers come from the 2026-10-31 receipts."""
+    v = d["verification"]
+    page = d["page_read"]
+    sub = v["gems32_vs_d28"]
+    cov = v["lattice_coverage"]
+    rho = v["spearman_full_footprint"]["gems32_vs_d28"]
+    bound = v["implied_removed_hit_rate"]["mean_hit_probability_upper_bound"]
+    clear = v["literal_rule_bound"]["max_dots_clearable_only_by_placing_dots_in_uncovered_cells"]
+    rng = v["portal_range_check"]
+    lb = next((s for s in page["sources"] if "leaderboard" in s.get("url", "")), {})
+    top = lb.get("rank_1", {})
+    last = lb.get("rank_50", {})
+    rows = [
+        ("GEMSDOE32 file dots that are a subset of the D2.8 reference",
+         f"{sub['candidate_dots']:,} of {sub['candidate_dots']:,}", "REGISTRY-MEASUREMENT"),
+        ("D2.8 dots removed by GEMSDOE32, all within 3 px of a labelled catalogue fault",
+         f"{sub['removed_catalogue_adjacent_dots']:,} of {sub['removed_dots']:,}", "REGISTRY-MEASUREMENT"),
+        ("Spearman rho, GEMSDOE32 vs D2.8 (duplicate clause: above 0.90)",
+         f"{rho:.4f}", "REGISTRY-MEASUREMENT"),
+        ("Template footprint within 3 px of the GEMSDOE13 lattice",
+         f"{cov['coverage_fraction'] * 100:.4f}% ({cov['uncovered_cells']:,} uncovered cells)", "REGISTRY-MEASUREMENT"),
+        ("Dots any raster could keep without placing dots in uncovered cells",
+         f"at most {clear:,}, and only by edge-hole placement", "DERIVED from the 70% clause"),
+        ("Mean hit probability of the removed dots, model bound",
+         f"below {bound:.3f}", "DERIVED from USER-REPORTED 0.2600 (not a measurement)"),
+        ("Repo TIFFs with values outside [0, 1] or NaN",
+         f"{len(rng['files_with_values_outside_0_1_or_nan'])} of {rng['files_checked']}", "REGISTRY-MEASUREMENT"),
+        ("Hidden test set (official page)",
+         "new faults NOT in the USGS database", "OFFICIAL-PAGE-TEXT"),
+        ("Public top 50, read 2026-10-31",
+         f"#1 {top.get('value', 0):.4f}; 0.4413 and 0.2778 absent; #50 {last.get('value', 0):.4f}", "OFFICIAL-PAGE-TEXT"),
+    ]
+    body = "".join(f"<tr><td>{esc(a)}</td><td><b>{esc(b)}</b></td><td>{esc(c)}</td></tr>" for a, b, c in rows)
+    return (
+        '<section class="section" id="verification"><h3>Verified 2026-10-31: why 0.2778 scored higher, and what blocks a new file</h3>\n'
+        '<p>The 0.2778 file is the D2.8 reference with the dots near mapped faults removed. The official hidden test is faults '
+        'not in the USGS database, so removing catalogue-adjacent dots can help. This is a mechanism, not a verified score. '
+        '<b>No file is eligible.</b> Clause (b) of the uniqueness rule cannot be met without edge-hole placement, and the '
+        'GEMSDOE32 file also fails the rho clause.</p>\n'
+        '<table id="verification-table"><thead><tr><th>Measured fact</th><th>Value</th><th>Evidence class</th></tr></thead>\n'
+        f'<tbody>{body}</tbody></table>\n'
+        '<p class="muted">Portal error "Predicted values must be in range [0, 1]": every repo-tracked TIFF is finite and in range, so the '
+        'error cannot be reproduced locally. The organizer page says outside cells are null or NaN; the organizer notebook writes 0.0. '
+        'The uploaded file is unknown. Receipts: <a href="evidence/decision-verification-2026-10-31.json">decision verification</a> · '
+        '<a href="evidence/official-page-read-2026-10-31.json">official page read</a> · '
+        '<a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/research/2026-10-31-decision-verification-and-hypotheses.md">'
+        'decision memo</a>.</p>\n'
+        '</section>'
+    )
+
+
 def nested_section(d: dict) -> str:
     rep = {r["site"]: r["reported_score_user_unverified"] for r in d["profile"]["sites"]}
     board = next(item for item in d["official"]["sources"] if item.get("url") == LEADERBOARD)
@@ -590,7 +663,7 @@ def champion_panel() -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    desk = decision_section(d) + verification_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),
@@ -620,6 +693,9 @@ def main() -> int:
                 (EV / "lattice-gate-audit-2026-10-29.json", DOCS / "evidence/lattice-gate-audit-2026-10-29.json"),
                 (EV / "live-source-review-card-2026-10-30.json", DOCS / "evidence/live-source-review-card-2026-10-30.json")]
     mirrors += [(f, DOCS / "evidence" / f.name) for f in sorted(EV.glob("official-review-????-??-??.json"))]
+    mirrors += [(EV / "decision-verification-2026-10-31.json", DOCS / "evidence/decision-verification-2026-10-31.json"),
+                (EV / "official-page-read-2026-10-31.json", DOCS / "evidence/official-page-read-2026-10-31.json"),
+                (EV / "session-2026-10-31-run-card.json", DOCS / "evidence/session-2026-10-31-run-card.json")]
     mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/gw-nfs" / f.name) for f in sorted((EV / "gw-nfs").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/uniqueness" / f.name) for f in sorted((EV / "uniqueness").glob("*.json"))]

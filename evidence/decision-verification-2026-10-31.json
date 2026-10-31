@@ -1,0 +1,508 @@
+{
+  "catalogue_labels_equal_template_ones": true,
+  "d28_dots_within_3px_of_lattice": 0.9991608074393287,
+  "d28_family_identity": {
+    "evidence_class": "REGISTRY-MEASUREMENT",
+    "gems25_dots": 44090,
+    "gems25_equals_reference": true,
+    "gems30_dots": 44090,
+    "gems30_equals_reference": true,
+    "reference_dots": 44090,
+    "sources": {
+      "gems25": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+      "gems30": "docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "reference": "GEMSDOE33"
+    }
+  },
+  "date_utc": "2026-10-31",
+  "decision": {
+    "competition_slots_used": 0,
+    "experiments_run": 0,
+    "ok_to_download_and_submit_any_file": false,
+    "tifs_generated": 0,
+    "uniqueness_gate_clearable_without_gaming": false
+  },
+  "downloads_audit": [
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+      "max": 1.0,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": true,
+      "positive_cells": 18000,
+      "sha256": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif",
+      "max": 1.0,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": false,
+      "positive_cells": 12195,
+      "sha256": "28451a64b659b4e206bb483140fac169987db2edea7dc6a2cdc54f1c0f5fbfff",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+      "max": 1.0,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": true,
+      "positive_cells": 5761,
+      "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif",
+      "max": 1.0,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": false,
+      "positive_cells": 51914,
+      "sha256": "2f5536922ef26457720de4a7a2087dcbc1e1cd67435e85f8f39b4df0221004a7",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
+      "max": 0.9152089953422546,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": false,
+      "positive_cells": 1893817,
+      "sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
+      "max": 0.8522605299949646,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": false,
+      "positive_cells": 37654,
+      "sha256": "313d207480fc7c8ac81d3cdf60fe5012d4c1ef778bb2600b7ac469ee104fc4f1",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+      "max": 0.9323397278785706,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": false,
+      "positive_cells": 2524,
+      "sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+      "max": 1.0,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": false,
+      "positive_cells": 45108,
+      "sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+      "max": 1.0,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": false,
+      "positive_cells": 54491,
+      "sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    {
+      "cells_outside_0_1": 0,
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "file": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+      "max": 1.0,
+      "min": 0.0,
+      "nan_cells": 0,
+      "nodata": null,
+      "nodata_is_nan": false,
+      "positive_cells": 51914,
+      "sha256": "d011e9e12ef3eb506c61bf81c88aa5c24a45532733bea4a9a2100d9df90dfc61",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    }
+  ],
+  "environment": {
+    "numpy": "2.4.6",
+    "python": "3.11.2",
+    "rasterio": "1.4.4",
+    "scipy": "1.17.1"
+  },
+  "evidence_classes": {
+    "DERIVED": "algebra on measured or user-reported inputs, with the stated assumption",
+    "OFFICIAL-PAGE-TEXT": "public DrivenData page text, see evidence/official-page-read-2026-10-31.json",
+    "REGISTRY-MEASUREMENT": "computed here from owner-mirror bytes matching a committed SHA-256 pin; not organizer-authenticated",
+    "USER-REPORTED": "copied from the user's brief; not checked here"
+  },
+  "gems32_dots_within_3px_of_lattice": 0.9991501566898603,
+  "gems32_vs_d28": {
+    "added_dots": 0,
+    "candidate_dots": 37654,
+    "candidate_dots_within_3px_of_reference": 37654,
+    "candidate_subset_of_reference": true,
+    "catalogue_positive_cells": 60988,
+    "kept_catalogue_adjacent_dots": 2171,
+    "reference_catalogue_adjacent_dots": 8607,
+    "reference_dots": 44090,
+    "removed_catalogue_adjacent_dots": 6436,
+    "removed_dots": 6436
+  },
+  "generated_utc": "2026-10-31T00:53:37Z",
+  "generator": "scripts/verify_decision_evidence.py",
+  "grid": {
+    "d28_reference": {
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "nodata": null,
+      "nodata_is_nan": false,
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    "gems32": {
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "nodata": null,
+      "nodata_is_nan": false,
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    "lattice": {
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "nodata": null,
+      "nodata_is_nan": true,
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    "same_grid_all": true,
+    "template": {
+      "count": 1,
+      "crs_epsg": 32611,
+      "dtype": "float32",
+      "nodata": null,
+      "nodata_is_nan": true,
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    }
+  },
+  "implied_removed_hit_rate": {
+    "alpha_times_reported_gems32_dti": 0.05556,
+    "evidence_class": "DERIVED from USER-REPORTED scores under the expected-count model",
+    "mean_hit_probability_upper_bound": 0.052000000000000005,
+    "removed_dots": 6436,
+    "reported_d28_dti": 0.26,
+    "reported_gems32_dti": 0.2778
+  },
+  "lattice_coverage": {
+    "coverage_fraction": 0.9987132726822701,
+    "covered_within_3px": 5160724,
+    "footprint_cells": 5167373,
+    "uncovered_cells": 6649
+  },
+  "literal_rule_bound": {
+    "max_dots_clearable_only_by_placing_dots_in_uncovered_cells": 22163,
+    "minimum_share_of_dots_in_uncovered_cells": 0.30000000000000004,
+    "note": "Clearing requires placing dots in the uncovered cells: edge-hole gaming that the protocol forbids."
+  },
+  "marginal_dot_lemma": {
+    "all_rows_match_rule": true,
+    "alpha_times_dti": 0.11111111111111112,
+    "base_dti": 0.5555555555555556,
+    "rows": [
+      {
+        "delta_if_added": -0.006105006105006083,
+        "delta_if_removed": 0.006242197253433113,
+        "hit_probability": 0.0,
+        "matches_threshold_rule": true
+      },
+      {
+        "delta_if_added": -0.005555555555555536,
+        "delta_if_removed": 0.005680399500624156,
+        "hit_probability": 0.01,
+        "matches_threshold_rule": true
+      },
+      {
+        "delta_if_added": -0.003357753357753457,
+        "delta_if_removed": 0.0034332084893882175,
+        "hit_probability": 0.05,
+        "matches_threshold_rule": true
+      },
+      {
+        "delta_if_added": -0.0030500610500610037,
+        "delta_if_removed": 0.0031186017478151973,
+        "hit_probability": 0.0556,
+        "matches_threshold_rule": true
+      },
+      {
+        "delta_if_added": 0.004884004884004867,
+        "delta_if_removed": -0.004993757802746579,
+        "hit_probability": 0.2,
+        "matches_threshold_rule": true
+      },
+      {
+        "delta_if_added": 0.02136752136752129,
+        "delta_if_removed": -0.021847690387016283,
+        "hit_probability": 0.5,
+        "matches_threshold_rule": true
+      },
+      {
+        "delta_if_added": 0.04884004884004889,
+        "delta_if_removed": -0.04993757802746568,
+        "hit_probability": 1.0,
+        "matches_threshold_rule": true
+      }
+    ]
+  },
+  "pins": {
+    "d28_reference_file": {
+      "path": "docs/downloads/gemsdoe33-d28-reference-20261004-426073b6b4ab-zeros.tif",
+      "ref": "0baedf407845fc9c10f1c605ae59eeada41a0578",
+      "repo": "GEMSDOE33",
+      "sha256": "29ca0bc2cf249f96f1504b8c0ec5e775e78668f6d0f54f5c1c33c580cce74f73"
+    },
+    "gems32_file": {
+      "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "ref": "6edcc4cd529ca0809b956ccb00aea7f0e3b79cbf",
+      "repo": "GEMSDOE32",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9"
+    },
+    "labels": {
+      "path": "data/bridge/labels.tif",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+    },
+    "lattice_gems13": {
+      "path": "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "ref": "92ee6f074323f161eed837b80ec3ee5b662e26f5",
+      "repo": "buffedlizard55-lab/13GEMSDOE",
+      "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2"
+    },
+    "template": {
+      "path": "data/bridge/sample_submission.tif",
+      "ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+    }
+  },
+  "portal_range_check": {
+    "all_repo_tifs_finite_and_in_0_1": true,
+    "conclusion": "The repo-tracked TIFFs do not contain values outside [0, 1] or NaN. The portal message therefore cannot be reproduced from these local bytes; the uploaded file is unknown.",
+    "evidence_class": "REGISTRY-MEASUREMENT (repo-tracked files)",
+    "files_checked": 10,
+    "files_with_values_outside_0_1_or_nan": []
+  },
+  "schema": "gems.decision-verification.v1",
+  "spearman_full_footprint": {
+    "gems32_vs_d28": 0.9235552787928604,
+    "gems32_vs_lattice": 6.246371257601782e-05,
+    "rho_limit": 0.9
+  },
+  "template_footprint_cells": 5167373,
+  "template_ones_inside_footprint": 60988
+}

@@ -4,7 +4,21 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-30, current Arena branch)
+## Latest review (2026-10-31, current Arena branch)
+
+**Decision: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** No new TIFF was generated, no experiment was run, and no competition slot was used. The reason is measured, not a policy guess: the uniqueness clause (overlap at most 70% with any registry raster) cannot be met on this footprint without placing dots in the 6,649 cells the GEMSDOE13 lattice does not cover, which is the edge-hole gaming the protocol forbids. The GEMSDOE32 file also fails the Spearman clause against D2.8 (rho 0.9236 > 0.90).
+
+**What the 0.2778 file is (verified on pinned bytes):** the D2.8 reference (44,090 dots) with 6,436 catalogue-adjacent dots removed. All 6,436 lie within 3 px of a labelled catalogue fault. The hidden test is new faults outside the USGS database, so the mechanism is plausible. Its score effect is **not measured**. Under the expected-count model, the removal raises DTI only if the removed dots' mean hit probability is below 0.052 (DERIVED from the user-reported 0.2600).
+
+**Receipts:** [`research/2026-10-31-decision-verification-and-hypotheses.md`](research/2026-10-31-decision-verification-and-hypotheses.md) (memo, ranked hypotheses, owner decision options) · [`evidence/decision-verification-2026-10-31.json`](evidence/decision-verification-2026-10-31.json) (regenerate with `scripts/verify_decision_evidence.py`, about 10 s) · [`evidence/official-page-read-2026-10-31.json`](evidence/official-page-read-2026-10-31.json) · [`evidence/session-2026-10-31-run-card.json`](evidence/session-2026-10-31-run-card.json) · tests in [`tests/test_decision_verification.py`](tests/test_decision_verification.py).
+
+**Official read, 2026-10-31 (page reader, not a login):** xiaofanhu #1 at 0.4544; the top-50 list does not contain the user-cited 0.4413 or 0.2778; kpomazi is at #50 (0.3195), so the 2026-10-30 "rank 48" is superseded. The 2026-10-30 observation remains the file the monitor and generator use; the 2026-10-31 read is recorded separately to keep that chain intact.
+
+**Irregularities for review:** (1) the official page says the sample "predicts total fault absence", but the owner-mirror sample has 60,988 positive cells equal to the catalogue; (2) the page says outside cells are null or NaN, while the organizer notebook writes 0.0; (3) the 0.2778 file is a duplicate under the rho clause, which earlier notes did not state; (4) `registry/focus_sites.json` pins GEMSDOE32 at ref `012e17b2…`, while the manifest pins the verified bytes at `6edcc4cd…`. (5) The weekly limit of three scored submissions is in rules §3.2 (Process Overview), not §3.4 as the older repo notes say (the rules PDF lists §3.4 as Feedback). The portal error "Predicted values must be in range [0, 1]" is still not reproducible: all ten repo-tracked TIFFs are finite and in range, and the uploaded file is unknown.
+
+**Remaining work:** (a) an owner decision on the uniqueness rule (options A/B/C in the memo, section 5); nothing else unblocks a submission; (b) identify the uploaded file's SHA-256 to resolve the range error; (c) only after (a), re-run the verification under the new rule before generating any candidate.
+
+## Latest review (2026-10-30, earlier Arena branch)
 
 **Decision: NO APPROVED SUBMISSION. Do not submit any existing TIFF.** This review refreshed the official public-page observation and GitHub-only upstream HEAD metadata, updated the fail-closed page generator, and passed the local test/audit suite. It did **not** run a geological experiment, generate a TIFF, estimate a local leaderboard score, upload, or use a competition slot. No method paragraph is assigned; authenticated organizer inputs/template and complete current registry evidence remain unavailable. Review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); run card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
 

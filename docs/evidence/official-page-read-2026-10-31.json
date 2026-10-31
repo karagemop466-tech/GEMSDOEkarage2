@@ -1,0 +1,59 @@
+{
+  "schema": "gems.official-page-observations.v1",
+  "observed_date_utc": "2026-10-31",
+  "observed_utc": "2026-10-31 (session time; the organizer page exposes no generation timestamp)",
+  "timestamp_precision": "Date only. The organizer page does not expose a snapshot-generation timestamp.",
+  "access_method": "Arena public page reader (fetch_page). Leaderboard read in three chunks (chunkIndex 0, 1, 2; totalChunks 3). Problem page read in two chunks (chunkIndex 0 and 1; totalChunks 2). The data tab was NOT re-read in this session. No organizer account, submission-page receipt, or private score was accessed.",
+  "sources": [
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "publisher": "DrivenData, competition organizer",
+      "observation_type": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not a file-linked submission-page receipt",
+      "rows_read": "The page showed 50 ranked rows (#1 to #50) before 'Loading...'. No row beyond #50 was visible in this read.",
+      "rank_1": {"rank": 1, "participant": "xiaofanhu", "value": 0.4544},
+      "rank_2": {"rank": 2, "participant": "cfld__", "value": 0.3925},
+      "rank_3": {"rank": 3, "participant": "Batik Shirt Brothers", "value": 0.3917},
+      "rank_47": {"rank": 47, "participant": "danielhenshall85", "value": 0.3244},
+      "rank_48": {"rank": 48, "participant": "tran.thuy.trang", "value": 0.3231},
+      "rank_49": {"rank": 49, "participant": "like60986", "value": 0.3217},
+      "rank_50": {"rank": 50, "participant": "kpomazi", "value": 0.3195},
+      "user_cited_0_4413_present": false,
+      "user_cited_0_2778_present": false,
+      "limitations": "Public-test leaderboard, time-varying. Rows are not private-round outcomes, HOLDOUT-DTI measurements, submission-page receipts, or scores for any local raster. 0.4413 (user-cited) does not appear in the 50 rows read. 0.2778 (GEMSDOE32, user-cited) is below the 50th-row value 0.3195 and therefore does not appear in the rows read. Ranks move between reads: kpomazi was recorded at rank 47 on 2026-10-29, rank 48 on 2026-10-30 and rank 50 on 2026-10-31."
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "publisher": "DrivenData, competition organizer",
+      "quoted_text": {
+        "known_faults_public": "A unique feature of this challenge is that ground truth data for currently known faults is publicly available! While detailed, it is known that this set of faults is not complete and may even contain some inaccurate data.",
+        "hidden_test_is_new_faults": "For this challenge, we have consulted with fault experts who have manually identified faults that are not contained within the current public USGS database. These new faults will comprise the test dataset for the initial prize round of the challenge.",
+        "one_submission": "Competitors must choose a single submission for scoring across both rounds before the deadline, without knowing their private test set performance.",
+        "metric": "The performance metric for this competition is a distance-weighted Tversky index.",
+        "triangular_kernel": "To compute a distance-weighted Tversky index, we define a triangular kernel k as k(d)=(1-d/R)+ ... where the range R is 300 meters (i.e., 3 pixels at 100m resolution).",
+        "alpha_beta": "For this competition, we set alpha=0.2 and beta=0.8, which reduces the penalty for false positive predictions and increases the penalty for false negative predictions.",
+        "format_values": "Your submission contains a single layer with datatype of 32-bit float (float32) with values between 0 and 1 indicating the confidence or probability of fault presence, with higher values indicating higher probability.",
+        "format_bounds": "Your submission has the same bounds as the training data, and data outside the bounds is null or nan.",
+        "format_crs_resolution": "Your submission is in the same projected coordinate reference system as the training data (projected coordinate system for UTM zone 11N, EPSG 32611) ... at the same resolution as the training data (100m).",
+        "sample_statement": "A sample submission that predicts total fault absence is provided for your reference on the data download page. You can use this as a template to ensure that your submission is correctly formatted."
+      },
+      "irregularity_for_review": "The page says the sample predicts total fault absence. The owner-mirror sample (sha256 2176d08e...) instead contains 60,988 cells equal to 1, and those cells equal the labelled catalogue cells (verified in evidence/decision-verification-2026-10-31.json). The organizer's own sample therefore appears to conflict with its wording. This was not resolved.",
+      "limitations": "Public specification only. It does not authenticate this repository's owner-mirrored template, establish portal acceptance, provide hidden expert labels, or link any leaderboard row to a local file."
+    },
+    {
+      "url": "https://github.com/drivendataorg/gems-prize-reference-solution/blob/aebe92f7c8a990f0e3443451b7a825d9afd6336b/unet-mc-cv-reference-solution.ipynb",
+      "publisher": "Organizer reference solution (GitHub, branch main at commit aebe92f7c8a990f0e3443451b7a825d9afd6336b, verified via api.github.com on 2026-10-31)",
+      "observation_type": "Organizer reference code, not a submission receipt",
+      "observed_writer": "Predictions are sigmoid outputs averaged over Monte Carlo splits into an array initialised with np.zeros. The raster is written with GeoTIFF CRS and transform copied from labels.tif. No nodata value is set. Cells that no test patch covers stay 0.0, not NaN.",
+      "irregularity_for_review": "The page says data outside the bounds is null or nan. The organizer notebook writes 0.0 where it has no prediction, inside the same bounds. The repo's TIFFs use the notebook's convention. The portal's acceptance of either convention is unverified.",
+      "limitations": "A notebook is not a portal validator. It does not show whether the portal rejects zeros or NaNs."
+    }
+  ],
+  "decision": {
+    "ok_to_download_and_submit_any_file": false,
+    "reason": "No file in this repository clears the parallel-run uniqueness rule without placing dots in edge holes. The hidden set is new faults, and the GEMSDOE32 file is a subset of the D2.8 family (rank correlation 0.9236 > 0.90). See evidence/decision-verification-2026-10-31.json.",
+    "experiments_run": 0,
+    "tifs_generated": 0,
+    "competition_slots_used": 0
+  },
+  "historical_snapshot": "The 2026-10-30 observation (evidence/official-review-2026-10-30.json) is retained as history. Its rank 48 value for kpomazi is superseded by this read, which shows rank 50."
+}
