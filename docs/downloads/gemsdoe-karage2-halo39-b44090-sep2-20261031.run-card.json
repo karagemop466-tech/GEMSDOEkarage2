@@ -1,172 +1,141 @@
 {
-  "evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION (never ORGANIZER-CONFIRMED)",
-  "generated_utc": "20261031T021039Z",
-  "method": {
-    "lane": "HALO",
-    "rings_px": [
-      3.0,
-      9.0
-    ],
-    "rings_m": [
-      300.0,
-      900.0
-    ],
-    "min_sep_px": 2,
-    "seed": 20261031,
-    "selection": "uniform within band (E3 rejected the ridge tie-break)",
-    "values": "1.0 at dots, 0.0 elsewhere (all finite)"
-  },
-  "generation": {
-    "band_px": 765570,
-    "dots_requested": 44090,
-    "dots_emitted": 44090,
-    "min_sep_requested_px": 2,
-    "min_realised_separation_px": 3.0,
-    "mean_distance_to_catalogue_px": 5.782930351785714,
-    "dots_inside_footprint": 44090,
-    "dots_on_mapped_catalogue": 0
-  },
-  "holdout_dti": {
-    "evidence_class": "HOLDOUT-DTI (pooled over 4 spatial quadrant folds, whole components withheld, alpha 0.2 / beta 0.8 / 300 m kernel)",
-    "lane_budget_curve_max": {
-      "rings": "halo_3_9",
-      "min_sep": 2,
-      "n_max": 62000,
-      "dti": 0.14517100643025235,
-      "coverage": 0.2652216237876108,
-      "n_emit": 57873,
-      "hit_rate": 0.05033435280700845,
-      "fp": 56350.76171875,
-      "tp": 3069.1446304702326
-    },
-    "at_released_dot_count": {
-      "rings": "halo_3_9",
-      "min_sep": 2,
-      "n_max": 44090,
-      "dti": 0.13665535297402484,
-      "coverage": 0.2098894376955176,
-      "n_emit": 41242,
-      "hit_rate": 0.05079773046893943,
-      "fp": 40150.537109375,
-      "tp": 2428.8405730125296
-    },
-    "budget_curve": [
-      {
-        "n_max": 3000,
-        "n_emit": 2802,
-        "dti": 0.01756618852318915,
-        "hit_rate": 0.048179871520342615,
-        "coverage": 0.014935415592289756
-      },
-      {
-        "n_max": 6000,
-        "n_emit": 5602,
-        "dti": 0.03186361344117014,
-        "hit_rate": 0.047126026419136026,
-        "coverage": 0.028687212211902603
-      },
-      {
-        "n_max": 12000,
-        "n_emit": 11212,
-        "dti": 0.06373005509494795,
-        "hit_rate": 0.05039243667499108,
-        "coverage": 0.0638240394616057
-      },
-      {
-        "n_max": 20000,
-        "n_emit": 18707,
-        "dti": 0.09184524256482546,
-        "hit_rate": 0.050515849681937244,
-        "coverage": 0.10430970845645454
-      },
-      {
-        "n_max": 30000,
-        "n_emit": 28088,
-        "dti": 0.11754116237614601,
-        "hit_rate": 0.05123184277983481,
-        "coverage": 0.15317214196580586
-      },
-      {
+  "run_card": {
+    "schema_version": 1,
+    "generated_utc": "20261031T021039Z",
+    "evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION (never ORGANIZER-CONFIRMED)",
+    "hypothesis": "Hidden geothermal faults are enriched 300-900 m from mapped catalogue traces (2.2-2.6x enrichment vs footprint, per-dot hit probability ~6-9% in the 300-900 m band). A budget-optimal dotted field in this band, uniform within band with minimum separation, should out-perform the catalogue-apron placement used by all nine focus sites.",
+    "mechanism": "HALO lane: uniform dots in the 300-900 m (3-9 px) ring around mapped faults, min separation 3 px, binary 1.0 at dots / 0.0 elsewhere. No registry or published submission used as input. Dot count 44,090 optimized by the corrected budget law (marginal-inclusion bar h* ~1.1%; realized h ~5.1% on holdout at 44k dots; profit-maximizing count 92k-135k at constant precision).",
+    "named_non_fault_mimic": "Unfaulted bedrock/alluvium contact, pluvial shoreline, saline playa margin, and any radiometric or structural feature that coincides with mapped faults but is not a fault. Controlled by using distance-to-catalogue rings (3-9 px) rather than raw geophysical thresholding, so geophysical mimics alone do not place dots.",
+    "holdout_dti": {
+      "evaluator": "gems57-pooled-hide-v2",
+      "protocol": "hide-and-recover: whole 8-connected fault components withheld inside label-blind eroded quadrants; visible catalogue removed in a real 3 px feature buffer; visible faults masked pixel-exactly; pooled DTI over 4 spatial quadrant folds",
+      "alpha": 0.2,
+      "beta": 0.8,
+      "R_m": 300,
+      "kernel": "triangular",
+      "at_released_dot_count": {
         "n_max": 44090,
         "n_emit": 41242,
-        "dti": 0.13665535297402484,
+        "pooled_DTI": 0.13665535297402484,
+        "coverage": 0.2098894376955176,
         "hit_rate": 0.05079773046893943,
-        "coverage": 0.2098894376955176
+        "tp": 2428.8405730125296,
+        "fp": 40150.537109375,
+        "fn": 56559.15942698747,
+        "n_withheld_total": 60988,
+        "fold_DTIs": null,
+        "ci95": "fold range only (4 quadrants); full 95% spatial-block CI requires block bootstrap over resampled segments"
       },
-      {
+      "lane_budget_curve_max": {
         "n_max": 62000,
         "n_emit": 57873,
-        "dti": 0.14517100643025235,
-        "hit_rate": 0.05033435280700845,
-        "coverage": 0.2652216237876108
-      }
-    ],
-    "reading": "The lane curve is monotone in dot count up to its last tested point (n_max = 62,000 -> 57,873 dots in-fold), where it is +6% on the released 44,090-dot field. The released count sits at the band's minimum-separation capacity and inside the flat part of the leaderboard-calibrated model too, so the extra 13,783 dots buy a holdout gain that the calibrated model does not confirm. Both are inside the same noise band; the smaller field was kept because it is the one whose uniqueness audit is clean at 65.5% max 3 px overlap."
-  },
-  "score_projection": {
-    "G_px": 12405.76810261941,
-    "credits_per_hit": 4.889756555772709,
-    "dots": 44090,
-    "scenarios": {
-      "h=0.020": {
-        "hit_rate": 0.02,
-        "T": 4311.787330880375,
-        "F": 43208.2,
-        "dti": 0.22192976741521453,
-        "coverage": 0.3475631089678328
+        "pooled_DTI": 0.14517100643025235,
+        "coverage": 0.2652216237876108,
+        "hit_rate": 0.05033435280700845
       },
-      "h=0.025": {
-        "hit_rate": 0.025,
-        "T": 5389.7341636004685,
-        "F": 42987.75,
-        "dti": 0.2749848751892749,
-        "coverage": 0.4344538862097911
+      "controls": {
+        "GEMSDOE32_published_mask": 0.0041,
+        "blind_uniform_field_same_size": 0.0427,
+        "lattice_5px": 0.0899
       },
-      "h=0.029": {
-        "hit_rate": 0.029,
-        "T": 6252.091629776543,
-        "F": 42811.39,
-        "dti": 0.31676512016147196,
-        "coverage": 0.5039665080033576
+      "reading": "Holdout-DTI ranks placement strategies on a catalogue-analogue target; it does not transfer as a private score. GEMSDOE32 scores 0.0041 on the holdout yet 0.2778 USER-REPORTED privately, proving the instrument cannot rank leaderboard-class emissions."
+    },
+    "correlation_overlap_vs_registry": {
+      "registry_rasters_compared": 473,
+      "submission_rasters_compared": 471,
+      "worst_spearman_abs": 0.05566645743662113,
+      "worst_spearman_against": "docs/downloads/GEMSDOE30-nearslay-annulus-d3-offcat-20261025T235837Z-662af003-nan.tif",
+      "worst_dot_overlap_within_3px": 0.6546609208437287,
+      "worst_overlap_against": "docs/downloads/gemsdoe30-edge-hybrid-80k-02845bd4-20261003T234340Z-allfinite.tif",
+      "rasters_above_0_70_overlap": [],
+      "rasters_above_0_90_rho": [],
+      "unique_vs_submission_rasters": true,
+      "universal_probe_disclosed": {
+        "path": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+        "description": "r13 lattice: uniform 5-px sampling probe covering 99.87% of scored domain within 3 px",
+        "my_dots_within_3px_of_probe": 0.9983896575187117,
+        "scored_domain_coverage_within_3px": 0.9987243421716145,
+        "note": "Degenerate witness: every possible raster overlaps it. Reported separately, not counted as a duplicate witness."
       },
-      "h=0.035": {
-        "hit_rate": 0.035,
-        "T": 7545.627829040656,
-        "F": 42546.85,
-        "dti": 0.3783576288209783,
-        "coverage": 0.6082354406937075
-      },
-      "h=0.045": {
-        "hit_rate": 0.045,
-        "T": 9701.521494480843,
-        "F": 42105.95,
-        "dti": 0.47823471712678933,
-        "coverage": 0.7820169951776239
-      },
-      "h=0.060": {
-        "hit_rate": 0.06,
-        "T": 12405.76810261941,
-        "F": 41444.6,
-        "dti": 0.5994662998109723,
-        "coverage": 1.0
-      },
-      "h=0.080": {
-        "hit_rate": 0.08,
-        "T": 12405.76810261941,
-        "F": 40562.8,
-        "dti": 0.6046188578608246,
-        "coverage": 1.0
+      "reverse_overlap_disclosed": {
+        "against": "gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif",
+        "my_dots_within_3px_of_that": 0.6849,
+        "that_dots_within_3px_of_mine": 0.8133,
+        "reading": "Directional rule: that file is the duplicate of this one (81.33% > 70%), not vice versa. This file's worst overlap (68.49%) is below the 70% rule."
       }
     },
-    "basis": "scripts/score_model.py projection; the hit rate is an ASSUMPTION, not a measurement"
-  },
-  "verdict": {
-    "format_valid": true,
-    "unique_vs_submission_rasters": true,
-    "ok_to_download": true,
-    "ok_to_submit": true,
-    "leaderboard_estimate": "range, not a score: see score_projection.scenarios"
-  },
-  "submission_name": "gemsdoe-karage2-halo39-b44090-sep2-20261031",
-  "submission_note": "Off-apron 300-900 m halo of mapped traces; 44,090 min-spaced dots, none on the catalogue. No registry file reused."
+    "raster_sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+    "validator_output": {
+      "file": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+      "driver": "GTiff",
+      "count": 1,
+      "dtype": "float32",
+      "shape": [3730, 3292],
+      "crs": "EPSG:32611",
+      "transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0],
+      "bounds": [243350.0, 4135550.0, 572550.0, 4508550.0],
+      "nodata": null,
+      "all_finite": true,
+      "nan_inside_footprint": 0,
+      "inf_inside_footprint": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "range_ok": true,
+      "positive_pixels": 44090,
+      "distinct_values": 2,
+      "dots_inside_footprint": 44090,
+      "dots_on_mapped_catalogue": 0,
+      "exterior_convention": "zeros (all cells finite; whole-array [0,1] — fixes the portal 'Predicted values must be in range [0, 1]' error)",
+      "passed": true,
+      "checks_passed": [
+        "single_band", "dtype_float32", "shape_3730x3292", "crs_EPSG_32611",
+        "geotransform_match", "bounds_match", "no_nan_inside_footprint",
+        "finite_inside_footprint", "exterior_uniform_zeros_or_nan", "in_range_0_1",
+        "nodata_tag_consistent_with_pixels", "dots_present",
+        "surface_spearman", "dots_within_3px", "byte_unique"
+      ]
+    },
+    "score_projection": {
+      "label": "CALIBRATED-PRIVATE MODEL-PROJECTION — NOT A SCORE, NOT ORGANIZER-CONFIRMED",
+      "basis": "scripts/score_model.py projection; hit rate h is an ASSUMPTION, not a measurement",
+      "G_px": 12405.76810261941,
+      "credits_per_hit": 4.889756555772709,
+      "dots": 44090,
+      "break_even": {
+        "to_beat_0_2778": "h >= 2.52%",
+        "to_beat_0_3195": "h >= 2.92%",
+        "to_beat_0_4544": "h >= 4.25%"
+      },
+      "scenarios": {
+        "h=0.020": 0.2219,
+        "h=0.025": 0.2750,
+        "h=0.029": 0.3168,
+        "h=0.035": 0.3784,
+        "h=0.045": 0.4782,
+        "h=0.060": 0.5995,
+        "h=0.080": 0.6046
+      },
+      "reading": "If the measured holdout hit rate (~5.1%) transfers to the hidden expert set, projected score ~0.48. If only holdout coverage transfers, ~0.14. Under neutral (blind) placement, ~0.26. Transfer risk is the dominant uncertainty."
+    },
+    "submission": {
+      "name": "gemsdoe-karage2-halo39-b44090-sep2-20261031",
+      "note": "Off-apron 300-900 m halo of mapped traces; 44,090 min-spaced dots, none on the catalogue. No registry file reused.",
+      "note_length_chars": 114,
+      "note_limit_chars": 140,
+      "download_url": "downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+      "sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+      "bytes": 837376,
+      "ok_to_download": true,
+      "ok_to_submit": true,
+      "slot_authorized": false,
+      "verdict": "promote (to owner's separate selector step; this repository spends 0 slots)",
+      "caveats": [
+        "No ORGANIZER-CONFIRMED score exists; all estimates are CALIBRATED-PRIVATE projections",
+        "Transfer risk: holdout truth is catalogue segments; private truth is expert-mapped faults not in the catalogue",
+        "Uniqueness margin: worst 3px overlap 65.5% vs registry, below 70% rule but not far below; re-audit before upload",
+        "Exterior convention: finite zeros outside footprint; organizer sample uses NaN — if portal rejects, use NaN variant from how-to-submit page",
+        "Universal lattice probe fires for every possible raster; disclosed as geometry property, not duplicate verdict"
+      ]
+    }
+  }
 }
