@@ -106,6 +106,14 @@ ARTIFACTS = (
     ("gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z",
      "docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.run-card.json",
      None, False, "candidate"),
+    # Independent structural-habitat raster (2026-10-31 parallel lane). Built from the
+    # 19-band GeoDAWN stack alone; no published raster is an input. Format-valid and
+    # uniqueness-measured (23.3% max within 3 px, Jaccard 0.0057), HOLDOUT-DTI 0.0172
+    # [0.0130, 0.0227]. Registered as research, not as a second release: this repository
+    # publishes exactly one recommended file, and this one's forward projection
+    # (0.007-0.013) does not beat the 0.2778 incumbent.
+    ("gemsdoekarage2-geo-habitat-dti-20261031",
+     "evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json", None, False, "research"),
 )
 
 # Files that exist in docs/downloads but are NOT registered in ARTIFACTS and are NOT
@@ -124,6 +132,20 @@ QUARANTINED = {
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
     """Map nested and legacy flat card schemas onto the common audit fields."""
+    if (isinstance(card, dict) and isinstance(card.get("file"), dict)
+            and isinstance(card["file"].get("sha256"), str)):
+        # run-card-v1 (2026-10-31 lanes): raster facts live under `file`.
+        flat = dict(card)
+        flat["raster"] = rel
+        flat["raster_sha256"] = card["file"].get("sha256")
+        flat["submission_name"] = card.get("submission_name")
+        flat["note"] = card.get("note")
+        flat["verdict"] = ("negative" if str(card.get("verdict", "")).lower().startswith("negative")
+                           else card.get("verdict"))
+        flat["slot_authorized"] = card.get("slot_authorized")
+        flat["approved_for_weekly_slot"] = card.get("approved_for_weekly_slot")
+        flat["ok_to_submit"] = card.get("ok_to_submit")
+        return flat
     if isinstance(card, dict) and isinstance(card.get("raster"), dict):
         flat = dict(card)
         flat["raster"] = card["raster"].get("file")

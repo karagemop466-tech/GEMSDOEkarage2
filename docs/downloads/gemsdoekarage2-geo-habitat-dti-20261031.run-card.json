@@ -1,0 +1,264 @@
+{
+  "schema": "run-card-v1",
+  "session_date": "2026-10-31",
+  "lane": "independent structural-habitat index: z(log1p detrended-elevation slope) + z(log1p TMI horizontal gradient) - z(tilt-angle derivative) + 0.5*z(|isostatic-gravity horizontal gradient|), rank-transformed to a within-footprint quantile, discounted by (1 - exp(-d_catalogue / 3 px)) and zeroed within 100 m of a mapped fault; dots placed by lazy-greedy (CELF) maximisation of the expected distance-weighted Tversky index with K-hat = 35,000",
+  "hypothesis": "the scored faults are faults the USGS/INGENIOUS catalogue does NOT contain, so a useful density must rank under-mapped ground rather than ground that looks like mapped faults. Measured support: at 10 km block scale the dot density of the best-scoring published file correlates with detrended-elevation slope (Spearman +0.46), detrended elevation (+0.37) and TMI horizontal gradient (+0.36), and anti-correlates with the tilt derivative (-0.18); every published file scoring >= 0.245 has a median dot-to-catalogue distance of 15.0-19.7 px, while every file scoring <= 0.15 has 4.1-5.8 px.",
+  "mechanism": "four of the 19 GeoDAWN bands are z-scored inside the footprint and summed with the weights above; no model is trained and no published raster is an input, so the index is a closed-form geophysical surface. The rank transform is required because the raw classifier-style score of the earlier supervised lane was far more concentrated than any published submission behaves; the rank keeps the ordering and leaves the emitted territory's extent under explicit control of eta.",
+  "named_non_fault_mimic": "range-front scarps and alluvial-fan edges: the detrended-elevation slope term fires on any topographic break, including purely erosional or depositional fronts. The tilt-derivative term also fires on flight-line striping and on lithologic contacts that are not faults.",
+  "holdout": {
+    "evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (vendored official metric; alpha 0.2, beta 0.8, R = 300 m triangular kernel)",
+    "dti_vs_isolated_withheld": 0.01719,
+    "ci95": [
+      0.013,
+      0.02269
+    ],
+    "withheld_positive_pixels": 60661,
+    "folds_evaluated_of_16": 11,
+    "emitted_dots": 40559,
+    "enrichment_vs_uniform": 2.05,
+    "note": "HOLDOUT-DTI measured against withheld catalogue positives that are more than 3 px from every visible catalogue pixel. The catalogue is a PROXY for the scored unseen-fault label set; the scorer's truth is private and is believed to mask mapped faults, so this number is not an organizer score."
+  },
+  "emission": {
+    "chosen_K": 35000.0,
+    "emission_table": {
+      "35000.0": {
+        "n_dots": 40561,
+        "expected_dti": 0.039121010002247596,
+        "A": 1358.2959049782905,
+        "F": 32243.54821093419,
+        "K": 35000.0002864459,
+        "coverage": 0.038808454110336225,
+        "candidates": 400000,
+        "heap_left": 359438,
+        "trace": [
+          {
+            "n": 20000,
+            "dti": 0.022642241693693665
+          },
+          {
+            "n": 40000,
+            "dti": 0.03871614037894627
+          }
+        ],
+        "seconds": 3.0,
+        "mean_yield_per_dot": 0.2050603236869374,
+        "median_dist_to_catalogue_px": 35.46829605102539,
+        "frac_within_3px_of_catalogue": 0.0,
+        "footprint_within_300m_of_a_dot": 0.019292394800994626
+      }
+    },
+    "target_density": {
+      "lam_px": 3.0,
+      "eta": 2.0,
+      "min_dcat_px": 1.0
+    },
+    "expected_dti_model": 0.0391,
+    "n_dots": 40561
+  },
+  "file": {
+    "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif",
+    "bytes": 79838,
+    "sha256": "ff22311cb19c83926b1b3d3f66a0f960c863fb9d3c3d603a682a0b7870d0402f",
+    "bands": 1,
+    "dtype": "float32",
+    "height": 3730,
+    "width": 3292,
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "positive_pixels": 40561,
+    "finite_pixels": 12279160,
+    "min": 0.0,
+    "max": 1.0,
+    "all_finite": true
+  },
+  "uniqueness": {
+    "max_jaccard": 0.0057,
+    "max_frac_ours_within_3px": 0.2326,
+    "per_reference": [
+      {
+        "label": "GEMSDOE36-anderson-zeros",
+        "reported_score": 0.275,
+        "n_ref": 38854,
+        "shared": 452,
+        "jaccard": 0.0057,
+        "frac_ours_within_3px": 0.2326
+      },
+      {
+        "label": "GEMSDOE27-h31-allfinite",
+        "reported_score": 0.225,
+        "n_ref": 37654,
+        "shared": 365,
+        "jaccard": 0.0047,
+        "frac_ours_within_3px": 0.2254
+      },
+      {
+        "label": "GEMSDOE27-topo-gap",
+        "reported_score": 0.2449,
+        "n_ref": 61328,
+        "shared": 407,
+        "jaccard": 0.004,
+        "frac_ours_within_3px": 0.1925
+      },
+      {
+        "label": "GEMSDOE24-h25-1-dotted",
+        "reported_score": 0.2477,
+        "n_ref": 60069,
+        "shared": 405,
+        "jaccard": 0.004,
+        "frac_ours_within_3px": 0.1922
+      },
+      {
+        "label": "GEMSDOE33-h33d-analog",
+        "reported_score": 0.2632,
+        "n_ref": 41865,
+        "shared": 287,
+        "jaccard": 0.0035,
+        "frac_ours_within_3px": 0.1821
+      },
+      {
+        "label": "GEMSDOE25-dotted-d28",
+        "reported_score": 0.26,
+        "n_ref": 44090,
+        "shared": 289,
+        "jaccard": 0.0034,
+        "frac_ours_within_3px": 0.1807
+      },
+      {
+        "label": "GEMSDOE28-h27-4",
+        "reported_score": 0.2708,
+        "n_ref": 40199,
+        "shared": 289,
+        "jaccard": 0.0036,
+        "frac_ours_within_3px": 0.1807
+      },
+      {
+        "label": "GEMSDOE28-h32-1",
+        "reported_score": 0.2649,
+        "n_ref": 42294,
+        "shared": 289,
+        "jaccard": 0.0035,
+        "frac_ours_within_3px": 0.1807
+      },
+      {
+        "label": "GEMSDOE30-d28-poisson",
+        "reported_score": 0.26,
+        "n_ref": 44090,
+        "shared": 289,
+        "jaccard": 0.0034,
+        "frac_ours_within_3px": 0.1807
+      },
+      {
+        "label": "GEMSDOE31-h27-4-solo",
+        "reported_score": 0.2708,
+        "n_ref": 40199,
+        "shared": 289,
+        "jaccard": 0.0036,
+        "frac_ours_within_3px": 0.1807
+      },
+      {
+        "label": "GEMSDOE32-h33-b2-zeros",
+        "reported_score": 0.2778,
+        "n_ref": 37654,
+        "shared": 289,
+        "jaccard": 0.0037,
+        "frac_ours_within_3px": 0.1807
+      },
+      {
+        "label": "GEMSDOE28-h36-1",
+        "reported_score": 0.271,
+        "n_ref": 37660,
+        "shared": 272,
+        "jaccard": 0.0035,
+        "frac_ours_within_3px": 0.1773
+      },
+      {
+        "label": "GEMSDOE28-h38-1",
+        "reported_score": 0.2707,
+        "n_ref": 37860,
+        "shared": 272,
+        "jaccard": 0.0035,
+        "frac_ours_within_3px": 0.1773
+      },
+      {
+        "label": "GEMSDOE27-h29-allfinite",
+        "reported_score": 0.219,
+        "n_ref": 37654,
+        "shared": 335,
+        "jaccard": 0.0043,
+        "frac_ours_within_3px": 0.157
+      },
+      {
+        "label": "GEMSDOE28-s18-allfinite",
+        "reported_score": 0.0217,
+        "n_ref": 11082,
+        "shared": 273,
+        "jaccard": 0.0053,
+        "frac_ours_within_3px": 0.1516
+      },
+      {
+        "label": "GEMSDOE33-s33-zeros",
+        "reported_score": 0.0963,
+        "n_ref": 37654,
+        "shared": 242,
+        "jaccard": 0.0031,
+        "frac_ours_within_3px": 0.1396
+      },
+      {
+        "label": "GEMSDOE30-MSDB1",
+        "reported_score": 0.1462,
+        "n_ref": 44090,
+        "shared": 190,
+        "jaccard": 0.0022,
+        "frac_ours_within_3px": 0.1218
+      },
+      {
+        "label": "GEMSDOE36-kpl36-zeros",
+        "reported_score": 0.1647,
+        "n_ref": 37654,
+        "shared": 220,
+        "jaccard": 0.0028,
+        "frac_ours_within_3px": 0.0707
+      },
+      {
+        "label": "GEMSDOE25-h66-zeros",
+        "reported_score": 0.0742,
+        "n_ref": 44832,
+        "shared": 79,
+        "jaccard": 0.0009,
+        "frac_ours_within_3px": 0.0615
+      },
+      {
+        "label": "GEMSDOE24-gvc1-zeros",
+        "reported_score": 0.0859,
+        "n_ref": 37654,
+        "shared": 92,
+        "jaccard": 0.0012,
+        "frac_ours_within_3px": 0.0547
+      },
+      {
+        "label": "GEMSDOE28-s21-allfinite",
+        "reported_score": 0.0206,
+        "n_ref": 37654,
+        "shared": 18,
+        "jaccard": 0.0002,
+        "frac_ours_within_3px": 0.0082
+      }
+    ]
+  },
+  "submission_name": "gemsdoekarage2-geo-habitat-dti-20261031",
+  "note": "Independent relief+magnetic-contact habitat, DTI-optimal greedy covering, >=100 m from mapped faults",
+  "verdict": "negative_research_only",
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "forecast_to_beat_focus_site_high": false,
+  "approved_for_weekly_slot": false,
+  "repository_recommendation": "Not this repository's recommended file. main publishes exactly one recommended raster (gemsdoe-karage2-halo39-b44090-sep2-20261031); this raster is registered as a byte-verified, uniqueness-measured alternative candidate with a lower projected score."
+}

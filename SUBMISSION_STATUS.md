@@ -1,4 +1,16 @@
-# Submission status — ONE APPROVED FILE
+# Submission status
+
+**Parallel lane 2026-10-31 (arena/788c0b40): one new unique raster, registered as a CANDIDATE, not the
+recommendation.** `docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif` (40,561 dots, float32,
+EPSG:32611, 100 m, values [0,1], SHA-256 `ff22311c…d0402f`) was generated from the 19-band GeoDAWN stack
+alone; no published raster is an input. Measured uniqueness **23.3%** max within 3 px of any pinned
+published raster (stop 70%), max Jaccard **0.0057**. HOLDOUT-DTI **0.0172** [0.0130, 0.0227] (vendored
+official metric, 60,661 withheld isolated positives, 11 of 16 folds). Forward projection **0.007–0.013
+(PROJECTION, not a score)**. Verdict: **safe to download and genuinely unique, but not forecast to beat
+the 0.2778 focus-site high, and not this repository's single recommendation** (that remains the HALO
+release). No slot used. See the README section above.
+
+ — ONE APPROVED FILE
 
 **2026-10-31 (current): ONE FILE IS OK TO DOWNLOAD AND SUBMIT.**
 `docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`, SHA-256

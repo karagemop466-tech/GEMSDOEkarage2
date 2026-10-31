@@ -1,0 +1,294 @@
+{
+  "schema": "gems-score-estimator-v1",
+  "fitted": {
+    "K": 400000.0,
+    "lam_px": 0.5,
+    "eta": 3.0,
+    "rmse": 0.13870428123501388,
+    "loo_rmse": 0.13714764202962337,
+    "n_grid_K": 17
+  },
+  "inputs": {
+    "n_calibration": 21,
+    "score_evidence": "USER-REPORTED / UNVERIFIED (no organizer receipt)",
+    "s_map": "assembled 4-fold hide-and-recover model probability"
+  },
+  "fit_table": [
+    {
+      "label": "GEMSDOE32-h33-b2-zeros",
+      "n": 37654,
+      "reported": 0.2778,
+      "predicted": 0.0843,
+      "resid": -0.1935
+    },
+    {
+      "label": "GEMSDOE36-anderson-zeros",
+      "n": 38854,
+      "reported": 0.275,
+      "predicted": 0.0874,
+      "resid": -0.1876
+    },
+    {
+      "label": "GEMSDOE28-h36-1",
+      "n": 37660,
+      "reported": 0.271,
+      "predicted": 0.0878,
+      "resid": -0.1832
+    },
+    {
+      "label": "GEMSDOE28-h27-4",
+      "n": 40199,
+      "reported": 0.2708,
+      "predicted": 0.0906,
+      "resid": -0.1802
+    },
+    {
+      "label": "GEMSDOE31-h27-4-solo",
+      "n": 40199,
+      "reported": 0.2708,
+      "predicted": 0.0906,
+      "resid": -0.1802
+    },
+    {
+      "label": "GEMSDOE28-h38-1",
+      "n": 37860,
+      "reported": 0.2707,
+      "predicted": 0.0883,
+      "resid": -0.1824
+    },
+    {
+      "label": "GEMSDOE28-h32-1",
+      "n": 42294,
+      "reported": 0.2649,
+      "predicted": 0.0951,
+      "resid": -0.1698
+    },
+    {
+      "label": "GEMSDOE33-h33d-analog",
+      "n": 41865,
+      "reported": 0.2632,
+      "predicted": 0.0943,
+      "resid": -0.1689
+    },
+    {
+      "label": "GEMSDOE25-dotted-d28",
+      "n": 44090,
+      "reported": 0.26,
+      "predicted": 0.0984,
+      "resid": -0.1616
+    },
+    {
+      "label": "GEMSDOE30-d28-poisson",
+      "n": 44090,
+      "reported": 0.26,
+      "predicted": 0.0984,
+      "resid": -0.1616
+    },
+    {
+      "label": "GEMSDOE24-h25-1-dotted",
+      "n": 60069,
+      "reported": 0.2477,
+      "predicted": 0.11,
+      "resid": -0.1377
+    },
+    {
+      "label": "GEMSDOE27-topo-gap",
+      "n": 61328,
+      "reported": 0.2449,
+      "predicted": 0.1119,
+      "resid": -0.133
+    },
+    {
+      "label": "GEMSDOE27-h31-allfinite",
+      "n": 37654,
+      "reported": 0.225,
+      "predicted": 0.0898,
+      "resid": -0.1352
+    },
+    {
+      "label": "GEMSDOE27-h29-allfinite",
+      "n": 37654,
+      "reported": 0.219,
+      "predicted": 0.0758,
+      "resid": -0.1432
+    },
+    {
+      "label": "GEMSDOE36-kpl36-zeros",
+      "n": 37654,
+      "reported": 0.1647,
+      "predicted": 0.0861,
+      "resid": -0.0786
+    },
+    {
+      "label": "GEMSDOE30-MSDB1",
+      "n": 44090,
+      "reported": 0.1462,
+      "predicted": 0.1169,
+      "resid": -0.0293
+    },
+    {
+      "label": "GEMSDOE33-s33-zeros",
+      "n": 37654,
+      "reported": 0.0963,
+      "predicted": 0.0907,
+      "resid": -0.0056
+    },
+    {
+      "label": "GEMSDOE24-gvc1-zeros",
+      "n": 37654,
+      "reported": 0.0859,
+      "predicted": 0.0949,
+      "resid": 0.009
+    },
+    {
+      "label": "GEMSDOE25-h66-zeros",
+      "n": 44832,
+      "reported": 0.0742,
+      "predicted": 0.116,
+      "resid": 0.0418
+    },
+    {
+      "label": "GEMSDOE28-s18-allfinite",
+      "n": 11082,
+      "reported": 0.0217,
+      "predicted": 0.0155,
+      "resid": -0.0062
+    },
+    {
+      "label": "GEMSDOE28-s21-allfinite",
+      "n": 37654,
+      "reported": 0.0206,
+      "predicted": 0.096,
+      "resid": 0.0754
+    }
+  ],
+  "leave_one_out": [
+    {
+      "held": "GEMSDOE24-h25-1-dotted",
+      "reported": 0.2477,
+      "loo_predicted": 0.1146,
+      "abs_err": 0.1331
+    },
+    {
+      "held": "GEMSDOE24-gvc1-zeros",
+      "reported": 0.0859,
+      "loo_predicted": 0.1017,
+      "abs_err": 0.0158
+    },
+    {
+      "held": "GEMSDOE25-dotted-d28",
+      "reported": 0.26,
+      "loo_predicted": 0.1022,
+      "abs_err": 0.1578
+    },
+    {
+      "held": "GEMSDOE25-h66-zeros",
+      "reported": 0.0742,
+      "loo_predicted": 0.1278,
+      "abs_err": 0.0536
+    },
+    {
+      "held": "GEMSDOE27-topo-gap",
+      "reported": 0.2449,
+      "loo_predicted": 0.1163,
+      "abs_err": 0.1286
+    },
+    {
+      "held": "GEMSDOE27-h29-allfinite",
+      "reported": 0.219,
+      "loo_predicted": 0.0748,
+      "abs_err": 0.1442
+    },
+    {
+      "held": "GEMSDOE27-h31-allfinite",
+      "reported": 0.225,
+      "loo_predicted": 0.0899,
+      "abs_err": 0.1351
+    },
+    {
+      "held": "GEMSDOE28-h36-1",
+      "reported": 0.271,
+      "loo_predicted": 0.09,
+      "abs_err": 0.181
+    },
+    {
+      "held": "GEMSDOE28-h27-4",
+      "reported": 0.2708,
+      "loo_predicted": 0.0929,
+      "abs_err": 0.1779
+    },
+    {
+      "held": "GEMSDOE28-h32-1",
+      "reported": 0.2649,
+      "loo_predicted": 0.0981,
+      "abs_err": 0.1668
+    },
+    {
+      "held": "GEMSDOE28-h38-1",
+      "reported": 0.2707,
+      "loo_predicted": 0.0905,
+      "abs_err": 0.1802
+    },
+    {
+      "held": "GEMSDOE28-s18-allfinite",
+      "reported": 0.0217,
+      "loo_predicted": 0.0135,
+      "abs_err": 0.0082
+    },
+    {
+      "held": "GEMSDOE28-s21-allfinite",
+      "reported": 0.0206,
+      "loo_predicted": 0.1065,
+      "abs_err": 0.0859
+    },
+    {
+      "held": "GEMSDOE30-d28-poisson",
+      "reported": 0.26,
+      "loo_predicted": 0.1022,
+      "abs_err": 0.1578
+    },
+    {
+      "held": "GEMSDOE30-MSDB1",
+      "reported": 0.1462,
+      "loo_predicted": 0.1263,
+      "abs_err": 0.0199
+    },
+    {
+      "held": "GEMSDOE31-h27-4-solo",
+      "reported": 0.2708,
+      "loo_predicted": 0.0929,
+      "abs_err": 0.1779
+    },
+    {
+      "held": "GEMSDOE32-h33-b2-zeros",
+      "reported": 0.2778,
+      "loo_predicted": 0.0856,
+      "abs_err": 0.1922
+    },
+    {
+      "held": "GEMSDOE33-h33d-analog",
+      "reported": 0.2632,
+      "loo_predicted": 0.0973,
+      "abs_err": 0.1659
+    },
+    {
+      "held": "GEMSDOE33-s33-zeros",
+      "reported": 0.0963,
+      "loo_predicted": 0.0953,
+      "abs_err": 0.001
+    },
+    {
+      "held": "GEMSDOE36-anderson-zeros",
+      "reported": 0.275,
+      "loo_predicted": 0.0892,
+      "abs_err": 0.1858
+    },
+    {
+      "held": "GEMSDOE36-kpl36-zeros",
+      "reported": 0.1647,
+      "loo_predicted": 0.0899,
+      "abs_err": 0.0748
+    }
+  ],
+  "warning": "PROJECTION fitted to user-reported numbers, not an organizer score. Never report as a measured result."
+}
