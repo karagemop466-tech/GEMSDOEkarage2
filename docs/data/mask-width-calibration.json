@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "evidence_class": "MODEL-CALIBRATION (catalogue holdout; not the competition truth)",
+  "method": "4-quadrant hide-and-recover on labels.tif; withheld catalogue segments are the stand-in truth; a w-px exclusion zone around visible catalogue faults mimics the organiser's mapped-fault mask; Spearman is measured against the USER-REPORTED leaderboard values, which are unverified.",
+  "reported_unverified": {
+    "GEMSDOE24": 0.2477,
+    "GEMSDOE25": 0.26,
+    "GEMSDOE27": 0.2449,
+    "GEMSDOE28": 0.271,
+    "GEMSDOE30": 0.26,
+    "GEMSDOE31": 0.2708,
+    "GEMSDOE32": 0.2778,
+    "GEMSDOE33": 0.2632,
+    "GEMSDOE36": 0.275
+  },
+  "sweep": [
+    {
+      "width_px": 0,
+      "spearman_vs_reported": -1.0,
+      "top_raster": "GEMSDOE27",
+      "n_truth": 60988,
+      "per_raster": {
+        "GEMSDOE24": 0.17169,
+        "GEMSDOE25": 0.161506,
+        "GEMSDOE27": 0.172501,
+        "GEMSDOE28": 0.046137,
+        "GEMSDOE30": 0.161506,
+        "GEMSDOE31": 0.049001,
+        "GEMSDOE32": 0.006697,
+        "GEMSDOE33": 0.086392,
+        "GEMSDOE36": 0.006918
+      }
+    },
+    {
+      "width_px": 1,
+      "spearman_vs_reported": -1.0,
+      "top_raster": "GEMSDOE27",
+      "n_truth": 60988,
+      "per_raster": {
+        "GEMSDOE24": 0.17169,
+        "GEMSDOE25": 0.161506,
+        "GEMSDOE27": 0.172501,
+        "GEMSDOE28": 0.046137,
+        "GEMSDOE30": 0.161506,
+        "GEMSDOE31": 0.049001,
+        "GEMSDOE32": 0.006697,
+        "GEMSDOE33": 0.086392,
+        "GEMSDOE36": 0.006918
+      }
+    },
+    {
+      "width_px": 2,
+      "spearman_vs_reported": -1.0,
+      "top_raster": "GEMSDOE27",
+      "n_truth": 60988,
+      "per_raster": {
+        "GEMSDOE24": 0.17169,
+        "GEMSDOE25": 0.161506,
+        "GEMSDOE27": 0.172501,
+        "GEMSDOE28": 0.046137,
+        "GEMSDOE30": 0.161506,
+        "GEMSDOE31": 0.049001,
+        "GEMSDOE32": 0.006697,
+        "GEMSDOE33": 0.086392,
+        "GEMSDOE36": 0.006918
+      }
+    },
+    {
+      "width_px": 3,
+      "spearman_vs_reported": -1.0,
+      "top_raster": "GEMSDOE27",
+      "n_truth": 60988,
+      "per_raster": {
+        "GEMSDOE24": 0.17169,
+        "GEMSDOE25": 0.161506,
+        "GEMSDOE27": 0.172501,
+        "GEMSDOE28": 0.046137,
+        "GEMSDOE30": 0.161506,
+        "GEMSDOE31": 0.049001,
+        "GEMSDOE32": 0.006697,
+        "GEMSDOE33": 0.086392,
+        "GEMSDOE36": 0.006918
+      }
+    },
+    {
+      "width_px": 4,
+      "spearman_vs_reported": -1.0,
+      "top_raster": "GEMSDOE27",
+      "n_truth": 60938,
+      "per_raster": {
+        "GEMSDOE24": 0.171664,
+        "GEMSDOE25": 0.161466,
+        "GEMSDOE27": 0.172476,
+        "GEMSDOE28": 0.04616,
+        "GEMSDOE30": 0.161466,
+        "GEMSDOE31": 0.049031,
+        "GEMSDOE32": 0.006701,
+        "GEMSDOE33": 0.086412,
+        "GEMSDOE36": 0.006922
+      }
+    },
+    {
+      "width_px": 5,
+      "spearman_vs_reported": -1.0,
+      "top_raster": "GEMSDOE27",
+      "n_truth": 60882,
+      "per_raster": {
+        "GEMSDOE24": 0.171627,
+        "GEMSDOE25": 0.161425,
+        "GEMSDOE27": 0.17244,
+        "GEMSDOE28": 0.046149,
+        "GEMSDOE30": 0.161425,
+        "GEMSDOE31": 0.04904,
+        "GEMSDOE32": 0.006702,
+        "GEMSDOE33": 0.086438,
+        "GEMSDOE36": 0.006923
+      }
+    },
+    {
+      "width_px": 6,
+      "spearman_vs_reported": -1.0,
+      "top_raster": "GEMSDOE27",
+      "n_truth": 60825,
+      "per_raster": {
+        "GEMSDOE24": 0.171557,
+        "GEMSDOE25": 0.161369,
+        "GEMSDOE27": 0.172371,
+        "GEMSDOE28": 0.046095,
+        "GEMSDOE30": 0.161369,
+        "GEMSDOE31": 0.049003,
+        "GEMSDOE32": 0.006693,
+        "GEMSDOE33": 0.086373,
+        "GEMSDOE36": 0.006914
+      }
+    },
+    {
+      "width_px": 8,
+      "spearman_vs_reported": -1.0,
+      "top_raster": "GEMSDOE27",
+      "n_truth": 60685,
+      "per_raster": {
+        "GEMSDOE24": 0.171494,
+        "GEMSDOE25": 0.161321,
+        "GEMSDOE27": 0.172305,
+        "GEMSDOE28": 0.046063,
+        "GEMSDOE30": 0.161321,
+        "GEMSDOE31": 0.048996,
+        "GEMSDOE32": 0.006695,
+        "GEMSDOE33": 0.086282,
+        "GEMSDOE36": 0.006917
+      }
+    }
+  ],
+  "best_width_px": 0,
+  "best_spearman": -1.0,
+  "caveat": "Even at the best width this is a catalogue stand-in for a hidden, off-catalogue truth. It is a ranking device, not a score."
+}

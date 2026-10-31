@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import pathlib
 from pathlib import Path
 import zipfile
 
@@ -98,6 +99,13 @@ ARTIFACTS = (
     # the recorded incumbent and the literal lattice clause stops it -> negative.
     ("gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros",
      "evidence/s1/run_card.json", "evidence/s1/selector_result.json", True, "research"),
+    # Off-catalogue GBM lane (2026-10-31 parallel lane). Format-valid, unique on the
+    # discriminating statistics, HOLDOUT-DTI-PROXY below the incumbent, and it trips the
+    # literal one-sided uniqueness clause (IR-ONESIDED-01). Registered as a candidate, not
+    # as a second release: this repository publishes exactly one recommended file.
+    ("gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z",
+     "docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.run-card.json",
+     None, False, "candidate"),
 )
 
 # Files that exist in docs/downloads but are NOT registered in ARTIFACTS and are NOT
@@ -429,6 +437,36 @@ def audit_release(root: Path, stem: str, card_rel: str, grid: dict) -> dict:
         "ok_to_submit": ok, "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid; the receipt records portal acceptance as unverified",
         "exterior_convention": "zeros outside the footprint (all cells finite); no NaN can be out of range",
+    }
+
+
+def _audit_release(root: Path, stem: str, card_rel: str, grid: dict) -> dict:
+    """Format and integrity audit of a release artifact.
+
+    Deliberately does not call it research-only and does not authorize a slot.
+    """
+    import hashlib
+    tif = root / "docs/downloads" / f"{stem}.tif"
+    card = json.loads((root / card_rel).read_text())
+    checks = inspect_raster(tif, grid)["checks"] if tif.is_file() else {}
+    h = hashlib.sha256(); h.update(tif.read_bytes())
+    v = card.get("validator", {})
+    return {
+        "file": f"docs/downloads/{stem}.tif",
+        "status": "VERIFIED_RELEASE_CANDIDATE" if (tif.is_file() and v.get("passed")) else "FAIL_CLOSED",
+        "kind": "release",
+        "bytes": tif.stat().st_size if tif.is_file() else None,
+        "sha256": h.hexdigest() if tif.is_file() else None,
+        "card_sha256_matches_saved_bytes": bool(tif.is_file() and h.hexdigest() == card.get("sha256")),
+        "sandbox_checks": checks,
+        "validator_output": v,
+        "exterior_convention": card.get("exterior_convention"),
+        "ok_to_submit": bool(v.get("passed")),
+        "slot_authorized": False,
+        "score_estimate": None,
+        "projection": card.get("projection_model", {}).get("formula"),
+        "note": "A release artifact is format-valid and unique but is NOT slot-authorized "
+                "and has NO score; its published number is a MODEL-PROJECTION.",
     }
 
 
