@@ -442,7 +442,9 @@ def hero(d: dict) -> str:
     c, w = d["card"], d["witness"]
     name = Path(c["raster"]["file"]).name
     return f'''<section class="hero" id="research-download">
-<h2>No submission-ready TIFF</h2>
+<h2>Legacy research TIFF · not a submission</h2>
+<p><b>See the new release above for the downloadable, unique file.</b> The file below is the older
+HK3 surface, retained only for reproducibility; its approval was withdrawn.</p>
 <p class="verdict"><b class="no">DO NOT SUBMIT.</b> The earlier HK3 approval was incorrect and has been withdrawn. A saved-byte recheck found <b>{w['matched_within_3_pixels']:,} of {w['candidate_positive_inside_footprint']:,} dots ({w['overlap_fraction'] * 100:.2f}%)</b> within three pixels of a registered lattice. The literal rule stops above 70%, without a research-file exception.</p>
 <p>The older TIFF remains available solely for reproducibility. It is <b>not a new submission</b>, not approved for a weekly slot, and has no defensible leaderboard estimate.</p>
 <p><a class="btn big" href="downloads/{esc(name)}" download>Download existing TIFF · RESEARCH ONLY</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
@@ -468,18 +470,54 @@ def evidence_summary(d: dict) -> str:
 </section>'''
 
 
+
+def _site_projections() -> dict:
+    """Per-site forward projection of that site's best pinned file.
+
+    Labels come from the byte-verified calibration registry; for each site we take the
+    pinned file with the highest USER-REPORTED score and report the range of its forward
+    projection across the sharpness sweep. This is a PROJECTION, never a score.
+    """
+    f = ROOT / "evidence" / "projection-range-2026-10-31.json"
+    if not f.exists():
+        return {}
+    pr = json.loads(f.read_text())
+    labels = list(pr["reported_scores"].keys())
+    out: dict[str, dict] = {}
+    for site in ("GEMSDOE24", "GEMSDOE25", "GEMSDOE27", "GEMSDOE28", "GEMSDOE30",
+                 "GEMSDOE31", "GEMSDOE32", "GEMSDOE33", "GEMSDOE36"):
+        cands = [l for l in labels if l.startswith(site + "-")]
+        if not cands:
+            continue
+        best = max(cands, key=lambda l: pr["reported_scores"][l])
+        vals = [pr["gamma_fits"][g]["preds"][labels.index(best)]
+                for g in pr["gamma_fits"]]
+        out[site] = {"label": best,
+                     "reported": pr["reported_scores"][best],
+                     "lo": min(vals), "hi": max(vals)}
+    return out
+
+
 def nine_site_table(d: dict) -> str:
     by_site = {row["site"]: row for row in d["geometry"]["historical_final_dots"]}
     records = sorted(d["focus"], key=lambda r: -r["owner_reported_unverified"])
+    sproj = _site_projections()
     rows = []
     for rec in records:
         site = rec["site"]
         geo = by_site[site]
         source = owner_source(rec)
+        sp = sproj.get(site)
+        if sp is None:
+            estimate = '<td>Unavailable</td>'
+        else:
+            estimate = (f'<td><b>{sp["lo"]:.3f}–{sp["hi"]:.3f}</b>'
+                        f'<span class="sub-label">PROJECTION for <code>{esc(sp["label"])}</code> '
+                        f'· USER-REPORTED {sp["reported"]:.4f} · a model, not a score</span></td>')
         rows.append(f'''<tr><td><a href="sites/{esc(site)}.html">{esc(site)}</a></td>
 <td><a href="{esc(source)}">{esc(rec['file'])}</a><span class="sub-label">Historical reference · download for research only</span></td>
 <td><b>{rec['owner_reported_unverified']:.4f}</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
-<td>Unavailable</td><td><b class="no">NO</b> · {geo['max_focus_overlap_fraction'] * 100:.1f}% near {esc(geo['closest_focus_site'])}</td><td><b class="no">DO NOT SUBMIT</b></td></tr>''')
+{estimate}<td><b class="no">NO</b> · {geo['max_focus_overlap_fraction'] * 100:.1f}% near {esc(geo['closest_focus_site'])}</td><td><b class="no">DO NOT SUBMIT</b></td></tr>''')
     monitor = d["monitor"]
     source_rows = monitor["sites"]
     changed = sum(row["status"] == "changed" for row in source_rows)
@@ -488,8 +526,11 @@ def nine_site_table(d: dict) -> str:
     return f'''<section class="section"><h3>Nine-site executive scorecard</h3>
 <p>Highest <em>reported</em> historical file from each requested site in the supplied list; the values have no linked organizer submission-page receipt. These pinned files are research references, not recommendations or verified current site champions. Click a site for its individual summary.</p>
 {freshness}
-<table id="nine-sites"><thead><tr><th>Site</th><th>Historical file · research only</th><th>Historical report</th><th>New-file estimate</th><th>Unique vs other eight?</th><th>Action</th></tr></thead><tbody>{''.join(rows)}</tbody></table>
-<p>Uniqueness is the directional share of a file's positive dots within three pixels of another pinned file. A different byte hash does not imply a different prediction. <a href="audit.html">Explore the nine-site audit and source freshness →</a></p>
+<table id="nine-sites"><thead><tr><th>Site</th><th>Historical file · research only</th><th>Historical report</th><th>Estimated score (PROJECTION)</th><th>Unique vs other eight?</th><th>Action</th></tr></thead><tbody>{''.join(rows)}</tbody></table>
+<p><b>Estimated score</b> is the forward projection of that site's best pinned file under the model
+described above — range across the sharpness sweep γ ∈ [0.25, 4]. It is a <b>PROJECTION</b>, not an
+organizer score and not a re-measurement; the USER-REPORTED value is shown beside it for comparison.
+Uniqueness is the directional share of a file's positive dots within three pixels of another pinned file. A different byte hash does not imply a different prediction. <a href="audit.html">Explore the nine-site audit and source freshness →</a></p>
 </section>'''
 
 
