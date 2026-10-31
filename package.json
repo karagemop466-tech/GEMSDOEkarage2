@@ -3,7 +3,7 @@
   "private": true,
   "description": "Read-only GEMS audit dashboard tests",
   "scripts": {
-    "test:site": "node --test tests/site.test.cjs",
+    "test:site": "node --test tests/site.test.cjs tests/focus-pages.test.cjs",
     "test": "node --test tests/feed.test.cjs",
     "test:browser": "node tests/browser-smoke.cjs"
   },
