@@ -1,0 +1,70 @@
+{
+  "schema": "gems.current-repository-review.v1",
+  "evidence_class": "REPOSITORY-REVIEW / NEGATIVE DECISION; NO EXPERIMENT RUN",
+  "reviewed_utc": "2026-10-31T04:37:11Z",
+  "hypothesis": "No new method hypothesis was run: the current user prompt did not supply a new, single assigned method paragraph; top preregistered candidate for a future authorized lane is block-fitted terrain-residual gravity edge.",
+  "mechanism": "Future candidate would use competition bands 13 iso_grav_anom, 11 iso_grav_anom_vg, 12 det_elev, and 19 det_elev_slope; train a label-blind relief/trend nuisance regression within each spatial training block and test signed residual-gravity edge persistence at fixed 300–900 m scales.",
+  "named_non_fault_mimic": "Unfaulted sediment–bedrock contact or playa/shoreline edge; also possible survey/interpolation seam.",
+  "holdout": {
+    "evidence_class": "NOT RUN THIS REVIEW",
+    "evaluator_version": null,
+    "dti": null,
+    "ci95": null,
+    "withheld_positive_pixels": null,
+    "reason": "No assigned lane and no cached competition stack, labels, or authenticated template are present in this checkout."
+  },
+  "prior_incumbent_reference": {
+    "evidence_class": "HOLDOUT-DTI (prior repository evidence, not rerun this review)",
+    "name": "k3dti_b110",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.19157,
+    "ci95": [0.17474, 0.20880],
+    "withheld_positive_pixels": 58258,
+    "source": "evidence/k3/combined_holdout.json"
+  },
+  "registry": {
+    "evidence_class": "SAVED-RECEIPT AUDIT; NOT ORGANIZER-COMPLETE",
+    "surface_preplacement_check": "NOT RUN THIS REVIEW",
+    "final_candidate_dots": "NOT GENERATED",
+    "prior_halo_raster": {
+      "file": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+      "sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+      "evidence_class": "PRIOR RASTER-MEASUREMENT",
+      "spearman_abs_worst": 0.05566645743662113,
+      "overlap_fraction_with_lattice_within_3px": 0.9983896575187117,
+      "literal_gate": "FAIL; stop_required=true"
+    },
+    "prior_gbm_raster": {
+      "file": "docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif",
+      "sha256": "18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e",
+      "evidence_class": "PRIOR RASTER-MEASUREMENT",
+      "spearman_abs_worst": 0.142465,
+      "overlap_fraction_with_non_space_filling_registry_raster_within_3px": 0.93771,
+      "literal_gate": "FAIL; >70% stop"
+    }
+  },
+  "raster_sha256": null,
+  "validator": {
+    "candidate_generated": false,
+    "nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "note": "No candidate TIFF was generated or validated in this review. Prior local mirror checks are not organizer-template verification."
+  },
+  "score_estimate": {
+    "value": null,
+    "evidence_class": "NOT ESTIMABLE",
+    "reason": "No validated mapping from catalogue holdout to the hidden expert-label score exists."
+  },
+  "submission": {
+    "name": null,
+    "note": null,
+    "file": null,
+    "ok_to_download_and_submit": false,
+    "verdict": "negative",
+    "reason": "No eligible new submission; literal uniqueness stops prior candidates and no current lane is assigned."
+  },
+  "experiments_used": 0,
+  "budget_limit_experiments": 3,
+  "slots_used": 0
+}

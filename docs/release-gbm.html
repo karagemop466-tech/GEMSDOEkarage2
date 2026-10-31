@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GBM lane desk · GEMSDOEkarage2 release desk</title>
-<meta name="description" content="Off-catalogue fault-discovery lane: validated, unique submission GeoTIFF with a labelled score projection.">
+<meta name="description" content="Archived off-catalogue fault-discovery research candidate; not approved for submission."
 <link rel="stylesheet" href="assets/release.css"></head>
 <body><header class="hdr"><div class="inner">
-<h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES</span></h1>
+<h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
 <div class="sub">DOE GEMS Prize (Drivendata #306) · off-catalogue fault discovery · release desk</div>
 </div></header>
 <main class="wrap"><nav class="topnav" aria-label="Main navigation"><a href="release.html" aria-current=page>Submission desk</a> · <a href="release-summary.html">Executive summary</a> · <a href="release-how-to-submit.html">How to submit</a> · <a href="index.html">Historical desk (negative)</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
+<section class="warn" role="alert"><b>ARCHIVE / DO NOT SUBMIT.</b> This page preserves a prior GBM candidate and its measurements. The binding one-sided 3-px rule is tripped by the recorded raster overlap, the registry is incomplete, and no current submission is approved. Download links below are research-only.</section>
 <section class="sec" id="two-lanes">
 <h2>Two lanes, two files &mdash; read this first</h2>
 <p>A parallel session published <b>gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</b> as this
@@ -22,31 +23,22 @@ files are format-valid and neither has a measured score.</p>
 <tr><td>Relationship to the catalogue</td><td>Defined by distance to mapped faults</td>
 <td>Dots sit a median 7.6 px away; no dot within 5 px</td></tr>
 <tr><td>Status in the repository inventory</td>
-<td><b>the published release</b></td><td>verified candidate
-(<code>ok_to_submit: true</code>, <code>slot_authorized: false</code>)</td></tr>
+<td><b>research archive only</b></td><td>prior selector result retained as history
+(<code>ok_to_submit: true</code> under a superseded rule; current literal gate fails)</td></tr>
 <tr><td>Score</td><td>model projection, not measured</td><td>model projection, not measured</td></tr>
 </tbody></table>
-<p><b>Which one to submit:</b> this page does not claim to be the winner. The repository's own
-inventory permits exactly one published release, and that is the HALO file. If you are choosing
-one file and want the one whose dots are furthest from anything already mapped &mdash; the
-property the scoring rule rewards, since pixels on known faults are masked out of evaluation
-&mdash; submit the GBM file below. If you want the file this repository's desk already recommends,
-submit the HALO file. <b>Either way, no weekly slot beyond the one you choose is spent.</b></p>
+<p><b>Current decision: submit neither file.</b> The GBM raster exceeds the literal 70% one-sided overlap threshold, and the HALO raster separately fails its literal lattice check. Previous selectors used an exception for space-filling witnesses; that exception is not authorized by the current protocol. Both files remain research-only, regardless of their different mechanisms or historical score projections.</p>
 </section><section class="hero" id="download">
-<h2>Download the submission file</h2>
-<p class="verdict big"><b class="ok">CLEARED TO SUBMIT.</b> This file passes every gate that can be
-checked without a DrivenData session: single-band float32 GeoTIFF, EPSG:32611, 3730&nbsp;×&nbsp;3292,
-100&nbsp;m, transform and bounds identical to the official template, <b>every value in the whole array
-finite and inside [0,&nbsp;1]</b>, zero NaN anywhere, 100,000 dots, and it is unique against the
-shared registry (compared against <b>488</b> registry rasters; worst |Spearman| <b>0.1425</b>, worst symmetric 3&nbsp;px overlap <b>0.5799</b>).</p>
-<p><a class="btn big" href="downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif" download>⬇ Download gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif</a>
+<h2>Research-only GBM raster — no submission-ready TIFF</h2>
+<p class="verdict big"><b class="no">DO NOT SUBMIT.</b> This file's saved registry receipt reports 93.77% of its dots within 3 px of a non-space-filling registry raster, exceeding the literal 70% stop. The current protocol does not permit the space-filling-witness exception used by the old selector. Format checks do not cure this failure.</p>
+<p><a class="btn big" href="downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif" download>⬇ Download research TIF — NOT APPROVED</a>
 <a class="btn" href="#estimate">Score estimate &amp; method</a>
 <a class="btn" href="release-how-to-submit.html">Step-by-step submission guide</a></p>
 <div class="meta">
 <b>File:</b> <code>gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif</code><br>
 <b>SHA-256:</b> <code>18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e</code><br>
 <b>Bytes:</b> 360,319 · <b>Dots:</b> 100,000 · <b>Catalogue apron:</b> 5 px (500 m)<br>
-<b>Suggested submission note (≤140 chars):</b> <code>gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z</code><br>
+<b>Research identifier (not a submission name):</b> <code>gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z</code><br>
 <b>Score estimate (MODEL-PROJECTION, not a score):</b>
 0.084 (pessimistic) · <b>0.148 central</b> · 0.215 (optimistic)
 </div>
@@ -78,12 +70,7 @@ family imply anything from 0.66 to 13.9 — so it is swept rather than guessed.<
 <p class="muted">The projection peaks at n = 100,000 for every λ, which is why that budget was chosen.
 The <b>break-even</b> column is the assumption-free statement: it is the mean per-dot kernel credit
 this file needs in order to score 0.2778, independent of any λ.</p>
-<p class="warn"><b>Honest bottom line.</b> The central projection is <b>≈ 0.15</b>, which is below the
-family's reported 0.2778. The file is cleared to submit because it is valid, unique and built on a
-different mechanism — not because it is proven to score higher. If you have a slot to spend and want
-the highest-probability known quantity, that quantity is still the 0.2778 file's <i>mechanism</i>
-(small dot budget, hard catalogue apron), not this file. If you want a genuinely new, independently
-derived, non-duplicate entry, this is it.</p>
+<p class="warn"><b>Decision.</b> The central MODEL-PROJECTION is ≈ 0.15, below the USER-REPORTED / UNVERIFIED 0.2778 reference. More importantly, the raster fails the literal overlap gate. It is not a recommended submission, and no slot is authorized.</p>
 </section><section class="sec" id="why">
 <h2>Why 0.2778 won — and what that tells us</h2>
 <ol class="findings">
@@ -209,15 +196,7 @@ itself were removed from the control before computing its statistics; this file 
 <tr><td>Worst support Jaccard</td><td class="yes">0.0782</td>
 <td class="num">0.9767</td><td>Shared support</td></tr>
 </tbody></table>
-<p><b>The one-sided count barely separates the two files
-(76 versus
-109 references) while the discriminating statistics
-separate them by more than an order of magnitude (Jaccard 0.078 versus
-0.977).</b> The incumbent is a verified nesting descendant of GEMSDOE25 with
-97.7 % support overlap against a registry file, and it trips the literal rule only marginally more
-often than this file does. A 300 m one-sided overlap test therefore measures <i>where in the state
-both models think the interesting ground is</i>, not whether one was copied from the other. It is
-reported here because the brief asks for it, and it is not used as the decision rule.</p>
+<p><b>The one-sided overlap is a literal stop under the supplied protocol.</b> The raster's overlap may reflect regional co-location rather than copying; Jaccard and Spearman help interpret that measurement, but neither statistic cancels the required stop. The previous analysis treated the overlap rule as non-dispositive; that interpretation is withdrawn for this current review. No dense-reference exemption is applied here.</p>
 <p class="muted">1 raster could not be parsed and was skipped;
 1 space-filling reference is excluded from the one-sided count under
 IR-LATTICE-01. <a href="evidence/lane-gbm/uniqueness-dual.json">Both runs, row by row</a>.</p>

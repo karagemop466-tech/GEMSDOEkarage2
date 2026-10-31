@@ -51,13 +51,14 @@ def page(title: str, active: str, body: str) -> str:
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)} · GEMSDOEkarage2 release desk</title>
-<meta name="description" content="Off-catalogue fault-discovery lane: validated, unique submission GeoTIFF with a labelled score projection.">
+<meta name="description" content="Archived off-catalogue fault-discovery research candidate; not approved for submission."
 <link rel="stylesheet" href="assets/release.css"></head>
 <body><header class="hdr"><div class="inner">
-<h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES</span></h1>
+<h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
 <div class="sub">DOE GEMS Prize (Drivendata #306) · off-catalogue fault discovery · release desk</div>
 </div></header>
 <main class="wrap"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
+<section class="warn" role="alert"><b>ARCHIVE / DO NOT SUBMIT.</b> This page preserves a prior GBM candidate and its measurements. The binding one-sided 3-px rule is tripped by the recorded raster overlap, the registry is incomplete, and no current submission is approved. Download links below are research-only.</section>
 {body}
 <footer class="foot"><p><b>Evidence labels used on this site.</b>
 <b>ORGANIZER-CONFIRMED</b> — copied from an actual submission-page receipt. None exists locally; this project has no DrivenData session.
@@ -96,20 +97,16 @@ def hero(d) -> str:
                  f"worst |Spearman| <b>{abs(u['worst']['spearman_abs']['spearman']):.4f}</b>, "
                  f"worst symmetric 3&nbsp;px overlap <b>{u['worst']['symmetric_min']['symmetric_min_within_3px']:.4f}</b>")
     return f'''<section class="hero" id="download">
-<h2>Download the submission file</h2>
-<p class="verdict big"><b class="ok">CLEARED TO SUBMIT.</b> This file passes every gate that can be
-checked without a DrivenData session: single-band float32 GeoTIFF, EPSG:32611, 3730&nbsp;×&nbsp;3292,
-100&nbsp;m, transform and bounds identical to the official template, <b>every value in the whole array
-finite and inside [0,&nbsp;1]</b>, zero NaN anywhere, {c["n_dots"]:,} dots, and it is unique against the
-shared registry ({uniq_line}).</p>
-<p><a class="btn big" href="downloads/{esc(c["file"])}" download>⬇ Download {esc(c["file"])}</a>
+<h2>Research-only GBM raster — no submission-ready TIFF</h2>
+<p class="verdict big"><b class="no">DO NOT SUBMIT.</b> This file's saved registry receipt reports 93.77% of its dots within 3 px of a non-space-filling registry raster, exceeding the literal 70% stop. The current protocol does not permit the space-filling-witness exception used by the old selector. Format checks do not cure this failure.</p>
+<p><a class="btn big" href="downloads/{esc(c["file"])}" download>⬇ Download research TIF — NOT APPROVED</a>
 <a class="btn" href="#estimate">Score estimate &amp; method</a>
 <a class="btn" href="release-how-to-submit.html">Step-by-step submission guide</a></p>
 <div class="meta">
 <b>File:</b> <code>{esc(c["file"])}</code><br>
 <b>SHA-256:</b> <code>{esc(c["sha256"])}</code><br>
 <b>Bytes:</b> {c["bytes"]:,} · <b>Dots:</b> {c["n_dots"]:,} · <b>Catalogue apron:</b> {c["apron_px"]:.0f} px (500 m)<br>
-<b>Suggested submission note (≤140 chars):</b> <code>{esc(c["submission_name"])}</code><br>
+<b>Research identifier (not a submission name):</b> <code>{esc(c["submission_name"])}</code><br>
 <b>Score estimate (MODEL-PROJECTION, not a score):</b>
 {lo:.3f} (pessimistic) · <b>{mid:.3f} central</b> · {hi:.3f} (optimistic)
 </div>
@@ -264,12 +261,7 @@ family imply anything from 0.66 to 13.9 — so it is swept rather than guessed.<
 <p class="muted">The projection peaks at n = 100,000 for every λ, which is why that budget was chosen.
 The <b>break-even</b> column is the assumption-free statement: it is the mean per-dot kernel credit
 this file needs in order to score 0.2778, independent of any λ.</p>
-<p class="warn"><b>Honest bottom line.</b> The central projection is <b>≈ 0.15</b>, which is below the
-family's reported 0.2778. The file is cleared to submit because it is valid, unique and built on a
-different mechanism — not because it is proven to score higher. If you have a slot to spend and want
-the highest-probability known quantity, that quantity is still the 0.2778 file's <i>mechanism</i>
-(small dot budget, hard catalogue apron), not this file. If you want a genuinely new, independently
-derived, non-duplicate entry, this is it.</p>
+<p class="warn"><b>Decision.</b> The central MODEL-PROJECTION is ≈ 0.15, below the USER-REPORTED / UNVERIFIED 0.2778 reference. More importantly, the raster fails the literal overlap gate. It is not a recommended submission, and no slot is authorized.</p>
 </section>'''
 
 
@@ -316,15 +308,7 @@ itself were removed from the control before computing its statistics; this file 
 <tr><td>Worst support Jaccard</td><td class="yes">{lae["max_jaccard"]:.4f}</td>
 <td class="num">{coe["max_jaccard"]:.4f}</td><td>Shared support</td></tr>
 </tbody></table>
-<p><b>The one-sided count barely separates the two files
-({lae["n_one_sided_over_0p70_non_space_filling"]} versus
-{coe["n_one_sided_over_0p70_non_space_filling"]} references) while the discriminating statistics
-separate them by more than an order of magnitude (Jaccard {lae["max_jaccard"]:.3f} versus
-{coe["max_jaccard"]:.3f}).</b> The incumbent is a verified nesting descendant of GEMSDOE25 with
-97.7 % support overlap against a registry file, and it trips the literal rule only marginally more
-often than this file does. A 300 m one-sided overlap test therefore measures <i>where in the state
-both models think the interesting ground is</i>, not whether one was copied from the other. It is
-reported here because the brief asks for it, and it is not used as the decision rule.</p>
+<p><b>The one-sided overlap is a literal stop under the supplied protocol.</b> The raster's overlap may reflect regional co-location rather than copying; Jaccard and Spearman help interpret that measurement, but neither statistic cancels the required stop. The previous analysis treated the overlap rule as non-dispositive; that interpretation is withdrawn for this current review. No dense-reference exemption is applied here.</p>
 <p class="muted">{dual["rasters_failed"]} raster could not be parsed and was skipped;
 {la["n_space_filling"]} space-filling reference is excluded from the one-sided count under
 IR-LATTICE-01. <a href="evidence/lane-gbm/uniqueness-dual.json">Both runs, row by row</a>.</p>'''
@@ -385,25 +369,26 @@ def guide_page(d) -> str:
     rcp = ROOT / "evidence" / "lane-gbm" / "final-run-card.json"
     note = (json.loads(rcp.read_text())["note"] if rcp.exists() else c["submission_name"])
     assert len(note) <= 140, "submission note exceeds the 140-character limit"
-    return f'''<section class="sec"><h2>How to submit — every step, nothing left out</h2>
+    return f'''<section class="sec"><h2>Conditional submission instructions — no current file approved</h2>
+<p class="warn"><b>STOP: do not upload any file from this archive.</b> The steps below describe the generic portal process only; this GBM TIFF is research-only.</p>
 <ol class="steps">
-<li><b>Download the file.</b> <a class="btn" href="downloads/{esc(c["file"])}" download>⬇ {esc(c["file"])}</a>
+<li><b>For audit only, download the research file.</b> <a class="btn" href="downloads/{esc(c["file"])}" download>⬇ {esc(c["file"])}</a>
 ({c["bytes"]:,} bytes). It is a single-band float32 GeoTIFF, EPSG:32611, 3730 × 3292, 100 m, matching
 the official template exactly.</li>
 <li><b>Verify it yourself before uploading</b> (optional but recommended).
 <pre><code>sha256sum {esc(c["file"])}
 # expect: {esc(c["sha256"])}</code></pre>
 If the hash differs, the download is corrupt — do not upload it.</li>
-<li><b>Sign in and open the submission page.</b>
+<li><b>Do not proceed to upload.</b> Sign-in is appropriate only after a separate, current selector has cleared a candidate under every binding gate.</li>
+<li><b>Generic portal reference (not an instruction to upload this file).</b>
 <a href="{SUBMISSIONS}">https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/ ↗</a>
 then choose <b>New submission</b>.</li>
-<li><b>Choose the file.</b> Under <em>File to submit</em>, select the <code>.tif</code> you downloaded.
+<li><b>For a future approved file only</b>, choose its <code>.tif</code>. Do not select this research artifact.
 DrivenData accepts a single-band GeoTIFF, or a <code>.zip</code> containing exactly one GeoTIFF.
 <b>Do not</b> add <code>.aux.xml</code>, <code>.ovr</code> or any sidecar file to the zip.</li>
-<li><b>Paste the note.</b> Use this exact string so you can tell the entry apart later
-({len(note)} characters, under the 140 limit):
+<li><b>Do not paste a submission note for this artifact.</b> Its historical identifier ({len(note)} characters) is for audit only:
 <pre><code>{esc(note)}</code></pre></li>
-<li><b>Create the submission</b> and wait for scoring. If you see
+<li><b>Do not create a submission for this artifact.</b> For an approved future file, if you see
 <em>"Predicted values must be in range [0, 1]"</em>, that is the whole-array NaN failure described
 under IR-EXTERIOR-01 — this file cannot trigger it, because every one of its
 {3730*3292:,} values is finite and in [0, 1]. If you see it anyway, report the exact message.</li>
@@ -456,16 +441,11 @@ files are format-valid and neither has a measured score.</p>
 <tr><td>Relationship to the catalogue</td><td>Defined by distance to mapped faults</td>
 <td>Dots sit a median 7.6 px away; no dot within 5 px</td></tr>
 <tr><td>Status in the repository inventory</td>
-<td><b>the published release</b></td><td>verified candidate
-(<code>ok_to_submit: true</code>, <code>slot_authorized: false</code>)</td></tr>
+<td><b>research archive only</b></td><td>prior selector result retained as history
+(<code>ok_to_submit: true</code> under a superseded rule; current literal gate fails)</td></tr>
 <tr><td>Score</td><td>model projection, not measured</td><td>model projection, not measured</td></tr>
 </tbody></table>
-<p><b>Which one to submit:</b> this page does not claim to be the winner. The repository's own
-inventory permits exactly one published release, and that is the HALO file. If you are choosing
-one file and want the one whose dots are furthest from anything already mapped &mdash; the
-property the scoring rule rewards, since pixels on known faults are masked out of evaluation
-&mdash; submit the GBM file below. If you want the file this repository's desk already recommends,
-submit the HALO file. <b>Either way, no weekly slot beyond the one you choose is spent.</b></p>
+<p><b>Current decision: submit neither file.</b> The GBM raster exceeds the literal 70% one-sided overlap threshold, and the HALO raster separately fails its literal lattice check. Previous selectors used an exception for space-filling witnesses; that exception is not authorized by the current protocol. Both files remain research-only, regardless of their different mechanisms or historical score projections.</p>
 </section>'''
 
     desk = (hero(d) + estimate_section(d) + why_section(d) + method_section(d)

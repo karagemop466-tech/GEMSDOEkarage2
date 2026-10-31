@@ -76,13 +76,17 @@ function chromeEnvironment() {
     // The badge is derived from the release receipt, never hard-coded: the desk says
     // "1 FILE" exactly when a release receipt certifies one file for submission.
     const releaseReceipt = require('../evidence/halo/final_generation.json');
-    const expectBadge = releaseReceipt.verdict.ok_to_submit
+    const expectBadge = releaseReceipt.verdict.ok_to_submit && releaseReceipt.uniqueness_literal_gate.unique === true
+      && releaseReceipt.organizer_template_authenticated === true
       ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE'
       : 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
-      await page.waitForURL('**/docs/index.html');
+      await page.waitForURL('**/docs/release.html');
+      assert.equal((await page.locator('.header .badge').innerText()).trim(), 'OK TO SUBMIT: NO');
+      assert.ok((await page.locator('body').innerText()).includes('No submission-ready TIFF'));
+      await page.goto(base + '/docs/index.html', {waitUntil:'domcontentloaded'});
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
       // The desk may offer a verified current candidate (evidence/k10) above the HK3 research
       // control, so the research-only link is addressed by href rather than by position -- the
@@ -103,7 +107,7 @@ function chromeEnvironment() {
       assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);
       assert.ok(await page.locator('a[href="audit.html"]').count());
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Desk overflow');
-      console.log(`PASS ${width}px: negative badge, research-only click/download, exact SHA-256`);
+      console.log(`PASS ${width}px: root no-submit route, historical research-only click/download, exact SHA-256`);
     }
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);

@@ -297,13 +297,19 @@ def release_badge() -> str:
     """Badge text for every generated page, driven by the release receipt.
 
     The desk pages are an audit trail of historical files.  They now carry the
-    *current* release state so no page contradicts the release decision page:
-    if `evidence/halo/final_generation.json` says one file passed every gate, the
-    badge says so and links to `release.html`; otherwise it stays fail-closed.
+    *current* release state. A release requires a passing literal uniqueness
+    gate and authenticated organizer template evidence in addition to the old
+    receipt flag; missing fields fail closed.
     """
     try:
         rel = json.loads((EV / "halo" / "final_generation.json").read_text())
-        ok = bool(rel.get("verdict", {}).get("ok_to_submit"))
+        # The user's binding protocol is literal: any >70% one-sided 3-px
+        # overlap is a stop, including the space-filling lattice witness.
+        literal = rel.get("uniqueness_literal_gate", {})
+        ok = bool(rel.get("verdict", {}).get("ok_to_submit")) and literal.get("unique") is True
+        # An owner-mirror format pass and partial registry cannot authorize a
+        # competition submission without authenticated organizer inputs.
+        ok = ok and rel.get("organizer_template_authenticated") is True
     except (OSError, ValueError):
         ok = False
     if ok:
@@ -599,14 +605,12 @@ def decision_section(d: dict) -> str:
     best_pct = prof[best["site"]]["frac_dots_within_3px_of_lattice"] * 100
     return (
         '<section class="hero" id="decision">\n'
-        '<h2>Which file to submit? One file — the released candidate, not any of the nine.</h2>\n'
-        f'<div class="cta-row"><a class="cta" href="release.html">Open the release decision and download the approved .tif</a></div>\n'
-        f'<p class="verdict"><b class="ok">Approved for submission: {esc(released_name())}</b> — unique against all '
-        f'473 registry rasters, 0 dots on catalogue pixels, estimated score '
-        f'≈{released_scenarios()["h=0.045"]["dti"]:.2f} (CALIBRATED-PRIVATE range '
-        f'{min(v["dti"] for v in released_scenarios().values()):.2f}–'
-        f'{max(v["dti"] for v in released_scenarios().values()):.2f}; see '
-        '<a href="release.html#estimate">the estimate section</a>).</p>\n'
+        '<h2>No file is currently cleared for submission</h2>\n'
+        f'<div class="cta-row"><a class="cta" href="release.html">Read the current no-submit decision and research-only archive</a></div>\n'
+        f'<p class="verdict"><b class="no">DO NOT SUBMIT: {esc(released_name())}.</b> The HALO receipt records '
+        f'{float(json.loads((EV / "halo" / "final_generation.json").read_text())["uniqueness_literal_gate"]["worst_overlap_including_probe"]) * 100:.2f}% '
+        'one-sided overlap with the lattice witness (limit 70%), and its own literal gate says stop. The purported score range is a '
+        'CALIBRATED-PRIVATE projection with unverified transfer assumptions, not an organizer score. The organizer template and full registry are not authenticated.</p>\n'
         f'<p><b>None of the nine focus files is eligible.</b> The best reported one, {esc(best["site"])} at '
         f'{best["owner_reported_unverified"]:.4f} (USER-REPORTED / UNVERIFIED), fails the shared uniqueness gate against the '
         f'13GEMSDOE lattice with <b>{best_pct:.2f}%</b> of its dots within three pixels, where at most 70% is allowed. '
@@ -618,8 +622,7 @@ def decision_section(d: dict) -> str:
         '<section class="section"><h3>Submission decision table · nine focus sites</h3>\n'
         '<p>Every number is a measurement on the pinned bytes, or a copied user report, read on 2026-10-31. '
         '<b>No estimated leaderboard score is claimed for any of the nine</b> — each fails the uniqueness gate first, so an '
-        'estimate would be moot. Download links are research references, not submissions; the only approved download is on '
-        '<a href="release.html">the release page</a>.</p>\n'
+        'estimate would be moot. Download links are research references, not submissions; no download on the release page is approved for upload.</p>\n'
         '<table id="decision-table"><thead><tr><th>Site</th><th>Pinned file (research reference)</th><th>Reported score</th>'
         '<th>Estimated score</th><th>Unique vs lattice witness?</th><th>Download and submit?</th></tr></thead>\n'
         f'<tbody>{"".join(rows)}</tbody></table>\n'
@@ -829,30 +832,21 @@ def release_banner() -> str:
         rel = json.loads((EV / "halo" / "final_generation.json").read_text())
     except (OSError, ValueError):
         return ""
-    if not rel.get("verdict", {}).get("ok_to_submit"):
-        return ""
     name = Path(rel["submission_file"]).name
-    dti = rel["score_projection"]["scenarios"]["h=0.045"]["dti"]
-    return f'''<section class="section" id="release-banner" style="border-left:4px solid var(--ok)">
-<p class="verdict"><b class="ok">UPDATE 2026-10-31 — one file is released for submission:</b>
-<code>{esc(name)}</code>. It passes the format, range, grid, uniqueness and holdout gates, and its
-estimated score is ≈{dti:.2f} (CALIBRATED-PRIVATE range
-{min(v["dti"] for v in rel["score_projection"]["scenarios"].values()):.2f}–
-{max(v["dti"] for v in rel["score_projection"]["scenarios"].values()):.2f}; the pessimistic anchor is
-{rel["holdout_dti"]["at_released_dot_count"]["dti"]:.2f} if only the holdout's coverage transfers).
-It needs h ≥ {rel["break_even"]["hit_rate_needed"] * 100:.2f}% to beat the 0.2778 file.</p>
-<p>The pages below are the audit trail of the earlier research files and keep their original
-negative verdicts. For the current decision, the download, the score model and the exact
-submission steps see <a href="release.html">the release decision page</a>.</p>
+    overlap = rel.get("uniqueness_literal_gate", {}).get("worst_overlap_including_probe")
+    return f'''<section class="section" id="release-banner" style="border-left:4px solid var(--no)">
+<p class="verdict"><b class="no">CURRENT DECISION — NO FILE IS CLEARED TO SUBMIT.</b>
+The HALO TIFF <code>{esc(name)}</code> is research-only. Its recorded literal one-sided overlap is
+{(100 * overlap):.2f}% within 3 px of a registry witness (rule: ≤70%); the recorded uniqueness receipt
+requires a stop. The near-space-filling witness does not create an automatic exemption. The organizer
+registry and template are not authenticated, and the saved-byte receipt is not an organizer submission receipt.</p>
+<p>Its model projection is not a score and does not override the failed gate. For details and the
+research-only download, see <a href="release.html">the release decision page</a>.</p>
 </section>'''
 
 
 def candidate_banner() -> str:
-    """Prominent banner for the current candidate, if its selector cleared it.
-
-    Legacy pages keep their negative verdicts for the legacy files; this banner
-    only points to the separate submission desk where the candidate lives.
-    """
+    """Keep the parallel K10 artifact visible only as research material."""
     try:
         sel = load(EV / "k10/selector_result.json")
         card = load(EV / "k10/run_card.json")
@@ -861,21 +855,12 @@ def candidate_banner() -> str:
     if sel.get("ok_to_submit") is not True:
         return ""
     name = Path(card["raster"]).name
-    heading = ('<h3 style="margin-top:0">Alternative file from a parallel lane — published, '
-               'not the recommended submission</h3>' if release_banner() else
-               '<h3 style="margin-top:0">Current competition candidate — validated and published</h3>')
-    return f"""<section class="section" id="current-candidate" style="border:2px solid #1d6850;padding:18px 20px;border-radius:10px;background:#eef6f1">
-{heading}
-<p>The 2026-10-31 corridor-coverage candidate passed this repository's automated format gate
-(all-finite float32 in [0,1] on the pinned grid — the convention that fixes the earlier
-"must be in range [0, 1]" portal error) and the measured uniqueness scan against 480+ prior
-submission rasters. It is published, with evidence and mandatory caveats, on the
-<a href="submission-desk.html"><b>Submission desk</b></a>.</p>
-<p><a class="btn big" href="downloads/{esc(name)}" download>⬇ Download candidate TIF</a>
-<a class="btn secondary" href="submission-desk.html">Open the Submission desk</a></p>
-<p class="muted">No leaderboard score is claimed (competition truth and receipts are unavailable
-here). Slot stays unspent: promotion to a weekly submission is the owner's action.
-Selector receipt: <a href="evidence/k10/selector_result.json">evidence/k10/selector_result.json</a>.</p>
+    return f"""<section class="section" id="current-candidate" style="border:2px solid var(--no);padding:18px 20px;border-radius:10px;background:#fef2f2">
+<h3 style="margin-top:0">K10 corridor raster — research only, not approved</h3>
+<p><b class="no">DO NOT SUBMIT.</b> The stored selector used an exception for a space-filling lattice, but the binding protocol here requires a stop against any registry raster. The exact registry scope is not organizer-complete; this file is therefore not cleared.</p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>Download research TIF — NOT APPROVED</a>
+<a class="btn secondary" href="evidence/k10/selector_result.json">Open the historical selector receipt</a></p>
+<p class="muted">No organizer-confirmed score or defensible leaderboard estimate exists. No weekly slot is authorized. Historical selector status is retained as provenance, not current clearance.</p>
 </section>"""
 
 

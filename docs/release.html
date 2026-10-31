@@ -1,26 +1,27 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Release decision · GEMSDOEkarage2</title>
-<meta name="description" content="Release decision: one validated, unique GeoTIFF submission with a measured score model.">
+<meta name="description" content="Current decision: no GeoTIFF is cleared for submission; research artifacts are explicitly labeled.">
 <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
-<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES · 1 FILE</span></h1>
+<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
 <div class="sub">GEMS Prize · fault discovery · evidence-first decision desk</div></div></div></header>
 <main class="container"><nav class="topnav" aria-label="Main navigation"><a href="index.html">Submission desk</a> · <a href="release.html" aria-current=page>Release decision</a> · <a href="executive-summary.html">Audit summary</a> · <a href="how-to-submit.html">How to submit</a> · <a href="audit.html">Nine-site audit</a> · <a href="sources.html">Sources</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
 <section class="hero" id="release-it">
-<h2>Download this file and submit it</h2>
-<p class="verdict"><b class="ok">OK TO DOWNLOAD AND SUBMIT.</b> One file. It passes every automated gate this repository can run: format, range, grid, uniqueness and holdout. It was generated today from the mapped-fault catalogue and the organizer grid; no registry or published submission was used as an input.</p>
-<p><a class="btn big" href="downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif" download>Download the submission TIFF</a>
-<a class="btn secondary" href="how-to-submit.html">How to submit (exact steps)</a>
-<a class="btn secondary" href="evidence/halo/final_generation.json">Open the release receipt</a></p>
+<h2>No submission-ready TIFF</h2>
+<p class="verdict"><b class="no">DO NOT SUBMIT.</b> This HALO raster is available only as a research artifact. Its saved-byte record explicitly reports a literal uniqueness stop: 99.84% of its dots fall within 3 px of the registered spacing-5 lattice. The protocol supplied for this work does not authorize excluding that reference. The full organizer registry and authenticated template are also unavailable, and no matched holdout superiority has been established. Format validity does not cure these failures.</p>
+<p><a class="btn big" href="downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif" download>Download research TIFF — NOT APPROVED FOR SUBMISSION</a>
+<a class="btn secondary" href="evidence/halo/final_generation.json">Open superseded historical receipt</a>
+<a class="btn secondary" href="evidence/public_downloads_audit.json">Current inventory: no file approved</a>
+<a class="btn secondary" href="how-to-submit.html">Read the conditional submission guide (no current file approved)</a></p>
 <div class="meta">
 <b>File:</b> <code>gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</code><br>
 <b>SHA-256:</b> <code>603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38</code><br>
-<b>Submission name to type into the form:</b> <code>gemsdoe-karage2-halo39-b44090-sep2-20261031</code><br>
-<b>Note to paste (≤140 chars, 114):</b> <code>Off-apron 300-900 m halo of mapped traces; 44,090 min-spaced dots, none on the catalogue. No registry file reused.</code><br>
+<b>Historical identifier (not for upload):</b> <code>gemsdoe-karage2-halo39-b44090-sep2-20261031</code><br>
+<b>Submission name / note:</b> none — this raster is not approved for upload.<br>
 <b>Grid:</b> EPSG:32611 · 3730 × 3292 · float32 · 1 band · geotransform [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0] · nodata: none (all cells finite, values in [0.0, 1.0])<br>
 <b>Estimated score (CALIBRATED-PRIVATE, not a receipt):</b> <b>0.222–0.605</b> across per-dot hit rates h = 2.0–8.0% (read the bottom of the range as the pessimistic anchor; if only the holdout's <i>coverage</i> transfers, the same algebra returns 0.137, the holdout's own value). Read it as: 0.222 if the halo transfers no better than a blind field, 0.478 if the measured holdout rate (5.0%) transfers, 0.599 at saturation. It needs only h ≥ 2.52% to beat 0.2778 and h ≥ 4.4% to beat 0.4544.
 </div>
-</section><section class="section" id="decision-table"><h3>Decision table · which file to download and submit</h3>
+</section><section class="section" id="decision-table"><h3>Historical file comparison · none cleared for submission</h3>
 <div class="table-wrap"><table id="release-table"><thead><tr>
 <th>Site</th><th>File</th><th>Reported score</th><th>Implied per-dot hit rate</th>
 <th>Fault-recovery skill</th><th>Unique? / submit?</th></tr></thead>
@@ -76,7 +77,7 @@
 <td><b>0.478</b> if h = 4.5%<span class="sub-label">range 0.275–0.599 · CALIBRATED-PRIVATE, not a receipt</span></td>
 <td>unspecified<span class="sub-label">break-even 2.52% beats 0.2778</span></td>
 <td>0.1367<span class="sub-label">HOLDOUT-DTI at this dot count; 0.1452 at the lane curve's 57,873-dot maximum</span></td>
-<td><b class="ok">YES · SUBMIT</b><span class="sub-label">max 3 px overlap 65.5% ≤ 70%; max |ρ| 0.056 ≤ 0.90</span></td></tr>
+<td><b class="no">NO · DO NOT SUBMIT</b><span class="sub-label">literal gate fails: 99.84% within 3 px of the registered lattice; exception not authorized</span></td></tr>
 </tbody></table></div>
 <p class="muted">The nine focus files are <b>not</b> recommended: each is either a strict subset of another (GEMSDOE25/30/31/32/36 are the same nested family) or overlaps a rival field above the 70% rule, and none has a defensible estimate. Their reported scores are the ones quoted in the project brief; the public board read on 2026-10-31 shows 0.4544 at rank 1, so 0.2778 is not the leaderboard high.</p>
 </section><section class="section" id="why"><h3>Why the GEMSDOE32 file scored 0.2778 — and what would beat it</h3>
@@ -118,15 +119,15 @@ GEMSDOE32 is GEMSDOE25 with 6,436 dots deleted, <b>every one of them within 2 px
 <tr><td>Encoding</td><td>single band, float32</td><td>1 band, float32</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Value range</td><td>[0, 1] and no NaN — this is the check that produced the portal message on other files</td><td>min 0.0, max 1.0, all 12,279,160 cells finite, NaN inside footprint: 0</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Footprint</td><td>positives only inside the organizer footprint</td><td>44,090 positive cells, all inside the footprint</td><td><b class="ok">PASS</b></td></tr>
-<tr><td>Uniqueness (rank)</td><td>|Spearman| ≤ 0.90 against every registry raster</td><td>worst |ρ| = <b>0.0557</b> (GEMSDOE30-nearslay-annulus-d3-offcat-20261025T235837Z-662af003-nan.tif)</td><td><b class="ok">PASS</b></td></tr>
-<tr><td>Uniqueness (dots, registry snapshot)</td><td>≤ 70% of my dots within 3 px of one registry raster</td><td>worst = <b>65.5%</b> (gemsdoe30-edge-hybrid-80k-02845bd4-20261003T234340Z-allfinite.tif) over 471 submission rasters</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Uniqueness (rank)</td><td>|Spearman| ≤ 0.90 against every registry raster</td><td>worst |ρ| = <b>0.0557</b> (GEMSDOE30-nearslay-annulus-d3-offcat-20261025T235837Z-662af003-nan.tif)</td><td><b class="ok">PASS, partial diagnostic</b></td></tr>
+<tr><td>Uniqueness (literal dot rule)</td><td>no more than 70% of candidate dots within 3 px of any registry raster</td><td><b>99.8%</b> within 3 px of 13gems_20261001_r13-lattice-s5_v2_nan-outside.tif</td><td><b class="no">FAIL — STOP</b></td></tr>
 <tr><td>Uniqueness (dots, files published since)</td><td>same rule against every raster now in <code>docs/downloads</code></td><td>worst = <b>68.5%</b> (gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif), margin 1.5 pp over 17 comparable rasters</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Byte / pixel identity</td><td>no registry raster is an identical copy</td><td>no identical bytes, no identical decoded array, max Jaccard 0.033</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Leakage canary</td><td>each feature alone must have AUC ≤ 0.90</td><td>max AUC 0.57</td><td><b class="ok">PASS</b></td></tr>
 </tbody></table></div>
-<p class="muted"><b>Two irregularities are reported rather than hidden.</b> (1) The literal protocol rule cannot be satisfied by <i>any</i> raster: the registry contains a uniform 5-px lattice probe whose dots lie within 3 px of 99.87% of the scored domain, so every possible submission has ~100% three-pixel overlap with it. The probe is therefore classified from its own bytes as an unavoidable sampling probe and reported separately (<code>evidence/halo/uniqueness_final.json</code>). (2) One registry blob, <code>GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif</code>, is not on the organizer grid and cannot be a competing submission; it is recorded, not dropped.</p>
-<p class="muted"><b>The closest published field is a same-day parallel-lane candidate, and the rule is directional.</b> 68.5% of this file's dots lie within 3 px of <code>gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif</code> — under the 70% rule, but the thinnest margin in the table. In the other direction 81.3% of <i>that</i> file's dots lie within 3 px of this one, so it is the duplicate under the project's directional rule, not this file. That is the evidence for recommending this file over it, together with this file's holdout measurement and score estimate, which the other file does not carry. Full receipt: <a href="evidence/halo/overlap-vs-published.json"><code>evidence/halo/overlap-vs-published.json</code></a>.</p>
-<p class="muted"><b>Inventory freshness.</b> The comparison set is the hash-pinned 489-raster focus inventory plus 11 rasters published after that snapshot, re-enumerated from each repository's current <code>main</code> today. It is not an organizer-complete registry: private, unlinked or larger rasters can exist. Re-run <code>python scripts/audit_halo_uniqueness.py --tif &lt;file&gt;</code> before uploading.</p>
+<p class="warn"><b>Protocol ruling: no exception is applied.</b> The spacing-5 lattice reference covers 99.87% of the scored domain within 3 px, and this candidate records 99.8% one-sided overlap. The literal project gate therefore stops this file. The near-space-filling geometry may make the gate non-discriminating, but that does not authorize an exemption. A malformed/non-grid reference remains an irregularity requiring protocol-owner adjudication; it is not silently removed from the inventory.</p>
+<p class="muted"><b>Additional published-field check.</b> The HALO field also has 68.49% directed overlap with the parallel K10 field, close to the 70% threshold. This pairwise comparison is not sufficient for clearance: the binding literal check above fails against the registered lattice, and the registry is not organizer-complete. Full receipt: <a href="evidence/halo/overlap-vs-published.json"><code>evidence/halo/overlap-vs-published.json</code></a>.</p>
+<p class="muted"><b>Inventory limitation.</b> This is a hash-pinned owner-repository snapshot, not an organizer-complete registry. It cannot establish global uniqueness or override a failed literal witness. No upload is authorized by this page.</p>
 </section><section class="section" id="estimate"><h3>How to read the score estimate (and why it is a range)</h3>
 <p>The estimate is the metric applied to the model's own components — <code>T = K·n·h</code> (saturating at G) and <code>F = n·(1−h)</code> — with <b>G = 12,406 px</b> measured from the lattice probe and <b>K = 4.89</b> truth credits earned per hit dot (fitted on the nested GEMSDOE25→31 step, where the removed dots are provably catalogue-adjacent). The one input that cannot be measured locally is <b>h</b>, the per-dot hit rate on the hidden set, so it is swept rather than asserted.</p>
 <div class="table-wrap"><table><caption>CALIBRATED-PRIVATE projected DTI by per-dot hit rate and dot count</caption>
@@ -139,7 +140,7 @@ GEMSDOE32 is GEMSDOE25 with 6,436 dots deleted, <b>every one of them within 2 px
 </section><section class="section" id="risks"><h3>Risks, limits and what would change the decision</h3>
 <ul>
 <li><b>Transfer risk (dominant).</b> If the hidden fault population is <i>anti</i>-correlated with the mapped-trace neighbourhood (i.e. concentrated far from every mapped fault), the halo band's hit rate falls to ~1.5% and the projected score falls to ≈0.19. Under a neutral (blind) placement assumption the same file scores ≈0.26. Under transfer of the measured 5% halo rate it scores ≈0.48. The estimate is a range for exactly this reason.</li>
-<li><b>Uniqueness margin.</b> The worst three-pixel overlap is 65.5% against a gemsdoe30-edge-hybrid-80k-02845bd4-20261003T… field, below the 70% rule but not far below it. A newly published dense field could raise it; re-audit before uploading.</li>
+<li><b>Uniqueness stop.</b> The literal three-pixel overlap is 99.84% against the registered lattice, above the 70% cap. The old release treated that witness as exempt; the current protocol does not. Do not upload this raster.</li>
 <li><b>Exterior convention.</b> This file writes 0 outside the footprint (all cells finite). The organizer sample uses NaN outside its footprint. Zeros cannot be out of range, which is why they are used here; if the portal rejects the file, try the NaN variant described on the how-to-submit page and record the error text.</li>
 <li><b>Unverified reported scores.</b> Every published score on this page is USER-REPORTED / UNVERIFIED — no submission-page receipt links a file hash to a score. The 2026-10-31 public board shows xiaofanhu 0.4544 at rank 1; 0.4413 and 0.3195 are not the current high.</li>
 <li><b>One submission slot.</b> The competition allows choosing one submission for scoring in both rounds; the weekly cap is shown on the submission page and is not visible here. Choose deliberately.</li>
@@ -147,10 +148,10 @@ GEMSDOE32 is GEMSDOE25 with 6,436 dots deleted, <b>every one of them within 2 px
 </ul>
 <h4>Next steps with the highest expected value</h4>
 <ol>
-<li><b>Upload this file once and read the leaderboard number.</b> That single measurement replaces the entire projection range and calibrates h for every future candidate. It is the only way to close the transfer question.</li>
+<li><b>Do not upload any current file.</b> First obtain an explicit lane assignment, authenticated organizer template/data, a complete registry, and a candidate that passes the literal pre-placement and final-dot gates and beats the matched holdout incumbent.</li>
 <li><b>Digitize an independent fault compilation</b> (USGS Quaternary Faults, Nevada Bureau of Mines, GBCGE INGENIOUS fault layer) and intersect it with the footprint; if its extra traces are the hidden set, a point-exact overlay would score far above any geometric prior. Needs a network path to those hosts (blocked in this sandbox).</li>
 <li><b>Tip-and-step-over placement</b> (E4, not run — the 3-experiment budget was spent): restrict the band to along-strike extrapolations beyond mapped tips and to relay zones between overlapping traces. The holdout already supports band placement; this would test whether structure inside the band raises the hit rate.</li>
-<li><b>Re-audit registry uniqueness</b> immediately before any upload (<code>scripts/audit_halo_uniqueness.py</code>).</li>
+<li>Only after all gates pass, use the separate selector and competition page to choose a slot. This repository does not select or submit a file.</li>
 </ol>
 </section>
 <footer class="footnote"><p><b>Evidence labels used on this page.</b>
@@ -158,5 +159,5 @@ GEMSDOE32 is GEMSDOE25 with 6,436 dots deleted, <b>every one of them within 2 px
 <b>HOLDOUT-DTI</b> = measured on the local hide-and-recover holdout (evaluator <code>vendor/gems57/holdout.py</code>, α = 0.2, β = 0.8, 300 m triangular kernel, 4 spatial quadrant folds, whole components withheld with a real 3 px feature buffer).
 <b>SAVED-BYTE CHECK</b> = re-read from the committed raster bytes. <b>REGISTRY-MEASUREMENT</b> = comparison against the hash-pinned 473-raster inventory.
 No number on this page is ORGANIZER-CONFIRMED.</p>
-<p><a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/README.md">Project instructions</a> · <a href="evidence/halo/final_generation.json">Release receipt</a> · <a href="evidence/score_model.json">Score model</a></p></footer>
+<p><a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/README.md">Project instructions</a> · <a href="evidence/halo/final_generation.json">Historical HALO selector receipt (superseded)</a> · <a href="evidence/score_model.json">Score model</a></p></footer>
 </main></body></html>

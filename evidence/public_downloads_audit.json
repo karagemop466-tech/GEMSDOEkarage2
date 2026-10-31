@@ -1,8 +1,8 @@
 {
-  "schema": "gems.published_downloads.v3",
+  "schema": "gems.published_downloads.v4",
   "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-  "inventory_status": "PASS_RESEARCH_ONLY_PLUS_RELEASE",
-  "verdict": "release-published",
+  "inventory_status": "PASS_RESEARCH_ONLY",
+  "verdict": "negative",
   "unexpected_downloads": [],
   "missing_downloads": [],
   "quarantined_downloads": [
@@ -51,6 +51,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -96,6 +98,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -140,6 +144,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -185,6 +191,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -229,6 +237,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -274,6 +284,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -321,6 +333,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -363,6 +377,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -405,6 +421,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -448,6 +466,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -490,6 +510,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -534,6 +556,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -542,7 +566,7 @@
       "file": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif",
       "raster_sha256": "6045978441319d450fca260af432d1f1915ee9d692178c619d4c6b708451cd27",
       "run_card": "evidence/k10/run_card.json",
-      "kind": "candidate",
+      "kind": "historical-candidate",
       "selector": "evidence/k10/selector_result.json",
       "zip_file": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.zip",
       "checks": {
@@ -558,12 +582,12 @@
         "range_0_1": true,
         "no_masked_pixels": true,
         "raster_unchanged_during_read": true,
-        "candidate_card_gates": true,
+        "historical_receipt_readable": true,
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true,
         "metadata_research_only_and_hash_bound": true,
-        "selector_explicit_candidate": true,
+        "historical_selector_recorded": true,
         "zip_contains_exact_saved_tif": true
       },
       "diagnostics": {
@@ -575,10 +599,12 @@
         "finite_max": 1.0,
         "whole_array_pixels": 12279160
       },
-      "status": "VERIFIED_CANDIDATE_ELIGIBLE",
+      "status": "VERIFIED_RESEARCH_ONLY",
       "download_for_research": true,
-      "ok_to_submit": true,
+      "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": true,
+      "current_decision": "research-only: historical selector does not override the current literal protocol; slot not authorized",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -624,6 +650,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": "NaN exterior checked only against the run card's footprint hash; not organizer-authenticated"
@@ -666,6 +694,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -708,6 +738,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -750,6 +782,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -758,13 +792,13 @@
       "file": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
       "raster_sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
       "run_card": "evidence/halo/final_generation.json",
-      "kind": "release",
+      "kind": "research",
       "selector": null,
       "zip_file": null,
       "checks": {
         "tif_exists": true,
         "card_sha_matches_saved_bytes": true,
-        "card_verdict_release": true,
+        "historical_receipt_claimed_release": true,
         "card_slot_not_authorized": true,
         "card_note_within_140_chars": true,
         "card_names_this_file": true,
@@ -773,11 +807,12 @@
         "all_values_finite": true,
         "values_in_unit_range": true,
         "has_positive_cells": true,
-        "uniqueness_inside_literal_thresholds": true,
-        "holdout_and_projection_present": true
+        "historical_non_lattice_uniqueness_statistics_pass": true,
+        "holdout_and_projection_present": true,
+        "literal_uniqueness_gate": false
       },
       "diagnostics": {
-        "worst_dot_overlap": 0.6546609208437287,
+        "worst_dot_overlap_excluding_universal_probe": 0.6546609208437287,
         "worst_spearman": 0.05566645743662113,
         "submission_rasters_compared": 471,
         "estimated_score_range": [
@@ -789,14 +824,21 @@
           0.5995,
           0.6046
         ],
-        "evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION (never ORGANIZER-CONFIRMED)"
+        "evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION (never ORGANIZER-CONFIRMED)",
+        "current_protocol_stop": {
+          "unique": false,
+          "stop_required": true,
+          "worst_overlap_including_probe": 0.9983896575187117,
+          "reason": "Literal uniqueness stop; the space-filling-witness exception is not authorized by the current prompt."
+        }
       },
-      "status": "VERIFIED_RELEASE_CANDIDATE",
+      "current_protocol_decision": "research-only; literal uniqueness stop and authenticated-template/complete-registry prerequisites are unmet",
+      "status": "VERIFIED_RESEARCH_ONLY",
       "download_for_research": true,
-      "ok_to_submit": true,
+      "ok_to_submit": false,
       "slot_authorized": false,
-      "template_authority": "pinned owner-mirror grid; the receipt records portal acceptance as unverified",
-      "exterior_convention": "zeros outside the footprint (all cells finite); no NaN can be out of range"
+      "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+      "exterior_convention": "zeros outside the footprint (all cells finite); local checks do not establish portal acceptance"
     },
     {
       "file": "docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif",
@@ -839,6 +881,8 @@
       "download_for_research": true,
       "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": false,
+      "current_decision": "research-only saved-byte integrity record",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
@@ -847,7 +891,7 @@
       "file": "docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif",
       "raster_sha256": "18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e",
       "run_card": "docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.run-card.json",
-      "kind": "candidate",
+      "kind": "historical-candidate",
       "selector": null,
       "zip_file": null,
       "checks": {
@@ -863,7 +907,7 @@
         "range_0_1": true,
         "no_masked_pixels": true,
         "raster_unchanged_during_read": true,
-        "candidate_card_gates": true,
+        "historical_receipt_readable": true,
         "card_has_same_filename": true,
         "card_sha_matches_saved_bytes": true,
         "card_note_within_140_chars": true
@@ -877,31 +921,25 @@
         "finite_max": 1.0,
         "whole_array_pixels": 12279160
       },
-      "status": "VERIFIED_CANDIDATE_ELIGIBLE",
+      "status": "VERIFIED_RESEARCH_ONLY",
       "download_for_research": true,
-      "ok_to_submit": true,
+      "ok_to_submit": false,
       "slot_authorized": false,
+      "historical_selector_candidate": true,
+      "current_decision": "research-only: historical selector does not override the current literal protocol; slot not authorized",
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
       "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
       "exterior_check": null
     }
   ],
-  "downloadable_approved_submission": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
-  "release_evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION; not ORGANIZER-CONFIRMED",
-  "candidate_superseded_by_release": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+  "downloadable_approved_submission": null,
+  "release_evidence_class": null,
+  "candidate_superseded_by_release": null,
   "candidate_caveats": [
-    "No leaderboard score estimate exists for the candidate; competition truth and submission receipts are unavailable.",
-    "Slot authorization stays False: promotion to a weekly submission is the owner's separate action."
+    "Historical candidate selectors are superseded by the current literal uniqueness stop and missing authenticated organizer inputs.",
+    "No file is cleared to submit; research download status is not submission eligibility."
   ],
-  "score_estimate": [
-    0.2219,
-    0.275,
-    0.3168,
-    0.3784,
-    0.4782,
-    0.5995,
-    0.6046
-  ],
+  "score_estimate": null,
   "organizer_template_authenticated": false,
   "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
   "slot_authorized": false

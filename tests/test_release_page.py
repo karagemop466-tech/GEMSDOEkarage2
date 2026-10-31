@@ -85,8 +85,9 @@ def test_release_page_links_resolve_and_offer_the_released_file():
 def test_release_page_labels_are_explicit():
     text = (ROOT / "docs" / "release.html").read_text()
     for label in ("CALIBRATED-PRIVATE", "HOLDOUT-DTI", "USER-REPORTED / UNVERIFIED",
-                  "not a receipt", "OK TO DOWNLOAD AND SUBMIT"):
+                  "not a receipt", "OK TO SUBMIT: NO", "research artifact"):
         assert label in text, label
+    assert "OK TO DOWNLOAD AND SUBMIT" not in text
     # the projection must never be presented as an organizer-confirmed score
     assert "ORGANIZER-CONFIRMED score" not in text.replace("is not ORGANIZER-CONFIRMED", "")
 

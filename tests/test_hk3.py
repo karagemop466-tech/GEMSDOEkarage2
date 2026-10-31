@@ -149,10 +149,8 @@ def test_desk_pages_are_explicitly_research_only(card):
     subprocess.run([sys.executable, "scripts/build_hk3_pages.py", "--check"], check=True, cwd=ROOT)
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
-        release = json.loads((ROOT / "evidence/halo/final_generation.json").read_text())
-        expected = ("OK TO SUBMIT: 1 FILE · SEE RELEASE" if release["verdict"]["ok_to_submit"]
-                    else "OK TO SUBMIT: NO")
-        assert expected in page
+        assert "OK TO SUBMIT: NO" in page
+        assert "OK TO SUBMIT: 1 FILE · SEE RELEASE" not in page
         assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
         assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)

@@ -163,7 +163,9 @@ def test_release_pages_exist_and_are_reproducible():
 def test_release_pages_state_the_verdict_and_never_claim_a_measured_score():
     for page in ("release-gbm.html", "release-gbm-summary.html"):
         text = (ROOT / "docs" / page).read_text()
-        assert "OK TO SUBMIT: YES" in text
+        assert "OK TO SUBMIT: NO" in text
+        assert "DO NOT SUBMIT" in text
+        assert "research-only" in text.lower()
         assert "MODEL-PROJECTION" in text
         assert "not a score" in text
 
@@ -201,10 +203,12 @@ def test_release_artifact_is_listed_separately_from_the_research_inventory():
     assert result["unexpected_downloads"] == []
     # the lane never spends a weekly slot, whoever else the inventory names
     assert result["slot_authorized"] is False
-    assert len([r for r in result["artifacts"] if r["kind"] == "release"]) <= 1, (
-        "this repository publishes at most one recommended release")
+    assert not [r for r in result["artifacts"] if r["kind"] == "release"]
+    assert result["downloadable_approved_submission"] is None
     lanes = [r for r in result["artifacts"]
              if r["file"].endswith("gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif")]
     assert lanes, "the GBM lane file must be registered in the inventory"
-    assert lanes[0]["status"] == "VERIFIED_CANDIDATE_ELIGIBLE"
+    assert lanes[0]["status"] == "VERIFIED_RESEARCH_ONLY"
+    assert lanes[0]["kind"] == "historical-candidate"
+    assert lanes[0]["ok_to_submit"] is False
     assert lanes[0]["slot_authorized"] is False

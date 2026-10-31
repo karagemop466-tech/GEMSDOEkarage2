@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
-"""Generate docs/submission-desk.html — the one-click competition download page.
+"""Generate a research-only archive page for the historical K10 raster.
 
-Deterministic: every number is read from committed evidence receipts and the
-page fails to build if any required receipt is missing. The page exists to make
-one thing obvious, per the project's standing instruction: whether the current
-candidate TIF may be downloaded and submitted, what to paste into the
-submission form, and exactly what is and is not known about its score.
+The inventory never grants submission eligibility: current literal uniqueness,
+authenticated organizer template, and selector authorization are separate gates.
 """
 from __future__ import annotations
 
@@ -34,34 +31,12 @@ RELEASE_RECEIPT = "evidence/halo/final_generation.json"
 
 
 def release_notice() -> str:
-    """Top-of-page notice when a newer file supersedes this page's candidate.
-
-    The desk page documents the K10 corridor candidate from a parallel lane. Once
-    a release receipt certifies a different file, this page must not present
-    itself as the primary recommendation, so the notice is derived from the
-    receipt rather than written by hand.
-    """
-    try:
-        rel = load(RELEASE_RECEIPT)
-    except (FileNotFoundError, ValueError):
-        return ""
-    if not rel.get("verdict", {}).get("ok_to_submit"):
-        return ""
-    name = Path(rel["submission_file"]).name
-    cand = ""
-    try:
-        cand = Path(load("evidence/k10/run_card.json")["raster"]).name
-    except (FileNotFoundError, ValueError, KeyError):
-        pass
-    if not cand or cand == name:
-        return ""
-    return (f'<section class="section" style="border-left:4px solid #1d6850">'
-            f'<p class="lead"><strong>This page is not the recommendation.</strong> '
-            f'The file this repository recommends is <code>{esc(name)}</code> on the '
-            f'<a href="release.html"><b>release decision page</b></a>. The K10 corridor '
-            f'candidate below stays published as an alternative: it is format-valid and '
-            f'registry-clean but carries no score estimate and no measured skill signal, '
-            f'and the release supersedes it for the single submission slot.</p></section>')
+    """Prominent current decision; historical selector receipts are not authority."""
+    return (f'<section class="section" style="border-left:4px solid #a84335">'
+            f'<p class="lead"><strong>Current decision: NO FILE CLEARED TO SUBMIT.</strong> '
+            f'The historical K10 raster below is retained for research only. Its old selector '
+            f'result does not override the literal uniqueness stop or missing authenticated '
+            f'organizer inputs. Do not upload it.</p></section>')
 
 
 def main() -> int:
@@ -76,7 +51,10 @@ def main() -> int:
     k9 = load("evidence/k9/run_card.json")
     audit_inv = load("evidence/public_downloads_audit.json")
 
-    cand_ok = selector.get("ok_to_submit") is True and card.get("verdict") == "promote-instrument-limited"
+    # Current decision is fail-closed regardless of a historical selector's verdict.
+    # This page cannot grant eligibility; only authenticated organizer evidence and
+    # the literal all-reference uniqueness gate could change that decision.
+    cand_ok = False
     rel = card["raster"]
     fname = Path(rel).name
     sha = card["raster_sha256"]
@@ -103,7 +81,7 @@ def main() -> int:
 <td><span class="file-name">{esc(Path(s['file']).name)}</span></td>
 <td><strong>{esc(reported)}</strong><span class="muted">USER-REPORTED / UNVERIFIED — no organizer receipt exists in this repo</span></td>
 <td><span class="badge bad">NOT UNIQUE</span><span class="muted">up to {pct(max_ov.get(site))} of its dots within 3&nbsp;px of another focus site's dots (measured)</span></td>
-<td><strong>—</strong><span class="muted">do not submit: duplicates of one family; superseded by the candidate below</span></td>
+<td><strong>—</strong><span class="muted">do not submit: duplicates within a historical family; no file is cleared</span></td>
 </tr>""")
     focus_rows = "".join(rows)
 
@@ -111,8 +89,8 @@ def main() -> int:
         f"<tr><td>{esc(k)}</td><td><strong>{v['dti']:.5f}</strong><span class='interval'>95% CI [{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</span></td></tr>"
         for k, v in sorted(arms.items(), key=lambda kv: -kv[1]["dti"]))
 
-    status = "OK TO DOWNLOAD AND SUBMIT" if cand_ok else "DO NOT SUBMIT"
-    badge_cls = "badge good" if cand_ok else "badge bad"
+    status = "DO NOT SUBMIT — RESEARCH ONLY"
+    badge_cls = "badge bad"
     gen_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -126,35 +104,34 @@ def main() -> int:
 <main id="main">
 {release_notice()}
 <section class="hero"><div>
-<span class="kicker"><span class="status-dot"></span>ALTERNATIVE CANDIDATE · GENERATED {esc(gen_utc)}</span>
-<h1>Download and submit the current candidate</h1>
-<p class="lead">One validated, machine-checked candidate GeoTIFF. Every claim on this page is a
-link to a committed evidence receipt. No leaderboard score is claimed anywhere — competition truth
-and submission receipts are not accessible from this repository, and any score printed here would
-be fabricated.</p>
+<span class="kicker"><span class="status-dot"></span>HISTORICAL K10 RASTER · RESEARCH ONLY · GENERATED {esc(gen_utc)}</span>
+<h1>Research archive — no submission file cleared</h1>
+<p class="lead">This historical GeoTIFF is available only for research and reproducibility.
+<strong>Do not submit it.</strong> Its old selector approval is superseded by the literal
+uniqueness stop and missing authenticated organizer inputs. No leaderboard score is claimed.</p>
 <div class="actions">
-<a class="button primary" href="downloads/{esc(fname)}" download>⬇ Download candidate TIF</a>
-<a class="button" href="downloads/{esc(fname.replace('.tif', '.zip'))}" download>⬇ Download ZIP (same TIF)</a>
-<a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Open the submission form ↗</a>
+<a class="button primary" href="downloads/{esc(fname)}" download>⬇ Download research-only TIF</a>
+<a class="button" href="downloads/{esc(fname.replace('.tif', '.zip'))}" download>⬇ Download research-only ZIP</a>
+
 </div>
-<p class="small">File <code>{esc(fname)}</code> · sha256 <code class="hash">{esc(sha)}</code> · float32, all values finite in [0,&nbsp;1], EPSG:32611, 3730×3292, geotransform identical to the official template.</p>
+<p class="small">File <code>{esc(fname)}</code> · sha256 <code class="hash">{esc(sha)}</code> · float32, all values finite in [0,&nbsp;1], EPSG:32611, 3730×3292, geotransform matches the unauthenticated owner mirror; organizer acceptance is unverified.</p>
 </div>
 <div class="decision">
 <span class="{badge_cls}" style="font-size:13px">{esc(status)}</span>
-<h2>Is it OK to submit?</h2>
-<div class="gate"><span>Format: float32, finite, [0,1], exact grid/CRS/transform</span><span class="badge good">PASS (measured)</span></div>
-<div class="gate"><span>Unique vs {esc(registry['rasters_checked'])} checked prior rasters</span><span class="badge good">PASS (measured)</span></div>
-<div class="gate"><span>Lattice-witness geometry note (applies to every dense file)</span><span class="badge bad">DISCLOSED</span></div>
-<div class="gate"><span>Leaderboard score</span><span class="badge bad">NOT MEASURABLE HERE</span></div>
-<div class="gate"><span>Weekly slot</span><span class="badge good">NOT USED (yours to spend)</span></div>
+<h2>Submission eligibility</h2>
+<div class="gate"><span>Current decision</span><span class="badge bad">DO NOT SUBMIT</span></div>
+<div class="gate"><span>Saved-byte format and owner-mirror grid checks</span><span class="badge good">RESEARCH INTEGRITY ONLY</span></div>
+<div class="gate"><span>Literal uniqueness including lattice witness</span><span class="badge bad">STOP — OVERLAP {lit['worst_forward_overlap'] * 100:.3f}%</span></div>
+<div class="gate"><span>Authenticated organizer template and portal acceptance</span><span class="badge bad">NOT AVAILABLE</span></div>
+<div class="gate"><span>Weekly slot</span><span class="badge bad">NOT AUTHORIZED / NOT USED</span></div>
 <p><a href="#evidence">Evidence and caveats ↓</a></p>
 </div></section>
 
-<section class="section"><h2>Paste this into the submission form</h2>
-<div class="panel"><p><strong>File to submit:</strong> <code>downloads/{esc(fname)}</code> (the TIF above; the ZIP contains exactly the same bytes).</p>
-<p><strong>Note (optional, ≤140 chars):</strong> <code>{esc(note)}</code></p>
+<section class="section"><h2>Research artifact details — not submission instructions</h2>
+<div class="panel"><p><strong>Research file only:</strong> <code>downloads/{esc(fname)}</code> (the ZIP contains the same bytes). Do not upload it.</p>
+<p><strong>Historical run-card note (not for a submission):</strong> <code>{esc(note)}</code></p>
 <p>Encountered <em>“Predicted values must be in range [0, 1]”</em> on an earlier download? That file
-carried NaN outside the study-area footprint. This candidate is the all-finite convention
+carried NaN outside the study-area footprint. This historical raster uses the all-finite convention
 (0 outside the footprint; no nodata mask) — the same convention as the historical
 <code>-zeros</code> files that the portal accepted. The on-disk validator re-checks every cell of the
 saved bytes: <a href="#evidence">validator receipt</a>.</p></div></section>
@@ -164,21 +141,20 @@ saved bytes: <a href="#evidence">validator receipt</a>.</p></div></section>
 GEMSDOE25 and GEMSDOE30 decode to identical dots; GEMSDOE31/32 are that mask with dots ≤1/≤2 px of
 mapped faults removed; GEMSDOE36 is the GEMSDOE32 set plus 1,200 dots. Their reported ranking
 (0.2477 → 0.2778) is therefore a tuning ladder within one emission family, not nine independent
-discoveries. None is unique against the others, so none is the recommended submission; the
-candidate above is a different mechanism with measured uniqueness.</p>
+discoveries. None is cleared to submit. GEMSDOE32's 0.2778 remains user-reported and unverified.</p>
 <div class="table-wrap"><table>
 <caption>Scores marked USER-REPORTED are transcribed from the supplied site pages; no file-linked organizer receipt exists in this repository. Estimates are not computable from available evidence (see §Why no score estimate exists).</caption>
 <thead><tr><th>Site</th><th>Best file (highest reported)</th><th>Reported score</th><th>Unique?</th><th>Submit?</th></tr></thead>
 <tbody>{focus_rows}</tbody></table></div>
 <div class="table-wrap"><table>
-<caption>Current candidate (this repository).</caption>
+<caption>Historical K10 raster — research only, not submission-eligible.</caption>
 <thead><tr><th>File</th><th>Mechanism</th><th>Estimate</th><th>Unique?</th><th>Submit?</th></tr></thead>
 <tbody><tr>
 <td><span class="file-name">{esc(fname)}</span><span class="muted">sha256 {esc(sha[:32])}…</span></td>
 <td>Catalogue-corridor coverage: 38,000 blue-noise dots (≥200 m apart) within 1 km of mapped faults, 200 m off-apron, 1.2 km edge collar. Value 1.0, zeros elsewhere.</td>
 <td><strong>Not measurable</strong><span class="muted">Anchors: same density class as the 0.26–0.278 family (USER-REPORTED); off-apron lever measured +0.018 for the champion. See §Why no score estimate exists.</span></td>
-<td><span class="badge good">PASS vs {esc(registry['rasters_checked'])} checked rasters</span><span class="muted">worst like-for-like overlap excluding the lattice witness: {pct(like['worst_forward_overlap_dot_fields'])} · worst Spearman {esc(registry['literal_reading']['worst_spearman_full_footprint'])}</span></td>
-<td><span class="badge good">YES — this one</span><span class="muted">if you spend a slot today, spend it here, not on a focus duplicate</span></td>
+<td><span class="badge bad">FAIL — literal stop</span><span class="muted">one-sided overlap {lit['worst_forward_overlap'] * 100:.3f}%; exclusion of this reference is not authorized</span></td>
+<td><span class="badge bad">NO — research only</span><span class="muted">no slot authorized; do not submit</span></td>
 </tr></tbody></table></div></section>
 
 <section class="section" id="estimate"><h2>Why no honest score estimate exists — and what is known</h2>
@@ -192,14 +168,14 @@ are transcribed from site pages without file-linked receipts, so they anchor ord
 not calibrated predictions.</p>
 <p><strong>3. What CAN be said, with evidence:</strong></p>
 <ul>
-<li>The candidate is in the same dot-budget class (38k, value 1.0) as the best-reported family — the
+<li>This historical raster is in the same dot-budget class (38k, value 1.0) as the best-reported family — the
 regime where that family reports 0.26–0.278.</li>
 <li>It applies the one lever with a measured leaderboard effect in that family: excluding the
 200 m catalogue apron (GEMSDOE25 0.2600 → GEMSDOE32 0.2778, USER-REPORTED).</li>
 <li>Its corridor placement follows the measured geography of fault systems (fault clustering), the
 prior the champion family implicitly succeeded with.</li>
 <li>Below-benchmark risk is real and stated: if the hidden faults are NOT corridor-clustered, the
-candidate underperforms; no honest probability can be attached here.</li>
+this historical raster underperforms; no honest probability can be attached here.</li>
 </ul></div></section>
 
 <section class="section" id="evidence"><h2>Measured evidence (all receipts committed)</h2>
@@ -228,8 +204,7 @@ only the spacing-5 lattice witness (two copies).</li>
 <p class="small"><strong>Disclosed irregularity:</strong> the lattice’s dots dilate to 99.87% of the
 footprint within 3 px, so <em>every</em> dense emission fires that one gate — including the champion,
 measured at <strong>{pct(card['registry']['lattice_saturation_irregularity']['champion_dots_within_3px_of_lattice'])}</strong>.
-The literal lattice reading is therefore reported as a geometry property, not treated as a duplicate
-verdict; the like-for-like reading against real submissions is the discriminatory test.
+The literal protocol requires a stop here. The non-lattice diagnostics are informational only and do not override that decision.
 Receipt: <a href="evidence/k10/final_registry.json">final_registry.json</a>.</p></div>
 </div>
 <div class="panel" style="margin-top:22px"><h3>Negative experiments kept on the record</h3>
@@ -267,7 +242,7 @@ here asserts new geothermal discoveries.</li>
 · <code>python scripts/fetch_focus_registry.py</code> · <code>python scripts/run_k9_experiment.py</code> ·
 <code>python scripts/run_k10_experiment.py</code> · <code>python scripts/select_candidate.py</code> ·
 <code>python scripts/audit_public_downloads.py</code> · <code>python scripts/build_submission_desk.py</code> · <code>pytest -q</code></p>
-<p class="small">Inventory status: <strong>{esc(audit_inv['inventory_status'])}</strong> · candidate: <code>{esc(audit_inv.get('downloadable_approved_submission'))}</code> · selector verdict: <code>{esc(selector['verdict'])}</code> · slot used by this repo: <strong>0</strong>. Generated page — regenerate with <code>python scripts/build_submission_desk.py</code>. Source: <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">github.com/karagemop466-tech/GEMSDOEkarage2</a>.</p></div></section>
+<p class="small">Inventory status: <strong>{esc(audit_inv['inventory_status'])}</strong> · approved submission: <code>{esc(audit_inv.get('downloadable_approved_submission'))}</code> · historical selector verdict: <code>{esc(selector['verdict'])}</code> (not current authorization) · slot used: <strong>0</strong>. Generated page — regenerate with <code>python scripts/build_submission_desk.py</code>.</p></div></section>
 </main>
 <footer><div><strong>Evidence over confidence.</strong><p>Maximize P(Win). Own the outcome. Protect scarce submission slots.</p></div>
 <div>Generated {esc(gen_utc)} · DOE GEMS Prize Challenge · not an organizer statement</div></footer>

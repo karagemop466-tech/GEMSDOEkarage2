@@ -27,6 +27,10 @@ DOCS = ROOT / "docs"
 EV = ROOT / "evidence"
 HALO = EV / "halo"
 REPO = "https://github.com/karagemop466-tech/GEMSDOEkarage2"
+PROBLEM = "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/"
+DATA_PAGE = "https://www.drivendata.org/competitions/306/competition-doe-gems/data/"
+LEADERBOARD = "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+RULES_PDF = "https://docs.nlr.gov/docs/fy26osti/96647.pdf"
 
 
 def esc(x) -> str:
@@ -51,9 +55,9 @@ def shell(title: str, body: str) -> str:
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)} · GEMSDOEkarage2</title>
-<meta name="description" content="Release decision: one validated, unique GeoTIFF submission with a measured score model.">
+<meta name="description" content="Current decision: no GeoTIFF is cleared for submission; research artifacts are explicitly labeled.">
 <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
-<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES · 1 FILE</span></h1>
+<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
 <div class="sub">GEMS Prize · fault discovery · evidence-first decision desk</div></div></div></header>
 <main class="container"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
 {body}
@@ -62,7 +66,7 @@ def shell(title: str, body: str) -> str:
 <b>HOLDOUT-DTI</b> = measured on the local hide-and-recover holdout (evaluator <code>vendor/gems57/holdout.py</code>, α = 0.2, β = 0.8, 300 m triangular kernel, 4 spatial quadrant folds, whole components withheld with a real 3 px feature buffer).
 <b>SAVED-BYTE CHECK</b> = re-read from the committed raster bytes. <b>REGISTRY-MEASUREMENT</b> = comparison against the hash-pinned 473-raster inventory.
 No number on this page is ORGANIZER-CONFIRMED.</p>
-<p><a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="evidence/halo/final_generation.json">Release receipt</a> · <a href="evidence/score_model.json">Score model</a></p></footer>
+<p><a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="evidence/halo/final_generation.json">Historical HALO selector receipt (superseded)</a> · <a href="evidence/score_model.json">Score model</a></p></footer>
 </main></body></html>"""
 
 
@@ -81,7 +85,7 @@ def decision_table(model: dict, rel: dict) -> str:
 <td>{rec['hit_rate'] * 100:.2f}%<span class="sub-label">bar {rec['marginal_hit_rate_bar'] * 100:.2f}% → dots still pay ({rec['budget_headroom_x']:.2f}×)</span></td>
 <td>{rec['skill_vs_random']:.2f}× random<span class="sub-label">same dot count</span></td>
 <td><b class="no">NO</b><span class="sub-label">{pair_ov[key] * 100:.1f}% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr>""")
-    return f"""<section class="section" id="decision-table"><h3>Decision table · which file to download and submit</h3>
+    return f"""<section class="section" id="decision-table"><h3>Historical file comparison · none cleared for submission</h3>
 <div class="table-wrap"><table id="release-table"><thead><tr>
 <th>Site</th><th>File</th><th>Reported score</th><th>Implied per-dot hit rate</th>
 <th>Fault-recovery skill</th><th>Unique? / submit?</th></tr></thead>
@@ -92,7 +96,7 @@ def decision_table(model: dict, rel: dict) -> str:
 <td><b>{rel['score_projection']['scenarios']['h=0.045']['dti']:.3f}</b> if h = 4.5%<span class="sub-label">range {rel['score_projection']['scenarios']['h=0.025']['dti']:.3f}–{rel['score_projection']['scenarios']['h=0.060']['dti']:.3f} · CALIBRATED-PRIVATE, not a receipt</span></td>
 <td>unspecified<span class="sub-label">break-even {rel['break_even']['hit_rate_needed'] * 100:.2f}% beats 0.2778</span></td>
 <td>{rel['holdout_dti']['at_released_dot_count']['dti']:.4f}<span class="sub-label">HOLDOUT-DTI at this dot count; {rel['holdout_dti']['lane_budget_curve_max']['dti']:.4f} at the lane curve's 57,873-dot maximum</span></td>
-<td><b class="ok">YES · SUBMIT</b><span class="sub-label">max 3 px overlap {rel['uniqueness']['worst_dot_overlap'] * 100:.1f}% ≤ 70%; max |ρ| {rel['uniqueness']['worst_spearman']:.3f} ≤ 0.90</span></td></tr>
+<td><b class="no">NO · DO NOT SUBMIT</b><span class="sub-label">literal gate fails: {rel['uniqueness_literal_gate']['worst_overlap_including_probe'] * 100:.2f}% within 3 px of the registered lattice; exception not authorized</span></td></tr>
 </tbody></table></div>
 <p class="muted">The nine focus files are <b>not</b> recommended: each is either a strict subset of another (GEMSDOE25/30/31/32/36 are the same nested family) or overlaps a rival field above the 70% rule, and none has a defensible estimate. Their reported scores are the ones quoted in the project brief; the public board read on 2026-10-31 shows 0.4544 at rank 1, so 0.2778 is not the leaderboard high.</p>
 </section>"""
@@ -103,16 +107,17 @@ def hero(rel: dict) -> str:
     name = Path(rel["submission_file"]).name
     s = rel["score_projection"]["scenarios"]
     return f"""<section class="hero" id="release-it">
-<h2>Download this file and submit it</h2>
-<p class="verdict"><b class="ok">OK TO DOWNLOAD AND SUBMIT.</b> One file. It passes every automated gate this repository can run: format, range, grid, uniqueness and holdout. It was generated today from the mapped-fault catalogue and the organizer grid; no registry or published submission was used as an input.</p>
-<p><a class="btn big" href="downloads/{esc(name)}" download>Download the submission TIFF</a>
-<a class="btn secondary" href="how-to-submit.html">How to submit (exact steps)</a>
-<a class="btn secondary" href="evidence/halo/final_generation.json">Open the release receipt</a></p>
+<h2>No submission-ready TIFF</h2>
+<p class="verdict"><b class="no">DO NOT SUBMIT.</b> This HALO raster is available only as a research artifact. Its saved-byte record explicitly reports a literal uniqueness stop: 99.84% of its dots fall within 3 px of the registered spacing-5 lattice. The protocol supplied for this work does not authorize excluding that reference. The full organizer registry and authenticated template are also unavailable, and no matched holdout superiority has been established. Format validity does not cure these failures.</p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>Download research TIFF — NOT APPROVED FOR SUBMISSION</a>
+<a class="btn secondary" href="evidence/halo/final_generation.json">Open superseded historical receipt</a>
+<a class="btn secondary" href="evidence/public_downloads_audit.json">Current inventory: no file approved</a>
+<a class="btn secondary" href="how-to-submit.html">Read the conditional submission guide (no current file approved)</a></p>
 <div class="meta">
 <b>File:</b> <code>{esc(name)}</code><br>
 <b>SHA-256:</b> <code>{esc(f['sha256'])}</code><br>
-<b>Submission name to type into the form:</b> <code>{esc(rel['submission_name'])}</code><br>
-<b>Note to paste (≤140 chars, {rel['submission_note_length']}):</b> <code>{esc(rel['submission_note'])}</code><br>
+<b>Historical identifier (not for upload):</b> <code>{esc(rel['submission_name'])}</code><br>
+<b>Submission name / note:</b> none — this raster is not approved for upload.<br>
 <b>Grid:</b> {esc(f['crs'])} · {f['shape'][0]} × {f['shape'][1]} · {esc(f['dtype'])} · 1 band · geotransform {esc(f['transform'])} · nodata: none (all cells finite, values in [{f['min']}, {f['max']}])<br>
 <b>Estimated score (CALIBRATED-PRIVATE, not a receipt):</b> <b>{min(v['dti'] for v in s.values()):.3f}–{max(v['dti'] for v in s.values()):.3f}</b> across per-dot hit rates h = 2.0–8.0% (read the bottom of the range as the pessimistic anchor; if only the holdout's <i>coverage</i> transfers, the same algebra returns {rel['holdout_dti']['at_released_dot_count']['dti']:.3f}, the holdout's own value). Read it as: {s['h=0.020']['dti']:.3f} if the halo transfers no better than a blind field, {s['h=0.045']['dti']:.3f} if the measured holdout rate (5.0%) transfers, {s['h=0.060']['dti']:.3f} at saturation. It needs only h ≥ {rel['break_even']['hit_rate_needed'] * 100:.2f}% to beat 0.2778 and h ≥ 4.4% to beat 0.4544.
 </div>
@@ -187,15 +192,15 @@ def gates_section(rel: dict, new: dict) -> str:
 <tr><td>Encoding</td><td>single band, float32</td><td>{f['count']} band, {esc(f['dtype'])}</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Value range</td><td>[0, 1] and no NaN — this is the check that produced the portal message on other files</td><td>min {f['min']}, max {f['max']}, all {f['shape'][0] * f['shape'][1]:,} cells finite, NaN inside footprint: {f['nan_inside_footprint']}</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Footprint</td><td>positives only inside the organizer footprint</td><td>{f['positive_pixels']:,} positive cells, all inside the footprint</td><td><b class="ok">PASS</b></td></tr>
-<tr><td>Uniqueness (rank)</td><td>|Spearman| ≤ 0.90 against every registry raster</td><td>worst |ρ| = <b>{u['worst_spearman']:.4f}</b> ({esc(Path(u['worst_spearman_submission']).name)})</td><td><b class="ok">PASS</b></td></tr>
-<tr><td>Uniqueness (dots, registry snapshot)</td><td>≤ 70% of my dots within 3 px of one registry raster</td><td>worst = <b>{pct(u['worst_dot_overlap'])}</b> ({esc(Path(u['worst_overlap_submission']).name)}) over {u['submission_rasters_compared']} submission rasters</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Uniqueness (rank)</td><td>|Spearman| ≤ 0.90 against every registry raster</td><td>worst |ρ| = <b>{u['worst_spearman']:.4f}</b> ({esc(Path(u['worst_spearman_submission']).name)})</td><td><b class="ok">PASS, partial diagnostic</b></td></tr>
+<tr><td>Uniqueness (literal dot rule)</td><td>no more than 70% of candidate dots within 3 px of any registry raster</td><td><b>{pct(rel['uniqueness_literal_gate']['worst_overlap_including_probe'])}</b> within 3 px of {esc(Path(rel['uniqueness_literal_gate']['worst_overlap_submission_including_probe']).name)}</td><td><b class="no">FAIL — STOP</b></td></tr>
 <tr><td>Uniqueness (dots, files published since)</td><td>same rule against every raster now in <code>docs/downloads</code></td><td>worst = <b>{pct(new['worst_directed_overlap']['fraction'])}</b> ({esc(Path(new['worst_directed_overlap']['file']).name)}), margin {new['worst_directed_overlap']['margin_pp']:.1f} pp over {new['rasters_with_2000_plus_dots']} comparable rasters</td><td><b class="{'ok' if new['worst_directed_overlap']['passes_rule'] else 'no'}">{'PASS' if new['worst_directed_overlap']['passes_rule'] else 'FAIL'}</b></td></tr>
 <tr><td>Byte / pixel identity</td><td>no registry raster is an identical copy</td><td>no identical bytes, no identical decoded array, max Jaccard 0.033</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Leakage canary</td><td>each feature alone must have AUC ≤ 0.90</td><td>max AUC {max(abs(v - 0.5) for v in json.loads((HALO / 'e3.json').read_text())['leakage_canary_auc_vs_catalogue'].values()) + 0.5:.2f}</td><td><b class="ok">PASS</b></td></tr>
 </tbody></table></div>
-<p class="muted"><b>Two irregularities are reported rather than hidden.</b> (1) The literal protocol rule cannot be satisfied by <i>any</i> raster: the registry contains a uniform 5-px lattice probe whose dots lie within 3 px of {((probe['scored_domain_coverage_within_3px'] * 100) if probe else 99.87):.2f}% of the scored domain, so every possible submission has ~100% three-pixel overlap with it. The probe is therefore classified from its own bytes as an unavoidable sampling probe and reported separately (<code>evidence/halo/uniqueness_final.json</code>). (2) One registry blob, <code>GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif</code>, is not on the organizer grid and cannot be a competing submission; it is recorded, not dropped.</p>
-<p class="muted"><b>The closest published field is a same-day parallel-lane candidate, and the rule is directional.</b> {pct(new['worst_directed_overlap']['fraction'])} of this file's dots lie within 3 px of <code>{esc(Path(new['worst_directed_overlap']['file']).name)}</code> — under the 70% rule, but the thinnest margin in the table. In the other direction {pct(new['worst_reverse_overlap']['fraction'])} of <i>that</i> file's dots lie within 3 px of this one, so it is the duplicate under the project's directional rule, not this file. That is the evidence for recommending this file over it, together with this file's holdout measurement and score estimate, which the other file does not carry. Full receipt: <a href="evidence/halo/overlap-vs-published.json"><code>evidence/halo/overlap-vs-published.json</code></a>.</p>
-<p class="muted"><b>Inventory freshness.</b> The comparison set is the hash-pinned 489-raster focus inventory plus {u['delta_rasters_included']} rasters published after that snapshot, re-enumerated from each repository's current <code>main</code> today. It is not an organizer-complete registry: private, unlinked or larger rasters can exist. Re-run <code>python scripts/audit_halo_uniqueness.py --tif &lt;file&gt;</code> before uploading.</p>
+<p class="warn"><b>Protocol ruling: no exception is applied.</b> The spacing-5 lattice reference covers {((probe['scored_domain_coverage_within_3px'] * 100) if probe else 99.87):.2f}% of the scored domain within 3 px, and this candidate records {pct(rel['uniqueness_literal_gate']['worst_overlap_including_probe'])} one-sided overlap. The literal project gate therefore stops this file. The near-space-filling geometry may make the gate non-discriminating, but that does not authorize an exemption. A malformed/non-grid reference remains an irregularity requiring protocol-owner adjudication; it is not silently removed from the inventory.</p>
+<p class="muted"><b>Additional published-field check.</b> The HALO field also has 68.49% directed overlap with the parallel K10 field, close to the 70% threshold. This pairwise comparison is not sufficient for clearance: the binding literal check above fails against the registered lattice, and the registry is not organizer-complete. Full receipt: <a href="evidence/halo/overlap-vs-published.json"><code>evidence/halo/overlap-vs-published.json</code></a>.</p>
+<p class="muted"><b>Inventory limitation.</b> This is a hash-pinned owner-repository snapshot, not an organizer-complete registry. It cannot establish global uniqueness or override a failed literal witness. No upload is authorized by this page.</p>
 </section>"""
 
 
@@ -222,7 +227,7 @@ def risks_section(rel: dict) -> str:
     return f"""<section class="section" id="risks"><h3>Risks, limits and what would change the decision</h3>
 <ul>
 <li><b>Transfer risk (dominant).</b> If the hidden fault population is <i>anti</i>-correlated with the mapped-trace neighbourhood (i.e. concentrated far from every mapped fault), the halo band's hit rate falls to ~1.5% and the projected score falls to ≈0.19. Under a neutral (blind) placement assumption the same file scores ≈0.26. Under transfer of the measured 5% halo rate it scores ≈{rel['score_projection']['scenarios']['h=0.045']['dti']:.2f}. The estimate is a range for exactly this reason.</li>
-<li><b>Uniqueness margin.</b> The worst three-pixel overlap is {pct(rel['uniqueness']['worst_dot_overlap'])} against a {rel['uniqueness']['worst_overlap_submission'].split('/')[-1][:44]}… field, below the 70% rule but not far below it. A newly published dense field could raise it; re-audit before uploading.</li>
+<li><b>Uniqueness stop.</b> The literal three-pixel overlap is 99.84% against the registered lattice, above the 70% cap. The old release treated that witness as exempt; the current protocol does not. Do not upload this raster.</li>
 <li><b>Exterior convention.</b> This file writes 0 outside the footprint (all cells finite). The organizer sample uses NaN outside its footprint. Zeros cannot be out of range, which is why they are used here; if the portal rejects the file, try the NaN variant described on the how-to-submit page and record the error text.</li>
 <li><b>Unverified reported scores.</b> Every published score on this page is USER-REPORTED / UNVERIFIED — no submission-page receipt links a file hash to a score. The 2026-10-31 public board shows xiaofanhu 0.4544 at rank 1; 0.4413 and 0.3195 are not the current high.</li>
 <li><b>One submission slot.</b> The competition allows choosing one submission for scoring in both rounds; the weekly cap is shown on the submission page and is not visible here. Choose deliberately.</li>
@@ -230,10 +235,10 @@ def risks_section(rel: dict) -> str:
 </ul>
 <h4>Next steps with the highest expected value</h4>
 <ol>
-<li><b>Upload this file once and read the leaderboard number.</b> That single measurement replaces the entire projection range and calibrates h for every future candidate. It is the only way to close the transfer question.</li>
+<li><b>Do not upload any current file.</b> First obtain an explicit lane assignment, authenticated organizer template/data, a complete registry, and a candidate that passes the literal pre-placement and final-dot gates and beats the matched holdout incumbent.</li>
 <li><b>Digitize an independent fault compilation</b> (USGS Quaternary Faults, Nevada Bureau of Mines, GBCGE INGENIOUS fault layer) and intersect it with the footprint; if its extra traces are the hidden set, a point-exact overlay would score far above any geometric prior. Needs a network path to those hosts (blocked in this sandbox).</li>
 <li><b>Tip-and-step-over placement</b> (E4, not run — the 3-experiment budget was spent): restrict the band to along-strike extrapolations beyond mapped tips and to relay zones between overlapping traces. The holdout already supports band placement; this would test whether structure inside the band raises the hit rate.</li>
-<li><b>Re-audit registry uniqueness</b> immediately before any upload (<code>scripts/audit_halo_uniqueness.py</code>).</li>
+<li>Only after all gates pass, use the separate selector and competition page to choose a slot. This repository does not select or submit a file.</li>
 </ol>
 </section>"""
 
@@ -251,19 +256,48 @@ def build() -> str:
     return shell("Release decision", body)
 
 
+def safety_subpage(title: str, active: str, content: str) -> str:
+    nav = [("release.html", "Current decision"), ("release-summary.html", "Executive summary"),
+           ("release-how-to-submit.html", "How to submit")]
+    links = " · ".join(
+        f'<a href="{u}"{" aria-current=page" if u == active else ""}>{esc(label)}</a>'
+        for u, label in nav)
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>{esc(title)} · GEMSDOEkarage2</title>
+<link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
+<body><header class="header"><div class="inner"><h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
+<div class="sub">DOE GEMS Prize · evidence-first decision</div></div></header>
+<main class="container"><nav class="topnav" aria-label="Main navigation">{links}</nav>
+<section class="hero"><h2>{esc(title)}</h2><p class="verdict"><b class="no">NO FILE CLEARED.</b> No TIFF in this repository is currently approved for upload. Historical download links are research-only.</p>
+{content}</section><footer class="footnote"><p><a href="{PROBLEM}">Official problem page</a> · <a href="{DATA_PAGE}">Official data page (login required)</a> · <a href="{LEADERBOARD}">Official public leaderboard</a> · <a href="{RULES_PDF}">Official rules PDF</a></p></footer></main></body></html>"""
+
+
+def safety_pages() -> dict[str, str]:
+    summary = safety_subpage(
+        "Executive summary — no submission approved", "release-summary.html",
+        "<p>The nine historical focus files and their evidence classes are listed on the <a href=\"release.html#decision-table\">full audit table</a>. All nine are USER-REPORTED / UNVERIFIED, not organizer receipts; the new-file leaderboard estimate is unavailable. The largest supplied historical claim is GEMSDOE32 at 0.2778, but it is not unique and should not be resubmitted.</p><p>The exact no-submit reasons, saved-byte details, and official sources are on the <a href=\"release.html\">current decision page</a>.</p>")
+    guide = safety_subpage(
+        "How to submit — conditional instructions only", "release-how-to-submit.html",
+        "<p><b>Do not upload any TIFF currently published here.</b> The release candidates fail the literal uniqueness rule; organizer-authenticated template/data and a current paired holdout win are also missing.</p><ol><li>For a future separately approved candidate only, download the exact saved-byte TIFF and verify its recorded SHA-256.</li><li>Confirm single-band GeoTIFF, CRS, shape, transform, finite/range values, and footprint against the authenticated organizer template.</li><li>Confirm the literal registry uniqueness check before placement and after final dots, feature-alone leakage canaries, and a paired spatial holdout improvement over the frozen incumbent.</li><li>Only after the separate selector approves the candidate may the account owner choose a weekly slot, type the recorded name/note, and save the organizer receipt. This repository never uploads or spends a slot.</li></ol><p>Current approved filename, submission name and note: <b>none</b>.</p>")
+    return {"release-summary.html": summary, "release-how-to-submit.html": guide}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
-    text = build()
-    dest = DOCS / "release.html"
+    pages = {"release.html": build(), **safety_pages()}
     if args.check:
-        if not dest.is_file() or dest.read_text() != text:
-            raise SystemExit("docs/release.html is stale; run scripts/build_release_page.py")
-        print("docs/release.html is up to date")
+        bad = [name for name, text in pages.items()
+               if not (DOCS / name).is_file() or (DOCS / name).read_text() != text]
+        if bad:
+            raise SystemExit(f"stale pages: {bad}; run scripts/build_release_page.py")
+        print("release pages are current")
         return 0
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_text(text)
+    DOCS.mkdir(parents=True, exist_ok=True)
+    for name, text in pages.items():
+        (DOCS / name).write_text(text)
+        print(f"wrote {name} ({len(text):,} bytes)")
     # mirror the receipts the page cites
     for src, dst in ((EV / "score_model.json", DOCS / "evidence/score_model.json"),
                      (HALO / "final_generation.json", DOCS / "evidence/halo/final_generation.json"),
@@ -273,7 +307,6 @@ def main() -> int:
                      (HALO / "e3.json", DOCS / "evidence/halo/e3.json")):
         dst.parent.mkdir(parents=True, exist_ok=True)
         dst.write_bytes(src.read_bytes())
-    print(f"wrote {dest} ({len(text):,} bytes)")
     return 0
 
 

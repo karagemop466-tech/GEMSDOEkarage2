@@ -1,96 +1,18 @@
 # GEMSDOEkarage2
-## S1 session review (2026-10-31, arena/fe0fee78) — additional negative research lane
+## Current decision — 2026-10-31: NO FILE CLEARED TO SUBMIT
 
-**Decision: NEGATIVE.** This session wrote the untried-hypothesis slate
-([`research/hypotheses-2026-10-31-untried-slate.md`](research/hypotheses-2026-10-31-untried-slate.md)), validated the
-top hypothesis (S1: USGS earthquake-catalogue flank density on the cached template stack) under the binding
-protocol, and published one research TIFF (51,961 dots,
-`docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif`, SHA-256
-`fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c`, format-valid, 0 catalogue dots, one-click
-research download in the S1 panel). HOLDOUT-DTI 0.18791 [0.16799, 0.20782] n=58,308 — below the recorded
-incumbent k3dti_b110 0.19157; paired novelty-vs-ablation +0.00833 [−0.00382, +0.02055] inconclusive. Leakage
-34/34 canaries pass (worst 0.6173). Uniqueness: |ρ| ≤ 0.146 vs 473 rasters; degenerate lattice witness stops every
-dot file (flagged irregularity); 55 non-lattice fleet rasters >70% overlap (worst 0.8977 vs GEMSDOE32 h45 —
-independent-lane consensus convergence; K3 recorded the same at 0.8477–0.8862). Portal [0, 1]-error guidance
-(nodata=None + zeros exterior) added to the how-to-submit page. Cards:
-[`evidence/s1/run_card.json`](evidence/s1/run_card.json). Slot used: none. The approved HALO file above is the
-single submission recommendation and is unaffected by this lane.
+**Do not upload or spend a competition slot on any TIFF currently published by this repository.**
+The literal parallel-run gate stops the HALO candidate (99.8389% of dots within 3 px of the registered spacing-5 lattice) and the GBM candidate (93.771% overlap with a non-space-filling registry raster). The prior K10 selector excluded a space-filling witness; that exception does not comply with the literal current protocol. These are saved-byte registry measurements, not proof of copying; the protocol nevertheless says to stop.
 
-## Current decision (2026-10-31, this Arena branch) — READ THIS FIRST
-### Files from parallel lanes merged into main the same day
+No new geological experiment or TIFF was run in this review: there is no newly assigned single method paragraph, the cached competition rasters are absent from `.cache/` and `data/`, and organizer-authenticated template/training inputs are unavailable. No local score estimate is defensible. All nine historical focus-site scores are USER-REPORTED / UNVERIFIED; GEMSDOE32's 0.2778 is the top value in the supplied nine-site list, not the current official leaderboard high and not an organizer receipt.
 
-A second Arena lane published its own artifacts before this branch merged. None of them is the
-recommendation; each stays downloadable for audit exactly as its own receipt describes:
+The current official public leaderboard was read 2026-10-31: rank 1 is 0.4544. This is a public-board observation only; it is not a private-round score or a receipt tied to a local TIFF. The exact new review, nine-site comparison, hypotheses, limitations, and official links are in [`research/2026-10-31-current-repository-review.md`](research/2026-10-31-current-repository-review.md); its machine-readable negative review card is [`evidence/current-repository-review-run-card-2026-10-31.json`](evidence/current-repository-review-run-card-2026-10-31.json).
 
-* **K10 corridor coverage** (`docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif`,
-  38,000 dots, 1 km damage-zone corridors off the 200 m apron). Format-valid, selector-cleared,
-  uniqueness measured against 487 rasters. It carries **no score estimate and no skill
-  measurement** — its lane argued the catalogue holdout instrument cannot rank this target, which
-  is consistent with this branch's own control (the 0.2778 champion scores 0.0041 on that
-  instrument). It is now shown as the **alternative** on
-  [`docs/submission-desk.html`](docs/submission-desk.html), under a banner that points here.
-* **H-F2 coherence ridge** (`gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif`), 37,654 dots:
-  the same budget as the champion with an unsupervised ridge detector. Its stored calibrated
-  estimate is 0.2979 (band 0.278–0.420), i.e. **below** this branch's central estimate, and its
-  own lane measured Spearman(reported score, holdout DTI) = −0.23 over 53 files — the reason this
-  branch treats the holdout as a ranker, not a score.
-* **HX-2 lineament apron-3** (36k), **GBSP blind-spot**, **V3 conductivity-depth**, **K9
-  magnetometric-gravity**, **H-C strain-seismic**, **H-A**, **HR4**, **K2/K3/B4/H1/H2/HK3**:
-  research-only, `ok_to_submit: False`, many with a duplicate-stop or a holdout below the
-  random control. They remain in the inventory with those verdicts.
+The Pages decision pages now show **OK TO SUBMIT: NO**. Research downloads remain labeled as research-only. No real submission slot was selected or used. Prior positive releases and selector receipts are retained as dated history, not current authorization.
 
-What this branch adds on top is the only *quantitative* ranking of these designs: the corrected
-marginal-inclusion bar, a leaderboard-calibrated estimate with a break-even hit rate, and an
-explicit statement that the catalogue holdout cannot rank leaderboard-class emissions — so the
-recommendation rests on the metric algebra and on dot non-redundancy (minimum realised separation
-3 px), not on a holdout win.
+**Read this README every time work resumes.** The consolidated project prompt and binding parallel-run protocol follow below; do not implement new scientific work without a single assigned method paragraph, cached authorized inputs, literal surface/final-dot uniqueness, feature-alone leakage canaries, a paired holdout win, and the separate selector step.
 
-
-**Decision: ONE FILE IS OK TO DOWNLOAD AND SUBMIT.**
-[`docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`](docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif)
-(SHA-256 `603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38`, 44,090 dots, float32,
-1 band, EPSG:32611, 3730 × 3292, all cells finite in [0, 1]). One-click download, the exact
-submission name, the ≤140-character note and the estimate range are on the generated
-[release decision page](https://karagemop466-tech.github.io/GEMSDOEkarage2/release.html).
-
-* **Estimated score: 0.22–0.60 (CALIBRATED-PRIVATE, not a receipt), central 0.48 if the
-  measured holdout hit rate transfers.** Pessimistic anchor 0.14 if only the holdout *coverage*
-  transfers. It needs h ≥ 2.52 % to beat the 0.2778 GEMSDOE32 file and h ≥ 4.4 % to beat the
-  0.4544 currently at public rank 1.
-* **Uniqueness, re-measured against everything published today:** worst directed 3 px overlap is
-  **68.49 %** against the parallel-lane K10 corridor field (rule ≤ 70 %, margin 1.5 pp), over the
-  18 rasters now in `docs/downloads`. In the opposite direction **81.33 %** of that file's dots lie
-  within 3 px of this one, so under the project's *directional* rule it is the duplicate of this
-  file, not the other way round — that, plus this file's holdout measurement and score estimate,
-  is why it is the recommendation and K10 is the alternative. Receipt:
-  [`evidence/halo/overlap-vs-published.json`](evidence/halo/overlap-vs-published.json).
-* **Uniqueness (snapshot):** 473 hash-pinned registry rasters compared; worst 3 px dot overlap 65.5 %
-  (rule ≤ 70 %), worst Spearman 0.056 (rule ≤ 0.90), 0 dots on mapped catalogue pixels,
-  realised minimum dot separation 3 px. The r13 lattice probe still "covers" 99.8 % of any
-  raster by construction and is reported separately, not as a duplicate witness.
-* **Holdout (HOLDOUT-DTI):** 0.1367 at the released 44,090 dots; 0.1452 at the lane budget
-  curve's 57,873-dot maximum. The published GEMSDOE32 mask scores 0.0041 on the same
-  instrument, a blind uniform field of the same size 0.0427. The holdout ranks placement
-  strategies; it does **not** transfer as a private score (that is why the estimate is a range).
-* **Fixed this session (see [`research/2026-10-31-score-model-unit-fix-and-release-review.md`](research/2026-10-31-score-model-unit-fix-and-release-review.md)):**
-  the model's marginal-inclusion bar compared a hit rate against α·DTI, a credit-unit bar, and
-  so understated the bar by a factor of K ≈ 4.9; every published focus file was wrongly called
-  "over-budget". Corrected to h* = αT / (K(αF + βG) + αT) ≈ 1.1 %, under which all nine files'
-  dots still pay by 1.8–2.3× and the profit-maximising count at constant precision is
-  92,000–135,000 dots. The release receipt's holdout block also conflated the lane's 57,873-dot
-  measurement with the released 44,090-dot field; both rows are now recorded separately.
-* **Official-board snapshot re-read today (2026-10-31):** rank 1 xiaofanhu **0.4544**,
-  cfld\_\_ 0.3934, Batik Shirt Brothers 0.3917. The brief's 0.4413 is not on the board and
-  0.3195 is not the high. Receipt: [`evidence/leaderboard-observation-2026-10-31.json`](evidence/leaderboard-observation-2026-10-31.json).
-* **Nine focus sites:** none is eligible. Best reported is GEMSDOE32 at 0.2778
-  (USER-REPORTED / UNVERIFIED), which is 1.22× what a blind field of the same dot count scores
-  and 100 % within 3 px of another focus file. They remain on the site as an audit trail.
-* **Still unexplained:** the portal's "Predicted values must be in range [0, 1]" error. This
-  file writes 0 outside the footprint (all finite) and 1 at dots, so it is in range everywhere;
-  if the portal rejects it, record the exact message before changing anything.
-* **Also unchanged:** the DrivenData data tab redirects to login, so `training_features.tif`,
-  `labels.tif` and `sample_submission.tif` remain unobtainable in this sandbox, and the USGS /
-  GBCGE fault compilations (the highest-value untested idea) cannot be fetched from here.
+---
 
 Everything below this line is dated history. Reviews written before this section that say
 "NO APPROVED TIFF / NO SCORE ESTIMATE" describe the state before the HALO lane was measured
