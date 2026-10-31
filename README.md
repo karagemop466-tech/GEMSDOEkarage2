@@ -1,4 +1,20 @@
 # GEMSDOEkarage2
+## S1 session review (2026-10-31, arena/fe0fee78) — additional negative research lane
+
+**Decision: NEGATIVE.** This session wrote the untried-hypothesis slate
+([`research/hypotheses-2026-10-31-untried-slate.md`](research/hypotheses-2026-10-31-untried-slate.md)), validated the
+top hypothesis (S1: USGS earthquake-catalogue flank density on the cached template stack) under the binding
+protocol, and published one research TIFF (51,961 dots,
+`docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif`, SHA-256
+`fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c`, format-valid, 0 catalogue dots, one-click
+research download in the S1 panel). HOLDOUT-DTI 0.18791 [0.16799, 0.20782] n=58,308 — below the recorded
+incumbent k3dti_b110 0.19157; paired novelty-vs-ablation +0.00833 [−0.00382, +0.02055] inconclusive. Leakage
+34/34 canaries pass (worst 0.6173). Uniqueness: |ρ| ≤ 0.146 vs 473 rasters; degenerate lattice witness stops every
+dot file (flagged irregularity); 55 non-lattice fleet rasters >70% overlap (worst 0.8977 vs GEMSDOE32 h45 —
+independent-lane consensus convergence; K3 recorded the same at 0.8477–0.8862). Portal [0, 1]-error guidance
+(nodata=None + zeros exterior) added to the how-to-submit page. Cards:
+[`evidence/s1/run_card.json`](evidence/s1/run_card.json). Slot used: none. The approved HALO file above is the
+single submission recommendation and is unaffected by this lane.
 
 ## Current decision (2026-10-31, this Arena branch) — READ THIS FIRST
 ### Files from parallel lanes merged into main the same day

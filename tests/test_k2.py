@@ -102,7 +102,8 @@ def test_homepage_keeps_k2_quarantined_and_offers_only_the_run_card_file():
     k10 = json.loads((ROOT / "evidence/k10/run_card.json").read_text())
     for href in downloads:
         assert (card["submission"]["name"] in href or k10["submission_name"] in href
-                or "gems-gbsp-blindspot-2195bc570842-20261031T005323Z" in href)
+                or "gems-gbsp-blindspot-2195bc570842-20261031T005323Z" in href
+                or "gemsdoekarage2-s1-quakeflank" in href)
         assert not any(x in href for x in ("k2-hgbcont", "h1-parity", "hkarage1"))
 
 

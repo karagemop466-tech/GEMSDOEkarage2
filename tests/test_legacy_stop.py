@@ -30,7 +30,8 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
             assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
             assert (card['submission']['name'] in href
                     or k10['submission_name'] in href
-                    or 'gems-gbsp-blindspot-2195bc570842-20261031T005323Z' in href)
+                    or 'gems-gbsp-blindspot-2195bc570842-20261031T005323Z' in href
+                    or 'gemsdoekarage2-s1-quakeflank' in href)
         # The literal-stop receipt prevents any card from reviving approval.
         assert card['verdict'] == 'negative'
         release = json.loads((ROOT / 'evidence/halo/final_generation.json').read_text())

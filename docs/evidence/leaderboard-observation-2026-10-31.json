@@ -1,0 +1,47 @@
+{
+  "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT (page read); not a receipt for any local file",
+  "observed_utc": "2026-10-31T02:07:59Z",
+  "observed_date_utc": "2026-10-31",
+  "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "chunks_read": "1 of 3",
+  "rows": [
+    {
+      "rank": 1,
+      "participant": "xiaofanhu",
+      "public_dw_tversky": 0.4544,
+      "submissions": 35
+    },
+    {
+      "rank": 2,
+      "participant": "cfld__",
+      "public_dw_tversky": 0.3934,
+      "submissions": 23
+    },
+    {
+      "rank": 3,
+      "participant": "Batik Shirt Brothers",
+      "public_dw_tversky": 0.3917,
+      "submissions": 61
+    },
+    {
+      "rank": 4,
+      "participant": "BrandenKMurray",
+      "public_dw_tversky": 0.386,
+      "submissions": 37
+    },
+    {
+      "rank": 5,
+      "participant": "op01",
+      "public_dw_tversky": 0.3642,
+      "submissions": 16
+    }
+  ],
+  "brief_claims": {
+    "0.3195": "not the current high; it was rank 50 on the 2026-10-31 re-read recorded in research/2026-10-31-leaderboard-recheck-and-three-pass-review.md",
+    "0.4413": "not present on the board"
+  },
+  "notes": [
+    "Ranks and values move within hours; every rank claim must carry its read time.",
+    "This snapshot is used only as a target for the score model; it is not evidence for any local raster."
+  ]
+}

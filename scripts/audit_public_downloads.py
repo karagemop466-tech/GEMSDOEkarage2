@@ -92,8 +92,13 @@ ARTIFACTS = (
     ("gemsdoe-karage2-halo39-b44090-sep2-20261031",
      "evidence/halo/final_generation.json",
      None, False, "release"),
-)
 
+    # S1 seismicity-flank candidate (2026-10-31 session): format-valid, zero
+    # catalogue dots, rank-uncorrelated with the registry; HOLDOUT-DTI below
+    # the recorded incumbent and the literal lattice clause stops it -> negative.
+    ("gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros",
+     "evidence/s1/run_card.json", "evidence/s1/selector_result.json", True, "research"),
+)
 
 # Files that exist in docs/downloads but are NOT registered in ARTIFACTS and are NOT
 # authorized for research download. They were merged from parallel Arena lanes whose

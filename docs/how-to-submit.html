@@ -12,15 +12,70 @@
 <p>The older TIFF remains available solely for reproducibility. It is <b>not a new submission</b>, not approved for a weekly slot, and has no defensible leaderboard estimate.</p>
 <p><a class="btn big" href="downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif" download>Download existing TIFF · RESEARCH ONLY</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
 <div class="meta"><b>Research file:</b> <code>gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif</code><br><b>SHA-256:</b> <code>064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9</code><br><b>New submission name / note:</b> none; no new candidate was generated.</div>
+</section><section class="section" id="s1-candidate"><h3>S1 candidate of 2026-10-31 · seismicity-flank hypothesis · verdict: negative</h3>
+<p>S1 added earthquake-location density (USGS, 1950–2024), rate, and depth-profile channels to the cached 35-channel
+template stack and validated them with the spatially-blocked hide-and-recover protocol. The novelty channels passed
+every leakage canary (worst feature-alone max(AUC, 1−AUC) = 0.6173 over 34 channels),
+and the full model's best arm improved on its own no-novelty ablation — but it <b class="no">did not beat the recorded
+incumbent</b> K3 k3dti_b110 at 0.1916. The final dots also reveal a
+<b>consensus-convergence</b> property of the off-catalogue space: independent supervised lanes (K2, GEMSDOE32
+h45, GEMSDOE30 g30s19/g30s20, GEMSDOE36 lane36, and S1) independently select the same ridge of high-probability
+cells — 55 non-lattice registry rasters overlap the final dots above 70% while rank correlation stays ≤ 0.146.
+Under the binding rules (“do not spend a submission slot on an idea that hasn't beaten the current holdout best”;
+uniqueness vs every registry raster), the verdict is <b class="no">negative</b>.</p>
+<table class="kv"><thead><tr><th>HOLDOUT-DTI arm (pooled, evaluator <code>gems57-pooled-hide-v2</code>)</th><th>DTI</th><th>95% CI</th><th>Withheld positives</th></tr></thead><tbody><tr><td><code>s1_b110dti</code> ← candidate</td><td>0.18791</td><td>[0.1680, 0.2078]</td><td>58,308</td></tr><tr><td><code>s1_b110</code></td><td>0.18332</td><td>[0.1632, 0.2027]</td><td>58,308</td></tr><tr><td><code>ablate_b110dti</code></td><td>0.17958</td><td>[0.1623, 0.1969]</td><td>58,308</td></tr><tr><td><code>ablate_b110</code></td><td>0.17465</td><td>[0.1571, 0.1923]</td><td>58,308</td></tr><tr><td><code>s1_b073</code></td><td>0.14990</td><td>[0.1303, 0.1688]</td><td>58,308</td></tr><tr><td><code>ablate_b073</code></td><td>0.14167</td><td>[0.1249, 0.1593]</td><td>58,308</td></tr><tr><td><code>prim_grav_edge</code></td><td>0.06637</td><td>[0.0509, 0.0820]</td><td>58,308</td></tr><tr><td><code>prim_quake_rate</code></td><td>0.04111</td><td>[0.0252, 0.0587]</td><td>58,308</td></tr>
+<tr><td><code>k3dti_b110</code> · recorded incumbent (2026-10-28, K3)</th><td>0.19157</td><td>[0.1747, 0.2088]</td><td>58,258</td></tr></tbody></table>
+<p class="muted">Every number on this page is HOLDOUT-DTI: a local catalogue-based proxy with its evaluator, withheld
+count and interval. It is not a leaderboard estimate and not an organizer score. Cross-session comparison against the
+recorded incumbent is approximate (its eligible mask differs by 50 truth pixels, 0.086%).</p>
+<h4>Paired deltas (same folds, same withheld positives)</h4>
+<table><thead><tr><th>Comparison</th><th>Δ DTI</th><th>95% CI</th><th>Reading</th></tr></thead><tbody><tr><td>candidate − ablate_b110</td><td>+0.01325</td><td>[+0.00069, +0.02519]</td><td>significant</td></tr><tr><td>candidate − ablate_b110dti</td><td>+0.00833</td><td>[-0.00382, +0.02055]</td><td>inconclusive (CI crosses 0)</td></tr><tr><td>candidate − prim_grav_edge</td><td>+0.12154</td><td>[+0.09819, +0.14453]</td><td>significant</td></tr><tr><td>candidate − prim_quake_rate</td><td>+0.14680</td><td>[+0.12301, +0.17088]</td><td>significant</td></tr><tr><td>candidate − s1_b073</td><td>+0.03800</td><td>[+0.03304, +0.04308]</td><td>significant</td></tr><tr><td>candidate − s1_b110</td><td>+0.00459</td><td>[+0.00120, +0.00814]</td><td>significant</td></tr></tbody></table>
+<h4>Gate table (conjunctive — every row must pass for eligibility)</h4>
+<table><thead><tr><th>Gate</th><th>Result</th><th>Detail</th></tr></thead><tbody><tr><td>Format, grid, range, no catalogue dots</td><td><b>PASS</b></td><td>float32 single-band, EPSG:32611, 3730x3292, nodata=None, zeros exterior, 0 NaN/inf, 51,961 dots, 0 on-mirrored-catalogue</td></tr><tr><td>Leakage canaries (34 channels)</td><td><b>PASS</b></td><td>all pass; worst max(AUC,1-AUC) = 0.6173 (band06)</td></tr><tr><td>Holdout beats recorded incumbent (0.19157)</td><td><b class="no">FAIL</b></td><td>candidate 0.18791 &lt; incumbent 0.19157 (HOLDOUT-DTI, gems57-pooled-hide-v2, paired mechanism delta vs ablation inconclusive)</td></tr><tr><td>Surface gate vs registry (pre-placement)</td><td><b class="no">FAIL</b></td><td>473 rasters; 55 non-lattice overlaps &gt;70%; lattice witness 100.00%</td></tr><tr><td>Final-dot gate vs registry (post-placement)</td><td><b class="no">FAIL</b></td><td>473 rasters; worst non-lattice overlap 69.96% (GEMSDOE24); |Spearman| 0.1460</td></tr><tr><td>Literal uniqueness clause incl. lattice witness</td><td><b class="no">FAIL</b></td><td>FAIL: lattice witness overlap 100% - degenerate witness (99.87% footprint coverage); flagged protocol irregularity; policy ruling required</td></tr></tbody></table>
+<p><b>Saved bytes:</b> gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif · SHA-256 <code>fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c</code> · 51,961 dots ·
+single-band float32, EPSG:32611, 3730×3292, nodata=None, finite zeros outside the footprint (the owner-scored
+convention), 0 dots on the mirrored catalogue.
+Format/range validator: all local checks passed.</p>
+<p class="muted">Portal “Predicted values must be in range [0, 1]” (UNVERIFIED hypothesis, 2026-10-31): pixel values
+are not the cause — every published research TIFF is finite and inside [0, 1]. The only failed downloadable file
+(H-F) carried a nodata=NaN TAG on an all-finite array. The S1 file follows the owner-scored champion convention
+(zeros exterior, nodata=None). Exact portal behaviour remains untestable from this sandbox.</p>
+<p><a href="evidence/s1/run_card.json">run card</a> · <a href="evidence/s1/selector_result.json">selector result</a> ·
+<a href="evidence/s1/e1_canary.json">E1 leakage canaries</a> · <a href="evidence/s1/e2_holdout.json">E2 fold holdout</a> ·
+<a href="evidence/s1/combined_holdout.json">pooled holdout</a> · <a href="evidence/s1/surface_gate.json">surface gate (474 registry rasters)</a> ·
+<a href="evidence/s1/final_registry_audit.json">final-dot registry audit</a> ·
+<a href="evidence/s1/final_generation.json">writer receipt</a> ·
+<a href="evidence/public_downloads_audit.json">saved-byte inventory</a> ·
+<a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/research/hypotheses-2026-10-31-untried-slate.md">S1 hypothesis slate ↗</a></p>
 </section><section class="section"><h3>How to submit, when an eligible file exists</h3>
-<p><b class="no">Do not upload any current file.</b> These instructions are conditional; neither inspection nor a format pass bypasses the literal duplicate stop.</p>
+<p><b class="no">Do not upload any current file, including the S1 candidate above.</b> These instructions are
+conditional; neither inspection nor a format pass bypasses the two recorded stops (holdout below the incumbent;
+literal duplicate stop against the lattice witness, a flagged protocol irregularity).</p>
 <p><b>Official rules, verified 2026-10-29</b> (<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NLR rules PDF</a>, §1.1 and §3.2): one entry per competitor; a <em>single</em> GeoTIFF with a single raster layer at 100 m; submission limit <em>three submissions per week</em>; generative-AI use must be described in the narrative. The problem page (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>) specifies values between 0 and 1, float32, and null or NaN outside the bounds.</p>
 <ol><li>Run a newly assigned lane using the shared feature stack, evaluator and writer. Stop immediately if the pre-placement surface is a duplicate. Test every input feature alone for leakage; AUC over 0.90 is suspect.</li>
 <li>Use buffered whole-segment hide-and-recover; build all catalogue features from visible faults only and mask visible faults pixel-exactly. Compare pooled DTI against the current same-fold incumbent with a paired 95% interval. An uncalibrated holdout is not a leaderboard estimate.</li>
-<li>Recheck the exact final TIFF against the complete current registry and authenticate the organizer sample. Verify a single float32 band, matching CRS/shape/transform, and no non-finite or out-of-range values inside the actual footprint. Reconcile the official null/NaN exterior guidance with the portal range behavior; neither convention is assumed accepted.</li>
+<li>Recheck the exact final TIFF against the complete current registry and authenticate the organizer sample. Verify a single float32 band, matching CRS/shape/transform, and no non-finite or out-of-range values inside the actual footprint.</li>
 <li>Only after every automated gate passes, a separate selector checks the account quota. The <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules</a> describe up to three scored attempts per week and one final selection per participating entity.</li>
-<li>Then download the approved <code>.tif</code>, verify its SHA-256, sign in to the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">DrivenData submissions page</a>, choose the file, and use the recorded unique name and a short note no longer than 140 characters. The official problem page specifies a GeoTIFF; ZIP upload acceptance was not verified. Save the actual organizer receipt; do not promote a projection into a score.</li></ol>
-<p>Our checks require no human inspector. The current blocker is missing/contradictory evidence and an unassigned lane, not a request to waive a gate. No account credentials are stored by this project.</p></section><section class="section" id="legacy"><h3>Other saved work · DO NOT SUBMIT</h3>
+<li>Then download the <code>.tif</code>, verify its SHA-256, sign in to the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">DrivenData submissions page</a>, choose the file, and use the recorded unique name and a short note no longer than 140 characters. The official problem page specifies a GeoTIFF; ZIP upload acceptance was not verified. Save the actual organizer receipt; do not promote a projection into a score.</li></ol>
+<h4>Fixing the portal error “Predicted values must be in range [0, 1]” (evidence-based, 2026-10-31)</h4>
+<p>The error is <b>not</b> caused by out-of-range pixels in the research files: every published TIFF in this repo is
+finite and inside [0, 1] (saved-byte inventory: <a href="evidence/public_downloads_audit.json">public-downloads audit</a>).
+What the audit of 10 published files plus the pinned registry shows:</p>
+<ul><li><b>Owner-scored files use both exterior conventions.</b> The 0.2778 site champion and its GEMSDOE30/33/36
+relatives use finite zeros outside the footprint with a nodata=None tag; GEMSDOE24/27/28/31-style files use NaN outside
+with a nodata=NaN tag. Both styles have owner-reported scores, so the exterior value alone cannot be the portal check.</li>
+<li><b>The only downloadable file with a user-reported portal range failure (H-F, 2026-10-30) had a nodata=NaN TAG while
+containing zero NaN pixels.</b> Reading the file with masked I/O therefore leaves every cell unmasked and the reader may
+propagate the declared NaN sentinel — a plausible trigger for a server-side “NaN not in [0, 1]” message. This is a
+hypothesis, unverified against the portal.</li>
+<li><b>Practical guidance if a portal range error appears:</b> re-upload the identical pixel content as
+<code>nodata=None</code> with finite zeros outside the footprint (the champion convention used by the S1 candidate);
+do not declare a nodata value that occurs nowhere in the array; keep the TIFF single-band float32 with the sample's
+exact CRS/shape/transform; upload the <code>.tif</code> itself rather than the ZIP.</li></ol>
+<p>Recorded S1 submission identity (for the day a selector clears it): name <code>gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros</code>,
+note “S1 seismicity-flank HGB 34ch hide-recover validated off-catalogue emission” (74 characters, ≤140 required),
+SHA-256 <code>fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c</code>.</p>
+<p>Our checks require no human inspector. The current blocker is the recorded negative verdict, not a request to waive a gate. No account credentials are stored by this project.</p></section><section class="section" id="legacy"><h3>Other saved work · DO NOT SUBMIT</h3>
 <p>K2, K3, B4, H1, H2 and the irregular-dot file are research artifacts. The prior literal-policy verdict for K2: NEGATIVE. <code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code>, SHA-256 <code>504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</code>, is quarantined. K3's <code>gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif</code> is the prior holdout-best point estimate, but its uniqueness decision is also negative.</p>
 <p>The <code>hkarage1</code> irregular raster is <b>not unique</b>: roughly 100% of its in-footprint dots fall within 3 px of the lattice, beyond the 70% stop. Different filenames or clipping do not make a stopped file eligible.</p>
 <p><a href="evidence/k2-review-2026-10-28.json">K2 correction</a> · <a href="evidence/k2-protocol-review.json">K2 protocol</a> · <a href="evidence/k2/literal_release_audit.json">K2 literal audit</a> · <a href="evidence/k2/selector_result.json">K2 selector</a> · <a href="evidence/k3/run_card.json">K3 run card</a> · <a href="evidence/b4/run_card.json">B4 run card</a> · <a href="evidence/h1/run_card.json">H1 run card</a> · <a href="evidence/run_card_h2.json">H2 run card</a> · <a href="evidence/legacy-dot-audit-2026-10-28.json">Legacy-dot audit</a></p></section>

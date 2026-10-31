@@ -59,7 +59,9 @@ test('the release decision page is the live decision and its download is the rel
 
 test('one-click research download is visibly labeled and the exact bytes exist', () => {
   const k10 = JSON.parse(fs.readFileSync(path.join(root, 'evidence/k10/run_card.json'), 'utf8'));
+  const s1 = JSON.parse(fs.readFileSync(path.join(root, 'evidence/s1/run_card.json'), 'utf8'));
   const candidateName = path.basename(k10.raster);
+  const s1Name = path.basename(s1.raster.file);
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
@@ -76,7 +78,7 @@ test('one-click research download is visibly labeled and the exact bytes exist',
     for (const link of links) {
       const href = path.basename(link.getAttribute('href'));
       assert.ok(
-        /gemsdoekarage2-hk3-edgecentrality/.test(href) || href === candidateName,
+        /gemsdoekarage2-hk3-edgecentrality/.test(href) || href === candidateName || href === s1Name,
         `${page}: unexpected download link ${href}`);
     }
     dom.window.close();

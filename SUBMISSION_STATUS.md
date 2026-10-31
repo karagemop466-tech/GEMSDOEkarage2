@@ -70,6 +70,20 @@ they are independent measurements. Experiments used this session: **2 of 3**. Sl
 
 ---
 
+## S1 lane (2026-10-31, arena/fe0fee78) — additional negative research file
+
+**`DOWNLOAD FOR RESEARCH: YES · SUBMIT: NO` (negative, not a rival to the approved HALO file above).**
+`docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif` (51,961 off-catalogue dots, SHA-256
+`fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c`) is format-valid (float32, EPSG:32611,
+nodata=None, finite-zeros exterior, 0 NaN/inf, 0 catalogue dots) and rank-uncorrelated with all 473 compared
+registry rasters (|Spearman| ≤ 0.146). Negative: HOLDOUT-DTI 0.18791 [0.16799, 0.20782], n=58,308
+(gems57-pooled-hide-v2) below the recorded incumbent k3dti_b110 0.19157; paired novelty-vs-ablation +0.00833
+[−0.00382, +0.02055] inconclusive; literal uniqueness stops it vs the degenerate lattice witness and vs 55
+non-lattice fleet rasters above 70% overlap (worst 0.8977 vs GEMSDOE32 h45 — independent-lane consensus
+convergence). Slot used: none. Cards: [`evidence/s1/run_card.json`](evidence/s1/run_card.json),
+[`evidence/s1/selector_result.json`](evidence/s1/selector_result.json); slate:
+[`research/hypotheses-2026-10-31-untried-slate.md`](research/hypotheses-2026-10-31-untried-slate.md).
+
 ## Historical reviews (superseded for the current candidate; facts about legacy files stand)
 
 **Review 2026-10-31 (earlier): NO FILE WAS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
