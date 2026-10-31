@@ -134,12 +134,20 @@ def gather() -> dict:
             or registry["unique"] is not False or registry["stop_required"] is not True):
         raise ValueError("Inconsistent negative literal-registry decision")
     hk3_inventory = [r for r in inventory["artifacts"] if r["file"] == filename]
-    if (inventory["inventory_status"] != "PASS_RESEARCH_ONLY"
-            or inventory["downloadable_approved_submission"] is not None
+    candidate_rows = [r for r in inventory["artifacts"] if r.get("kind") == "candidate"]
+    research_rows = [r for r in inventory["artifacts"] if r.get("kind") != "candidate"]
+    candidate_ok = (len(candidate_rows) == 1
+                    and candidate_rows[0]["status"] == "VERIFIED_CANDIDATE_ELIGIBLE"
+                    and candidate_rows[0]["ok_to_submit"] is True
+                    and candidate_rows[0]["slot_authorized"] is False
+                    and inventory["downloadable_approved_submission"] == candidate_rows[0]["file"])
+    if (inventory["inventory_status"] not in ("PASS_RESEARCH_ONLY", "PASS_WITH_CANDIDATE")
             or inventory["slot_authorized"] is not False or len(hk3_inventory) != 1
             or hk3_inventory[0]["raster_sha256"] != sha
             or any(row["ok_to_submit"] is not False or row["status"] != "VERIFIED_RESEARCH_ONLY"
-                   for row in inventory["artifacts"])):
+                   for row in research_rows)
+            or (inventory["inventory_status"] == "PASS_WITH_CANDIDATE" and not candidate_ok)
+            or (inventory["inventory_status"] == "PASS_RESEARCH_ONLY" and candidate_rows)):
         raise ValueError("Public download inventory is not research-only")
     records = focus["sites"]
     measured = {r["site"]: r for r in geometry["historical_final_dots"]}
@@ -589,8 +597,38 @@ def champion_panel() -> str:
 </section>'''
 
 
+def candidate_banner() -> str:
+    """Prominent banner for the current candidate, if its selector cleared it.
+
+    Legacy pages keep their negative verdicts for the legacy files; this banner
+    only points to the separate submission desk where the candidate lives.
+    """
+    try:
+        sel = load(EV / "k10/selector_result.json")
+        card = load(EV / "k10/run_card.json")
+    except (FileNotFoundError, ValueError):
+        return ""
+    if sel.get("ok_to_submit") is not True:
+        return ""
+    name = Path(card["raster"]).name
+    return f"""<section class="section" id="current-candidate" style="border:2px solid #1d6850;padding:18px 20px;border-radius:10px;background:#eef6f1">
+<h3 style="margin-top:0">Current competition candidate — validated and published</h3>
+<p>The 2026-10-31 corridor-coverage candidate passed this repository's automated format gate
+(all-finite float32 in [0,1] on the pinned grid — the convention that fixes the earlier
+"must be in range [0, 1]" portal error) and the measured uniqueness scan against 480+ prior
+submission rasters. It is published, with evidence and mandatory caveats, on the
+<a href="submission-desk.html"><b>Submission desk</b></a>.</p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>⬇ Download candidate TIF</a>
+<a class="btn secondary" href="submission-desk.html">Open the Submission desk</a></p>
+<p class="muted">No leaderboard score is claimed (competition truth and receipts are unavailable
+here). Slot stays unspent: promotion to a weekly submission is the owner's action.
+Selector receipt: <a href="evidence/k10/selector_result.json">evidence/k10/selector_result.json</a>.</p>
+</section>"""
+
+
 def render_all(d: dict) -> dict[str, str]:
-    desk = decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    banner = candidate_banner()
+    desk = banner + decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),
@@ -623,6 +661,9 @@ def main() -> int:
     mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/gw-nfs" / f.name) for f in sorted((EV / "gw-nfs").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/uniqueness" / f.name) for f in sorted((EV / "uniqueness").glob("*.json"))]
+    mirrors += [(f, DOCS / "evidence/k9" / f.name) for f in sorted((EV / "k9").glob("*.json"))]
+    mirrors += [(f, DOCS / "evidence/k10" / f.name) for f in sorted((EV / "k10").glob("*.json"))]
+    mirrors += [(f, DOCS / "evidence/k10a-r30-negative" / f.name) for f in sorted((EV / "k10a-r30-negative").glob("*.json"))]
     stale = []
     for src, dst in mirrors:
         if args.check:

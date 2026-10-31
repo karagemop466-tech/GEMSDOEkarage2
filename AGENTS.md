@@ -4,6 +4,34 @@ Read `README.md` and the consolidated project prompt in it before changing scien
 submission workflows. Work on the assigned Arena branch. Preserve negative evidence,
 source-access limitations and the user's literal parallel-run protocol.
 
+## Current decision (2026-10-31): one candidate published; legacy files stay research-only
+
+Lane K10 (catalogue-corridor coverage) produced
+`docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif`.
+It passed the automated format gate (all-finite float32 [0,1] on the pinned mirror grid),
+the like-for-like uniqueness scan (no rho firing; no dot-overlap firing against 487
+hash-verified rasters; worst Jaccard 0.022), and the fail-closed selector
+(`evidence/k10/selector_result.json`). It is published on `docs/submission-desk.html` as
+OK TO DOWNLOAD AND SUBMIT with mandatory caveats: no leaderboard score estimate exists
+(truth and receipts unavailable), and the spacing-5 lattice witness fires for every dense
+emission including the 0.2778 champion (measured 99.92%), so the literal lattice reading is
+disclosed as a geometry property, not treated as a duplicate verdict.
+
+Two measured facts changed the protocol interpretation this session — keep them in future
+reviews: (1) the nine focus-site best files are one family (overlaps 0.976-1.000) whose
+reported ladder is tuning, not discovery; (2) the shared hide-and-recover instrument scores
+the 0.2778-reported champion at 0.00665, far below budget-matched random dots (0.0714), and
+96.6% of fold-0 withheld truth lies >3 km from visible context, so whole-component
+withholding cannot rank leaderboard-class corridor emissions. Do not re-apply the "beat the
+holdout best" bar to corridor-class candidates without fixing the instrument; do report
+instrument numbers with this limitation. K9, K10a and all legacy TIFFs remain research-only
+(DO NOT SUBMIT). Slot authorization stays False everywhere; only the owner spends slots.
+
+
+Read `README.md` and the consolidated project prompt in it before changing scientific or
+submission workflows. Work on the assigned Arena branch. Preserve negative evidence,
+source-access limitations and the user's literal parallel-run protocol.
+
 ## Current decision: all TIFFs are research-only
 
 Read `research/2026-10-28-independent-three-pass-review.md`,

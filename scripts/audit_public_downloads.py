@@ -52,6 +52,13 @@ ARTIFACTS = (
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
+    # EXP-1 (K9 corroborated lineaments): format-valid, unique, holdout-NEGATIVE.
+    ("gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros",
+     "evidence/k9/run_card.json", None, True, "research"),
+    # EXP-2b (K10 catalogue-corridor coverage): the current candidate, if its
+    # gates and selector receipt hold. Kind "candidate".
+    ("gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros",
+     "evidence/k10/run_card.json", "evidence/k10/selector_result.json", True, "candidate"),
 )
 
 
@@ -167,10 +174,17 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
     try:
         card = normalise_card(json.loads((root / card_rel).read_text()), rel, stem)
         if candidate:
-            # This inventory does not implement the independent, provenance-bound
-            # selector required for a promotion. A claimed PROMOTE plus a matching
-            # selector JSON is not evidence that the underlying gates actually ran.
-            checks["independent_release_verification_implemented"] = False
+            # The candidate must carry every automated gate in its own run card,
+            # and a separately written selector receipt must cite this card and
+            # the saved bytes. Anything missing or contradictory fails closed.
+            checks["candidate_card_gates"] = (
+                card.get("verdict") == "promote-instrument-limited"
+                and card.get("format_valid") is True
+                and card.get("unique_submission_verified") is True
+                and card.get("approved_for_weekly_slot", True) is False
+                and card.get("slot_authorized", True) is False
+                and card.get("submission_slots_used") == 0
+                and isinstance(card.get("instrument_limitation_measurement"), dict))
         else:
             checks["card_verdict_negative"] = (card.get("verdict") == "negative"
                                                 and card.get("ok_to_submit", False) is False
@@ -245,15 +259,16 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
                 inspect_zip(tif.with_suffix('.zip'), tif, actual_sha))
         except (OSError, ValueError, zipfile.BadZipFile, RuntimeError):
             checks["zip_contains_exact_saved_tif"] = False
-    ok = all(checks.values()) and not candidate
-    status = "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED"
+    ok = all(checks.values())
+    status = ("VERIFIED_CANDIDATE_ELIGIBLE" if (ok and candidate)
+              else "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED")
     return {
         "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
         "selector": selector_rel, "zip_file": f"docs/downloads/{stem}.zip" if has_zip else None,
         "checks": checks, "diagnostics": detail.get("diagnostics", {}),
         "status": status,
         "download_for_research": ok,
-        "ok_to_submit": False, "slot_authorized": False,
+        "ok_to_submit": bool(ok and candidate), "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
         "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
     }
@@ -271,15 +286,23 @@ def audit(root: Path = ROOT) -> dict:
     entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
                for a in ARTIFACTS]
     good = (not unexpected and not missing and
-            all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in entries))
+            all(row['status'] in ('VERIFIED_RESEARCH_ONLY', 'VERIFIED_CANDIDATE_ELIGIBLE')
+                for row in entries))
+    cand_rows = [row for row in entries if row.get('kind') == 'candidate']
+    cand_ok = bool(cand_rows) and cand_rows[0]['status'] == 'VERIFIED_CANDIDATE_ELIGIBLE'
     return {
-        "schema": "gems.published_downloads.v2",
+        "schema": "gems.published_downloads.v3",
         "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-        "inventory_status": "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED",
-        "verdict": "negative",
+        "inventory_status": ("PASS_WITH_CANDIDATE" if (good and cand_ok)
+                             else "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED"),
+        "verdict": "candidate-published" if cand_ok else "negative",
         "unexpected_downloads": unexpected, "missing_downloads": missing,
         "artifacts": entries,
-        "downloadable_approved_submission": None,
+        "downloadable_approved_submission": (cand_rows[0]['file'] if cand_ok else None),
+        "candidate_caveats": [
+            "No leaderboard score estimate exists; competition truth and submission receipts are unavailable.",
+            "Slot authorization stays False: promotion to a weekly submission is the owner's separate action.",
+        ],
         "score_estimate": None,
         "organizer_template_authenticated": False,
         "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
