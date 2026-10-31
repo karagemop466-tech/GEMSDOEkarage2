@@ -1,0 +1,336 @@
+{
+  "schema": "gems.focus_pairwise_overlap.v1",
+  "date": "2026-10-31",
+  "definition": "fraction of row-file dots within 3 px (300 m) of any column-file dot",
+  "dots_per_file": {
+    "GEMSDOE24": 60069,
+    "GEMSDOE25": 44090,
+    "GEMSDOE27": 61328,
+    "GEMSDOE28": 37660,
+    "GEMSDOE30": 44090,
+    "GEMSDOE31": 40199,
+    "GEMSDOE32": 37654,
+    "GEMSDOE33": 41865,
+    "GEMSDOE36": 38854,
+    "lattice13": 206895
+  },
+  "registry_sha256": {
+    "GEMSDOE24": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+    "GEMSDOE25": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+    "GEMSDOE27": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+    "GEMSDOE28": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+    "GEMSDOE30": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+    "GEMSDOE31": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+    "GEMSDOE32": "baeae3219bba6a19bc8cfe79224e28555c50184b7c1ca65c2a822f54807c77dd",
+    "GEMSDOE33": "bc3af2a5fcb4b49bc5845a2d7dc3da23daf41ce75e4c64da3337c0c8c93cc12c",
+    "GEMSDOE36": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+    "lattice13": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2"
+  },
+  "registry_matches_owner_pin": {
+    "GEMSDOE24": true,
+    "GEMSDOE25": true,
+    "GEMSDOE27": true,
+    "GEMSDOE28": true,
+    "GEMSDOE30": true,
+    "GEMSDOE31": true,
+    "GEMSDOE32": false,
+    "GEMSDOE33": false,
+    "GEMSDOE36": true
+  },
+  "chance_coverage_3px_of_footprint": {
+    "GEMSDOE24": 0.180793,
+    "GEMSDOE25": 0.171911,
+    "GEMSDOE27": 0.185215,
+    "GEMSDOE28": 0.157525,
+    "GEMSDOE30": 0.171911,
+    "GEMSDOE31": 0.160064,
+    "GEMSDOE32": 0.150853,
+    "GEMSDOE33": 0.166186,
+    "GEMSDOE36": 0.15459,
+    "lattice13": 0.998713
+  },
+  "matrix": {
+    "GEMSDOE24": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.934792,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 0.940785,
+      "GEMSDOE32": 0.884766,
+      "GEMSDOE33": 0.962393,
+      "GEMSDOE36": 0.885615,
+      "lattice13": 0.999218
+    },
+    "GEMSDOE25": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.931821,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 0.937151,
+      "GEMSDOE32": 0.881719,
+      "GEMSDOE33": 0.960581,
+      "GEMSDOE36": 0.882649,
+      "lattice13": 0.999161
+    },
+    "GEMSDOE27": {
+      "GEMSDOE24": 0.980188,
+      "GEMSDOE25": 0.980156,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.916156,
+      "GEMSDOE30": 0.980156,
+      "GEMSDOE31": 0.922091,
+      "GEMSDOE32": 0.86719,
+      "GEMSDOE33": 0.943289,
+      "GEMSDOE36": 0.868037,
+      "lattice13": 0.999234
+    },
+    "GEMSDOE28": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 0.997557,
+      "GEMSDOE32": 0.954727,
+      "GEMSDOE33": 0.998407,
+      "GEMSDOE36": 0.955204,
+      "lattice13": 0.999097
+    },
+    "GEMSDOE30": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.931821,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 0.937151,
+      "GEMSDOE32": 0.881719,
+      "GEMSDOE33": 0.960581,
+      "GEMSDOE36": 0.882649,
+      "lattice13": 0.999161
+    },
+    "GEMSDOE31": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.995622,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 1.0,
+      "GEMSDOE32": 0.953904,
+      "GEMSDOE33": 0.999055,
+      "GEMSDOE36": 0.954402,
+      "lattice13": 0.999179
+    },
+    "GEMSDOE32": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.998752,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 1.0,
+      "GEMSDOE32": 1.0,
+      "GEMSDOE33": 0.999841,
+      "GEMSDOE36": 1.0,
+      "lattice13": 0.99915
+    },
+    "GEMSDOE33": {
+      "GEMSDOE24": 0.997062,
+      "GEMSDOE25": 0.997038,
+      "GEMSDOE27": 0.997086,
+      "GEMSDOE28": 0.9705,
+      "GEMSDOE30": 0.997038,
+      "GEMSDOE31": 0.9748,
+      "GEMSDOE32": 0.92643,
+      "GEMSDOE33": 1.0,
+      "GEMSDOE36": 0.927123,
+      "lattice13": 0.99914
+    },
+    "GEMSDOE36": {
+      "GEMSDOE24": 0.975678,
+      "GEMSDOE25": 0.974983,
+      "GEMSDOE27": 0.975781,
+      "GEMSDOE28": 0.97313,
+      "GEMSDOE30": 0.974983,
+      "GEMSDOE31": 0.974571,
+      "GEMSDOE32": 0.974031,
+      "GEMSDOE33": 0.975035,
+      "GEMSDOE36": 1.0,
+      "lattice13": 0.999176
+    },
+    "lattice13": {
+      "GEMSDOE24": 0.180667,
+      "GEMSDOE25": 0.171788,
+      "GEMSDOE27": 0.185108,
+      "GEMSDOE28": 0.157665,
+      "GEMSDOE30": 0.171788,
+      "GEMSDOE31": 0.159873,
+      "GEMSDOE32": 0.150598,
+      "GEMSDOE33": 0.166084,
+      "GEMSDOE36": 0.154402,
+      "lattice13": 1.0
+    }
+  },
+  "chance_corrected_matrix": {
+    "GEMSDOE24": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.922599,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 0.9295,
+      "GEMSDOE32": 0.864294,
+      "GEMSDOE33": 0.954898,
+      "GEMSDOE36": 0.864699,
+      "lattice13": 0.39192
+    },
+    "GEMSDOE25": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.919073,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 0.925174,
+      "GEMSDOE32": 0.860706,
+      "GEMSDOE33": 0.952724,
+      "GEMSDOE36": 0.861191,
+      "lattice13": 0.347809
+    },
+    "GEMSDOE27": {
+      "GEMSDOE24": 0.975816,
+      "GEMSDOE25": 0.976036,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.900479,
+      "GEMSDOE30": 0.976036,
+      "GEMSDOE31": 0.907244,
+      "GEMSDOE32": 0.843595,
+      "GEMSDOE33": 0.931986,
+      "GEMSDOE36": 0.843907,
+      "lattice13": 0.404403
+    },
+    "GEMSDOE28": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 1.0,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 0.997092,
+      "GEMSDOE32": 0.946684,
+      "GEMSDOE33": 0.998089,
+      "GEMSDOE36": 0.947013,
+      "lattice13": 0.298364
+    },
+    "GEMSDOE30": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.919073,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 0.925174,
+      "GEMSDOE32": 0.860706,
+      "GEMSDOE33": 0.952724,
+      "GEMSDOE36": 0.861191,
+      "lattice13": 0.347809
+    },
+    "GEMSDOE31": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.994803,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 1.0,
+      "GEMSDOE32": 0.945715,
+      "GEMSDOE33": 0.998866,
+      "GEMSDOE36": 0.946064,
+      "lattice13": 0.362013
+    },
+    "GEMSDOE32": {
+      "GEMSDOE24": 1.0,
+      "GEMSDOE25": 1.0,
+      "GEMSDOE27": 1.0,
+      "GEMSDOE28": 0.998518,
+      "GEMSDOE30": 1.0,
+      "GEMSDOE31": 1.0,
+      "GEMSDOE32": 1.0,
+      "GEMSDOE33": 0.999809,
+      "GEMSDOE36": 1.0,
+      "lattice13": 0.339531
+    },
+    "GEMSDOE33": {
+      "GEMSDOE24": 0.996414,
+      "GEMSDOE25": 0.996423,
+      "GEMSDOE27": 0.996423,
+      "GEMSDOE28": 0.964985,
+      "GEMSDOE30": 0.996423,
+      "GEMSDOE31": 0.969998,
+      "GEMSDOE32": 0.91336,
+      "GEMSDOE33": 1.0,
+      "GEMSDOE36": 0.913797,
+      "lattice13": 0.33171
+    },
+    "GEMSDOE36": {
+      "GEMSDOE24": 0.970311,
+      "GEMSDOE25": 0.96979,
+      "GEMSDOE27": 0.970276,
+      "GEMSDOE28": 0.968106,
+      "GEMSDOE30": 0.96979,
+      "GEMSDOE31": 0.969726,
+      "GEMSDOE32": 0.969418,
+      "GEMSDOE33": 0.970059,
+      "GEMSDOE36": 1.0,
+      "lattice13": 0.35993
+    },
+    "lattice13": {
+      "GEMSDOE24": -0.000154,
+      "GEMSDOE25": -0.000149,
+      "GEMSDOE27": -0.000131,
+      "GEMSDOE28": 0.000165,
+      "GEMSDOE30": -0.000149,
+      "GEMSDOE31": -0.000227,
+      "GEMSDOE32": -0.000301,
+      "GEMSDOE33": -0.000122,
+      "GEMSDOE36": -0.000223,
+      "lattice13": 1.0
+    }
+  },
+  "max_chance_corrected_overlap_with_another_focus_site": {
+    "GEMSDOE24": {
+      "value": 1.0,
+      "vs": "GEMSDOE30"
+    },
+    "GEMSDOE25": {
+      "value": 1.0,
+      "vs": "GEMSDOE30"
+    },
+    "GEMSDOE27": {
+      "value": 0.976036,
+      "vs": "GEMSDOE30"
+    },
+    "GEMSDOE28": {
+      "value": 1.0,
+      "vs": "GEMSDOE30"
+    },
+    "GEMSDOE30": {
+      "value": 1.0,
+      "vs": "GEMSDOE27"
+    },
+    "GEMSDOE31": {
+      "value": 1.0,
+      "vs": "GEMSDOE30"
+    },
+    "GEMSDOE32": {
+      "value": 1.0,
+      "vs": "GEMSDOE36"
+    },
+    "GEMSDOE33": {
+      "value": 0.996423,
+      "vs": "GEMSDOE30"
+    },
+    "GEMSDOE36": {
+      "value": 0.970311,
+      "vs": "GEMSDOE24"
+    }
+  },
+  "dot_identity_note": "registry_matches_owner_pin False for GEMSDOE32 and GEMSDOE33 is an encoding difference, not a dot difference: 2026-10-31 checks found the zeros and NaN GEMSDOE32 variants identical in dots, and the owner GEMSDOE33 file (sha matches owner pin) has the same 41,865 dots as the registry copy.",
+  "labels": "MEASURED from bytes; not a score"
+}

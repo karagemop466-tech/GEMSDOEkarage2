@@ -1,0 +1,21 @@
+{
+  "file": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-hc-strain-seis-corridor-30k-20261031.tif",
+  "sha256": "f30a095e4137abb1ea79e25e4920bd49d9bf991eed61ddf6a74281ed6ca09331",
+  "bytes": 1498253,
+  "crs": "EPSG:32611",
+  "shape": [
+    3730,
+    3292
+  ],
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+  ],
+  "dtype": "float32",
+  "nodata": null,
+  "compress": "lzw"
+}
