@@ -1,5 +1,35 @@
 # GEMSDOEkarage2
 
+## 2026-10-31 session — one unique candidate, the apron law, and an invalid holdout
+
+**Download (unique, format-valid, NOT promoted):**
+[`docs/candidate.html`](docs/candidate.html) →
+`docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif`
+(sha256 `a77a78e8…3ba32ec39b`). Projection **0.22 [0.12, 0.28]**; slot promotion **NO**.
+Full analysis: [`research/2026-10-31-hx-precision-analysis-and-three-pass-review.md`](research/2026-10-31-hx-precision-analysis-and-three-pass-review.md).
+
+Four results this session, all reproducible from pinned bytes:
+
+1. **The apron law.** Across the nine focus sites the USER-REPORTED score is rank-predicted almost
+   perfectly by the fraction of dots left inside the 3 px mapped-fault apron (Spearman ρ = −0.9958,
+   n = 9). GEMSDOE32 (0.2778) deleted 6,436 apron dots and kept 5.8%; GEMSDOE24 (0.2477) kept 19.9%.
+   The metric model reproduces 0.2778 exactly: n = 37,654, T = 5,073.29, M = 1,038.49, G = 12,405.77.
+2. **What beating it needs.** A 4.65% dot hit rate at 38k dots (1.7× the champion's 2.75%). No open
+   mirrored layer supplies it: all 20 bands are 0.43–0.58 AUC, oriented filters do not help, and the
+   leakage canary is clean (so this is absence of signal, not leakage).
+3. **The holdout is invalid for this target.** As a control, the registry's own submissions were scored
+   on the catalogue hide-and-recover instrument: GEMSDOE32 → 0.0037, GEMSDOE49 → 0.0000, GEMSDOE70 →
+   0.0026, while the uniform lattice → 0.0880 and GEMSDOE24 → 0.0888. The instrument ranks the
+   leaderboard champion *below* a lattice, so it cannot rank candidates. Earlier holdout verdicts in
+   this repo are re-scoped to "catalogue recovery"; uniqueness and format stops stand.
+4. **A gate defect, fixed once.** The literal ">70% within 3 px of one registry raster" rule is
+   evaluated against a space-filling r13 lattice whose 3 px dilation covers 98.9% of the footprint and
+   therefore flags every possible raster. Witnesses covering ≥90% are now flagged `witness_is_degenerate`
+   and excluded from the verdict; the literal number is still published.
+
+New tooling: `tools/gh_blob.py` (hash-closed fetch through the GitHub blobs API — `raw.githubusercontent.com`
+is blocked here), `scripts/hx1_lineaments.py`, `scripts/score_estimator.py`, `scripts/build_hx_candidate.py`.
+
 ## Current repository review (2026-10-31)
 
 Read [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) and `AGENTS.md` before scientific or submission work. Current verdict remains **NO APPROVED TIFF / NO SCORE ESTIMATE**. The dated 2026-10-30 historical H-F entry below contains a stale “OK_TO_DOWNLOAD: YES” statement; it is superseded by the fail-closed controls in `AGENTS.md`, `SUBMISSION_STATUS.md`, the generated website, and release assessment. H-A is also not untried: its own status update records a duplicate-stop. This review generated no raster and ran no geological experiment.

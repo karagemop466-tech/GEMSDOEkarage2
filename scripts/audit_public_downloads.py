@@ -52,6 +52,11 @@ ARTIFACTS = (
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
+    # HX-2 (2026-10-31): unique, format-valid, apron-cleared lineament field.
+    # Research-only: the projected score does not beat the 0.2778 incumbent.
+    ("gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros",
+     "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.run-card.json",
+     None, False, "research"),
 )
 
 

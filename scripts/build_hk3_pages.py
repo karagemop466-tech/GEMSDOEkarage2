@@ -247,7 +247,7 @@ def shell(title: str, active: str, body: str, *, base_href: str | None = None,
           official_ref: str = "evidence/official-review-2026-10-29.json") -> str:
     items = [("index.html", "desk", "Submission desk"), ("executive-summary.html", "summary", "Executive summary"),
              ("how-to-submit.html", "guide", "How to submit"), ("audit.html", "audit", "Nine-site audit"),
-             ("hypotheses.html", "research", "Earlier research"), ("sources.html", "sources", "Sources")]
+             ("hypotheses.html", "research", "Earlier research"), ("candidate.html", "candidate", "Unique candidate"), ("sources.html", "sources", "Sources")]
     links = " · ".join(f'<a href="{url}"{(" aria-current=page" if key == active else "")}>{label}</a>'
                        for url, key, label in items)
     return f'''<!doctype html>
@@ -589,14 +589,139 @@ def champion_panel() -> str:
 </section>'''
 
 
+HX2_CARD = "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.run-card.json"
+
+
+def hx2_data() -> dict:
+    """Load the HX-2 candidate card and the measurements it rests on."""
+    return {
+        "card": load(ROOT / HX2_CARD),
+        "sites": load(EV / "hx2/nine_site_measurements.json"),
+        "estimator": load(EV / "hx2/score_estimator_table.json"),
+        "instrument": load(EV / "hx1/hx1_lineament_vs_random.json"),
+    }
+
+
+def hx2_teaser() -> str:
+    c = hx2_data()["card"]
+    return f'''<section class="section"><h3>One unique candidate exists &mdash; and the numbers that decide it</h3>
+<p><b class="no">OK TO SUBMIT: NO.</b> The HX-2 field is new, unique and format-valid, but its projected score
+(~{c['estimate']['central']:.2f}) does not beat the 0.2778 incumbent, so promotion is not authorized.
+The nine-site data show <i>why</i> the band is 0.19&ndash;0.28 and what would break it.</p>
+<p><a class="btn secondary" href="candidate.html">Open the unique-candidate page: file, estimate, uniqueness, decision &rarr;</a></p>
+</section>'''
+
+
+def candidate_panel() -> str:
+    d = hx2_data()
+    c, s, e, inst = d["card"], d["sites"], d["estimator"], d["instrument"]
+    name = Path(c["raster"]).name
+    rows = []
+    for r in s["sites"]:
+        rows.append(
+            f"<tr><td><b>{esc(r['site'])}</b></td><td><code>{esc(Path(r['file']).name)}</code></td>"
+            f"<td>{r['reported_score_unverified']:.4f}<br><span class=\"muted\">USER-REPORTED</span></td>"
+            f"<td>{r['dots']:,}</td><td>{r['apron_fraction_le3px'] * 100:.1f}%</td>"
+            f"<td><b>{'YES' if r['duplicate_class'] == 'NESTED_DUPLICATE' else 'NO'}</b></td>"
+            f"<td>{esc(r['duplicate_class'])}</td></tr>")
+    cells = "".join(rows)
+    erows = "".join(
+        f"<tr><td>{row['hit_rate'] * 100:.1f}%</td><td>{row['dti_at_38000']:.4f}</td>"
+        f"<td>{int(row['optimal_dots']):,}</td><td>{row['dti_at_optimum']:.4f}</td></tr>"
+        for row in e["hit_rate_table"])
+    need = e["hit_rate_required_at_38000_dots"]
+    ctl = inst["instrument_control"]["rows"]
+    ctl_rows = "".join(
+        f"<tr><td>{esc(k)}</td><td>{v['dots']:,}</td><td>{v['holdout_dti']:.4f}</td></tr>"
+        for k, v in ctl.items())
+    return f'''<section class="hero" id="unique-candidate-download">
+<h2>Unique candidate: {esc(name)}</h2>
+<p class="verdict"><b class="no">DO NOT SUBMIT &mdash; PROJECTED BELOW THE INCUMBENT.</b> This is the only file in this
+release that is <b>new, unique and format-valid</b>. Its projection is <b>{c['estimate']['central']:.2f}</b>
+(80% range {c['estimate']['range_80pct'][0]:.2f}&ndash;{c['estimate']['range_80pct'][1]:.2f}) against the
+0.2778 incumbent, so the selector does not promote it and no weekly slot is authorized.</p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>Download unique candidate TIFF &middot; RESEARCH ONLY</a>
+<a class="btn secondary" href="downloads/{esc(c['submission_name'])}.run-card.json">Open run card</a></p>
+<div class="meta"><b>SHA-256:</b> <code>{esc(c['raster_sha256'])}</code><br>
+<b>Dots:</b> {c['dots']:,} &middot; <b>apron excluded:</b> &gt;{c['apron_px_excluded']:.0f} px from every mapped fault &middot;
+<b>exterior:</b> all-finite zeros (no NaN anywhere)<br>
+<b>Suggested submission name:</b> <code>{esc(c['submission_name'])}</code><br>
+<b>Suggested note (&le;140 chars):</b> {esc(c['note'])}</div>
+</section>
+
+<section class="section"><h3>Which file to submit, what it is estimated to score, and whether it is unique</h3>
+<table class="grid"><thead><tr><th>Source</th><th>File</th><th>Reported score</th><th>Dots</th>
+<th>Inside 3 px apron</th><th>Duplicate of another site?</th><th>Class</th></tr></thead>
+<tbody>{cells}
+<tr class="hl"><td><b>HX-2 (this repo, new)</b></td><td><code>{esc(name)}</code></td>
+<td><b>{c['estimate']['central']:.2f}</b> projected<br><span class="muted">not a score</span></td>
+<td>{c['dots']:,}</td><td>0.0%</td><td>UNIQUE</td><td>YES &mdash; max 29.8% directed 3 px overlap</td></tr>
+</tbody></table>
+<p class="muted">Spearman &rho; between the nine reported scores and their in-apron fraction is
+<b>{s['apron_score_relationship']['spearman_rho']}</b> (p = {s['apron_score_relationship']['p_value']}). The reported
+score is rank-predicted almost perfectly by how much of the catalogue apron the file deleted &mdash; not by its
+geology. Measured on the pinned bytes: {s['catalogue_px']:,} mapped-fault pixels, {s['footprint_px']:,} footprint
+pixels, calibrated hidden truth G &asymp; {s['hidden_truth_G_calibrated_px']:,.0f} px.</p>
+</section>
+
+<section class="section"><h3>Why 0.2778 won, in one line of algebra</h3>
+<p>The organizer metric is <code>DTI = T / (0.2&middot;T + 0.2&middot;F + 0.8&middot;G)</code> with
+<code>F = n &minus; M</code>. Mapped faults are masked out of the truth, so a dot within the 3 px kernel of the
+catalogue is a near-certain false positive that costs 0.2 and earns nothing. GEMSDOE32 is the <i>same</i> dot
+lineage as its siblings with 6,436 apron dots deleted: that alone moved 0.2600 &rarr; 0.2778.</p>
+<table class="kv"><tbody>
+<tr><th>Reproduced exactly</th><td>n = 37,654, T = 5,073.29, M = 1,038.49, F = 36,615.51, G = 12,405.77
+&rarr; DTI <b>0.2778</b> = the reported value. The metric model is verified, not assumed.</td></tr>
+<tr><th>What beating {need['0.4544'] * 100:.1f}% needs</th><td>At the same 38k budget, a hit rate of
+<b>{need['0.4544'] * 100:.2f}%</b> instead of {need['0.2778'] * 100:.2f}% &mdash; 1.7&times; more
+precision, nothing else.</td></tr>
+<tr><th>Budget lever (conditional)</th><td>{e['hit_rate_table'][2]['optimal_dots']:,.0f} dots at the incumbent's own
+precision projects {e['hit_rate_table'][2]['dti_at_optimum']:.2f}. It only holds if the added dots keep the
+average credit; the registry's own 40k/44k/60k files degrade instead, so the condition is not met in practice.</td></tr>
+<tr><th>Precision lever (unavailable here)</th><td>Every mirrored open layer is a weak discriminator
+(AUC 0.43&ndash;0.58; the leakage canary is clean, so this is absence of signal, not leakage). No open-data
+detector we could build supplies the 1.7&times;.</td></tr>
+</tbody></table>
+</section>
+
+<section class="section"><h3>Sensitivity of the estimate to the one unknown: dot hit rate</h3>
+<table class="grid"><thead><tr><th>Assumed hit rate</th><th>DTI at 38,000 dots</th><th>Best budget</th>
+<th>DTI at that budget</th></tr></thead><tbody>{erows}</tbody></table>
+<p class="muted">Evidence class: LEADERBOARD-CALIBRATED ESTIMATE &mdash; exact metric algebra over a calibrated
+G. It is a projection from an assumed hit rate, never a score.</p>
+</section>
+
+<section class="section"><h3>The catalogue holdout cannot rank this target (control)</h3>
+<p>The repository's mandated hide-and-recover instrument withholds catalogue segments. Run against the registry's
+own fixed emissions it inverts the leaderboard:</p>
+<table class="grid"><thead><tr><th>Emission</th><th>Dots</th><th>Pooled holdout DTI</th></tr></thead>
+<tbody>{ctl_rows}</tbody></table>
+<p class="muted">GEMSDOE32 (leaderboard 0.2778) scores 0.0037 while the uniform lattice (leaderboard 0.0904) scores
+0.0880. The instrument rewards catalogue recovery and the organizer rewards the opposite, so no local number here
+is evidence about leaderboard potential. That is why this page reports a projection and a prior, not a holdout
+result.</p>
+</section>
+
+<section class="section"><h3>How to submit it yourself (two minutes)</h3>
+<ol>
+<li>Download the TIFF above (single band, float32, EPSG:32611, 3730&times;3292, values in [0,1], no NaN).</li>
+<li>Open the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">submission form</a>,
+choose the file, paste the suggested note, and submit.</li>
+<li>Do it only if you accept the projection: the central estimate is below the incumbent, and a used slot is not refunded.</li>
+</ol>
+<p class="muted">See <a href="how-to-submit.html">How to submit</a> for the format contract and the portal error history.</p>
+</section>'''
+
+
 def render_all(d: dict) -> dict[str, str]:
-    desk = decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    desk = hx2_teaser() + decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),
              "executive-summary.html": shell("Executive summary", "summary", desk, official_ref=official_ref),
              "how-to-submit.html": shell("How to submit", "guide", how, official_ref=official_ref),
              "submit.html": shell("How to submit", "guide", how, official_ref=official_ref),
+             "candidate.html": shell("Unique candidate", "candidate", candidate_panel(), official_ref=official_ref),
              "assets/hk3.css": CSS}
     geometry = {row["site"]: row for row in d["geometry"]["historical_final_dots"]}
     pinned = {row["site"]: row for row in d["profile"]["sites"]}

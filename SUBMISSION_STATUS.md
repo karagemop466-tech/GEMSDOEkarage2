@@ -1,4 +1,27 @@
-# Submission status — NO APPROVED FILE
+# Submission status — NO APPROVED FILE (one unique candidate, not promoted)
+
+**Review 2026-10-31 (this session): there is still NO APPROVED FILE. Download YES; slot promotion NO — DO NOT SUBMIT.**
+[`docs/candidate.html`](docs/candidate.html) is the one obvious download:
+`docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif`
+(sha256 `a77a78e8cc9cd0ca4a795c6c4c346d3cd1d29bac96afa333b5c0413ba32ec39b`). It is new,
+format-valid, all-finite, and **unique** (worst directed 3 px overlap 29.76% vs 16 hash-verified
+registry rasters; the literal 99.9% is against the space-filling r13 lattice, which flags every
+possible raster and is excluded as degenerate). Its **projection is 0.22 [0.12, 0.28]** — below the
+0.2778 incumbent — so no slot is authorized. Full analysis:
+[`research/2026-10-31-hx-precision-analysis-and-three-pass-review.md`](research/2026-10-31-hx-precision-analysis-and-three-pass-review.md).
+
+**The finding that matters:** across the nine focus sites the USER-REPORTED score is rank-predicted
+almost perfectly by the fraction of dots left inside the 3 px mapped-fault apron (Spearman
+**ρ = −0.9958**, n = 9). GEMSDOE32 won at 0.2778 by deleting 6,436 apron dots (5.8% left) that its own
+sibling GEMSDOE24 (0.2477, 19.9% left) kept. The forward metric model reproduces 0.2778 exactly.
+Beating 0.4544 needs a **4.65%** dot hit rate at 38k dots — 1.7× the champion's precision — and no
+open mirrored layer supplies it (AUC 0.43–0.58, leakage canary clean).
+
+**Earlier reviews' holdout verdicts are re-scoped, not reversed.** The catalogue hide-and-recover
+instrument is invalid as a leaderboard ranker: GEMSDOE32 scores 0.0037 on it while the uniform lattice
+scores 0.0880, i.e. it ranks the champion below a lattice. Uniqueness and format stops stand, because
+they are independent measurements. Experiments used this session: **2 of 3**. Slots used: **0**.
+
 
 **Review 2026-10-31: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
 
