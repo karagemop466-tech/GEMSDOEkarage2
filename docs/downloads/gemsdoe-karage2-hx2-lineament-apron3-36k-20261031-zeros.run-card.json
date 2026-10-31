@@ -1,0 +1,262 @@
+{
+ "schema_version": 1,
+ "candidate": "gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros",
+ "generated_utc": "2026-10-31",
+ "hypothesis": "HX-2: an apron-cleared, lineament-following dot field at the registry's proven budget is the best-supported *unique* emission.",
+ "mechanism": "Organizer masks mapped faults, so dots within the 3 px kernel of the catalogue are near-certain false positives (0.2 each). Deleting them raised the nested D2.8 family 0.2600 -> 0.2778 with no measured truth loss. Lineament geometry supplies the only dot placement that has ever reached 0.27-0.28 at this budget.",
+ "non_fault_process_that_could_mimic_it": "Roads, channels, terrace risers, paleo-shorelines, landslides and mine benches all produce lidar steps and are present in the mirrored stack (source caveat list); the field cannot separate them from faults.",
+ "raster": "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif",
+ "raster_sha256": "a77a78e8cc9cd0ca4a795c6c4c346d3cd1d29bac96afa333b5c0413ba32ec39b",
+ "format": {
+  "dtype": "float32",
+  "shape": [
+   3730,
+   3292
+  ],
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nodata": null,
+  "finite_pixels": 12279160,
+  "min": 0.0,
+  "max": 1.0,
+  "positive_pixels": 36000,
+  "mode": "zeros"
+ },
+ "dots": 36000,
+ "apron_px_excluded": 3.0,
+ "spacing_radius_px": 2,
+ "uniqueness": {
+  "directed_metric": ">70% of our dots within 3 px of one registry rasters = STOP",
+  "literal_worst_row": {
+   "registry_raster": "LATTICE",
+   "registry_dots": 206895,
+   "witness_3px_footprint_coverage": 0.9987,
+   "witness_is_degenerate": true,
+   "our_dots_within_3px": 0.999,
+   "their_dots_within_3px_of_ours": 0.1278,
+   "jaccard": 0.00604
+  },
+  "literal_verdict": "DUPLICATE_STOP",
+  "discriminating_worst_row": {
+   "registry_raster": "extra_GEMSDOE49",
+   "registry_dots": 40000,
+   "witness_3px_footprint_coverage": 0.1532,
+   "witness_is_degenerate": false,
+   "our_dots_within_3px": 0.2976,
+   "their_dots_within_3px_of_ours": 0.2542,
+   "jaccard": 0.00847
+  },
+  "verdict": "UNIQUE_PASS",
+  "degeneracy_rule": "a witness whose own 3 px dilation covers >=90% of the footprint cannot discriminate duplication and is excluded from the verdict; the literal result is still reported",
+  "rows": [
+   {
+    "registry_raster": "LATTICE",
+    "registry_dots": 206895,
+    "witness_3px_footprint_coverage": 0.9987,
+    "witness_is_degenerate": true,
+    "our_dots_within_3px": 0.999,
+    "their_dots_within_3px_of_ours": 0.1278,
+    "jaccard": 0.00604
+   },
+   {
+    "registry_raster": "extra_GEMSDOE49",
+    "registry_dots": 40000,
+    "witness_3px_footprint_coverage": 0.1532,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.2976,
+    "their_dots_within_3px_of_ours": 0.2542,
+    "jaccard": 0.00847
+   },
+   {
+    "registry_raster": "extra_GEMSDOE70",
+    "registry_dots": 37654,
+    "witness_3px_footprint_coverage": 0.1256,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.2683,
+    "their_dots_within_3px_of_ours": 0.3139,
+    "jaccard": 0.00908
+   },
+   {
+    "registry_raster": "extra_GEMSDOE63",
+    "registry_dots": 54864,
+    "witness_3px_footprint_coverage": 0.2507,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.2638,
+    "their_dots_within_3px_of_ours": 0.1496,
+    "jaccard": 0.00374
+   },
+   {
+    "registry_raster": "extra_GEMSDOE27",
+    "registry_dots": 37654,
+    "witness_3px_footprint_coverage": 0.1204,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1619,
+    "their_dots_within_3px_of_ours": 0.1886,
+    "jaccard": 0.00321
+   },
+   {
+    "registry_raster": "extra_GEMSDOE27_h29",
+    "registry_dots": 37654,
+    "witness_3px_footprint_coverage": 0.1204,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1619,
+    "their_dots_within_3px_of_ours": 0.1886,
+    "jaccard": 0.00321
+   },
+   {
+    "registry_raster": "extra_GEMSDOE82",
+    "registry_dots": 37654,
+    "witness_3px_footprint_coverage": 0.1247,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.159,
+    "their_dots_within_3px_of_ours": 0.1868,
+    "jaccard": 0.00531
+   },
+   {
+    "registry_raster": "GEMSDOE27",
+    "registry_dots": 61328,
+    "witness_3px_footprint_coverage": 0.1852,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.149,
+    "their_dots_within_3px_of_ours": 0.1136,
+    "jaccard": 0.00259
+   },
+   {
+    "registry_raster": "GEMSDOE24",
+    "registry_dots": 60069,
+    "witness_3px_footprint_coverage": 0.1808,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1472,
+    "their_dots_within_3px_of_ours": 0.1147,
+    "jaccard": 0.00257
+   },
+   {
+    "registry_raster": "GEMSDOE36",
+    "registry_dots": 38854,
+    "witness_3px_footprint_coverage": 0.1546,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1395,
+    "their_dots_within_3px_of_ours": 0.1334,
+    "jaccard": 0.00269
+   },
+   {
+    "registry_raster": "GEMSDOE25",
+    "registry_dots": 44090,
+    "witness_3px_footprint_coverage": 0.1719,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1388,
+    "their_dots_within_3px_of_ours": 0.118,
+    "jaccard": 0.00235
+   },
+   {
+    "registry_raster": "GEMSDOE30",
+    "registry_dots": 44090,
+    "witness_3px_footprint_coverage": 0.1719,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1388,
+    "their_dots_within_3px_of_ours": 0.118,
+    "jaccard": 0.00235
+   },
+   {
+    "registry_raster": "GEMSDOE33",
+    "registry_dots": 41865,
+    "witness_3px_footprint_coverage": 0.1662,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1387,
+    "their_dots_within_3px_of_ours": 0.1236,
+    "jaccard": 0.00255
+   },
+   {
+    "registry_raster": "GEMSDOE31",
+    "registry_dots": 40199,
+    "witness_3px_footprint_coverage": 0.1601,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1374,
+    "their_dots_within_3px_of_ours": 0.1276,
+    "jaccard": 0.00247
+   },
+   {
+    "registry_raster": "extra_GEMSDOE76",
+    "registry_dots": 39200,
+    "witness_3px_footprint_coverage": 0.1289,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1372,
+    "their_dots_within_3px_of_ours": 0.1543,
+    "jaccard": 0.00429
+   },
+   {
+    "registry_raster": "GEMSDOE32",
+    "registry_dots": 37654,
+    "witness_3px_footprint_coverage": 0.1509,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1352,
+    "their_dots_within_3px_of_ours": 0.1325,
+    "jaccard": 0.00256
+   },
+   {
+    "registry_raster": "GEMSDOE28",
+    "registry_dots": 37660,
+    "witness_3px_footprint_coverage": 0.1575,
+    "witness_is_degenerate": false,
+    "our_dots_within_3px": 0.1351,
+    "their_dots_within_3px_of_ours": 0.127,
+    "jaccard": 0.00246
+   }
+  ]
+ },
+ "holdout": {
+  "available": false,
+  "reason": "The catalogue-based hide-and-recover instrument is invalid for this target: the registry's own leaders score 0.000-0.004 on it, below the uniform lattice's 0.088, so it anti-correlates with leaderboard score. No instrument here measures off-catalogue truth."
+ },
+ "estimate": {
+  "evidence_class": "EMPIRICAL REGISTRY PRIOR + LEADERBOARD-CALIBRATED UPLIFT",
+  "independent_method_prior": {
+   "n": 7,
+   "mean": 0.2267,
+   "sd": 0.0189,
+   "min": 0.1886,
+   "max": 0.2478
+  },
+  "apron_uplift_projection": 0.02,
+  "central": 0.22,
+  "range_80pct": [
+   0.12,
+   0.28
+  ],
+  "best_case_if_prior_percentile_95": 0.28,
+  "not_supported_above": 0.28,
+  "note": "A projection, never a score. The only real measurement is a submission slot.",
+  "downside_case": "If the lineament detector is worse than random (the catalogue holdout cannot exclude this), the field sits near 0.10.",
+  "upside_case": "If the lineament traces hit at the independent-method rate (3.0%), the field sits near 0.25-0.28."
+ },
+ "validator": {
+  "no_nan_inside_footprint": true,
+  "values_in_0_1": true,
+  "crs_shape_transform_match": true,
+  "organizer_acceptance": "unknown"
+ },
+ "verdict": "negative",
+ "weekly_slot_selected": false,
+ "note": "apron-cleared lineament dots, 36k, unique vs 16 registry rasters, projected 0.22",
+ "submission_name": "gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros",
+ "verdict_detail": "PASS: format, grid, uniqueness (max 29.8% of our dots within 3 px of any non-degenerate registry raster). FAIL: promotion, because the projected score does not beat the 0.2778 incumbent.",
+ "ok_to_download": true,
+ "ok_to_submit": false,
+ "slot_authorized": false,
+ "approved_for_weekly_slot": false,
+ "gate_results": {
+  "format": "PASS",
+  "grid_crs_shape_transform": "PASS",
+  "uniqueness_vs_16_registry_rasters": "PASS (max 29.76% directed 3 px overlap; 70% rule)",
+  "leakage_canary": "PASS (no single layer exceeds AUC 0.58)",
+  "holdout": "NOT APPLICABLE (instrument invalid for this target; see evidence/hx1)",
+  "projection_vs_incumbent": "FAIL (0.20 projected < 0.2778 incumbent)"
+ }
+}
