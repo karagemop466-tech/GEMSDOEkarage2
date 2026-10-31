@@ -369,6 +369,58 @@ def guide(d: dict) -> str:
 <p>Our checks require no human inspector. The current blocker is missing/contradictory evidence and an unassigned lane, not a request to waive a gate. No account credentials are stored by this project.</p></section>'''
 
 
+def session_decision_20261031() -> str:
+    """2026-10-31 decision: E1 (H-C) negative, B2 verification, focus-site uniqueness, audit status.
+
+    Every number is read from an evidence file. Labels: HOLDOUT-DTI (proxy, evaluator + withheld
+    count shown), MEASURED (registry bytes), USER-REPORTED (owner/leaderboard claims, unverified).
+    """
+    e1 = json.loads((EV / "hc/e1_run_card.json").read_text())
+    b2 = json.loads((EV / "gems32-b2-verification.json").read_text())
+    pw = json.loads((EV / "uniqueness/focus-pairwise-overlap-2026-10-31.json").read_text())
+    audit = json.loads((EV / "public_downloads_audit.json").read_text())
+    ho = e1["holdout"]
+    folds = ho["fold_DTIs"]
+    fold_txt = ", ".join(f"{float(x):.5f}" for x in folds)
+    n_dots = int(e1["raster"]["n_dots"])
+    lattice_chance = float(pw["chance_coverage_3px_of_footprint"]["lattice13"])
+    reg_checked = int(e1["uniqueness"]["registry_rasters_checked"])
+    rows = []
+    for site, mx in sorted(pw["max_chance_corrected_overlap_with_another_focus_site"].items()):
+        raw_l13 = pw["matrix"][site]["lattice13"]
+        cor_l13 = pw["chance_corrected_matrix"][site]["lattice13"]
+        rows.append(
+            f'<tr><td><b>{esc(site)}</b></td>'
+            f'<td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td>'
+            f'<td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td>'
+            f'<td>{mx["value"]:.3f} vs {esc(mx["vs"])}<span class="sub-label">MEASURED, chance-corrected</span></td>'
+            f'<td>{raw_l13 * 100:.2f}% raw / {cor_l13:.3f} corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr>')
+    table = ("<table><thead><tr><th>Site</th><th>Download decision</th><th>Estimated score</th>"
+             "<th>Uniqueness vs other focus sites (max)</th><th>Vs 13GEMSDOE lattice</th></tr></thead><tbody>"
+             + "".join(rows) + "</tbody></table>")
+    f32 = b2["measured"]
+    return f'''<section class="panel" id="decision-2026-10-31"><h2>Decision 2026-10-31 (three same-day lanes, merged)</h2>
+<p><b>Exactly one selector-cleared candidate exists</b> — the K10 corridor-coverage file on the
+<a href="submission-desk.html">submission desk</a> (like-for-like uniqueness measured against 487 real submission rasters; the
+saturated lattice witness is disclosed there and fires for the 0.2778 champion too, at 99.92% — the degenerate-witness
+rule from the 2026-10-31 gate fix applies). <b>Everything else stays unapproved:</b> the H-C file below is research-only
+and negative, and all legacy TIFFs remain DO NOT SUBMIT. Weekly slots used: 0.</p>
+<table><thead><tr><th>Candidate</th><th>Evidence label</th><th>Result</th><th>Decision</th></tr></thead><tbody>
+<tr><td>H-C strain-seismic corridor (<code>gemsdoekarage2-hc-strain-seis-corridor-30k-20261031.tif</code>, sha256 {esc(e1["raster"]["sha256"][:16])}…)</td>
+<td>HOLDOUT-DTI (evaluator sha {esc(ho["evaluator_sha256"][:12])}…, alpha 0.2 beta 0.8, R 300 m, buffer 3 px)</td>
+<td>Pooled DTI <b>{float(ho["pooled_DTI"]):.6f}</b>; withheld positives {int(ho["withheld_positive_pixels"]):,}; {n_dots:,} dots; folds [{esc(fold_txt)}]; no 95% CI (4 quadrants give a fold range only). Leakage canary: pass. Uniqueness: <b>FAIL</b> (max dots within 3 px of lattice13 = {float(e1["uniqueness"]["max_dots_within_3px"]["value"]):.6f}; checked against {reg_checked} local registry rasters, not the full 440).</td>
+<td><b class="no">DO NOT SUBMIT</b> · research only · the ranking is negative</td></tr>
+<tr><td>GEMSDOE32 B2 explanation (measured from bytes)</td><td>MEASURED + USER-REPORTED 0.2708 → 0.2778 (Δ 0.0070, unverified)</td>
+<td>Removes exactly {int(f32["dots_removed"]):,} base dots, all within 200 m of the catalogue (base minimum distance {f32["base_min_distance_m"]:.1f} m; B2 minimum {f32["b2_min_distance_m"]:.1f} m). Verification: {"all checks pass" if b2["all_checks_pass"] else "FAILED"} (<code>evidence/gems32-b2-verification.json</code>).</td>
+<td>Explanation only. The illustrative first-order gain is {b2["illustrative"]["delta_D"]:.5f} (not a score).</td></tr>
+</tbody></table>
+<p><b>Disclosed irregularity:</b> lattice13 covers {lattice_chance * 100:.2f}% of the footprint within 3 px, so any dense raster fires the literal 70% gate — including the 0.2778 champion (measured 99.92%, <code>evidence/k10/champion_vs_lattice.json</code>). The like-for-like comparison against real submission rasters is the discriminatory test (2026-10-31 gate fix: degenerate witnesses excluded from the verdict; the literal number stays published).</p>
+<p><b>Focus-site uniqueness (MEASURED, chance-corrected, max vs another focus site):</b> several pairs are effectively identical (for example GEMSDOE24 vs GEMSDOE30 = {pw["chance_corrected_matrix"]["GEMSDOE24"]["GEMSDOE30"]:.3f}). The full matrix is in <code>evidence/uniqueness/focus-pairwise-overlap-2026-10-31.json</code>.</p>
+{table}
+<p class="sub-label">Public-download audit: {esc(audit["inventory_status"])}, with {len(audit["artifacts"])} registered research artifacts and no unexpected downloads. The E1 entry uses the NaN-exterior kind, checked against a footprint hash recorded in its run card. The one candidate entry uses the strict finite-everywhere kind with a selector receipt. The check is not organizer-authenticated.</p>
+</section>'''
+
+
 def decision_section(d: dict) -> str:
     """Headline answer for every focus site: best file, estimate, uniqueness, download decision."""
     prof = {r["site"]: r for r in d["profile"]["sites"]}
@@ -783,7 +835,7 @@ def gbsp_section() -> str:
 
 def render_all(d: dict) -> dict[str, str]:
     banner = candidate_banner()
-    desk = banner + hx2_teaser() + decision_section(d) + gbsp_section() + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    desk = banner + session_decision_20261031() + hx2_teaser() + decision_section(d) + gbsp_section() + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),

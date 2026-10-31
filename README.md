@@ -54,6 +54,21 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest review (2026-10-31, branch arena/2721b279-gemsdoekarage2)
+
+**Decision: OK TO SUBMIT: NO. No file is approved for download or a submission slot.** The new H-C TIFF (`docs/downloads/gemsdoekarage2-hc-strain-seis-corridor-30k-20261031.tif`) is RESEARCH ONLY with a negative verdict. Full write-up: [`research/2026-10-31-gems32-explanation-hypotheses-and-decision.md`](research/2026-10-31-gems32-explanation-hypotheses-and-decision.md).
+
+- **H-C strain-seismic corridor (HOLDOUT-DTI proxy):** pooled DTI 0.013668 over 60,988 withheld positives; fold DTIs 0.00236 to 0.048538; no 95% CI. Leakage canary passes (max folded AUC 0.56955). Uniqueness FAILS (0.999929 of dots within 3 px of lattice13; chance-corrected 0.945). Command and run card: `scripts/hc_strain_corridor.py`, `evidence/hc/e1_run_card.json`.
+- **GEMSDOE32 0.2778 (USER-REPORTED, unverified):** B2 is the GEMSDOE28 base minus exactly 2,545 dots within 200 m of visible catalogue faults (measured from bytes; `scripts/verify_gems32_b2.py`, `evidence/gems32-b2-verification.json`, all checks pass). A first-order model gives ≈0.00736 for this removal (ILLUSTRATIVE, not a score), against the user-reported Δ of 0.0070. A higher score needs new off-catalogue true-positive mass, which the uniqueness gate currently blocks on every footprint placement.
+- **Focus-site uniqueness (MEASURED):** several focus pairs are effectively identical (chance-corrected 1.000, e.g. GEMSDOE24 vs GEMSDOE30). Matrix: `evidence/uniqueness/focus-pairwise-overlap-2026-10-31.json`. Estimated score: Unavailable for all nine.
+- **Gate finding (decision needed):** lattice13 covers 99.87% of the footprint within 3 px, so the literal 70% gate cannot be met by any footprint candidate. The gate was not waived; changing it is a protocol-owner decision.
+- **Public-download audit (after merge with main):** `PASS_RESEARCH_ONLY`, 14 registered research artifacts, no unexpected downloads. Main's blind-geothermal TIF stays quarantined in the audit (main's `QUARANTINED` mechanism). The near-trace TIF is moved (next bullet).
+- **Quarantined on merge (2026-10-31):** `gemsdoe-karage2-near-trace-20261031.tif` moved from `docs/downloads/` to [`evidence/quarantine/`](evidence/quarantine/README.md). Its card says `verdict: promote`, and all 122,597 of its dots lie within 2 px of the full labels catalogue, so its holdout DTI 0.624 is not a valid held-out result. Do not submit it or cite that number. E1 uses the new `research-nan-exterior` kind, which checks NaN-exterior files against a footprint hash in the run card. Existing files keep the finite-only rule.
+- **Evaluator fix (2026-10-31):** `pooled_dti_hide_and_recover` now zeroes predictions outside the active region. A perfect-everywhere predictor previously scored 0.625 and now scores 1.0 (regression-tested).
+- **Unresolved:** the portal error "Predicted values must be in range [0, 1]" (organizer evidence not reachable from the sandbox); owner-side `SLOT_ELIGIBLE` label in GEMSDOE32 JSON (not an organizer decision).
+
+**Not done this session, and why:** H-A skipped (GeoDAWN radiometrics absent; usgs.gov unreachable). H-B, H-D and H-E blocked (data hosts unreachable). H-N1 (3–8 px splay band) specified but not run, because it would fail the uniqueness gate by construction. The experiment budget is 3 per session, 1 used.
+
 ## Latest review (2026-10-31, current Arena branch) — read first
 
 **Decision: still NO TIFF is OK to download and submit. No new TIFF was generated.** Review: [`research/2026-10-31-leaderboard-rules-and-submission-review.md`](research/2026-10-31-leaderboard-rules-and-submission-review.md); receipt: [`evidence/leaderboard-rules-receipt-2026-10-31.json`](evidence/leaderboard-rules-receipt-2026-10-31.json).

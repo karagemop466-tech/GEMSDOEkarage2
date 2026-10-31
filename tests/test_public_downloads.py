@@ -51,7 +51,7 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert not result['unexpected_downloads']
     assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 15
+    assert len(result['artifacts']) == 16  # main's registered set + H-C E1 + K9 + K10 candidate
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())

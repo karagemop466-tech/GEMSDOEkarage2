@@ -25,6 +25,8 @@ scores 0.0880, i.e. it ranks the champion below a lattice. Uniqueness and format
 they are independent measurements. Experiments used this session: **2 of 3**. Slots used: **0**.
 
 
+**Current review (2026-10-31): OK TO SUBMIT: NO. No file is approved.** The H-C TIFF `docs/downloads/gemsdoekarage2-hc-strain-seis-corridor-30k-20261031.tif` is research-only and negative: HOLDOUT-DTI 0.013668 (60,988 withheld positives, no CI), canary pass, uniqueness FAIL (0.999929 vs lattice13). No slot is used. The GEMSDOE32 0.2778 mechanism is verified from bytes (`evidence/gems32-b2-verification.json`). The literal 70% uniqueness gate is unsatisfiable on this footprint because lattice13 covers 99.87% of it; this needs a protocol-owner decision. Full write-up: [`research/2026-10-31-gems32-explanation-hypotheses-and-decision.md`](research/2026-10-31-gems32-explanation-hypotheses-and-decision.md).
+
 **Current review (2026-10-31): STILL NO FILE IS OK TO DOWNLOAD AND SUBMIT.** No new TIFF was generated. Live check: the public leaderboard's high is 0.4544 (rank 1); kpomazi's 0.3195 is rank 50 of the rows rendered. The official rules contain no numeric uniqueness test (the 70%/3-px gate is this project's protocol), and they require one final submission, three submissions per week, original work, and disclosure of generative-AI use. Review: [`research/2026-10-31-leaderboard-rules-and-submission-review.md`](research/2026-10-31-leaderboard-rules-and-submission-review.md). Receipt: [`evidence/leaderboard-rules-receipt-2026-10-31.json`](evidence/leaderboard-rules-receipt-2026-10-31.json).
 
 
