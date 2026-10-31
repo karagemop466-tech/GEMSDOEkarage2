@@ -48,6 +48,13 @@ ARTIFACTS = (
      "evidence/hA-intersection/run_card.json", None, False),
     ("gemsdoe-karage2-hr4-intersection-20261029-nan",
      "evidence/hr4-intersection/run_card.json", None, False),
+    # 2026-10-31 H-F2: uniqueness-gate-passing coherence-ridge candidate, negative verdict.
+    # It clears the achievable half of the registry standard (|rho| and 3-px overlap against
+    # non-space-filling comparators) and still fails the literal lattice rule by pigeonhole,
+    # so it is published for audit only and is not a candidate for a weekly slot.
+    ("gemsdoekarage2-coheridge-d28-b37654-20261031-zeros",
+     "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.run-card.json",
+     None, True, "research"),
     # New H-F hypothesis TIF (experiment 1): unique, format-valid, negative verdict.
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",

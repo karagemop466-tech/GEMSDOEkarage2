@@ -1,0 +1,335 @@
+{
+  "approved_for_weekly_slot": false,
+  "calibrated_live_estimate": {
+    "band_no_saturation_to_full_saturation": [
+      0.2778,
+      0.4201
+    ],
+    "evidence_class": "CALIBRATED ESTIMATE (USER-REPORTED basis, not organizer-confirmed, never a score)",
+    "interval_after_detector_transfer_error": [
+      0.1833,
+      0.6366
+    ],
+    "method": "0.2778 x sqrt(capped credit ratio); DTI = T/(0.2T+0.2F+0.8(|G|-T)) with T=min(c*n,|G|), n and grid identical to the champion, c ratio measured on the shared pooled-hide folds",
+    "model_G_px": 14462.110176546295,
+    "model_gamma": 0.47500000000000003,
+    "point": 0.2979,
+    "ratio_holdout_credit_per_px": 1.512,
+    "spread_factor_x": 1.515,
+    "why_it_is_wide": "the local instrument that ranks this file ahead of the champion is mildly anti-correlated with the live board across the family (Spearman -0.23 over 53 scored rasters), so a holdout win is weak evidence; the width also carries the x1.5 residual spread of the live budget-law fit"
+  },
+  "correlation_overlap": {
+    "n_comparators": 67,
+    "n_space_filling_comparators_where_70pct_rule_is_uninformative": 3,
+    "space_filling_comparators": [
+      {
+        "comparator": "r13_lattice_nan.tif",
+        "comparator_covers_footprint_within_3px": 0.9996,
+        "exact_dot_overlap": 0.0404,
+        "gate_uninformative_for_this_comparator": true,
+        "spearman_rho": 0.0043,
+        "spearman_rho_surface_vs_dilated": 0.032,
+        "within_3px_overlap": 1.0
+      },
+      {
+        "comparator": "13GEMSDOE-13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+        "comparator_covers_footprint_within_3px": 0.9996,
+        "exact_dot_overlap": 0.0404,
+        "gate_uninformative_for_this_comparator": true,
+        "spearman_rho": 0.0043,
+        "spearman_rho_surface_vs_dilated": 0.032,
+        "within_3px_overlap": 1.0
+      },
+      {
+        "comparator": "GEMSDOE3-pindrop-v4-nodes-20260925T152420Z-f347b70daa.tif",
+        "comparator_covers_footprint_within_3px": 0.9139,
+        "exact_dot_overlap": 0.0274,
+        "gate_uninformative_for_this_comparator": true,
+        "spearman_rho": -0.0017,
+        "spearman_rho_surface_vs_dilated": 0.0122,
+        "within_3px_overlap": 0.9147
+      }
+    ],
+    "top": [
+      {
+        "comparator": "r13_lattice_nan.tif",
+        "comparator_covers_footprint_within_3px": 0.9996,
+        "exact_dot_overlap": 0.0404,
+        "gate_uninformative_for_this_comparator": true,
+        "spearman_rho": 0.0043,
+        "spearman_rho_surface_vs_dilated": 0.032,
+        "within_3px_overlap": 1.0
+      },
+      {
+        "comparator": "13GEMSDOE-13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+        "comparator_covers_footprint_within_3px": 0.9996,
+        "exact_dot_overlap": 0.0404,
+        "gate_uninformative_for_this_comparator": true,
+        "spearman_rho": 0.0043,
+        "spearman_rho_surface_vs_dilated": 0.032,
+        "within_3px_overlap": 1.0
+      },
+      {
+        "comparator": "GEMSDOE3-pindrop-v4-nodes-20260925T152420Z-f347b70daa.tif",
+        "comparator_covers_footprint_within_3px": 0.9139,
+        "exact_dot_overlap": 0.0274,
+        "gate_uninformative_for_this_comparator": true,
+        "spearman_rho": -0.0017,
+        "spearman_rho_surface_vs_dilated": 0.0122,
+        "within_3px_overlap": 0.9147
+      },
+      {
+        "comparator": "GEMSDOE22-gems22-h23-b-dti-optimal-emission-10pct-20261002-86176698-nan.tif",
+        "comparator_covers_footprint_within_3px": 0.597,
+        "exact_dot_overlap": 0.113,
+        "gate_uninformative_for_this_comparator": false,
+        "spearman_rho": 0.0044,
+        "spearman_rho_surface_vs_dilated": 0.0964,
+        "within_3px_overlap": 0.6306
+      },
+      {
+        "comparator": "GEMSDOE22-gems22-h23-a-dti-optimal-emission-6pct-20261002-e2ec4b49-nan.tif",
+        "comparator_covers_footprint_within_3px": 0.4811,
+        "exact_dot_overlap": 0.0777,
+        "gate_uninformative_for_this_comparator": false,
+        "spearman_rho": 0.003,
+        "spearman_rho_surface_vs_dilated": 0.1219,
+        "within_3px_overlap": 0.53
+      },
+      {
+        "comparator": "GEMSDOE23-gemsdoe23-h30-arrangement-matched-habitat-20261002-0d4e02e8-nan.tif",
+        "comparator_covers_footprint_within_3px": 0.4834,
+        "exact_dot_overlap": 0.0175,
+        "gate_uninformative_for_this_comparator": false,
+        "spearman_rho": 0.0029,
+        "spearman_rho_surface_vs_dilated": 0.0705,
+        "within_3px_overlap": 0.4891
+      },
+      {
+        "comparator": "12GEMSDOE-12GEMSDOE_r7-nms3-dem10-scarp_0c9199f14e62_allfinite.tif",
+        "comparator_covers_footprint_within_3px": 0.3708,
+        "exact_dot_overlap": 0.0237,
+        "gate_uninformative_for_this_comparator": false,
+        "spearman_rho": 0.0034,
+        "spearman_rho_surface_vs_dilated": 0.1785,
+        "within_3px_overlap": 0.4576
+      },
+      {
+        "comparator": "GEMSDOE63-gemsdoe63-cvarlw-thin-s3p17-54864-20261011T220606Z-c58f60c4-zeros.tif",
+        "comparator_covers_footprint_within_3px": 0.3383,
+        "exact_dot_overlap": 0.016,
+        "gate_uninformative_for_this_comparator": false,
+        "spearman_rho": 0.0078,
+        "spearman_rho_surface_vs_dilated": 0.1208,
+        "within_3px_overlap": 0.4122
+      },
+      {
+        "comparator": "8GEMSDOE-8GEMSDOE_Hedge-v2_submission.tif",
+        "comparator_covers_footprint_within_3px": 0.3489,
+        "exact_dot_overlap": 0.0445,
+        "gate_uninformative_for_this_comparator": false,
+        "spearman_rho": 0.0014,
+        "spearman_rho_surface_vs_dilated": 0.1207,
+        "within_3px_overlap": 0.3975
+      },
+      {
+        "comparator": "GEMSDOE10-gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+        "comparator_covers_footprint_within_3px": 0.3418,
+        "exact_dot_overlap": 0.0156,
+        "gate_uninformative_for_this_comparator": false,
+        "spearman_rho": 0.002,
+        "spearman_rho_surface_vs_dilated": 0.1156,
+        "within_3px_overlap": 0.3928
+      }
+    ],
+    "worst_abs_spearman_dot_field": 0.0119,
+    "worst_abs_spearman_surface_vs_dilated": 0.1814,
+    "worst_within_3px_overlap": 1.0,
+    "worst_within_3px_overlap_vs_informative_comparators": 0.6306
+  },
+  "credit_per_emitted_px_candidate": 0.01494746427922555,
+  "credit_per_emitted_px_champion": 0.00988447397556191,
+  "emitted_px": 37654,
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "experiments_run": [
+    "E1 emission-law forensics on 53 scored rasters",
+    "E2 emission geometry arms on the shared folds",
+    "E3 scale law + this candidate"
+  ],
+  "files": {
+    "audit": "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.audit.json",
+    "run_card": "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.run-card.json",
+    "tif": "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif",
+    "zip": "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.zip"
+  },
+  "holdout": {
+    "best_comparable_control": "champion_0p2778",
+    "paired_differences": {
+      "champion_0p2778": {
+        "ci95": [
+          0.0018489116526234238,
+          0.005522785535964781
+        ],
+        "delta": 0.0037372674619707115,
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "evidence_class": "HOLDOUT-DTI",
+        "withheld_positive_pixels": 58259
+      },
+      "random_matched": {
+        "ci95": [
+          0.005204177726993098,
+          0.008836461317650868
+        ],
+        "delta": 0.007023853439148239,
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "evidence_class": "HOLDOUT-DTI",
+        "withheld_positive_pixels": 58259
+      }
+    },
+    "scores": {
+      "candidate": {
+        "ci95": [
+          0.008597031844872703,
+          0.012179898847169841
+        ],
+        "dti": 0.010390962080797999,
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "evidence_class": "HOLDOUT-DTI",
+        "fnw": 57696.16818003004,
+        "fpw": 37228.74679762742,
+        "tpw": 562.8318199699587,
+        "withheld_positive_pixels": 58259
+      },
+      "champion_0p2778": {
+        "ci95": [
+          0.005958045562233683,
+          0.0074246128497197994
+        ],
+        "dti": 0.006653694618827287,
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "evidence_class": "HOLDOUT-DTI",
+        "fnw": 57900.50001338037,
+        "fpw": 36004.688852949046,
+        "tpw": 358.49998661965503,
+        "withheld_positive_pixels": 58259
+      },
+      "random_matched": {
+        "ci95": [
+          0.0030369256367947387,
+          0.0037108792154600407
+        ],
+        "dti": 0.0033671086416497604,
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "evidence_class": "HOLDOUT-DTI",
+        "fnw": 58076.680065633285,
+        "fpw": 37518.317594190274,
+        "tpw": 182.31993436672064,
+        "withheld_positive_pixels": 58259
+      }
+    }
+  },
+  "holdout_ci_95": [
+    0.008597031844872703,
+    0.012179898847169841
+  ],
+  "holdout_dti": 0.010390962080797999,
+  "hypothesis": "H-F2 coherence-ridge consensus emission (this repo, 2026-10-31)",
+  "leakage_canary_auc": {
+    "composite_coherence_ridge": 0.5774756389928309
+  },
+  "mechanism": "a fault that has not been mapped still offsets the four co-located potential-field and topographic surfaces, so its signature is the intersection of their gradient ridges with high structure-tensor coherence; the surface is the mean of the four clipped robust-z coherence x |grad| fields at 1.5 px, and emission takes the top 37,654 allowed pixels under a 2.8 px Poisson-disk rule at p=1.0",
+  "non_fault_mimic": "labile lacustrine terrace margins and lava-flow edges in the basins produce the same short-wavelength coherence ridge on detrended elevation and gravity; conductive clay-cap boundaries repeat it on the conductivity-derived band. No radiometric, age or thermal layer exists in the 19 bands to separate them.",
+  "note": "Unique H-F2 unsupervised 4-field coherence-ridge dots; 37654 px, >2px off catalogue; research-only, not organizer-confirmed",
+  "note_length": 123,
+  "ok_to_submit": false,
+  "portal_submission_name": "GEMSDOEkarage2-COHERIDGE-37654",
+  "raster": "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif",
+  "raster_bytes": 131284,
+  "raster_sha256": "5e7255d7abb4902ab95acbe7c13e4322ab5956606bc199501c3649c6dd4dc420",
+  "recorded_utc": "2026-10-31T00:00:00Z",
+  "schema_version": "gemsdoe.run-card.v2",
+  "single_variable_vs_champion": "field only; grid, collar, separation, budget, binary value and encoding are identical to the 0.2778 file",
+  "slot_authorized": false,
+  "submission_name": "gemsdoekarage2-coheridge-d28-b37654-20261031-zeros",
+  "submission_note": "Unique H-F2 unsupervised 4-field coherence-ridge dots; 37654 px, >2px off catalogue; research-only, not organizer-confirmed",
+  "validator": {
+    "footprint": {
+      "nan_inside_footprint": 0,
+      "on_mapped_catalogue": 0,
+      "outside_footprint_nonzero": 0,
+      "positive_px": 37654,
+      "within_1px_of_catalogue": 0
+    },
+    "portal_range_error_note": "The published rule 'values in [0,1], null or nan outside the bounds' is ambiguous for a whole-array validator: the organiser's own sample fails a strict whole-array [0,1] read because its exterior is NaN. This file cannot trip either reading - every one of its 12,279,160 cells is finite and in [0,1], and the exterior is 0.0 rather than NaN.",
+    "profile": {
+      "blockxsize": 256,
+      "blockysize": 256,
+      "compress": "deflate",
+      "count": 1,
+      "crs": "EPSG:32611",
+      "driver": "GTiff",
+      "dtype": "float32",
+      "nodata": null,
+      "predictor": null,
+      "shape": [
+        3730,
+        3292
+      ],
+      "tiled": true,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ]
+    },
+    "read_back": {
+      "bands": 1,
+      "bytes": 131284,
+      "crs": "EPSG:32611",
+      "dtype": "float32",
+      "finite_pixels": 12279160,
+      "height": 3730,
+      "max": 1.0,
+      "min": 0.0,
+      "nodata": null,
+      "nodata_repr": "None",
+      "nonzero_in_footprint": 37654,
+      "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif",
+      "positive_pixels": 37654,
+      "res": [
+        100.0,
+        100.0
+      ],
+      "sha256": "5e7255d7abb4902ab95acbe7c13e4322ab5956606bc199501c3649c6dd4dc420",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "unique_values": 2,
+      "width": 3292
+    },
+    "schema": "gemsdoe.tif-audit.v1",
+    "sha256": "5e7255d7abb4902ab95acbe7c13e4322ab5956606bc199501c3649c6dd4dc420",
+    "whole_array": {
+      "inf_count": 0,
+      "max": 1.0,
+      "min": 0.0,
+      "nan_count": 0,
+      "size_px": 12279160,
+      "strict_all_finite_in_0_1": true,
+      "unique_values": 2
+    }
+  },
+  "verdict": "negative",
+  "verdict_reason": "the shared catalogue holdout is mildly ANTI-correlated with the live board across this family (Spearman -0.23 over 53 scored rasters), so it cannot certify an improvement; the literal registry duplicate gate is unsatisfiable in this footprint (pigeonhole against the 5 px lattice witness); no organizer receipt exists. Download for audit: yes. Submit: no.",
+  "why_it_catches_an_unmapped_fault": "it needs no catalogue training signal and no scarp expression, so it fires on blind steps under valley fill and basin cover where the mapped catalogue stops; the >2 px collar keeps emission off the masked mapped traces",
+  "withheld_positive_pixels": 58259,
+  "zip_readback_single_tif_identical": true
+}

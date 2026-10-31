@@ -49,7 +49,27 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 10
+    # 11 as of 2026-10-31: the H-F2 coherence-ridge candidate was generated and audited
+    # from measured bytes, so it joins the research-only inventory. The count is a guard
+    # against un-inventoried downloads, not an endorsement: every entry must stay
+    # ok_to_submit False until an organizer receipt and a resolvable duplicate gate exist.
+    assert len(result['artifacts']) == 11
+    hf2_name = 'gemsdoekarage2-coheridge-d28-b37654-20261031-zeros'
+    hf2 = next(r for r in result['artifacts'] if r['file'].endswith(hf2_name + '.tif'))
+    hf2_card = json.loads((ROOT / f'docs/downloads/{hf2_name}.run-card.json').read_text())
+    assert hf2['status'] == 'VERIFIED_RESEARCH_ONLY' and hf2['ok_to_submit'] is False
+    assert hf2['slot_authorized'] is False and hf2['zip_file'].endswith('.zip')
+    assert all(v is True for v in hf2['checks'].values())
+    assert hf2['diagnostics']['nan_pixels'] == 0 and hf2['diagnostics']['masked_pixels'] == 0
+    assert hf2['diagnostics']['finite_min'] >= 0.0 and hf2['diagnostics']['finite_max'] <= 1.0
+    assert hf2['diagnostics']['whole_array_pixels'] == 12279160
+    # the card must keep the three things the protocol asks of every run
+    assert hf2_card['verdict'] == 'negative' and hf2_card['ok_to_submit'] is False
+    assert hf2_card['holdout_dti'] is not None and hf2_card['holdout_ci_95'][0] > 0.0
+    assert hf2_card['calibrated_live_estimate']['evidence_class'].startswith('CALIBRATED')
+    assert 'never a score' in hf2_card['calibrated_live_estimate']['evidence_class']
+    assert hf2_card['evaluator_version'] == 'gems57-pooled-hide-v2'
+    assert len(hf2_card['note']) <= 140
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())
