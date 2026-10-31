@@ -153,8 +153,15 @@ def test_desk_pages_are_explicitly_research_only(card):
         assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
         assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
-        assert len(downloads) == 1
-        assert (DOCS / downloads[0]).resolve() == (ROOT / card["raster"]["file"]).resolve()
+        expected = {
+            "downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif",
+            "downloads/gemsdoe-karage2-near-trace-20261031.tif",
+            "downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif",
+            "downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+        }
+        assert set(downloads) == expected
+        assert all((DOCS / href).is_file() for href in downloads)
+        assert "0.9984" in page and "0.000002" in page and "not a defensible CI" in page
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
     assert "45,046 of 45,108" in home and "99.86%" in home

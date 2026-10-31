@@ -67,25 +67,47 @@ function chromeEnvironment() {
     const artifactHash = crypto.createHash('sha256').update(Buffer.from(await artifactResponse.arrayBuffer())).digest('hex');
     assert.equal(artifactHash, parallelCard.raster_sha256);
     assert.equal(parallelCard.approved_for_weekly_slot, false);
-    // HK3 is an existing research-only file, never an upload candidate.
+    // Every linked raster is a research artifact with hash-bound receipts, never an upload candidate.
     const hk3 = require('../evidence/hk3/run_card.json');
-    const hk3Response = await fetch(base + '/' + hk3.raster.file);
-    assert.equal(hk3Response.status, 200);
-    assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
+    const hb = JSON.parse(fs.readFileSync(path.join(__dirname, '../docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.run-card.json')));
+    const near = JSON.parse(fs.readFileSync(path.join(__dirname, '../docs/downloads/gemsdoe-karage2-near-trace-20261031-run-card.json')));
+    const gbsp = JSON.parse(fs.readFileSync(path.join(__dirname, '../docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json')));
+    const researchFiles = [
+      {href: 'downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif', url: 'docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif', sha256: hb.raster_sha256},
+      {href: 'downloads/gemsdoe-karage2-near-trace-20261031.tif', url: 'docs/downloads/gemsdoe-karage2-near-trace-20261031.tif', sha256: near.raster_sha256},
+      {href: 'downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif', url: 'docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif', sha256: gbsp.raster_sha256},
+      {href: 'downloads/' + path.basename(hk3.raster.file), url: hk3.raster.file, sha256: hk3.raster.sha256},
+    ];
+    for (const item of researchFiles) {
+      const response = await fetch(base + '/' + item.url);
+      assert.equal(response.status, 200);
+      assert.equal(crypto.createHash('sha256').update(Buffer.from(await response.arrayBuffer())).digest('hex'), item.sha256);
+    }
     assert.equal(hk3.verdict, 'negative');
+    assert.equal(hb.verdict, 'negative');
+    assert.equal(near.ok_to_submit, false);
+    assert.equal(near.slot_authorized, false);
+    assert.equal(gbsp.verdict, 'negative');
+    assert.equal(gbsp.ok_to_submit, false);
+    assert.equal(gbsp.slot_authorized, false);
     const expectBadge = 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
-      const primary = page.locator('a.btn.big[download]').first();
-      assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
-      assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
-      const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
-      assert.equal(download.suggestedFilename(), path.basename(hk3.raster.file));
-      const downloaded = fs.readFileSync(await download.path());
-      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), hk3.raster.sha256);
+      const downloadLinks = page.locator('a.btn.big[download]');
+      assert.equal(await downloadLinks.count(), 4);
+      for (const item of researchFiles) {
+        const link = page.locator(`a.btn.big[download][href="${item.href}"]`);
+        assert.equal(await link.count(), 1);
+        assert.match((await link.innerText()).toLowerCase(), /research only/);
+        assert.match(await link.innerText(), /DO NOT SUBMIT/);
+        const [download] = await Promise.all([page.waitForEvent('download'), link.click()]);
+        assert.equal(download.suggestedFilename(), path.basename(item.url));
+        const downloaded = fs.readFileSync(await download.path());
+        assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), item.sha256);
+      }
       assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('body').innerText()).includes('not unique'));
       assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);

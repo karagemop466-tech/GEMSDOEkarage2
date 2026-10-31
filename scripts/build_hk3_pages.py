@@ -41,6 +41,25 @@ def load(path: Path) -> dict:
     return value
 
 
+def published_artifact(stem: str, card_name: str, audit_name: str, inventory: dict) -> dict:
+    """Load and hash-bind a published research TIFF, its run card, audit and inventory row."""
+    tif_name = f"{stem}.tif"
+    tif_path = DOCS / "downloads" / tif_name
+    card = load(DOCS / "downloads" / card_name)
+    audit = load(DOCS / "downloads" / audit_name)
+    sha = hashlib.sha256(tif_path.read_bytes()).hexdigest() if tif_path.is_file() else None
+    rows = [r for r in inventory.get("artifacts", []) if r.get("file") == f"docs/downloads/{tif_name}"]
+    audit_sha = audit.get("sha256", audit.get("candidate_sha256"))
+    card_sha = card.get("raster_sha256", card.get("sha256"))
+    if (sha is None or card_sha != sha or audit_sha != sha or len(rows) != 1
+            or rows[0].get("raster_sha256") != sha or rows[0].get("status") != "VERIFIED_RESEARCH_ONLY"
+            or rows[0].get("ok_to_submit") is not False or rows[0].get("slot_authorized") is not False
+            or card.get("ok_to_submit") is not False or card.get("slot_authorized") is not False):
+        raise ValueError(f"Published artifact {stem} is not consistently hash-bound and research-only")
+    return {"stem": stem, "file": f"docs/downloads/{tif_name}", "sha256": sha,
+            "card": card, "audit": audit, "inventory": rows[0]}
+
+
 def latest_official_observation() -> tuple[dict, str]:
     """Load the newest date-stamped official page observation from evidence/.
 
@@ -100,6 +119,34 @@ def gather() -> dict:
     official, official_filename = latest_official_observation()
     monitor = load(DOCS / "data/monitor.json")
     k3 = load(EV / "k3/run_card.json")
+    hb = published_artifact(
+        "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031",
+        "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.run-card.json",
+        "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.audit.json", inventory)
+    near = published_artifact(
+        "gemsdoe-karage2-near-trace-20261031",
+        "gemsdoe-karage2-near-trace-20261031-run-card.json",
+        "gemsdoe-karage2-near-trace-20261031.audit.json", inventory)
+    gbsp = published_artifact(
+        "gems-gbsp-blindspot-2195bc570842-20261031T005323Z",
+        "gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json",
+        "gems-gbsp-blindspot-2195bc570842-20261031T005323Z.audit.json", inventory)
+    hb_audit, near_audit, gbsp_audit = hb["audit"], near["audit"], gbsp["audit"]
+    if (hb["card"].get("verdict") != "negative"
+            or hb_audit.get("format_validation", {}).get("passed") is not False
+            or hb_audit.get("format_validation", {}).get("checks", {}).get("outside_is_nan") is not False
+            or hb_audit.get("uniqueness", {}).get("n_local_registry_compared") != 12):
+        raise ValueError("H-B status or limited-scope failure evidence changed")
+    if (near["card"].get("ok_to_submit") is not False
+            or near_audit.get("format_validation", {}).get("strict_format_pass") is not True
+            or near_audit.get("uniqueness", {}).get("failed_vs_lattice") is not True
+            or near_audit.get("uniqueness", {}).get("max_dot_overlap_3px_all", 0) <= 0.70):
+        raise ValueError("Near-trace research artifact lost its lattice-stop or negative authorization")
+    if (gbsp["card"].get("verdict") != "negative"
+            or gbsp["card"].get("holdout", {}).get("dti") != 0.000002
+            or gbsp_audit.get("format_checks", {}).get("outside_footprint_is_nan") is not True
+            or gbsp["card"].get("correlation_and_overlap_vs_registry", {}).get("n_registry_compared") != 10):
+        raise ValueError("GBSP research artifact status, format receipt, or local registry scope changed")
     filename = card["raster"]["file"]
     candidate = (ROOT / filename).resolve()
     if not candidate.is_relative_to((DOCS / "downloads").resolve()) or not candidate.is_file():
@@ -211,6 +258,7 @@ def gather() -> dict:
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official,
             "official_filename": official_filename, "monitor": monitor, "k3": k3,
+            "hb": hb, "near": near, "gbsp": gbsp,
             "profile": profile, "uniq": uniq, "pairs": pairs}
 
 
@@ -271,8 +319,35 @@ def hero(d: dict) -> str:
 <h2>No submission-ready TIFF</h2>
 <p class="verdict"><b class="no">DO NOT SUBMIT.</b> The earlier HK3 approval was incorrect and has been withdrawn. A saved-byte recheck found <b>{w['matched_within_3_pixels']:,} of {w['candidate_positive_inside_footprint']:,} dots ({w['overlap_fraction'] * 100:.2f}%)</b> within three pixels of a registered lattice. The literal rule stops above 70%, without a research-file exception.</p>
 <p>The older TIFF remains available solely for reproducibility. It is <b>not a new submission</b>, not approved for a weekly slot, and has no defensible leaderboard estimate.</p>
-<p><a class="btn big" href="downloads/{esc(name)}" download>Download existing TIFF · RESEARCH ONLY</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>Download existing TIFF · RESEARCH ONLY · DO NOT SUBMIT</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
 <div class="meta"><b>Research file:</b> <code>{esc(name)}</code><br><b>SHA-256:</b> <code>{esc(c['raster']['sha256'])}</code><br><b>New submission name / note:</b> none; no new candidate was generated.</div>
+</section>'''
+
+
+
+def h_b_research_panel(d: dict) -> str:
+    """Expose H-B's exact artifact while preventing incomplete checks from implying clearance."""
+    hb = d["hb"]
+    card = hb["card"]
+    holdout = card["holdout"]
+    val = hb["audit"]["format_validation"]
+    registry = hb["audit"]["uniqueness"]
+    interval = holdout.get("confidence_interval_95")
+    interval_note = "No protocol-valid 95% CI established."
+    if interval:
+        interval_note = (
+            f"No protocol-valid 95% CI established. The card's artifact-reported interval "
+            f"[{interval[0]:.6f}, {interval[1]:.6f}] conflicts with its note that the range is fold-wise, "
+            "not a bootstrap CI."
+        )
+    return f'''<section class="hero" id="hb-research-only">
+<h2>H-B file · research artifact only</h2>
+<p class="verdict"><b class="no">DO NOT SUBMIT.</b> The local uniqueness scan covered {registry['n_local_registry_compared']} rasters only; the audit states the broader 472-raster registry was not downloaded. This does not establish uniqueness against the required complete registry. The on-disk audit also fails strict format because pixels outside the mirror footprint are finite zeros, not the official null/NaN exterior.</p>
+<p><a class="btn big" href="{esc(hb['file'].replace('docs/', '', 1))}" download>Download H-B · RESEARCH ONLY · DO NOT SUBMIT</a> <a class="btn secondary" href="downloads/{esc(hb['stem'])}.run-card.json">Open run card</a> <a class="btn secondary" href="downloads/{esc(hb['stem'])}.audit.json">Open saved-byte audit</a></p>
+<div class="meta"><b>Research file:</b> <code>{esc(Path(hb['file']).name)}</code><br><b>SHA-256:</b> <code>{esc(hb['sha256'])}</code><br>
+<b>HOLDOUT-DTI (fixed-field exploratory proxy):</b> {holdout['dti']:.6f}; evaluator <code>{esc(holdout['evaluator_version'])}</code>; {holdout['withheld_positives']:,} withheld positives. {esc(interval_note)} This is not a leaderboard score.<br>
+<b>Saved-byte checks:</b> interior finite/range checks pass in the sidecar; strict format fails because outside-is-NaN is false. The band-to-layer mapping is best-effort, not organizer-verified.<br>
+<b>Release status:</b> negative · research-only · no slot authorized · uniqueness not established.</div>
 </section>'''
 
 
@@ -589,39 +664,51 @@ def champion_panel() -> str:
 </section>'''
 
 
-def gbsp_section() -> str:
-    """New unique submission TIF: format-valid, uniqueness-passed, not cleared to submit."""
-    return (
-        '<section class="section" id="new-unique-submission">\\n'
-        '<h2>A new unique submission TIF exists — not cleared to upload</h2>\\n'
-        '<p class="verdict"><b class="no">OK TO DOWNLOAD: YES.</b> <b class="no">OK TO SUBMIT: NO.</b> '
-        'A new, scientifically distinct GeoTIFF has been generated and validated. It passes every format and uniqueness gate, '
-        'but its holdout-DTI proxy is too low to justify spending a weekly submission slot. Download it for review; do not upload it to DrivenData.</p>\\n'
-        '<div style="border:2px solid var(--no);background:#fef2f2;border-radius:12px;padding:16px;margin:12px 0;">\\n'
-        '<h3 style="margin:0 0 8px 0;font-size:16px;">gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif</h3>\\n'
-        '<p style="margin:0 0 10px 0;font-size:14px;">Geothermal Blind-Spot Prospectivity — masks all known catalogue faults; predicts only where multi-physics anomalies coincide without a mapped trace.</p>\\n'
-        f'<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif">Download submission TIF ↗</a>\\n'
-        '<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.audit.json" style="margin-left:8px;">Audit JSON ↗</a>\\n'
-        '<a href="downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json" style="margin-left:8px;">Run card ↗</a>\\n'
-        '</div>\\n'
-        '<table style="width:100%;border-collapse:collapse;margin:12px 0;background:var(--card);border-radius:8px;overflow:hidden;border:1px solid var(--line);">\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Format</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);">Single-band float32 GeoTIFF, EPSG:32611, 3730×3292, 100 m</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Values inside footprint</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);">In [0,1], no NaN inside; NaN outside footprint (official convention)</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Format validation</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — strict_format_pass = true</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Uniqueness vs 10 registry rasters</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — max |Spearman| = 0.0060 (limit 0.90), max dot overlap = 0.1887 (limit 70%), no duplicates</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Holdout-DTI proxy</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>0.000002</b> (HOLDOUT-DTI, evaluate_holdout alpha=0.2 beta=0.8 R=300m, 60,988 withheld positives) — PROXY only, not an organizer score</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);background:#f1f5f9;color:var(--muted);font-weight:700;">Leakage canary</th><td style="text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);"><b>PASS</b> — max feature-alone AUC = 0.59 (limit 0.90); no leakage</td></tr>\\n'
-        '<tr><th style="text-align:left;padding:8px 12px;background:#f1f5f9;color:var(--muted);font-weight:700;">Verdict</th><td style="text-align:left;padding:8px 12px;"><b class="no">negative</b> — holdout-DTI below submission threshold; not cleared for a weekly slot</td></tr>\\n'
-        '</table>\\n'
-        '<p class="muted"><b>Why it is not cleared:</b> this contrarian approach deliberately avoids known catalogue faults (to target blind, unmapped structures). '
-        'The holdout-DTI measures recovery of withheld <em>known</em> faults, so a blind-field submission scores near zero by design. No slot is authorized.</p>\\n'
-        '</section>\\n'
-    )
+def gbsp_section(d: dict) -> str:
+    g = d["gbsp"]
+    card, audit = g["card"], g["audit"]
+    holdout = card["holdout"]
+    uniqueness = card["correlation_and_overlap_vs_registry"]
+    fold_range = holdout.get("confidence_interval_95", [])
+    folds = ", ".join(f"{x:.6f}" for x in holdout.get("fold_DTIs", []))
+    range_note = ""
+    if len(fold_range) == 2:
+        range_note = (f" The card records [{fold_range[0]:.6f}, {fold_range[1]:.6f}] as a 95% interval, "
+                      "but its own note identifies it as only the four-fold range; it is not a defensible CI.")
+    return f'''<section class="hero research-artifact" id="gbsp-research-only">
+<h2>GBSP · research artifact only</h2>
+<p class="verdict"><b class="no">RESEARCH ONLY · DO NOT SUBMIT.</b> A strict local format receipt is recorded, but uniqueness was compared against only {uniqueness['n_registry_compared']} registry rasters. That is not complete-registry clearance. No weekly slot is authorized.</p>
+<p><a class="btn big" href="downloads/{esc(g['stem'])}.tif" download>Download GBSP · RESEARCH ONLY · DO NOT SUBMIT</a> <a class="btn secondary" href="downloads/{esc(g['stem'])}.run-card.json">Open run card</a> <a class="btn secondary" href="downloads/{esc(g['stem'])}.audit.json">Open saved-byte audit</a></p>
+<div class="meta"><b>File:</b> <code>{esc(Path(g['file']).name)}</code><br><b>SHA-256:</b> <code>{esc(g['sha256'])}</code><br>
+<b>Local format receipt:</b> strict format is recorded as {"PASS" if audit.get("format_checks", {}).get("outside_footprint_is_nan") else "FAIL"}; this does not authenticate the organizer template.<br>
+<b>Uniqueness:</b> only {uniqueness['n_registry_compared']} rasters compared (max dot overlap {uniqueness['max_dot_overlap_3px']:.4f}; max |Spearman| {uniqueness['max_spearman_abs']:.4f}); full-registry uniqueness not established.<br>
+<b>HOLDOUT-DTI (fixed-field proxy):</b> {holdout['dti']:.6f}, evaluator <code>{esc(holdout['evaluator_version'])}</code>, {holdout['withheld_positives']:,} withheld positives. Fold values: {esc(folds)}.{esc(range_note)} Not a leaderboard score or strict hide-and-recover validation.<br>
+<b>Verdict:</b> negative; no slot; research only. The run card's own fixed-field proxy is effectively zero.</div>
+</section>'''
+
+
+def near_trace_section(d: dict) -> str:
+    item = d["near"]
+    card, audit = item["card"], item["audit"]
+    holdout = card["holdout"]
+    unique = audit["uniqueness"]
+    folds = ", ".join(f"{x:.6f}" for x in holdout.get("fold_DTIs", []))
+    interval = holdout.get("confidence_interval_95", [])
+    interval_note = (f" The sidecar's [{interval[0]:.6f}, {interval[1]:.6f}] is a four-fold range, not a bootstrap 95% CI."
+                     if len(interval) == 2 else " No protocol-valid 95% CI is established.")
+    return f'''<section class="hero research-artifact" id="near-trace-research-only">
+<h2>Near-trace file · research artifact only</h2>
+<p class="verdict"><b class="no">RESEARCH ONLY · DO NOT SUBMIT.</b> The local format audit records a strict pass, and the comparison against nine focus-site masks is below its pairwise threshold. However, the same sidecar finds {unique['max_dot_overlap_3px_all']:.4f} three-pixel overlap against the R13 lattice witness, exceeding the 0.70 stop. The file is not eligible.</p>
+<p><a class="btn big" href="downloads/{esc(item['stem'])}.tif" download>Download near-trace · RESEARCH ONLY · DO NOT SUBMIT</a> <a class="btn secondary" href="downloads/{esc(item['stem'])}-run-card.json">Open run card</a> <a class="btn secondary" href="downloads/{esc(item['stem'])}.audit.json">Open audit</a></p>
+<div class="meta"><b>File:</b> <code>{esc(Path(item['file']).name)}</code><br><b>SHA-256:</b> <code>{esc(item['sha256'])}</code><br>
+<b>HOLDOUT-DTI (upper-bound fixed-field proxy):</b> {holdout['dti']:.6f}, evaluator <code>{esc(holdout['evaluator_version'])}</code>, {holdout['withheld_positives']:,} withheld positives; fold values {esc(folds)}.{esc(interval_note)} Not a leaderboard score or compliant hide-and-recover validation.<br>
+<b>Conflicting source status:</b> the run card records verdict <code>promote</code> while also setting ok_to_submit=false, slot_authorized=false, and documenting a lattice blocker. The saved-byte inventory normalizes disposition to negative research-only and preserves the recorded wording for audit. No upload authorization.</div>
+</section>'''
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = decision_section(d) + gbsp_section() + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
-    how = hero(d) + guide(d) + legacy()
+    desk = decision_section(d) + h_b_research_panel(d) + near_trace_section(d) + gbsp_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    how = h_b_research_panel(d) + near_trace_section(d) + gbsp_section(d) + hero(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),
              "executive-summary.html": shell("Executive summary", "summary", desk, official_ref=official_ref),

@@ -49,7 +49,38 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 11
+    assert len(result['artifacts']) == 13
+    by_file = {record['file']: record for record in result['artifacts']}
+    hb_name = 'gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031'
+    hb = by_file[f'docs/downloads/{hb_name}.tif']
+    hb_card = json.loads((ROOT / 'docs/downloads' / f'{hb_name}.run-card.json').read_text())
+    hb_audit = json.loads((ROOT / 'docs/downloads' / f'{hb_name}.audit.json').read_text())
+    assert hb['status'] == 'VERIFIED_RESEARCH_ONLY' and hb['checks']['card_sha_matches_saved_bytes']
+    assert hb_card['verdict'] == 'negative' and hb_card['ok_to_submit'] is False and hb_card['slot_authorized'] is False
+    assert hb_audit['format_validation']['passed'] is False
+    assert hb_audit['format_validation']['checks']['outside_is_nan'] is False
+    assert hb_audit['uniqueness']['n_local_registry_compared'] == 12
+
+    near = by_file['docs/downloads/gemsdoe-karage2-near-trace-20261031.tif']
+    near_card = json.loads((ROOT / 'docs/downloads/gemsdoe-karage2-near-trace-20261031-run-card.json').read_text())
+    near_audit = json.loads((ROOT / 'docs/downloads/gemsdoe-karage2-near-trace-20261031.audit.json').read_text())
+    assert near['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert near['source_card_verdict'] == 'promote' and near['normalized_card_verdict'] == 'negative'
+    assert near_card['ok_to_submit'] is False and near_card['slot_authorized'] is False
+    assert near_audit['format_validation']['strict_format_pass'] is True
+    assert near_audit['uniqueness']['failed_vs_lattice'] is True
+    assert near_audit['uniqueness']['max_dot_overlap_3px_all'] > 0.70
+    assert near_card['holdout']['classification'].startswith('HOLDOUT-DTI (upper-bound proxy')
+
+    gbsp = by_file['docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif']
+    gbsp_card = json.loads((ROOT / 'docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json').read_text())
+    gbsp_audit = json.loads((ROOT / 'docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.audit.json').read_text())
+    assert gbsp['status'] == 'VERIFIED_RESEARCH_ONLY' and gbsp['checks']['card_sha_matches_saved_bytes']
+    assert gbsp_card['verdict'] == 'negative' and gbsp_card['ok_to_submit'] is False and gbsp_card['slot_authorized'] is False
+    assert gbsp_card['holdout']['dti'] == 0.000002
+    assert gbsp_card['correlation_and_overlap_vs_registry']['n_registry_compared'] == 10
+    assert gbsp_audit['format_checks']['outside_footprint_is_nan'] is True
+
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())

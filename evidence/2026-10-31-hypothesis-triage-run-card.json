@@ -1,0 +1,129 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "session_date_utc": "2026-10-31",
+  "classification": "THREE-PASS REPOSITORY REVIEW AND HYPOTHESIS TRIAGE; NO GEOLOGICAL EXPERIMENT OR SUBMISSION",
+  "hypothesis": "No hypothesis tested. First-ranked future proposal: USGS Great Basin heat-flow residuals conditioned on independently derived gravity/magnetic edge locations; viability is blocked pending dataset acquisition, provenance/coverage checks, and lane assignment.",
+  "mechanism": "Repository/source review, official web-page verification, and software checks only. No candidate surface or raster was generated.",
+  "named_non_fault_mimic": "Groundwater circulation, well depth/quality, and uneven sampling can mimic heat-flow residual patterns; no classifier or candidate surface was run.",
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "holdout_evaluator_version": null,
+  "holdout_withheld_positives": null,
+  "holdout_status": "NOT RUN: authenticated training labels/features/template are absent; no method paragraph is assigned; candidate heat-flow archive bytes/coverage are not verified.",
+  "leaderboard_estimate": null,
+  "official_rules_receipt": {
+    "file": "evidence/leaderboard-rules-receipt-2026-10-31.json",
+    "source_url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+    "finding": "The official rules specify one final submission, a weekly submission cap of three, original work, and AI disclosure; they do not specify a numeric raster uniqueness threshold. The 70%-within-3-px and Spearman thresholds remain internal repository protocol. This review relied on the merged source receipt; it did not fetch the PDF itself."
+  },
+  "leaderboard_observation": {
+    "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; NOT a submission-page receipt, NOT a private-round result, NOT HOLDOUT-DTI, and NOT a score for a local raster.",
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "read_date_utc": "2026-10-31",
+    "read_scope": "All three page-reader chunks; displayed rows 1 through 50.",
+    "rank_1": {
+      "participant": "xiaofanhu",
+      "public_dw_tversky": 0.4544
+    },
+    "kpomazi_row": {
+      "rank": 50,
+      "public_dw_tversky": 0.3195
+    },
+    "notes": "The user-cited 0.4413 was not in the 50 displayed rows. Public page is time-varying and does not link the GEMSDOE32 owner claim to a local raster hash."
+  },
+  "hypotheses_proposed": 4,
+  "upstream_artifacts_reviewed": [
+    {
+      "source_pr": "https://github.com/karagemop466-tech/GEMSDOEkarage2/pull/97",
+      "file": "docs/downloads/gemsdoe-karage2-near-trace-20261031.tif",
+      "sha256": "cc158d4248ed4b5fb64bbec7dc990a08e01993a6a91fd597d6d4578038a95811",
+      "classification": "HOLDOUT-DTI upper-bound fixed-field proxy, not strict hide-and-recover OOF and not a leaderboard score",
+      "recorded_dti_proxy": 0.624191,
+      "fold_range_not_ci": [0.622715, 0.627276],
+      "strict_local_format": true,
+      "lattice_overlap_3px": 0.9984,
+      "eligibility": "negative research only; exceeds 0.70 lattice stop; source card says promote while ok_to_submit=false and slot_authorized=false"
+    },
+    {
+      "source_pr": "https://github.com/karagemop466-tech/GEMSDOEkarage2/pull/101",
+      "file": "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif",
+      "sha256": "855b94aabbf36cbbc5423e953509ae095a89baf037f55cddbb04ea6a98de73a5",
+      "classification": "HOLDOUT-DTI fixed-field exploratory proxy, not strict hide-and-recover OOF and not a leaderboard score",
+      "recorded_dti_proxy": 0.000002,
+      "fold_range_not_ci": [0.0, 0.000009],
+      "strict_local_format": true,
+      "registry_rasters_compared": 10,
+      "eligibility": "negative research only; complete-registry uniqueness not established; no slot authorized"
+    }
+  ],
+  "hypothesis_slate": [
+    {
+      "rank": 1,
+      "name": "USGS background heat-flow residual x gravity/magnetic edge",
+      "state": "proposed, not tested; source metadata/page reachable, archive bytes not fetched",
+      "external_source": "https://doi.org/10.5066/P9BZPVUC",
+      "mimic": "Groundwater circulation and uneven well depth/quality"
+    },
+    {
+      "rank": 2,
+      "name": "High-resolution lidar multi-scale slope-break and scarp asymmetry",
+      "state": "proposed, not tested; free source family verified, exact tiles/coverage unavailable",
+      "external_source": "https://www.usgs.gov/3d-elevation-program",
+      "mimic": "Shorelines, terraces, roads, canals, and lidar artifacts"
+    },
+    {
+      "rank": 3,
+      "name": "INGENIOUS shallow temperature/well chemistry residual x structural edge",
+      "state": "proposed, not tested; official public resource listing reachable, archive bytes not fetched",
+      "external_source": "https://gdr.openei.org/submissions/1391",
+      "mimic": "Shallow groundwater, seasonality, land use, and sample depth"
+    },
+    {
+      "rank": 4,
+      "name": "Geodetic shear/dilatation regime change x magnetic edge persistence",
+      "state": "proposed, not tested; depends on absent organizer feature stack and verified band mapping",
+      "external_source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "mimic": "Intrusive/lithologic contacts, interpolation boundaries, or smooth strain gradients"
+    }
+  ],
+  "registry_correlation_or_overlap": null,
+  "preplacement_surface_check": "NOT RUN; no candidate surface exists.",
+  "final_dot_check": "NOT RUN; no candidate dots or final raster exist.",
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_generated": false,
+    "candidate_validator": "NOT RUN",
+    "existing_download_inventory": "PASS_RESEARCH_ONLY; 13 artifacts include H-B, near-trace, and GBSP; downloadable_approved_submission is null",
+    "authenticated_template_available": false,
+    "portal_acceptance": null,
+    "approved_for_submission": false
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "experiments_run": 0,
+  "submission_slots_used": 0,
+  "verdict": "negative",
+  "software_checks": {
+    "pytest": "257 passed, 8 skipped, 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "10 passed",
+    "browser": "passed at 1440, 390, and 320 px",
+    "readiness": "exit 0",
+    "public_download_audit": "PASS_RESEARCH_ONLY; no approved download",
+    "audit_site_check": "exit 0",
+    "nine_site_best_audit": "blocked: .cache/gems_data/sample_submission.tif absent"
+  },
+  "limitations": [
+    "No authenticated organizer template, training feature stack, labels, or cache is present.",
+    "No single method paragraph is assigned; protocol does not permit inventing a lane.",
+    "USGS heat-flow ZIP and INGENIOUS temperature/chemistry archives were listed in reachable official metadata but not downloaded or checked for coverage/CRS/units in this network-restricted runtime.",
+    "The exact 1 m DEM tile coverage and competition DEM link table are unavailable locally.",
+    "This review generated no geological experiment, holdout DTI, CI, leakage canary, candidate surface, final-dot check, or new-file score estimate; the two upstream PR artifacts are separately classified and not validated by this run.",
+    "Near-trace and GBSP each report only 10 registry comparisons; near-trace fails the R13 lattice overlap stop and GBSP has no complete-registry uniqueness clearance.",
+    "The near-trace card's promote wording conflicts with its negative upload flags/lattice blocker; its reported interval is a fold-wise range, not a bootstrap CI.",
+    "The GBSP source claims 'experiment 4' while its card says 1 of 3; aggregate experiment/time-budget compliance cannot be established.",
+    "All existing TIF artifacts remain research-only; the current public site marks the release NO / DO NOT SUBMIT.",
+    "The official leaderboard is a time-varying public-test snapshot and not a submission receipt or private-round outcome."
+  ],
+  "report": "research/2026-10-31-hypothesis-triage-and-branch-review.md"
+}

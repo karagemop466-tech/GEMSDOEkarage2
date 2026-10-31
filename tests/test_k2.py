@@ -87,22 +87,25 @@ def test_k2_uniqueness_scopes_are_as_reported():
     assert delta["duplicate_count"] == 0
 
 
-def test_homepage_keeps_k2_quarantined_and_offers_only_the_run_card_file():
+def test_homepage_keeps_k2_quarantined_and_offers_only_explicit_research_files():
     home = (ROOT / "docs" / "index.html").read_text()
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
     assert "prior literal-policy verdict for K2: NEGATIVE" in home and "DO NOT SUBMIT" in home
     assert "evidence/k2/selector_result.json" in home
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
-    # the only click-to-download links are the file named by the HK3 run card
-    # plus the new GBSP unique submission (research-only, not cleared to submit)
-    card = load(ROOT / "evidence/hk3/run_card.json")
+    # Every published click-to-download link is hash-audited and research-only.
     import re
     downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', home)
-    assert downloads, "the desk must offer a click-to-download link"
-    for href in downloads:
-        assert (card["submission"]["name"] in href or
-                "gems-gbsp-blindspot-2195bc570842-20261031T005323Z" in href)
-        assert not any(x in href for x in ("k2-hgbcont", "h1-parity", "hkarage1"))
+    expected = {
+        "downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif",
+        "downloads/gemsdoe-karage2-near-trace-20261031.tif",
+        "downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif",
+        "downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+    }
+    assert set(downloads) == expected
+    assert all((ROOT / "docs" / href).is_file() for href in downloads)
+    assert all(label in home for label in ("RESEARCH ONLY · DO NOT SUBMIT", "uniqueness not established", "0.9984", "0.000002"))
+    assert not any(x in " ".join(downloads) for x in ("k2-hgbcont", "h1-parity", "hkarage1"))
 
 
 def test_k2_preplacement_stop_and_cli_are_fail_closed(tmp_path):
