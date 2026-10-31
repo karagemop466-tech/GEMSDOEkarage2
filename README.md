@@ -1,20 +1,16 @@
 # GEMSDOEkarage2
 
-## Current repository review (2026-10-31)
+## Current repository review (2026-10-31, Arena branch)
 
-Read [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) and `AGENTS.md` before scientific or submission work. Current verdict remains **NO APPROVED TIFF / NO SCORE ESTIMATE**. The dated 2026-10-30 historical H-F entry below contains a stale “OK_TO_DOWNLOAD: YES” statement; it is superseded by the fail-closed controls in `AGENTS.md`, `SUBMISSION_STATUS.md`, the generated website, and release assessment. H-A is also not untried: its own status update records a duplicate-stop. This review generated no raster and ran no geological experiment.
+Read this README and `AGENTS.md` before scientific or submission work. The consolidated project objective and operating protocol are below. **Current verdict: NO APPROVED TIFF / NO SCORE ESTIMATE.** This branch review ran no geological experiment, generated no candidate, and used no submission slot.
 
-DOE GEMS Prize Challenge — geological fault discovery submission system.
-Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Work on the Arena-assigned branch for the current session.
+**Official public-board snapshot (2026-10-31 UTC):** the organizer leaderboard showed xiaofanhu at rank 1 with **0.4544** and kpomazi at rank 50 with **0.3195**. This is a public leaderboard observation, not a local score, private-round result, or file-bound receipt. The user's reported 0.2778 remains unverified absent an organizer-linked receipt. The data tab requires login and the reported portal range error remains unexplained. Sources and three-pass notes: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md), [`evidence/leaderboard-recheck-2026-10-31.json`](evidence/leaderboard-recheck-2026-10-31.json), and [`evidence/session-2026-10-31-recheck-run-card.json`](evidence/session-2026-10-31-recheck-run-card.json).
 
-## Latest review (2026-10-31, current Arena branch)
+**Current branch review:** [`research/2026-10-31-hypothesis-triage-and-branch-review.md`](research/2026-10-31-hypothesis-triage-and-branch-review.md) ranks four untried hypotheses with mechanisms, mimics, source availability, novelty caveats, costs, and validation gates. No assigned method paragraph/lane means no experiment may start. H-B's fixed-field proxy is a labeled exploratory `HOLDOUT-DTI` of **0.000585**, not a leaderboard score or compliant hide-and-recover result; no defensible 95% CI is established. Its uniqueness scan covers only 12 of 472 stated registry rasters, and strict format validation fails because exterior pixels are finite zeros. H-B is explicitly **RESEARCH ONLY / DO NOT SUBMIT**. No downloadable artifact is approved. Run card: [`evidence/2026-10-31-hypothesis-triage-run-card.json`](evidence/2026-10-31-hypothesis-triage-run-card.json).
 
-**Decision: NEGATIVE. No TIFF is OK to download and submit.** The official board was re-read today (2026-10-31 UTC): rank 1 is xiaofanhu at **0.4544**, so 0.3195 is not the high. kpomazi's 0.3195 is at rank **50** today (the 2026-10-30 record said 48). The brief's 0.4413 is not on the board. The data tab still redirects to login, and the portal range error remains unexplained. Full review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md); records: [`evidence/leaderboard-recheck-2026-10-31.json`](evidence/leaderboard-recheck-2026-10-31.json), [`evidence/session-2026-10-31-recheck-run-card.json`](evidence/session-2026-10-31-recheck-run-card.json).
+**Verification:** Python **257 passed, 8 skipped** (98 subtests); Node feed **3 passed**; site **9 passed**; browser smoke passed at 1440, 390, and 320 px; generated pages, the 11-artifact research-only inventory, audit-site build, and readiness passed. The nine-site raster audit remains blocked because `.cache/gems_data/sample_submission.tif` is absent.
 
-**Current branch follow-up:** [`research/2026-10-31-hypothesis-triage-and-branch-review.md`](research/2026-10-31-hypothesis-triage-and-branch-review.md) adds a four-candidate untested slate with geological mechanisms, mimics, source-availability checks, and a next-step holdout gate. The first-ranked heat-flow hypothesis is **not viable to test yet**: its official USGS record lists a public archive, but the archive bytes/coverage are not verified here. No experiment or TIFF was generated. Run card: [`evidence/2026-10-31-hypothesis-triage-run-card.json`](evidence/2026-10-31-hypothesis-triage-run-card.json).
-
-**Parallel 2026-10-31 review (merged to main via PR #89):** **Decision: NO APPROVED SUBMISSION.** This three-pass repo review generated no TIFF and ran no geological experiment. Existing downloadable artifacts remain RESEARCH ONLY / DO NOT SUBMIT. The authenticated organizer template/feature stack and `data/` are absent, no method paragraph is assigned, and the dense-registry uniqueness conflict remains unresolved. No new-file leaderboard estimate is supportable. Verification: 257 Python tests passed, 8 skipped (optional/missing-input checks); Node feed 3 passed; site tests 8 passed; browser smoke passed at 1440/390/320 px; readiness exited 0. The nine-site raster audit could not be freshly rerun because `.cache/gems_data/sample_submission.tif` is absent. Detailed report: [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md); run card: [`evidence/repo-review-run-card-2026-10-31.json`](evidence/repo-review-run-card-2026-10-31.json). The statement in that earlier review that the latest leaderboard observation was dated 2026-10-30 is historical and superseded by the 2026-10-31 capture linked above.
+**Hosted-page freshness caveat:** the public page renderer still selects an `official-review-*.json` source, while the fresh 2026-10-31 observation is stored as `leaderboard-recheck-2026-10-31.json`; the hosted summary may therefore show the 2026-10-30 snapshot. The automated feed is GitHub-only. Open PR #93 contains a same-day page/source refresh; reconcile that work before claiming the hosted summary is live-current.
 
 ## Latest source review (2026-10-30, prior Arena branch)
 
@@ -668,3 +664,59 @@ as experiments 1 and 2. Both negative on holdout.
 Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29). Best focus-site claim:
 0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47;
 0.4413 is not rank one.
+
+## Current session prompt — standing reference (2026-10-31)
+
+Read this section every time work resumes on this project. It defines the deliverables for this session.
+
+### Goal
+Produce a unique, format-valid GeoTIFF submission for the DOE GEMS Prize Challenge, with an executive summary over the focus GEMSDOE sites (GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36), a GitHub Pages front end with an obvious one-click downloadable submission TIF, and a validated pipeline (holdout DTI evaluation + submission writer + run cards). Place top of the leaderboard (current public high 0.4544; user-cited 0.3195 is rank 47).
+
+### Competition (official sources)
+- DrivenData GEMS Prize Challenge: https://www.drivendata.org/competitions/306/competition-doe-gems/
+- Problem page: https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/
+- About: https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/
+- Data tab (login required): https://www.drivendata.org/competitions/306/competition-doe-gems/data/
+- Leaderboard: https://www.drivendata.org/competitions/306/competitions/306/competition-doe-gems/leaderboard/
+- Reference solution: https://github.com/drivendataorg/gems-prize-reference-solution
+- Rules PDF: https://docs.nlr.gov/docs/fy26osti/96647.pdf
+- DOE GDR INGENIOUS: https://gdr.openei.org/submissions/1391
+- USGS GeoDAWN: https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and
+- EPSG 32611: https://epsg.io/32611
+- Tversky index: https://en.wikipedia.org/wiki/Tversky_index
+
+### Task
+Develop models/algorithms predicting geological faults (structures indicative of geothermal resources) as a single-band GeoTIFF of pixel-wise probabilities in [0, 1]. The private initial-round test set comprises NEW faults NOT in the public USGS database — so discovering off-catalogue faults is the path to a high score.
+
+### Submission format (official)
+- single band, 32-bit float (float32), values between 0 and 1
+- CRS: EPSG:32611 (UTM zone 11N), 100 m resolution
+- same bounds/shape/geotransform as the submission template
+- data outside the bounds is null or NaN (exterior convention vs portal range behavior unresolved)
+
+### Metric
+Distance-weighted Tversky index DTI(alpha=0.2, beta=0.8), triangular kernel k(d)=max(1-d/R,0), R=300 m (3 px at 100 m). Official scorer is hidden/unauthenticated.
+
+### Required deliverables (this session)
+1. Executive summary on every focus site: clear which is the best submission for a high score. Table listing: file to download, estimated score, whether unique vs other GEMSDOE sites.
+2. MUST generate a UNIQUE TIF submission. Do not copy a previous submission (except for learning). It must be obvious whether the generated TIF is OK to download and submit.
+3. Easy-to-download submission TIF (one click). Values in [0, 1] (fix the portal "[0, 1]" range error). Unique name + short note <= 140 chars.
+4. Executive summary subpage explaining exactly how to make a submission; obvious at the top of the site.
+5. 3-5 candidate geological hypotheses (layers, physical signature, why it catches unmapped faults, how it differs from repo work), ranked by expected DTI improvement and cost.
+6. Validate the top candidate on the spatially-blocked holdout before touching a submission slot.
+7. Put this prompt in the README; read it each session.
+8. End with one JSON run card: hypothesis, mechanism, named non-fault mimic, holdout DTI + CI, correlation/overlap vs registry, raster sha256, validator output, submission name + note <= 140 chars, verdict promote/negative.
+
+### Parallel-run protocol (literal)
+- LANE: stay in one method paragraph. If raster rank-correlation with any registry raster > 0.90, OR > 70% of dots within 3 px of one registry raster's dots, log as duplicate and stop. Check pre-placement AND final dots.
+- REUSE, DON'T REBUILD: use the template's cached feature stack, evaluate_holdout.py and submission_writer.py. Holdout = hide-and-recover. Pooled DTI alpha 0.2, beta 0.8, 300 m triangular kernel.
+- LABEL every number as HOLDOUT-DTI or ORGANIZER-CONFIRMED. A projection is never a score.
+- LEAKAGE CANARY: test each feature alone; AUC > 0.90 = leakage.
+- RUN CARD: one JSON card at the end (promote / negative). Negative results are deliverables.
+- BUDGET: stop after 3 experiments or 2 hours. No submission slot spent; promotion is a separate selector step.
+
+### Data access blocker (verified)
+No DrivenData auth → cannot auto-download training_features.tif, labels.tif, sample_submission.tif from the data tab (redirects to login). Research mirrors restored via scripts/download_competition_data.sh --research-mirror (owner-mirror bytes, SHA-256 pinned, NOT organizer-authenticated).
+
+### Core values
+Maximize P(Win). Own the Outcome. No hallucinations; verify line by line; flag irregularities.
