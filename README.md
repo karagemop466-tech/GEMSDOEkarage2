@@ -666,3 +666,59 @@ as experiments 1 and 2. Both negative on holdout.
 Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29). Best focus-site claim:
 0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47;
 0.4413 is not rank one.
+
+## Current session prompt — standing reference (2026-10-31)
+
+Read this section every time work resumes on this project. It defines the deliverables for this session.
+
+### Goal
+Produce a unique, format-valid GeoTIFF submission for the DOE GEMS Prize Challenge, with an executive summary over the focus GEMSDOE sites (GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36), a GitHub Pages front end with an obvious one-click downloadable submission TIF, and a validated pipeline (holdout DTI evaluation + submission writer + run cards). Place top of the leaderboard (current public high 0.4544; user-cited 0.3195 is rank 47).
+
+### Competition (official sources)
+- DrivenData GEMS Prize Challenge: https://www.drivendata.org/competitions/306/competition-doe-gems/
+- Problem page: https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/
+- About: https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/
+- Data tab (login required): https://www.drivendata.org/competitions/306/competition-doe-gems/data/
+- Leaderboard: https://www.drivendata.org/competitions/306/competitions/306/competition-doe-gems/leaderboard/
+- Reference solution: https://github.com/drivendataorg/gems-prize-reference-solution
+- Rules PDF: https://docs.nlr.gov/docs/fy26osti/96647.pdf
+- DOE GDR INGENIOUS: https://gdr.openei.org/submissions/1391
+- USGS GeoDAWN: https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and
+- EPSG 32611: https://epsg.io/32611
+- Tversky index: https://en.wikipedia.org/wiki/Tversky_index
+
+### Task
+Develop models/algorithms predicting geological faults (structures indicative of geothermal resources) as a single-band GeoTIFF of pixel-wise probabilities in [0, 1]. The private initial-round test set comprises NEW faults NOT in the public USGS database — so discovering off-catalogue faults is the path to a high score.
+
+### Submission format (official)
+- single band, 32-bit float (float32), values between 0 and 1
+- CRS: EPSG:32611 (UTM zone 11N), 100 m resolution
+- same bounds/shape/geotransform as the submission template
+- data outside the bounds is null or NaN (exterior convention vs portal range behavior unresolved)
+
+### Metric
+Distance-weighted Tversky index DTI(alpha=0.2, beta=0.8), triangular kernel k(d)=max(1-d/R,0), R=300 m (3 px at 100 m). Official scorer is hidden/unauthenticated.
+
+### Required deliverables (this session)
+1. Executive summary on every focus site: clear which is the best submission for a high score. Table listing: file to download, estimated score, whether unique vs other GEMSDOE sites.
+2. MUST generate a UNIQUE TIF submission. Do not copy a previous submission (except for learning). It must be obvious whether the generated TIF is OK to download and submit.
+3. Easy-to-download submission TIF (one click). Values in [0, 1] (fix the portal "[0, 1]" range error). Unique name + short note <= 140 chars.
+4. Executive summary subpage explaining exactly how to make a submission; obvious at the top of the site.
+5. 3-5 candidate geological hypotheses (layers, physical signature, why it catches unmapped faults, how it differs from repo work), ranked by expected DTI improvement and cost.
+6. Validate the top candidate on the spatially-blocked holdout before touching a submission slot.
+7. Put this prompt in the README; read it each session.
+8. End with one JSON run card: hypothesis, mechanism, named non-fault mimic, holdout DTI + CI, correlation/overlap vs registry, raster sha256, validator output, submission name + note <= 140 chars, verdict promote/negative.
+
+### Parallel-run protocol (literal)
+- LANE: stay in one method paragraph. If raster rank-correlation with any registry raster > 0.90, OR > 70% of dots within 3 px of one registry raster's dots, log as duplicate and stop. Check pre-placement AND final dots.
+- REUSE, DON'T REBUILD: use the template's cached feature stack, evaluate_holdout.py and submission_writer.py. Holdout = hide-and-recover. Pooled DTI alpha 0.2, beta 0.8, 300 m triangular kernel.
+- LABEL every number as HOLDOUT-DTI or ORGANIZER-CONFIRMED. A projection is never a score.
+- LEAKAGE CANARY: test each feature alone; AUC > 0.90 = leakage.
+- RUN CARD: one JSON card at the end (promote / negative). Negative results are deliverables.
+- BUDGET: stop after 3 experiments or 2 hours. No submission slot spent; promotion is a separate selector step.
+
+### Data access blocker (verified)
+No DrivenData auth → cannot auto-download training_features.tif, labels.tif, sample_submission.tif from the data tab (redirects to login). Research mirrors restored via scripts/download_competition_data.sh --research-mirror (owner-mirror bytes, SHA-256 pinned, NOT organizer-authenticated).
+
+### Core values
+Maximize P(Win). Own the Outcome. No hallucinations; verify line by line; flag irregularities.
