@@ -1,0 +1,245 @@
+{
+ "experiment": "HX-1 structural lineament vs arithmetic",
+ "evidence_class": "HOLDOUT-DTI (hide-and-recover, catalogue components withheld, 3 px feature buffer)",
+ "grid": {
+  "shape": [
+   3730,
+   3292
+  ],
+  "catalogue_px": 60988,
+  "footprint_px": 5167373
+ },
+ "leakage_canary": {
+  "ex_max": {
+   "auc_catalogue": 0.5561,
+   "auc_within3px_vs_far": 0.5574,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "ex_mean": {
+   "auc_catalogue": 0.5499,
+   "auc_within3px_vs_far": 0.5532,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "step_max": {
+   "auc_catalogue": 0.5568,
+   "auc_within3px_vs_far": 0.5583,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "lapneg_max": {
+   "auc_catalogue": 0.5589,
+   "auc_within3px_vs_far": 0.563,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "lappos_max": {
+   "auc_catalogue": 0.5625,
+   "auc_within3px_vs_far": 0.5658,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "downface_max": {
+   "auc_catalogue": 0.5677,
+   "auc_within3px_vs_far": 0.5699,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "upface_max": {
+   "auc_catalogue": 0.5717,
+   "auc_within3px_vs_far": 0.5763,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "cross_max": {
+   "auc_catalogue": 0.5626,
+   "auc_within3px_vs_far": 0.5731,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "relief": {
+   "auc_catalogue": 0.5545,
+   "auc_within3px_vs_far": 0.5664,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "coh100": {
+   "auc_catalogue": 0.5033,
+   "auc_within3px_vs_far": 0.5321,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "K": {
+   "auc_catalogue": 0.4428,
+   "auc_within3px_vs_far": 0.4281,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "Th": {
+   "auc_catalogue": 0.4502,
+   "auc_within3px_vs_far": 0.4387,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "U": {
+   "auc_catalogue": 0.483,
+   "auc_within3px_vs_far": 0.4734,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "TC": {
+   "auc_catalogue": 0.4494,
+   "auc_within3px_vs_far": 0.4356,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "ThK": {
+   "auc_catalogue": 0.4819,
+   "auc_within3px_vs_far": 0.4798,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "UK": {
+   "auc_catalogue": 0.5393,
+   "auc_within3px_vs_far": 0.5436,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "UTh": {
+   "auc_catalogue": 0.5422,
+   "auc_within3px_vs_far": 0.5512,
+   "leakage_flag_auc_gt_0.90": false
+  },
+  "TMI": {
+   "auc_catalogue": 0.4912,
+   "auc_within3px_vs_far": 0.4921,
+   "leakage_flag_auc_gt_0.90": false
+  }
+ },
+ "budgets": {
+  "20": {
+   "withheld_positives": 11321,
+   "eligible_cells": 3528591,
+   "rows": [
+    {
+     "budget_dots": 20000,
+     "lineament": {
+      "pooled_dti": 0.018999,
+      "tp": 243.37,
+      "fp": 18519.9,
+      "fn": 11077.63,
+      "coverage": 0.021497,
+      "per_fold_dti": [
+       0.01999,
+       0.00344,
+       0.02339,
+       0.02366
+      ]
+     },
+     "random": {
+      "pooled_dti": 0.032688,
+      "tp": 421.69,
+      "fp": 18796.551,
+      "fn": 10899.31,
+      "coverage": 0.037248,
+      "per_fold_dti": [
+       0.02648,
+       0.02488,
+       0.03565,
+       0.0392
+      ]
+     },
+     "ratio_lineament_over_random": 0.581
+    },
+    {
+     "budget_dots": 40000,
+     "lineament": {
+      "pooled_dti": 0.023496,
+      "tp": 388.155,
+      "fp": 36928.697,
+      "fn": 10932.845,
+      "coverage": 0.034286,
+      "per_fold_dti": [
+       0.02971,
+       0.00541,
+       0.03256,
+       0.02447
+      ]
+     },
+     "random": {
+      "pooled_dti": 0.046097,
+      "tp": 771.756,
+      "fp": 37653.998,
+      "fn": 10549.244,
+      "coverage": 0.06817,
+      "per_fold_dti": [
+       0.04052,
+       0.03747,
+       0.0481,
+       0.05414
+      ]
+     },
+     "ratio_lineament_over_random": 0.51
+    },
+    {
+     "budget_dots": 80000,
+     "lineament": {
+      "pooled_dti": 0.027092,
+      "tp": 649.256,
+      "fp": 73891.144,
+      "fn": 10671.744,
+      "coverage": 0.05735,
+      "per_fold_dti": [
+       0.03166,
+       0.0072,
+       0.03888,
+       0.02788
+      ]
+     },
+     "random": {
+      "pooled_dti": 0.059093,
+      "tp": 1443.158,
+      "fp": 75381.916,
+      "fn": 9877.842,
+      "coverage": 0.127476,
+      "per_fold_dti": [
+       0.05162,
+       0.04559,
+       0.06325,
+       0.06997
+      ]
+     },
+     "ratio_lineament_over_random": 0.458
+    }
+   ]
+  }
+ },
+ "random_controls": {},
+ "instrument_control": {
+  "evidence_class": "HOLDOUT-DTI (same instrument, registry rasters as fixed emissions)",
+  "rows": {
+   "GEMSDOE32": {
+    "dots": 37654,
+    "holdout_dti": 0.003699,
+    "tp": 59.7,
+    "fp": 35299.2,
+    "coverage": 0.00527
+   },
+   "GEMSDOE24": {
+    "dots": 60069,
+    "holdout_dti": 0.088808,
+    "tp": 1816.5,
+    "fp": 55172.1,
+    "coverage": 0.16046
+   },
+   "GEMSDOE49_gate_ortho": {
+    "dots": 40000,
+    "holdout_dti": 0.0,
+    "tp": 0.0,
+    "fp": 37459.0,
+    "coverage": 0.0
+   },
+   "GEMSDOE70_dualsubmod": {
+    "dots": 37654,
+    "holdout_dti": 0.002649,
+    "tp": 43.5,
+    "fp": 36694.9,
+    "coverage": 0.00384
+   },
+   "LATTICE": {
+    "dots": 206895,
+    "holdout_dti": 0.087971,
+    "tp": 4246.0,
+    "fp": 191800.5,
+    "coverage": 0.37506
+   }
+  },
+  "interpretation": "On the catalogue hide-and-recover instrument the registry's own leaders score at or below the uniform lattice: GEMSDOE32 (leaderboard 0.2778) = 0.0037, GEMSDOE49 (0.2376) = 0.0000, GEMSDOE70 (0.2478) = 0.0026, while the 13GEMSDOE r13 lattice (leaderboard 0.0904) = 0.0880 and GEMSDOE24 (0.2477) = 0.0888. The instrument therefore ANTI-CORRELATES with leaderboard score for targeted fields and cannot be used to rank candidates for the organizer's off-catalogue truth.",
+  "consequence": "Every 'negative' verdict this repository produced with this instrument is a statement about catalogue recovery, not about leaderboard potential. HX-1's lineament field scoring 0.46-0.58x random here is therefore NOT evidence that it would score badly on the leaderboard - it is evidence that the instrument is blind to the target."
+ }
+}

@@ -56,19 +56,37 @@ ARTIFACTS = (
     # saturated 13GEMSDOE lattice (chance coverage 99.87%), holdout negative. DO NOT SUBMIT.
     ("gemsdoekarage2-hc-strain-seis-corridor-30k-20261031",
      "evidence/hc/e1_run_card.json", None, False, "research-nan-exterior"),
+    # Experiment V3 (2026-10-31): unique conductivity x depth-to-basement x
+    # magnetic-edge blind-conduit dots. Unique (0.0% vs lattice), format-valid,
+    # but holdout-DTI 0.0000 => negative, not approved for submission.
+    ("gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041",
+     "docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041-run-card.json",
+     None, False, "research"),
+    # HX-2 (2026-10-31): unique, format-valid, apron-cleared lineament field.
+    # Research-only: the projected score does not beat the 0.2778 incumbent.
+    ("gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros",
+     "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.run-card.json",
+     None, False, "research"),
     # GBSP unique submission TIF (experiment 4): format-valid, uniqueness-passed,
     # not cleared to submit (holdout-DTI proxy below threshold).
     ("gems-gbsp-blindspot-2195bc570842-20261031T005323Z",
      "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json",
      None, False, "research"),
-    # Registered 2026-10-31 on merge from main (previously unregistered, which failed closed).
-    # Card: ok_to_submit false, slot_authorized false, verdict negative.
-    # gemsdoe-karage2-near-trace-20261031 was moved to evidence/quarantine/ on 2026-10-31 (its card
-    # says verdict "promote" and its holdout DTI 0.624 is not a valid held-out result).
-    ("gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031",
-     "docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.run-card.json",
-     None, False, "research"),
 )
+
+
+# Files that exist in docs/downloads but are NOT registered in ARTIFACTS and are NOT
+# authorized for research download. They were merged from parallel Arena lanes whose
+# generators did not update this inventory. Quarantining them keeps the audit
+# fail-closed (they can never be reported as VERIFIED_RESEARCH_ONLY) while making
+# their presence visible instead of silently ignoring it. The protocol owner must
+# decide: register, regenerate, or delete.
+QUARANTINED = {
+    # gemsdoe-karage2-near-trace-20261031.tif was moved to evidence/quarantine/ on 2026-10-31 (see that README).
+    "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif":
+        "present but unregistered; run card is negative, but its card has no 'raster' field so the "
+        "saved-byte binding cannot be checked here",
+}
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
@@ -317,7 +335,9 @@ def audit(root: Path = ROOT) -> dict:
     expected_zips = {f"{a[0]}.zip" for a in ARTIFACTS if a[3]}
     found_tifs = {p.name for suffix in ("*.tif", "*.tiff") for p in downloads.glob(suffix)}
     found_zips = {p.name for p in downloads.glob('*.zip')}
-    unexpected = sorted((found_tifs - expected_tifs) | (found_zips - expected_zips))
+    quarantined = sorted(n for n in (found_tifs | found_zips) if n in QUARANTINED)
+    unexpected = sorted((found_tifs - expected_tifs - set(QUARANTINED)) |
+                        (found_zips - expected_zips - set(QUARANTINED)))
     missing = sorted((expected_tifs - found_tifs) | (expected_zips - found_zips))
     entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
                for a in ARTIFACTS]
@@ -329,6 +349,8 @@ def audit(root: Path = ROOT) -> dict:
         "inventory_status": "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED",
         "verdict": "negative",
         "unexpected_downloads": unexpected, "missing_downloads": missing,
+        "quarantined_downloads": [{"file": f"docs/downloads/{n}", "status": "QUARANTINED_NOT_AUTHORIZED",
+                                   "reason": QUARANTINED[n]} for n in quarantined],
         "artifacts": entries,
         "downloadable_approved_submission": None,
         "score_estimate": None,

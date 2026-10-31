@@ -1,0 +1,290 @@
+{
+  "schema": "gems.run_card.v1",
+  "created_utc": "20261031T010000Z",
+  "experiment": "V3",
+  "hypothesis": "Blind geothermal conduits are marked by concordance of high subsurface conductivity, shallow depth-to-basement, and a magnetic-source edge; dots are restricted to the uncovered holes of the 13GEMSDOE spacing lattice to guarantee uniqueness.",
+  "mechanism": "score = cond_surf x shallow-basement-window(depth_to_base_surf) x magnetic-edge(tc tilt + tmi_hg); candidate dots = lattice uncovered holes within 300 m of a visible fault; top 1500 dots by score+proximity at p=1; visible faults masked pixel-exactly; pooled hide-and-recover DTI over quadrant folds.",
+  "named_non_fault_mimic": "conductive clay/sedimentary basins, intrusive magnetic bodies, and flight-line or topography artifacts can mimic the signal;depth-to-basement window and multi-band concordance reduce them.",
+  "evaluator": "gems57-pooled-hide-recover-v1",
+  "evaluator_settings": {
+    "alpha": 0.2,
+    "beta": 0.8,
+    "R_m": 300.0,
+    "kernel": "triangular",
+    "folds": "quadrant",
+    "buffer_px": 3.0
+  },
+  "holdout_dti": 0.0,
+  "holdout_fold_dtis": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "n_withheld_positives": 60988,
+  "ci95": [
+    0.0,
+    0.0
+  ],
+  "ci_note": "fold-wise range over 4 spatial blocks (not a bootstrap CI)",
+  "leakage_canary": {
+    "max_single_band_auc_vs_labels": 0.5695,
+    "leakage_threshold": 0.9,
+    "pass": true
+  },
+  "uniqueness_vs_registry": {
+    "r13_lattice_nan.tif": {
+      "dots_within_3px_of_registry": 0.0,
+      "pass": true,
+      "registry_dots": 206895
+    },
+    "GEMSDOE24.tif": {
+      "dots_within_3px_of_registry": 0.406061,
+      "pass": true,
+      "registry_dots": 60069
+    },
+    "GEMSDOE25.tif": {
+      "dots_within_3px_of_registry": 0.387879,
+      "pass": true,
+      "registry_dots": 44090
+    },
+    "GEMSDOE27.tif": {
+      "dots_within_3px_of_registry": 0.406061,
+      "pass": true,
+      "registry_dots": 61328
+    },
+    "GEMSDOE28.tif": {
+      "dots_within_3px_of_registry": 0.193939,
+      "pass": true,
+      "registry_dots": 37660
+    },
+    "GEMSDOE30.tif": {
+      "dots_within_3px_of_registry": 0.387879,
+      "pass": true,
+      "registry_dots": 44090
+    },
+    "GEMSDOE31.tif": {
+      "dots_within_3px_of_registry": 0.218182,
+      "pass": true,
+      "registry_dots": 40199
+    },
+    "GEMSDOE32.tif": {
+      "dots_within_3px_of_registry": 0.086869,
+      "pass": true,
+      "registry_dots": 37654
+    },
+    "GEMSDOE33.tif": {
+      "dots_within_3px_of_registry": 0.309091,
+      "pass": true,
+      "registry_dots": 41865
+    },
+    "GEMSDOE36.tif": {
+      "dots_within_3px_of_registry": 0.086869,
+      "pass": true,
+      "registry_dots": 38854
+    }
+  },
+  "unique": true,
+  "lattice_overlap": 0.0,
+  "raster": {
+    "file": "docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041.tif",
+    "sha256": "afe07d0cde063ec4ad9f906bef206286dffa5a374761d64fa2b4811ca41fe3e8",
+    "bytes": 721417,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "compress": "lzw",
+    "exterior_convention": "zeros outside footprint (research-only convention; official sample uses NaN outside)"
+  },
+  "validator": {
+    "passed": true,
+    "checks": [
+      {
+        "check": "surface_spearman_r13_lattice_nan.tif",
+        "passed": true,
+        "detail": "rho=-0.0020"
+      },
+      {
+        "check": "dots_within_3px_r13_lattice_nan.tif",
+        "passed": true,
+        "detail": "0.0000 of 495 dots"
+      },
+      {
+        "check": "surface_spearman_GEMSDOE24.tif",
+        "passed": true,
+        "detail": "rho=0.0010"
+      },
+      {
+        "check": "dots_within_3px_GEMSDOE24.tif",
+        "passed": true,
+        "detail": "0.4061 of 495 dots"
+      },
+      {
+        "check": "surface_spearman_GEMSDOE25.tif",
+        "passed": true,
+        "detail": "rho=0.0004"
+      },
+      {
+        "check": "dots_within_3px_GEMSDOE25.tif",
+        "passed": true,
+        "detail": "0.3879 of 495 dots"
+      },
+      {
+        "check": "surface_spearman_GEMSDOE27.tif",
+        "passed": true,
+        "detail": "rho=0.0009"
+      },
+      {
+        "check": "dots_within_3px_GEMSDOE27.tif",
+        "passed": true,
+        "detail": "0.4061 of 495 dots"
+      },
+      {
+        "check": "surface_spearman_GEMSDOE28.tif",
+        "passed": true,
+        "detail": "rho=0.0001"
+      },
+      {
+        "check": "dots_within_3px_GEMSDOE28.tif",
+        "passed": true,
+        "detail": "0.1939 of 495 dots"
+      },
+      {
+        "check": "surface_spearman_GEMSDOE30.tif",
+        "passed": true,
+        "detail": "rho=0.0004"
+      },
+      {
+        "check": "dots_within_3px_GEMSDOE30.tif",
+        "passed": true,
+        "detail": "0.3879 of 495 dots"
+      },
+      {
+        "check": "surface_spearman_GEMSDOE31.tif",
+        "passed": true,
+        "detail": "rho=-0.0004"
+      },
+      {
+        "check": "dots_within_3px_GEMSDOE31.tif",
+        "passed": true,
+        "detail": "0.2182 of 495 dots"
+      },
+      {
+        "check": "surface_spearman_GEMSDOE32.tif",
+        "passed": true,
+        "detail": "rho=-0.0006"
+      },
+      {
+        "check": "dots_within_3px_GEMSDOE32.tif",
+        "passed": true,
+        "detail": "0.0869 of 495 dots"
+      },
+      {
+        "check": "surface_spearman_GEMSDOE33.tif",
+        "passed": true,
+        "detail": "rho=0.0002"
+      },
+      {
+        "check": "dots_within_3px_GEMSDOE33.tif",
+        "passed": true,
+        "detail": "0.3091 of 495 dots"
+      },
+      {
+        "check": "surface_spearman_GEMSDOE36.tif",
+        "passed": true,
+        "detail": "rho=-0.0006"
+      },
+      {
+        "check": "dots_within_3px_GEMSDOE36.tif",
+        "passed": true,
+        "detail": "0.0869 of 495 dots"
+      },
+      {
+        "check": "single_band",
+        "passed": true,
+        "detail": "count=1"
+      },
+      {
+        "check": "dtype_float32",
+        "passed": true,
+        "detail": "dtype=float32"
+      },
+      {
+        "check": "shape_3730x3292",
+        "passed": true,
+        "detail": "3730x3292"
+      },
+      {
+        "check": "crs_EPSG_32611",
+        "passed": true,
+        "detail": "crs=EPSG:32611"
+      },
+      {
+        "check": "geotransform_match",
+        "passed": true,
+        "detail": "| 100.00, 0.00, 243350.00|\n| 0.00,-100.00, 4508550.00|\n| 0.00, 0.00, 1.00|"
+      },
+      {
+        "check": "bounds_match",
+        "passed": true,
+        "detail": "(243350.0, 4135550.0, 572550.0, 4508550.0)"
+      },
+      {
+        "check": "no_nan_inside_footprint",
+        "passed": true,
+        "detail": "nan_inside=0"
+      },
+      {
+        "check": "finite_inside_footprint",
+        "passed": true,
+        "detail": "infinite_inside=0"
+      },
+      {
+        "check": "whole_array_finite",
+        "passed": true,
+        "detail": "nan_total=0 inf_total=0"
+      },
+      {
+        "check": "outside_footprint_is_nan",
+        "passed": false,
+        "detail": "outside_nan=0 outside_inf=0"
+      },
+      {
+        "check": "in_range_0_1",
+        "passed": true,
+        "detail": "min=0.0 max=1.0"
+      },
+      {
+        "check": "dots_present",
+        "passed": true,
+        "detail": "n_dots=495"
+      }
+    ]
+  },
+  "footprint_pixels": 5167373,
+  "n_dots": 495,
+  "submission_name": "gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041",
+  "note": "Unique conductivity-depth-magnetic-edge blind-conduit dots (research only; holdout DTI below submission threshold).",
+  "note_len": 115,
+  "verdict": "negative",
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "submission": {
+    "name": "gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041",
+    "note": "Unique conductivity-depth-magnetic-edge blind-conduit dots (research only; holdout DTI below submission threshold)."
+  },
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false
+}

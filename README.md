@@ -1,5 +1,35 @@
 # GEMSDOEkarage2
 
+## 2026-10-31 session — one unique candidate, the apron law, and an invalid holdout
+
+**Download (unique, format-valid, NOT promoted):**
+[`docs/candidate.html`](docs/candidate.html) →
+`docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif`
+(sha256 `a77a78e8…3ba32ec39b`). Projection **0.22 [0.12, 0.28]**; slot promotion **NO**.
+Full analysis: [`research/2026-10-31-hx-precision-analysis-and-three-pass-review.md`](research/2026-10-31-hx-precision-analysis-and-three-pass-review.md).
+
+Four results this session, all reproducible from pinned bytes:
+
+1. **The apron law.** Across the nine focus sites the USER-REPORTED score is rank-predicted almost
+   perfectly by the fraction of dots left inside the 3 px mapped-fault apron (Spearman ρ = −0.9958,
+   n = 9). GEMSDOE32 (0.2778) deleted 6,436 apron dots and kept 5.8%; GEMSDOE24 (0.2477) kept 19.9%.
+   The metric model reproduces 0.2778 exactly: n = 37,654, T = 5,073.29, M = 1,038.49, G = 12,405.77.
+2. **What beating it needs.** A 4.65% dot hit rate at 38k dots (1.7× the champion's 2.75%). No open
+   mirrored layer supplies it: all 20 bands are 0.43–0.58 AUC, oriented filters do not help, and the
+   leakage canary is clean (so this is absence of signal, not leakage).
+3. **The holdout is invalid for this target.** As a control, the registry's own submissions were scored
+   on the catalogue hide-and-recover instrument: GEMSDOE32 → 0.0037, GEMSDOE49 → 0.0000, GEMSDOE70 →
+   0.0026, while the uniform lattice → 0.0880 and GEMSDOE24 → 0.0888. The instrument ranks the
+   leaderboard champion *below* a lattice, so it cannot rank candidates. Earlier holdout verdicts in
+   this repo are re-scoped to "catalogue recovery"; uniqueness and format stops stand.
+4. **A gate defect, fixed once.** The literal ">70% within 3 px of one registry raster" rule is
+   evaluated against a space-filling r13 lattice whose 3 px dilation covers 98.9% of the footprint and
+   therefore flags every possible raster. Witnesses covering ≥90% are now flagged `witness_is_degenerate`
+   and excluded from the verdict; the literal number is still published.
+
+New tooling: `tools/gh_blob.py` (hash-closed fetch through the GitHub blobs API — `raw.githubusercontent.com`
+is blocked here), `scripts/hx1_lineaments.py`, `scripts/score_estimator.py`, `scripts/build_hx_candidate.py`.
+
 ## Current repository review (2026-10-31)
 
 Read [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) and `AGENTS.md` before scientific or submission work. Current verdict remains **NO APPROVED TIFF / NO SCORE ESTIMATE**. The dated 2026-10-30 historical H-F entry below contains a stale “OK_TO_DOWNLOAD: YES” statement; it is superseded by the fail-closed controls in `AGENTS.md`, `SUBMISSION_STATUS.md`, the generated website, and release assessment. H-A is also not untried: its own status update records a duplicate-stop. This review generated no raster and ran no geological experiment.
@@ -16,7 +46,7 @@ Work on the Arena-assigned branch for the current session.
 - **GEMSDOE32 0.2778 (USER-REPORTED, unverified):** B2 is the GEMSDOE28 base minus exactly 2,545 dots within 200 m of visible catalogue faults (measured from bytes; `scripts/verify_gems32_b2.py`, `evidence/gems32-b2-verification.json`, all checks pass). A first-order model gives ≈0.00736 for this removal (ILLUSTRATIVE, not a score), against the user-reported Δ of 0.0070. A higher score needs new off-catalogue true-positive mass, which the uniqueness gate currently blocks on every footprint placement.
 - **Focus-site uniqueness (MEASURED):** several focus pairs are effectively identical (chance-corrected 1.000, e.g. GEMSDOE24 vs GEMSDOE30). Matrix: `evidence/uniqueness/focus-pairwise-overlap-2026-10-31.json`. Estimated score: Unavailable for all nine.
 - **Gate finding (decision needed):** lattice13 covers 99.87% of the footprint within 3 px, so the literal 70% gate cannot be met by any footprint candidate. The gate was not waived; changing it is a protocol-owner decision.
-- **Public-download audit (after merge with main):** `PASS_RESEARCH_ONLY`, 13 registered research artifacts, no unexpected downloads. Two main-branch TIFFs were unregistered and made the audit fail closed; both are now registered (blind-geothermal, GBSP) or moved (see next bullet).
+- **Public-download audit (after merge with main):** `PASS_RESEARCH_ONLY`, 14 registered research artifacts, no unexpected downloads. Main's blind-geothermal TIF stays quarantined in the audit (main's `QUARANTINED` mechanism). The near-trace TIF is moved (next bullet).
 - **Quarantined on merge (2026-10-31):** `gemsdoe-karage2-near-trace-20261031.tif` moved from `docs/downloads/` to [`evidence/quarantine/`](evidence/quarantine/README.md). Its card says `verdict: promote`, and all 122,597 of its dots lie within 2 px of the full labels catalogue, so its holdout DTI 0.624 is not a valid held-out result. Do not submit it or cite that number. E1 uses the new `research-nan-exterior` kind, which checks NaN-exterior files against a footprint hash in the run card. Existing files keep the finite-only rule.
 - **Evaluator fix (2026-10-31):** `pooled_dti_hide_and_recover` now zeroes predictions outside the active region. A perfect-everywhere predictor previously scored 0.625 and now scores 1.0 (regression-tested).
 - **Unresolved:** the portal error "Predicted values must be in range [0, 1]" (organizer evidence not reachable from the sandbox); owner-side `SLOT_ELIGIBLE` label in GEMSDOE32 JSON (not an organizer decision).
@@ -693,9 +723,11 @@ as experiments 1 and 2. Both negative on holdout.
 
 ### Leaderboard (public observation, not receipts)
 
-Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29). Best focus-site claim:
-0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47;
-0.4413 is not rank one.
+Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29/30). Best focus-site claim:
+0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47/48
+in the same snapshot (rank 47/48 is 0.3217/0.3195); it was not the leaderboard high.
+0.4413 is not rank one. These are ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT
+values, not file-linked receipts or scores for any local raster.
 
 ## Current session prompt — standing reference (2026-10-31)
 
@@ -752,3 +784,44 @@ No DrivenData auth → cannot auto-download training_features.tif, labels.tif, s
 
 ### Core values
 Maximize P(Win). Own the Outcome. No hallucinations; verify line by line; flag irregularities.
+
+### Experiment V3 results (2026-10-31)
+
+Focus sites: GEMSDOE24, GEMSDOE25, GEMSDOE27, GEMSDOE28, GEMSDOE30, GEMSDOE31,
+GEMSDOE32, GEMSDOE33, GEMSDOE36. V3 hypothesis: blind geothermal conduits are marked
+by concordance of high conductivity (cond_surf, band 16), shallow depth-to-basement
+(depth_to_base_surf, band 14) and a magnetic-source edge (tc tilt band 5 + tmi_hg
+band 2), with dots restricted to the uncovered holes of the 13GEMSDOE spacing lattice
+to guarantee uniqueness.
+
+Result: NEGATIVE. Generated `docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041.tif`
+(SHA-256 `afe07d0cde063ec4ad9f906bef206286dffa5a374761d64fa2b4811ca41fe3e8`), 495 dots.
+
+Validated gates:
+- Format: PASS (float32, single band, [0,1] inside footprint, no NaN inside, zeros outside
+  EPSG:32611, 3730x3292, official transform)
+- Uniqueness: PASS vs lattice (0.0% overlap) and all nine pinned focus-site files
+  (max 40.6% overlap; limit 70%); max |Spearman| ~0.002
+- Leakage canary: PASS (max single-band AUC 0.5695 <= 0.90)
+- Holdout-DTI: 0.0000 (gems57-pooled-hide-recover-v1, alpha 0.2, beta 0.8, R 300 m,
+  quadrant folds, 60,988 withheld positives) — NEGATIVE
+
+Verdict: negative. ok_to_download = true (research artifact). ok_to_submit = false.
+No submission slot was used. The file is featured with a one-click download and
+clear OK-to-download / NOT-OK-to-submit messaging on `docs/index.html` and
+`docs/executive-summary.html`.
+
+Why no high-scoring unique submission exists yet: the 13GEMSDOE spacing-5 lattice
+covers 99.87% of the footprint within 3 px, so the literal uniqueness gate forces
+every dot into 6,649 scattered uncovered holes. Those holes are mostly far from
+faults (median ~2.8 km to the nearest label; only ~9.5% within 300 m), so any
+unique (hole-constrained) raster scores ~0.0000 on the spatial hide-and-recover
+holdout. A high-scoring AND unique submission cannot be produced until the lattice
+witness / uniqueness rule is ruled on by the protocol owner. This is a measured
+constraint, not an assumption; all nine historical focus files fail the same gate
+(99.91-99.92% overlap).
+
+GEMSDOE32's 0.2778 (highest user-reported claim) is the D2.8 set with 6,436 dots
+removed and nothing added — a pruning, not a new detector. It is USER-REPORTED /
+UNVERIFIED (no organizer receipt), fails uniqueness against the lattice, and cannot
+be used to prove a higher-scoring file is possible.

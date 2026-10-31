@@ -100,7 +100,7 @@ Ranking by expected DTI gain and cost. Gains are qualitative; no numeric project
 
 ## 7. Public-download audit
 
-`scripts/audit_public_downloads.py` now registers E1 with kind `research-nan-exterior`. That kind overrides only `whole_array_finite` and `range_0_1`. It requires the finite-mask sha256 to match the footprint hash in the run card, a finite count of 5,167,373, values in [0,1] inside the footprint, and no infinities. Existing files keep the finite-only rule. Result (after merging main): `inventory_status = PASS_RESEARCH_ONLY`, 13 artifacts, no unexpected downloads, E1 `VERIFIED_RESEARCH_ONLY`. Main had two unregistered TIFFs (blind-geothermal, near-trace). Blind-geothermal is registered. Near-trace is quarantined (see §9 item 11). The check is against the card's footprint hash, not organizer-authenticated.
+`scripts/audit_public_downloads.py` now registers E1 with kind `research-nan-exterior`. That kind overrides only `whole_array_finite` and `range_0_1`. It requires the finite-mask sha256 to match the footprint hash in the run card, a finite count of 5,167,373, values in [0,1] inside the footprint, and no infinities. Existing files keep the finite-only rule. Result (after merging main, 2026-10-31 second merge): `inventory_status = PASS_RESEARCH_ONLY`, 14 registered artifacts, no unexpected downloads, E1 `VERIFIED_RESEARCH_ONLY`. Main's blind-geothermal TIF is listed as quarantined by main's own mechanism. Near-trace is moved to `evidence/quarantine/` (see §9 item 11). The check is against the card's footprint hash, not organizer-authenticated.
 
 ## 8. Protocol decision needed (not waived)
 
