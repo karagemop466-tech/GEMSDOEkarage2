@@ -86,3 +86,30 @@ No new experiment, TIFF or slot was used for the correction.
 * Automated freshness checks contact GitHub only; never infer account quota or current
   leaderboard values from them. Run the three review passes and the test suite before a
   PR. Never edit another repository without access or switch the assigned branch.
+
+## 2026-10-31 addendum — read before any further holdout or uniqueness work
+
+1. **The catalogue holdout is not a leaderboard ranker.** Scored as a control on the registry's own
+   fixed emissions it ranks the leaderboard champion *below* a uniform lattice: GEMSDOE32 (0.2778) =
+   0.0037 holdout DTI, GEMSDOE49 (0.2376) = 0.0000, GEMSDOE70 (0.2478) = 0.0026, versus the r13 lattice
+   (0.0904) = 0.0880. It measures catalogue recovery and the organizer rewards the opposite. Report its
+   output as "catalogue recovery", never as leaderboard potential, and never use it alone to rank
+   candidates. See `evidence/hx1/hx1_lineament_vs_random.json` → `instrument_control`.
+2. **Degenerate witnesses.** A uniqueness witness whose own 3 px dilation covers >=90% of the footprint
+   (the r13 lattice covers 98.9%) flags every possible raster and cannot discriminate. Flag it
+   `witness_is_degenerate`, exclude it from the verdict, and publish the literal number too. Implemented
+   in `scripts/build_hx_candidate.py`.
+3. **The apron law.** Among the nine focus sites the reported score is rank-predicted by the in-apron dot
+   fraction (rho = -0.9958, n = 9). Any candidate must report its in-apron fraction, and no candidate may
+   spend dots inside 3 px of a mapped fault. See `evidence/hx2/nine_site_measurements.json`.
+4. **Estimates.** Use `scripts/score_estimator.py`. It reproduces 0.2778 exactly from calibrated
+   components; that is the only verified forward model here. A hit rate is an assumption, so label the
+   output LEADERBOARD-CALIBRATED ESTIMATE or EMPIRICAL REGISTRY PRIOR — never a score, never HOLDOUT-DTI.
+5. **Transport.** `raw.githubusercontent.com` is unreachable in this sandbox. Fetch with
+   `tools/gh_blob.py --repo --ref --path --sha256`, which fails closed on a hash mismatch. Never add an
+   unverified mirror to an analysis.
+6. The 2026-10-31 unique candidate
+   (`docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif`, sha256
+   `a77a78e8…3ba32ec39b`) is research-only and **not** promoted: projection 0.22 [0.12, 0.28] is below
+   the 0.2778 incumbent. Do not relabel it as approved and do not spend a slot on it without an explicit
+   selector decision by the protocol owner.

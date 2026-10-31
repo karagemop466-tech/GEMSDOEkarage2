@@ -1,0 +1,170 @@
+{
+  "file": "gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041.tif",
+  "sha256": "afe07d0cde063ec4ad9f906bef206286dffa5a374761d64fa2b4811ca41fe3e8",
+  "bytes": 721417,
+  "validation_passed": true,
+  "validation_message": "PASS",
+  "checks": [
+    {
+      "check": "surface_spearman_r13_lattice_nan.tif",
+      "passed": true,
+      "detail": "rho=-0.0020"
+    },
+    {
+      "check": "dots_within_3px_r13_lattice_nan.tif",
+      "passed": true,
+      "detail": "0.0000 of 495 dots"
+    },
+    {
+      "check": "surface_spearman_GEMSDOE24.tif",
+      "passed": true,
+      "detail": "rho=0.0010"
+    },
+    {
+      "check": "dots_within_3px_GEMSDOE24.tif",
+      "passed": true,
+      "detail": "0.4061 of 495 dots"
+    },
+    {
+      "check": "surface_spearman_GEMSDOE25.tif",
+      "passed": true,
+      "detail": "rho=0.0004"
+    },
+    {
+      "check": "dots_within_3px_GEMSDOE25.tif",
+      "passed": true,
+      "detail": "0.3879 of 495 dots"
+    },
+    {
+      "check": "surface_spearman_GEMSDOE27.tif",
+      "passed": true,
+      "detail": "rho=0.0009"
+    },
+    {
+      "check": "dots_within_3px_GEMSDOE27.tif",
+      "passed": true,
+      "detail": "0.4061 of 495 dots"
+    },
+    {
+      "check": "surface_spearman_GEMSDOE28.tif",
+      "passed": true,
+      "detail": "rho=0.0001"
+    },
+    {
+      "check": "dots_within_3px_GEMSDOE28.tif",
+      "passed": true,
+      "detail": "0.1939 of 495 dots"
+    },
+    {
+      "check": "surface_spearman_GEMSDOE30.tif",
+      "passed": true,
+      "detail": "rho=0.0004"
+    },
+    {
+      "check": "dots_within_3px_GEMSDOE30.tif",
+      "passed": true,
+      "detail": "0.3879 of 495 dots"
+    },
+    {
+      "check": "surface_spearman_GEMSDOE31.tif",
+      "passed": true,
+      "detail": "rho=-0.0004"
+    },
+    {
+      "check": "dots_within_3px_GEMSDOE31.tif",
+      "passed": true,
+      "detail": "0.2182 of 495 dots"
+    },
+    {
+      "check": "surface_spearman_GEMSDOE32.tif",
+      "passed": true,
+      "detail": "rho=-0.0006"
+    },
+    {
+      "check": "dots_within_3px_GEMSDOE32.tif",
+      "passed": true,
+      "detail": "0.0869 of 495 dots"
+    },
+    {
+      "check": "surface_spearman_GEMSDOE33.tif",
+      "passed": true,
+      "detail": "rho=0.0002"
+    },
+    {
+      "check": "dots_within_3px_GEMSDOE33.tif",
+      "passed": true,
+      "detail": "0.3091 of 495 dots"
+    },
+    {
+      "check": "surface_spearman_GEMSDOE36.tif",
+      "passed": true,
+      "detail": "rho=-0.0006"
+    },
+    {
+      "check": "dots_within_3px_GEMSDOE36.tif",
+      "passed": true,
+      "detail": "0.0869 of 495 dots"
+    },
+    {
+      "check": "single_band",
+      "passed": true,
+      "detail": "count=1"
+    },
+    {
+      "check": "dtype_float32",
+      "passed": true,
+      "detail": "dtype=float32"
+    },
+    {
+      "check": "shape_3730x3292",
+      "passed": true,
+      "detail": "3730x3292"
+    },
+    {
+      "check": "crs_EPSG_32611",
+      "passed": true,
+      "detail": "crs=EPSG:32611"
+    },
+    {
+      "check": "geotransform_match",
+      "passed": true,
+      "detail": "| 100.00, 0.00, 243350.00|\n| 0.00,-100.00, 4508550.00|\n| 0.00, 0.00, 1.00|"
+    },
+    {
+      "check": "bounds_match",
+      "passed": true,
+      "detail": "(243350.0, 4135550.0, 572550.0, 4508550.0)"
+    },
+    {
+      "check": "no_nan_inside_footprint",
+      "passed": true,
+      "detail": "nan_inside=0"
+    },
+    {
+      "check": "finite_inside_footprint",
+      "passed": true,
+      "detail": "infinite_inside=0"
+    },
+    {
+      "check": "whole_array_finite",
+      "passed": true,
+      "detail": "nan_total=0 inf_total=0"
+    },
+    {
+      "check": "outside_footprint_is_nan",
+      "passed": false,
+      "detail": "outside_nan=0 outside_inf=0"
+    },
+    {
+      "check": "in_range_0_1",
+      "passed": true,
+      "detail": "min=0.0 max=1.0"
+    },
+    {
+      "check": "dots_present",
+      "passed": true,
+      "detail": "n_dots=495"
+    }
+  ],
+  "note": "Regenerated from published bytes; exterior is zeros outside footprint (research-only)."
+}
