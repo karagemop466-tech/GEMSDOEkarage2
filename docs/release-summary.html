@@ -217,42 +217,74 @@ use zeros outside. Flagged as IR-EXTERIOR-01: the repository's own
 <a href="downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.run-card.json">Emission run card</a></p>
 </section><section class="sec" id="uniqueness">
 <h2>Uniqueness against the shared registry</h2>
-<p><b>488</b> registry rasters were downloaded from the nine focus
-repositories and compared byte-for-byte against this file
-(1 could not be fetched or parsed and was skipped).</p>
+<p><b>488</b> registry rasters from the nine focus repositories were
+downloaded and compared against this file (1 could not be parsed and
+was skipped).</p>
 <table class="kv"><tbody>
 <tr><th>Gate as written</th><td>duplicate if |spearman| &gt; 0.90 OR &gt; 70% of candidate dots within 3 px of one registry raster&#x27;s dots</td></tr>
 <tr><th>Degeneracy fix applied</th><td>references with &gt;50% footprint coverage at 3 px are space-filling; their one-sided number is reported but cannot decide the gate. Enrichment vs coverage and symmetric overlap are reported alongside.</td></tr>
-<tr><th>Worst |Spearman|</th><td><b>0.1425</b> against
-<code>gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif</code> — <b>passes</b> the 0.90 gate with a
-wide margin</td></tr>
-<tr><th>Worst symmetric 3 px overlap</th><td><b>0.5799</b>
-— <b>passes</b> the 70 % gate</td></tr>
-<tr><th>Worst support Jaccard</th><td><b>0.0782</b>
-— the closest registry raster shares under 8 % of the combined dot support</td></tr>
+<tr><th>Worst |Spearman|</th><td class="yes"><b>0.1425</b> against
+<code>gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif</code> — passes the 0.90 gate with a wide
+margin</td></tr>
+<tr><th>Worst symmetric 3 px overlap</th><td class="yes">
+<b>0.5799</b> — passes the 70 % gate</td></tr>
+<tr><th>Worst support Jaccard</th><td class="yes">
+<b>0.0782</b> — the closest registry raster shares
+under 8 % of the combined dot support</td></tr>
 <tr><th>Worst one-sided 3 px overlap<br>(space-filling refs excluded)</th>
-<td><b class="no">0.9377</b> against
-<code>gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif</code> —
-<b>trips the literal 70 % rule</b>. See the discussion below.</td></tr>
+<td class="no"><b>0.9377</b> against
+<code>gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif</code> — <b>trips the literal
+70 % rule</b>. See the discussion below.</td></tr>
 <tr><th>Provenance</th><td>This dot set is produced by a model that never opens another
-submission. It is not a subset, superset, re-thinning or re-weighting of anything in the registry.</td></tr>
+submission. It is not a subset, superset, re-thinning or re-weighting of anything in the
+registry.</td></tr>
 </tbody></table>
 <p class="warn"><b>Irregularity declared (IR-ONESIDED-01) — read before you upload.</b>
 Under the <i>literal</i> one-sided rule ("more than 70 % of your dots fall within 3 px of one
 registry raster's dots") this file trips against
-<b>several
-</b> registry rasters, the worst at
-<b>0.938</b>. That number is a
-<i>regional</i> co-location measurement at 300 m, not evidence of copying: the same raster's
+<b>76</b> registry rasters,
+the worst at <b>0.938</b>. That number
+is a <i>regional</i> co-location measurement at 300 m, not evidence of copying: the same raster's
 support Jaccard against this file is only
 <b>0.0771</b> and its correlation is
-<b>0.1425</b>. Both models independently concentrate
-on the same structures — which is what you would expect if both are finding something real, and
-also what you would expect if both are finding the same false-positive geology.
+<b>0.1425</b>. Both models independently concentrate on
+the same structures — which is what you would expect if both are finding something real, and also
+what you would expect if both are finding the same false-positive geology.
 <b>This is the one gate the file does not cleanly pass.</b> It is disclosed here rather than
-hidden; the control below is the evidence for treating it as a limitation of the rule, not of
-the file.</p>
-
+hidden; the control below is the evidence for treating it as a limitation of the rule, not of the
+file.</p>
+<h3>Control: the 0.2778 file scanned identically</h3>
+<p>The decisive question is not whether the one-sided figure trips: it is whether that figure
+<i>discriminates</i>. It does not. The incumbent <code>gemsdoe32-h33-h33-2-b2</code> file
+(37,654 dots) was pushed through the identical scan against the identical
+488 rasters. 2 exact duplicates of
+itself were removed from the control before computing its statistics; this file had
+0.</p>
+<table class="grid"><thead><tr><th>Statistic</th><th>This file</th><th>GEMSDOE32 (0.2778)</th>
+<th>What it measures</th></tr></thead><tbody>
+<tr><td>References tripping the one-sided 70 % test<br>(space-filling refs excluded)</td>
+<td class="num">76</td>
+<td class="num">109</td>
+<td>Regional co-location at 300 m</td></tr>
+<tr><td>Worst |Spearman|</td><td class="yes">0.1425</td>
+<td class="num">0.9882</td><td>Whole-grid agreement</td></tr>
+<tr><td>Worst symmetric 3 px overlap</td><td class="yes">0.5799</td>
+<td class="num">0.9791</td><td>Mutual dot-level agreement</td></tr>
+<tr><td>Worst support Jaccard</td><td class="yes">0.0782</td>
+<td class="num">0.9767</td><td>Shared support</td></tr>
+</tbody></table>
+<p><b>The one-sided count barely separates the two files
+(76 versus
+109 references) while the discriminating statistics
+separate them by more than an order of magnitude (Jaccard 0.078 versus
+0.977).</b> The incumbent is a verified nesting descendant of GEMSDOE25 with
+97.7 % support overlap against a registry file, and it trips the literal rule only marginally more
+often than this file does. A 300 m one-sided overlap test therefore measures <i>where in the state
+both models think the interesting ground is</i>, not whether one was copied from the other. It is
+reported here because the brief asks for it, and it is not used as the decision rule.</p>
+<p class="muted">1 raster could not be parsed and was skipped;
+1 space-filling reference is excluded from the one-sided count under
+IR-LATTICE-01. <a href="evidence/lane-gbm/uniqueness-dual.json">Both runs, row by row</a>.</p>
 <h3>Closest registry rasters by correlation</h3>
 <table class="grid"><thead><tr><th>Reference</th><th>Repo</th><th>Its dots</th><th>Spearman</th>
 <th>My dots within 3 px</th><th>Symmetric 3 px</th><th>Jaccard</th><th>Its coverage</th></tr></thead>
@@ -289,7 +321,7 @@ the file.</p>
 <td class="num">0.7618</td>
 <td class="num">0.4786</td><td class="num">0.0494</td>
 <td class="num">0.130</td></tr></tbody></table>
-<p><a href="evidence/lane-gbm/uniqueness-full-registry.json">Full registry receipt</a></p>
+<p><a href="evidence/lane-gbm/uniqueness-full-registry.json">Full registry receipt</a> · <a href="evidence/lane-gbm/uniqueness-dual.json">Side-by-side control receipt</a></p>
 <p class="muted">Independent of the scan: this file's 100,000 dots sit a median of
 7.62 px from the nearest mapped fault, versus
 19.65 px for the 0.2778 file, and its nearest registry neighbour shares under 8 % of the combined

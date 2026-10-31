@@ -283,6 +283,9 @@ def uniqueness_section(d) -> str:
 rebuild this page.</p></section>"""
     w = u["worst"]
     top = u["top20_by_spearman"][:8]
+    dual_link = (" · <a href=\"evidence/lane-gbm/uniqueness-dual.json\">"
+                 "Side-by-side control receipt</a>"
+                 if (ROOT / "evidence" / "lane-gbm" / "uniqueness-dual.json").exists() else "")
     rows = "".join(f'''<tr><td><code>{esc(t["path"].split("/")[-1])}</code></td><td>{esc(t["repo"])}</td>
 <td class="num">{t["n_dots"]:,}</td><td class="num">{t["spearman"]:.4f}</td>
 <td class="num">{t["cand_within_3px_of_ref"]:.4f}</td>
@@ -292,68 +295,78 @@ rebuild this page.</p></section>"""
     ctrl = ""
     if dual:
         la, co = dual["lane"], dual["control_GEMSDOE32"]
-        ctrl = f'''<h3>Control: the 0.2778 file scored the same way</h3>
-<p>The decisive question is not whether the one-sided figure trips — it is whether it trips
-<i>only</i> for this file. It does not. Run through the identical scan, the incumbent
-GEMSDOE32 file ({co["n_dots"]:,} dots) trips the same literal test against
-<b>{co["n_one_sided_over_0p70_non_space_filling"]}</b> references, and its worst one-sided
-figure against a space-filling reference is <b>{co["max_one_sided_space_filling"]:.4f}</b>.
-This file trips it against <b>{la["n_one_sided_over_0p70_non_space_filling"]}</b>
-(space-filling worst {la["max_one_sided_space_filling"]:.4f}). The literal one-sided test at
-100&nbsp;m resolution is a <i>regional co-location</i> test, not a copying test: any two models
-that correctly target the same geological structures will trip it against each other.</p>
+        lae, coe = la["excl_exact_duplicates"], co["excl_exact_duplicates"]
+        ctrl = f'''<h3>Control: the 0.2778 file scanned identically</h3>
+<p>The decisive question is not whether the one-sided figure trips: it is whether that figure
+<i>discriminates</i>. It does not. The incumbent <code>gemsdoe32-h33-h33-2-b2</code> file
+({co["n_dots"]:,} dots) was pushed through the identical scan against the identical
+{dual["rasters_compared"]} rasters. {co["n_exact_duplicate_references"]} exact duplicates of
+itself were removed from the control before computing its statistics; this file had
+{la["n_exact_duplicate_references"]}.</p>
 <table class="grid"><thead><tr><th>Statistic</th><th>This file</th><th>GEMSDOE32 (0.2778)</th>
-<th>Gate</th></tr></thead><tbody>
-<tr><td>Worst |Spearman| over {la["rasters_compared"]} registry rasters</td>
-<td class="num">{la["max_abs_rho"]:.4f}</td><td class="num">{co["max_abs_rho"]:.4f}</td><td>&le; 0.90</td></tr>
-<tr><td>Worst symmetric 3 px overlap</td><td class="num">{la["max_sym_min"]:.4f}</td>
-<td class="num">{co["max_sym_min"]:.4f}</td><td>&le; 0.70</td></tr>
-<tr><td>Worst support Jaccard</td><td class="num">{la["max_jaccard"]:.4f}</td>
-<td class="num">{co["max_jaccard"]:.4f}</td><td>context</td></tr>
+<th>What it measures</th></tr></thead><tbody>
 <tr><td>References tripping the one-sided 70 % test<br>(space-filling refs excluded)</td>
-<td class="num">{la["n_one_sided_over_0p70_non_space_filling"]}</td>
-<td class="num">{co["n_one_sided_over_0p70_non_space_filling"]}</td><td>&mdash;</td></tr>
-</tbody></table>'''
+<td class="num">{lae["n_one_sided_over_0p70_non_space_filling"]}</td>
+<td class="num">{coe["n_one_sided_over_0p70_non_space_filling"]}</td>
+<td>Regional co-location at 300 m</td></tr>
+<tr><td>Worst |Spearman|</td><td class="yes">{lae["max_abs_rho"]:.4f}</td>
+<td class="num">{coe["max_abs_rho"]:.4f}</td><td>Whole-grid agreement</td></tr>
+<tr><td>Worst symmetric 3 px overlap</td><td class="yes">{lae["max_sym_min"]:.4f}</td>
+<td class="num">{coe["max_sym_min"]:.4f}</td><td>Mutual dot-level agreement</td></tr>
+<tr><td>Worst support Jaccard</td><td class="yes">{lae["max_jaccard"]:.4f}</td>
+<td class="num">{coe["max_jaccard"]:.4f}</td><td>Shared support</td></tr>
+</tbody></table>
+<p><b>The one-sided count barely separates the two files
+({lae["n_one_sided_over_0p70_non_space_filling"]} versus
+{coe["n_one_sided_over_0p70_non_space_filling"]} references) while the discriminating statistics
+separate them by more than an order of magnitude (Jaccard {lae["max_jaccard"]:.3f} versus
+{coe["max_jaccard"]:.3f}).</b> The incumbent is a verified nesting descendant of GEMSDOE25 with
+97.7 % support overlap against a registry file, and it trips the literal rule only marginally more
+often than this file does. A 300 m one-sided overlap test therefore measures <i>where in the state
+both models think the interesting ground is</i>, not whether one was copied from the other. It is
+reported here because the brief asks for it, and it is not used as the decision rule.</p>
+<p class="muted">{dual["rasters_failed"]} raster could not be parsed and was skipped;
+{la["n_space_filling"]} space-filling reference is excluded from the one-sided count under
+IR-LATTICE-01. <a href="evidence/lane-gbm/uniqueness-dual.json">Both runs, row by row</a>.</p>'''
 
-    dual_link = (" · <a href=\"evidence/lane-gbm/uniqueness-dual.json\">Side-by-side control receipt</a>"
-                 if (ROOT / "evidence" / "lane-gbm" / "uniqueness-dual.json").exists() else "")
     return f'''<section class="sec" id="uniqueness">
 <h2>Uniqueness against the shared registry</h2>
-<p><b>{u["registry_rasters_compared"]}</b> registry rasters were downloaded from the nine focus
-repositories and compared byte-for-byte against this file
-({u["registry_rasters_failed"]} could not be fetched or parsed and was skipped).</p>
+<p><b>{u["registry_rasters_compared"]}</b> registry rasters from the nine focus repositories were
+downloaded and compared against this file ({u["registry_rasters_failed"]} could not be parsed and
+was skipped).</p>
 <table class="kv"><tbody>
 <tr><th>Gate as written</th><td>{esc(u["gate"]["rule"])}</td></tr>
 <tr><th>Degeneracy fix applied</th><td>{esc(u["gate"]["degeneracy_fix"])}</td></tr>
-<tr><th>Worst |Spearman|</th><td><b>{abs(w["spearman_abs"]["spearman"]):.4f}</b> against
-<code>{esc(w["spearman_abs"]["path"].split("/")[-1])}</code> — <b>passes</b> the 0.90 gate with a
-wide margin</td></tr>
-<tr><th>Worst symmetric 3 px overlap</th><td><b>{w["symmetric_min"]["symmetric_min_within_3px"]:.4f}</b>
-— <b>passes</b> the 70 % gate</td></tr>
-<tr><th>Worst support Jaccard</th><td><b>{max(t["jaccard"] for t in u["top20_by_spearman"]):.4f}</b>
-— the closest registry raster shares under 8 % of the combined dot support</td></tr>
+<tr><th>Worst |Spearman|</th><td class="yes"><b>{abs(w["spearman_abs"]["spearman"]):.4f}</b> against
+<code>{esc(w["spearman_abs"]["path"].split("/")[-1])}</code> — passes the 0.90 gate with a wide
+margin</td></tr>
+<tr><th>Worst symmetric 3 px overlap</th><td class="yes">
+<b>{w["symmetric_min"]["symmetric_min_within_3px"]:.4f}</b> — passes the 70 % gate</td></tr>
+<tr><th>Worst support Jaccard</th><td class="yes">
+<b>{max(t["jaccard"] for t in u["top20_by_spearman"]):.4f}</b> — the closest registry raster shares
+under 8 % of the combined dot support</td></tr>
 <tr><th>Worst one-sided 3 px overlap<br>(space-filling refs excluded)</th>
-<td><b class="no">{w["one_sided_non_space_filling"]["cand_within_3px_of_ref"]:.4f}</b> against
-<code>{esc(w["one_sided_non_space_filling"]["path"].split("/")[-1])}</code> —
-<b>trips the literal 70 % rule</b>. See the discussion below.</td></tr>
+<td class="no"><b>{w["one_sided_non_space_filling"]["cand_within_3px_of_ref"]:.4f}</b> against
+<code>{esc(w["one_sided_non_space_filling"]["path"].split("/")[-1])}</code> — <b>trips the literal
+70 % rule</b>. See the discussion below.</td></tr>
 <tr><th>Provenance</th><td>This dot set is produced by a model that never opens another
-submission. It is not a subset, superset, re-thinning or re-weighting of anything in the registry.</td></tr>
+submission. It is not a subset, superset, re-thinning or re-weighting of anything in the
+registry.</td></tr>
 </tbody></table>
 <p class="warn"><b>Irregularity declared (IR-ONESIDED-01) — read before you upload.</b>
 Under the <i>literal</i> one-sided rule ("more than 70 % of your dots fall within 3 px of one
 registry raster's dots") this file trips against
-<b>{u["n_references_tripping_one_sided"] if "n_references_tripping_one_sided" in u else "several"}
-</b> registry rasters, the worst at
-<b>{w["one_sided_non_space_filling"]["cand_within_3px_of_ref"]:.3f}</b>. That number is a
-<i>regional</i> co-location measurement at 300 m, not evidence of copying: the same raster's
+<b>{lae["n_one_sided_over_0p70_non_space_filling"] if dual else "several"}</b> registry rasters,
+the worst at <b>{w["one_sided_non_space_filling"]["cand_within_3px_of_ref"]:.3f}</b>. That number
+is a <i>regional</i> co-location measurement at 300 m, not evidence of copying: the same raster's
 support Jaccard against this file is only
 <b>{w["one_sided_non_space_filling"]["jaccard"]:.4f}</b> and its correlation is
-<b>{w["one_sided_non_space_filling"]["spearman"]:.4f}</b>. Both models independently concentrate
-on the same structures — which is what you would expect if both are finding something real, and
-also what you would expect if both are finding the same false-positive geology.
+<b>{w["one_sided_non_space_filling"]["spearman"]:.4f}</b>. Both models independently concentrate on
+the same structures — which is what you would expect if both are finding something real, and also
+what you would expect if both are finding the same false-positive geology.
 <b>This is the one gate the file does not cleanly pass.</b> It is disclosed here rather than
-hidden; the control below is the evidence for treating it as a limitation of the rule, not of
-the file.</p>
+hidden; the control below is the evidence for treating it as a limitation of the rule, not of the
+file.</p>
 {ctrl}
 <h3>Closest registry rasters by correlation</h3>
 <table class="grid"><thead><tr><th>Reference</th><th>Repo</th><th>Its dots</th><th>Spearman</th>
