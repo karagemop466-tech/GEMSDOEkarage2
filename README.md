@@ -3,7 +3,8 @@
 ## Repository review alert — 2026-10-31 (read before release work)
 
 The consolidated project prompt below is the standing brief and must be read before changing
-research or submission workflows. The latest review found **conflicting release records**:
+research or submission workflows. This branch also adds a focused audit at
+[`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) covering the S1 result, all nine requested sites, and the literal stop applied here. The latest review found **conflicting release records**:
 `docs/release.html` is the HALO page, while `docs/release-summary.html` and
 `docs/release-how-to-submit.html` describe GBM. The public inventory names HALO as downloadable,
 the GBM lane card says promote but records `weekly_slot_used: false`, and the generic release

@@ -303,7 +303,12 @@ def release_badge() -> str:
     """
     try:
         rel = json.loads((EV / "halo" / "final_generation.json").read_text())
-        ok = bool(rel.get("verdict", {}).get("ok_to_submit"))
+        # Fail closed against the literal all-registry 3 px rule. The HALO
+        # audit records a registered lattice witness above the 70% limit.
+        literal = json.loads((EV / "halo" / "uniqueness_final.json").read_text())
+        lattice = max((r.get("my_dots_within_3px_of_theirs", 0.0)
+                       for r in literal.get("universal_probes", [])), default=0.0)
+        ok = bool(rel.get("verdict", {}).get("ok_to_submit")) and lattice <= 0.70
     except (OSError, ValueError):
         ok = False
     if ok:
@@ -610,14 +615,9 @@ def decision_section(d: dict) -> str:
     best_pct = prof[best["site"]]["frac_dots_within_3px_of_lattice"] * 100
     return (
         '<section class="hero" id="decision">\n'
-        '<h2>Which file to submit? One file — the released candidate, not any of the nine.</h2>\n'
-        f'<div class="cta-row"><a class="cta" href="release.html">Open the release decision and download the approved .tif</a></div>\n'
-        f'<p class="verdict"><b class="ok">Approved for submission: {esc(released_name())}</b> — unique against all '
-        f'473 registry rasters, 0 dots on catalogue pixels, estimated score '
-        f'≈{released_scenarios()["h=0.045"]["dti"]:.2f} (CALIBRATED-PRIVATE range '
-        f'{min(v["dti"] for v in released_scenarios().values()):.2f}–'
-        f'{max(v["dti"] for v in released_scenarios().values()):.2f}; see '
-        '<a href="release.html#estimate">the estimate section</a>).</p>\n'
+        '<h2>Submission status: no file is approved.</h2>\n'
+        '<div class="cta-row"><a class="cta" href="release.html">Open the release review (research-only download)</a></div>\n'
+        '<p class="verdict"><b class="no">NOT OK TO SUBMIT.</b> HALO fails the literal all-registry uniqueness rule because 99.84% of its dots are within 3 px of the registered lattice witness (70% limit); its HOLDOUT-DTI 0.1367 is below the recorded 0.19157 incumbent. Any score range is a conditional projection, not a score.</p>\n'
         f'<p><b>None of the nine focus files is eligible.</b> The best reported one, {esc(best["site"])} at '
         f'{best["owner_reported_unverified"]:.4f} (USER-REPORTED / UNVERIFIED), fails the shared uniqueness gate against the '
         f'13GEMSDOE lattice with <b>{best_pct:.2f}%</b> of its dots within three pixels, where at most 70% is allowed. '
@@ -629,8 +629,7 @@ def decision_section(d: dict) -> str:
         '<section class="section"><h3>Submission decision table · nine focus sites</h3>\n'
         '<p>Every number is a measurement on the pinned bytes, or a copied user report, read on 2026-10-31. '
         '<b>No estimated leaderboard score is claimed for any of the nine</b> — each fails the uniqueness gate first, so an '
-        'estimate would be moot. Download links are research references, not submissions; the only approved download is on '
-        '<a href="release.html">the release page</a>.</p>\n'
+        'estimate would be moot. Download links are research references, not submissions; there is no approved download.</p>\n'
         '<table id="decision-table"><thead><tr><th>Site</th><th>Pinned file (research reference)</th><th>Reported score</th>'
         '<th>Estimated score</th><th>Unique vs lattice witness?</th><th>Download and submit?</th></tr></thead>\n'
         f'<tbody>{"".join(rows)}</tbody></table>\n'
@@ -840,6 +839,12 @@ def release_banner() -> str:
         rel = json.loads((EV / "halo" / "final_generation.json").read_text())
     except (OSError, ValueError):
         return ""
+    literal = json.loads((EV / "halo" / "uniqueness_final.json").read_text())
+    lattice = max((r.get("my_dots_within_3px_of_theirs", 0.0)
+                   for r in literal.get("universal_probes", [])), default=0.0)
+    if lattice > 0.70:
+        return f'''<section class="section" id="release-banner" style="border-left:4px solid #a33">
+<p class="verdict"><b class="no">SUBMISSION HOLD — NO FILE APPROVED.</b> The HALO TIFF is research-only: {lattice:.2%} of its dots are within 3 px of the registered lattice witness, exceeding the literal 70% uniqueness limit. Its HOLDOUT-DTI at 44,090 dots is 0.1367, below the recorded 0.19157 incumbent. Read <a href="release.html">the release review</a>.</p></section>'''
     if not rel.get("verdict", {}).get("ok_to_submit"):
         return ""
     name = Path(rel["submission_file"]).name

@@ -76,12 +76,8 @@ function chromeEnvironment() {
     // The root route is the fail-closed status page. It explicitly shows the
     // HALO/GBM conflict and links both dossiers without selecting a weekly slot.
     const releaseReceipt = require('../evidence/halo/final_generation.json');
-    const expectedBadge = releaseReceipt.verdict.ok_to_submit
-      ? 'OK TO SUBMIT: YES · 1 FILE'
-      : 'OK TO SUBMIT: NO';
-    const expectBadge = releaseReceipt.verdict.ok_to_submit
-      ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE'
-      : 'OK TO SUBMIT: NO';
+    const expectedBadge = 'SUBMISSION HOLD · NO APPROVED FILE';
+    const expectBadge = 'OK TO SUBMIT: NO';
     const releaseName = path.basename(releaseReceipt.submission_file);
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});

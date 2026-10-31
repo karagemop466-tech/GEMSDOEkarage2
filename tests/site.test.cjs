@@ -21,17 +21,16 @@ function render(page) {
 
 test('desk pages carry the release badge and keep their historical negative verdicts', () => {
   // The HK3 card (a retired research file) stays negative. The header badge is now
-  // driven by evidence/halo/final_generation.json, because one file passed every
-  // gate on 2026-10-31; each desk page keeps its own historical audit verdicts.
+  // The literal uniqueness rule overrides the old release-card flag: HALO
+  // overlaps the registered lattice witness above the 70% threshold.
   assert.equal(card.verdict, 'negative');
   assert.equal(witness.duplicate_stop, true);
-  const release = JSON.parse(fs.readFileSync(path.join(root, 'evidence/halo/final_generation.json')));
-  const expected = release.verdict.ok_to_submit ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE' : 'OK TO SUBMIT: NO';
+  const expected = 'OK TO SUBMIT: NO';
   for (const page of pages) {
     const dom = render(page);
     const badge = dom.window.document.querySelector('.header .badge');
     assert.equal(badge.textContent, expected);
-    assert.ok(badge.classList.contains(release.verdict.ok_to_submit ? 'ok' : 'no'));
+    assert.ok(badge.classList.contains('no'));
     assert.match(dom.window.document.body.textContent, /DO NOT SUBMIT/);
     dom.window.close();
   }
@@ -42,9 +41,9 @@ test('the release decision page is the live decision and its download is the rel
   const doc = dom.window.document;
   const badge = doc.querySelector('.header .badge');
   const release = JSON.parse(fs.readFileSync(path.join(root, 'evidence/halo/final_generation.json')));
-  assert.equal(badge.textContent, release.verdict.ok_to_submit
-    ? 'OK TO SUBMIT: YES · 1 FILE' : 'OK TO SUBMIT: NO');
-  assert.match(doc.body.textContent, /OK TO DOWNLOAD AND SUBMIT/);
+  assert.equal(badge.textContent, 'SUBMISSION HOLD · NO APPROVED FILE');
+  assert.match(doc.body.textContent, /NOT OK TO SUBMIT/);
+  assert.match(doc.body.textContent, /registered lattice witness/);
   const links = [...doc.querySelectorAll('a[download]')];
   assert.ok(links.length >= 1, 'at least one one-click download');
   for (const link of links) {
