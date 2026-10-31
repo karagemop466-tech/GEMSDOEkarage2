@@ -1,4 +1,6 @@
 # GEMSDOEkarage2
+
+> **Current submission status (2026-10-31): NO FILE APPROVED.** The HALO TIFF is a one-click research download only. It fails the literal 3 px uniqueness gate against the registered lattice witness (99.84% > 70%) and HOLDOUT-DTI is 0.1367, below the recorded 0.19157 incumbent. Earlier approval language lower in this historical README is superseded. See [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) and the [release decision page](https://karagemop466-tech.github.io/GEMSDOEkarage2/release.html).
 ## S1 session review (2026-10-31, arena/fe0fee78) — additional negative research lane
 
 **Decision: NEGATIVE.** This session wrote the untried-hypothesis slate
@@ -13,8 +15,7 @@ incumbent k3dti_b110 0.19157; paired novelty-vs-ablation +0.00833 [−0.00382, +
 dot file (flagged irregularity); 55 non-lattice fleet rasters >70% overlap (worst 0.8977 vs GEMSDOE32 h45 —
 independent-lane consensus convergence; K3 recorded the same at 0.8477–0.8862). Portal [0, 1]-error guidance
 (nodata=None + zeros exterior) added to the how-to-submit page. Cards:
-[`evidence/s1/run_card.json`](evidence/s1/run_card.json). Slot used: none. The approved HALO file above is the
-single submission recommendation and is unaffected by this lane.
+[`evidence/s1/run_card.json`](evidence/s1/run_card.json). Slot used: none. **Superseded decision:** earlier text in this historical section incorrectly called HALO approved. The current decision below governs: no file is approved to submit.
 
 ## Current decision (2026-10-31, this Arena branch) — READ THIS FIRST
 ### Files from parallel lanes merged into main the same day
@@ -46,7 +47,8 @@ recommendation rests on the metric algebra and on dot non-redundancy (minimum re
 3 px), not on a holdout win.
 
 
-**Decision: ONE FILE IS OK TO DOWNLOAD AND SUBMIT.**
+**Decision after protocol review: NO FILE IS APPROVED TO SUBMIT.** The HALO TIFF remains downloadable for research/audit only; it fails the prompt's literal uniqueness rule because the registered lattice witness has 99.84% of its dots within 3 px (limit 70%). Its HOLDOUT-DTI 0.1367 is also below incumbent 0.19157. Do not use it as a submission. The measured/non-measured evidence and limitations are recorded in [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md).
+
 [`docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`](docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif)
 (SHA-256 `603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38`, 44,090 dots, float32,
 1 band, EPSG:32611, 3730 × 3292, all cells finite in [0, 1]). One-click download, the exact

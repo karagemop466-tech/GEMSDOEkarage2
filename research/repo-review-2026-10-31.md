@@ -1,75 +1,95 @@
 # Repository review — 2026-10-31
 
-## Decision
+## Executive finding
 
-**NEGATIVE: no TIFF is approved to download and submit.** No candidate raster was made, no geological experiment was run, and no competition slot was selected or used. This is a review of the current checkout, not a claim about current site-head raster contents or organizer scoring.
+**No file in this checkout is presently authorized for submission.** The existing HALO GeoTIFF is available as a research download, but this review changed the release pages to say **NOT OK TO SUBMIT**. Its release audit excludes the lattice witness from the ordinary duplicate count while the user-provided binding rule says to stop if overlap exceeds 70% with *any registry raster*. The same audit records 99.84% of HALO dots within 3 px of the registered lattice raster. By the literal rule, this is a duplicate-stop. The candidate's HOLDOUT-DTI is 0.1367 at 44,090 dots, below the repository's recorded K3 incumbent 0.19157. Neither fact supports a claim that it is the highest scoring or a safe-to-submit candidate.
 
-The repository already carries the requested consolidated project prompt in `README.md`, a nine-site executive scorecard, a submission guide, a fail-closed release inventory, a ranked hypothesis slate, shared holdout/writer/validator tools, and dated evidence. Review of the entry point and current status documents confirms that existing research TIFFs are marked **RESEARCH ONLY / DO NOT SUBMIT**. There is no currently approved one-click submission file.
+No new experiment or new TIFF was generated. The binding lane already recorded in the repo is S1 (seismicity-flank context); it has been run and is negative, and its protocol budget is spent. The prepared feature cache and template data are also absent in this checkout (`data/` does not exist; ignored `.cache/` inputs are not present), so this review cannot independently rerun the generator, evaluator, or raster validator from source. Generating another surface would violate the requested single-lane / do-not-drift rule and would produce unverifiable claims.
 
-## Pass 1 — inspect and verify
+## Nine-site summary
 
-- Read `README.md`, `SUBMISSION_STATUS.md`, `AGENTS.md`, the focus-site executive summary and submission guide, current release/audit scripts, registries, and dated review evidence.
-- The repo's latest source claims are explicitly timestamped 2026-10-30. Those observations are not refreshed in this review; do not describe them as a current 2026-10-31 leaderboard or live audit.
-- The user-provided focus-site values are tagged USER-REPORTED / UNVERIFIED in the existing scorecard. The historical maximum is GEMSDOE32 0.2778 as supplied, not an organizer-receipt-verified result. A leaderboard estimate for a new raster is unavailable.
-- `data/` and `.cache/competition_data/` are absent. The competition's data page requires authorized login per the existing recorded check. Thus there is no authenticated template/feature stack available in this checkout for a legitimate holdout experiment, final template validation, or TIFF creation.
-- The current protocol says experiments must remain within a single assigned method paragraph. No uniquely assigned paragraph is present in this review request; inventing a lane would violate that protocol. Prior reviews also record a duplicate-stop conflict with the dense lattice witness and require resolving it without gaming placements.
+The nine audited historical leaders and quoted values are in [`docs/data/nine-site-scorecard.json`](../docs/data/nine-site-scorecard.json) and the linked per-site pages under [`docs/focus/`](../docs/focus/). The quoted values are **USER-REPORTED / UNVERIFIED**, not organizer receipts. The repository reports the highest of the listed nine as GEMSDOE32 at 0.2778. Byte/raster checks show those nine are highly overlapping: several files form nested or near-identical dot patterns, and the focus audit reports the focus bests as non-unique under the project's 70%-within-3-px rule. The number is not evidence of nine independent discoveries or a defensible prospective score estimate.
 
-## Pass 2 — tests and edge cases
+The supplied leaderboard figures (0.4413 and 0.3195) are not current receipts. The repository's dated 2026-10-31 leaderboard observation says rank 1 was 0.4544 at that observation time; this was not independently checked against a live authenticated competition account in this review. Treat every historical board/score claim as timestamped context, not current truth.
 
-Installed repository-pinned Python dependencies in the ignored local `.venv` and npm dependencies from the lockfile; no dependency files were changed.
+## Candidate status / evidence labels
 
-- `.venv/bin/pytest -q`: **257 passed, 8 skipped, 98 subtests passed**. The eight skips are optional integration checks whose raster inputs are not present. Rasterio emitted deprecation warnings; no test failed.
-- `npm test`: **3 passed**.
-- `npm run test:site`: **8 passed**.
-- `npm run test:browser`: passed at 1440, 390, and 320 px; research-only warnings, navigation, nine-row table and fail-safe freshness states were checked.
-- `.venv/bin/python scripts/readiness.py`: exited 0.
-- `.venv/bin/python scripts/audit_nine_site_best.py`: **could not run**; the required `.cache/gems_data/sample_submission.tif` is absent. The existing audit receipt remains historical evidence, not a fresh rerun.
-- `data/` is absent, so no direct training/holdout, feature-only leakage canary, preplacement/final-dot registry audit, authenticated-template comparison, or output-value validation can be truthfully reported now.
+| Artifact | What is measured | Decision |
+|---|---|---|
+| HALO `gemsdoe-karage2-halo39-b44090-sep2-20261031.tif` | Saved-byte audit claims single-band float32, EPSG:32611, 3730×3292, exact recorded transform, finite [0,1], 44,090 dots and SHA-256 `603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38`. HOLDOUT-DTI 0.136655 at the released count; evaluator/folds/metric details are in its committed run card. | **Research-only; do not submit**. Literal lattice comparison is over the threshold. The final holdout is below the recorded K3 0.19157. The TIFF and receipt are retained unchanged for audit. |
+| S1 seismicity-flank candidate | HOLDOUT-DTI 0.18791, 95% CI [0.16799, 0.20782], 58,308 withheld positives, evaluator `gems57-pooled-hide-v2`; below K3 0.19157 [0.17474, 0.20880]. | Negative; no slot. Run card and detailed evidence: [`evidence/s1/`](../evidence/s1/). |
+| K10 corridor alternative | Format/registry audit exists; no validated leaderboard score estimate or demonstrated improvement over incumbent. | Not promoted; not a replacement recommendation. |
 
-## Pass 3 — requirements and factual limits
+The estimated-score range previously displayed for HALO is **CALIBRATED-PRIVATE projection**, conditional on assumed hidden-fault hit rates; it is not HOLDOUT-DTI and not ORGANIZER-CONFIRMED. It must not be described as its score or as proof it beats 0.2778, 0.3195, or the leaderboard leader. There is no organizer receipt tied to HALO's hash in this repository.
 
-| Requirement | Review result |
-|---|---|
-| Read and retain the full project objective | Already included in `README.md`; this review does not duplicate its long prompt. |
-| Nine-site executive summary, file, score class, uniqueness and submit verdict | Present in the existing summary. Values are owner/user claims, not organizer-confirmed receipts; no new-file score is estimated. |
-| Easy-to-find downloadable submission | UI is clearly fail-closed; its available artifact is research-only, not safe to submit. No approval is implied. |
-| New, unique, validated TIFF | **Not produced.** Required authenticated data/template are absent; no lane is assigned; uniqueness policy conflict remains. Making a synthetic or copied TIFF would be misleading. |
-| Proposed geological hypotheses, ranked and scientifically falsifiable | Existing 2026-10-30 review has four ranked proposals with layers, mechanisms, novelty boundaries, and mimics; earlier audit has additional controlled tests. These are proposals, not validated experiments. |
-| Holdout-before-slot, leakage checks and three-experiment/two-hour budget | No slot used. No holdout run is possible without data and lane assignment. Do not call prior scores or user-reported leaderboard results HOLDOUT-DTI. |
-| Sources and currentness | Official source links are in README and the site. This review did not fetch external pages; the dated public observation remains 2026-10-30. |
-| Automated current feed | The existing feed checks GitHub repository-head metadata only; it does not refresh DrivenData scores or raster files. This limitation is prominently documented. |
-| Pull request and merge | To be attempted from the fixed Arena branch after this report is added. Merge is only valid if GitHub permits it and checks pass; no alternate branch will be used. |
+## Failure found and repaired
 
-## Irregularities / remaining blockers
+The earlier site and README said HALO was “OK TO DOWNLOAD AND SUBMIT” even though `evidence/halo/uniqueness_final.json` and `docs/downloads/...audit.json` record a literal uniqueness failure (`stop_required: true`, lattice overlap 0.9983897). The same code separated “universal probes” from submissions to call uniqueness clear, but that exception is not in the user's supplied rule. This was a material contradiction. Updated the release-page generator/output and landing page to show **NOT OK TO SUBMIT**, keep the TIF downloadable as a research artifact, and state the failed gate. No raster bytes were edited.
 
-1. Missing organizer-authorized competition rasters/template and feature stack. Public owner mirrors are not equivalent evidence.
-2. `audit_nine_site_best.py` needs `.cache/gems_data/sample_submission.tif`; it was not refreshed in this run.
-3. The literal uniqueness threshold against an exceptionally dense registry witness can make the permitted lane infeasible. The review will not alter the threshold or place dots in witness holes to bypass it.
-4. No new experiment method paragraph was assigned. Holdout measurements without a specified lane would not satisfy the user's protocol.
-5. The current site feed is not a live DrivenData leaderboard feed. Competition-page authentication and the weekly submission cap cannot be observed from this workspace.
-6. Existing leaderboard values and submission-result values in project notes are dated observations or user/owner claims; none proves performance or acceptance of a new local TIFF.
+The historical pre-placement surface evidence also reports that 55 non-lattice raster comparisons exceeded the 70% overlap rule. That further undermines a blanket claim that the prior HALO implementation passed the stated protocol, even though the final ordinary-submission-only comparison was below threshold.
 
-## Next session priorities
+## Three review passes
 
-1. Assign exactly one method paragraph and document the registry threshold interpretation before experimentation.
-2. With authorized access, restore and hash the actual organizer data/template; preserve provenance and ensure the sample/reference discrepancy is resolved.
-3. Run the shared whole-segment buffered hide-and-recover evaluator on a fixed incumbent; derive catalog features only from visible segments and mask visible positives pixel-exactly. Test each feature alone for AUC leakage before trusting combinations.
-4. Run only the top preregistered hypothesis, compare pooled DTI with a justified 95% CI, and stay within 3 experiments or 2 hours.
-5. Run preplacement and final saved-dot duplicate audits against a complete current registry; if either limit trips, stop and record negative.
-6. Only after all gates pass and a separate quota-aware selector approves: write with the shared writer, validate actual TIFF bytes against the authenticated template and [0,1] constraint, and make the download explicitly approved. No automated upload is authorized.
-7. Refresh official sources with dated evidence; keep public leaderboard values distinct from HOLDOUT-DTI and ORGANIZER-CONFIRMED receipts.
+1. **Evidence audit:** read the current decision at README top, focus scorecard, release run card, HALO audit, S1 evidence, and submission pages. Found the release-vs-literal-gate mismatch and absent input data.
+2. **Correction:** changed the release generator and generated release page to label HALO research-only; changed landing banner and README current decision accordingly; updated the release regression test to require the stop language.
+3. **Recheck:** ran the complete Python suite after installing declared requirements into an isolated temporary virtualenv: **302 passed, 10 skipped, 98 subtests passed**. Rasterio emitted 101 deprecation warnings. These tests exercise committed artifacts and synthetic cases; they do not constitute organizer acceptance or a rerun against missing competition inputs. The real standalone raster validator cannot run here because no template/cache input exists.
 
-## Official references already linked in the project
+## Ranked future hypotheses already documented
 
-- [DrivenData problem description and format](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
-- [DrivenData data tab (login required)](https://www.drivendata.org/competitions/306/competition-doe-gems/data/)
-- [DrivenData public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-- [GEMS reference solution](https://github.com/drivendataorg/gems-prize-reference-solution)
-- [NLR official rules PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf)
-- [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and)
-- [INGENIOUS](https://gbcge.org/current-projects/ingenious/)
-- [GEMSDOE32 owner page (not an organizer receipt)](https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html)
+The repository's five-idea slate is [`research/hypotheses-2026-10-31-untried-slate.md`](hypotheses-2026-10-31-untried-slate.md). S1 was rank 1 and is now tested negative; the slate identifies S2 terrain-residual gravity edge, S3 strain-regime change × magnetic-edge persistence, S4 gravity/conductivity break coincidence, and S5 thermal-spring / alteration corridors requiring external data. These are hypotheses, not results. Do not run a new lane until the owner assigns it and the shared template inputs are restored. In particular, S5's free official-data availability is explicitly unverified in that record; do not call it viable until that fetchability is demonstrated.
 
-## Run card
+## Limitations and next actions
 
-See [`evidence/repo-review-run-card-2026-10-31.json`](../evidence/repo-review-run-card-2026-10-31.json). No score, raster hash, validator result for a candidate, or submission name is claimed because no candidate exists.
+1. Restore the actual competition/template rasters and cached stack from authorized sources into the expected ignored locations; verify hashes and provenance before execution. Do not treat the public owner mirror as organizer-authenticated.
+2. Obtain a clear policy interpretation for whether the intentionally dense lattice is a registry raster for the uniqueness rule. Until then, apply the literal rule and stop; do not silently exclude it.
+3. Reconcile the generated landing/dashboard pages and all cached or older pages so there is one consistent current status. Current changes cover README, `docs/index.html`, generated `docs/release.html`, and its generator; old/archived pages can still contain historical approval language and should be visibly marked as superseded.
+4. Obtain a real organizer submission-page receipt if upload is ever authorized. Local format validation is not portal validation. Confirm organizer grid and exterior/nodata conventions before upload.
+5. Refresh leaderboard observations from the official page and tie any score statement to an organizer-confirmed receipt with its file hash; do not infer a score from the holdout.
+6. Only then run the next assigned experiment within the three-experiment/two-hour cap, with feature-alone leakage canaries, whole-component spatial hide-and-recover, surface pre-check, final-dot check, and a protocol-complete card. A negative outcome is a valid deliverable.
+
+## Official references for manual review
+
+- DrivenData competition overview/rules: <https://www.drivendata.org/competitions/306/competition-doe-gems/>
+- Problem description: <https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/>
+- Competition data page (requires authenticated access, as documented in the repo): <https://www.drivendata.org/competitions/306/competition-doe-gems/data/>
+- Official reference solution: <https://github.com/drivendataorg/gems-prize-reference-solution>
+- USGS GeoDAWN source: <https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and>
+- GBCGE INGENIOUS: <https://gbcge.org/current-projects/ingenious/>
+- EPSG:32611: <https://epsg.io/32611>
+- Submitted focus-site pages and file-level hashes are linked in the scorecard/audit receipts above. Scores from those pages remain user-reported unless backed by a submission-page receipt.
+
+## Run card (review-level; no new experiment)
+
+```json
+{
+  "hypothesis": "The HALO release is not protocol-eligible under the literal registry uniqueness rule; no replacement hypothesis was run in this review.",
+  "mechanism": "The 3-pixel overlap gate catches the registered lattice witness as well as ordinary competition rasters; the repository's prior exception was not authorized by the stated rule.",
+  "named_non_fault_process": "A uniform lattice is a sampling/design probe, not a geological signal; it can trivially overlap most feasible placements and exposes a policy-definition problem rather than fault prediction skill.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positives": 58308,
+    "dti": 0.136655,
+    "confidence_interval_95": null,
+    "note": "HALO value at 44,090 dots is from committed run card; CI not recorded for this field. S1's separate value is 0.18791 [0.16799, 0.20782] at 58,308 positives."
+  },
+  "correlation_overlap_vs_registry": {
+    "spearman_max_abs_ordinary_submission_inventory": 0.055667,
+    "max_overlap_ordinary_submission_inventory": 0.654661,
+    "lattice_witness_overlap_within_3px": 0.998390,
+    "thresholds": {"spearman_abs": 0.90, "overlap": 0.70},
+    "verdict": "duplicate-stop under literal all-registry rule"
+  },
+  "raster_sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+  "validator_output": {
+    "status": "committed saved-byte audit PASS; standalone rerun unavailable because template/cache absent",
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match_recorded_template": true,
+    "organizer_acceptance": "unknown"
+  },
+  "submission_name": "gemsdoe-karage2-halo39-b44090-sep2-20261031",
+  "note": "Research-only historical field; literal lattice uniqueness gate fails. DO NOT SUBMIT.",
+  "verdict": "negative"
+}
+```

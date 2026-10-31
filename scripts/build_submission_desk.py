@@ -45,6 +45,15 @@ def release_notice() -> str:
         rel = load(RELEASE_RECEIPT)
     except (FileNotFoundError, ValueError):
         return ""
+    uniqueness = load("evidence/halo/uniqueness_final.json")
+    lattice = max((row.get("my_dots_within_3px_of_theirs", 0.0)
+                   for row in uniqueness.get("universal_probes", [])), default=0.0)
+    if lattice > 0.70:
+        return (f'<section class="section" style="border-left:4px solid #a33">'
+                f'<p class="lead"><strong>SUBMISSION HOLD — NO FILE APPROVED.</strong> '
+                f'HALO is research-only: {lattice:.2%} overlap with the registered lattice witness '
+                f'exceeds the literal 70% rule; HOLDOUT-DTI 0.1367 is below incumbent 0.19157. '
+                f'The K10 candidate below also records a lattice-gate firing. Neither is approved.</p></section>')
     if not rel.get("verdict", {}).get("ok_to_submit"):
         return ""
     name = Path(rel["submission_file"]).name
@@ -76,7 +85,9 @@ def main() -> int:
     k9 = load("evidence/k9/run_card.json")
     audit_inv = load("evidence/public_downloads_audit.json")
 
-    cand_ok = selector.get("ok_to_submit") is True and card.get("verdict") == "promote-instrument-limited"
+    cand_ok = (selector.get("ok_to_submit") is True
+               and card.get("verdict") == "promote-instrument-limited"
+               and registry.get("literal_reading", {}).get("duplicate") is False)
     rel = card["raster"]
     fname = Path(rel).name
     sha = card["raster_sha256"]
@@ -127,13 +138,13 @@ def main() -> int:
 {release_notice()}
 <section class="hero"><div>
 <span class="kicker"><span class="status-dot"></span>ALTERNATIVE CANDIDATE · GENERATED {esc(gen_utc)}</span>
-<h1>Download and submit the current candidate</h1>
+<h1>Download research artifact — do not submit</h1>
 <p class="lead">One validated, machine-checked candidate GeoTIFF. Every claim on this page is a
 link to a committed evidence receipt. No leaderboard score is claimed anywhere — competition truth
 and submission receipts are not accessible from this repository, and any score printed here would
 be fabricated.</p>
 <div class="actions">
-<a class="button primary" href="downloads/{esc(fname)}" download>⬇ Download candidate TIF</a>
+<a class="button primary" href="downloads/{esc(fname)}" download>⬇ Download research TIF (not for submission)</a>
 <a class="button" href="downloads/{esc(fname.replace('.tif', '.zip'))}" download>⬇ Download ZIP (same TIF)</a>
 <a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Open the submission form ↗</a>
 </div>
@@ -143,7 +154,7 @@ be fabricated.</p>
 <span class="{badge_cls}" style="font-size:13px">{esc(status)}</span>
 <h2>Is it OK to submit?</h2>
 <div class="gate"><span>Format: float32, finite, [0,1], exact grid/CRS/transform</span><span class="badge good">PASS (measured)</span></div>
-<div class="gate"><span>Unique vs {esc(registry['rasters_checked'])} checked prior rasters</span><span class="badge good">PASS (measured)</span></div>
+<div class="gate"><span>Literal uniqueness (includes lattice witness)</span><span class="badge bad">FAIL — gate firing</span></div>
 <div class="gate"><span>Lattice-witness geometry note (applies to every dense file)</span><span class="badge bad">DISCLOSED</span></div>
 <div class="gate"><span>Leaderboard score</span><span class="badge bad">NOT MEASURABLE HERE</span></div>
 <div class="gate"><span>Weekly slot</span><span class="badge good">NOT USED (yours to spend)</span></div>
@@ -151,7 +162,7 @@ be fabricated.</p>
 </div></section>
 
 <section class="section"><h2>Paste this into the submission form</h2>
-<div class="panel"><p><strong>File to submit:</strong> <code>downloads/{esc(fname)}</code> (the TIF above; the ZIP contains exactly the same bytes).</p>
+<div class="panel"><p><strong>Submission status:</strong> <b>DO NOT SUBMIT.</b> The downloadable file is a research artifact only: <code>downloads/{esc(fname)}</code>.</p>
 <p><strong>Note (optional, ≤140 chars):</strong> <code>{esc(note)}</code></p>
 <p>Encountered <em>“Predicted values must be in range [0, 1]”</em> on an earlier download? That file
 carried NaN outside the study-area footprint. This candidate is the all-finite convention

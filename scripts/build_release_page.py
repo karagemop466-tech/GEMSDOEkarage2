@@ -53,7 +53,7 @@ def shell(title: str, body: str) -> str:
 <title>{esc(title)} · GEMSDOEkarage2</title>
 <meta name="description" content="Release decision: one validated, unique GeoTIFF submission with a measured score model.">
 <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
-<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES · 1 FILE</span></h1>
+<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge no">SUBMISSION HOLD · NO APPROVED FILE</span></h1>
 <div class="sub">GEMS Prize · fault discovery · evidence-first decision desk</div></div></div></header>
 <main class="container"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
 {body}
@@ -92,7 +92,7 @@ def decision_table(model: dict, rel: dict) -> str:
 <td><b>{rel['score_projection']['scenarios']['h=0.045']['dti']:.3f}</b> if h = 4.5%<span class="sub-label">range {rel['score_projection']['scenarios']['h=0.025']['dti']:.3f}–{rel['score_projection']['scenarios']['h=0.060']['dti']:.3f} · CALIBRATED-PRIVATE, not a receipt</span></td>
 <td>unspecified<span class="sub-label">break-even {rel['break_even']['hit_rate_needed'] * 100:.2f}% beats 0.2778</span></td>
 <td>{rel['holdout_dti']['at_released_dot_count']['dti']:.4f}<span class="sub-label">HOLDOUT-DTI at this dot count; {rel['holdout_dti']['lane_budget_curve_max']['dti']:.4f} at the lane curve's 57,873-dot maximum</span></td>
-<td><b class="ok">YES · SUBMIT</b><span class="sub-label">max 3 px overlap {rel['uniqueness']['worst_dot_overlap'] * 100:.1f}% ≤ 70%; max |ρ| {rel['uniqueness']['worst_spearman']:.3f} ≤ 0.90</span></td></tr>
+<td><b class="no">NO · DO NOT SUBMIT</b><span class="sub-label">literal gate fails: lattice witness overlap 99.84% &gt; 70%; holdout 0.1367 is below incumbent 0.1916</span></td></tr>
 </tbody></table></div>
 <p class="muted">The nine focus files are <b>not</b> recommended: each is either a strict subset of another (GEMSDOE25/30/31/32/36 are the same nested family) or overlaps a rival field above the 70% rule, and none has a defensible estimate. Their reported scores are the ones quoted in the project brief; the public board read on 2026-10-31 shows 0.4544 at rank 1, so 0.2778 is not the leaderboard high.</p>
 </section>"""
@@ -103,9 +103,9 @@ def hero(rel: dict) -> str:
     name = Path(rel["submission_file"]).name
     s = rel["score_projection"]["scenarios"]
     return f"""<section class="hero" id="release-it">
-<h2>Download this file and submit it</h2>
-<p class="verdict"><b class="ok">OK TO DOWNLOAD AND SUBMIT.</b> One file. It passes every automated gate this repository can run: format, range, grid, uniqueness and holdout. It was generated today from the mapped-fault catalogue and the organizer grid; no registry or published submission was used as an input.</p>
-<p><a class="btn big" href="downloads/{esc(name)}" download>Download the submission TIFF</a>
+<h2>Research artifact — do not submit</h2>
+<p class="verdict"><b class="no">NOT OK TO SUBMIT.</b> The HALO TIFF is downloadable for audit and research, but it fails the binding literal uniqueness gate: the registered lattice witness has 99.84% of its dots within 3 px of this raster (threshold is 70%). The holdout DTI is also below the recorded incumbent. No file is approved for a weekly slot.</p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>Download research TIFF (not for submission)</a>
 <a class="btn secondary" href="how-to-submit.html">How to submit (exact steps)</a>
 <a class="btn secondary" href="evidence/halo/final_generation.json">Open the release receipt</a></p>
 <div class="meta">

@@ -131,12 +131,10 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
 def test_stale_unverified_tif_is_not_published_as_a_submission():
     stale = ROOT / 'docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif'
     assert not stale.exists()
-    release = json.loads((ROOT / 'evidence/halo/final_generation.json').read_text())
-    expected = ('OK TO SUBMIT: 1 FILE · SEE RELEASE' if release['verdict']['ok_to_submit']
-                else 'OK TO SUBMIT: NO')
     for name in ('index.html', 'executive-summary.html'):
         page = (ROOT / 'docs' / name).read_text()
-        assert expected in page
+        assert 'OK TO SUBMIT: NO' in page
+        assert 'SUBMISSION HOLD' in page and 'registered lattice witness' in page
         assert 'gw-nfs-h1-20261029-zeros' not in page
     assert 'docs/index.html' in (ROOT / 'index.html').read_text()
     report = mod.audit()
