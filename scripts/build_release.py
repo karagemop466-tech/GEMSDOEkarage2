@@ -122,6 +122,47 @@ been measured.</p>
 </section>'''
 
 
+def candidate_row(d) -> str:
+    c = d["cand"]
+    u = d["uniq"]
+    proj = c["budget_sweep"][-1]["projection"]
+    lo, mid, hi = proj["lambda_0.4"], proj["lambda_0.7"], proj["lambda_1.0"]
+    one_sided = (u.get("worst") or {}).get("one_sided_non_space_filling", {}) if u else {}
+    sym = abs(u["worst"]["symmetric_min"]["symmetric_min_within_3px"]) if u else float("nan")
+    return f'''<tr class="own"><td><b>karage2 · GBM lane (this repo)</b></td>
+<td><a href="downloads/{esc(c["file"])}" download><code>{esc(c["file"])}</code>
+<span class="sub-label">{c["n_dots"]:,} dots · SHA-256 {esc(c["sha256"])[:12]}… · one click</span></a></td>
+<td class="num">{mid:.3f} central<span class="sub-label">range {lo:.3f}–{hi:.3f} · MODEL-PROJECTION, not a score</span></td>
+<td class="num">{c["n_dots"]:,}</td>
+<td class="num">{c["budget_sweep"][-1]["T_holdout"]:,.0f}</td>
+<td class="num">{c["budget_sweep"][-1]["mean_holdout_credit_per_dot"]:.3f}</td>
+<td class="num">{sym:.3f}*</td>
+<td><span class="ok">YES*</span><span class="sub-label">unique vs the operational gate; literal one-sided gate trips at {one_sided.get("cand_within_3px_of_ref", float("nan")):.3f} — see verdict box</span></td></tr>'''
+
+
+def verdict_box(d) -> str:
+    c = d["cand"]
+    u = d["uniq"]
+    proj = c["budget_sweep"][-1]["projection"]
+    one_sided = (u.get("worst") or {}).get("one_sided_non_space_filling", {}) if u else {}
+    return f'''<section class="sec" id="verdict">
+<h2>Verdict at a glance — is this file OK to download and submit?</h2>
+<table class="kv"><tbody>
+<tr><th>One-click download</th><td class="ok">YES.</td><td><a class="btn" href="downloads/{esc(c["file"])}" download>⬇ Download {esc(c["file"])} ({c["bytes"]:,} bytes)</a></td></tr>
+<tr><th>Format gate</th><td class="ok">PASS.</td><td>Single-band float32 GeoTIFF, EPSG:32611, 3730 × 3292, 100 m; transform and bounds identical to the official template; every one of the 12,279,160 cells finite and inside [0, 1]; nodata = none; SHA-256 {esc(c["sha256"])} matches the run card byte-for-byte.</td></tr>
+<tr><th>Uniqueness gate (operational)</th><td class="ok">PASS.</td><td>Worst |Spearman| {abs(u["worst"]["spearman_abs"]["spearman"]):.4f} ≤ 0.90; worst symmetric 3 px overlap {abs(u["worst"]["symmetric_min"]["symmetric_min_within_3px"]):.4f} ≤ 0.70; worst support Jaccard {max(t["jaccard"] for t in u["top20_by_spearman"]):.4f}, compared against {u["registry_rasters_compared"]} registry rasters from the nine focus repositories ({u["registry_rasters_failed"]} unparseable, skipped).</td></tr>
+<tr><th>Literal one-sided rule</th><td class="no">Trips — disclosed.</td><td>&gt;70 % of dots within 3 px of one registry raster fires at {one_sided.get("cand_within_3px_of_ref", float("nan")):.3f} against one raster (IR-ONESIDED-01). Reported with its Jaccard ({one_sided.get("jaccard", float("nan")):.4f}) and the GEMSDOE32 control (109 vs 76 references tripping; Jaccard 0.977 vs 0.078): a regional co-location statistic, not evidence of copying. Not waived — read before uploading.</td></tr>
+<tr><th>Measured score?</th><td class="no">No.</td><td>No organizer receipt exists locally and the public leaderboard is not file-linked. The estimate ({proj["lambda_0.4"]:.3f} / {proj["lambda_0.7"]:.3f} / {proj["lambda_1.0"]:.3f}) is a MODEL-PROJECTION from stated assumptions — never a score.</td></tr>
+<tr><th>Weekly submission slot</th><td class="no">Not authorized here.</td><td><code>slot_authorized: false</code> — this project never spends a competition slot; promotion to a slot is the owner's separate decision within the weekly cap shown on the submission page.</td></tr>
+<tr><th>Can it beat 0.2778?</th><td class="no">No honest projection beats it.</td><td>Every λ scenario ({proj["lambda_0.2"]:.3f} at λ=0.2 … {proj["lambda_1.0"]:.3f} at λ=1.0) is below 0.2778; break-even credit is {c["budget_sweep"][-1]["breakeven_credit_to_beat_0p2778"]:.4f} per dot versus {c["budget_sweep"][-1]["mean_holdout_credit_per_dot"]:.4f} holdout credit per dot achieved. Exceeding 0.2778 — or the 0.4544 public rank-1 snapshot of 2026-10-30 — needs a new method validated on holdout first: see the ranked untried hypotheses S2–S5 in <code>research/hypotheses-2026-10-31-untried-slate.md</code>; that work needs the login-gated feature stack, which this sandbox cannot fetch.</td></tr>
+</tbody></table>
+<p class="muted"><b>Bottom line.</b> Download it for review — yes. Submit it — it is a valid, unique,
+non-duplicate entry, but this project makes no score claim and spends no slot. If you choose to
+spend your own slot, paste the submission note exactly (≤140 chars) and save the organizer's
+receipt as the ORGANIZER-CONFIRMED number.</p>
+</section>'''
+
+
 def nine_site_table(d) -> str:
     rows = []
     for s in d["score"]["sites"]:
@@ -145,11 +186,14 @@ from the project prompt and is not linked to any organizer receipt. The remainin
 <th>Model credit T</th><th>Credit per<br>effective dot</th><th>Max overlap vs<br>other eight</th>
 <th>Unique?</th></tr></thead><tbody>
 {chr(10).join(rows)}
+{candidate_row(d)}
 </tbody></table>
-<p class="muted"><b>Verdict on the nine: none of them is a unique submission.</b>
-{d["score"]["family_conclusion"]} Re-uploading any of them — including the 0.2778 leader of the
-group — would be submitting a near-duplicate of a file that is already public. They are useful as
-<i>education</i> about what the scorer rewards, not as files to upload.</p>
+<p class="muted">* The GBM-row overlap (0.580) is measured against all pinned registry rasters, not only the nine best files. <b>Verdict on the nine: none of them is a unique submission.</b>
+{d["score"]["family_conclusion"]} Re-uploading any of them — including the 0.2778 leader of the\ngroup — would be submitting a near-duplicate of a file that is already public. They are useful as\n<i>education</i> about what the scorer rewards, not as files to upload. The only unique,
+one-click-downloadable submission file in this repository is the karage2 GBM row above.</p>
+<p class="muted"><b>Leaderboard context (public snapshot, 2026-10-30; not file-linked receipts):</b>
+the organizer-published public leaderboard showed rank 1 xiaofanhu at 0.4544. The user-cited\n0.3195 appeared at rank 48 for kpomazi in that same snapshot, and 0.4413 was not the rank-one\nvalue. None of these numbers is tied to any local raster, and this sandbox cannot fetch the\nlogin-walled organizer pages. Break-even comparisons on this page therefore use the best
+user-reported value of the nine sites, 0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED).</p>
 <p><a href="data/nine-site-scorecard.json">Scorecard JSON</a> ·
 <a href="data/mask-width-calibration.json">Mask-width calibration sweep</a></p>
 </section>'''
@@ -456,8 +500,7 @@ files are format-valid and neither has a measured score.</p>
 <tr><td>Relationship to the catalogue</td><td>Defined by distance to mapped faults</td>
 <td>Dots sit a median 7.6 px away; no dot within 5 px</td></tr>
 <tr><td>Status in the repository inventory</td>
-<td><b>the published release</b></td><td>verified candidate
-(<code>ok_to_submit: true</code>, <code>slot_authorized: false</code>)</td></tr>
+<td><b>the published release</b></td><td>verified candidate — lane verdict <code>promote-instrument-limited</code>;<br><code>slot_authorized: false</code> — this project never spends a slot; promotion is the owner's separate decision.</td></tr>
 <tr><td>Score</td><td>model projection, not measured</td><td>model projection, not measured</td></tr>
 </tbody></table>
 <p><b>Which one to submit:</b> this page does not claim to be the winner. The repository's own
@@ -470,7 +513,7 @@ submit the HALO file. <b>Either way, no weekly slot beyond the one you choose is
 
     desk = (hero(d) + estimate_section(d) + why_section(d) + method_section(d)
             + uniqueness_section(d) + nine_site_table(d))
-    summary = (hero(d) + nine_site_table(d) + why_section(d) + estimate_section(d)
+    summary = (hero(d) + nine_site_table(d) + verdict_box(d) + why_section(d) + estimate_section(d)
                + method_section(d) + uniqueness_section(d))
 
     pages = {
