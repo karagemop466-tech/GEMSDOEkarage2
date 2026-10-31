@@ -129,3 +129,11 @@ Expected DTI gain is **not estimable locally** for any of these. Ranking is judg
 2. **Obtain NBMG fault data** (free, §5) and measure its overlap with the USGS catalogue, to build an off-catalogue validation set.
 3. Only then consider H-EN (§6, rank 2) with a strict 3 px buffer and the leakage canary.
 4. Do not pick a submission slot from this session. Selection is a separate, later step.
+
+## 12. Cross-session findings (found while merging `origin/main`, 2026-10-31)
+
+- **I9 (GBSP passes the literal gate only by avoiding the lattice).** `docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif` has 4,525 dots, and **0.0%** are within 3 px of the 13GEMSDOE r13 lattice (measured here with the same halo definition). It can pass the 70% rule only because it sits in the 0.13% of the footprint the lattice does not cover. That is the edge-hole pattern AGENTS.md prohibits ("No edge-hole gaming … creates clearance"), and the 2026-10-29 decision memo already flags the same pattern (GEMSDOE36, 505 dots). Its own card is negative with `ok_to_submit: false`, so nothing is unlocked. Its "uniqueness-passed" label should not be read as clearance.
+- **I10 (main's inventory is FAIL_CLOSED, and main's CI is red).** On `origin/main` (b0268bb), two TIFs are present in `docs/downloads` but not registered in `scripts/audit_public_downloads.py`:
+  - `gemsdoe-karage2-near-trace-20261031.tif`: its run card says `"verdict": "promote"` with `ok_to_submit` stored as the string `'False'`. A promote-labelled raster in the public downloads is inconsistent with the negative-only policy. Not changed here, because the verdict belongs to the owning session.
+  - `gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif`: negative card, not registered.
+  The checker therefore reports `FAIL_CLOSED`, and `build_hk3_pages.py` refuses to render the desk. Resolving this needs a decision from the repository owner (see the session question).

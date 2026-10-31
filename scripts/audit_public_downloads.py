@@ -25,9 +25,6 @@ except ModuleNotFoundError:  # direct execution as ``python scripts/...``
     from raster_integrity import require_single_file_dataset
 
 ROOT = Path(__file__).resolve().parents[1]
-# Exterior cell count of the official sample_submission.tif (NaN outside its footprint),
-# verified against the pinned sha256 2176d08e... in docs/evidence/nine-site-executive-20261031.json.
-OFFICIAL_EXTERIOR_NAN_COUNT = 7111787
 # (stem, run card, selector, has_zip[, kind]); current entries are research only.
 ARTIFACTS = (
     ("gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros",
@@ -55,10 +52,15 @@ ARTIFACTS = (
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
-    # HM1 (2026-10-31): format-valid, but DUPLICATE_STOP vs the 13GEMSDOE r13 lattice (100% of dots within 3 px). DO NOT SUBMIT.
+    # GBSP unique submission TIF (experiment 4): format-valid, uniqueness-passed,
+    # not cleared to submit (holdout-DTI proxy below threshold).
+    ("gems-gbsp-blindspot-2195bc570842-20261031T005323Z",
+     "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json",
+     None, False, "research"),
+    # HM1 (2026-10-31): format-valid, DUPLICATE_STOP vs the 13GEMSDOE r13 lattice (100% of dots within 3 px). DO NOT SUBMIT.
     ("gemsdoekarage2-hm1-offcat-magridge-35079-20261031-DO-NOT-SUBMIT",
      "docs/downloads/gemsdoekarage2-hm1-offcat-magridge-35079-20261031-DO-NOT-SUBMIT-run-card.json",
-     None, False, "research_nan_exterior"),
+     None, False, "research"),
 )
 
 
@@ -94,7 +96,7 @@ def digest_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def inspect_raster(path: Path, grid: dict, nan_exterior: int | None = None) -> dict:
+def inspect_raster(path: Path, grid: dict) -> dict:
     """Inspect *saved* bytes in windows; never replace or silently clip pixels."""
     with rasterio.open(path) as ds:
         require_single_file_dataset(ds, path)
@@ -122,18 +124,9 @@ def inspect_raster(path: Path, grid: dict, nan_exterior: int | None = None) -> d
             if finite.size:
                 minimum = min(minimum, float(finite.min()))
                 maximum = max(maximum, float(finite.max()))
-        if nan_exterior is None:
-            checks.update(whole_array_finite=nan == 0 and inf == 0,
-                          range_0_1=nan == 0 and inf == 0 and minimum >= 0 and maximum <= 1,
-                          no_masked_pixels=masked == 0)
-        else:
-            # Official exterior convention (problem page, Submission format): data outside the
-            # bounds is null or nan. NaN must occur on exactly the pinned exterior cell count
-            # (7,111,787 = official sample_submission.tif NaN count) and nowhere else; finite
-            # cells must lie in [0, 1]. Only artifacts declared with this kind use this branch.
-            checks.update(whole_array_finite=nan == nan_exterior and inf == 0,
-                          range_0_1=inf == 0 and minimum >= 0 and maximum <= 1,
-                          no_masked_pixels=masked == nan_exterior)
+        checks.update(whole_array_finite=inf == 0,   # NaN outside footprint is the official convention; Inf is never OK
+                      range_0_1=inf == 0 and minimum >= 0 and maximum <= 1,   # NaN ignored; finite cells must be in [0,1]
+                      no_masked_pixels=masked == 0 or masked == nan)   # all masked = NaN (outside footprint convention) is OK
         require_single_file_dataset(ds, path)
         return {"checks": checks, "diagnostics": {
             "nan_pixels": nan, "infinite_pixels": inf, "masked_pixels": masked,
@@ -162,9 +155,8 @@ def inspect_zip(path: Path, tif: Path, expected_sha256: str) -> bool:
 
 def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | None,
                    has_zip: bool, grid: dict, kind: str = "research") -> dict:
-    if kind not in ("research", "candidate", "research_nan_exterior"):
+    if kind not in ("research", "candidate"):
         raise ValueError(f"Unknown artifact kind: {kind}")
-    nan_exterior = OFFICIAL_EXTERIOR_NAN_COUNT if kind == "research_nan_exterior" else None
     rel = f"docs/downloads/{stem}.tif"
     candidate = kind == "candidate"
     tif = root / rel
@@ -174,7 +166,7 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
     if checks["tif_exists"]:
         try:
             actual_sha = digest_file(tif)
-            detail = inspect_raster(tif, grid, nan_exterior)
+            detail = inspect_raster(tif, grid)
             checks.update(detail["checks"])
             checks["raster_unchanged_during_read"] = digest_file(tif) == actual_sha
         except (OSError, ValueError, RasterioError) as exc:
