@@ -79,8 +79,15 @@ function chromeEnvironment() {
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
-      const primary = page.locator('a.btn.big[download]').first();
-      assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
+      // The desk may offer a verified current candidate (evidence/k10) above the HK3 research
+      // control, so the research-only link is addressed by href rather than by position -- the
+      // same contract tests/test_hk3.py states. Everything below still asserts on the HK3 file:
+      // its RESEARCH ONLY wording, the downloaded filename and its SHA-256.
+      const primary = page.locator(`a.btn.big[download][href*="${hk3.submission.name}"]`).first();
+      assert.ok(await primary.count(), 'HK3 research download is no longer offered by the desk');
+      for (const link of await page.locator('a.btn.big[download]').all()) {
+        assert.ok((await link.getAttribute('href')).startsWith('downloads/'), 'a download link leaves the published tree');
+      }
       assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
       const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
       assert.equal(download.suggestedFilename(), path.basename(hk3.raster.file));

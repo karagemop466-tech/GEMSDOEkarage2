@@ -1,5 +1,8 @@
 # Submission status — ONE CANDIDATE PUBLISHED (format-valid, unique, score NOT measurable here)
 
+**Experiment 2026-10-31 (this branch): one new raster generated, `DOWNLOAD FOR AUDIT: YES · SUBMIT: NO`.** `docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif` is format-valid on the whole array (12,279,160 cells finite in [0,1], `nodata=None`, exterior zeros), passes the achievable uniqueness half (max 3-px overlap 63.06%, \|ρ\| 0.0119 vs 67 rasters) and beats the 0.2778 champion on the shared folds with a paired CI excluding zero (HOLDOUT-DTI 0.01039 vs 0.00665, Δ +0.003737 [+0.001849, +0.005523]). It is **not** authorized: the literal 3-px duplicate rule is unsatisfiable in this footprint (space-filling lattice witness, 99.87% coverage), no organizer receipt or authenticated input exists, and the holdout is anti-correlated with the live board across this family (ρ = −0.23 over 53 scored rasters), so a local win is weak evidence. Calibrated live estimate 0.2979, band [0.278, 0.420] — UNVERIFIED, never a score. Record: [`research/2026-10-31-emission-economics-and-coherence-lane.md`](research/2026-10-31-emission-economics-and-coherence-lane.md).
+
+**Review 2026-10-31: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
 ## Historical review — earlier 2026-10-31 session (merged from main): NO APPROVED FILE at that time
 
 **Review 2026-10-31 (this session): there is still NO APPROVED FILE. Download YES; slot promotion NO — DO NOT SUBMIT.**

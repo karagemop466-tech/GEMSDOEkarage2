@@ -1,0 +1,75 @@
+{
+  "footprint": {
+    "nan_inside_footprint": 0,
+    "on_mapped_catalogue": 0,
+    "outside_footprint_nonzero": 0,
+    "positive_px": 37654,
+    "within_1px_of_catalogue": 0
+  },
+  "portal_range_error_note": "The published rule 'values in [0,1], null or nan outside the bounds' is ambiguous for a whole-array validator: the organiser's own sample fails a strict whole-array [0,1] read because its exterior is NaN. This file cannot trip either reading - every one of its 12,279,160 cells is finite and in [0,1], and the exterior is 0.0 rather than NaN.",
+  "profile": {
+    "blockxsize": 256,
+    "blockysize": 256,
+    "compress": "deflate",
+    "count": 1,
+    "crs": "EPSG:32611",
+    "driver": "GTiff",
+    "dtype": "float32",
+    "nodata": null,
+    "predictor": null,
+    "shape": [
+      3730,
+      3292
+    ],
+    "tiled": true,
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ]
+  },
+  "read_back": {
+    "bands": 1,
+    "bytes": 131284,
+    "crs": "EPSG:32611",
+    "dtype": "float32",
+    "finite_pixels": 12279160,
+    "height": 3730,
+    "max": 1.0,
+    "min": 0.0,
+    "nodata": null,
+    "nodata_repr": "None",
+    "nonzero_in_footprint": 37654,
+    "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif",
+    "positive_pixels": 37654,
+    "res": [
+      100.0,
+      100.0
+    ],
+    "sha256": "5e7255d7abb4902ab95acbe7c13e4322ab5956606bc199501c3649c6dd4dc420",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "unique_values": 2,
+    "width": 3292
+  },
+  "schema": "gemsdoe.tif-audit.v1",
+  "sha256": "5e7255d7abb4902ab95acbe7c13e4322ab5956606bc199501c3649c6dd4dc420",
+  "whole_array": {
+    "inf_count": 0,
+    "max": 1.0,
+    "min": 0.0,
+    "nan_count": 0,
+    "size_px": 12279160,
+    "strict_all_finite_in_0_1": true,
+    "unique_values": 2
+  }
+}
