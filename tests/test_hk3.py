@@ -162,7 +162,8 @@ def test_desk_pages_are_explicitly_research_only(card):
         s1 = json.loads((ROOT / "evidence/s1/run_card.json").read_text())
         for d in downloads:
             assert (card["raster"]["file"].split("/")[-1] in d
-                    or k10["submission_name"] in d or s1["submission"]["name"] in d)
+                    or k10["submission_name"] in d or s1["submission"]["name"] in d
+                    or "gemsdoekarage2-geo-habitat-dti-20261031" in d)
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
     assert "45,046 of 45,108" in home and "99.86%" in home

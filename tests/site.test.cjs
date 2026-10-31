@@ -56,11 +56,37 @@ test('the release decision page is the live decision and its download is the rel
   dom.window.close();
 });
 
+test('root landing page fails closed on the conflicting HALO and GBM release records', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const dom = new JSDOM(html, {url: 'https://example.test/', runScripts: 'outside-only'});
+  const doc = dom.window.document;
+  const text = doc.body.textContent;
+  assert.match(text, /NO SINGLE SUBMISSION SELECTED/);
+  assert.match(text, /selector conflict/);
+  assert.match(text, /Both therefore fail the literal stop/);
+  assert.match(text, /99\.84%/);
+  assert.match(text, /93\.77%/);
+  assert.match(text, /slot_authorized/);
+  assert.ok([...doc.querySelectorAll('a[href]')].some(a => a.getAttribute('href') === 'docs/release.html'));
+  assert.ok([...doc.querySelectorAll('a[href]')].some(a => a.getAttribute('href') === 'docs/release-summary.html'));
+  assert.equal(doc.querySelectorAll('a[download]').length, 0, 'landing page must not silently select a candidate');
+  assert.equal(doc.querySelector('meta[http-equiv="refresh"]'), null, 'no automatic redirect past the warning');
+  assert.doesNotMatch(html, /prediction|score\s*=\s*0\.\d+/i, 'no unlabeled score projection on landing page');
+  dom.window.close();
+});
+
 test('one-click research download is visibly labeled and the exact bytes exist', () => {
   const k10 = JSON.parse(fs.readFileSync(path.join(root, 'evidence/k10/run_card.json'), 'utf8'));
   const s1 = JSON.parse(fs.readFileSync(path.join(root, 'evidence/s1/run_card.json'), 'utf8'));
   const candidateName = path.basename(k10.raster);
   const s1Name = path.basename(s1.raster.file);
+  const habitat = JSON.parse(fs.readFileSync(path.join(root, 'evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json'), 'utf8'));
+  const habitatName = path.basename(habitat.file.path);
+  const halo = JSON.parse(fs.readFileSync(path.join(root, 'evidence/halo/final_generation.json'), 'utf8'));
+  const haloName = path.basename(halo.submission_file);
+  const gbm = JSON.parse(fs.readFileSync(path.join(root, 'docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.run-card.json'), 'utf8'));
+  const gbmName = path.basename(gbm.file);
+  const currentArtifacts = new Set([candidateName, s1Name, habitatName, haloName, gbmName]);
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
@@ -77,8 +103,9 @@ test('one-click research download is visibly labeled and the exact bytes exist',
     for (const link of links) {
       const href = path.basename(link.getAttribute('href'));
       assert.ok(
-        /gemsdoekarage2-hk3-edgecentrality/.test(href) || href === candidateName || href === s1Name,
+        /gemsdoekarage2-hk3-edgecentrality/.test(href) || currentArtifacts.has(href),
         `${page}: unexpected download link ${href}`);
+      assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))), `${page}: missing download bytes ${href}`);
     }
     dom.window.close();
   }
@@ -124,7 +151,7 @@ test('nine-site table links pinned historical files and labels values unverified
     assert.equal(row.children.length, 6);
     assert.match(row.textContent, /USER-REPORTED\s*\/\s*UNVERIFIED/);
     assert.match(row.textContent, /DO NOT SUBMIT/);
-    assert.match(row.textContent, /Unavailable/);
+    assert.match(row.textContent, /PROJECTION for .*a model, not a score/);
     assert.ok([...row.querySelectorAll('a')].some(a => a.href.includes('/raw/')));
   }
   dom.window.close();

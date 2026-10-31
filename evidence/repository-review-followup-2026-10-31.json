@@ -1,0 +1,75 @@
+{
+  "schema": "gems.repository-review-card.v1",
+  "observed_utc": "2026-10-31T04:33:42Z",
+  "classification": "REPOSITORY REVIEW; NO GEOLOGICAL EXPERIMENT, TIFF GENERATION, OR SUBMISSION",
+  "hypothesis": null,
+  "mechanism": "Three-pass code, evidence, build, site, and test review; direct public leaderboard page read; no surface generation or submission selection.",
+  "named_non_fault_mimic": "Not applicable: no candidate surface evaluated. Untried proposal mimics are listed in research/2026-10-31-repository-review-followup.md.",
+  "holdout": {
+    "evidence_class": "NOT RUN",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "dti": null,
+    "ci95": null,
+    "reason": "No method lane assigned for this review; data/ and .cache/gems_data/ are absent. No prior metric value was substituted."
+  },
+  "registry_correlation_overlap": {
+    "preplacement_surface": null,
+    "final_dots": null,
+    "complete_current_registry_verified": false,
+    "reason": "No candidate surface or final dots created."
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_created": false,
+    "format": null,
+    "range_0_1": null,
+    "crs_shape_transform_match": null,
+    "organizer_template_authenticity": false,
+    "portal_acceptance": null
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "leaderboard_public_observation": {
+    "evidence_class": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; not an organizer receipt for a local file",
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "receipt": "evidence/leaderboard-live-read-2026-10-31T0433Z.json",
+    "rank_1": 0.4544,
+    "user_cited_0_3195": "rank 50 at observation time"
+  },
+  "release_status_audit": {
+    "status": "CONFLICT; fail closed",
+    "root_route": "HALO at docs/release.html",
+    "separate_summary_and_guide": "GBM at docs/release-summary.html and docs/release-how-to-submit.html",
+    "public_download_audit": "HALO named downloadable_approved_submission",
+    "gbm_lane_card": "verdict promote; weekly_slot_used false",
+    "root_assessor": "negative; slot_authorized false",
+    "literal_uniqueness_rule": "FAIL for both advertised files under user prompt; no space-filling reference exception applied",
+    "halo_fraction_within_3px_of_13gems_lattice": 0.9983896575187117,
+    "gbm_fraction_within_3px_of_lattice": 0.99666,
+    "gbm_fraction_within_3px_of_nonlattice_registry": 0.93771,
+    "single_consistent_selector_receipt": false
+  },
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "test_results": {
+    "pytest": "302 passed, 10 skipped, 101 warnings, 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "10 passed after replacing stale assumptions and adding release-conflict regression gate",
+    "browser": "passed; root/release and GBM-summary download hashes verified; 1440/390/320 px and fail-safe feed checks",
+    "site_build_checks": "passed: build_release, build_release_page, build_site, build_field_notes, build_audit_site, build_hk3_pages",
+    "download_inventory": "PASS_RESEARCH_ONLY_PLUS_RELEASE; 21 artifacts",
+    "release_assessor": "negative; slot_authorized false"
+  },
+  "verdict": "negative",
+  "limitations": [
+    "No lane assigned to this repository review.",
+    "No competition data or cached feature stack in the checkout.",
+    "No current complete external registry verification performed.",
+    "The site publishes conflicting candidate/release paths and selector states.",
+    "Existing local projections are not a validated estimate of the hidden expert-label leaderboard score.",
+    "No organizer submission receipt or portal acceptance available."
+  ]
+}

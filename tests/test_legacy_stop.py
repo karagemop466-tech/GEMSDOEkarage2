@@ -31,7 +31,8 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
             assert (card['submission']['name'] in href
                     or k10['submission_name'] in href
                     or 'gems-gbsp-blindspot-2195bc570842-20261031T005323Z' in href
-                    or 'gemsdoekarage2-s1-quakeflank' in href)
+                    or 'gemsdoekarage2-s1-quakeflank' in href
+                    or 'gemsdoekarage2-geo-habitat-dti-20261031' in href)
         # The literal-stop receipt prevents any card from reviving approval.
         assert card['verdict'] == 'negative'
         assert 'OK TO SUBMIT: NO' in text
