@@ -25,9 +25,14 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
         text = (ROOT / 'docs' / name).read_text()
         assert 'unique research TIF' not in text
         assert 'DO NOT SUBMIT' in text
+        hf_download = 'downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif'
         for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text):
             assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
-            assert card['submission']['name'] in href
+            if href == hf_download:
+                assert 'Download for research only' in text
+                assert 'NOT OK TO SUBMIT' in text or 'NO · DO NOT SUBMIT' in text
+            else:
+                assert card['submission']['name'] in href
         # The literal-stop receipt prevents any card from reviving approval.
         assert card['verdict'] == 'negative'
         assert 'OK TO SUBMIT: NO' in text and 'OK TO SUBMIT: YES' not in text

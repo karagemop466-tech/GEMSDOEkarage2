@@ -87,19 +87,23 @@ def test_k2_uniqueness_scopes_are_as_reported():
     assert delta["duplicate_count"] == 0
 
 
-def test_homepage_keeps_k2_quarantined_and_offers_only_the_run_card_file():
+def test_homepage_keeps_k2_quarantined_and_labels_each_download():
     home = (ROOT / "docs" / "index.html").read_text()
     assert "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif" in home
     assert "prior literal-policy verdict for K2: NEGATIVE" in home and "DO NOT SUBMIT" in home
     assert "evidence/k2/selector_result.json" in home
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
-    # the only click-to-download links are the file named by the HK3 run card
+    # Only the retired HK3 research file and the explicitly non-submit H-F
+    # research artifact are downloadable; neither is approved for a slot.
     card = load(ROOT / "evidence/hk3/run_card.json")
+    hf_download = "downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif"
     import re
     downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', home)
-    assert downloads, "the desk must offer a click-to-download link"
+    assert downloads, "the desk must offer a clearly labeled research download"
+    assert hf_download in downloads
+    assert "Download for research only" in home and "NOT valid HOLDOUT-DTI" in home
     for href in downloads:
-        assert card["submission"]["name"] in href
+        assert card["submission"]["name"] in href or href == hf_download
         assert not any(x in href for x in ("k2-hgbcont", "h1-parity", "hkarage1"))
 
 

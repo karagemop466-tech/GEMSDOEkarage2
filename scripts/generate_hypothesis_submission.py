@@ -1,45 +1,17 @@
 #!/usr/bin/env python3
-"""
-Generate a unique, hypothesis-driven GeoTIFF submission for the DOE GEMS Prize
-Challenge.
+"""RETIRED H-F prototype; retained only as historical source provenance.
 
-Hypothesis H-F (rank 1 of proposed untried slate): Multi-scale radiometric
-alteration + curvature-convergence at fault intersections.
+The saved H-F raster is a negative research artifact, not a submission. Its
+own audit records a fixed-field proxy rather than strict hide-and-recover,
+feature-alone leakage (fault-proximity AUC 1.0), a failed strict NaN-exterior
+check, and uniqueness comparisons against only seven local rasters. The mapped
+radiometric band interpretation was also unverified. A separate correction and
+three-pass review document the limitations.
 
-Physical rationale:
-  * Hydrothermal alteration along blind fault-controlled fluid pathways mobilises
-    uranium and thorium while leaching potassium, producing a characteristic
-    radiometric anomaly (K/Th depletion, eU/eTh enrichment) that extends beyond
-    mapped surface traces.
-  * Fault intersections and relay ramps concentrate permeability; multi-scale
-    curvature convergence (profile + plan curvature at 100m, 500m, 2km smoothing)
-    marks structural intersections even where no surface fault is mapped.
-  * Combining the radiometric alteration index with curvature convergence and a
-    soft distance decay from known faults targets blind/off-catalogue structures
-    rather than re-drawing catalogue traces.
-
-Why it is distinct from existing work:
-  * Existing focus-site submissions (GEMSDOE24/25/27/28/30/31/32/33/36) use
-    dotted ridge/scarf following (D2.8, Poisson, lattice), stepover/tip models,
-    or single-scale scarp openness. None uses a radiometric ternary alteration
-    index combined with multi-scale curvature convergence.
-  * Repo lanes H1/H2/K2/K3/B4/GW-NFS used signed parity, step asymmetry, edge
-    centrality, lineament density, conductivity-gravity saddles, and seismicity
-    asymmetry — not radiometric alteration × curvature intersection.
-  * This is a continuous probability field (not a dot mask), so it does not
-    reproduce the dot-overlap geometry that blocks the nine historical files
-    under the literal 70% / 3-px uniqueness rule.
-
-Protocol compliance:
-  * Continuous field in [0, 1], NaN outside the organizer template footprint.
-  * Known faults masked pixel-exactly (visible-fault masking).
-  * Features derived only from the feature stack (not from labels/truth).
-  * Outputs: GeoTIFF + audit JSON + run card JSON.
-  * Does NOT spend a submission slot; verdict is promote/negative for the
-    separate selector step.
-
-Usage:
-  python scripts/generate_hypothesis_submission.py
+Do not execute or reuse this prototype. It does not follow the current shared
+lane/evaluator/writer protocol and it cannot authorize a submission slot. Direct
+execution is blocked before any raster library or data file is loaded. A future
+experiment requires an assigned method paragraph and the shared tools.
 """
 
 from __future__ import annotations
@@ -50,6 +22,10 @@ import math
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+if __name__ == "__main__":
+    print("No TIFF generated: the H-F prototype is retired and blocked by the current protocol review.", file=sys.stderr)
+    raise SystemExit(2)
 
 import numpy as np
 import rasterio
@@ -62,7 +38,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 CACHE = ROOT / ".cache" / "competition_data"
 OUT_DIR = ROOT / "docs" / "downloads"
 
-# Official competition grid (from sample_submission.tif / prepare_data.py)
+# Historical owner-mirror grid constants; not an authenticated organizer template.
 OFFICIAL_CRS = "EPSG:32611"
 OFFICIAL_PIXEL_M = 100.0
 OFFICIAL_WIDTH = 3292
@@ -241,6 +217,7 @@ def distance_to_faults(fault_mask: np.ndarray, footprint: np.ndarray) -> np.ndar
 # --------------------------------------------------------------------------- #
 
 def main() -> int:
+    raise RuntimeError("No TIFF generated: the H-F prototype is retired and blocked by the current protocol review.")
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # ---- Load inputs -------------------------------------------------------

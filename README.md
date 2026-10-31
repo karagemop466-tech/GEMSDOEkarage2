@@ -4,15 +4,15 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
-## Latest review (2026-10-30, current Arena branch)
+## Latest review (2026-10-31, current Arena branch)
 
-**Decision: NO APPROVED SUBMISSION. Do not submit any existing TIFF.** This review refreshed the official public-page observation and GitHub-only upstream HEAD metadata, updated the fail-closed page generator, and passed the local test/audit suite. It did **not** run a geological experiment, generate a TIFF, estimate a local leaderboard score, upload, or use a competition slot. No method paragraph is assigned; authenticated organizer inputs/template and complete current registry evidence remain unavailable. Review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); run card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
+**Decision: NO APPROVED SUBMISSION. Do not submit any TIFF in this repository.** This review made no new raster, geological experiment, leaderboard estimate, upload, or slot selection. Verification passed: 266 Python tests, all Node feed/site tests, six browser checks, generated-page checks, and the research-only download audit. The existing H-F TIFF is a prior negative research artifact: its strict local NaN-exterior check fails, its fixed-field proxy is not valid HOLDOUT-DTI, a feature-alone leakage canary is 1.0, and its uniqueness check covered only seven locally available raster references. The file is now marked **DOWNLOAD FOR RESEARCH ONLY · NOT OK TO SUBMIT**; no full-registry uniqueness is claimed. Review: [`research/2026-10-31-repo-review.md`](research/2026-10-31-repo-review.md); machine-readable review card: [`evidence/repo-review-2026-10-31-run-card.json`](evidence/repo-review-2026-10-31-run-card.json).
 
-**Fresh public-source observation (2026-10-30 01:57:20 UTC):** the official leaderboard was read in all three chunks. It shows xiaofanhu #1 at 0.4544, like60986 #47 at 0.3217, and kpomazi #48 at 0.3195. This is an **ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT**, not a local score, private result, or file-linked receipt. The earlier same-day rank-48 draft on another branch was properly withdrawn because its evidence card said no external page was fetched; this branch now records a separate direct page-reader capture at [`evidence/official-review-2026-10-30.json`](evidence/official-review-2026-10-30.json). The 2026-10-29 rank-47 observation remains dated history.
+**GitHub-only refresh (2026-10-31 00:45 UTC):** all nine requested site repositories had a changed `main` HEAD from their pinned historical references. This is metadata only: no latest-head TIFF, score, or receipt was audited. The last saved official leaderboard observation remains dated 2026-10-30; it showed 0.4544 at rank 1 and 0.3195 at rank 48. Do not present that snapshot as a live 2026-10-31 result. The competition data/leaderboard pages were not contacted in this review.
 
-The GitHub source feed is current for repository HEAD metadata only: all nine focus-site main branches differ from the pinned historical raster references. This does not establish new file content or a score; no latest-head raster/score audit is claimed. The DrivenData data tab redirects to login. The one-click HK3 TIFF remains **RESEARCH ONLY / DO NOT SUBMIT**; the audited inventory has no approved download.
+**GEMSDOE32 explanation:** the 0.2778 result remains USER-REPORTED / UNVERIFIED, not organizer-confirmed. Its pinned mask is a strict subset of the D2.8 mask (6,436 dots removed, none added); pruning low-yield predictions could plausibly improve the DTI balance, but no causal score comparison or valid estimate exists. All nine supplied site files fail the saved lattice gate and are pairwise non-unique under the recorded three-pixel comparison. Exact details and limitations are in the review.
 
-**Format-evidence correction:** `reference/gemsdoe36/GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif` is synthetic QA, not an organizer sample. Its different grid and NaN exterior do not establish the official template or explain the portal range error. A separate owner-mirrored sample/label discrepancy remains unauthenticated; do not conflate it with this synthetic QA file.
+**Registry-scope irregularity:** current project records contain different historical counts (440 entries with 438 comparable in the dated uniqueness receipts; 472 in a combined snapshot; 489 in a filtered nine-repository manifest). These are not a reconciled live global registry. H-F uniqueness is therefore **unknown**, not a pass.
 
 ## Earlier 2026-10-30 repository reviews
 
@@ -578,7 +578,7 @@ no TIFF is approved for competition submission.
 
 ---
 
-## CURRENT SESSION PROMPT (2026-10-30) — read before every work session
+## CURRENT SESSION PROMPT (read before every work session; status corrected 2026-10-31)
 
 ### Focus: nine GEMSDOE sites
 
@@ -587,12 +587,10 @@ GEMSDOE33, GEMSDOE36.
 
 ### Deliverable 1 — Executive summary on every site
 
-Clear and obvious which is the best submission to submit for a high leaderboard
-score. Table listing: what file to download, estimated score, whether it is a
-unique submission unlike any of the other GEMSDOE sites.
+The public executive summary lists each highest supplied historical file, marks the reported value USER-REPORTED / UNVERIFIED, shows that no calibrated new-file estimate exists, and says DO NOT SUBMIT. The exact pinned files and dates are in [`research/2026-10-31-repo-review.md`](research/2026-10-31-repo-review.md) and [`docs/executive-summary.html`](docs/executive-summary.html).
 
-Best user-reported results (USER-REPORTED / UNVERIFIED, no organizer receipt):
-- GEMSDOE32: h33-h33-2-b2 = 0.2778 (highest of the nine)
+Best supplied historical claims (all USER-REPORTED / UNVERIFIED; no file-linked organizer receipt):
+- GEMSDOE32: h33-h33-2-b2 = 0.2778 (highest supplied claim)
 - GEMSDOE36: anderson-geothermal-pinn = 0.2750
 - GEMSDOE28: h36-1-rung30-blind-r1 = 0.2710
 - GEMSDOE31: h27-4-solo-d28 = 0.2708
@@ -602,57 +600,40 @@ Best user-reported results (USER-REPORTED / UNVERIFIED, no organizer receipt):
 - GEMSDOE24: h25-1-dotted-h19-5-d1-5 = 0.2477
 - GEMSDOE27: topo-gap-closure-t-v2-on-d1-5 = 0.2449
 
-**All nine fail the literal uniqueness gate** (DUPLICATE_STOP against the 13GEMSDOE
-lattice, 99.91–99.92% of dots within 3 px; limit 70%). None is eligible for
-submission. No estimated leaderboard score exists for any file.
+All nine pinned files fail the saved literal three-pixel gate against the 13GEMSDOE lattice witness (99.9097–99.9234%; limit 70%) and the dated pairwise recheck finds no unique file among the other eight. These are historical geometry checks, not a complete current-registry proof. No estimated leaderboard score exists for any file.
 
 ### Deliverable 2 — MUST generate a unique TIF submission
 
-Generated: `docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif`
-(SHA-256: `4fe3104c38ae32eb04dbea9a75ba882feaef3d3b282249aeb635f83f9083abe3`)
+**Status: not achieved. Do not relabel or promote a research TIFF.** A prior H-F prototype exists at `docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif` (SHA-256 `e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224`). It is a research artifact only, not a unique approved submission.
 
-**Hypothesis H-F:** Multi-scale radiometric alteration (low K, high eTh/eU ratio)
-× curvature convergence at fault intersections × soft distance decay from known
-faults; faults masked pixel-exactly; sparsified to 18,000 dots.
-
-**Validation:**
-- Format: PASS (strict_format_pass=true; float32, [0,1], NaN outside footprint,
-  EPSG:32611, 3730×3292, 100 m)
-- Uniqueness: PASS vs 7 local registry rasters (max |Spearman| 0.0115, max
-  dot overlap 0.6179, no duplicate). 465 focus-site rasters not locally available.
-- Holdout-DTI: 0.018385 (proxy; 60,988 withheld positives; below submission threshold)
-- Leakage canary: PASS (combined AUC 0.498; no leakage)
-
-**VERDICT: negative.** OK_TO_DOWNLOAD: YES. OK_TO_SUBMIT: NO. Holdout DTI too
-low for submission. No submission slot was used.
+H-F review correction:
+- Strict local format audit: FAIL (`outside_is_nan=false`). Its whole-array `[0,1]` range/grid check is against a pinned owner mirror, not an authenticated organizer template; portal acceptance is unknown.
+- Uniqueness: unknown. Its old comparison covered seven local rasters only, not the requested nine files or a reconciled current registry. Do not call it unique.
+- The recorded point value 0.018385 is a fixed-field proxy, **not valid HOLDOUT-DTI**; 60,988 is the number of positives in that invalid proxy. The stored `[0.008563, 0.038431]` range is a four-fold range, **not a 95% CI**.
+- Fault-proximity feature-alone AUC 1.0 is a leakage-canary failure.
+- Verdict: NEGATIVE; download for research only; **NOT OK TO SUBMIT**; no slot authorized.
 
 ### Deliverable 3 — Easy download
 
-One-click download link on the site (`docs/index.html`, `docs/executive-summary.html`)
-at `downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif`.
+The executive summary includes a one-click H-F TIFF link **for research only**, with an adjacent explicit **NO · DO NOT SUBMIT** decision and links to its byte audit/run card. This is not an approved submission download.
 
 ### Deliverable 4 — Executive summary subpage
 
-`docs/executive-summary.html` — explains how to submit, includes the nine-site
-scorecard table, the new H-F TIF with clear OK/NOT-OF-TO-SUBMIT messaging.
+`docs/executive-summary.html` and `docs/how-to-submit.html` remain the submission-guidance pages. The former contains the nine-site table and current repository artifact inventory; the latter describes the conditional steps for a future approved file and says no current file is approved.
 
 ### Deliverable 5 — 3–5 untried geological hypotheses
 
-Documented in `research/hypotheses-2026-10-29-untried.md` (H-A through H-E).
-Top candidate H-A was not implemented; H-F and H-G were implemented instead
-as experiments 1 and 2. Both negative on holdout.
+Four falsifiable proposals are ranked in [`research/2026-10-28-next-lane-slate.md`](research/2026-10-28-next-lane-slate.md) and restated in the current review. Rankings are qualitative, not score forecasts. H-F was a prior prototype and failed the required protocol; H-G is only an unverified script prototype with no checked-in run card/TIFF. Neither is a viable new lane. The method paragraph is absent and no lane was assigned, so no experiment was run in this review.
 
 ### Protocol (binding)
 
-- LANE: >0.90 Spearman or >70% dots within 3 px of any registry raster = stop
-- Holdout: hide-and-recover, pooled DTI (alpha 0.2, beta 0.8, 300 m triangular)
-- Label every number as HOLDOUT-DTI or ORGANIZER-CONFIRMED; projection is never a score
-- Leakage canary: AUC > 0.90 = leakage until proven otherwise
-- Budget: 3 experiments / 2 hours (used: 2 experiments)
-- No submission slot spent; promotion is a separate selector step
+- Stop on surface correlation >0.90 or >70% of final dots within 3 px of any registry raster; test surface before placement and final dots after.
+- Reuse the shared cached feature stack, `evaluate_holdout.py`, and `submission_writer.py`; withhold whole buffered segments, rebuild catalogue features from visible faults only, mask visible faults pixel-exactly, and pool DTI with alpha 0.2, beta 0.8, 300 m triangular kernel.
+- Label every score as HOLDOUT-DTI (evaluator, withheld count, genuine 95% CI) or ORGANIZER-CONFIRMED; a projection/fold range is never a score/CI.
+- Test each feature alone; AUC >0.90 is leakage until resolved.
+- Stop after 3 experiments or 2 hours. No slot used; promotion is a separate selector step.
+- No method lane, authenticated organizer data/template, or reconciled complete registry is available in this workspace. Do not spend a slot or generate a new candidate until prerequisites are met.
 
-### Leaderboard (public observation, not receipts)
+### Leaderboard snapshot (dated, not live)
 
-Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29). Best focus-site claim:
-0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47;
-0.4413 is not rank one.
+The latest saved official public observation is 2026-10-30: rank 1 was 0.4544; 0.3195 was rank 48. This is not a 2026-10-31 refresh, not a local score, and not a receipt linking a public row to any TIFF. See [`evidence/official-review-2026-10-30.json`](evidence/official-review-2026-10-30.json).

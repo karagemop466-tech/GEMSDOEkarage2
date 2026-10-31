@@ -53,7 +53,7 @@ def test_current_leaderboard_snapshot_matches_monitor_but_is_not_a_local_score()
     assert monitor['leaderboard']['user_cited_0_3195']['rank'] == cited['rank']
     assert monitor['leaderboard']['limitations'].startswith('Public rows only')
     assert monitor['leaderboard']['evidence_class'].startswith('ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT')
-    assert monitor['note'].startswith('GitHub metadata only; leaderboard is a dated manual public-page observation')
+    assert monitor['note'].startswith('GitHub metadata only; leaderboard snapshot is not refreshed.')
     assert len(monitor['sites']) == 9
     homepage = (ROOT/'docs/index.html').read_text()
     assert '0.4544' in homepage and 'rank 48' in homepage
@@ -61,37 +61,43 @@ def test_current_leaderboard_snapshot_matches_monitor_but_is_not_a_local_score()
     assert 'evidence/official-review-2026-10-30.json' in homepage
     assert 'GITHUB METADATA ONLY' in homepage
     assert 'No latest-head raster/score audit is claimed' in homepage
-    assert 'Three-pass review' in homepage
+    assert '2026-10-31-repo-review.md' in homepage and 'Review card' in homepage
 
 
 def test_review_cards_record_historical_and_current_metadata_scopes():
     historical = json.loads((ROOT/'evidence/2026-10-29-repo-review-run-card.json').read_text())
-    current = json.loads((ROOT/'evidence/live-source-review-card-2026-10-30.json').read_text())
+    previous_review = json.loads((ROOT/'evidence/live-source-review-card-2026-10-30.json').read_text())
+    current = json.loads((ROOT/'evidence/repo-review-2026-10-31-run-card.json').read_text())
     monitor = json.loads((ROOT/'docs/data/monitor.json').read_text())
     assert historical['verdict'] == 'negative'
     assert historical['experiments_run'] == historical['new_tiffs_created'] == 0
     assert historical['submission_slots_used'] == 0
     assert historical['current_public_leaderboard_snapshot']['user_cited_0_3195']['rank'] == 47
-    assert current['classification'] == 'REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT'
+    assert previous_review['classification'] == 'REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT'
+    assert previous_review['verdict'] == 'negative'
+    assert previous_review['experiments_run'] == previous_review['new_tiffs_created'] == 0
+    assert not previous_review['slot_authorized'] and previous_review['submission_slots_used'] == 0
+    assert previous_review['public_leaderboard_observation']['user_cited_0_3195']['rank'] == 48
+    assert current['classification'] == 'THREE-PASS REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT'
     assert current['verdict'] == 'negative'
     assert current['experiments_run'] == current['new_tiffs_created'] == 0
     assert not current['slot_authorized'] and current['submission_slots_used'] == 0
-    assert current['holdout']['evidence_class'] == 'NOT RUN; NO HOLDOUT-DTI'
+    assert current['holdout']['evidence_class'] == 'NOT RUN IN THIS REVIEW; NO PROTOCOL-VALID HOLDOUT-DTI'
     assert current['holdout']['evaluator_version'] is None
     assert current['holdout']['dti'] is None and current['holdout']['ci95'] is None
     assert current['registry_correlation_overlap']['candidate_surface_spearman'] is None
     assert current['registry_correlation_overlap']['complete_registry_verified'] is False
     assert current['raster_sha256'] is None and current['submission_name'] is None
     assert current['submission_note'] is None and current['leaderboard_estimate'] is None
-    assert current['validator_output']['status'] == 'NOT RUN: no new candidate raster'
+    assert current['validator_output']['new_candidate'] == 'NOT RUN: no new candidate raster'
     assert current['validator_output']['downloadable_approved_submission'] is None
     assert current['test_results']['status'] == 'PASS'
     assert current['github_source_refresh']['changed'] == 9
     assert current['github_source_refresh']['unavailable'] == 0
     assert current['github_source_refresh']['latest_heads'] == {
         row['site']: row['latest_ref'] for row in monitor['sites']}
-    assert current['public_leaderboard_observation']['user_cited_0_3195']['rank'] == 48
-    assert current['public_leaderboard_observation']['evidence_class'].startswith('ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT')
+    assert current['official_public_leaderboard']['rank_48_value_user_cited'] == 0.3195
+    assert current['official_public_leaderboard']['evidence_class'].startswith('DATED ORGANIZER-PUBLISHED PUBLIC SNAPSHOT')
 
 
 class LocalLinks(HTMLParser):

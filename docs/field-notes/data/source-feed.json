@@ -1,5 +1,5 @@
 {
-  "checked_utc": "2026-10-30T01:59:07.192300+00:00",
+  "checked_utc": "2026-10-31T00:45:39.173042+00:00",
   "reviewed_utc": "2026-10-27T21:10:00Z",
   "scope": "GitHub main-branch HEAD metadata only; no score, raster re-audit, organizer quota, or complete-registry claim.",
   "summary": {
@@ -11,35 +11,35 @@
     {
       "site": "GEMSDOE24",
       "reviewed_head": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
-      "current_head": "63d5885b68f73c19a7746052ccb3e5690f3271b5",
+      "current_head": "53121cbeead26eea7ce3df357e5d4b0885f68015",
       "status": "changed_since_review",
       "error": null
     },
     {
       "site": "GEMSDOE25",
       "reviewed_head": "b13ccabae15d4951854d47cb35e17322e7537b64",
-      "current_head": "782824f08879a52ad5142b4b0f46d59d48017e7a",
+      "current_head": "8cb3573d8adc747b519dd0d96ffdc4eccad6d8ec",
       "status": "changed_since_review",
       "error": null
     },
     {
       "site": "GEMSDOE27",
       "reviewed_head": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
-      "current_head": "bf34151e8e4ef26ec924f28dbc371a39bd740782",
+      "current_head": "60da5e4128339244efc61274abf95d22702ff801",
       "status": "changed_since_review",
       "error": null
     },
     {
       "site": "GEMSDOE28",
       "reviewed_head": "4955e29c7b66503ba2178b25d356d713dc1bc534",
-      "current_head": "424bf795ed2183000c643d6e30a12ce2d4bf401d",
+      "current_head": "fc8ceebea0b1e95956bdd0f3ebaeed5767d24f79",
       "status": "changed_since_review",
       "error": null
     },
     {
       "site": "GEMSDOE30",
       "reviewed_head": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
-      "current_head": "eaff218f81e89fadc605650bb2cd55dd4b58e18d",
+      "current_head": "099defe53015de334bebb82224300beca2c0ed0d",
       "status": "changed_since_review",
       "error": null
     },
@@ -53,7 +53,7 @@
     {
       "site": "GEMSDOE32",
       "reviewed_head": "73485f27cf230af770167397c2b72cb9ce3b3f25",
-      "current_head": "6edcc4cd529ca0809b956ccb00aea7f0e3b79cbf",
+      "current_head": "c8e560f1aae650b120dc31c9e7495ced6a587701",
       "status": "changed_since_review",
       "error": null
     },

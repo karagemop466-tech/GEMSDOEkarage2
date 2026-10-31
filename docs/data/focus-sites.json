@@ -129,14 +129,15 @@
     "site": "NEW · GEMSDOEkarage2 H-F (this repo)",
     "historical_submission": "gemsdoe-hf-alteration-curvature-intersection-20261030",
     "user_reported_result": null,
-    "evidence_class": "NEW HYPOTHESIS · HOLDOUT-DTI MEASURED · NOT ORGANIZER-CONFIRMED",
+    "evidence_class": "HYPOTHESIS PROTOTYPE · INVALID FIXED-FIELD PROXY · NOT ORGANIZER-CONFIRMED",
     "estimated_score": null,
-    "unique": true,
-    "unique_reason": "PASS vs 7 local registry rasters: max |Spearman| 0.0115 (<=0.90), max dot overlap 0.6179 (<=0.70). 465 focus-site rasters not locally available for comparison.",
+    "unique": null,
+    "unique_reason": "Only 7 locally available rasters were compared. The audit explicitly notes 465 of its stated 472 registry rasters were unavailable; the requested nine-site/full-registry comparison and pre-placement surface check are not established.",
     "download": "downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
     "verdict": "negative",
     "submit": false,
-    "submit_reason": "UNIQUE and format-valid, but HOLDOUT-DTI 0.0184 (far below submission-worthy threshold). NOT OK to submit. Negative deliverable per protocol.",
-    "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2"
+    "submit_reason": "NOT OK TO SUBMIT: strict local NaN-exterior validation fails; the fixed-field holdout is not valid hide-and-recover HOLDOUT-DTI, fault-proximity feature AUC=1.0 indicates leakage, and full-registry uniqueness is unknown. No organizer template or portal acceptance.",
+    "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2",
+    "uniqueness_status": "UNKNOWN_INCOMPLETE_REGISTRY"
   }
 ]

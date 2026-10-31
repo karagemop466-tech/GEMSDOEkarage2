@@ -100,6 +100,40 @@ def gather() -> dict:
     official, official_filename = latest_official_observation()
     monitor = load(DOCS / "data/monitor.json")
     k3 = load(EV / "k3/run_card.json")
+    hf_stem = "gemsdoe-hf-alteration-curvature-intersection-20261030"
+    hf_rel = f"docs/downloads/{hf_stem}.tif"
+    hf_path = (ROOT / hf_rel).resolve()
+    hf_audit = load(DOCS / "downloads" / f"{hf_stem}.audit.json")
+    hf_card = load(DOCS / "downloads" / f"{hf_stem}.run-card.json")
+    hf_rows = [row for row in inventory["artifacts"] if row.get("file") == hf_rel]
+    if not hf_path.is_file() or len(hf_rows) != 1:
+        raise ValueError("The H-F research TIFF is missing from the saved-byte inventory")
+    hf_sha = hashlib.sha256(hf_path.read_bytes()).hexdigest()
+    hf_row = hf_rows[0]
+    hf_format = hf_audit.get("format_validation", {})
+    hf_uniqueness = hf_audit.get("uniqueness", {})
+    hf_holdout = hf_audit.get("holdout", {})
+    hf_leakage = hf_audit.get("leakage_canary", {})
+    hf_fault_auc = hf_leakage.get("fault_proximity", {}).get("auc")
+    if (hf_sha != hf_audit.get("sha256") or hf_sha != hf_card.get("raster_sha256")
+            or hf_sha != hf_row.get("raster_sha256")
+            or hf_audit.get("verdict") != "negative"
+            or hf_audit.get("ok_to_submit") is not False
+            or hf_audit.get("slot_authorized") is not False
+            or hf_format.get("passed") is not False
+            or hf_format.get("checks", {}).get("outside_is_nan") is not False
+            or hf_card.get("validator", {}).get("strict_format_pass") is not False
+            or hf_uniqueness.get("n_local_registry_compared") != 7
+            or hf_holdout.get("classification", "").startswith("PROXY") is False
+            or hf_fault_auc is None or hf_fault_auc <= 0.90
+            or hf_row.get("ok_to_submit") is not False
+            or hf_row.get("status") != "VERIFIED_RESEARCH_ONLY"):
+        raise ValueError("H-F evidence no longer supports the explicit negative disposition")
+    profile = load(EV / "focus-profile-2026-10-29.json")
+    profile_downloads = {Path(row["file"]).name for row in profile.get("other_candidates", [])}
+    inventory_downloads = {Path(row["file"]).name for row in inventory["artifacts"]}
+    if inventory_downloads != profile_downloads | {Path(hf_rel).name}:
+        raise ValueError("Published TIFF inventory is not fully represented by the scoped site audit")
     filename = card["raster"]["file"]
     candidate = (ROOT / filename).resolve()
     if not candidate.is_relative_to((DOCS / "downloads").resolve()) or not candidate.is_file():
@@ -211,7 +245,8 @@ def gather() -> dict:
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official,
             "official_filename": official_filename, "monitor": monitor, "k3": k3,
-            "profile": profile, "uniq": uniq, "pairs": pairs}
+            "profile": profile, "uniq": uniq, "pairs": pairs,
+            "hf_audit": hf_audit, "hf_card": hf_card, "hf_inventory_row": hf_row}
 
 
 UNIQUENESS_CANDIDATES = [
@@ -233,10 +268,10 @@ def registry_audit_section(d: dict) -> str:
     pair_rows = "".join(f"<tr><td>{esc(r['site'])}</td><td><code>{esc(r['file'])}</code></td><td>{r['max_overlap_vs_other_eight'] * 100:.2f}%</td>"
                         f"<td>{esc(r['closest_other_site'])}</td><td><b class=\"no\">{'YES' if r['unique_vs_other_eight'] else 'NO'}</b></td></tr>"
                         for r in d["pairs"]["summary"])
-    return f'''<section class="section" id="uniqueness"><h3>Full-registry duplicate check · 2026-10-29</h3>
-<p>Each candidate was compared with all 440 pinned focus-registry rasters (<code>registry/focus_registry_manifest.json</code>, byte-checked by SHA-256). The rule stops on rank correlation above 0.90 or more than 70% of dots within 3 px of one registry raster. This is a post-hoc audit of saved bytes, not a live registry or organizer receipt. Its result is stricter than the lattice-only gate above, which checks one witness raster.</p>
+    return f'''<section class="section" id="uniqueness"><h3>Pinned 440-reference duplicate audit · 2026-10-29</h3>
+<p>The two candidates below were compared with a historical snapshot listing 440 focus-registry rasters; 438 were comparable and two were not. The local audit calls this a focus registry, not a live or globally complete registry. The rule stops on rank correlation above 0.90 or more than 70% of dots within 3 px of one raster. This post-hoc saved-byte check is not a current registry clearance or organizer receipt. It is broader than the separate one-lattice witness gate, but its evidence scope is still bounded.</p>
 <table><thead><tr><th>Candidate</th><th>Comparable items</th><th>Max rank corr.</th><th>Max 3-px overlap</th><th>Result</th><th>Receipt</th></tr></thead><tbody>{"".join(rows)}</tbody></table>
-<p class="muted">Two registry items were not comparable and are recorded, not dropped: one reference has NaN cells inside the footprint, and one format-test file has a different grid.</p>
+<p class="muted">Two entries were not comparable and remain recorded: one reference has NaN cells inside the footprint, and one format-test file has a different grid. Other repository manifests use different scopes/counts; see the current review before treating any uniqueness result as complete.</p>
 <h3>Nine focus best files · pairwise re-check</h3>
 <p>Recomputed from the saved bytes with the shared comparator. Every file overlaps another focus file at 97.6% or more, so none is unique against the other eight.</p>
 <table><thead><tr><th>Site</th><th>File</th><th>Max share of dots within 3 px of another focus file</th><th>Closest site</th><th>Unique vs other eight?</th></tr></thead><tbody>{pair_rows}</tbody></table>
@@ -260,7 +295,7 @@ def shell(title: str, active: str, body: str, *, base_href: str | None = None,
 <main class="container"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
 {body}
 <footer class="footnote"><p><b>Evidence labels:</b> HOLDOUT-DTI is a local, catalogue-based proxy with its evaluator, withheld count and interval; it is not a leaderboard result. Historical values are USER-REPORTED / UNVERIFIED unless linked to an actual organizer receipt. The leaderboard observation is an organizer-published public snapshot, not a receipt for any local TIFF.</p>
-<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="{esc(official_ref)}">Source observations</a> · <a href="../research/2026-10-30-live-source-and-code-review.md">Three-pass review</a> · <a href="evidence/live-source-review-card-2026-10-30.json">Review card</a></p></footer>
+<p>Maximize P(Win). Own the outcome. <a href="{REPO}/blob/main/README.md">Project instructions</a> · <a href="{esc(official_ref)}">Source observations</a> · <a href="{REPO}/blob/arena/0450136c-gemsdoekarage2/research/2026-10-31-repo-review.md">Latest three-pass review</a> · <a href="evidence/repo-review-2026-10-31-run-card.json">Review card</a></p></footer>
 </main></body></html>'''
 
 
@@ -464,28 +499,54 @@ def nested_section(d: dict) -> str:
 
 
 def candidate_section(d: dict) -> str:
-    """Every published TIFF outside the nine pinned sites, with its shared-gate result. All are NOT ELIGIBLE."""
+    """List every served TIFF, keeping historical gate scope explicit and fail-closed."""
     rows = []
     for c in d["profile"].get("other_candidates", []):
-        fmt = c["format"]
         frac = c["frac_dots_within_3px_of_lattice"]
         frac_txt = "n/a" if frac is None else f"{frac * 100:.2f}%"
         rows.append(
             f'<tr><td><code>{esc(c["name"])}</code><span class="sub-label">{esc(c["sha256"][:16])}…</span></td>'
             f'<td>{c["dots_in_footprint"]:,} positive cells</td>'
-            f'<td><b class="no">{esc(c["gate_status"])}</b><span class="sub-label">{frac_txt} within 3 px of the lattice witness (limit 70%)</span></td>'
+            f'<td><b class="no">{esc(c["gate_status"])}</b><span class="sub-label">{frac_txt} within 3 px of the pinned lattice witness (limit 70%)</span></td>'
             f'<td><b class="no">NO · DO NOT SUBMIT</b><span class="sub-label">exterior: {esc(c["exterior_convention"])}; '
             f'<a href="{esc(c["file"].replace("docs/", "", 1))}">research reference</a> · <a href="{esc(c["receipt"].replace("evidence/", "evidence/", 1))}">receipt</a></span></td></tr>'
         )
+
+    hf = d["hf_audit"]
+    hf_card = d["hf_card"]
+    hf_uniqueness = hf["uniqueness"]
+    hf_holdout = hf["holdout"]
+    hf_fault_auc = hf["leakage_canary"]["fault_proximity"]["auc"]
+    hf_stem = Path(hf["file"]).stem
+    hf_filename = Path(hf["file"]).name
+    hf_overlap = hf_uniqueness["max_dot_overlap_3px"]
+    hf_rho = hf_uniqueness["max_spearman_abs"]
+    hf_proxy = hf_holdout["pooled_DTI"]
+    hf_withheld = hf_holdout["n_withheld_total"]
+    rows.append(
+        f'<tr data-candidate="H-F"><td><code>{esc(hf_stem)}</code>'
+        f'<span class="sub-label">SHA-256 {esc(hf["sha256"][:16])}… · saved research artifact</span></td>'
+        f'<td>{hf["format_validation"]["diagnostics"]["footprint_pixels"]:,} footprint pixels; '
+        f'{d["hf_inventory_row"]["diagnostics"]["positive_pixels"]:,} positive pixels</td>'
+        f'<td><b class="no">NOT ESTABLISHED</b><span class="sub-label">only {hf_uniqueness["n_local_registry_compared"]} local rasters checked '
+        f'(max |Spearman| {hf_rho:.4f}; max 3-px dot overlap {hf_overlap:.2%}); the requested focus-site/full-registry check is missing</span></td>'
+        f'<td><b class="no">NO · DO NOT SUBMIT</b><span class="sub-label">strict local format gate FAILS (outside-is-NaN check); '
+        f'fixed-field proxy {hf_proxy:.6f} is NOT valid HOLDOUT-DTI ({hf_withheld:,} withheld positives; stored fold range is not a 95% CI); '
+        f'fault-proximity leakage AUC {hf_fault_auc:.3f}. '
+        f'<a href="downloads/{esc(hf_filename)}" download>Download for research only</a> · '
+        f'<a href="downloads/{esc(hf_stem)}.audit.json">audit</a> · '
+        f'<a href="downloads/{esc(hf_stem)}.run-card.json">run card</a></span></td></tr>'
+    )
     if not rows:
         return ""
     return (
-        '<section class="section" id="published-tifs"><h3>Every published TIFF · shared gate · NOT ELIGIBLE</h3>\n'
-        '<p>Other sessions committed new GeoTIFFs to <code>main</code>, some described as "unique" with a one-click download. '
-        'The shared gate was run on every published TIFF in <code>docs/downloads/</code> against the pinned 13GEMSDOE lattice witness, '
-        'a raster the repository itself pins. <b>Each one stops at the same gate.</b> The "unique" claims are withdrawn for the gate. '
-        'The listed files are research references only, and nothing should be uploaded on the basis of any of them.</p>\n'
-        f'<table><thead><tr><th>File</th><th>Dots</th><th>Shared gate</th><th>Decision</th></tr></thead><tbody>{"".join(rows)}</tbody></table>\n'
+        '<section class="section" id="published-tifs"><h3>Published TIFF inventory · NO FILE APPROVED</h3>\n'
+        '<p>The nine pre-H-F artifacts below were checked against the pinned 13GEMSDOE lattice witness and each stops at that '
+        'witness gate. H-F is a later research file: it was compared with only seven local rasters, not the requested nine site '
+        'files or a complete current registry, so uniqueness is <b>unknown</b>. Its prior fixed-field holdout is invalid for this '
+        'protocol and its local strict format check fails. All listed TIFFs are research references only; the H-F download link is '
+        'explicitly research-only. No file is OK to submit.</p>\n'
+        f'<table><thead><tr><th>File</th><th>Raster support</th><th>Uniqueness evidence</th><th>Decision / evidence</th></tr></thead><tbody>{"".join(rows)}</tbody></table>\n'
         '</section>'
     )
 
@@ -618,7 +679,8 @@ def main() -> int:
                 (EV / "2026-10-29-repo-review-run-card.json", DOCS / "evidence/2026-10-29-repo-review-run-card.json"),
                 (EV / "focus-profile-2026-10-29.json", DOCS / "evidence/focus-profile-2026-10-29.json"),
                 (EV / "lattice-gate-audit-2026-10-29.json", DOCS / "evidence/lattice-gate-audit-2026-10-29.json"),
-                (EV / "live-source-review-card-2026-10-30.json", DOCS / "evidence/live-source-review-card-2026-10-30.json")]
+                (EV / "live-source-review-card-2026-10-30.json", DOCS / "evidence/live-source-review-card-2026-10-30.json"),
+                (EV / "repo-review-2026-10-31-run-card.json", DOCS / "evidence/repo-review-2026-10-31-run-card.json")]
     mirrors += [(f, DOCS / "evidence" / f.name) for f in sorted(EV.glob("official-review-????-??-??.json"))]
     mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/gw-nfs" / f.name) for f in sorted((EV / "gw-nfs").glob("*.json"))]

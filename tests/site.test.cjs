@@ -33,16 +33,28 @@ test('all desk pages are fail-closed and visibly prohibit submission', () => {
   }
 });
 
-test('one-click research download is visibly labeled and the exact bytes exist', () => {
+test('each one-click research download is clearly distinguished from submission approval', () => {
+  const hfPath = 'downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif';
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
-    assert.equal(links.length, 1, `${page}: research link`);
-    const link = links[0];
-    assert.match(link.textContent, /RESEARCH ONLY/);
-    assert.match(link.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality/);
-    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
-    assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
+    const expectHf = ['index.html', 'executive-summary.html'].includes(page);
+    assert.equal(links.length, expectHf ? 2 : 1, `${page}: research download inventory`);
+    for (const link of links) {
+      const href = link.getAttribute('href');
+      assert.ok(fs.existsSync(path.join(root, 'docs', href)));
+      if (href === hfPath) {
+        assert.equal(link.textContent.trim(), 'Download for research only');
+        const rowText = link.closest('tr').textContent;
+        assert.match(rowText, /NOT ESTABLISHED/);
+        assert.match(rowText, /NO · DO NOT SUBMIT/);
+        assert.match(rowText, /NOT valid HOLDOUT-DTI/);
+      } else {
+        assert.match(link.textContent, /RESEARCH ONLY/);
+        assert.match(href, /gemsdoekarage2-hk3-edgecentrality/);
+        assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
+      }
+    }
     dom.window.close();
   }
 });

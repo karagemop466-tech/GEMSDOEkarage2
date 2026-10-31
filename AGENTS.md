@@ -4,11 +4,14 @@ Read `README.md` and the consolidated project prompt in it before changing scien
 submission workflows. Work on the assigned Arena branch. Preserve negative evidence,
 source-access limitations and the user's literal parallel-run protocol.
 
-## Current decision: all TIFFs are research-only
+## Current release decision: all TIFFs are research-only
 
-Read `research/2026-10-28-independent-three-pass-review.md`,
+The latest correction is `research/2026-10-31-repo-review.md` and
+`evidence/repo-review-2026-10-31-run-card.json`; read those first. The earlier
+HK3-specific correction is historical evidence, not a newer release decision. Read
+`research/2026-10-28-independent-three-pass-review.md`,
 `research/hk3-protocol-correction-2026-10-28.md` and
-`evidence/2026-10-28-independent-audit-run-card.json` for this correction.
+`evidence/2026-10-28-independent-audit-run-card.json` for that historical correction.
 The prior unsafe card is preserved under `evidence/hk3/history/`.
 The previous HK3 `PROMOTE` decision was incorrect and has been withdrawn. Its saved
 TIFF has 45,046 of 45,108 dots within 3 px of a registered lattice: >70% means STOP,
@@ -22,6 +25,28 @@ remain negative. Do not submit, regenerate, tune or relabel these TIFFs as candi
 recorded two-hour budget; its historical placement and promoter implementations exist
 only in Git history. Do not bypass the blocking CLI or resurrect retired functions.
 No new experiment, TIFF or slot was used for the correction.
+
+## 2026-10-31 review correction — H-F/H-G prototypes
+
+Read `research/2026-10-31-repo-review.md` and its run card before using any current
+summary or generator. The checked-in H-F TIFF is an older negative research artifact,
+not a unique or approved candidate: its stored holdout is a fixed-field proxy (not strict
+hide-and-recover), the fault-proximity feature-alone AUC is 1.0, its strict local
+NaN-exterior validator fails, and its uniqueness comparison covers only seven local
+rasters. The 0.018385 value is not valid HOLDOUT-DTI; the stored fold range is not a
+95% CI. The GitHub Page may link it for research only with an adjacent **DO NOT SUBMIT**
+warning. `docs/data/focus-sites.json` must keep its full-registry uniqueness as unknown.
+
+`generate_hypothesis_submission.py` and `generate_hypothesis_submission_hg.py` are
+retired command-line prototypes. Their direct execution is blocked. H-G has no checked-in
+TIFF/run card establishing a completed experiment; do not count it as one. Do not run,
+revive, tune, rename, or repackage either prototype. No method paragraph/lane was
+assigned in the 2026-10-31 review; no new experiment, raster, or slot was used.
+
+The current GitHub feed at `docs/data/monitor.json` is HEAD metadata only and was
+refreshed 2026-10-31. The latest saved official leaderboard observation is dated
+2026-10-30 and is not a live update. Registry snapshots disagree in scope (440, 472,
+489) and none proves a complete current global registry; fail closed until reconciled.
 
 ## Evidence, sites and validation
 

@@ -1,29 +1,12 @@
 #!/usr/bin/env python3
-"""
-Experiment 2: H-G annulus-targeted fault-intersection propensity.
+"""RETIRED H-G prototype; no saved raster or run card verifies an experiment.
 
-Hypothesis H-G: Blind geothermal faults occur in an annulus around known
-catalogue faults (200 m to 1 km offset), where hydrothermal alteration and
-structural curvature converge but no surface trace is mapped.
-
-Physical rationale:
-  * Known catalogue faults are the pressure-release structures; blind strands
-    splay off them at 200 m - 1 km offsets in relay-ramp and stepover geometry.
-  * These off-trace zones show alteration halos (radiometric K/U/Th anomaly)
-    and curvature convergence (structural flexure) without surface expression.
-  * Targeting the annulus avoids the catalogue-leakage of on-fault dots while
-    still intersecting the damage zone where hidden faults may exist.
-
-Why distinct:
-  * Not dot-on-catalogue (like D2.8/Poisson submissions) — dots are OFF-trace.
-  * Not grid/lattice (like 13GEMSDOE) — dots follow geological propensity.
-  * Not previously implemented in this repo or the nine focus sites.
-
-Protocol:
-  * 18,000 dots placed in annulus 200m-1000m from known faults.
-  * Weighted by radiometric alteration × curvature convergence.
-  * Known faults masked pixel-exactly.
-  * NaN outside footprint, [0,1] inside.
+This is unvalidated historical code, not an assigned lane or a submission
+writer. Its old claims of novelty, NaN-exterior compliance, and protocol
+compliance were never established against a complete registry, authenticated
+organizer template, strict hide-and-recover, feature-alone leakage checks, or
+an evidence-bound selector. Direct execution is blocked before data are loaded.
+Do not count it as an experiment, regenerate a TIFF, or use a competition slot.
 """
 
 from __future__ import annotations
@@ -33,6 +16,10 @@ import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+if __name__ == "__main__":
+    print("No TIFF generated: H-G has no verified run and this prototype is retired.", file=sys.stderr)
+    raise SystemExit(2)
 
 import numpy as np
 import rasterio
@@ -143,6 +130,7 @@ def radiometric_alteration(k, th, ratio, footprint):
 
 
 def main():
+    raise RuntimeError("No TIFF generated: H-G has no verified run and this prototype is retired.")
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     print("[H-G] Loading inputs...", flush=True)

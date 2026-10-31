@@ -1,0 +1,154 @@
+{
+  "schema": "gems.repository_review_card.v1",
+  "recorded_utc": "2026-10-31T01:00:41Z",
+  "classification": "THREE-PASS REPOSITORY REVIEW ONLY; NO GEOLOGICAL EXPERIMENT",
+  "review_scope": "Review the nine requested GEMSDOE sites, score evidence classes, candidate/download inventory, H-F/H-G claims, uniqueness/format gates, current source-feed freshness, proposed hypotheses, documentation, tests, and release status. No model fit, candidate placement, new TIFF, upload, or competition-slot selection.",
+  "hypothesis": "No new geological hypothesis was tested. Four untried proposals are qualitatively ranked in research/2026-10-31-repo-review.md with required layers, signals, rationale, prior-art distinction, expected improvement/cost, data availability, and validation gates.",
+  "mechanism": "Three review passes: reconcile project goals and saved evidence; inspect edge cases and safety claims including H-F/H-G and registry scopes; verify public-facing summary and tests. No geological model or raster was run.",
+  "named_non_fault_mimic": "Not applicable: this review generated no candidate field or predictions. Each future hypothesis must define and test its own non-fault mimic before placement.",
+  "holdout": {
+    "evidence_class": "NOT RUN IN THIS REVIEW; NO PROTOCOL-VALID HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positive_pixels": null,
+    "dti": null,
+    "ci95": null,
+    "reason": "No geological experiment was authorized or run. H-F's historical 0.018385 is a fixed-field proxy, not strict hide-and-recover HOLDOUT-DTI; its 60,988 positives are not a valid review result and its [0.008563, 0.038431] four-fold range is not a 95% CI.",
+    "historical_hf_proxy_only": {
+      "value": 0.018385,
+      "evidence_class": "INVALID FIXED-FIELD PROXY; NOT HOLDOUT-DTI",
+      "reported_withheld_positive_pixels": 60988,
+      "evaluator": "evaluate_holdout.dti_weighted_terms",
+      "parameters": {
+        "alpha": 0.2,
+        "beta": 0.8,
+        "triangular_kernel_radius_m": 300
+      },
+      "invalidity": "The evaluated field and fault-proximity feature used all catalogue faults rather than rebuilding features from visible faults inside each whole-buffered-segment fold.",
+      "reported_fold_range_not_ci95": [
+        0.008563,
+        0.038431
+      ]
+    }
+  },
+  "registry_correlation_overlap": {
+    "candidate_surface_spearman": null,
+    "candidate_surface_max_3px_overlap": null,
+    "candidate_final_spearman": null,
+    "candidate_final_max_3px_overlap": null,
+    "scope": "No new surface or raster exists. Historical H-F comparisons cover only seven local rasters. The dated repository records contain 440 entries (438 comparable in one uniqueness audit), 472 in a combined snapshot, and 489 in a filtered nine-repository manifest. These scopes are not reconciled and do not establish a complete current global registry.",
+    "complete_registry_verified": false,
+    "preplacement_gate_passed": false,
+    "historical_hf_context_only": {
+      "compared_local_rasters": 7,
+      "reported_registry_rasters": 472,
+      "unavailable_reported_rasters": 465,
+      "max_abs_spearman": 0.011519076381114848,
+      "max_3px_overlap": 0.6178888888888889,
+      "meaning": "Incomplete historical comparison only; not a current-registry uniqueness pass or submission clearance."
+    },
+    "historical_focus_file_context_only": {
+      "saved_lattice_gate": "All nine pinned historical focus files are DUPLICATE_STOP against the saved lattice witness, with 99.9097% to 99.9234% of dots within 3 px.",
+      "saved_nine_file_pairwise_recheck": "The nine historical best files are not unique among one another; dated comparison only, not a complete current-registry proof."
+    }
+  },
+  "raster": null,
+  "raster_sha256": null,
+  "existing_hf_artifact_not_created_in_review": {
+    "path": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+    "sha256": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224",
+    "size_bytes": 806001,
+    "disposition": "RESEARCH ONLY; NOT OK TO SUBMIT; uniqueness unknown",
+    "audit": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.audit.json",
+    "historical_run_card": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json"
+  },
+  "validator_output": {
+    "new_candidate": "NOT RUN: no new candidate raster",
+    "historical_hf_strict_format": "FAIL: local strict validator reports outside_is_nan=false; exact organizer template and portal acceptance are not authenticated",
+    "historical_hf_leakage_canary": "FAIL: fault_proximity feature-alone AUC=1.0",
+    "historical_hf_uniqueness": "UNKNOWN: only seven local comparisons; full-registry evidence absent",
+    "downloadable_approved_submission": null,
+    "research_download_policy": "The H-F TIFF remains linked for research only with explicit DO NOT SUBMIT wording."
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "leaderboard_estimate": null,
+  "user_reported_historical_scores": {
+    "evidence_class": "USER-REPORTED / UNVERIFIED; no file-linked organizer receipts",
+    "GEMSDOE24": 0.2477,
+    "GEMSDOE25": 0.26,
+    "GEMSDOE27": 0.2449,
+    "GEMSDOE28": 0.271,
+    "GEMSDOE30": 0.26,
+    "GEMSDOE31": 0.2708,
+    "GEMSDOE32": 0.2778,
+    "GEMSDOE33": 0.2632,
+    "GEMSDOE36": 0.275
+  },
+  "official_public_leaderboard": {
+    "evidence_class": "DATED ORGANIZER-PUBLISHED PUBLIC SNAPSHOT; not live, not a local score, and not a file-linked receipt",
+    "observed_utc": "2026-10-30T01:57:20Z",
+    "evidence_file": "evidence/official-review-2026-10-30.json",
+    "first_place_value": 0.4544,
+    "rank_48_value_user_cited": 0.3195,
+    "refreshed_in_this_review": false
+  },
+  "github_source_refresh": {
+    "evidence_class": "GITHUB MAIN-BRANCH HEAD METADATA ONLY; NO UPSTREAM RASTER OR SCORE AUDIT",
+    "checked_utc": "2026-10-31T00:45:35Z",
+    "field_notes_feed_checked_utc": "2026-10-31T00:45:39.173042+00:00",
+    "total_sites": 9,
+    "changed": 9,
+    "unavailable": 0,
+    "latest_heads": {
+      "GEMSDOE24": "53121cbeead26eea7ce3df357e5d4b0885f68015",
+      "GEMSDOE25": "8cb3573d8adc747b519dd0d96ffdc4eccad6d8ec",
+      "GEMSDOE27": "60da5e4128339244efc61274abf95d22702ff801",
+      "GEMSDOE28": "fc8ceebea0b1e95956bdd0f3ebaeed5767d24f79",
+      "GEMSDOE30": "099defe53015de334bebb82224300beca2c0ed0d",
+      "GEMSDOE31": "f9248200f20def2654af596c1cc13ab2f9d96687",
+      "GEMSDOE32": "c8e560f1aae650b120dc31c9e7495ced6a587701",
+      "GEMSDOE33": "ee2e464b61cb0e0aa604b0525044ad9ff31c9ec7",
+      "GEMSDOE36": "b0824c550c02792897d0ebe3aba1cb0e75583ea1"
+    }
+  },
+  "experiments_run": 0,
+  "new_tiffs_created": 0,
+  "submission_slots_used": 0,
+  "slot_authorized": false,
+  "three_passes": {
+    "pass_1_implement_and_verify": "Completed: corrected H-F uniqueness/evidence status; retired unsafe H-F/H-G prototype entry points; drafted and cross-checked report, review card, site data and future-session documentation.",
+    "pass_2_bug_edge_case_and_test_review": "Completed: Python, Node, browser, download-inventory and generated-page checks all pass; see exact results below.",
+    "pass_3_recheck_against_request": "Completed: score/receipt classes, unestablished estimates, no-submit outcome, registry limits, ranked hypotheses, future-lane gate, and manual-review sources are explicit in the linked review."
+  },
+  "test_results": {
+    "status": "PASS",
+    "python": "PASS: 266 passed, 4 skipped, 98 warnings, 98 subtests passed; 27.31 seconds.",
+    "node_unit": "PASS: npm test, 3/3.",
+    "node_site": "PASS: npm run test:site, 8/8.",
+    "browser": "PASS: 6 responsive, navigation, release-lock and freshness checks; exercised 1440, 390 and 320 px widths.",
+    "download_inventory": "PASS_RESEARCH_ONLY: 10 artifacts; downloadable_approved_submission=null.",
+    "generated_site": "PASS: build_hk3_pages.py --check reports pages up to date; all generated public pages and run-card mirror references validated.",
+    "hk3_recheck": "NEGATIVE: 45,046/45,108 dots matched the pinned witness; overlap=0.9986255209718897; slot_authorized=false.",
+    "owner_mirror_bootstrap": "PASS: hash-pinned owner mirrors restored only; input_authority=owner mirrors; submission_generated=false. Not organizer inputs.",
+    "release_assessment": "NEGATIVE; no new candidate, no approved file, and slot_authorized=false."
+  },
+  "verdict": "negative",
+  "limitations": [
+    "No new geological hypothesis was tested; no new unique TIFF was generated.",
+    "The 0.018385 H-F point value is not valid HOLDOUT-DTI and its fold range is not a 95% CI.",
+    "The nine user-supplied score claims are not backed here by organizer receipts; no individual leaderboard estimate is defensible.",
+    "The GitHub refresh checks main-branch HEAD metadata only, not latest raster bytes or scores.",
+    "The official leaderboard snapshot was not refreshed on 2026-10-31 and is not linked to local files.",
+    "The 440, 472, and 489 raster counts refer to different historical scopes; no complete current global registry was verified.",
+    "No assigned method paragraph/lane, authenticated organizer template/data, reconciled current registry, or protocol-valid holdout is available for promotion.",
+    "No submission slot was selected or used; no file is approved for submission.",
+    "No required official training/template data download was verified as obtainable here; the DrivenData data tab has a prior saved login redirect, and current USGS file availability/licensing were not checked."
+  ],
+  "official_data_availability": {
+    "evidence_class": "NOT VERIFIED AS OBTAINABLE IN THIS WORKSPACE",
+    "competition_data_tab": "Latest saved observation says login redirect; no participant-account access attempt in this review.",
+    "usgs_geodawn": "Official source URLs are listed in the report; current downloadable files, licensing and layer equivalence were not fetched or verified.",
+    "external_fetch_attempted": false,
+    "constraint": "Outbound access in this sandbox is limited to GitHub/API, npm and Python package hosts; the local cached stack is an unauthenticated owner mirror, not organizer data."
+  }
+}

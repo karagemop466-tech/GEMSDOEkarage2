@@ -153,13 +153,36 @@ def test_desk_pages_are_explicitly_research_only(card):
         assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
         assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
-        assert len(downloads) == 1
-        assert (DOCS / downloads[0]).resolve() == (ROOT / card["raster"]["file"]).resolve()
+        expected = {card["raster"]["file"]}
+        if name in ("index.html", "executive-summary.html"):
+            expected.add("docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif")
+        resolved = {(DOCS / link).resolve() for link in downloads}
+        assert resolved == {(ROOT / item).resolve() for item in expected}
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
     assert "45,046 of 45,108" in home and "99.86%" in home
     assert "exception applied" not in home.lower()
     assert "drivendata.org/competitions/306/competition-doe-gems/page/967/" in home
+
+
+def test_hf_artifact_is_publicly_marked_research_only_and_not_unique():
+    from scripts import build_hk3_pages as builder
+    data = builder.gather()
+    pages = builder.render_all(data)
+    for name in ("index.html", "executive-summary.html"):
+        page = pages[name]
+        assert "gemsdoe-hf-alteration-curvature-intersection-20261030.tif" in page
+        assert "Download for research only" in page
+        assert "NOT ESTABLISHED" in page
+        assert "strict local format gate FAILS" in page
+        assert "NOT valid HOLDOUT-DTI" in page
+        assert "stored fold range is not a 95% CI" in page
+        assert "fault-proximity leakage AUC 1.000" in page
+        assert "No file is OK to submit" in page
+    data_row = json.loads((DOCS / "data/focus-sites.json").read_text())[-1]
+    assert data_row["unique"] is None
+    assert data_row["uniqueness_status"] == "UNKNOWN_INCOMPLETE_REGISTRY"
+    assert data_row["submit"] is False and data_row["estimated_score"] is None
 
 
 def test_page_builder_refuses_a_forged_promote_card_or_selector(monkeypatch):
