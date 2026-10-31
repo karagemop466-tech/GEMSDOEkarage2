@@ -100,6 +100,24 @@ def gather() -> dict:
     official, official_filename = latest_official_observation()
     monitor = load(DOCS / "data/monitor.json")
     k3 = load(EV / "k3/run_card.json")
+    hb_stem = "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031"
+    hb_file = f"docs/downloads/{hb_stem}.tif"
+    hb_path = ROOT / hb_file
+    hb_card = load(DOCS / "downloads" / f"{hb_stem}.run-card.json")
+    hb_audit = load(DOCS / "downloads" / f"{hb_stem}.audit.json")
+    hb_sha = hashlib.sha256(hb_path.read_bytes()).hexdigest() if hb_path.is_file() else None
+    hb_inventory = [row for row in inventory["artifacts"] if row["file"] == hb_file]
+    if (hb_sha is None or hb_card.get("raster_sha256") != hb_sha
+            or hb_card.get("verdict") != "negative" or hb_card.get("ok_to_submit") is not False
+            or hb_card.get("slot_authorized") is not False
+            or hb_audit.get("sha256") != hb_sha
+            or hb_audit.get("format_validation", {}).get("passed") is not False
+            or hb_audit.get("format_validation", {}).get("checks", {}).get("outside_is_nan") is not False
+            or hb_audit.get("uniqueness", {}).get("n_local_registry_compared") != 12
+            or "full 472-raster registry not downloaded" not in hb_audit.get("uniqueness", {}).get("note", "")
+            or len(hb_inventory) != 1 or hb_inventory[0].get("raster_sha256") != hb_sha
+            or hb_inventory[0].get("ok_to_submit") is not False):
+        raise ValueError("H-B artifact is missing, changed, or inconsistent with its fail-closed research status")
     filename = card["raster"]["file"]
     candidate = (ROOT / filename).resolve()
     if not candidate.is_relative_to((DOCS / "downloads").resolve()) or not candidate.is_file():
@@ -211,6 +229,7 @@ def gather() -> dict:
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official,
             "official_filename": official_filename, "monitor": monitor, "k3": k3,
+            "hb": {"stem": hb_stem, "file": hb_file, "sha256": hb_sha, "card": hb_card, "audit": hb_audit},
             "profile": profile, "uniq": uniq, "pairs": pairs}
 
 
@@ -271,8 +290,34 @@ def hero(d: dict) -> str:
 <h2>No submission-ready TIFF</h2>
 <p class="verdict"><b class="no">DO NOT SUBMIT.</b> The earlier HK3 approval was incorrect and has been withdrawn. A saved-byte recheck found <b>{w['matched_within_3_pixels']:,} of {w['candidate_positive_inside_footprint']:,} dots ({w['overlap_fraction'] * 100:.2f}%)</b> within three pixels of a registered lattice. The literal rule stops above 70%, without a research-file exception.</p>
 <p>The older TIFF remains available solely for reproducibility. It is <b>not a new submission</b>, not approved for a weekly slot, and has no defensible leaderboard estimate.</p>
-<p><a class="btn big" href="downloads/{esc(name)}" download>Download existing TIFF · RESEARCH ONLY</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>Download existing TIFF · RESEARCH ONLY · DO NOT SUBMIT</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
 <div class="meta"><b>Research file:</b> <code>{esc(name)}</code><br><b>SHA-256:</b> <code>{esc(c['raster']['sha256'])}</code><br><b>New submission name / note:</b> none; no new candidate was generated.</div>
+</section>'''
+
+
+def h_b_research_panel(d: dict) -> str:
+    """Expose H-B's exact artifact while preventing incomplete checks from implying clearance."""
+    hb = d["hb"]
+    card = hb["card"]
+    holdout = card["holdout"]
+    val = hb["audit"]["format_validation"]
+    registry = hb["audit"]["uniqueness"]
+    interval = holdout.get("confidence_interval_95")
+    interval_note = "No protocol-valid 95% CI established."
+    if interval:
+        interval_note = (
+            f"No protocol-valid 95% CI established. The card's artifact-reported interval "
+            f"[{interval[0]:.6f}, {interval[1]:.6f}] conflicts with its note that the range is fold-wise, "
+            "not a bootstrap CI."
+        )
+    return f'''<section class="hero" id="hb-research-only">
+<h2>H-B file · research artifact only</h2>
+<p class="verdict"><b class="no">DO NOT SUBMIT.</b> The local uniqueness scan covered {registry['n_local_registry_compared']} rasters only; the audit states the broader 472-raster registry was not downloaded. This does not establish uniqueness against the required complete registry. The on-disk audit also fails strict format because pixels outside the mirror footprint are finite zeros, not the official null/NaN exterior.</p>
+<p><a class="btn big" href="{esc(hb['file'].replace('docs/', '', 1))}" download>Download H-B · RESEARCH ONLY · DO NOT SUBMIT</a> <a class="btn secondary" href="downloads/{esc(hb['stem'])}.run-card.json">Open run card</a> <a class="btn secondary" href="downloads/{esc(hb['stem'])}.audit.json">Open saved-byte audit</a></p>
+<div class="meta"><b>Research file:</b> <code>{esc(Path(hb['file']).name)}</code><br><b>SHA-256:</b> <code>{esc(hb['sha256'])}</code><br>
+<b>HOLDOUT-DTI (fixed-field exploratory proxy):</b> {holdout['dti']:.6f}; evaluator <code>{esc(holdout['evaluator_version'])}</code>; {holdout['withheld_positives']:,} withheld positives. {esc(interval_note)} This is not a leaderboard score.<br>
+<b>Saved-byte checks:</b> interior finite/range checks pass in the sidecar; strict format fails because outside-is-NaN is false. The band-to-layer mapping is best-effort, not organizer-verified.<br>
+<b>Release status:</b> negative · research-only · no slot authorized · uniqueness not established.</div>
 </section>'''
 
 
@@ -590,8 +635,8 @@ def champion_panel() -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
-    how = hero(d) + guide(d) + legacy()
+    desk = decision_section(d) + h_b_research_panel(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    how = h_b_research_panel(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),
              "executive-summary.html": shell("Executive summary", "summary", desk, official_ref=official_ref),

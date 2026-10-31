@@ -49,7 +49,21 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['score_estimate'] is None and result['slot_authorized'] is False
     assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 10
+    assert len(result['artifacts']) == 11
+    hb_name = 'gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031'
+    hb = next(r for r in result['artifacts'] if r['file'].endswith(hb_name + '.tif'))
+    hb_card = json.loads((ROOT / 'docs/downloads' / f'{hb_name}.run-card.json').read_text())
+    hb_audit = json.loads((ROOT / 'docs/downloads' / f'{hb_name}.audit.json').read_text())
+    assert hb['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert hb['ok_to_submit'] is False and hb['slot_authorized'] is False
+    assert hb['checks']['card_sha_matches_saved_bytes'] is True
+    assert hb_card['verdict'] == 'negative' and hb_card['ok_to_submit'] is False
+    assert hb_card['slot_authorized'] is False
+    assert hb_audit['format_validation']['passed'] is False
+    assert hb_audit['format_validation']['checks']['outside_is_nan'] is False
+    assert hb_audit['uniqueness']['n_local_registry_compared'] == 12
+    assert hb_audit['uniqueness']['duplicate_found'] is False
+    assert 'not downloaded' in hb_audit['irregularities'][-1].lower() or 'Only locally available rasters' in hb_audit['irregularities'][-1]
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())

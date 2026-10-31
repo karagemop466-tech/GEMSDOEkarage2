@@ -48,9 +48,15 @@ ARTIFACTS = (
      "evidence/hA-intersection/run_card.json", None, False),
     ("gemsdoe-karage2-hr4-intersection-20261029-nan",
      "evidence/hr4-intersection/run_card.json", None, False),
-    # New H-F hypothesis TIF (experiment 1): unique, format-valid, negative verdict.
+    # New H-F hypothesis TIF (experiment 1): research-only, negative verdict.
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
+     None, False, "research"),
+    # H-B is a published negative experiment. Inventory its exact bytes, but
+    # never infer eligibility: its sidecar records finite zeros outside the
+    # owner-mirror footprint, incomplete registry coverage, and no approval.
+    ("gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031",
+     "docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.run-card.json",
      None, False, "research"),
 )
 

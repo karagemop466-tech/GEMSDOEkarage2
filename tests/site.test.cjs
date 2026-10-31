@@ -33,16 +33,39 @@ test('all desk pages are fail-closed and visibly prohibit submission', () => {
   }
 });
 
-test('one-click research download is visibly labeled and the exact bytes exist', () => {
+test('research downloads are visibly prohibited from submission and exact bytes exist', () => {
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
-    assert.equal(links.length, 1, `${page}: research link`);
-    const link = links[0];
-    assert.match(link.textContent, /RESEARCH ONLY/);
-    assert.match(link.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality/);
-    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
-    assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
+    const expectedCount = ['index.html', 'executive-summary.html'].includes(page) ? 2 : 1;
+    assert.equal(links.length, expectedCount, `${page}: research links`);
+    assert.ok(links.some(link => /gemsdoe-blind-geothermal-rad-mag-grav-intersection/.test(link.getAttribute('href'))));
+    if (expectedCount === 2) assert.ok(links.some(link => /gemsdoekarage2-hk3-edgecentrality/.test(link.getAttribute('href'))));
+    for (const link of links) {
+      assert.match(link.textContent, /research only/i);
+      assert.match(link.textContent, /DO NOT SUBMIT/);
+      assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
+      assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
+    }
+    dom.window.close();
+  }
+});
+
+test('H-B is not described as unique or format-valid beyond incomplete local checks', () => {
+  const runCard = JSON.parse(fs.readFileSync(path.join(root, 'docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.run-card.json')));
+  const audit = JSON.parse(fs.readFileSync(path.join(root, 'docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.audit.json')));
+  assert.equal(runCard.verdict, 'negative');
+  assert.equal(runCard.ok_to_submit, false);
+  assert.equal(runCard.slot_authorized, false);
+  assert.equal(audit.format_validation.passed, false);
+  assert.equal(audit.format_validation.checks.outside_is_nan, false);
+  assert.equal(audit.uniqueness.n_local_registry_compared, 12);
+  for (const page of pages) {
+    const dom = render(page);
+    const text = dom.window.document.body.textContent;
+    assert.match(text, /uniqueness not established/i);
+    assert.match(text, /outside-is-NaN is false/i);
+    assert.doesNotMatch(text, /H-B[^.]{0,80}passes the uniqueness gate/i);
     dom.window.close();
   }
 });
