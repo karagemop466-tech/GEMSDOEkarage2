@@ -1,0 +1,43 @@
+{
+  "candidate_id": "HM1-offcat-magridge-37654",
+  "registered_before_any_candidate_score": true,
+  "hypothesis": "Linear magnetic discontinuities in the GEODAWN TMI_up150 residual, detected with an oriented elongated second-derivative ridge filter, mark unmapped fault traces when dots are placed at least 300 m from every USGS catalogue fault pixel.",
+  "target_class": "Expert-labelled NEW faults not in the USGS catalogue (official problem page, Problem description: 'faults that are not contained within the current public USGS database')",
+  "layer_used": "geodawn_extensions_u8.tif band 4 TMI_up150 (uint8 mirror, sha256 a35a9c6d2a14786f4dab85481ee59769213072f5dab5b2535ea82ae4d9bb7d9b, scale/offset undocumented; filter is linear so the unknown scale does not change ridge locations)",
+  "not_used": [
+    "labels.tif in the detector (used only for the exclusion buffer and the report-only catalogue proxy)",
+    "any previous submission raster",
+    "any training-feature stack"
+  ],
+  "physical_signature": "elongated (sigma_along=6 px, 600 m) and narrow (sigma_across=1.5 and 2.5 px) negative second derivative across strike, 12 orientations 0-165 deg step 15, max over orientation and scale, absolute value",
+  "pipeline": [
+    "footprint = finite pixels of sample_submission.tif (5,167,373 px); zero-valued TMI pixels inside footprint treated as missing (3,061 px)",
+    "regional removal: subtract normalized-convolution Gaussian (sigma 10 px); residual inside footprint only",
+    "oriented ridge response with normalized convolution across missing pixels; scale-normalised; robust z-score (1.4826*MAD)",
+    "exclude any pixel within 3 px (300 m) of a catalogue fault pixel (labels == 1) and within 3 px of the footprint edge",
+    "non-maximum suppression with 3x3 window",
+    "greedy selection in descending z; accept a pixel only if >= 3 px from every accepted dot; stop at budget",
+    "budget fixed at 37654 dots (= GEMSDOE32 champion count, to remove count as a confound)"
+  ],
+  "output_convention": "float32; 1.0 at dots; 0.0 inside footprint elsewhere; NaN outside footprint (official text: data outside the bounds is null or nan)",
+  "parameters_fixed_before_run": true,
+  "tuning_on_labels": false,
+  "holdout_plan": "No off-catalogue labels exist locally. Catalogue DTI is REPORT-ONLY and is expected to be low by design because dots are excluded from catalogue buffers. Leakage canary: AUC of z vs catalogue labels must be <= 0.90 (above 0.90 = leakage).",
+  "uniqueness_plan": "audit_full_registry.py against all 489 pinned rasters in registry/focus_registry_manifest.json (9 repos, NOT global); thresholds rho<=0.90 and <=70% within 3 px",
+  "known_risks_to_flag": [
+    "GEODAWN flight-line striping may produce oriented ridge responses aligned with survey direction (orientation histogram reported)",
+    "uint8 quantisation (256 levels) of the TMI mirror creates steps that a ridge filter can respond to",
+    "magnetic lows from alteration can be non-fault; dikes and lithologic contacts are linear magnetic features without displacement"
+  ],
+  "experiment_budget": "1 of 3 experiments used (registration + amendment A1 counted as the same experiment)",
+  "verdict_rule": "Cannot be promoted on local evidence alone: no off-catalogue labels exist locally, so no score-gate can pass. Uniqueness and format gates are necessary, not sufficient.",
+  "amendments": [
+    {
+      "amendment_id": "A1",
+      "utc": "2026-10-31T00:46:42Z",
+      "reason": "Feasibility, not score: the pre-registered 37654-dot budget is unattainable under the pre-registered exclusions (greedy 3 px spacing after 3 px catalogue buffer and 3 px edge band yielded 35079 candidates; run failed closed with RuntimeError before any DTI, uniqueness or format result existed).",
+      "change": "Budget becomes ALL surviving candidates (35079 expected). No other parameter changes.",
+      "effect": "Dot count (35079) differs from the GEMSDOE32 champion (37654); count is therefore a confound that this candidate does not control."
+    }
+  ]
+}

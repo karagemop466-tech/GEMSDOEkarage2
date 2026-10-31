@@ -33,16 +33,25 @@ test('all desk pages are fail-closed and visibly prohibit submission', () => {
   }
 });
 
-test('one-click research download is visibly labeled and the exact bytes exist', () => {
+test('every one-click download is a labeled, negative research file with exact bytes on disk', () => {
+  // Desk now also offers the 2026-10-31 HM1 research TIFF. Every download must be a published
+  // research file whose run card is negative, and the HK3 research file must still be offered.
+  const inventory = JSON.parse(fs.readFileSync(path.join(root, 'docs/evidence/public_downloads_audit.json'), 'utf8'));
+  const allowed = new Set(inventory.artifacts
+    .filter((a) => ['research', 'research_nan_exterior'].includes(a.kind) && a.checks && a.checks.card_verdict_negative)
+    .map((a) => path.basename(a.file)));
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
-    assert.equal(links.length, 1, `${page}: research link`);
-    const link = links[0];
-    assert.match(link.textContent, /RESEARCH ONLY/);
-    assert.match(link.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality/);
-    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
-    assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
+    assert.ok(links.length >= 1, `${page}: research link`);
+    const hrefs = links.map((l) => l.getAttribute('href'));
+    for (const link of links) {
+      assert.match(link.textContent, /RESEARCH ONLY/);
+      assert.ok(allowed.has(path.basename(link.getAttribute('href'))), `${page}: ${link.getAttribute('href')} not a negative research artifact`);
+      assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
+      assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
+    }
+    assert.ok(hrefs.some((h) => /gemsdoekarage2-hk3-edgecentrality/.test(h)), `${page}: HK3 research file still offered`);
     dom.window.close();
   }
 });

@@ -145,6 +145,16 @@ def test_retired_cli_and_direct_entry_points_never_write(card):
     assert before == [hashlib.sha256(p.read_bytes()).digest() for p in files]
 
 
+
+def _negative_research_download_names():
+    """Basenames of every published research TIFF whose run card is negative (ok_to_submit false)."""
+    import json as _json
+    from pathlib import Path as _P
+    inv = _json.loads((_P(__file__).resolve().parents[1] / "docs/evidence/public_downloads_audit.json").read_text())
+    return {_P(a["file"]).name for a in inv["artifacts"]
+            if a.get("kind") in ("research", "research_nan_exterior") and a.get("checks", {}).get("card_verdict_negative")}
+
+
 def test_desk_pages_are_explicitly_research_only(card):
     subprocess.run([sys.executable, "scripts/build_hk3_pages.py", "--check"], check=True, cwd=ROOT)
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
@@ -152,9 +162,13 @@ def test_desk_pages_are_explicitly_research_only(card):
         assert "OK TO SUBMIT: NO" in page and "OK TO SUBMIT: YES" not in page
         assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
         assert card["raster"]["sha256"] in page
+        # Desk now also offers the 2026-10-31 HM1 research TIFF. Every download must be a
+        # published research file with a NEGATIVE run card, and the HK3 card file is still offered.
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
-        assert len(downloads) == 1
-        assert (DOCS / downloads[0]).resolve() == (ROOT / card["raster"]["file"]).resolve()
+        assert downloads
+        allowed = _negative_research_download_names()
+        assert all(Path(h).name in allowed for h in downloads)
+        assert any((DOCS / h).resolve() == (ROOT / card["raster"]["file"]).resolve() for h in downloads)
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
     assert "45,046 of 45,108" in home and "99.86%" in home

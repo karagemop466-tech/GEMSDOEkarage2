@@ -656,3 +656,17 @@ as experiments 1 and 2. Both negative on holdout.
 Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29). Best focus-site claim:
 0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47;
 0.4413 is not rank one.
+
+---
+
+## Session C addendum (2026-10-31)
+
+**Status: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** This session did not change the consolidated prompt above.
+
+- **Executive summary (nine sites):** [`docs/evidence/nine-site-executive-20261031.json`](docs/evidence/nine-site-executive-20261031.json). Every file: best reported file named, score estimate Unavailable, not unique vs the 13GEMSDOE lattice, do not submit. The desk page now opens with this answer.
+- **New research TIFF (HM1):** [`docs/downloads/gemsdoekarage2-hm1-offcat-magridge-35079-20261031-DO-NOT-SUBMIT.tif`](docs/downloads/gemsdoekarage2-hm1-offcat-magridge-35079-20261031-DO-NOT-SUBMIT.tif). Format-valid; leakage canary AUC 0.523 (pass); uniqueness DUPLICATE_STOP (100% of dots within 3 px of the r13 lattice). Pre-registration: [`docs/evidence/hm1/preregistration.json`](docs/evidence/hm1/preregistration.json). Run card: [`docs/evidence/hm1/run-card.json`](docs/evidence/hm1/run-card.json).
+- **Why the uniqueness gate blocks everything here:** the 13GEMSDOE lattice covers 99.87% of the footprint within 3 px. Only 6,649 footprint cells (0.13%) lie outside it. Passing requires placing at least 30% of dots in those cells, which AGENTS.md prohibits as edge-hole gaming. **Decision needed from the protocol owner:** whether that calibration lattice counts as a registry raster under the 70% rule.
+- **Official scoring target (verified):** faults **not** in the USGS database ([problem description](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)). The USGS catalogue is therefore not a leaderboard proxy. Catalogue numbers in this repo are REPORT-ONLY, not HOLDOUT-DTI.
+- **Measured association (observational, n = 9, user-reported scores):** Spearman rho = −0.98 between reported score and the share of dots within 3 px of a USGS trace. Not causal, not a projection.
+- **Irregularities:** exterior convention differs across the nine files (5 NaN, 4 zeros) against the official "null or nan" text; the HM1 buffer boundary is inclusive at 3 px (9.07% of dots); budget amendment A1 is recorded. Full list: [`research/2026-10-31-session-review.md`](research/2026-10-31-session-review.md) §9.
+- **Reproduce the measurements:** `scripts/fetch_pinned_registry.py` (pinned registry rasters into `.cache/`), `scripts/audit_nine_site_executive.py`, `scripts/hm1_offcat_magridge.py`, then `scripts/audit_full_registry.py`. Competition inputs are not in the repo; the owner mirrors are SHA-pinned and not organizer-authenticated.

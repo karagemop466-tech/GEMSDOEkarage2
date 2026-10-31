@@ -17,6 +17,13 @@ def test_legacy_generator_stops_before_modifying_outputs():
     assert hashlib.sha256(target.read_bytes()).digest() == before
 
 
+def _negative_research_download_names():
+    import json as _json
+    inv = _json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
+    return {Path(a['file']).name for a in inv['artifacts']
+            if a.get('kind') in ('research', 'research_nan_exterior') and a.get('checks', {}).get('card_verdict_negative')}
+
+
 def test_primary_pages_do_not_offer_legacy_file_for_upload():
     import json
     import re
@@ -27,7 +34,7 @@ def test_primary_pages_do_not_offer_legacy_file_for_upload():
         assert 'DO NOT SUBMIT' in text
         for href in re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', text):
             assert 'hkarage1' not in href and 'h1-parity' not in href and 'k2-hgbcont' not in href
-            assert card['submission']['name'] in href
+            assert Path(href).name in _negative_research_download_names()
         # The literal-stop receipt prevents any card from reviving approval.
         assert card['verdict'] == 'negative'
         assert 'OK TO SUBMIT: NO' in text and 'OK TO SUBMIT: YES' not in text

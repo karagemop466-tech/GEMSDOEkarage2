@@ -361,6 +361,57 @@ def guide(d: dict) -> str:
 <p>Our checks require no human inspector. The current blocker is missing/contradictory evidence and an unassigned lane, not a request to waive a gate. No account credentials are stored by this project.</p></section>'''
 
 
+NINE_SITE_EXEC = "docs/evidence/nine-site-executive-20261031.json"
+HM1_CARD = "docs/evidence/hm1/run-card.json"
+HM1_UNIQ = "docs/evidence/hm1/uniqueness_full_registry_489.json"
+
+
+def todays_answer() -> str:
+    """Top-of-site answer for 2026-10-31, generated from measured receipts (not hand-written)."""
+    nine = json.loads((ROOT / NINE_SITE_EXEC).read_text())
+    card = json.loads((ROOT / HM1_CARD).read_text())
+    uniq = json.loads((ROOT / HM1_UNIQ).read_text())["summary"]
+    rows = []
+    for r in sorted(nine["sites"], key=lambda r: -r["reported_score_USER_REPORTED_UNVERIFIED"]):
+        site = r["site"]
+        src = f"https://github.com/buffedlizard55-lab/{site}/raw/{r['github_ref']}/{r['file']}"
+        rows.append(
+            f'<tr><td><a href="focus/{esc(site)}.html">{esc(site)}</a></td>'
+            f'<td><a href="{esc(src)}">{esc(Path(r["file"]).name)}</a><span class="sub-label">pinned GitHub bytes, sha256 {esc(r["sha256"][:12])}…</span></td>'
+            f'<td><b>{r["reported_score_USER_REPORTED_UNVERIFIED"]:.4f}</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>'
+            '<td><b>Unavailable</b><span class="sub-label">no validated estimator</span></td>'
+            f'<td><b class="no">NO</b><span class="sub-label">{r["fraction_dots_within_3px_of_registry_lattice_r13"] * 100:.2f}% of dots within 3 px of the 13GEMSDOE lattice</span></td>'
+            '<td><b class="no">NO · DO NOT SUBMIT</b></td></tr>'
+        )
+    new_name = card["submission"]["name"]
+    _top = next(r for r in nine["sites"] if r["site"] == nine["top_reported_file"])
+    top_halo = _top["fraction_dots_within_3px_of_usgs_catalogue"]
+    top_cat_dti = _top["catalogue_proxy_DTI_REPORT_ONLY"]
+    return f'''<section class="hero" id="todays-answer">
+<h2>Answer (2026-10-31): no file is cleared to download and submit</h2>
+<p class="verdict"><b class="no">DO NOT SUBMIT ANY FILE ON THIS SITE.</b> The shared uniqueness gate, applied as written, stops every dot-based file in this footprint. The 13GEMSDOE lattice (<code>{esc(nine["lattice_registry_raster"]["path"].split("/")[-1])}</code>) lies within 3 px of <b>{nine["lattice_registry_raster"]["footprint_cells_within_3px_of_lattice_fraction"] * 100:.2f}%</b> of the footprint. Only {nine["lattice_registry_raster"]["footprint_cells_outside_lattice_halo"]:,} footprint cells lie outside it. A file can pass only by placing at least 30% of its dots in those cells, which the project classes as edge-hole gaming. We have not done that.</p>
+<ul>
+<li><b>Measured pattern (observational, n = 9, user-reported scores):</b> the share of each file's dots within 3 px of a USGS trace runs opposite to the reported score (Spearman &rho; = {nine["association_observed_not_causal"]["rho"]:.2f}, p = {nine["association_observed_not_causal"]["p_value"]:.0e}). The top file has the smallest share ({top_halo*100:.1f}%); the lowest two are near 20%. This is an association, not a cause, and it is not a score estimate.</li>
+<li><b>Highest reported file:</b> {esc(nine["top_reported_file"])} at 0.2778 (USER-REPORTED, no organizer receipt). It is a lattice duplicate. Its own site says it was already submitted. Its catalogue-proxy DTI is <b>{top_cat_dti:.4f}</b> (report-only). The catalogue proxy therefore cannot estimate a score, so no estimate is given.</li>
+<li><b>New TIFF generated today:</b> <code>{esc(new_name)}</code> (35,079 dots, research file). Format: 10 of 10 format checks pass (uniqueness is the 11th check, answered separately). Known irregularity: 9.1% of its dots sit at exactly 3 px from a catalogue trace (run card HM1-I1). Leakage canary: AUC 0.523 (passes). Uniqueness: <b class="no">{esc(uniq["status"])}</b>, 100% of dots within 3 px of the lattice. Score estimate: <b>Unavailable</b>. Verdict: <b class="no">DO NOT SUBMIT</b>.</li>
+<li><b>Irregularity to review:</b> the nine files do not share one exterior convention. Five (GEMSDOE24, 25, 27, 28, 31) are NaN outside the footprint; four (GEMSDOE30, 32, 33, 36) are zeros. The official text says data outside the bounds is "null or nan". The top reported file (GEMSDOE32) is one of the zeros files. The user-reported rejection ("Predicted values must be in range [0, 1]") is not explained by either convention here.</li>
+<li><b>What decides eligibility:</b> a policy answer on whether the 13GEMSDOE lattice counts as a registry raster under the 70% rule. The protocol owner must decide that. It is not decided here.</li>
+</ul>
+<p><a class="btn big" href="downloads/{esc(new_name)}.tif" download>Download new TIFF · RESEARCH ONLY · DO NOT SUBMIT</a>
+<a class="btn secondary" href="downloads/{esc(new_name)}-run-card.json">Run card</a>
+<a class="btn secondary" href="evidence/hm1/uniqueness_full_registry_489.json">Uniqueness receipt (489 rasters)</a></p>
+<div class="meta"><b>New file SHA-256:</b> <code>{esc(card["raster"]["sha256"])}</code><br>
+<b>Submission name:</b> <code>{esc(new_name)}</code><br>
+<b>Note ({len(card["submission"]["note"])} chars):</b> <code>{esc(card["submission"]["note"])}</code></div>
+</section>
+<section class="section"><h3>Nine-site executive table · measured 2026-10-31</h3>
+<p>Each file was fetched from GitHub at its pinned commit and matched to its recorded sha256. Format checks pass. The estimate column is <b>Unavailable</b> for every file. The catalogue column is a report-only check against the USGS catalogue, which the official problem page says is not the scored target.</p>
+<table id="todays-nine"><thead><tr><th>Site</th><th>Best file (download = research only)</th><th>Reported score</th><th>Estimated score</th><th>Unique vs 13GEMSDOE lattice?</th><th>Download and submit?</th></tr></thead>
+<tbody>{"".join(rows)}</tbody></table>
+<p class="muted">Source receipts: <a href="evidence/nine-site-executive-20261031.json">nine-site-executive-20261031.json</a> · <a href="evidence/hm1/preregistration.json">HM1 pre-registration and amendment</a> · <a href="evidence/hm1/run-card.json">HM1 run card</a>. Official rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem description</a>.</p>
+</section>'''
+
+
 def decision_section(d: dict) -> str:
     """Headline answer for every focus site: best file, estimate, uniqueness, download decision."""
     prof = {r["site"]: r for r in d["profile"]["sites"]}
@@ -590,7 +641,7 @@ def champion_panel() -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    desk = todays_answer() + decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
     how = hero(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),

@@ -1,0 +1,21 @@
+{
+  "file": ".cache/hm1/gemsdoekarage2-hm1-offcat-magridge-20261031.tif",
+  "sha256": "59411963fa572ab74bc7b5b9fe35523eee61cb1f564b0564827475866eb79d21",
+  "bytes": 1554925,
+  "crs": "EPSG:32611",
+  "shape": [
+    3730,
+    3292
+  ],
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+  ],
+  "dtype": "float32",
+  "nodata": NaN,
+  "compress": "lzw"
+}

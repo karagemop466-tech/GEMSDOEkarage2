@@ -1,0 +1,740 @@
+{
+  "schema_version": 1,
+  "generated_by": "scripts/audit_nine_site_executive.py",
+  "purpose": "Measured audit of the nine focus-site best files on pinned bytes. Not a leaderboard score.",
+  "template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+  "labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+  "lattice_registry_raster": {
+    "path": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "repo": "GEMSDOE24",
+    "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "dots_in_footprint": 206895,
+    "footprint_cells_within_3px_of_lattice_fraction": 0.998713,
+    "footprint_cells_outside_lattice_halo": 6649
+  },
+  "footprint_cells": 5167373,
+  "top_reported_file": "GEMSDOE32",
+  "sites": [
+    {
+      "site": "GEMSDOE24",
+      "leaderboard_name": "h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan",
+      "reported_score_USER_REPORTED_UNVERIFIED": 0.2477,
+      "file": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "github_ref": "a73f9ffba29260cc7708e8e0557c84c5bea7d47b",
+      "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+      "sha256_matches_pinned_github_bytes": true,
+      "format": {
+        "bands": 1,
+        "dtype": "float32",
+        "crs_and_grid_match_official_template": true,
+        "nan_inside_footprint": 0,
+        "finite_inside_footprint_in_0_1": true,
+        "outside_footprint_values": "NaN",
+        "outside_nan_count": 7111787
+      },
+      "dots_inside_footprint": 60069,
+      "dots_within_3px_of_registry_lattice_r13": 60022,
+      "fraction_dots_within_3px_of_registry_lattice_r13": 0.999218,
+      "dots_on_usgs_catalogue": 0,
+      "dots_within_3px_of_usgs_catalogue": 11938,
+      "fraction_dots_within_3px_of_usgs_catalogue": 0.198738,
+      "catalogue_proxy_DTI_REPORT_ONLY": 0.171929,
+      "catalogue_proxy_evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha 0.2, beta 0.8, R 300 m)",
+      "catalogue_proxy_withheld_positive_pixels": 60988,
+      "uniqueness_pairwise_within_nine_pinned_file": [
+        {
+          "vs": "GEMSDOE25",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.575854,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE27",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.98956,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE28",
+          "dots_within_3px_overlap_fraction": 0.934792,
+          "rho": 0.530583,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE30",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.575854,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE31",
+          "dots_within_3px_overlap_fraction": 0.940785,
+          "rho": 0.546447,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE32",
+          "dots_within_3px_overlap_fraction": 0.884766,
+          "rho": 0.532368,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE33",
+          "dots_within_3px_overlap_fraction": 0.962393,
+          "rho": 0.565411,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE36",
+          "dots_within_3px_overlap_fraction": 0.885615,
+          "rho": 0.523873,
+          "fails_70pct_or_rho_0_90": true
+        }
+      ],
+      "estimated_leaderboard_score": "UNAVAILABLE - no validated estimator; the catalogue proxy ranks the top reported file near the bottom"
+    },
+    {
+      "site": "GEMSDOE25",
+      "leaderboard_name": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan",
+      "reported_score_USER_REPORTED_UNVERIFIED": 0.26,
+      "file": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "github_ref": "b13ccabae15d4951854d47cb35e17322e7537b64",
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "sha256_matches_pinned_github_bytes": true,
+      "format": {
+        "bands": 1,
+        "dtype": "float32",
+        "crs_and_grid_match_official_template": true,
+        "nan_inside_footprint": 0,
+        "finite_inside_footprint_in_0_1": true,
+        "outside_footprint_values": "NaN",
+        "outside_nan_count": 7111787
+      },
+      "dots_inside_footprint": 44090,
+      "dots_within_3px_of_registry_lattice_r13": 44053,
+      "fraction_dots_within_3px_of_registry_lattice_r13": 0.999161,
+      "dots_on_usgs_catalogue": 0,
+      "dots_within_3px_of_usgs_catalogue": 8607,
+      "fraction_dots_within_3px_of_usgs_catalogue": 0.195214,
+      "catalogue_proxy_DTI_REPORT_ONLY": 0.161772,
+      "catalogue_proxy_evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha 0.2, beta 0.8, R 300 m)",
+      "catalogue_proxy_withheld_positive_pixels": 60988,
+      "uniqueness_pairwise_within_nine_pinned_file": [
+        {
+          "vs": "GEMSDOE24",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.575854,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE27",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.569774,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE28",
+          "dots_within_3px_overlap_fraction": 0.931821,
+          "rho": 0.681038,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE30",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 1.0,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE31",
+          "dots_within_3px_overlap_fraction": 0.937151,
+          "rho": 0.954493,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE32",
+          "dots_within_3px_overlap_fraction": 0.881719,
+          "rho": 0.923555,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE33",
+          "dots_within_3px_overlap_fraction": 0.960581,
+          "rho": 0.809604,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE36",
+          "dots_within_3px_overlap_fraction": 0.882649,
+          "rho": 0.909038,
+          "fails_70pct_or_rho_0_90": true
+        }
+      ],
+      "estimated_leaderboard_score": "UNAVAILABLE - no validated estimator; the catalogue proxy ranks the top reported file near the bottom"
+    },
+    {
+      "site": "GEMSDOE27",
+      "leaderboard_name": "topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan",
+      "reported_score_USER_REPORTED_UNVERIFIED": 0.2449,
+      "file": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "github_ref": "4f34228a9f39e99da592aa34fd835c96d1b693f5",
+      "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+      "sha256_matches_pinned_github_bytes": true,
+      "format": {
+        "bands": 1,
+        "dtype": "float32",
+        "crs_and_grid_match_official_template": true,
+        "nan_inside_footprint": 0,
+        "finite_inside_footprint_in_0_1": true,
+        "outside_footprint_values": "NaN",
+        "outside_nan_count": 7111787
+      },
+      "dots_inside_footprint": 61328,
+      "dots_within_3px_of_registry_lattice_r13": 61281,
+      "fraction_dots_within_3px_of_registry_lattice_r13": 0.999234,
+      "dots_on_usgs_catalogue": 0,
+      "dots_within_3px_of_usgs_catalogue": 12187,
+      "fraction_dots_within_3px_of_usgs_catalogue": 0.198718,
+      "catalogue_proxy_DTI_REPORT_ONLY": 0.172739,
+      "catalogue_proxy_evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha 0.2, beta 0.8, R 300 m)",
+      "catalogue_proxy_withheld_positive_pixels": 60988,
+      "uniqueness_pairwise_within_nine_pinned_file": [
+        {
+          "vs": "GEMSDOE24",
+          "dots_within_3px_overlap_fraction": 0.980188,
+          "rho": 0.98956,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE25",
+          "dots_within_3px_overlap_fraction": 0.980156,
+          "rho": 0.569774,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE28",
+          "dots_within_3px_overlap_fraction": 0.916156,
+          "rho": 0.524981,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE30",
+          "dots_within_3px_overlap_fraction": 0.980156,
+          "rho": 0.569774,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE31",
+          "dots_within_3px_overlap_fraction": 0.922091,
+          "rho": 0.540677,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE32",
+          "dots_within_3px_overlap_fraction": 0.86719,
+          "rho": 0.526747,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE33",
+          "dots_within_3px_overlap_fraction": 0.943289,
+          "rho": 0.559443,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE36",
+          "dots_within_3px_overlap_fraction": 0.868037,
+          "rho": 0.518356,
+          "fails_70pct_or_rho_0_90": true
+        }
+      ],
+      "estimated_leaderboard_score": "UNAVAILABLE - no validated estimator; the catalogue proxy ranks the top reported file near the bottom"
+    },
+    {
+      "site": "GEMSDOE28",
+      "leaderboard_name": "h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan",
+      "reported_score_USER_REPORTED_UNVERIFIED": 0.271,
+      "file": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+      "github_ref": "4955e29c7b66503ba2178b25d356d713dc1bc534",
+      "sha256": "5556aa1438fd67376b60d5ffc99228ec09dcc11a8408298a743ccb88d6163641",
+      "sha256_matches_pinned_github_bytes": true,
+      "format": {
+        "bands": 1,
+        "dtype": "float32",
+        "crs_and_grid_match_official_template": true,
+        "nan_inside_footprint": 0,
+        "finite_inside_footprint_in_0_1": true,
+        "outside_footprint_values": "NaN",
+        "outside_nan_count": 7111787
+      },
+      "dots_inside_footprint": 37660,
+      "dots_within_3px_of_registry_lattice_r13": 37626,
+      "fraction_dots_within_3px_of_registry_lattice_r13": 0.999097,
+      "dots_on_usgs_catalogue": 0,
+      "dots_within_3px_of_usgs_catalogue": 4377,
+      "fraction_dots_within_3px_of_usgs_catalogue": 0.116224,
+      "catalogue_proxy_DTI_REPORT_ONLY": 0.046212,
+      "catalogue_proxy_evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha 0.2, beta 0.8, R 300 m)",
+      "catalogue_proxy_withheld_positive_pixels": 60988,
+      "uniqueness_pairwise_within_nine_pinned_file": [
+        {
+          "vs": "GEMSDOE24",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.530583,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE25",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.681038,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE27",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.524981,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE30",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.681038,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE31",
+          "dots_within_3px_overlap_fraction": 0.997557,
+          "rho": 0.713701,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE32",
+          "dots_within_3px_overlap_fraction": 0.954727,
+          "rho": 0.694804,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE33",
+          "dots_within_3px_overlap_fraction": 0.998407,
+          "rho": 0.692918,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE36",
+          "dots_within_3px_overlap_fraction": 0.955204,
+          "rho": 0.68384,
+          "fails_70pct_or_rho_0_90": true
+        }
+      ],
+      "estimated_leaderboard_score": "UNAVAILABLE - no validated estimator; the catalogue proxy ranks the top reported file near the bottom"
+    },
+    {
+      "site": "GEMSDOE30",
+      "leaderboard_name": "d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca",
+      "reported_score_USER_REPORTED_UNVERIFIED": 0.26,
+      "file": "docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "github_ref": "d21ddd9502f3c3911e8d77b8f1e6abfaadffc876",
+      "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+      "sha256_matches_pinned_github_bytes": true,
+      "format": {
+        "bands": 1,
+        "dtype": "float32",
+        "crs_and_grid_match_official_template": true,
+        "nan_inside_footprint": 0,
+        "finite_inside_footprint_in_0_1": true,
+        "outside_footprint_values": "zeros",
+        "outside_nan_count": 0
+      },
+      "dots_inside_footprint": 44090,
+      "dots_within_3px_of_registry_lattice_r13": 44053,
+      "fraction_dots_within_3px_of_registry_lattice_r13": 0.999161,
+      "dots_on_usgs_catalogue": 0,
+      "dots_within_3px_of_usgs_catalogue": 8607,
+      "fraction_dots_within_3px_of_usgs_catalogue": 0.195214,
+      "catalogue_proxy_DTI_REPORT_ONLY": 0.161772,
+      "catalogue_proxy_evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha 0.2, beta 0.8, R 300 m)",
+      "catalogue_proxy_withheld_positive_pixels": 60988,
+      "uniqueness_pairwise_within_nine_pinned_file": [
+        {
+          "vs": "GEMSDOE24",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.575854,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE25",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 1.0,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE27",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.569774,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE28",
+          "dots_within_3px_overlap_fraction": 0.931821,
+          "rho": 0.681038,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE31",
+          "dots_within_3px_overlap_fraction": 0.937151,
+          "rho": 0.954493,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE32",
+          "dots_within_3px_overlap_fraction": 0.881719,
+          "rho": 0.923555,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE33",
+          "dots_within_3px_overlap_fraction": 0.960581,
+          "rho": 0.809604,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE36",
+          "dots_within_3px_overlap_fraction": 0.882649,
+          "rho": 0.909038,
+          "fails_70pct_or_rho_0_90": true
+        }
+      ],
+      "estimated_leaderboard_score": "UNAVAILABLE - no validated estimator; the catalogue proxy ranks the top reported file near the bottom"
+    },
+    {
+      "site": "GEMSDOE31",
+      "leaderboard_name": "h27-4-solo-d28-20261004-8acb75e1-nan",
+      "reported_score_USER_REPORTED_UNVERIFIED": 0.2708,
+      "file": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+      "github_ref": "88ec212955353f7590e94b8ef2a9763ffa035d45",
+      "sha256": "07b6db440535404bb41ec8ddc797713e200d308e3da35937393efde5eb84bc40",
+      "sha256_matches_pinned_github_bytes": true,
+      "format": {
+        "bands": 1,
+        "dtype": "float32",
+        "crs_and_grid_match_official_template": true,
+        "nan_inside_footprint": 0,
+        "finite_inside_footprint_in_0_1": true,
+        "outside_footprint_values": "NaN",
+        "outside_nan_count": 7111787
+      },
+      "dots_inside_footprint": 40199,
+      "dots_within_3px_of_registry_lattice_r13": 40166,
+      "fraction_dots_within_3px_of_registry_lattice_r13": 0.999179,
+      "dots_on_usgs_catalogue": 0,
+      "dots_within_3px_of_usgs_catalogue": 4716,
+      "fraction_dots_within_3px_of_usgs_catalogue": 0.117316,
+      "catalogue_proxy_DTI_REPORT_ONLY": 0.049095,
+      "catalogue_proxy_evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha 0.2, beta 0.8, R 300 m)",
+      "catalogue_proxy_withheld_positive_pixels": 60988,
+      "uniqueness_pairwise_within_nine_pinned_file": [
+        {
+          "vs": "GEMSDOE24",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.546447,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE25",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.954493,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE27",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.540677,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE28",
+          "dots_within_3px_overlap_fraction": 0.995622,
+          "rho": 0.713701,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE30",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.954493,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE32",
+          "dots_within_3px_overlap_fraction": 0.953904,
+          "rho": 0.967587,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE33",
+          "dots_within_3px_overlap_fraction": 0.999055,
+          "rho": 0.819315,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE36",
+          "dots_within_3px_overlap_fraction": 0.954402,
+          "rho": 0.952402,
+          "fails_70pct_or_rho_0_90": true
+        }
+      ],
+      "estimated_leaderboard_score": "UNAVAILABLE - no validated estimator; the catalogue proxy ranks the top reported file near the bottom"
+    },
+    {
+      "site": "GEMSDOE32",
+      "leaderboard_name": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
+      "reported_score_USER_REPORTED_UNVERIFIED": 0.2778,
+      "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "github_ref": "73485f27cf230af770167397c2b72cb9ce3b3f25",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "sha256_matches_pinned_github_bytes": true,
+      "format": {
+        "bands": 1,
+        "dtype": "float32",
+        "crs_and_grid_match_official_template": true,
+        "nan_inside_footprint": 0,
+        "finite_inside_footprint_in_0_1": true,
+        "outside_footprint_values": "zeros",
+        "outside_nan_count": 0
+      },
+      "dots_inside_footprint": 37654,
+      "dots_within_3px_of_registry_lattice_r13": 37622,
+      "fraction_dots_within_3px_of_registry_lattice_r13": 0.99915,
+      "dots_on_usgs_catalogue": 0,
+      "dots_within_3px_of_usgs_catalogue": 2171,
+      "fraction_dots_within_3px_of_usgs_catalogue": 0.057657,
+      "catalogue_proxy_DTI_REPORT_ONLY": 0.006709,
+      "catalogue_proxy_evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha 0.2, beta 0.8, R 300 m)",
+      "catalogue_proxy_withheld_positive_pixels": 60988,
+      "uniqueness_pairwise_within_nine_pinned_file": [
+        {
+          "vs": "GEMSDOE24",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.532368,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE25",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.923555,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE27",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.526747,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE28",
+          "dots_within_3px_overlap_fraction": 0.998752,
+          "rho": 0.694804,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE30",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.923555,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE31",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.967587,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE33",
+          "dots_within_3px_overlap_fraction": 0.999841,
+          "rho": 0.794679,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE36",
+          "dots_within_3px_overlap_fraction": 1.0,
+          "rho": 0.984321,
+          "fails_70pct_or_rho_0_90": true
+        }
+      ],
+      "estimated_leaderboard_score": "UNAVAILABLE - no validated estimator; the catalogue proxy ranks the top reported file near the bottom"
+    },
+    {
+      "site": "GEMSDOE33",
+      "leaderboard_name": "h33d-analog-tip-stepover-r30-20261004-cb490425926e",
+      "reported_score_USER_REPORTED_UNVERIFIED": 0.2632,
+      "file": "docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "github_ref": "844f514819041c7be9efd345a24cf5cd70263f00",
+      "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+      "sha256_matches_pinned_github_bytes": true,
+      "format": {
+        "bands": 1,
+        "dtype": "float32",
+        "crs_and_grid_match_official_template": true,
+        "nan_inside_footprint": 0,
+        "finite_inside_footprint_in_0_1": true,
+        "outside_footprint_values": "zeros",
+        "outside_nan_count": 0
+      },
+      "dots_inside_footprint": 41865,
+      "dots_within_3px_of_registry_lattice_r13": 41829,
+      "fraction_dots_within_3px_of_registry_lattice_r13": 0.99914,
+      "dots_on_usgs_catalogue": 0,
+      "dots_within_3px_of_usgs_catalogue": 6024,
+      "fraction_dots_within_3px_of_usgs_catalogue": 0.143891,
+      "catalogue_proxy_DTI_REPORT_ONLY": 0.086458,
+      "catalogue_proxy_evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha 0.2, beta 0.8, R 300 m)",
+      "catalogue_proxy_withheld_positive_pixels": 60988,
+      "uniqueness_pairwise_within_nine_pinned_file": [
+        {
+          "vs": "GEMSDOE24",
+          "dots_within_3px_overlap_fraction": 0.997062,
+          "rho": 0.565411,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE25",
+          "dots_within_3px_overlap_fraction": 0.997038,
+          "rho": 0.809604,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE27",
+          "dots_within_3px_overlap_fraction": 0.997086,
+          "rho": 0.559443,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE28",
+          "dots_within_3px_overlap_fraction": 0.9705,
+          "rho": 0.692918,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE30",
+          "dots_within_3px_overlap_fraction": 0.997038,
+          "rho": 0.809604,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE31",
+          "dots_within_3px_overlap_fraction": 0.9748,
+          "rho": 0.819315,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE32",
+          "dots_within_3px_overlap_fraction": 0.92643,
+          "rho": 0.794679,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE36",
+          "dots_within_3px_overlap_fraction": 0.927123,
+          "rho": 0.78216,
+          "fails_70pct_or_rho_0_90": true
+        }
+      ],
+      "estimated_leaderboard_score": "UNAVAILABLE - no validated estimator; the catalogue proxy ranks the top reported file near the bottom"
+    },
+    {
+      "site": "GEMSDOE36",
+      "leaderboard_name": "anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros",
+      "reported_score_USER_REPORTED_UNVERIFIED": 0.275,
+      "file": "docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "github_ref": "7edcc9b58e6ad0f88c6e6f5ee9218761a391769d",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "sha256_matches_pinned_github_bytes": true,
+      "format": {
+        "bands": 1,
+        "dtype": "float32",
+        "crs_and_grid_match_official_template": true,
+        "nan_inside_footprint": 0,
+        "finite_inside_footprint_in_0_1": true,
+        "outside_footprint_values": "zeros",
+        "outside_nan_count": 0
+      },
+      "dots_inside_footprint": 38854,
+      "dots_within_3px_of_registry_lattice_r13": 38822,
+      "fraction_dots_within_3px_of_registry_lattice_r13": 0.999176,
+      "dots_on_usgs_catalogue": 0,
+      "dots_within_3px_of_usgs_catalogue": 2281,
+      "fraction_dots_within_3px_of_usgs_catalogue": 0.058707,
+      "catalogue_proxy_DTI_REPORT_ONLY": 0.00693,
+      "catalogue_proxy_evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha 0.2, beta 0.8, R 300 m)",
+      "catalogue_proxy_withheld_positive_pixels": 60988,
+      "uniqueness_pairwise_within_nine_pinned_file": [
+        {
+          "vs": "GEMSDOE24",
+          "dots_within_3px_overlap_fraction": 0.975678,
+          "rho": 0.523873,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE25",
+          "dots_within_3px_overlap_fraction": 0.974983,
+          "rho": 0.909038,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE27",
+          "dots_within_3px_overlap_fraction": 0.975781,
+          "rho": 0.518356,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE28",
+          "dots_within_3px_overlap_fraction": 0.97313,
+          "rho": 0.68384,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE30",
+          "dots_within_3px_overlap_fraction": 0.974983,
+          "rho": 0.909038,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE31",
+          "dots_within_3px_overlap_fraction": 0.974571,
+          "rho": 0.952402,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE32",
+          "dots_within_3px_overlap_fraction": 0.974031,
+          "rho": 0.984321,
+          "fails_70pct_or_rho_0_90": true
+        },
+        {
+          "vs": "GEMSDOE33",
+          "dots_within_3px_overlap_fraction": 0.975035,
+          "rho": 0.78216,
+          "fails_70pct_or_rho_0_90": true
+        }
+      ],
+      "estimated_leaderboard_score": "UNAVAILABLE - no validated estimator; the catalogue proxy ranks the top reported file near the bottom"
+    }
+  ],
+  "association_observed_not_causal": {
+    "statistic": "Spearman rho, reported score vs fraction of dots within 3 px of USGS catalogue",
+    "n": 9,
+    "rho": -0.9832,
+    "p_value": 2e-06,
+    "caveat": "Reported scores are USER-REPORTED / UNVERIFIED; n = 9; association only. Extrapolating beyond the observed range is a projection, not a score."
+  },
+  "reference_HM1_research_file": {
+    "file": "gemsdoekarage2-hm1-offcat-magridge-35079-20261031-DO-NOT-SUBMIT.tif",
+    "dots": 35079,
+    "fraction_dots_within_3px_of_usgs_catalogue": 0.090738,
+    "fraction_dots_within_3px_of_registry_lattice_r13": 1.0,
+    "status": "DO NOT SUBMIT - DUPLICATE_STOP (see docs/evidence/hm1/)"
+  },
+  "verdict_summary": {
+    "any_file_passes_literal_uniqueness_gate": false,
+    "reason": "All nine files place dots inside the 13GEMSDOE lattice 3-px halo at >= 99%; see fraction_dots_within_3px_of_registry_lattice_r13.",
+    "upload_authorized": false
+  }
+}

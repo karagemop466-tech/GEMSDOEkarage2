@@ -1,0 +1,104 @@
+{
+  "schema": "gems.hm1.run_card.v1",
+  "candidate_id": "HM1-offcat-magridge-35079",
+  "status": "DO NOT SUBMIT - DUPLICATE_STOP under the literal uniqueness rule",
+  "ok_to_submit": false,
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false,
+  "verdict": "negative",
+  "raster": {
+    "file": "docs/downloads/gemsdoekarage2-hm1-offcat-magridge-35079-20261031-DO-NOT-SUBMIT.tif",
+    "sha256": "59411963fa572ab74bc7b5b9fe35523eee61cb1f564b0564827475866eb79d21",
+    "bytes": 1554925,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "dots": 35079,
+    "outside_footprint": "NaN (official text: null or nan)",
+    "inside_footprint": "0.0 or 1.0"
+  },
+  "submission": {
+    "name": "gemsdoekarage2-hm1-offcat-magridge-35079-20261031-DO-NOT-SUBMIT",
+    "note": "HM1 off-catalogue TMI ridge 35079d | DUPLICATE_STOP: 100% dots in r13 lattice 3px halo | DO NOT SUBMIT, research only"
+  },
+  "hypothesis": "Linear magnetic discontinuities in the GEODAWN TMI_up150 residual, detected by an oriented elongated second-derivative ridge filter, mark unmapped fault traces when dots are at least 300 m from every USGS catalogue fault pixel.",
+  "mechanism": "Fault zones can carry magnetic lows or offsets that appear as elongated lineaments; the official scored target is NEW faults absent from the USGS catalogue (official problem page).",
+  "named_non_fault_mimic": "Mafic/intermediate dikes and lithologic contacts are linear magnetic features with no displacement; GEODAWN flight-line striping and uint8 quantisation steps can also produce oriented ridges.",
+  "holdout_DTI": {
+    "status": "NOT_AVAILABLE_FOR_SCORING",
+    "report_only_catalogue_proxy": 0.0,
+    "evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha .2, beta .8, R 300 m)",
+    "withheld_positives": "N/A (no training; catalogue used as report-only proxy, 60,988 pixels)",
+    "ci95": "N/A",
+    "note": "The catalogue is the wrong target (official text). This is not a leaderboard estimate and not HOLDOUT-DTI evidence."
+  },
+  "leakage_canary": {
+    "feature": "single feature z (magnetic ridge response)",
+    "auc_vs_catalogue": 0.523028,
+    "threshold": 0.9,
+    "pass": true
+  },
+  "uniqueness": {
+    "scope": "489 pinned rasters in registry/focus_registry_manifest.json (9 repositories; NOT a global registry)",
+    "status": "DUPLICATE_STOP",
+    "registry_items_compared": 487,
+    "not_comparable": 2,
+    "max_spearman_full_footprint": 0.047879,
+    "max_overlap_fraction_3px": 1.0,
+    "duplicate_witness": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif (GEMSDOE24, 1.0 overlap)",
+    "receipt": "docs/evidence/hm1/uniqueness_full_registry_489.json"
+  },
+  "validator": {
+    "format_checks_passed": 10,
+    "format_checks_total_incl_uniqueness_placeholder": 11,
+    "uniqueness_placeholder": "FAIL when no reference rasters supplied; uniqueness answered by full-registry audit above",
+    "passed_checks": [
+      "single_band",
+      "dtype_float32",
+      "shape_3730x3292",
+      "crs_EPSG_32611",
+      "geotransform_match",
+      "bounds_match",
+      "no_nan_inside_footprint",
+      "finite_inside_footprint",
+      "outside_footprint_is_nan",
+      "in_range_0_1"
+    ],
+    "receipt": "docs/evidence/hm1/validator_and_canary_card.json"
+  },
+  "pre_registration": "docs/evidence/hm1/preregistration.json (amendment A1 recorded: budget = all surviving candidates, 35079)",
+  "experiments_used": 1,
+  "experiment_budget": 3,
+  "generator": "scripts/hm1_offcat_magridge.py",
+  "generator_sha256": "6a3aba403a5002a2b9e5a9b3703183b94d4a6a9cbcce7610b1040c89520d09af",
+  "decision": "NOT ELIGIBLE. Literal uniqueness gate stops it. The only construction that would pass places dots in the 0.13% of the footprint outside the lattice halo, which the protocol classes as edge-hole gaming and which is therefore not done.",
+  "irregularities_flagged_for_review": [
+    {
+      "id": "HM1-I1",
+      "issue": "Buffer boundary: the generator excluded dots strictly closer than 3 px to catalogue pixels (dist >= 3 allowed), so dots sit at exactly 3.0 px. Under the inclusive definition (<= 3 px) used by the nine-site audit, the share is measured below.",
+      "dots_strictly_within_3px": 0,
+      "dots_exactly_3px": 3183,
+      "dots_inclusive_within_3px": 3183,
+      "fraction_inclusive": 0.090738,
+      "effect": "Does not change the uniqueness verdict (DUPLICATE_STOP is driven by the lattice). Not re-run: no further experiment was spent. Recorded so the next lane uses a strict buffer."
+    },
+    {
+      "id": "HM1-I2",
+      "issue": "Budget amendment A1: pre-registered 37,654 dots was unattainable; all 35,079 surviving candidates were used. Dot count differs from the GEMSDOE32 reference.",
+      "effect": "Count confound not controlled."
+    },
+    {
+      "id": "HM1-I3",
+      "issue": "TMI mirror is uint8 (256 levels) with no documented scale or offset; relative ridge geometry only.",
+      "effect": "Quantisation steps may create ridge artifacts."
+    },
+    {
+      "id": "HM1-I4",
+      "issue": "Exterior convention: the file uses NaN outside the footprint (official text). Four of the nine reference files (GEMSDOE30, 32, 33, 36) use zeros outside; five use NaN, so the convention is not uniform across the field.",
+      "effect": "Portal acceptance of either convention is unverified."
+    }
+  ]
+}

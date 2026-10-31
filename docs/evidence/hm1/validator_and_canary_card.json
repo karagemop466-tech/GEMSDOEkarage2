@@ -1,0 +1,78 @@
+{
+  "candidate": "gemsdoekarage2-hm1-offcat-magridge-20261031",
+  "status": "RESEARCH_ONLY_UNTIL_GATES_CLEAR",
+  "dots": 35079,
+  "catalogue_pixels_in_footprint": 60988,
+  "dots_on_catalogue_buffer": 0,
+  "dots_within_3px_of_catalogue": 0,
+  "leakage_canary_single_feature_auc_vs_catalogue": 0.523028,
+  "leakage_canary_pass": true,
+  "catalogue_proxy_dti_report_only": {
+    "evaluator": "scripts/evaluate_holdout.py::dti_weighted_terms (alpha .2, beta .8, R 300 m)",
+    "DTI": 0.0,
+    "TPw": 0.0,
+    "FPw": 35079.0,
+    "FNw": 60988.0,
+    "note": "Measures catalogue recovery, which the official problem page says is NOT the scored target. Not a leaderboard estimate."
+  },
+  "format_validation": {
+    "passed": false,
+    "checks": [
+      {
+        "check": "single_band",
+        "passed": true,
+        "detail": "count=1"
+      },
+      {
+        "check": "dtype_float32",
+        "passed": true,
+        "detail": "dtype=float32"
+      },
+      {
+        "check": "shape_3730x3292",
+        "passed": true,
+        "detail": "3730x3292"
+      },
+      {
+        "check": "crs_EPSG_32611",
+        "passed": true,
+        "detail": "crs=EPSG:32611"
+      },
+      {
+        "check": "geotransform_match",
+        "passed": true,
+        "detail": "| 100.00, 0.00, 243350.00|\n| 0.00,-100.00, 4508550.00|\n| 0.00, 0.00, 1.00|"
+      },
+      {
+        "check": "bounds_match",
+        "passed": true,
+        "detail": "(243350.0, 4135550.0, 572550.0, 4508550.0)"
+      },
+      {
+        "check": "no_nan_inside_footprint",
+        "passed": true,
+        "detail": "nan_inside=0"
+      },
+      {
+        "check": "finite_inside_footprint",
+        "passed": true,
+        "detail": "infinite_inside=0"
+      },
+      {
+        "check": "outside_footprint_is_nan",
+        "passed": true,
+        "detail": "outside_nan=7111787 outside_inf=0"
+      },
+      {
+        "check": "in_range_0_1",
+        "passed": true,
+        "detail": "min=0.0 max=1.0"
+      },
+      {
+        "check": "uniqueness_vs_registry",
+        "passed": false,
+        "detail": "no reference rasters supplied"
+      }
+    ]
+  }
+}
