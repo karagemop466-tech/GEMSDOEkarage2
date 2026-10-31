@@ -44,12 +44,19 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
-    assert result['downloadable_approved_submission'] is None
-    assert result['score_estimate'] is None and result['slot_authorized'] is False
-    assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY_PLUS_RELEASE'
+    releases = [r for r in result['artifacts'] if r['kind'] == 'release']
+    assert len(releases) == 1
+    assert result['downloadable_approved_submission'] == releases[0]['file']
+    assert releases[0]['status'] == 'VERIFIED_RELEASE_CANDIDATE'
+    assert releases[0]['slot_authorized'] is False
+    assert result['score_estimate'] and min(result['score_estimate']) >= 0 < max(result['score_estimate']) <= 1
+    assert all(r['exterior_convention'].startswith('not assessed')
+               for r in result['artifacts'] if r['kind'] != 'release')
+    assert all(r['exterior_convention'].startswith('zeros outside')
+               for r in result['artifacts'] if r['kind'] == 'release')
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 10
+    assert len(result['artifacts']) == 11
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())
@@ -74,24 +81,37 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert assessment['validator_output']['portal_acceptance'] is None
     assert assessment['submission_name'] is None and assessment['submission_note'] is None
     for record in result['artifacts']:
-        assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
-        assert record['ok_to_submit'] is False and record['slot_authorized'] is False
-        assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
-        assert record['checks']['card_sha_matches_saved_bytes']
-        assert record['checks']['mirror_transform_match']
+        assert record['slot_authorized'] is False
+        if record['kind'] == 'release':
+            # A release entry is verified by its own re-read bytes and receipt; the
+            # slot is still unauthorized here (that is the selector's decision).
+            assert record['status'] == 'VERIFIED_RELEASE_CANDIDATE'
+            assert record['checks']['all_values_finite'] and record['checks']['values_in_unit_range']
+            assert record['checks']['card_sha_matches_saved_bytes']
+            assert record['checks']['grid_matches_template']
+            assert record['checks']['uniqueness_inside_literal_thresholds']
+        else:
+            assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
+            assert record['ok_to_submit'] is False
+            assert record['checks']['whole_array_finite'] and record['checks']['range_0_1']
+            assert record['checks']['card_sha_matches_saved_bytes']
+            assert record['checks']['mirror_transform_match']
 
 
 def test_stale_unverified_tif_is_not_published_as_a_submission():
     stale = ROOT / 'docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif'
     assert not stale.exists()
+    release = json.loads((ROOT / 'evidence/halo/final_generation.json').read_text())
+    expected = ('OK TO SUBMIT: 1 FILE · SEE RELEASE' if release['verdict']['ok_to_submit']
+                else 'OK TO SUBMIT: NO')
     for name in ('index.html', 'executive-summary.html'):
         page = (ROOT / 'docs' / name).read_text()
-        assert 'OK TO SUBMIT: NO' in page
+        assert expected in page
         assert 'gw-nfs-h1-20261029-zeros' not in page
     assert 'docs/index.html' in (ROOT / 'index.html').read_text()
     report = mod.audit()
-    assert report['downloadable_approved_submission'] is None
-    assert all(r['ok_to_submit'] is False for r in report['artifacts'])
+    assert all(r['ok_to_submit'] is False for r in report['artifacts'] if r['kind'] != 'release')
+    assert sum(r['ok_to_submit'] is True for r in report['artifacts']) <= 1
 
 
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):

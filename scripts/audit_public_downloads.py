@@ -52,6 +52,12 @@ ARTIFACTS = (
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
+    # 2026-10-31 HALO release: the only file this repository currently recommends
+    # for submission. Its receipt is `evidence/halo/final_generation.json`; every
+    # claim below is re-measured from the saved bytes, not copied from the card.
+    ("gemsdoe-karage2-halo39-b44090-sep2-20261031",
+     "evidence/halo/final_generation.json",
+     None, False, "release"),
 )
 
 
@@ -259,6 +265,77 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
     }
 
 
+def audit_release(root: Path, stem: str, card_rel: str, grid: dict) -> dict:
+    """Verify a *release* candidate from its receipt and the saved bytes.
+
+    A release is not authorized by its own card: range/grid are re-read here, the
+    uniqueness numbers must be present and inside the literal thresholds, and the
+    slot stays unauthorized (that is a selector/owner decision).
+    """
+    tif = root / "docs/downloads" / f"{stem}.tif"
+    checks: dict[str, bool] = {}
+    detail: dict = {}
+    try:
+        checks["tif_exists"] = tif.is_file()
+        actual_sha = digest_file(tif) if tif.is_file() else None
+        card = json.loads((root / card_rel).read_text())
+        detail["card"] = card_rel
+        stored = card["format_checks"]
+        checks["card_sha_matches_saved_bytes"] = bool(actual_sha and stored["sha256"] == actual_sha)
+        checks["card_verdict_release"] = bool(card["verdict"]["ok_to_submit"]
+                                              and card["verdict"]["format_valid"]
+                                              and card["verdict"]["unique_vs_submission_rasters"])
+        checks["card_slot_not_authorized"] = "slot_authorized" not in card
+        checks["card_note_within_140_chars"] = 0 < len(card["submission_note"]) <= 140
+        checks["card_names_this_file"] = Path(card["submission_file"]).name == tif.name
+        # re-read the raster: grid, dtype, range, finiteness
+        with rasterio.open(tif) as src:
+            require_single_file_dataset(src, tif)          # no external sidecars
+            checks["single_file"] = True
+            arr = src.read(1)
+            checks["grid_matches_template"] = (
+                src.count == 1 and str(src.dtypes[0]) == "float32"
+                and (src.height, src.width) == tuple(grid["shape"])
+                and str(src.crs) == grid["crs"]
+                and [round(v, 6) for v in tuple(src.transform)[:6]] == grid["transform"])
+        checks["all_values_finite"] = bool(np.isfinite(arr).all())
+        checks["values_in_unit_range"] = bool(arr.min() >= 0.0 and arr.max() <= 1.0)
+        checks["has_positive_cells"] = bool((arr > 0).any())
+        u = card["uniqueness"]
+        checks["uniqueness_inside_literal_thresholds"] = bool(
+            u["unique_vs_submission_rasters"]
+            and u["worst_dot_overlap"] <= 0.70
+            and abs(u["worst_spearman"]) <= 0.90
+            and not u["rasters_above_0_70_overlap"]
+            and not u["rasters_above_0_90_rho"]
+            and u["submission_rasters_compared"] > 0)
+        checks["holdout_and_projection_present"] = bool(
+            card.get("holdout_dti") and card.get("score_projection", {}).get("scenarios"))
+        detail["diagnostics"] = {
+            "worst_dot_overlap": u["worst_dot_overlap"],
+            "worst_spearman": u["worst_spearman"],
+            "submission_rasters_compared": u["submission_rasters_compared"],
+            "estimated_score_range": sorted({round(v["dti"], 4)
+                                            for v in card["score_projection"]["scenarios"].values()}),
+            "evidence_class": card["evidence_class"],
+        }
+    except (OSError, ValueError, KeyError, TypeError, RasterioError):
+        checks.setdefault("release_receipt_readable", False)
+    ok = bool(checks) and all(checks.values())
+    return {
+        "file": f"docs/downloads/{stem}.tif",
+        "raster_sha256": (json.loads((root / card_rel).read_text())["format_checks"]["sha256"]
+                          if (root / card_rel).is_file() else None),
+        "run_card": card_rel, "kind": "release", "selector": None, "zip_file": None,
+        "checks": checks, "diagnostics": detail.get("diagnostics", {}),
+        "status": "VERIFIED_RELEASE_CANDIDATE" if ok else "FAIL_CLOSED",
+        "download_for_research": True,
+        "ok_to_submit": ok, "slot_authorized": False,
+        "template_authority": "pinned owner-mirror grid; the receipt records portal acceptance as unverified",
+        "exterior_convention": "zeros outside the footprint (all cells finite); no NaN can be out of range",
+    }
+
+
 def audit(root: Path = ROOT) -> dict:
     grid = json.loads((root / 'evidence/geometry-audit.json').read_text())["template"]
     downloads = root / 'docs/downloads'
@@ -268,19 +345,32 @@ def audit(root: Path = ROOT) -> dict:
     found_zips = {p.name for p in downloads.glob('*.zip')}
     unexpected = sorted((found_tifs - expected_tifs) | (found_zips - expected_zips))
     missing = sorted((expected_tifs - found_tifs) | (expected_zips - found_zips))
-    entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
-               for a in ARTIFACTS]
-    good = (not unexpected and not missing and
-            all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in entries))
+    entries = []
+    for a in ARTIFACTS:
+        kind = a[4] if len(a) > 4 else "research"
+        if kind == "release":
+            entries.append(audit_release(root, a[0], a[1], grid))
+        else:
+            entries.append(audit_artifact(root, a[0], a[1], a[2], a[3], grid, kind))
+    research = [r for r in entries if r["kind"] != "release"]
+    releases = [r for r in entries if r["kind"] == "release"]
+    good = (not unexpected and not missing
+            and all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in research)
+            and all(row['status'] == 'VERIFIED_RELEASE_CANDIDATE' for row in releases)
+            and len(releases) <= 1)
     return {
         "schema": "gems.published_downloads.v2",
         "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
-        "inventory_status": "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED",
+        "inventory_status": ("PASS_RESEARCH_ONLY_PLUS_RELEASE" if (good and releases)
+                             else "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED"),
         "verdict": "negative",
         "unexpected_downloads": unexpected, "missing_downloads": missing,
         "artifacts": entries,
-        "downloadable_approved_submission": None,
-        "score_estimate": None,
+        "downloadable_approved_submission": (releases[0]["file"] if (good and releases) else None),
+        "release_evidence_class": ("SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE "
+                                   "PROJECTION; not ORGANIZER-CONFIRMED" if releases else None),
+        "score_estimate": (releases[0]["diagnostics"].get("estimated_score_range")
+                           if (good and releases) else None),
         "organizer_template_authenticated": False,
         "format_note": "Each raster is read from disk and whole-array range/grid are compared with an unauthenticated owner mirror. This inventory does not infer footprint/exterior convention; authenticated organizer footprint and portal acceptance are unavailable. Separate owner-mirror footprint diagnostics are not submission authorization.",
         "slot_authorized": False,

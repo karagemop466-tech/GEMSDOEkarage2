@@ -1,0 +1,253 @@
+{
+  "evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION (never ORGANIZER-CONFIRMED)",
+  "generated_utc": "20261031T021039Z",
+  "submission_file": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+  "submission_name": "gemsdoe-karage2-halo39-b44090-sep2-20261031",
+  "submission_note": "Off-apron 300-900 m halo of mapped traces; 44,090 min-spaced dots, none on the catalogue. No registry file reused.",
+  "submission_note_length": 114,
+  "method": {
+    "lane": "HALO",
+    "rings_px": [
+      3.0,
+      9.0
+    ],
+    "rings_m": [
+      300.0,
+      900.0
+    ],
+    "min_sep_px": 2,
+    "seed": 20261031,
+    "selection": "uniform within band (E3 rejected the ridge tie-break)",
+    "values": "1.0 at dots, 0.0 elsewhere (all finite)"
+  },
+  "generation": {
+    "band_px": 765570,
+    "dots_requested": 44090,
+    "dots_emitted": 44090,
+    "min_sep_requested_px": 2,
+    "min_realised_separation_px": 3.0,
+    "mean_distance_to_catalogue_px": 5.782930351785714,
+    "dots_inside_footprint": 44090,
+    "dots_on_mapped_catalogue": 0
+  },
+  "format_checks": {
+    "driver": "GTiff",
+    "count": 1,
+    "dtype": "float32",
+    "shape": [
+      3730,
+      3292
+    ],
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "crs_ok": true,
+    "shape_ok": true,
+    "transform_ok": true,
+    "single_band_ok": true,
+    "float32_ok": true,
+    "all_finite": true,
+    "nan_inside_footprint": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "range_ok": true,
+    "positive_pixels": 44090,
+    "distinct_values": 2,
+    "sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+    "bytes": 837376,
+    "passed": true
+  },
+  "uniqueness": {
+    "evidence_class": "REGISTRY-MEASUREMENT (hash-verified pinned inventory; not an organizer-complete registry)",
+    "registry_unique_rasters": 473,
+    "submission_rasters_compared": 471,
+    "delta_rasters_included": 11,
+    "worst_dot_overlap": 0.6546609208437287,
+    "worst_overlap_submission": "docs/downloads/gemsdoe30-edge-hybrid-80k-02845bd4-20261003T234340Z-allfinite.tif",
+    "worst_spearman": 0.05566645743662113,
+    "worst_spearman_submission": "docs/downloads/GEMSDOE30-nearslay-annulus-d3-offcat-20261025T235837Z-662af003-nan.tif",
+    "rasters_above_0_70_overlap": [],
+    "rasters_above_0_90_rho": [],
+    "universal_probes": [
+      {
+        "path": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+        "their_dots": 206895,
+        "my_dots_within_3px_of_theirs": 0.9983896575187117,
+        "scored_domain_coverage_within_3px": 0.9987243421716145
+      }
+    ],
+    "non_grid_files": [
+      {
+        "repo": "GEMSDOE36",
+        "path": "docs/downloads/GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif",
+        "reason": "non_grid_file"
+      }
+    ],
+    "probe_note": "r13_lattice is a uniform 5-px sampling probe, not a competitor submission: it covers 99.87 % of the scored domain within 3 px, so every possible raster 'overlaps' it. It is reported separately and is not counted as a duplicate witness.",
+    "unique_vs_submission_rasters": true
+  },
+  "uniqueness_literal_gate": {
+    "unique": false,
+    "worst_overlap_including_probe": 0.9983896575187117,
+    "worst_overlap_submission_including_probe": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "duplicate_count": 2,
+    "stop_required": true,
+    "missing_or_invalid": 1,
+    "scope": "All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only.",
+    "vacuous_because": "r13_lattice is a uniform 5-px sampling probe, not a competitor submission: it covers 99.87 % of the scored domain within 3 px, so every possible raster 'overlaps' it. It is reported separately and is not counted as a duplicate witness. The pinned inventory also contains one non-grid QA blob (GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif) that the literal gate reports as a missing entry."
+  },
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI (pooled over 4 spatial quadrant folds, whole components withheld, alpha 0.2 / beta 0.8 / 300 m kernel)",
+    "lane_budget_curve_max": {
+      "rings": "halo_3_9",
+      "min_sep": 2,
+      "n_max": 62000,
+      "dti": 0.14517100643025235,
+      "coverage": 0.2652216237876108,
+      "n_emit": 57873,
+      "hit_rate": 0.05033435280700845,
+      "fp": 56350.76171875,
+      "tp": 3069.1446304702326
+    },
+    "at_released_dot_count": {
+      "rings": "halo_3_9",
+      "min_sep": 2,
+      "n_max": 44090,
+      "dti": 0.13665535297402484,
+      "coverage": 0.2098894376955176,
+      "n_emit": 41242,
+      "hit_rate": 0.05079773046893943,
+      "fp": 40150.537109375,
+      "tp": 2428.8405730125296
+    },
+    "budget_curve": [
+      {
+        "n_max": 3000,
+        "n_emit": 2802,
+        "dti": 0.01756618852318915,
+        "hit_rate": 0.048179871520342615,
+        "coverage": 0.014935415592289756
+      },
+      {
+        "n_max": 6000,
+        "n_emit": 5602,
+        "dti": 0.03186361344117014,
+        "hit_rate": 0.047126026419136026,
+        "coverage": 0.028687212211902603
+      },
+      {
+        "n_max": 12000,
+        "n_emit": 11212,
+        "dti": 0.06373005509494795,
+        "hit_rate": 0.05039243667499108,
+        "coverage": 0.0638240394616057
+      },
+      {
+        "n_max": 20000,
+        "n_emit": 18707,
+        "dti": 0.09184524256482546,
+        "hit_rate": 0.050515849681937244,
+        "coverage": 0.10430970845645454
+      },
+      {
+        "n_max": 30000,
+        "n_emit": 28088,
+        "dti": 0.11754116237614601,
+        "hit_rate": 0.05123184277983481,
+        "coverage": 0.15317214196580586
+      },
+      {
+        "n_max": 44090,
+        "n_emit": 41242,
+        "dti": 0.13665535297402484,
+        "hit_rate": 0.05079773046893943,
+        "coverage": 0.2098894376955176
+      },
+      {
+        "n_max": 62000,
+        "n_emit": 57873,
+        "dti": 0.14517100643025235,
+        "hit_rate": 0.05033435280700845,
+        "coverage": 0.2652216237876108
+      }
+    ],
+    "reading": "The lane curve is monotone in dot count up to its last tested point (n_max = 62,000 -> 57,873 dots in-fold), where it is +6% on the released 44,090-dot field. The released count sits at the band's minimum-separation capacity and inside the flat part of the leaderboard-calibrated model too, so the extra 13,783 dots buy a holdout gain that the calibrated model does not confirm. Both are inside the same noise band; the smaller field was kept because it is the one whose uniqueness audit is clean at 65.5% max 3 px overlap."
+  },
+  "score_projection": {
+    "G_px": 12405.76810261941,
+    "credits_per_hit": 4.889756555772709,
+    "dots": 44090,
+    "scenarios": {
+      "h=0.020": {
+        "hit_rate": 0.02,
+        "T": 4311.787330880375,
+        "F": 43208.2,
+        "dti": 0.22192976741521453,
+        "coverage": 0.3475631089678328
+      },
+      "h=0.025": {
+        "hit_rate": 0.025,
+        "T": 5389.7341636004685,
+        "F": 42987.75,
+        "dti": 0.2749848751892749,
+        "coverage": 0.4344538862097911
+      },
+      "h=0.029": {
+        "hit_rate": 0.029,
+        "T": 6252.091629776543,
+        "F": 42811.39,
+        "dti": 0.31676512016147196,
+        "coverage": 0.5039665080033576
+      },
+      "h=0.035": {
+        "hit_rate": 0.035,
+        "T": 7545.627829040656,
+        "F": 42546.85,
+        "dti": 0.3783576288209783,
+        "coverage": 0.6082354406937075
+      },
+      "h=0.045": {
+        "hit_rate": 0.045,
+        "T": 9701.521494480843,
+        "F": 42105.95,
+        "dti": 0.47823471712678933,
+        "coverage": 0.7820169951776239
+      },
+      "h=0.060": {
+        "hit_rate": 0.06,
+        "T": 12405.76810261941,
+        "F": 41444.6,
+        "dti": 0.5994662998109723,
+        "coverage": 1.0
+      },
+      "h=0.080": {
+        "hit_rate": 0.08,
+        "T": 12405.76810261941,
+        "F": 40562.8,
+        "dti": 0.6046188578608246,
+        "coverage": 1.0
+      }
+    },
+    "basis": "scripts/score_model.py projection; the hit rate is an ASSUMPTION, not a measurement"
+  },
+  "break_even": {
+    "target": 0.2778,
+    "n": 44090,
+    "hit_rate_needed": 0.02521557364565653,
+    "reachable": true
+  },
+  "verdict": {
+    "format_valid": true,
+    "unique_vs_submission_rasters": true,
+    "ok_to_download": true,
+    "ok_to_submit": true,
+    "leaderboard_estimate": "range, not a score: see score_projection.scenarios"
+  }
+}

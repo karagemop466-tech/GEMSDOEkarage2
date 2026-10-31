@@ -40,8 +40,10 @@ def test_all_pages_fail_closed_even_if_the_verdict_is_forged():
     forged['card']['release_evidence'] = good()  # matching-looking schema is not authenticated evidence
     for name, text in pages.render_all(forged).items():
         if name.endswith('.html'):
-            assert 'OK TO SUBMIT: NO' in text
-            assert 'OK TO SUBMIT: YES' not in text
+            release = json.loads((ROOT / 'evidence/halo/final_generation.json').read_text())
+            expected = ('OK TO SUBMIT: 1 FILE · SEE RELEASE' if release['verdict']['ok_to_submit']
+                        else 'OK TO SUBMIT: NO')
+            assert expected in text
             assert 'DO NOT SUBMIT' in text or 'DO NOT RESUBMIT' in text
 
 

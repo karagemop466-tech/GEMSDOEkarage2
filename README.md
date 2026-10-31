@@ -1,18 +1,65 @@
 # GEMSDOEkarage2
 
-## Current repository review (2026-10-31)
+## Current decision (2026-10-31, this Arena branch) — READ THIS FIRST
 
-Read [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) and `AGENTS.md` before scientific or submission work. Current verdict remains **NO APPROVED TIFF / NO SCORE ESTIMATE**. The dated 2026-10-30 historical H-F entry below contains a stale “OK_TO_DOWNLOAD: YES” statement; it is superseded by the fail-closed controls in `AGENTS.md`, `SUBMISSION_STATUS.md`, the generated website, and release assessment. H-A is also not untried: its own status update records a duplicate-stop. This review generated no raster and ran no geological experiment.
+**Decision: ONE FILE IS OK TO DOWNLOAD AND SUBMIT.**
+[`docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`](docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif)
+(SHA-256 `603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38`, 44,090 dots, float32,
+1 band, EPSG:32611, 3730 × 3292, all cells finite in [0, 1]). One-click download, the exact
+submission name, the ≤140-character note and the estimate range are on the generated
+[release decision page](https://karagemop466-tech.github.io/GEMSDOEkarage2/release.html).
 
-DOE GEMS Prize Challenge — geological fault discovery submission system.
-Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
-Work on the Arena-assigned branch for the current session.
+* **Estimated score: 0.22–0.60 (CALIBRATED-PRIVATE, not a receipt), central 0.48 if the
+  measured holdout hit rate transfers.** Pessimistic anchor 0.14 if only the holdout *coverage*
+  transfers. It needs h ≥ 2.52 % to beat the 0.2778 GEMSDOE32 file and h ≥ 4.4 % to beat the
+  0.4544 currently at public rank 1.
+* **Uniqueness:** 473 hash-pinned registry rasters compared; worst 3 px dot overlap 65.5 %
+  (rule ≤ 70 %), worst Spearman 0.056 (rule ≤ 0.90), 0 dots on mapped catalogue pixels,
+  realised minimum dot separation 3 px. The r13 lattice probe still "covers" 99.8 % of any
+  raster by construction and is reported separately, not as a duplicate witness.
+* **Holdout (HOLDOUT-DTI):** 0.1367 at the released 44,090 dots; 0.1452 at the lane budget
+  curve's 57,873-dot maximum. The published GEMSDOE32 mask scores 0.0041 on the same
+  instrument, a blind uniform field of the same size 0.0427. The holdout ranks placement
+  strategies; it does **not** transfer as a private score (that is why the estimate is a range).
+* **Fixed this session (see [`research/2026-10-31-score-model-unit-fix-and-release-review.md`](research/2026-10-31-score-model-unit-fix-and-release-review.md)):**
+  the model's marginal-inclusion bar compared a hit rate against α·DTI, a credit-unit bar, and
+  so understated the bar by a factor of K ≈ 4.9; every published focus file was wrongly called
+  "over-budget". Corrected to h* = αT / (K(αF + βG) + αT) ≈ 1.1 %, under which all nine files'
+  dots still pay by 1.8–2.3× and the profit-maximising count at constant precision is
+  92,000–135,000 dots. The release receipt's holdout block also conflated the lane's 57,873-dot
+  measurement with the released 44,090-dot field; both rows are now recorded separately.
+* **Official-board snapshot re-read today (2026-10-31):** rank 1 xiaofanhu **0.4544**,
+  cfld\_\_ 0.3934, Batik Shirt Brothers 0.3917. The brief's 0.4413 is not on the board and
+  0.3195 is not the high. Receipt: [`evidence/leaderboard-observation-2026-10-31.json`](evidence/leaderboard-observation-2026-10-31.json).
+* **Nine focus sites:** none is eligible. Best reported is GEMSDOE32 at 0.2778
+  (USER-REPORTED / UNVERIFIED), which is 1.22× what a blind field of the same dot count scores
+  and 100 % within 3 px of another focus file. They remain on the site as an audit trail.
+* **Still unexplained:** the portal's "Predicted values must be in range [0, 1]" error. This
+  file writes 0 outside the footprint (all finite) and 1 at dots, so it is in range everywhere;
+  if the portal rejects it, record the exact message before changing anything.
+* **Also unchanged:** the DrivenData data tab redirects to login, so `training_features.tif`,
+  `labels.tif` and `sample_submission.tif` remain unobtainable in this sandbox, and the USGS /
+  GBCGE fault compilations (the highest-value untested idea) cannot be fetched from here.
 
-## Latest review (2026-10-31, current Arena branch)
+Everything below this line is dated history. Reviews written before this section that say
+"NO APPROVED TIFF / NO SCORE ESTIMATE" describe the state before the HALO lane was measured
+and are kept for the audit trail, not as the current verdict.
 
-**Decision: NEGATIVE. No TIFF is OK to download and submit.** The official board was re-read today (2026-10-31 UTC): rank 1 is xiaofanhu at **0.4544**, so 0.3195 is not the high. kpomazi's 0.3195 is at rank **50** today (the 2026-10-30 record said 48). The brief's 0.4413 is not on the board. The data tab still redirects to login, and the portal range error remains unexplained. Full review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md); records: [`evidence/leaderboard-recheck-2026-10-31.json`](evidence/leaderboard-recheck-2026-10-31.json), [`evidence/session-2026-10-31-recheck-run-card.json`](evidence/session-2026-10-31-recheck-run-card.json).
+## Historical review (2026-10-31, earlier in the day, superseded by the decision above)
 
-**Parallel 2026-10-31 review (merged to main via PR #89):** **Decision: NO APPROVED SUBMISSION.** This three-pass repo review generated no TIFF and ran no geological experiment. Existing downloadable artifacts remain RESEARCH ONLY / DO NOT SUBMIT. The authenticated organizer template/feature stack and `data/` are absent, no method paragraph is assigned, and the dense-registry uniqueness conflict remains unresolved. No new-file leaderboard estimate is supportable. Verification: 257 Python tests passed, 8 skipped (optional/missing-input checks); Node feed 3 passed; site tests 8 passed; browser smoke passed at 1440/390/320 px; readiness exited 0. The nine-site raster audit could not be freshly rerun because `.cache/gems_data/sample_submission.tif` is absent. Detailed report: [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md); run card: [`evidence/repo-review-run-card-2026-10-31.json`](evidence/repo-review-run-card-2026-10-31.json). Latest stored official leaderboard observation remains dated 2026-10-30 and is not refreshed here.
+**Then: NEGATIVE. No TIFF approved.** The official board was re-read (2026-10-31 UTC): rank 1
+xiaofanhu at **0.4544**, so 0.3195 is not the high; kpomazi's 0.3195 was at rank **50** that day
+(the 2026-10-30 record said 48), and the brief's 0.4413 is not on the board. Full review:
+[`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md);
+records: [`evidence/leaderboard-recheck-2026-10-31.json`](evidence/leaderboard-recheck-2026-10-31.json),
+[`evidence/session-2026-10-31-recheck-run-card.json`](evidence/session-2026-10-31-recheck-run-card.json).
+
+**Parallel 2026-10-31 review (merged to main via PR #89):** **NO APPROVED SUBMISSION.** That
+three-pass repo review generated no TIFF and ran no geological experiment. Verification then:
+257 Python tests passed, 8 skipped; Node feed 3 passed; site tests 8 passed; readiness exited 0.
+The nine-site raster audit could not be rerun because `.cache/gems_data/sample_submission.tif`
+was absent. Report: [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md);
+run card: [`evidence/repo-review-run-card-2026-10-31.json`](evidence/repo-review-run-card-2026-10-31.json).
 
 ## Latest source review (2026-10-30, prior Arena branch)
 

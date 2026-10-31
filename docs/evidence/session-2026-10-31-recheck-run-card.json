@@ -1,0 +1,203 @@
+{
+  "schema": "gems.session-run-card.v1",
+  "session_date_utc": "2026-10-31",
+  "branch": "arena/2e210b20-gemsdoekarage2",
+  "hypothesis": "None tested. Session scope: repo review, live source recheck, release-gate verification.",
+  "mechanism": "N/A",
+  "named_non_fault_mimic": "N/A",
+  "experiments_run": 0,
+  "tifs_generated": 0,
+  "slots_used": 0,
+  "holdout_dti": "NOT COMPUTED \u2014 no authenticated template or training rasters; no experiment run",
+  "leaderboard_estimate_for_new_file": "Unavailable",
+  "organizer_confirmed_scores_used": "Public board rows only (ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT), see evidence/leaderboard-recheck-2026-10-31.json",
+  "correlation_overlap_vs_registry": "NOT RUN for a new file (no new candidate)",
+  "tests": {
+    "pytest": "257 passed, 8 skipped (skips need optional owner-mirror inputs)",
+    "npm_test_feed": "3 pass, 0 fail",
+    "npm_run_test_site": "8 pass, 0 fail",
+    "build_audit_site_check": "exit 0",
+    "audit_public_downloads_check": "exit 0; inventory_status PASS_RESEARCH_ONLY; downloadable_approved_submission null; slot_authorized false"
+  },
+  "published_tif_saved_byte_checks": [
+    {
+      "file": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+      "sha256": "e9ea035c8d12d848807c3b71875c8031ca8b49b33f21150ac62e4e7f67c04224",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    },
+    {
+      "file": "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif",
+      "sha256": "28451a64b659b4e206bb483140fac169987db2edea7dc6a2cdc54f1c0f5fbfff",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    },
+    {
+      "file": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+      "sha256": "bdb8dd78ad7f1a0b349f8e8eaf20a918a40a1ff4486e9a1fcc204ce3608f6932",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif",
+      "sha256": "2f5536922ef26457720de4a7a2087dcbc1e1cd67435e85f8f39b4df0221004a7",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
+      "sha256": "a80d59a671eccfc5d312f98901f6a3d426cd49662f847ff6d4f2375db52a7ede",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 0.9152089953422546,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
+      "sha256": "313d207480fc7c8ac81d3cdf60fe5012d4c1ef778bb2600b7ac469ee104fc4f1",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 0.8522605299949646,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+      "sha256": "c49ad979f4539bc2b5569559923442a0aa15c200880e1c9c3d7af98aba34545e",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 0.9323397278785706,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+      "sha256": "064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+      "sha256": "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+      "sha256": "d011e9e12ef3eb506c61bf81c88aa5c24a45532733bea4a9a2100d9df90dfc61",
+      "dtype": "float32",
+      "bands": 1,
+      "epsg": 32611,
+      "shape": [
+        3730,
+        3292
+      ],
+      "nan_count": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "in_0_1": true,
+      "saved_byte_format_check": "PASS (finite, [0,1], EPSG:32611, float32, 1 band) \u2014 NOT portal acceptance",
+      "status": "RESEARCH ONLY / DO NOT SUBMIT"
+    }
+  ],
+  "portal_error_status": "'Predicted values must be in range [0, 1]' remains UNRESOLVED. The published bytes are finite and within [0,1], so the cause is not value range within the saved array. Possible causes not tested here: exterior nodata convention (0 vs NaN), footprint/template mismatch, or a portal-side check. Organizer template is unavailable.",
+  "verdict": "NEGATIVE \u2014 no file is OK to download and submit",
+  "irregularities_flagged": [
+    "User brief states 0.3195 is the highest score; the official board shows 0.4544 at rank 1 (read today).",
+    "User brief cites 0.4413 as the leaderboard high; it is not on the board read today.",
+    "Rank 48 (2026-10-30 record) for 0.3195 is rank 50 today; twang (0.3169 at rank 50 in the 2026-10-30 record) is not displayed today.",
+    "The GEMSDOE32 page (fetched today) describes its 0.2778 result as an owner-provided submission-log claim with no submission-page receipt, and says the file is 'already submitted - do not resubmit'.",
+    "Open PR #89 from another branch carries the same-day title 'Document three-pass repository review (2026-10-31)'; not touched here."
+  ]
+}

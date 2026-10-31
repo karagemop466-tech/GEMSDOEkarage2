@@ -1,6 +1,24 @@
-# Submission status — NO APPROVED FILE
+# Submission status — ONE APPROVED FILE
 
-**Review 2026-10-31: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
+**2026-10-31 (current): ONE FILE IS OK TO DOWNLOAD AND SUBMIT.**
+`docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`, SHA-256
+`603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38`, 44,090 dots, float32, one band,
+EPSG:32611, 3730 × 3292, all cells finite in [0, 1]. Uniqueness: 473 registry rasters compared,
+worst 3 px overlap 65.5 % (rule ≤ 70 %), worst |ρ| 0.056 (rule ≤ 0.90), 0 dots on catalogue
+pixels. Holdout DTI 0.1367 at the released dot count (0.1452 at the lane curve's 57,873-dot
+maximum). Estimated score 0.22–0.60 CALIBRATED-PRIVATE, central 0.48, pessimistic 0.14 — never
+ORGANIZER-CONFIRMED. The only approved download, the submission name and the ≤140-character note
+are on [`docs/release.html`](docs/release.html); the inventory receipt is
+[`evidence/public_downloads_audit.json`](evidence/public_downloads_audit.json)
+(`PASS_RESEARCH_ONLY_PLUS_RELEASE`). Review:
+[`research/2026-10-31-score-model-unit-fix-and-release-review.md`](research/2026-10-31-score-model-unit-fix-and-release-review.md).
+No new experiment and no competition slot were used to produce this file; regenerating it is
+deterministic.
+
+**Superseded — earlier 2026-10-31 review: NO FILE WAS OK TO DOWNLOAD AND SUBMIT.** Official board
+re-read then: rank 1 0.4544; kpomazi 0.3195 at rank 50. Review:
+[`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md).
+That verdict predates the HALO lane measurement and is kept for the audit trail.
 
 **Current review (2026-10-30): NO FILE IS OK TO DOWNLOAD AND SUBMIT.** The audited public-download inventory contains research-only files and `downloadable_approved_submission: null`. No new experiment, TIFF, score estimate, upload, or slot was created. The 2026-10-30 public leaderboard snapshot shows rank 1 at 0.4544 and the user-cited 0.3195 at rank 48; these are public-board observations, not receipts for local files. Full review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); source snapshot: [`evidence/official-review-2026-10-30.json`](evidence/official-review-2026-10-30.json); review card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
 

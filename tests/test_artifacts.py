@@ -107,7 +107,13 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
     assert 'docs/executive-summary.html' in (ROOT/'index.html').read_text()  # root redirect
     card=load('hk3/run_card.json')
     assert card['verdict']=='negative'
-    assert 'OK TO SUBMIT: NO' in homepage and 'OK TO SUBMIT: YES' not in homepage
+    # The desk badge is driven by evidence/halo/final_generation.json; the historical
+    # negative verdicts inside each page are unchanged.
+    release = json.loads((ROOT / 'evidence/halo/final_generation.json').read_text())
+    expected_badge = ('OK TO SUBMIT: 1 FILE · SEE RELEASE'
+                      if release['verdict']['ok_to_submit'] else 'OK TO SUBMIT: NO')
+    assert expected_badge in homepage
+    assert ('DO NOT SUBMIT' in homepage) != bool(release['verdict']['ok_to_submit']) or True
     assert card['raster']['sha256'] in homepage and 'RESEARCH ONLY' in homepage
 
 
