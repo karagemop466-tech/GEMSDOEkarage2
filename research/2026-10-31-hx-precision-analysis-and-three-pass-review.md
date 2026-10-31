@@ -267,3 +267,22 @@ pinned bytes, cited as USER-REPORTED, or labelled a projection ✅. Tests: **257
   [EPSG:32611](https://epsg.io/32611) · [Tversky index](https://en.wikipedia.org/wiki/Tversky_index)
 - Nine-site champion page:
   [GEMSDOE32](https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html)
+
+## 12. Irregularities flagged during the merge with `origin/main`
+
+Two files sit in `docs/downloads/` that no branch registered in `audit_public_downloads.py`:
+
+| file | state |
+|---|---|
+| `gemsdoe-karage2-near-trace-20261031.tif` | run card verdict `promote`, `ok_to_submit: false`, card has no `raster` field; a parallel lane hand-edited `docs/how-to-submit.html` to present it as blocked by the lattice gate — that page cannot survive `build_hk3_pages.py --check`, which is the repository's stated contract |
+| `gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif` | run card `negative`, but no `raster` field, so the saved-byte binding cannot be checked |
+
+Neither is authorized here. Both are now listed under `quarantined_downloads` with an explicit
+reason (`status: QUARANTINED_NOT_AUTHORIZED`), the audit stays `PASS_RESEARCH_ONLY` with
+`downloadable_approved_submission: null`, and `unexpected_downloads` is empty. The protocol owner
+must decide: register, regenerate or delete. **Do not treat the `promote` verdict in that near-trace
+card as authorization** — it is unreceipted, unregistered, and its own card says `ok_to_submit: false`.
+
+Test status after the merge: **262 passed, 8 skipped** (Python), 3 feed, 8 site, browser smoke at
+1440/390/320 px; `build_hk3_pages.py --check` clean; `audit_public_downloads.py --check`
+`PASS_RESEARCH_ONLY` with 12 artifacts and 2 quarantined; `build_audit_site.py --check` clean.

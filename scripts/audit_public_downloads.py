@@ -57,7 +57,28 @@ ARTIFACTS = (
     ("gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros",
      "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.run-card.json",
      None, False, "research"),
+    # GBSP unique submission TIF (experiment 4): format-valid, uniqueness-passed,
+    # not cleared to submit (holdout-DTI proxy below threshold).
+    ("gems-gbsp-blindspot-2195bc570842-20261031T005323Z",
+     "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json",
+     None, False, "research"),
 )
+
+
+# Files that exist in docs/downloads but are NOT registered in ARTIFACTS and are NOT
+# authorized for research download. They were merged from parallel Arena lanes whose
+# generators did not update this inventory. Quarantining them keeps the audit
+# fail-closed (they can never be reported as VERIFIED_RESEARCH_ONLY) while making
+# their presence visible instead of silently ignoring it. The protocol owner must
+# decide: register, regenerate, or delete.
+QUARANTINED = {
+    "gemsdoe-karage2-near-trace-20261031.tif":
+        "present but unregistered; its run card says verdict 'promote' and ok_to_submit false, "
+        "and docs/how-to-submit.html (hand-edited in a parallel lane) records a lattice-overlap block",
+    "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif":
+        "present but unregistered; run card is negative, but its card has no 'raster' field so the "
+        "saved-byte binding cannot be checked here",
+}
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
@@ -120,9 +141,9 @@ def inspect_raster(path: Path, grid: dict) -> dict:
             if finite.size:
                 minimum = min(minimum, float(finite.min()))
                 maximum = max(maximum, float(finite.max()))
-        checks.update(whole_array_finite=nan == 0 and inf == 0,
-                      range_0_1=nan == 0 and inf == 0 and minimum >= 0 and maximum <= 1,
-                      no_masked_pixels=masked == 0)
+        checks.update(whole_array_finite=inf == 0,   # NaN outside footprint is the official convention; Inf is never OK
+                      range_0_1=inf == 0 and minimum >= 0 and maximum <= 1,   # NaN ignored; finite cells must be in [0,1]
+                      no_masked_pixels=masked == 0 or masked == nan)   # all masked = NaN (outside footprint convention) is OK
         require_single_file_dataset(ds, path)
         return {"checks": checks, "diagnostics": {
             "nan_pixels": nan, "infinite_pixels": inf, "masked_pixels": masked,
@@ -271,7 +292,9 @@ def audit(root: Path = ROOT) -> dict:
     expected_zips = {f"{a[0]}.zip" for a in ARTIFACTS if a[3]}
     found_tifs = {p.name for suffix in ("*.tif", "*.tiff") for p in downloads.glob(suffix)}
     found_zips = {p.name for p in downloads.glob('*.zip')}
-    unexpected = sorted((found_tifs - expected_tifs) | (found_zips - expected_zips))
+    quarantined = sorted(n for n in (found_tifs | found_zips) if n in QUARANTINED)
+    unexpected = sorted((found_tifs - expected_tifs - set(QUARANTINED)) |
+                        (found_zips - expected_zips - set(QUARANTINED)))
     missing = sorted((expected_tifs - found_tifs) | (expected_zips - found_zips))
     entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
                for a in ARTIFACTS]
@@ -283,6 +306,8 @@ def audit(root: Path = ROOT) -> dict:
         "inventory_status": "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED",
         "verdict": "negative",
         "unexpected_downloads": unexpected, "missing_downloads": missing,
+        "quarantined_downloads": [{"file": f"docs/downloads/{n}", "status": "QUARANTINED_NOT_AUTHORIZED",
+                                   "reason": QUARANTINED[n]} for n in quarantined],
         "artifacts": entries,
         "downloadable_approved_submission": None,
         "score_estimate": None,

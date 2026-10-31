@@ -47,9 +47,12 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
     assert result['downloadable_approved_submission'] is None
     assert result['score_estimate'] is None and result['slot_authorized'] is False
+    # Unregistered leftovers from parallel lanes are quarantined, never authorized.
+    assert [q['status'] for q in result['quarantined_downloads']] == ['QUARANTINED_NOT_AUTHORIZED'] * len(result['quarantined_downloads'])
+    assert not result['unexpected_downloads']
     assert all(r['exterior_convention'].startswith('not assessed') for r in result['artifacts'])
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 11
+    assert len(result['artifacts']) == 12
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())

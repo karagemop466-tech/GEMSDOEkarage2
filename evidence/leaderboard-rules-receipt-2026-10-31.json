@@ -1,0 +1,88 @@
+{
+  "schema": "gems.official-page-observations.v1",
+  "observed_date_utc": "2026-10-31",
+  "observed_utc": "2026-10-31T00:39:00Z",
+  "timestamp_precision": "APPROXIMATE: session-start sandbox clock (00:39 UTC). The page reader records no fetch time and the organizer pages expose no snapshot-generation timestamp.",
+  "access_method": "Arena public page reader (fetch_page) on the official DrivenData, NLR and GitHub pages listed below. No DrivenData login, organizer account, submission-page receipt, or private score was accessed. The sandbox shell cannot reach www.drivendata.org (curl: SSL_ERROR_SYSCALL, exit 35).",
+  "sources": [
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "publisher": "DrivenData, competition organizer",
+      "observation_type": "ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT; time-varying; not a file-linked submission-page receipt, not a private-round score, not a score for any local raster",
+      "rows_read": "ranks 1-50 (the page showed 50 rows; no rank 51+ was shown)",
+      "first_place": {
+        "rank": 1,
+        "participant": "xiaofanhu",
+        "value": 0.4544
+      },
+      "rank_2": {
+        "rank": 2,
+        "participant": "cfld__",
+        "value": 0.3925
+      },
+      "rank_48": {
+        "rank": 48,
+        "participant": "tran.thuy.trang",
+        "value": 0.3231
+      },
+      "rank_49": {
+        "rank": 49,
+        "participant": "like60986",
+        "value": 0.3217
+      },
+      "user_cited_0_3195": {
+        "rank": 50,
+        "participant": "kpomazi",
+        "value": 0.3195
+      },
+      "rank_50": {
+        "rank": 50,
+        "participant": "kpomazi",
+        "value": 0.3195
+      },
+      "user_cited_0_4413": "NOT FOUND in the 50 rows read",
+      "user_cited_0_2778": "NOT FOUND in the 50 rows read (the GEMSDOE32 0.2778 is an owner-page report; see owner_page_observation)",
+      "limitations": "Time-varying public-test leaderboard only. Rows are not private-round outcomes, HOLDOUT-DTI measurements, submission-page receipts, or scores for any local raster. 50 rows were rendered; pagination beyond row 50 was not verified."
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "publisher": "DrivenData, competition organizer",
+      "observations": [
+        "Your submission is in the same projected coordinate reference system as the training data (projected coordinate system for UTM zone 11N, EPSG 32611)",
+        "Your submission is at the same resolution as the training data (100m)",
+        "Your submission has the same bounds as the training data, and data outside the bounds is null or nan.",
+        "Your submission contains a single layer with datatype of 32-bit float (float32) with values between 0 and 1 indicating the confidence or probability of fault presence, with higher values indicating higher probability.",
+        "distance-weighted Tversky index; alpha = 0.2, beta = 0.8; triangular kernel with R = 300 m (3 px at 100 m); FP_w sums p(x)[1 - max_g k] over all x with p(x) > 0"
+      ],
+      "limitations": "Public problem-page wording only. It does not authenticate the owner-mirrored template in this repository, does not establish portal acceptance, and does not explain the reported 'Predicted values must be in range [0, 1]' error."
+    },
+    {
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+      "publisher": "DrivenData, competition organizer",
+      "observation": "Redirected to DrivenData login (https://www.drivendata.org/accounts/login/?next=/competitions/306/competition-doe-gems/data/).",
+      "limitations": "No login or account credentials were available or requested. This is not an authenticated data download."
+    },
+    {
+      "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "publisher": "DOE / NLR, Official Rules (September 2026)",
+      "observations": [
+        "'You can make multiple submissions, subject to the limits specified on the competition website (three submissions per week).'",
+        "Generative AI use is allowed, but you 'must indicate in the narrative' the extent and manner of use.",
+        "'By the submission deadline, you must select only one set of predictions to use as your final submission ... Multiple finalized submissions are not allowed.'",
+        "'Competitors will submit their predictions for all faults in the GeoDAWN study area as a GeoTIFF raster at 100-m resolution.'",
+        "The competitor represents that 'the competitor's entire submission is an original work by the competitor' and has not included third-party content unless disclosed and licensed.",
+        "Winner selection may consider 'the degree to which the submission exhibits technological or programmatic diversity when compared to ... other competitors' (a judge policy factor, not a numeric uniqueness threshold)."
+      ],
+      "not_found": "The official rules PDF contains NO numeric uniqueness, correlation, or pixel-overlap test against other competitors' rasters. The 70%-within-3-px and Spearman 0.90 gates are this project's internal parallel-run protocol, not organizer rules. The owner-mirror 'uniqueness' label therefore reflects the protocol, not an organizer determination."
+    }
+  ],
+  "owner_page_observation": {
+    "url": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html",
+    "claim": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros: 0.2778",
+    "owner_label": "OWNER-REPORT (owner-provided submission-log claim; no submission-page receipt linking this raster hash to the score is present in this repository)",
+    "owner_static_recheck": "The same owner page states that its static HIDE-RECOVER-v3.0 re-check scores this file at 0.004515 [0.003837, 0.005278], versus 0.002289 for its newer H51 file. The page labels the 0.2778 file 'already submitted - do not resubmit'.",
+    "implication": "The owner's own holdout ranks the 0.2778 file far below the 0.2778 leaderboard-style claim; holdout DTI on the catalogue is not a reliable proxy for the hidden expert-labelled score."
+  },
+  "decision": "No local raster is promoted or submitted. No new TIFF was generated. No experiment, slot, upload or score estimate was produced. No file is OK to download and submit on the basis of this receipt.",
+  "historical_snapshot": "evidence/official-review-2026-10-30.json"
+}
