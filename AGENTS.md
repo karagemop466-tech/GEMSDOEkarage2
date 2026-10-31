@@ -1,30 +1,33 @@
 # Instructions for future work — consolidated (2026-10-31)
 
-## READ FIRST — current release state
+## READ FIRST — repository review alert (2026-10-31; overrides conflicting release wording below)
 
-**One file is the repository's submission recommendation:**
-`docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`
-(SHA-256 `603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38`, 44,090 dots,
-float32, 1 band, EPSG:32611, 3730 × 3292, all cells finite in [0, 1]).
+**There is no single project-wide submission selected.** The top-level `index.html` now
+fails closed and presents the competing release records. `docs/release.html` describes the
+HALO candidate; `docs/release-summary.html` and `docs/release-how-to-submit.html` describe a
+separate GBM candidate. The saved-byte inventory names HALO as downloadable, the GBM lane card
+says `promote` but `weekly_slot_used: false`, and the generic `scripts/assess_release.py` result
+is negative with `slot_authorized: false`. Under the current user's literal uniqueness rule,
+HALO also overlaps the 13GEMSDOE lattice by 99.84%; GBM overlaps that lattice by 99.67% and a
+non-lattice registry raster by 93.77%. Older audit code discounts the saturated lattice, but
+the current prompt says any registry raster, so both hit the stop threshold. Do not submit either.
+Do not select a weekly slot or use either candidate's badge as slot authorization until a single
+selector receipt and all generated pages are reconciled. Review:
+`research/2026-10-31-repository-review-followup.md`.
 
-It passes every automated gate this repository can run:
-* Format/range/grid: PASS (single-band float32, EPSG:32611, shape/transform/bounds match the
-  official template, min 0.0 max 1.0, 0 NaN inside footprint, finite zeros outside — fixes the
-  portal "Predicted values must be in range [0, 1]" error)
-* Uniqueness vs registry: PASS (worst |Spearman| 0.0557 ≤ 0.90; worst 3 px dot overlap 65.5% ≤ 70%;
-  0 dots on mapped catalogue; no byte/pixel identity with any registry raster)
-* Holdout: HOLDOUT-DTI 0.136655 at 44,090 dots (pooled, 4 quadrant folds, α=0.2 β=0.8, R=300 m,
-  60,988 withheld positives); 33–35× the GEMSDOE32 control (0.0041) and 3.2× blind random (0.0427)
-* Leakage canary: PASS (max feature-alone AUC 0.57 ≤ 0.90)
+The GBM lane-local artifacts are preserved for research and audit; they are **not** the root
+release route:
+* GBM download: `docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif`.
+* Its score scenarios are **MODEL-PROJECTIONS**, never measured scores.
+* The official-source recheck and its caveats are in
+  `research/2026-10-31-official-source-verification-arena.md` and
+  `evidence/arena-official-verification-2026-10-31.json`.
 
-**Verdict:** `ok_to_download: true` — one-click download link on `docs/release.html`.
-`ok_to_submit: true` per repository gates, but `slot_authorized: false` — this project never
-spends a weekly slot; promotion to a real submission is the owner's separate selector step.
 
-**Score estimate:** CALIBRATED-PRIVATE MODEL-PROJECTION, range 0.222–0.605, central ≈0.478
-if the measured ~5.1% holdout hit rate transfers. Needs h ≥ 2.52% to beat the 0.2778
-GEMSDOE32 file; h ≥ 4.25% to beat the 0.4544 currently at public rank 1. **Not an organizer
-score, not ORGANIZER-CONFIRMED.**
+**HALO-page score scenarios:** CALIBRATED-PRIVATE MODEL-PROJECTION, range 0.222–0.605,
+central ≈0.478 under stated hit-rate assumptions. The saved catalogue holdout is not a reliable
+leaderboard ranker; these are not validated estimates of hidden expert-label performance and
+are not ORGANIZER-CONFIRMED scores. Do not use them to select a weekly slot.
 
 **Irregularity disclosed (not waived silently):** the r13 5-px lattice witness covers 99.87%
 of the footprint within 3 px, so every possible raster trips the literal one-sided rule against
@@ -38,7 +41,7 @@ vice versa.
 
 | File | Lane | Status | Score estimate | Notes |
 |---|---|---|---|---|
-| `gemsdoe-karage2-halo39-b44090-sep2-20261031.tif` | HALO (300–900 m halo ring) | **Recommended** | 0.222–0.605 (projection) | One-click download on release.html |
+| `gemsdoe-karage2-halo39-b44090-sep2-20261031.tif` | HALO (300–900 m halo ring) | Existing page calls it recommended; unified selector unresolved | 0.222–0.605 (projection only) | One-click download on release.html; slot not authorized |
 | `gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif` | K10 (catalogue-corridor coverage) | Alternative | None (no estimate) | Format + uniqueness PASS; selector-cleared; no skill measurement |
 | `gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif` | GBM off-catalogue | Research candidate | 0.084 / 0.149 / 0.215 (projection) | Format OK; no holdout skill measurement on record |
 
@@ -67,15 +70,18 @@ removed (all within 200 m of the catalogue); GEMSDOE31 = GEMSDOE25 with 3,891 do
 It is a **pruning operation, not a new detector**. The gain is pure metric arithmetic: deleting
 dots that earn zero kernel credit leaves truth credit T unchanged while removing the 0.2 FP
 penalty from the denominator, so DTI must rise. Every published file scores between 0.85× and
-1.22× a blind random field of the same size. **0.2778 is beatable** — the break-even hit rate
-is 2.52% at 44,090 dots.
+1.22× a blind random field of the same size under the stored private projection model. The
+model's 2.52% break-even value at 44,090 dots is conditional algebra, not validation that a
+new raster beats 0.2778; the holdout rank-correlation warning prevents that inference.
 
 ## Binding protocol (parallel-run protocol, literal)
 
 1. **LANE:** stay inside one method paragraph. Rank-correlation > 0.90 with any registry raster,
    or > 70% of dots within 3 px of one registry raster's dots = lane drift → log as duplicate,
-   stop. Check before placement AND on final dots. Degenerate space-filling witnesses (r13
-   lattice covers 99.87% of footprint) are excluded from the verdict and reported separately.
+   stop. Check before placement AND on final dots. A historical audit discounted the r13
+   space-filling lattice as degenerate; that exception conflicts with the current user's literal
+   wording (“any registry raster”) and must NOT be applied to current decisions. Report the raw
+   overlap and stop if it exceeds 70%.
 2. **REUSE, DON'T REBUILD:** use the template's cached feature stack (vendor/gems57),
    `evaluate_holdout.py` and `submission_writer.py`. Holdout = hide-and-recover: withhold whole
    fault segments with buffer; catalogue features from visible faults only; mask visible faults
@@ -111,16 +117,17 @@ assets, fails closed on mismatch).
 * Weekly cap shown on the submission page; this project cannot read it and does not spend slots
 * Rules require one final submission; generative-AI use must be disclosed in the narrative
 
-## How to submit (owner action only)
+## Submission workflow (owner action only; currently locked pending selector reconciliation)
 
-1. Download `gemsdoe-karage2-halo39-b44090-sep2-20261031.tif` from `docs/release.html`
-   (one-click, `download` attribute).
-2. Verify: `sha256sum` must equal `603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38`.
-3. Sign in at https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/
-   → New submission → choose the .tif → paste the note (114 chars, ≤140 limit).
-4. Record the receipt (score + submission ID) so the projection becomes ORGANIZER-CONFIRMED.
-5. Do NOT upload any of the nine focus-site files — they are near-duplicates of each other and
-   already public.
+1. Do not use either candidate page's upload instructions to spend a slot until the HALO/GBM
+   conflict is resolved by one selector receipt and the root landing page is updated consistently.
+2. Once an owner-authorized file is named, verify its SHA-256 against that file's own run card;
+   do not assume the current HALO name or GBM name is the project-wide selection.
+3. The account owner signs in at https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/,
+   checks the live quota, and alone decides whether to submit. This project never uploads or
+   spends a slot automatically.
+4. Record an actual organizer receipt (score + submission ID) before labeling any result
+   ORGANIZER-CONFIRMED. Do not submit the nine historical focus-site files as novel entries.
 
 ## Where the untried hypotheses live
 

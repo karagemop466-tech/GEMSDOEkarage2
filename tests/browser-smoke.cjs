@@ -73,38 +73,51 @@ function chromeEnvironment() {
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
     assert.equal(hk3.verdict, 'negative');
-    // The badge is derived from the release receipt, never hard-coded: the desk says
-    // "1 FILE" exactly when a release receipt certifies one file for submission.
+    // The root route is the fail-closed status page. It explicitly shows the
+    // HALO/GBM conflict and links both dossiers without selecting a weekly slot.
     const releaseReceipt = require('../evidence/halo/final_generation.json');
+    const expectedBadge = releaseReceipt.verdict.ok_to_submit
+      ? 'OK TO SUBMIT: YES · 1 FILE'
+      : 'OK TO SUBMIT: NO';
     const expectBadge = releaseReceipt.verdict.ok_to_submit
       ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE'
       : 'OK TO SUBMIT: NO';
+    const releaseName = path.basename(releaseReceipt.submission_file);
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
-      await page.waitForURL('**/docs/index.html');
-      assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
-      // The desk may offer a verified current candidate (evidence/k10) above the HK3 research
-      // control, so the research-only link is addressed by href rather than by position -- the
-      // same contract tests/test_hk3.py states. Everything below still asserts on the HK3 file:
-      // its RESEARCH ONLY wording, the downloaded filename and its SHA-256.
-      const primary = page.locator(`a.btn.big[download][href*="${hk3.submission.name}"]`).first();
-      assert.ok(await primary.count(), 'HK3 research download is no longer offered by the desk');
-      for (const link of await page.locator('a.btn.big[download]').all()) {
+      assert.ok((await page.locator('body').innerText()).includes('NO SINGLE SUBMISSION SELECTED'));
+      assert.ok((await page.locator('body').innerText()).includes('selector conflict'));
+      assert.ok((await page.locator('body').innerText()).includes('Both therefore fail the literal stop'));
+      assert.equal(await page.locator('a[download]').count(), 0, 'landing page must not imply a slot choice');
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Status page overflow');
+      await page.locator('a[href="docs/release.html"]').click();
+      assert.equal((await page.locator('.header .badge').innerText()).trim(), expectedBadge);
+      const primary = page.locator(`a.btn.big[download][href*="${releaseName}"]`).first();
+      assert.ok(await primary.count(), 'HALO dossier must expose its one-click file');
+      for (const link of await page.locator('a[download]').all()) {
         assert.ok((await link.getAttribute('href')).startsWith('downloads/'), 'a download link leaves the published tree');
       }
-      assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
       const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
-      assert.equal(download.suggestedFilename(), path.basename(hk3.raster.file));
+      assert.equal(download.suggestedFilename(), releaseName);
       const downloaded = fs.readFileSync(await download.path());
-      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), hk3.raster.sha256);
-      assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));
-      assert.ok((await page.locator('body').innerText()).includes('not unique'));
-      assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);
-      assert.ok(await page.locator('a[href="audit.html"]').count());
-      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Desk overflow');
-      console.log(`PASS ${width}px: negative badge, research-only click/download, exact SHA-256`);
+      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), releaseReceipt.format_checks.sha256);
+      assert.equal(await page.locator('#release-table tbody tr').count(), 10, 'nine historical sites plus release row');
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Release desk overflow');
+      console.log(`PASS ${width}px: status page, HALO dossier download and exact SHA-256`);
     }
+    // A separately generated GBM summary currently publishes another downloadable
+    // candidate under release-summary.html; verify its bytes and keep the route
+    // distinct from the HALO root desk. The report documents the unresolved selector.
+    const gbm = require('../docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.run-card.json');
+    await page.goto(base + '/docs/release-summary.html', {waitUntil:'domcontentloaded'});
+    const gbmLink = page.locator(`a[download][href*="${gbm.file}"]`).first();
+    assert.ok(await gbmLink.count(), 'GBM summary must link only its run-card file');
+    assert.ok((await page.locator('body').innerText()).includes('MODEL-PROJECTION'));
+    const [gbmDownload] = await Promise.all([page.waitForEvent('download'), gbmLink.click()]);
+    assert.equal(gbmDownload.suggestedFilename(), gbm.file);
+    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(await gbmDownload.path())).digest('hex'), gbm.sha256);
+    assert.equal(gbm.slot_authorized, false);
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);
       await page.goto(base + '/docs/audit.html', {waitUntil:'domcontentloaded'});

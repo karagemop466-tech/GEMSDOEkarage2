@@ -1,13 +1,28 @@
 # GEMSDOEkarage2
 
-## Official-source check (2026-10-31, Arena branch arena/48564c81) — READ FIRST
+## Repository review alert — 2026-10-31 (read before release work)
 
-* **Download the recommended file:** [`docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`](docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif) (SHA-256 `603be6bf…`). It is format-checked: float32, EPSG:32611, all values in [0, 1].
-* **Do not treat it as a likely winner.** No measured score exists. The 0.478 central figure is a projection built on an assumed hit rate. The repo's holdout cannot rank the 0.2778 champion, so it cannot show the file beats 0.2778. Owner decision only, for any slot.
-* **Official rules conflict:** the [problem page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) says data outside the bounds is null or NaN; the file writes zeros there. The portal error "Predicted values must be in range [0, 1]" is still unexplained.
-* **Leaderboard:** the [official board](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) shows rank 1 at 0.4544, not 0.4413 or 0.3195.
-* **Full review, with every source and irregularity:** [`research/2026-10-31-official-source-verification-arena.md`](research/2026-10-31-official-source-verification-arena.md); run card [`evidence/arena-official-verification-2026-10-31.json`](evidence/arena-official-verification-2026-10-31.json).
-* **Still needed:** official data access (the DrivenData data tab is login-walled), and one portal receipt for the recommended file.
+The consolidated project prompt below is the standing brief and must be read before changing
+research or submission workflows. The latest review found **conflicting release records**:
+`docs/release.html` is the HALO page, while `docs/release-summary.html` and
+`docs/release-how-to-submit.html` describe GBM. The public inventory names HALO as downloadable,
+the GBM lane card says promote but records `weekly_slot_used: false`, and the generic release
+assessor is `negative` with `slot_authorized: false`. The root landing page now fails closed and
+shows both candidate dossiers. Under the prompt's literal 70% proximity stop, HALO has 99.84%
+overlap with the 13GEMSDOE lattice; GBM has 99.67% with that lattice and 93.77% with a non-lattice
+registry raster. Older audits discounted the saturated witness, but the current prompt says any
+registry raster. **Both candidates fail that literal stop; no file is selected and no weekly slot
+is authorized.** Do not use either candidate page's badge as slot approval. Full review:
+[`research/2026-10-31-repository-review-followup.md`](research/2026-10-31-repository-review-followup.md);
+machine card: [`evidence/repository-review-followup-2026-10-31.json`](evidence/repository-review-followup-2026-10-31.json).
+
+The official public leaderboard was re-read at 2026-10-31 04:33:42 UTC: #1 was 0.4544; 0.3195
+was #50. This time-varying public snapshot is not a local-file result or private-round receipt:
+[`evidence/leaderboard-live-read-2026-10-31T0433Z.json`](evidence/leaderboard-live-read-2026-10-31T0433Z.json).
+The earlier official-source verification is retained at
+[`research/2026-10-31-official-source-verification-arena.md`](research/2026-10-31-official-source-verification-arena.md)
+and [`evidence/arena-official-verification-2026-10-31.json`](evidence/arena-official-verification-2026-10-31.json).
+
 ## Parallel lane 2026-10-31 — independent structural-habitat raster (arena/788c0b40)
 
 **One new raster, generated from the 19-band GeoDAWN stack alone — no published raster is an input.**
@@ -27,7 +42,7 @@ discounted by `(1 − exp(−d_cat/3 px))`, zeroed within 100 m of a mapped faul
 | Format valid? | **Yes, measured.** min 0.0 / max 1.0, 12,279,160 finite values, template CRS/shape/transform. |
 | HOLDOUT-DTI | **0.0172**, 95% CI [0.0130, 0.0227]. Vendored official metric (α 0.2, β 0.8, R = 300 m), 60,661 withheld isolated positives, 11 of 16 folds. **A proxy against withheld catalogue faults.** |
 | Forward projection | **0.007 – 0.013** (PROJECTION, not an organizer score), fitted to the 21 USER-REPORTED scores, RMSE 0.029–0.037. |
-| **May you submit it?** | **Safe and genuinely ours — but not the recommended file and not forecast to win.** This repository publishes exactly one recommendation (the HALO release below). Spending a slot on this raster ahead of it is not supported by the measurements. |
+| **May you submit it?** | **Format-valid and derived independently, but not selected for a weekly slot.** Earlier pages call HALO the recommendation; the current repository review finds conflicting HALO/GBM release pages and no unified selector receipt. Do not spend a slot based on that earlier wording. |
 
 **Why it is not forecast to win, in one sentence:** the highest-scoring published files occupy one compact
 territory and the R = 3 px credit kernel only pays dots inside their ±3 px halo, so under the best model
@@ -57,14 +72,13 @@ incumbent k3dti_b110 0.19157; paired novelty-vs-ablation +0.00833 [−0.00382, +
 dot file (flagged irregularity); 55 non-lattice fleet rasters >70% overlap (worst 0.8977 vs GEMSDOE32 h45 —
 independent-lane consensus convergence; K3 recorded the same at 0.8477–0.8862). Portal [0, 1]-error guidance
 (nodata=None + zeros exterior) added to the how-to-submit page. Cards:
-[`evidence/s1/run_card.json`](evidence/s1/run_card.json). Slot used: none. The approved HALO file above is the
-single submission recommendation and is unaffected by this lane.
+[`evidence/s1/run_card.json`](evidence/s1/run_card.json). Slot used: none. At the time, this lane's note called HALO the recommendation; the 2026-10-31 repository-review follow-up found conflicting release records, so that is not a current unified selector decision.
 
-## Current decision (2026-10-31, this Arena branch) — READ THIS FIRST
+## Historical lane decisions (2026-10-31; see the review alert above for current status)
 ### Files from parallel lanes merged into main the same day
 
-A second Arena lane published its own artifacts before this branch merged. None of them is the
-recommendation; each stays downloadable for audit exactly as its own receipt describes:
+Parallel lanes published distinct artifacts before and during integration. No single project-wide
+recommendation is currently authorized; the entries below preserve lane-local receipts for audit:
 
 * **K10 corridor coverage** (`docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif`,
   38,000 dots, 1 km damage-zone corridors off the 200 m apron). Format-valid, selector-cleared,
@@ -83,14 +97,12 @@ recommendation; each stays downloadable for audit exactly as its own receipt des
   research-only, `ok_to_submit: False`, many with a duplicate-stop or a holdout below the
   random control. They remain in the inventory with those verdicts.
 
-What this branch adds on top is the only *quantitative* ranking of these designs: the corrected
-marginal-inclusion bar, a leaderboard-calibrated estimate with a break-even hit rate, and an
-explicit statement that the catalogue holdout cannot rank leaderboard-class emissions — so the
-recommendation rests on the metric algebra and on dot non-redundancy (minimum realised separation
-3 px), not on a holdout win.
+This historical branch record contains a quantitative comparison and conditional private
+projection, but the saved holdout cannot rank leaderboard-class emissions. It must not be read as
+a current selector approval; the projection does not establish that the candidate beats the
+focus-site result.
 
-
-**Decision: ONE FILE IS OK TO DOWNLOAD AND SUBMIT.**
+**Historical HALO page state: format-valid candidate; no weekly slot authorization.**
 [`docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`](docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif)
 (SHA-256 `603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38`, 44,090 dots, float32,
 1 band, EPSG:32611, 3730 × 3292, all cells finite in [0, 1]). One-click download, the exact
@@ -104,9 +116,9 @@ submission name, the ≤140-character note and the estimate range are on the gen
 * **Uniqueness, re-measured against everything published today:** worst directed 3 px overlap is
   **68.49 %** against the parallel-lane K10 corridor field (rule ≤ 70 %, margin 1.5 pp), over the
   18 rasters now in `docs/downloads`. In the opposite direction **81.33 %** of that file's dots lie
-  within 3 px of this one, so under the project's *directional* rule it is the duplicate of this
-  file, not the other way round — that, plus this file's holdout measurement and score estimate,
-  is why it is the recommendation and K10 is the alternative. Receipt:
+  within 3 px of this one, so under the project's *directional* rule the K10 file is the duplicate
+  of HALO, not the other way round. This was the prior lane's rationale; it is not a unified
+  selector receipt or slot authorization. Receipt:
   [`evidence/halo/overlap-vs-published.json`](evidence/halo/overlap-vs-published.json).
 * **Uniqueness (snapshot):** 473 hash-pinned registry rasters compared; worst 3 px dot overlap 65.5 %
   (rule ≤ 70 %), worst Spearman 0.056 (rule ≤ 0.90), 0 dots on mapped catalogue pixels,
@@ -250,13 +262,16 @@ for research, but are not authenticated organizer inputs. The mirror sample cont
 positive cells even though the official description says it predicts total absence;
 its provenance/footprint and exterior handling therefore remain unresolved.
 
-## Leaderboard status (public observation, 2026-10-30)
+## Leaderboard status (dated public observations; values move)
 
-The public organizer page showed **0.4544** for xiaofanhu at rank 1. The user-cited
-**0.3195** appeared for kpomazi at rank 48 (rank 47 was like60986 at 0.3217) in the
-same snapshot; it was not the leaderboard high. These are **ORGANIZER-PUBLISHED
-PUBLIC LEADERBOARD SNAPSHOT** values, not file-linked submission-page receipts,
-private-round scores, or scores for any local raster. The 2026-10-29 snapshot placing
+The latest direct read in this repository is **2026-10-31 04:33:42 UTC**: the official
+page showed **0.4544** for xiaofanhu at rank 1 and **0.3195** for kpomazi at rank 50
+(rank 49 was like60986 at 0.3217). See
+[`evidence/leaderboard-live-read-2026-10-31T0433Z.json`](evidence/leaderboard-live-read-2026-10-31T0433Z.json).
+The earlier 2026-10-30 read also showed 0.4544 at rank 1 but 0.3195 at rank 48;
+ranks move as submissions arrive. These are **ORGANIZER-PUBLISHED PUBLIC LEADERBOARD
+SNAPSHOT** values, not file-linked submission-page receipts, private-round scores,
+or scores for any local raster. The 2026-10-29 snapshot placing
 0.3195 at rank 47 and the 2026-10-28 snapshot placing it at rank 27 are retained as
 dated history, not current rank evidence. The user-cited 0.4413 is not the current
 rank-one value. The automatic site feed checks GitHub metadata only and does not
@@ -291,8 +306,11 @@ reference. The lattice counting bound depends on footprint and budget, and does
 not establish failure for every smaller raster. See
 `evidence/geometry-audit.json` and `docs/evidence/saturation_certificate.json`.
 
-**No validated leaderboard estimate exists for any of them** ("Unavailable" — catalogue
-holdout cannot reliably estimate the expert-hidden private score).
+**No validated leaderboard estimate exists for any of them.** Some current pages display
+model projections derived from USER-REPORTED scores; those are not organizer-confirmed
+estimates and are not validated predictors of the expert-hidden private score. The saved
+catalogue holdout is not a reliable leaderboard ranker (see the -1.00 rank-correlation
+warning in the evidence).
 
 ## Mandate (highest urgency)
 
