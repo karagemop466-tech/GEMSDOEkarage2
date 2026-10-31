@@ -1,0 +1,230 @@
+{
+  "kind": "H-B blind-geothermal hypothesis generation audit (not organizer acceptance)",
+  "file": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif",
+  "sha256": "cf70780c4f11209e15cbb448f0f2da36b3818ff98fddca504997efee9c3276b0",
+  "bytes": 808014,
+  "submission_name": "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031",
+  "note": "Unique off-catalogue blind-geothermal field: radiometric alteration x magnetic edge x gravity edge; catalogue faults masked; research-only",
+  "note_chars": 138,
+  "generated_utc": "2026-10-31T00:47:19.480303+00:00",
+  "hypothesis": "H-B: Off-catalogue blind geothermal faults marked by the coincidence of radiometric alteration, magnetic edge, and gravity edge",
+  "mechanism": "Hydrothermal alteration (low K, high eTh, high eU/eTh) x RTP magnetic gradient edge x isostatic gravity gradient edge; catalogue faults masked as output constraint only, not a feature",
+  "named_non_fault_mimic": "Paleo-weathering fronts, lithologic contacts, survey-line striping in radiometrics, intrusive magnetic/gravity bodies",
+  "band_mapping": {
+    "4": "potassium K (%)",
+    "5": "eU/eTh ratio",
+    "6": "eTh (ppm)",
+    "7": "RTP magnetic anomaly",
+    "13": "isostatic gravity anomaly",
+    "12": "detrended elevation (curvature context)"
+  },
+  "band_mapping_note": "Best-effort mapping from band value ranges; verify against organizer band documentation.",
+  "format_validation": {
+    "passed": false,
+    "checks": {
+      "geotiff_driver": true,
+      "single_band": true,
+      "float32": true,
+      "crs_matches_template": true,
+      "crs_epsg_32611": true,
+      "shape_matches_template": true,
+      "transform_matches_template": true,
+      "north_up_100m_resolution": true,
+      "inside_no_masked_cells": true,
+      "inside_all_finite": true,
+      "inside_in_range_0_1": true,
+      "outside_is_nan": false
+    },
+    "diagnostics": {
+      "footprint_pixels": 5167373,
+      "inside_nan": 0,
+      "inside_inf": 0,
+      "inside_masked": 0,
+      "inside_below_zero": 0,
+      "inside_above_one": 0,
+      "inside_min": 0.0,
+      "inside_max": 1.0,
+      "outside_nan": 0,
+      "outside_finite": 7111787,
+      "whole_array_finite_in_range": true
+    }
+  },
+  "uniqueness": {
+    "passed": true,
+    "max_spearman_abs": 0.024200002148356825,
+    "max_dot_overlap_3px": 0.22466666666666665,
+    "duplicate_found": false,
+    "n_local_registry_compared": 12,
+    "comparisons": [
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+        "name": "gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
+        "spearman": 0.014612354305152356,
+        "overlap_fraction": 0.06094444444444445,
+        "matches_within_3px": 1097,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif",
+        "name": "gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif",
+        "spearman": -0.001141561356148489,
+        "overlap_fraction": 0.021111111111111112,
+        "matches_within_3px": 380,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+        "name": "gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
+        "spearman": -0.001343383203168143,
+        "overlap_fraction": 0.0020555555555555557,
+        "matches_within_3px": 37,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif",
+        "name": "gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif",
+        "spearman": 0.002885110898372078,
+        "overlap_fraction": 0.14077777777777778,
+        "matches_within_3px": 2534,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
+        "name": "gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
+        "spearman": -0.024200002148356825,
+        "overlap_fraction": 0.22466666666666665,
+        "matches_within_3px": 4044,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
+        "name": "gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
+        "spearman": -0.0030241824816153733,
+        "overlap_fraction": 0.012333333333333333,
+        "matches_within_3px": 222,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+        "name": "gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
+        "spearman": -0.0011327188716229652,
+        "overlap_fraction": 0.0,
+        "matches_within_3px": 0,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+        "name": "gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
+        "spearman": 0.0008817797194678819,
+        "overlap_fraction": 0.13883333333333334,
+        "matches_within_3px": 2499,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+        "name": "gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
+        "spearman": -0.004210381956528295,
+        "overlap_fraction": 0.050333333333333334,
+        "matches_within_3px": 906,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+        "name": "gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+        "spearman": -0.0038854854539819555,
+        "overlap_fraction": 0.034166666666666665,
+        "matches_within_3px": 615,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/reference/gemsdoe36/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+        "name": "/home/user/GEMSDOEkarage2/reference/gemsdoe36/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+        "spearman": -0.002827182726236903,
+        "overlap_fraction": 0.1345,
+        "matches_within_3px": 2421,
+        "support_pixels": 18000,
+        "duplicate": false
+      },
+      {
+        "path": "/home/user/GEMSDOEkarage2/reference/gemsdoe36/gemsdoe36-tcd36-exp2-20261027-9970b80c6585-zeros.tif",
+        "name": "/home/user/GEMSDOEkarage2/reference/gemsdoe36/gemsdoe36-tcd36-exp2-20261027-9970b80c6585-zeros.tif",
+        "spearman": 0.006763720297244811,
+        "overlap_fraction": 0.2175,
+        "matches_within_3px": 3915,
+        "support_pixels": 18000,
+        "duplicate": false
+      }
+    ],
+    "note": "Compared against locally available rasters only; full 472-raster registry not downloaded."
+  },
+  "holdout": {
+    "pooled_DTI": 0.000585,
+    "TPw": 28.63,
+    "FPw": 690.98,
+    "FNw": 60959.37,
+    "n_withheld_total": 60988,
+    "fold_DTIs": [
+      0.0001,
+      0.0005,
+      0.0015,
+      0.0012
+    ],
+    "fold_range": [
+      0.0001,
+      0.0015
+    ],
+    "evaluator": "evaluate_holdout.dti_weighted_terms (alpha=0.2, beta=0.8, R=300m)",
+    "classification": "HOLDOUT-DTI proxy (fixed field scored against withheld positives)"
+  },
+  "leakage_canary": {
+    "alteration": {
+      "auc": 0.488236,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    },
+    "mag_edge": {
+      "auc": 0.523166,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    },
+    "grav_edge": {
+      "auc": 0.536083,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    },
+    "curvature": {
+      "auc": 0.480994,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    },
+    "combined_score": {
+      "auc": 0.498238,
+      "n_pos": 60988,
+      "n_neg": 5106385,
+      "leakage": false
+    }
+  },
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "irregularities": [
+    "Band-to-layer mapping is best-effort from value ranges; not verified by organizer documentation.",
+    "Exterior uses finite zeros (inside [0,1]) to avoid the portal [0,1] range error; official wording permits null/nan outside bounds -- convention unresolved.",
+    "Holdout is a proxy, not strict hide-and-recover OOF (fixed field used no fault feature, but scored against known-fault labels which differ from the new-fault test set).",
+    "Only locally available rasters compared for uniqueness; organizer template/portal acceptance not established."
+  ]
+}
