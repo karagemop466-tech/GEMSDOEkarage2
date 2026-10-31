@@ -111,9 +111,10 @@ def test_all_nine_site_summaries_exist_and_are_explicit():
     # negative verdicts inside each page are unchanged.
     release = json.loads((ROOT / 'evidence/halo/final_generation.json').read_text())
     expected_badge = ('OK TO SUBMIT: 1 FILE · SEE RELEASE'
-                      if release['verdict']['ok_to_submit'] else 'OK TO SUBMIT: NO')
+                      if release['verdict']['ok_to_submit'] and release['uniqueness_literal_gate']['unique']
+                      else 'NO FILE CLEARED · DO NOT SUBMIT')
     assert expected_badge in homepage
-    assert ('DO NOT SUBMIT' in homepage) != bool(release['verdict']['ok_to_submit']) or True
+    assert 'DO NOT SUBMIT' in homepage
     assert card['raster']['sha256'] in homepage and 'RESEARCH ONLY' in homepage
 
 

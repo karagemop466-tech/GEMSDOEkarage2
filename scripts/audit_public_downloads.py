@@ -237,6 +237,25 @@ def inspect_nan_exterior(path: Path, footprint_sha256: str, footprint_pixels: in
     }
 
 
+def literal_uniqueness_pass(card: dict) -> bool:
+    """Apply the binding any-registry stop without inferred reference exclusions."""
+    explicit = card.get("uniqueness_literal_gate")
+    if isinstance(explicit, dict):
+        return explicit.get("unique") is True and explicit.get("stop_required") is False
+    registry = card.get("registry", {})
+    if not isinstance(registry, dict):
+        registry = {}
+    literal = registry.get("literal_reading", {})
+    if literal.get("duplicate") is True or registry.get("like_for_like_firings"):
+        return False
+    caveat = str(card.get("unique_submission_caveat", "")).lower()
+    if "literal one-sided rule" in caveat and "tripped" in caveat:
+        return False
+    # A lane's generic uniqueness assertion is insufficient. Without a receipt
+    # explicitly evaluating the literal any-registry rule, clearance is unproven.
+    return False
+
+
 def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | None,
                    has_zip: bool, grid: dict, kind: str = "research") -> dict:
     if kind not in ("research", "candidate", "research-nan-exterior"):
@@ -270,10 +289,12 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
             # The candidate must carry every automated gate in its own run card,
             # and a separately written selector receipt must cite this card and
             # the saved bytes. Anything missing or contradictory fails closed.
+            checks["literal_uniqueness_pass"] = literal_uniqueness_pass(card)
             checks["candidate_card_gates"] = (
                 card.get("verdict") == "promote-instrument-limited"
                 and card.get("format_valid") is True
                 and card.get("unique_submission_verified") is True
+                and literal_uniqueness_pass(card)
                 and card.get("approved_for_weekly_slot", True) is False
                 and card.get("slot_authorized", True) is False
                 and card.get("submission_slots_used") == 0
@@ -353,14 +374,20 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
         except (OSError, ValueError, zipfile.BadZipFile, RuntimeError):
             checks["zip_contains_exact_saved_tif"] = False
     ok = all(checks.values())
+    # A candidate can be byte/format sound yet fail the scientific uniqueness
+    # policy. Keep that as research-only instead of calling it a corrupt artifact.
+    research_integrity_ok = all(v for k, v in checks.items()
+                                if k not in ("candidate_card_gates", "literal_uniqueness_pass",
+                                             "selector_explicit_candidate"))
     status = ("VERIFIED_CANDIDATE_ELIGIBLE" if (ok and candidate)
-              else "VERIFIED_RESEARCH_ONLY" if ok else "FAIL_CLOSED")
+              else "VERIFIED_RESEARCH_ONLY" if (ok or (candidate and research_integrity_ok))
+              else "FAIL_CLOSED")
     return {
         "file": rel, "raster_sha256": actual_sha, "run_card": card_rel, "kind": kind,
         "selector": selector_rel, "zip_file": f"docs/downloads/{stem}.zip" if has_zip else None,
         "checks": checks, "diagnostics": detail.get("diagnostics", {}),
         "status": status,
-        "download_for_research": ok,
+        "download_for_research": bool(ok or (candidate and research_integrity_ok)),
         "ok_to_submit": bool(ok and candidate), "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid only; official template not authenticated",
         "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
@@ -406,8 +433,11 @@ def audit_release(root: Path, stem: str, card_rel: str, grid: dict) -> dict:
         checks["values_in_unit_range"] = bool(arr.min() >= 0.0 and arr.max() <= 1.0)
         checks["has_positive_cells"] = bool((arr > 0).any())
         u = card["uniqueness"]
+        literal_gate = card.get("uniqueness_literal_gate", {})
         checks["uniqueness_inside_literal_thresholds"] = bool(
-            u["unique_vs_submission_rasters"]
+            literal_gate.get("unique") is True
+            and literal_gate.get("stop_required") is False
+            and u["unique_vs_submission_rasters"]
             and u["worst_dot_overlap"] <= 0.70
             and abs(u["worst_spearman"]) <= 0.90
             and not u["rasters_above_0_70_overlap"]
@@ -426,14 +456,19 @@ def audit_release(root: Path, stem: str, card_rel: str, grid: dict) -> dict:
     except (OSError, ValueError, KeyError, TypeError, RasterioError):
         checks.setdefault("release_receipt_readable", False)
     ok = bool(checks) and all(checks.values())
+    research_integrity_ok = all(v for k, v in checks.items()
+                                if k != "uniqueness_inside_literal_thresholds")
+    status = ("VERIFIED_RELEASE_CANDIDATE" if ok
+              else "VERIFIED_RESEARCH_ONLY" if research_integrity_ok else "FAIL_CLOSED")
     return {
         "file": f"docs/downloads/{stem}.tif",
         "raster_sha256": (json.loads((root / card_rel).read_text())["format_checks"]["sha256"]
                           if (root / card_rel).is_file() else None),
         "run_card": card_rel, "kind": "release", "selector": None, "zip_file": None,
         "checks": checks, "diagnostics": detail.get("diagnostics", {}),
-        "status": "VERIFIED_RELEASE_CANDIDATE" if ok else "FAIL_CLOSED",
-        "download_for_research": True,
+        "status": status,
+        "status_reason": ("literal uniqueness stop triggered; saved bytes retained for research" if not ok and research_integrity_ok else None),
+        "download_for_research": research_integrity_ok,
         "ok_to_submit": ok, "slot_authorized": False,
         "template_authority": "pinned owner-mirror grid; the receipt records portal acceptance as unverified",
         "exterior_convention": "zeros outside the footprint (all cells finite); no NaN can be out of range",
@@ -489,11 +524,13 @@ def audit(root: Path = ROOT) -> dict:
     good = (not unexpected and not missing
             and all(row['status'] in ('VERIFIED_RESEARCH_ONLY', 'VERIFIED_CANDIDATE_ELIGIBLE')
                     for row in research)
-            and all(row['status'] == 'VERIFIED_RELEASE_CANDIDATE' for row in releases)
+            and all(row['status'] in ('VERIFIED_RELEASE_CANDIDATE', 'VERIFIED_RESEARCH_ONLY')
+                    for row in releases)
             and len(releases) <= 1)
     cand_rows = [row for row in entries if row.get('kind') == 'candidate']
     cand_ok = bool(cand_rows) and cand_rows[0]['status'] == 'VERIFIED_CANDIDATE_ELIGIBLE'
-    release_ok = bool(releases) and good
+    release_ok = bool(releases) and good and all(
+        row['status'] == 'VERIFIED_RELEASE_CANDIDATE' for row in releases)
     return {
         "schema": "gems.published_downloads.v3",
         "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",

@@ -161,11 +161,17 @@ def test_release_pages_exist_and_are_reproducible():
 
 
 def test_release_pages_state_the_verdict_and_never_claim_a_measured_score():
-    for page in ("release-gbm.html", "release-gbm-summary.html"):
+    for page in ("release-gbm.html", "release-gbm-summary.html", "release-summary.html",
+                 "release-how-to-submit.html"):
         text = (ROOT / "docs" / page).read_text()
-        assert "OK TO SUBMIT: YES" in text
+        assert "NO FILE CLEARED · DO NOT SUBMIT" in text
+        if "how-to-submit" in page:
+            assert "DO NOT SUBMIT THIS TIFF" in text
+        else:
+            assert "NO FILE CLEARED UNDER THE LITERAL UNIQUENESS RULE" in text
         assert "MODEL-PROJECTION" in text
-        assert "not a score" in text
+        if "how-to-submit" not in page:
+            assert "not a score" in text
 
 
 def test_release_pages_disclose_the_one_sided_uniqueness_caveat():
@@ -196,8 +202,8 @@ def test_release_pages_do_not_clobber_the_published_release_desk():
 def test_release_artifact_is_listed_separately_from_the_research_inventory():
     from scripts import audit_public_downloads as mod
     result = mod.audit()
-    assert result["inventory_status"] in (
-        "PASS_RESEARCH_ONLY", "PASS_WITH_CANDIDATE", "PASS_RESEARCH_ONLY_PLUS_RELEASE")
+    assert result["inventory_status"] == "PASS_RESEARCH_ONLY"
+    assert result["downloadable_approved_submission"] is None
     assert result["unexpected_downloads"] == []
     # the lane never spends a weekly slot, whoever else the inventory names
     assert result["slot_authorized"] is False
@@ -206,5 +212,7 @@ def test_release_artifact_is_listed_separately_from_the_research_inventory():
     lanes = [r for r in result["artifacts"]
              if r["file"].endswith("gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif")]
     assert lanes, "the GBM lane file must be registered in the inventory"
-    assert lanes[0]["status"] == "VERIFIED_CANDIDATE_ELIGIBLE"
+    assert lanes[0]["status"] == "VERIFIED_RESEARCH_ONLY"
+    assert lanes[0]["ok_to_submit"] is False
+    assert lanes[0]["checks"]["literal_uniqueness_pass"] is False
     assert lanes[0]["slot_authorized"] is False

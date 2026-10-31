@@ -3,29 +3,21 @@
 <title>Executive summary · GEMSDOEkarage2</title>
 <meta name="description" content="Evidence-led GEMS fault discovery desk. Research files are not approved for submission.">
 <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
-<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: 1 FILE · SEE RELEASE</span></h1>
+<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge no">NO FILE CLEARED · DO NOT SUBMIT</span></h1>
 <div class="sub">GEMS Prize · fault discovery · evidence-first decision desk</div></div></div></header>
 <main class="container"><nav class="topnav" aria-label="Main navigation"><a href="release.html">Release decision</a> · <a href="index.html">Submission desk</a> · <a href="executive-summary.html" aria-current=page>Executive summary</a> · <a href="how-to-submit.html">How to submit</a> · <a href="audit.html">Nine-site audit</a> · <a href="hypotheses.html">Earlier research</a> · <a href="candidate.html">Unique candidate</a> · <a href="sources.html">Sources</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
-<section class="section" id="release-banner" style="border-left:4px solid var(--ok)">
-<p class="verdict"><b class="ok">UPDATE 2026-10-31 — one file is released for submission:</b>
-<code>gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</code>. It passes the format, range, grid, uniqueness and holdout gates, and its
-estimated score is ≈0.48 (CALIBRATED-PRIVATE range
-0.22–
-0.60; the pessimistic anchor is
-0.14 if only the holdout's coverage transfers).
-It needs h ≥ 2.52% to beat the 0.2778 file.</p>
-<p>The pages below are the audit trail of the earlier research files and keep their original
-negative verdicts. For the current decision, the download, the score model and the exact
-submission steps see <a href="release.html">the release decision page</a>.</p>
-</section><section class="section" id="current-candidate" style="border:2px solid #1d6850;padding:18px 20px;border-radius:10px;background:#eef6f1">
-<h3 style="margin-top:0">Alternative file from a parallel lane — published, not the recommended submission</h3>
-<p>The 2026-10-31 corridor-coverage candidate passed this repository's automated format gate
-(all-finite float32 in [0,1] on the pinned grid — the convention that fixes the earlier
-"must be in range [0, 1]" portal error) and the measured uniqueness scan against 480+ prior
-submission rasters. It is published, with evidence and mandatory caveats, on the
-<a href="submission-desk.html"><b>Submission desk</b></a>.</p>
-<p><a class="btn big" href="downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif" download>⬇ Download candidate TIF</a>
-<a class="btn secondary" href="submission-desk.html">Open the Submission desk</a></p>
+<section class="section" id="release-banner" style="border-left:4px solid var(--no)">
+<p class="verdict"><b class="no">UPDATE 2026-10-31 — NO FILE CLEARED TO SUBMIT.</b>
+The HALO TIFF is preserved for research, but 99.84% of its dots are within 3 px of
+<code>inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif</code>, exceeding the literal 70% stop. The saved receipt's own
+<code>uniqueness_literal_gate.stop_required</code> is true. No exception is authorized.</p>
+<p>The executive summary and archived pages remain an audit trail. Do not upload or spend a
+competition slot on any currently published research TIFF.</p>
+</section><section class="section" id="current-candidate" style="border:2px solid #9b352d;padding:18px 20px;border-radius:10px;background:#fff2f0">
+<h3 style="margin-top:0">Parallel-lane research file — do not submit</h3>
+<p>The 2026-10-31 corridor-coverage candidate passed local format checks and a like-for-like scan, but that scan does not satisfy the literal rule against <em>any</em> registry raster: the registered space-filling lattice was set aside. The protocol does not authorize that exception. Treat the file as research-only; it is not cleared to submit.</p>
+<p><a class="btn big" href="downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif" download>⬇ Download research TIF — DO NOT SUBMIT</a>
+<a class="btn secondary" href="submission-desk.html">Open the research audit</a></p>
 <p class="muted">No leaderboard score is claimed (competition truth and receipts are unavailable
 here). Slot stays unspent: promotion to a weekly submission is the owner's action.
 Selector receipt: <a href="evidence/k10/selector_result.json">evidence/k10/selector_result.json</a>.</p>
@@ -82,16 +74,16 @@ and negative, and all legacy TIFFs remain DO NOT SUBMIT. Weekly slots used: 0.</
 <p><b>Disclosed irregularity:</b> lattice13 covers 99.87% of the footprint within 3 px, so any dense raster fires the literal 70% gate — including the 0.2778 champion (measured 99.92%, <code>evidence/k10/champion_vs_lattice.json</code>). The like-for-like comparison against real submission rasters is the discriminatory test (2026-10-31 gate fix: degenerate witnesses excluded from the verdict; the literal number stays published).</p>
 <p><b>Focus-site uniqueness (MEASURED, chance-corrected, max vs another focus site):</b> several pairs are effectively identical (for example GEMSDOE24 vs GEMSDOE30 = 1.000). The full matrix is in <code>evidence/uniqueness/focus-pairwise-overlap-2026-10-31.json</code>.</p>
 <table><thead><tr><th>Site</th><th>Download decision</th><th>Estimated score</th><th>Uniqueness vs other focus sites (max)</th><th>Vs 13GEMSDOE lattice</th></tr></thead><tbody><tr><td><b>GEMSDOE24</b></td><td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td><td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td><td>1.000 vs GEMSDOE30<span class="sub-label">MEASURED, chance-corrected</span></td><td>99.92% raw / 0.392 corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr><tr><td><b>GEMSDOE25</b></td><td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td><td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td><td>1.000 vs GEMSDOE30<span class="sub-label">MEASURED, chance-corrected</span></td><td>99.92% raw / 0.348 corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr><tr><td><b>GEMSDOE27</b></td><td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td><td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td><td>0.976 vs GEMSDOE30<span class="sub-label">MEASURED, chance-corrected</span></td><td>99.92% raw / 0.404 corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr><tr><td><b>GEMSDOE28</b></td><td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td><td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td><td>1.000 vs GEMSDOE30<span class="sub-label">MEASURED, chance-corrected</span></td><td>99.91% raw / 0.298 corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr><tr><td><b>GEMSDOE30</b></td><td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td><td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td><td>1.000 vs GEMSDOE27<span class="sub-label">MEASURED, chance-corrected</span></td><td>99.92% raw / 0.348 corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr><tr><td><b>GEMSDOE31</b></td><td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td><td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td><td>1.000 vs GEMSDOE30<span class="sub-label">MEASURED, chance-corrected</span></td><td>99.92% raw / 0.362 corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr><tr><td><b>GEMSDOE32</b></td><td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td><td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td><td>1.000 vs GEMSDOE36<span class="sub-label">MEASURED, chance-corrected</span></td><td>99.91% raw / 0.340 corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr><tr><td><b>GEMSDOE33</b></td><td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td><td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td><td>0.996 vs GEMSDOE30<span class="sub-label">MEASURED, chance-corrected</span></td><td>99.91% raw / 0.332 corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr><tr><td><b>GEMSDOE36</b></td><td><b class="no">NO</b> <span class="sub-label">research only, not approved</span></td><td>Unavailable<span class="sub-label">no same-evaluator holdout for this fixed file</span></td><td>0.970 vs GEMSDOE24<span class="sub-label">MEASURED, chance-corrected</span></td><td>99.92% raw / 0.360 corrected vs lattice13<span class="sub-label">MEASURED</span></td></tr></tbody></table>
-<p class="sub-label">Public-download audit: PASS_RESEARCH_ONLY_PLUS_RELEASE, with 20 registered research artifacts and no unexpected downloads. The E1 entry uses the NaN-exterior kind, checked against a footprint hash recorded in its run card. The one candidate entry uses the strict finite-everywhere kind with a selector receipt. The check is not organizer-authenticated.</p>
+<p class="sub-label">Public-download audit: PASS_RESEARCH_ONLY, with 20 registered research artifacts and no unexpected downloads. The E1 entry uses the NaN-exterior kind, checked against a footprint hash recorded in its run card. The one candidate entry uses the strict finite-everywhere kind with a selector receipt. The check is not organizer-authenticated.</p>
 </section><section class="section"><h3>The HX-2 field &mdash; the numbers that decide it</h3>
 <p><b class="no">OK TO SUBMIT: NO.</b> The HX-2 field is new, unique and format-valid, but its projected score
 (~0.22) does not beat the 0.2778 incumbent, so promotion is not authorized.
 The nine-site data show <i>why</i> the band is 0.19&ndash;0.28 and what would break it.</p>
 <p><a class="btn secondary" href="candidate.html">Open the unique-candidate page: file, estimate, uniqueness, decision &rarr;</a></p>
 </section><section class="hero" id="decision">
-<h2>Which file to submit? One file — the released candidate, not any of the nine.</h2>
-<div class="cta-row"><a class="cta" href="release.html">Open the release decision and download the approved .tif</a></div>
-<p class="verdict"><b class="ok">Approved for submission: gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</b> — unique against all 473 registry rasters, 0 dots on catalogue pixels, estimated score ≈0.48 (CALIBRATED-PRIVATE range 0.22–0.60; see <a href="release.html#estimate">the estimate section</a>).</p>
+<h2>No file is currently cleared to submit.</h2>
+<div class="cta-row"><a class="cta" href="release.html">Open the current strict-rule decision</a></div>
+<p class="verdict"><b class="no">DO NOT SUBMIT.</b> The HALO and GBM files are retained as research artifacts, but each exceeds the literal 70% / 3-px stop against a registry raster. The previous release selector excluded space-filling references; the binding user protocol does not authorize that exclusion. See the measured receipts on <a href="release.html">the decision page</a>. No leaderboard score is ORGANIZER-CONFIRMED.</p>
 <p><b>None of the nine focus files is eligible.</b> The best reported one, GEMSDOE32 at 0.2778 (USER-REPORTED / UNVERIFIED), fails the shared uniqueness gate against the 13GEMSDOE lattice with <b>99.91%</b> of its dots within three pixels, where at most 70% is allowed. <b>Every</b> one of the nine fails the same gate, so this is a property of the lattice witness, not a defect of one file. They stay on this site as an audit trail; they are not submission options.</p>
 <p class="muted">Lattice coverage: 99.87% of the template footprint lies within 3 px of the witness. Dots placed in the uncovered cells would be gaming the gate and are not used here.</p>
 </section>

@@ -134,8 +134,7 @@ def gather() -> dict:
             or registry["unique"] is not False or registry["stop_required"] is not True):
         raise ValueError("Inconsistent negative literal-registry decision")
     hk3_inventory = [r for r in inventory["artifacts"] if r["file"] == filename]
-    research_rows = [r for r in inventory["artifacts"]
-                     if r.get("kind") not in ("release", "candidate")]
+    research_rows = [r for r in inventory["artifacts"] if r.get("status") == "VERIFIED_RESEARCH_ONLY"]
     release_rows = [r for r in inventory["artifacts"] if r.get("kind") == "release"]
     candidate_rows = [r for r in inventory["artifacts"] if r.get("kind") == "candidate"]
     candidate_ok = (len(candidate_rows) == 1
@@ -143,20 +142,22 @@ def gather() -> dict:
                     and candidate_rows[0]["ok_to_submit"] is True
                     and candidate_rows[0]["slot_authorized"] is False
                     and inventory["downloadable_approved_submission"] == candidate_rows[0]["file"])
+    all_research_only = all(row["status"] == "VERIFIED_RESEARCH_ONLY"
+                            and row["ok_to_submit"] is False for row in inventory["artifacts"])
     if (inventory["inventory_status"] not in ("PASS_RESEARCH_ONLY", "PASS_WITH_CANDIDATE",
                                               "PASS_RESEARCH_ONLY_PLUS_RELEASE")
             or inventory["slot_authorized"] is not False or len(hk3_inventory) != 1
             or hk3_inventory[0]["raster_sha256"] != sha
-            or any(row["ok_to_submit"] is not False or row["status"] != "VERIFIED_RESEARCH_ONLY"
-                   for row in research_rows)
+            or any(row["ok_to_submit"] is not False for row in research_rows)
             or len(release_rows) > 1
-            or any(row["status"] != "VERIFIED_RELEASE_CANDIDATE" or row["ok_to_submit"] is not True
+            or any(row["status"] not in ("VERIFIED_RELEASE_CANDIDATE", "VERIFIED_RESEARCH_ONLY")
+                   or row["ok_to_submit"] != (row["status"] == "VERIFIED_RELEASE_CANDIDATE")
                    or row["slot_authorized"] is not False for row in release_rows)
-            or (inventory["downloadable_approved_submission"]
-                != (release_rows[0]["file"] if release_rows else None))
-            or (inventory["inventory_status"] == "PASS_WITH_CANDIDATE" and not candidate_ok)
             or (inventory["inventory_status"] == "PASS_RESEARCH_ONLY"
-                and (candidate_rows or release_rows))):
+                and (inventory["downloadable_approved_submission"] is not None or not all_research_only))
+            or (inventory["inventory_status"] == "PASS_WITH_CANDIDATE" and not candidate_ok)
+            or (inventory["inventory_status"] == "PASS_RESEARCH_ONLY_PLUS_RELEASE"
+                and (not release_rows or release_rows[0]["status"] != "VERIFIED_RELEASE_CANDIDATE"))):
         raise ValueError("Public download inventory contradicts its own release classification")
     records = focus["sites"]
     measured = {r["site"]: r for r in geometry["historical_final_dots"]}
@@ -303,12 +304,15 @@ def release_badge() -> str:
     """
     try:
         rel = json.loads((EV / "halo" / "final_generation.json").read_text())
-        ok = bool(rel.get("verdict", {}).get("ok_to_submit"))
+        # Enforce the user's literal rule: >70% of dots near ANY registry raster
+        # is a stop. Never infer a space-filling exception from a research audit.
+        ok = bool(rel.get("verdict", {}).get("ok_to_submit") and
+                  rel.get("uniqueness_literal_gate", {}).get("unique") is True)
     except (OSError, ValueError):
         ok = False
     if ok:
         return '<span class="badge ok">OK TO SUBMIT: 1 FILE · SEE RELEASE</span>'
-    return '<span class="badge no">OK TO SUBMIT: NO</span>'
+    return '<span class="badge no">NO FILE CLEARED · DO NOT SUBMIT</span>'
 
 
 def shell(title: str, active: str, body: str, *, base_href: str | None = None,
@@ -599,14 +603,12 @@ def decision_section(d: dict) -> str:
     best_pct = prof[best["site"]]["frac_dots_within_3px_of_lattice"] * 100
     return (
         '<section class="hero" id="decision">\n'
-        '<h2>Which file to submit? One file — the released candidate, not any of the nine.</h2>\n'
-        f'<div class="cta-row"><a class="cta" href="release.html">Open the release decision and download the approved .tif</a></div>\n'
-        f'<p class="verdict"><b class="ok">Approved for submission: {esc(released_name())}</b> — unique against all '
-        f'473 registry rasters, 0 dots on catalogue pixels, estimated score '
-        f'≈{released_scenarios()["h=0.045"]["dti"]:.2f} (CALIBRATED-PRIVATE range '
-        f'{min(v["dti"] for v in released_scenarios().values()):.2f}–'
-        f'{max(v["dti"] for v in released_scenarios().values()):.2f}; see '
-        '<a href="release.html#estimate">the estimate section</a>).</p>\n'
+        '<h2>No file is currently cleared to submit.</h2>\n'
+        '<div class="cta-row"><a class="cta" href="release.html">Open the current strict-rule decision</a></div>\n'
+        '<p class="verdict"><b class="no">DO NOT SUBMIT.</b> The HALO and GBM files are retained as research artifacts, '
+        'but each exceeds the literal 70% / 3-px stop against a registry raster. The previous release selector excluded '
+        'space-filling references; the binding user protocol does not authorize that exclusion. See the measured receipts on '
+        '<a href="release.html">the decision page</a>. No leaderboard score is ORGANIZER-CONFIRMED.</p>\n'
         f'<p><b>None of the nine focus files is eligible.</b> The best reported one, {esc(best["site"])} at '
         f'{best["owner_reported_unverified"]:.4f} (USER-REPORTED / UNVERIFIED), fails the shared uniqueness gate against the '
         f'13GEMSDOE lattice with <b>{best_pct:.2f}%</b> of its dots within three pixels, where at most 70% is allowed. '
@@ -829,21 +831,18 @@ def release_banner() -> str:
         rel = json.loads((EV / "halo" / "final_generation.json").read_text())
     except (OSError, ValueError):
         return ""
-    if not rel.get("verdict", {}).get("ok_to_submit"):
+    literal = rel.get("uniqueness_literal_gate", {})
+    if literal.get("unique") is True:
         return ""
-    name = Path(rel["submission_file"]).name
-    dti = rel["score_projection"]["scenarios"]["h=0.045"]["dti"]
-    return f'''<section class="section" id="release-banner" style="border-left:4px solid var(--ok)">
-<p class="verdict"><b class="ok">UPDATE 2026-10-31 — one file is released for submission:</b>
-<code>{esc(name)}</code>. It passes the format, range, grid, uniqueness and holdout gates, and its
-estimated score is ≈{dti:.2f} (CALIBRATED-PRIVATE range
-{min(v["dti"] for v in rel["score_projection"]["scenarios"].values()):.2f}–
-{max(v["dti"] for v in rel["score_projection"]["scenarios"].values()):.2f}; the pessimistic anchor is
-{rel["holdout_dti"]["at_released_dot_count"]["dti"]:.2f} if only the holdout's coverage transfers).
-It needs h ≥ {rel["break_even"]["hit_rate_needed"] * 100:.2f}% to beat the 0.2778 file.</p>
-<p>The pages below are the audit trail of the earlier research files and keep their original
-negative verdicts. For the current decision, the download, the score model and the exact
-submission steps see <a href="release.html">the release decision page</a>.</p>
+    overlap = float(literal.get("worst_overlap_including_probe", 0.0))
+    witness = literal.get("worst_overlap_submission_including_probe", "registry witness")
+    return f'''<section class="section" id="release-banner" style="border-left:4px solid var(--no)">
+<p class="verdict"><b class="no">UPDATE 2026-10-31 — NO FILE CLEARED TO SUBMIT.</b>
+The HALO TIFF is preserved for research, but {overlap * 100:.2f}% of its dots are within 3 px of
+<code>{esc(witness)}</code>, exceeding the literal 70% stop. The saved receipt's own
+<code>uniqueness_literal_gate.stop_required</code> is true. No exception is authorized.</p>
+<p>The executive summary and archived pages remain an audit trail. Do not upload or spend a
+competition slot on any currently published research TIFF.</p>
 </section>'''
 
 
@@ -861,18 +860,12 @@ def candidate_banner() -> str:
     if sel.get("ok_to_submit") is not True:
         return ""
     name = Path(card["raster"]).name
-    heading = ('<h3 style="margin-top:0">Alternative file from a parallel lane — published, '
-               'not the recommended submission</h3>' if release_banner() else
-               '<h3 style="margin-top:0">Current competition candidate — validated and published</h3>')
-    return f"""<section class="section" id="current-candidate" style="border:2px solid #1d6850;padding:18px 20px;border-radius:10px;background:#eef6f1">
+    heading = '<h3 style="margin-top:0">Parallel-lane research file — do not submit</h3>'
+    return f"""<section class="section" id="current-candidate" style="border:2px solid #9b352d;padding:18px 20px;border-radius:10px;background:#fff2f0">
 {heading}
-<p>The 2026-10-31 corridor-coverage candidate passed this repository's automated format gate
-(all-finite float32 in [0,1] on the pinned grid — the convention that fixes the earlier
-"must be in range [0, 1]" portal error) and the measured uniqueness scan against 480+ prior
-submission rasters. It is published, with evidence and mandatory caveats, on the
-<a href="submission-desk.html"><b>Submission desk</b></a>.</p>
-<p><a class="btn big" href="downloads/{esc(name)}" download>⬇ Download candidate TIF</a>
-<a class="btn secondary" href="submission-desk.html">Open the Submission desk</a></p>
+<p>The 2026-10-31 corridor-coverage candidate passed local format checks and a like-for-like scan, but that scan does not satisfy the literal rule against <em>any</em> registry raster: the registered space-filling lattice was set aside. The protocol does not authorize that exception. Treat the file as research-only; it is not cleared to submit.</p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>⬇ Download research TIF — DO NOT SUBMIT</a>
+<a class="btn secondary" href="submission-desk.html">Open the research audit</a></p>
 <p class="muted">No leaderboard score is claimed (competition truth and receipts are unavailable
 here). Slot stays unspent: promotion to a weekly submission is the owner's action.
 Selector receipt: <a href="evidence/k10/selector_result.json">evidence/k10/selector_result.json</a>.</p>

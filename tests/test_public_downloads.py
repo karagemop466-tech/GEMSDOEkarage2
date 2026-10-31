@@ -44,13 +44,15 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     result = mod.audit()
     assert result == json.loads((ROOT / 'evidence/public_downloads_audit.json').read_text())
     assert result == json.loads((ROOT / 'docs/evidence/public_downloads_audit.json').read_text())
-    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY_PLUS_RELEASE'
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
     releases = [r for r in result['artifacts'] if r['kind'] == 'release']
     assert len(releases) == 1
-    assert result['downloadable_approved_submission'] == releases[0]['file']
-    assert releases[0]['status'] == 'VERIFIED_RELEASE_CANDIDATE'
+    assert result['downloadable_approved_submission'] is None
+    assert releases[0]['status'] == 'VERIFIED_RESEARCH_ONLY'
+    assert releases[0]['ok_to_submit'] is False
+    assert releases[0]['checks']['uniqueness_inside_literal_thresholds'] is False
     assert releases[0]['slot_authorized'] is False
-    assert result['score_estimate'] and 0 < min(result['score_estimate']) < max(result['score_estimate']) <= 1
+    assert result['score_estimate'] is None
     assert result['slot_authorized'] is False
     # Unregistered leftovers from parallel lanes are quarantined, never authorized.
     assert [q['status'] for q in result['quarantined_downloads']] == ['QUARANTINED_NOT_AUTHORIZED'] * len(result['quarantined_downloads'])
@@ -107,19 +109,19 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     for record in result['artifacts']:
         assert record['slot_authorized'] is False
         if record['kind'] == 'release':
-            # A release entry is verified by its own re-read bytes and receipt; the
-            # slot is still unauthorized here (that is the owner's decision).
-            assert record['status'] == 'VERIFIED_RELEASE_CANDIDATE'
+            # Format bytes pass, but the literal uniqueness stop makes this a
+            # research artifact, not a release candidate.
+            assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
             assert record['checks']['all_values_finite'] and record['checks']['values_in_unit_range']
             assert record['checks']['card_sha_matches_saved_bytes']
             assert record['checks']['grid_matches_template']
-            assert record['checks']['uniqueness_inside_literal_thresholds']
+            assert record['checks']['uniqueness_inside_literal_thresholds'] is False
         elif record.get('kind') == 'candidate':
-            # The K10 candidate stays eligible for download but is superseded by the
-            # release row; its slot is unauthorized too.
-            assert record['status'] == 'VERIFIED_CANDIDATE_ELIGIBLE'
-            assert record['ok_to_submit'] is True
-            assert record['file'] != result['downloadable_approved_submission']
+            # Candidate cards are demoted to research-only when the literal
+            # any-registry threshold is fired, regardless of their selector labels.
+            assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
+            assert record['ok_to_submit'] is False
+            assert record['checks']['literal_uniqueness_pass'] is False
         else:
             assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
             assert record['ok_to_submit'] is False
@@ -132,8 +134,9 @@ def test_stale_unverified_tif_is_not_published_as_a_submission():
     stale = ROOT / 'docs/downloads/gemsdoe-karage2-gw-nfs-h1-20261029-zeros.tif'
     assert not stale.exists()
     release = json.loads((ROOT / 'evidence/halo/final_generation.json').read_text())
-    expected = ('OK TO SUBMIT: 1 FILE · SEE RELEASE' if release['verdict']['ok_to_submit']
-                else 'OK TO SUBMIT: NO')
+    expected = ('OK TO SUBMIT: 1 FILE · SEE RELEASE'
+                if release['verdict']['ok_to_submit'] and release['uniqueness_literal_gate']['unique']
+                else 'NO FILE CLEARED · DO NOT SUBMIT')
     for name in ('index.html', 'executive-summary.html'):
         page = (ROOT / 'docs' / name).read_text()
         assert expected in page
@@ -144,13 +147,14 @@ def test_stale_unverified_tif_is_not_published_as_a_submission():
                if r['kind'] not in ('release', 'candidate'))
     released = [r for r in report['artifacts'] if r['kind'] == 'release']
     assert len(released) == 1
-    assert report['downloadable_approved_submission'] == released[0]['file']
-    assert released[0]['ok_to_submit'] is True and released[0]['slot_authorized'] is False
+    assert report['downloadable_approved_submission'] is None
+    assert released[0]['ok_to_submit'] is False and released[0]['slot_authorized'] is False
     cand = [r for r in report['artifacts'] if r.get('kind') == 'candidate']
     assert all(r['file'] != released[0]['file'] for r in cand)
 
 
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):
+    assert mod.literal_uniqueness_pass({"unique_submission_verified": True}) is False
     args, card_path = make_fixture(tmp_path)
     root, stem, card_rel, selector_rel, has_zip, grid = args
     for gates in ({}, {'a': True}, {'unique_literal_vs_all_registry_rasters': True},
@@ -161,12 +165,14 @@ def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch)
         (root / selector_rel).write_text(json.dumps(dict(verdict='candidate_approved_by_automated_gates',
             ok_to_submit=True, slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
         result = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
-        assert result['status'] == 'FAIL_CLOSED' and result['ok_to_submit'] is False
+        assert result['status'] in ('FAIL_CLOSED', 'VERIFIED_RESEARCH_ONLY')
+        assert result['ok_to_submit'] is False
         assert result['checks']['candidate_card_gates'] is False
     monkeypatch.setattr(mod, 'ARTIFACTS', ((stem, card_rel, selector_rel, True, 'candidate'),))
     result = mod.audit(root)
-    assert result['inventory_status'] == 'FAIL_CLOSED'
+    assert result['inventory_status'] == 'PASS_RESEARCH_ONLY'
     assert result['downloadable_approved_submission'] is None
+    assert result['artifacts'][0]['status'] == 'VERIFIED_RESEARCH_ONLY'
     assert result['slot_authorized'] is False
 
 

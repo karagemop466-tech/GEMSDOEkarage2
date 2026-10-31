@@ -51,10 +51,10 @@ def page(title: str, active: str, body: str) -> str:
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)} · GEMSDOEkarage2 release desk</title>
-<meta name="description" content="Off-catalogue fault-discovery lane: validated, unique submission GeoTIFF with a labelled score projection.">
+<meta name="description" content="Off-catalogue research TIFF; the literal uniqueness stop is triggered and submission is not cleared.">
 <link rel="stylesheet" href="assets/release.css"></head>
 <body><header class="hdr"><div class="inner">
-<h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES</span></h1>
+<h1>GEMSDOEkarage2 <span class="badge no">NO FILE CLEARED · DO NOT SUBMIT</span></h1>
 <div class="sub">DOE GEMS Prize (Drivendata #306) · off-catalogue fault discovery · release desk</div>
 </div></header>
 <main class="wrap"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
@@ -96,13 +96,9 @@ def hero(d) -> str:
                  f"worst |Spearman| <b>{abs(u['worst']['spearman_abs']['spearman']):.4f}</b>, "
                  f"worst symmetric 3&nbsp;px overlap <b>{u['worst']['symmetric_min']['symmetric_min_within_3px']:.4f}</b>")
     return f'''<section class="hero" id="download">
-<h2>Download the submission file</h2>
-<p class="verdict big"><b class="ok">CLEARED TO SUBMIT.</b> This file passes every gate that can be
-checked without a DrivenData session: single-band float32 GeoTIFF, EPSG:32611, 3730&nbsp;×&nbsp;3292,
-100&nbsp;m, transform and bounds identical to the official template, <b>every value in the whole array
-finite and inside [0,&nbsp;1]</b>, zero NaN anywhere, {c["n_dots"]:,} dots, and it is unique against the
-shared registry ({uniq_line}).</p>
-<p><a class="btn big" href="downloads/{esc(c["file"])}" download>⬇ Download {esc(c["file"])}</a>
+<h2>Research TIFF — do not submit</h2>
+<p class="verdict big"><b class="no">NO FILE CLEARED UNDER THE LITERAL UNIQUENESS RULE.</b> The TIFF passes recorded local format/grid checks, but fails the written duplicate stop: {u['worst']['one_sided_non_space_filling']['cand_within_3px_of_ref'] * 100:.2f}% of candidate dots fall within 3 px of one registry raster, exceeding 70%. The lane's scan excludes a space-filling witness but the protocol says any registry raster; that exception is not authorized. The file is for research and audit only.</p>
+<p><a class="btn big" href="downloads/{esc(c["file"])}" download>⬇ Download research TIFF — DO NOT SUBMIT</a>
 <a class="btn" href="#estimate">Score estimate &amp; method</a>
 <a class="btn" href="release-how-to-submit.html">Step-by-step submission guide</a></p>
 <div class="meta">
@@ -385,7 +381,8 @@ def guide_page(d) -> str:
     rcp = ROOT / "evidence" / "lane-gbm" / "final-run-card.json"
     note = (json.loads(rcp.read_text())["note"] if rcp.exists() else c["submission_name"])
     assert len(note) <= 140, "submission note exceeds the 140-character limit"
-    return f'''<section class="sec"><h2>How to submit — every step, nothing left out</h2>
+    return f'''<section class="sec"><h2>Submission guide — currently blocked</h2>
+<p class="warn"><b>DO NOT SUBMIT THIS TIFF.</b> The file fails the literal uniqueness rule: {d['uniq']['worst']['one_sided_non_space_filling']['cand_within_3px_of_ref'] * 100:.2f}% one-sided 3-px overlap exceeds the 70% stop threshold. The steps below describe the organizer form for future use only; they do not authorize upload.</p>
 <ol class="steps">
 <li><b>Download the file.</b> <a class="btn" href="downloads/{esc(c["file"])}" download>⬇ {esc(c["file"])}</a>
 ({c["bytes"]:,} bytes). It is a single-band float32 GeoTIFF, EPSG:32611, 3730 × 3292, 100 m, matching
@@ -443,11 +440,8 @@ def main() -> None:
     # Two parallel lanes produced two candidate files on 2026-10-31 and this repository
     # publishes exactly one recommended release. Say so instead of fighting over the name.
     banner = f'''<section class="sec" id="two-lanes">
-<h2>Two lanes, two files &mdash; read this first</h2>
-<p>A parallel session published <b>gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</b> as this
-repository's recommended release on <a href="release.html">the release desk</a>. This page is the
-<b>off-catalogue GBM lane</b>, developed independently and never copying any submission. Both
-files are format-valid and neither has a measured score.</p>
+<h2>Two candidate files — neither clears the literal uniqueness stop</h2>
+<p>The HALO and GBM TIFFs are preserved as research artifacts. Both have local format evidence, but neither is approved to submit under the required protocol. The HALO receipt reports 99.84% overlap with the r13 lattice witness; the GBM scan reports 93.77% one-sided overlap with a non-space-filling registry raster after excluding the lattice. The protocol does not authorize those exclusions.</p>
 <table class="grid"><thead><tr><th></th><th>Release desk &mdash; HALO</th>
 <th>This lane &mdash; GBM off-catalogue</th></tr></thead><tbody>
 <tr><td>Mechanism</td><td>300&ndash;900 m halo ring around mapped traces</td>
@@ -455,17 +449,11 @@ files are format-valid and neither has a measured score.</p>
 <tr><td>Dots</td><td>44,090</td><td>100,000</td></tr>
 <tr><td>Relationship to the catalogue</td><td>Defined by distance to mapped faults</td>
 <td>Dots sit a median 7.6 px away; no dot within 5 px</td></tr>
-<tr><td>Status in the repository inventory</td>
-<td><b>the published release</b></td><td>verified candidate
-(<code>ok_to_submit: true</code>, <code>slot_authorized: false</code>)</td></tr>
+<tr><td>Status under literal protocol</td>
+<td><b>NO · DO NOT SUBMIT</b> (99.84% lattice overlap)</td><td><b>NO · DO NOT SUBMIT</b> (93.77% one-sided overlap)</td></tr>
 <tr><td>Score</td><td>model projection, not measured</td><td>model projection, not measured</td></tr>
 </tbody></table>
-<p><b>Which one to submit:</b> this page does not claim to be the winner. The repository's own
-inventory permits exactly one published release, and that is the HALO file. If you are choosing
-one file and want the one whose dots are furthest from anything already mapped &mdash; the
-property the scoring rule rewards, since pixels on known faults are masked out of evaluation
-&mdash; submit the GBM file below. If you want the file this repository's desk already recommends,
-submit the HALO file. <b>Either way, no weekly slot beyond the one you choose is spent.</b></p>
+<p><b>Which one to submit: neither.</b> Under the user's literal rule, both files are duplicate-stop results. Do not spend a weekly slot on either file. A protocol-owner ruling or a new candidate that passes the unmodified rule is required first.</p>
 </section>'''
 
     desk = (hero(d) + estimate_section(d) + why_section(d) + method_section(d)
@@ -477,6 +465,10 @@ submit the HALO file. <b>Either way, no weekly slot beyond the one you choose is
         "release-gbm.html": page("GBM lane desk", "desk", banner + desk),
         "release-gbm-summary.html": page("GBM lane executive summary", "summary", banner + summary),
         "release-gbm-how-to-submit.html": page("GBM lane: how to submit", "guide", banner + guide_page(d)),
+        # Root-page aliases must share the same fail-closed content; stale aliases
+        # once displayed a green HALO status after the literal rule had failed.
+        "release-summary.html": page("Current executive summary", "summary", banner + summary),
+        "release-how-to-submit.html": page("Current submission guide", "guide", banner + guide_page(d)),
     }
     if args.check:
         bad = [n for n, t in pages.items() if (DOCS / n).read_text() != t]

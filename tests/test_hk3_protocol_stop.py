@@ -41,8 +41,9 @@ def test_all_pages_fail_closed_even_if_the_verdict_is_forged():
     for name, text in pages.render_all(forged).items():
         if name.endswith('.html'):
             release = json.loads((ROOT / 'evidence/halo/final_generation.json').read_text())
-            expected = ('OK TO SUBMIT: 1 FILE · SEE RELEASE' if release['verdict']['ok_to_submit']
-                        else 'OK TO SUBMIT: NO')
+            expected = ('OK TO SUBMIT: 1 FILE · SEE RELEASE'
+                        if release['verdict']['ok_to_submit'] and release['uniqueness_literal_gate']['unique']
+                        else 'NO FILE CLEARED · DO NOT SUBMIT')
             assert expected in text
             assert 'DO NOT SUBMIT' in text or 'DO NOT RESUBMIT' in text
 
@@ -124,22 +125,17 @@ def test_concurrent_publication_adapter_has_no_minimal_card_bypass():
 def test_root_submission_status_does_not_reintroduce_retracted_approval():
     """The status page may only claim an approval the inventory receipt actually certifies.
 
-    Before the 2026-10-31 release the rule was the constant "NO APPROVED FILE".  A release is
-    now allowed, but only when `evidence/public_downloads_audit.json` carries a
-    VERIFIED_RELEASE_CANDIDATE row, and then the page must name that exact file and keep the
-    research artifacts marked DO NOT SUBMIT.
+    A release is allowed only when `evidence/public_downloads_audit.json` has a
+    literal-gate-passing VERIFIED_RELEASE_CANDIDATE row. Current receipts have none,
+    so the status file must say no file is approved and keep all artifacts DO NOT SUBMIT.
     """
     text = (ROOT / 'SUBMISSION_STATUS.md').read_text()
     inv = json.loads((ROOT / 'evidence' / 'public_downloads_audit.json').read_text())
     released = [row for row in inv['artifacts']
                 if row.get('status') == 'VERIFIED_RELEASE_CANDIDATE' and row.get('ok_to_submit')]
-    if not released:
-        assert 'NO APPROVED FILE' in text
-    else:
-        assert len(released) == 1, 'exactly one release row may be certified'
-        name = Path(released[0]['file']).name
-        assert name in text, name
-        assert released[0]['file'] == inv['downloadable_approved_submission']
+    assert not released
+    assert inv['downloadable_approved_submission'] is None
+    assert 'NO FILE IS CLEARED TO SUBMIT' in text
     assert 'DO NOT SUBMIT' in text
     assert 'will **not** trigger' not in text
     assert 'Verdict:** PROMOTE' not in text

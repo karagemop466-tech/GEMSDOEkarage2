@@ -26,12 +26,13 @@ test('desk pages carry the release badge and keep their historical negative verd
   assert.equal(card.verdict, 'negative');
   assert.equal(witness.duplicate_stop, true);
   const release = JSON.parse(fs.readFileSync(path.join(root, 'evidence/halo/final_generation.json')));
-  const expected = release.verdict.ok_to_submit ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE' : 'OK TO SUBMIT: NO';
+  const strictPass = release.verdict.ok_to_submit && release.uniqueness_literal_gate.unique === true;
+  const expected = strictPass ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE' : 'NO FILE CLEARED · DO NOT SUBMIT';
   for (const page of pages) {
     const dom = render(page);
     const badge = dom.window.document.querySelector('.header .badge');
     assert.equal(badge.textContent, expected);
-    assert.ok(badge.classList.contains(release.verdict.ok_to_submit ? 'ok' : 'no'));
+    assert.ok(badge.classList.contains(strictPass ? 'ok' : 'no'));
     assert.match(dom.window.document.body.textContent, /DO NOT SUBMIT/);
     dom.window.close();
   }
@@ -42,9 +43,9 @@ test('the release decision page is the live decision and its download is the rel
   const doc = dom.window.document;
   const badge = doc.querySelector('.header .badge');
   const release = JSON.parse(fs.readFileSync(path.join(root, 'evidence/halo/final_generation.json')));
-  assert.equal(badge.textContent, release.verdict.ok_to_submit
-    ? 'OK TO SUBMIT: YES · 1 FILE' : 'OK TO SUBMIT: NO');
-  assert.match(doc.body.textContent, /OK TO DOWNLOAD AND SUBMIT/);
+  assert.equal(badge.textContent, release.verdict.ok_to_submit && release.uniqueness_literal_gate.unique === true
+    ? 'OK TO SUBMIT: YES · 1 FILE' : 'NO FILE CLEARED · DO NOT SUBMIT');
+  assert.match(doc.body.textContent, /NO FILE CLEARED UNDER THE LITERAL UNIQUENESS RULE/);
   const links = [...doc.querySelectorAll('a[download]')];
   assert.ok(links.length >= 1, 'at least one one-click download');
   for (const link of links) {

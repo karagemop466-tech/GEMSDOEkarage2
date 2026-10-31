@@ -51,9 +51,9 @@ def shell(title: str, body: str) -> str:
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)} · GEMSDOEkarage2</title>
-<meta name="description" content="Release decision: one validated, unique GeoTIFF submission with a measured score model.">
+<meta name="description" content="Fail-closed release decision: available TIFFs are research-only because the literal uniqueness stop is triggered.">
 <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
-<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES · 1 FILE</span></h1>
+<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge no">NO FILE CLEARED · DO NOT SUBMIT</span></h1>
 <div class="sub">GEMS Prize · fault discovery · evidence-first decision desk</div></div></div></header>
 <main class="container"><nav class="topnav" aria-label="Main navigation">{links} · <a href="{REPO}">Repository ↗</a></nav>
 {body}
@@ -92,7 +92,7 @@ def decision_table(model: dict, rel: dict) -> str:
 <td><b>{rel['score_projection']['scenarios']['h=0.045']['dti']:.3f}</b> if h = 4.5%<span class="sub-label">range {rel['score_projection']['scenarios']['h=0.025']['dti']:.3f}–{rel['score_projection']['scenarios']['h=0.060']['dti']:.3f} · CALIBRATED-PRIVATE, not a receipt</span></td>
 <td>unspecified<span class="sub-label">break-even {rel['break_even']['hit_rate_needed'] * 100:.2f}% beats 0.2778</span></td>
 <td>{rel['holdout_dti']['at_released_dot_count']['dti']:.4f}<span class="sub-label">HOLDOUT-DTI at this dot count; {rel['holdout_dti']['lane_budget_curve_max']['dti']:.4f} at the lane curve's 57,873-dot maximum</span></td>
-<td><b class="ok">YES · SUBMIT</b><span class="sub-label">max 3 px overlap {rel['uniqueness']['worst_dot_overlap'] * 100:.1f}% ≤ 70%; max |ρ| {rel['uniqueness']['worst_spearman']:.3f} ≤ 0.90</span></td></tr>
+<td><b class="no">NO · DO NOT SUBMIT</b><span class="sub-label">literal gate fails: {rel['uniqueness_literal_gate']['worst_overlap_including_probe'] * 100:.2f}% within 3 px of the r13 registry witness (&gt;70%)</span></td></tr>
 </tbody></table></div>
 <p class="muted">The nine focus files are <b>not</b> recommended: each is either a strict subset of another (GEMSDOE25/30/31/32/36 are the same nested family) or overlaps a rival field above the 70% rule, and none has a defensible estimate. Their reported scores are the ones quoted in the project brief; the public board read on 2026-10-31 shows 0.4544 at rank 1, so 0.2778 is not the leaderboard high.</p>
 </section>"""
@@ -103,9 +103,9 @@ def hero(rel: dict) -> str:
     name = Path(rel["submission_file"]).name
     s = rel["score_projection"]["scenarios"]
     return f"""<section class="hero" id="release-it">
-<h2>Download this file and submit it</h2>
-<p class="verdict"><b class="ok">OK TO DOWNLOAD AND SUBMIT.</b> One file. It passes every automated gate this repository can run: format, range, grid, uniqueness and holdout. It was generated today from the mapped-fault catalogue and the organizer grid; no registry or published submission was used as an input.</p>
-<p><a class="btn big" href="downloads/{esc(name)}" download>Download the submission TIFF</a>
+<h2>Research TIFF — do not submit</h2>
+<p class="verdict"><b class="no">NO FILE CLEARED UNDER THE LITERAL UNIQUENESS RULE.</b> This artifact passes the recorded local format and grid checks, but it fails the binding duplicate stop: {rel['uniqueness_literal_gate']['worst_overlap_including_probe'] * 100:.2f}% of its dots lie within 3 px of the registered r13 lattice (&gt;70%). The lattice is space-filling, but the written protocol has no exception. This file is available for research and audit only.</p>
+<p><a class="btn big" href="downloads/{esc(name)}" download>Download research TIFF — DO NOT SUBMIT</a>
 <a class="btn secondary" href="how-to-submit.html">How to submit (exact steps)</a>
 <a class="btn secondary" href="evidence/halo/final_generation.json">Open the release receipt</a></p>
 <div class="meta">
@@ -230,7 +230,7 @@ def risks_section(rel: dict) -> str:
 </ul>
 <h4>Next steps with the highest expected value</h4>
 <ol>
-<li><b>Upload this file once and read the leaderboard number.</b> That single measurement replaces the entire projection range and calibrates h for every future candidate. It is the only way to close the transfer question.</li>
+<li><b>Do not upload this file under the current protocol.</b> The literal uniqueness stop is triggered. A protocol owner must explicitly revise the rule before any future candidate can be considered; do not infer an exception from the lattice being space-filling.</li>
 <li><b>Digitize an independent fault compilation</b> (USGS Quaternary Faults, Nevada Bureau of Mines, GBCGE INGENIOUS fault layer) and intersect it with the footprint; if its extra traces are the hidden set, a point-exact overlay would score far above any geometric prior. Needs a network path to those hosts (blocked in this sandbox).</li>
 <li><b>Tip-and-step-over placement</b> (E4, not run — the 3-experiment budget was spent): restrict the band to along-strike extrapolations beyond mapped tips and to relay zones between overlapping traces. The holdout already supports band placement; this would test whether structure inside the band raises the hit rate.</li>
 <li><b>Re-audit registry uniqueness</b> immediately before any upload (<code>scripts/audit_halo_uniqueness.py</code>).</li>

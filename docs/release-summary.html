@@ -1,21 +1,32 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Executive summary · GEMSDOEkarage2 release desk</title>
-<meta name="description" content="Off-catalogue fault-discovery lane: validated, unique submission GeoTIFF with a labelled score projection.">
+<title>Current executive summary · GEMSDOEkarage2 release desk</title>
+<meta name="description" content="Off-catalogue research TIFF; the literal uniqueness stop is triggered and submission is not cleared.">
 <link rel="stylesheet" href="assets/release.css"></head>
 <body><header class="hdr"><div class="inner">
-<h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES</span></h1>
+<h1>GEMSDOEkarage2 <span class="badge no">NO FILE CLEARED · DO NOT SUBMIT</span></h1>
 <div class="sub">DOE GEMS Prize (Drivendata #306) · off-catalogue fault discovery · release desk</div>
 </div></header>
 <main class="wrap"><nav class="topnav" aria-label="Main navigation"><a href="release.html">Submission desk</a> · <a href="release-summary.html" aria-current=page>Executive summary</a> · <a href="release-how-to-submit.html">How to submit</a> · <a href="index.html">Historical desk (negative)</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
-<section class="hero" id="download">
-<h2>Download the submission file</h2>
-<p class="verdict big"><b class="ok">CLEARED TO SUBMIT.</b> This file passes every gate that can be
-checked without a DrivenData session: single-band float32 GeoTIFF, EPSG:32611, 3730&nbsp;×&nbsp;3292,
-100&nbsp;m, transform and bounds identical to the official template, <b>every value in the whole array
-finite and inside [0,&nbsp;1]</b>, zero NaN anywhere, 100,000 dots, and it is unique against the
-shared registry (compared against <b>488</b> registry rasters; worst |Spearman| <b>0.1425</b>, worst symmetric 3&nbsp;px overlap <b>0.5799</b>).</p>
-<p><a class="btn big" href="downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif" download>⬇ Download gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif</a>
+<section class="sec" id="two-lanes">
+<h2>Two candidate files — neither clears the literal uniqueness stop</h2>
+<p>The HALO and GBM TIFFs are preserved as research artifacts. Both have local format evidence, but neither is approved to submit under the required protocol. The HALO receipt reports 99.84% overlap with the r13 lattice witness; the GBM scan reports 93.77% one-sided overlap with a non-space-filling registry raster after excluding the lattice. The protocol does not authorize those exclusions.</p>
+<table class="grid"><thead><tr><th></th><th>Release desk &mdash; HALO</th>
+<th>This lane &mdash; GBM off-catalogue</th></tr></thead><tbody>
+<tr><td>Mechanism</td><td>300&ndash;900 m halo ring around mapped traces</td>
+<td>Gradient boosting on the 19 GeoDAWN bands; catalogue used only to exclude</td></tr>
+<tr><td>Dots</td><td>44,090</td><td>100,000</td></tr>
+<tr><td>Relationship to the catalogue</td><td>Defined by distance to mapped faults</td>
+<td>Dots sit a median 7.6 px away; no dot within 5 px</td></tr>
+<tr><td>Status under literal protocol</td>
+<td><b>NO · DO NOT SUBMIT</b> (99.84% lattice overlap)</td><td><b>NO · DO NOT SUBMIT</b> (93.77% one-sided overlap)</td></tr>
+<tr><td>Score</td><td>model projection, not measured</td><td>model projection, not measured</td></tr>
+</tbody></table>
+<p><b>Which one to submit: neither.</b> Under the user's literal rule, both files are duplicate-stop results. Do not spend a weekly slot on either file. A protocol-owner ruling or a new candidate that passes the unmodified rule is required first.</p>
+</section><section class="hero" id="download">
+<h2>Research TIFF — do not submit</h2>
+<p class="verdict big"><b class="no">NO FILE CLEARED UNDER THE LITERAL UNIQUENESS RULE.</b> The TIFF passes recorded local format/grid checks, but fails the written duplicate stop: 93.77% of candidate dots fall within 3 px of one registry raster, exceeding 70%. The lane's scan excludes a space-filling witness but the protocol says any registry raster; that exception is not authorized. The file is for research and audit only.</p>
+<p><a class="btn big" href="downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif" download>⬇ Download research TIFF — DO NOT SUBMIT</a>
 <a class="btn" href="#estimate">Score estimate &amp; method</a>
 <a class="btn" href="release-how-to-submit.html">Step-by-step submission guide</a></p>
 <div class="meta">

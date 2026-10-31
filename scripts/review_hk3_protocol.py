@@ -59,8 +59,9 @@ def review():
             and all(row["status"] == "VERIFIED_RESEARCH_ONLY"
                     for row in inventory["artifacts"]
                     if row.get("kind") not in ("candidate", "release"))),
-        "release_entries_verified": all(
-            row["status"] == "VERIFIED_RELEASE_CANDIDATE" and row["ok_to_submit"] is True
+        "release_rows_fail_closed": all(
+            row["status"] in ("VERIFIED_RELEASE_CANDIDATE", "VERIFIED_RESEARCH_ONLY")
+            and row["ok_to_submit"] is (row["status"] == "VERIFIED_RELEASE_CANDIDATE")
             and row["slot_authorized"] is False
             for row in inventory["artifacts"] if row.get("kind") == "release"),
     }

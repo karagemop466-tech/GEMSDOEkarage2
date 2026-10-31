@@ -73,37 +73,31 @@ function chromeEnvironment() {
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
     assert.equal(hk3.verdict, 'negative');
-    // The badge is derived from the release receipt, never hard-coded: the desk says
-    // "1 FILE" exactly when a release receipt certifies one file for submission.
+    // The root route must land on the actual current decision page. An older page
+    // may retain historical positive wording, so test the literal protocol stop.
     const releaseReceipt = require('../evidence/halo/final_generation.json');
-    const expectBadge = releaseReceipt.verdict.ok_to_submit
-      ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE'
-      : 'OK TO SUBMIT: NO';
+    const releaseName = path.basename(releaseReceipt.submission_file);
+    const expectBadge = 'NO FILE CLEARED · DO NOT SUBMIT';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
-      await page.waitForURL('**/docs/index.html');
+      await page.waitForURL('**/docs/release.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
-      // The desk may offer a verified current candidate (evidence/k10) above the HK3 research
-      // control, so the research-only link is addressed by href rather than by position -- the
-      // same contract tests/test_hk3.py states. Everything below still asserts on the HK3 file:
-      // its RESEARCH ONLY wording, the downloaded filename and its SHA-256.
-      const primary = page.locator(`a.btn.big[download][href*="${hk3.submission.name}"]`).first();
-      assert.ok(await primary.count(), 'HK3 research download is no longer offered by the desk');
+      assert.ok((await page.locator('#release-it').innerText()).includes('DO NOT SUBMIT'));
+      assert.ok((await page.locator('#release-it').innerText()).includes('99.84%'));
+      const primary = page.locator(`a.btn.big[download][href*="${releaseName}"]`).first();
+      assert.ok(await primary.count(), 'research artifact remains available for audit');
+      assert.ok((await primary.innerText()).includes('DO NOT SUBMIT'));
       for (const link of await page.locator('a.btn.big[download]').all()) {
         assert.ok((await link.getAttribute('href')).startsWith('downloads/'), 'a download link leaves the published tree');
       }
-      assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
       const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
-      assert.equal(download.suggestedFilename(), path.basename(hk3.raster.file));
+      assert.equal(download.suggestedFilename(), releaseName);
       const downloaded = fs.readFileSync(await download.path());
-      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), hk3.raster.sha256);
-      assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));
-      assert.ok((await page.locator('body').innerText()).includes('not unique'));
-      assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);
-      assert.ok(await page.locator('a[href="audit.html"]').count());
-      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Desk overflow');
-      console.log(`PASS ${width}px: negative badge, research-only click/download, exact SHA-256`);
+      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), releaseReceipt.format_checks.sha256);
+      assert.equal(await page.locator('#release-table tbody tr').count(), 10);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Release page overflow');
+      console.log(`PASS ${width}px: strict negative verdict, research-only download, exact SHA-256`);
     }
     for (const viewport of [{width:1440,height:1050}, {width:390,height:844}]) {
       await page.setViewportSize(viewport);

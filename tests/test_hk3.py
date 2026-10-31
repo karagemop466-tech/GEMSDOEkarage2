@@ -150,8 +150,9 @@ def test_desk_pages_are_explicitly_research_only(card):
     for name in ("index.html", "executive-summary.html", "how-to-submit.html", "submit.html"):
         page = (DOCS / name).read_text()
         release = json.loads((ROOT / "evidence/halo/final_generation.json").read_text())
-        expected = ("OK TO SUBMIT: 1 FILE · SEE RELEASE" if release["verdict"]["ok_to_submit"]
-                    else "OK TO SUBMIT: NO")
+        expected = ("OK TO SUBMIT: 1 FILE · SEE RELEASE"
+                    if release["verdict"]["ok_to_submit"] and release["uniqueness_literal_gate"]["unique"]
+                    else "NO FILE CLEARED · DO NOT SUBMIT")
         assert expected in page
         assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
         assert card["raster"]["sha256"] in page

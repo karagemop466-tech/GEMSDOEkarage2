@@ -76,7 +76,11 @@ def main() -> int:
     k9 = load("evidence/k9/run_card.json")
     audit_inv = load("evidence/public_downloads_audit.json")
 
-    cand_ok = selector.get("ok_to_submit") is True and card.get("verdict") == "promote-instrument-limited"
+    # The selector's like-for-like decision does not override the user's literal
+    # any-registry stop. The recorded r13 witness triggers that stop, so fail closed.
+    cand_ok = (selector.get("ok_to_submit") is True and
+               card.get("verdict") == "promote-instrument-limited" and
+               registry.get("literal_reading", {}).get("duplicate") is False)
     rel = card["raster"]
     fname = Path(rel).name
     sha = card["raster_sha256"]

@@ -85,7 +85,8 @@ def test_release_page_links_resolve_and_offer_the_released_file():
 def test_release_page_labels_are_explicit():
     text = (ROOT / "docs" / "release.html").read_text()
     for label in ("CALIBRATED-PRIVATE", "HOLDOUT-DTI", "USER-REPORTED / UNVERIFIED",
-                  "not a receipt", "OK TO DOWNLOAD AND SUBMIT"):
+                  "not a receipt", "NO FILE CLEARED UNDER THE LITERAL UNIQUENESS RULE",
+                  "Download research TIFF — DO NOT SUBMIT"):
         assert label in text, label
     # the projection must never be presented as an organizer-confirmed score
     assert "ORGANIZER-CONFIRMED score" not in text.replace("is not ORGANIZER-CONFIRMED", "")
@@ -115,16 +116,18 @@ def test_released_tiff_matches_its_receipt_and_is_submission_shaped():
     assert len(receipt["submission_note"]) <= 140
 
 
-def test_uniqueness_receipt_is_inside_the_literal_thresholds():
+def test_literal_uniqueness_stop_is_not_waived_by_the_site_generator():
     receipt = json.loads(REPO_RECEIPT.read_text())
     u = receipt["uniqueness"]
-    assert u["worst_dot_overlap"] <= 0.70
+    literal = receipt["uniqueness_literal_gate"]
+    assert u["worst_dot_overlap"] <= 0.70  # non-lattice comparison only
     assert abs(u["worst_spearman"]) <= 0.90
-    assert u["rasters_above_0_70_overlap"] == []
-    assert u["rasters_above_0_90_rho"] == []
     assert u["submission_rasters_compared"] > 400
-    # probes are reported, never silently used as clearance
-    assert u["universal_probes"], "the lattice probe must be reported separately"
+    assert literal["unique"] is False
+    assert literal["stop_required"] is True
+    assert literal["worst_overlap_including_probe"] > 0.70
+    # The dense witness is shown in the audit but cannot be excluded from the binding literal rule.
+    assert u["universal_probes"], "the lattice probe must be disclosed"
     assert u["probe_note"].startswith("r13_lattice is a uniform 5-px sampling probe")
 
 

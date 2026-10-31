@@ -71,7 +71,8 @@ def test_desk_page_matches_candidate_evidence(card, selector):
     assert f"downloads/{fname}" in page
     assert card["raster_sha256"] in page
     assert card["note"] in page
-    assert "OK TO DOWNLOAD AND SUBMIT" in page
+    assert "DO NOT SUBMIT" in page
+    assert "literal" in page.lower()
     assert "NOT MEASURABLE" in page  # score estimate honesty
     # all nine focus sites in the executive table
     for site in ("GEMSDOE24", "GEMSDOE25", "GEMSDOE27", "GEMSDOE28", "GEMSDOE30",

@@ -1,4 +1,16 @@
 # GEMSDOEkarage2
+## Binding protocol correction (2026-10-31) — no TIFF currently cleared
+
+**Current decision: NO FILE IS CLEARED TO SUBMIT under the user's literal parallel-run rule.** This supersedes any earlier green “OK TO SUBMIT” or “CLEARED TO SUBMIT” text below and in generated pages. The rule says stop if rank correlation exceeds 0.90 **or** more than 70% of candidate dots fall within 3 px of **any** registry raster; it contains no space-filling-reference exception.
+
+- HALO release receipt: `evidence/halo/final_generation.json` records `uniqueness_literal_gate.unique: false`, `stop_required: true`, with 99.84% one-sided overlap against the r13 lattice witness.
+- Off-catalogue GBM receipt: `evidence/lane-gbm/final-run-card.json` calls the lane promoted after excluding space-filling references, but records 93.77% one-sided overlap against a non-space-filling registry raster (GEMSDOE30). This independently exceeds 70%; the same receipt notes an excluded space-filling reference with 99.67% overlap.
+- K10 likewise cannot use its like-for-like scan to waive the explicit “any registry raster” stop. Other historical artifacts remain negative.
+- The machine-readable decision is `evidence/strict-protocol-decision-2026-10-31.json`; full three-pass review: `research/2026-10-31-strict-protocol-reconciliation.md`. No new scientific experiment was run, no TIFF was regenerated, no slot was used, and no leaderboard score is ORGANIZER-CONFIRMED.
+- The TIFFs remain downloadable only as research/audit artifacts. Do not upload them or spend a competition slot unless the literal gate passes or the protocol owner explicitly changes the rule before a future run.
+
+**Score labels:** 0.2778 for GEMSDOE32 is a supplied USER-REPORTED / UNVERIFIED value. Any local holdout number must be labeled HOLDOUT-DTI with evaluator/version, withheld positives and 95% CI. Any inferred leaderboard number is a MODEL-PROJECTION, never a score. No current candidate has a defensible organizer-confirmed score.
+
 ## S1 session review (2026-10-31, arena/fe0fee78) — additional negative research lane
 
 **Decision: NEGATIVE.** This session wrote the untried-hypothesis slate

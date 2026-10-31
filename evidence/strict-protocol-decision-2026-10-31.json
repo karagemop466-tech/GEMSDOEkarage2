@@ -1,0 +1,90 @@
+{
+  "schema": "gems.parallel_run_card.v1",
+  "date_utc": "2026-10-31",
+  "classification": "STRICT-PROTOCOL RECONCILIATION; NO GEOLOGICAL EXPERIMENT OR NEW TIFF",
+  "binding_rule": {
+    "rank_correlation_stop": "abs(Spearman) > 0.90 against any registry raster",
+    "dot_overlap_stop": "more than 70% of candidate dots within 3 px of any registry raster",
+    "exception_for_space_filling_reference": false
+  },
+  "hypothesis": "No new geological hypothesis tested; reconcile existing candidate receipts to the user's literal any-registry uniqueness stop.",
+  "mechanism": "Compare saved rank-correlation and 3-px overlap receipts against the unmodified thresholds; demote any candidate that triggers a stop to research-only.",
+  "named_non_fault_mimic": "Not applicable to this evidence-policy review; candidate-specific mimics are preserved in the original lane run cards.",
+  "holdout_dti": null,
+  "holdout_ci95": null,
+  "holdout_evaluator_version": null,
+  "holdout_withheld_positives": null,
+  "holdout_status": "NOT RUN in this review; no new scientific experiment and no score inferred.",
+  "score_estimate": null,
+  "correlation_overlap_vs_registry": {
+    "evidence_class": "RASTER-MEASUREMENT copied from saved receipts; not remeasured in this review",
+    "HALO": {
+      "source": "evidence/halo/final_generation.json",
+      "max_abs_spearman": 0.0556664574,
+      "max_dot_overlap_non_lattice": 0.6546609208,
+      "literal_overlap_including_lattice": 0.9983896575,
+      "literal_gate": "FAIL"
+    },
+    "off_catalogue_GBM": {
+      "source": "evidence/lane-gbm/uniqueness-full-registry.json",
+      "max_abs_spearman": 0.142465,
+      "max_one_sided_overlap_non_space_filling": 0.93771,
+      "max_one_sided_overlap_space_filling": 0.99666,
+      "literal_gate": "FAIL"
+    },
+    "K10": {
+      "source": "evidence/k10/final_registry.json",
+      "max_abs_spearman": 0.0356934237,
+      "literal_forward_overlap": 0.9999736842,
+      "literal_gate": "FAIL"
+    }
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "new_candidate_generated": false,
+    "new_validator_run": false,
+    "existing_receipts_only": true,
+    "existing_saved_tiffs": {
+      "HALO": {
+        "no_nan_inside_footprint": true,
+        "values_in_0_1_whole_array": true,
+        "crs_shape_transform_match_owner_mirror": true,
+        "source": "evidence/halo/final_generation.json",
+        "organizer_template_authenticated": false
+      },
+      "off_catalogue_GBM": {
+        "no_nan_inside_footprint": true,
+        "values_in_0_1_whole_array": true,
+        "crs_shape_transform_match_owner_mirror": true,
+        "source": "evidence/lane-gbm/final-run-card.json",
+        "organizer_template_authenticated": false
+      },
+      "K10": {
+        "no_nan_inside_footprint": true,
+        "values_in_0_1_whole_array": true,
+        "crs_shape_transform_match_owner_mirror": true,
+        "source": "evidence/k10/validator.json",
+        "organizer_template_authenticated": false
+      }
+    },
+    "portal_acceptance": null,
+    "submission_authorized": false
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "experiments_run": 0,
+  "submission_slots_used": 0,
+  "verdict": "negative",
+  "inventory": {
+    "status": "PASS_RESEARCH_ONLY",
+    "downloadable_approved_submission": null,
+    "source": "evidence/public_downloads_audit.json"
+  },
+  "limitations": [
+    "All candidate comparisons are copied from dated run cards and were not remeasured in this review.",
+    "Organizer training labels and exact submission template remain unauthenticated in this checkout.",
+    "No current leaderboard fetch or organizer submission receipt was made.",
+    "The 0.2778 GEMSDOE32 value remains USER-REPORTED / UNVERIFIED; projections are not scores.",
+    "The literal 70%-within-3-px gate is unsatisfiable for dense dots against the recorded space-filling lattice, but no exception was applied."
+  ]
+}
