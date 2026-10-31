@@ -122,7 +122,24 @@ def test_concurrent_publication_adapter_has_no_minimal_card_bypass():
 
 
 def test_root_submission_status_does_not_reintroduce_retracted_approval():
+    """The status page may only claim an approval the inventory receipt actually certifies.
+
+    Before the 2026-10-31 release the rule was the constant "NO APPROVED FILE".  A release is
+    now allowed, but only when `evidence/public_downloads_audit.json` carries a
+    VERIFIED_RELEASE_CANDIDATE row, and then the page must name that exact file and keep the
+    research artifacts marked DO NOT SUBMIT.
+    """
     text = (ROOT / 'SUBMISSION_STATUS.md').read_text()
-    assert 'NO APPROVED FILE' in text and 'DO NOT SUBMIT' in text
+    inv = json.loads((ROOT / 'evidence' / 'public_downloads_audit.json').read_text())
+    released = [row for row in inv['artifacts']
+                if row.get('status') == 'VERIFIED_RELEASE_CANDIDATE' and row.get('ok_to_submit')]
+    if not released:
+        assert 'NO APPROVED FILE' in text
+    else:
+        assert len(released) == 1, 'exactly one release row may be certified'
+        name = Path(released[0]['file']).name
+        assert name in text, name
+        assert released[0]['file'] == inv['downloadable_approved_submission']
+    assert 'DO NOT SUBMIT' in text
     assert 'will **not** trigger' not in text
     assert 'Verdict:** PROMOTE' not in text
