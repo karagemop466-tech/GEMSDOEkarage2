@@ -1,0 +1,51 @@
+{
+  "schema": "gems.arena_official_verification.v1",
+  "date_utc": "2026-10-31",
+  "decision": "DOWNLOAD: format-checked. SUBMIT: owner decision only. NOT measured to beat 0.2778.",
+  "hypothesis": "No new lane this session: the only available instrument (holdout DTI) cannot rank leaderboard-class emissions, so no candidate can be validated.",
+  "official_sources": [
+    "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "https://github.com/drivendataorg/gems-prize-reference-solution",
+    "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html",
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/data/"
+  ],
+  "recommended_file": {
+    "path": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+    "sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+    "dots": 44090
+  },
+  "verified_format": {
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "bands": 1,
+    "finite": true,
+    "min": 0.0,
+    "max": 1.0,
+    "values_outside_0_1": 0
+  },
+  "tests": {
+    "pytest": "302 passed, 10 skipped (pinned requirements.lock.txt, Python 3.11)"
+  },
+  "score_evidence": {
+    "measured_score": null,
+    "holdout_dti": "HOLDOUT-DTI 0.1367 (evaluator per repo; instrument cannot rank)",
+    "estimate": "CALIBRATED-PRIVATE projection 0.222-0.605, not a score",
+    "owner_reported_champion": "0.2778 OWNER-REPORT, unverified"
+  },
+  "irregularities": [
+    "Official text: data outside bounds null or nan; file writes zeros outside footprint",
+    "Portal error 'Predicted values must be in range [0, 1]' unexplained",
+    "Grid/footprint from unauthenticated owner mirror",
+    "Mirror sample contains positives; organizer describes sample as total absence",
+    "Central 0.478 projection assumes 4.5% hit rate; instrument cannot rank",
+    "Brief's 0.4413 and 0.3195 do not match official rank 1 (0.4544)"
+  ],
+  "slot_authorized": false,
+  "verdict": "negative for claim of higher score; positive for format-valid download"
+}

@@ -9,6 +9,15 @@
 <section class="hero" id="release-it">
 <h2>Download this file and submit it</h2>
 <p class="verdict"><b class="ok">OK TO DOWNLOAD AND SUBMIT.</b> One file. It passes every automated gate this repository can run: format, range, grid, uniqueness and holdout. It was generated today from the mapped-fault catalogue and the organizer grid; no registry or published submission was used as an input.</p>
+<div class="caveat" id="release-caveats"><b>Read before spending a weekly slot (official-source check, 2026-10-31).</b>
+<ul>
+<li><b>Downloading is safe; a higher score is not shown.</b> The repo gates check format and uniqueness only. No measured score exists for this file. The 0.478 central value assumes a per-dot hit rate of 4.5%. The holdout instrument cannot rank the 0.2778 champion (it scores that file 0.0041), so it cannot show this file beats 0.2778.</li>
+<li><b>The pessimistic anchor is a blind field.</b> The 0.222 low end is what a random placement of the same dot count scores on the same table (0.227). Break-even against 0.2778 needs a 2.52% hit rate, close to the champion's own implied 2.76%.</li>
+<li><b>Portal acceptance is unverified.</b> The portal error &quot;Predicted values must be in range [0, 1]&quot; is not explained. The official problem page says data outside the bounds is null or nan; this file writes finite zeros outside the footprint. The 0.2778 champion also uses zeros with an owner-reported score, so the convention is not settled either way.</li>
+<li><b>The grid is unauthenticated.</b> The 3730 x 3292 grid and footprint come from an owner mirror whose hashes match but whose provenance the organizer has not confirmed. The mirror's sample file contains positive predictions, while the organizer describes its sample as total fault absence.</li>
+</ul>
+Official sources: <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NLR official rules PDF</a> (section 3.2); <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData problem page, Submission format</a>; <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData leaderboard</a>. Full review: research/2026-10-31-official-source-verification-arena.md in the repository.
+</div>
 <p><a class="btn big" href="downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif" download>Download the submission TIFF</a>
 <a class="btn secondary" href="how-to-submit.html">How to submit (exact steps)</a>
 <a class="btn secondary" href="evidence/halo/final_generation.json">Open the release receipt</a></p>

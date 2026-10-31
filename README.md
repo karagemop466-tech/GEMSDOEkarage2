@@ -1,5 +1,13 @@
 # GEMSDOEkarage2
 
+## Official-source check (2026-10-31, Arena branch arena/48564c81) — READ FIRST
+
+* **Download the recommended file:** [`docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif`](docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif) (SHA-256 `603be6bf…`). It is format-checked: float32, EPSG:32611, all values in [0, 1].
+* **Do not treat it as a likely winner.** No measured score exists. The 0.478 central figure is a projection built on an assumed hit rate. The repo's holdout cannot rank the 0.2778 champion, so it cannot show the file beats 0.2778. Owner decision only, for any slot.
+* **Official rules conflict:** the [problem page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) says data outside the bounds is null or NaN; the file writes zeros there. The portal error "Predicted values must be in range [0, 1]" is still unexplained.
+* **Leaderboard:** the [official board](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) shows rank 1 at 0.4544, not 0.4413 or 0.3195.
+* **Full review, with every source and irregularity:** [`research/2026-10-31-official-source-verification-arena.md`](research/2026-10-31-official-source-verification-arena.md); run card [`evidence/arena-official-verification-2026-10-31.json`](evidence/arena-official-verification-2026-10-31.json).
+* **Still needed:** official data access (the DrivenData data tab is login-walled), and one portal receipt for the recommended file.
 ## Parallel lane 2026-10-31 — independent structural-habitat raster (arena/788c0b40)
 
 **One new raster, generated from the 19-band GeoDAWN stack alone — no published raster is an input.**
