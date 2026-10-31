@@ -29,6 +29,7 @@ a:hover { text-decoration: underline; }
   margin-left: 10px;
 }
 .badge.ok { background: #ecfdf5; color: var(--ok); border: 1px solid #bbf7d0; }
+.badge.yes { background: #ecfdf5; color: var(--ok); border: 1px solid #bbf7d0; }
 .badge.no { background: #fef2f2; color: var(--no); border: 1px solid #fecaca; }
 .badge.warn { background: #fffbeb; color: var(--warn); border: 1px solid #fcd34d; }
 .badge.promote { background: #ecfdf5; color: var(--ok); border: 1px solid #bbf7d0; }
@@ -78,6 +79,25 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 4px; font-size: 12.
 .tag { font-weight: 700; }
 .tag.no { color: var(--no); } tag.yes { color: var(--ok); }
 .cs { white-space: nowrap; }
+.yes { color: var(--ok); font-weight: 700; }
+.submission-card {
+  border: 2px solid var(--brand);
+  background: #e7f5fa;
+  border-radius: 12px;
+  padding: 22px;
+  margin: 20px 0;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.submission-info { flex: 1; min-width: 280px; }
+.submission-info h3 { margin: 0 0 12px 0; font-size: 18px; color: var(--brand); }
+.submission-info p { margin: 6px 0; font-size: 14px; }
+.submission-actions { flex-shrink: 0; min-width: 200px; }
+.submission-actions .btn { display: block; width: 100%; margin: 8px 0; text-align: center; }
+.submission-actions .btn.big { padding: 14px 20px; font-size: 15px; }
+.submission-actions .btn.secondary { padding: 10px 16px; font-size: 13px; }
 
 /* Current dashboard: readable at desktop and narrow preview widths. */
 body > header, body > main { max-width: 1120px; margin: auto; padding: 20px; }

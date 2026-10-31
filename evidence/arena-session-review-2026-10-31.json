@@ -1,0 +1,43 @@
+{
+  "schema": "gems.repository_review_card.v1",
+  "date_utc": "2026-10-31",
+  "classification": "REPOSITORY REVIEW; SOFTWARE TESTS ONLY; NO GEOLOGICAL EXPERIMENT",
+  "hypothesis": "No method paragraph assigned; no scientific hypothesis tested.",
+  "mechanism": "Review existing project controls and rerun Python, Node, browser and readiness checks.",
+  "named_non_fault_mimic": "Not applicable; no candidate surface generated.",
+  "holdout_dti": null,
+  "holdout_dti_ci95": null,
+  "holdout_evaluator_version": null,
+  "holdout_withheld_positives": null,
+  "holdout_status": "NOT RUN: organizer data/template and cached feature stack absent; no method paragraph assigned.",
+  "score_estimate": null,
+  "registry_correlation_or_overlap": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "candidate_generated": false,
+    "candidate_validator": "NOT RUN",
+    "authenticated_template_available": false,
+    "approved_for_submission": false,
+    "existing_downloads": "RESEARCH ONLY / DO NOT SUBMIT"
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "experiments_run": 0,
+  "submission_slots_used": 0,
+  "verdict": "negative",
+  "checks": {
+    "python": "257 passed, 8 skipped, 98 subtests passed",
+    "node_feed": "3 passed",
+    "node_site": "8 passed",
+    "browser": "passed at 1440, 390, and 320 px",
+    "readiness": "exit 0",
+    "nine_site_best_audit": "blocked: .cache/gems_data/sample_submission.tif absent"
+  },
+  "limitations": [
+    "data/ and authenticated organizer template/feature stack are absent.",
+    "No assigned method paragraph; no holdout or leakage-canary result can be generated.",
+    "Nine-site best audit not freshly rerun because cached sample_submission.tif is absent.",
+    "No new official-source fetch; source/leaderboard claims remain dated evidence.",
+    "Literal dense-registry overlap threshold remains unresolved; no bypass attempted."
+  ]
+}
