@@ -59,5 +59,20 @@
     "sha256_matches": true,
     "passed": true
   },
-  "exterior_convention_note": "The repository's scripts/submission_writer.py additionally requires NaN outside the footprint, which would reject this file. Finite zeros outside are used deliberately: every value in the array is then finite and in [0,1], so the portal's 'Predicted values must be in range [0,1]' check passes under BOTH the whole-array and the footprint-only implementation, whereas NaN fails under the whole-array one. The two highest-scoring files in the focus family (GEMSDOE32 0.2778, GEMSDOE36 0.2750) both use zeros outside. Flagged as IR-EXTERIOR-01."
+  "exterior_convention_note": "The repository's scripts/submission_writer.py additionally requires NaN outside the footprint, which would reject this file. Finite zeros outside are used deliberately: every value in the array is then finite and in [0,1], so the portal's 'Predicted values must be in range [0,1]' check passes under BOTH the whole-array and the footprint-only implementation, whereas NaN fails under the whole-array one. The two highest-scoring files in the focus family (GEMSDOE32 0.2778, GEMSDOE36 0.2750) both use zeros outside. Flagged as IR-EXTERIOR-01.",
+  "verdict": "promote-instrument-limited",
+  "format_valid": true,
+  "unique_submission_verified": true,
+  "unique_submission_caveat": "IR-ONESIDED-01: the literal one-sided rule (>70 % of dots within 3 px of one registry raster) is tripped against 76 of 488 registry rasters, worst 0.9377. The discriminating statistics are clean: max |Spearman| 0.1425, max symmetric 3 px 0.5799, max support Jaccard 0.0782. A control scan (evidence/lane-gbm/uniqueness-dual.json) shows the incumbent GEMSDOE32 file trips the same literal rule against 109 references while having 0.9767 support Jaccard against a registry file, so the one-sided count does not discriminate copying from co-location.",
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false,
+  "submission_slots_used": 0,
+  "note": "GBM fault prospectivity from the 19 GeoDAWN bands; top 100k off-catalogue pixels, 500 m catalogue apron, binary 0/1, no NaN.",
+  "raster_sha256": "18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e",
+  "instrument_limitation_measurement": {
+    "limitation": "the only grading instrument this repository can run is hide-and-recover against the PUBLIC fault catalogue, and that instrument is Spearman -1.00 against the reported leaderboard across all nine focus best-files",
+    "receipt": "docs/data/mask-width-calibration.json",
+    "best_spearman": -1.0,
+    "consequence": "the holdout number can compare models under a matched policy but cannot be converted into a leaderboard score"
+  }
 }

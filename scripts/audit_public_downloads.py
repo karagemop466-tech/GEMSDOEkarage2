@@ -99,6 +99,13 @@ ARTIFACTS = (
     # the recorded incumbent and the literal lattice clause stops it -> negative.
     ("gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros",
      "evidence/s1/run_card.json", "evidence/s1/selector_result.json", True, "research"),
+    # Off-catalogue GBM lane (2026-10-31 parallel lane). Format-valid, unique on the
+    # discriminating statistics, HOLDOUT-DTI-PROXY below the incumbent, and it trips the
+    # literal one-sided uniqueness clause (IR-ONESIDED-01). Registered as a candidate, not
+    # as a second release: this repository publishes exactly one recommended file.
+    ("gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z",
+     "docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.run-card.json",
+     None, False, "candidate"),
 )
 
 # Files that exist in docs/downloads but are NOT registered in ARTIFACTS and are NOT
@@ -466,8 +473,7 @@ def _audit_release(root: Path, stem: str, card_rel: str, grid: dict) -> dict:
 def audit(root: Path = ROOT) -> dict:
     grid = json.loads((root / 'evidence/geometry-audit.json').read_text())["template"]
     downloads = root / 'docs/downloads'
-    release = _release_artifacts(root)
-    expected_tifs = {f"{a[0]}.tif" for a in ARTIFACTS} | {f"{a[0]}.tif" for a in release}
+    expected_tifs = {f"{a[0]}.tif" for a in ARTIFACTS}
     expected_zips = {f"{a[0]}.zip" for a in ARTIFACTS if a[3]}
     found_tifs = {p.name for suffix in ("*.tif", "*.tiff") for p in downloads.glob(suffix)}
     found_zips = {p.name for p in downloads.glob('*.zip')}

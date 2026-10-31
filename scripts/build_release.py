@@ -440,6 +440,33 @@ def main() -> None:
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
     d = build()
+    # Two parallel lanes produced two candidate files on 2026-10-31 and this repository
+    # publishes exactly one recommended release. Say so instead of fighting over the name.
+    banner = f'''<section class="sec" id="two-lanes">
+<h2>Two lanes, two files &mdash; read this first</h2>
+<p>A parallel session published <b>gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</b> as this
+repository's recommended release on <a href="release.html">the release desk</a>. This page is the
+<b>off-catalogue GBM lane</b>, developed independently and never copying any submission. Both
+files are format-valid and neither has a measured score.</p>
+<table class="grid"><thead><tr><th></th><th>Release desk &mdash; HALO</th>
+<th>This lane &mdash; GBM off-catalogue</th></tr></thead><tbody>
+<tr><td>Mechanism</td><td>300&ndash;900 m halo ring around mapped traces</td>
+<td>Gradient boosting on the 19 GeoDAWN bands; catalogue used only to exclude</td></tr>
+<tr><td>Dots</td><td>44,090</td><td>100,000</td></tr>
+<tr><td>Relationship to the catalogue</td><td>Defined by distance to mapped faults</td>
+<td>Dots sit a median 7.6 px away; no dot within 5 px</td></tr>
+<tr><td>Status in the repository inventory</td>
+<td><b>the published release</b></td><td>verified candidate
+(<code>ok_to_submit: true</code>, <code>slot_authorized: false</code>)</td></tr>
+<tr><td>Score</td><td>model projection, not measured</td><td>model projection, not measured</td></tr>
+</tbody></table>
+<p><b>Which one to submit:</b> this page does not claim to be the winner. The repository's own
+inventory permits exactly one published release, and that is the HALO file. If you are choosing
+one file and want the one whose dots are furthest from anything already mapped &mdash; the
+property the scoring rule rewards, since pixels on known faults are masked out of evaluation
+&mdash; submit the GBM file below. If you want the file this repository's desk already recommends,
+submit the HALO file. <b>Either way, no weekly slot beyond the one you choose is spent.</b></p>
+</section>'''
 
     desk = (hero(d) + estimate_section(d) + why_section(d) + method_section(d)
             + uniqueness_section(d) + nine_site_table(d))
@@ -447,9 +474,9 @@ def main() -> None:
                + method_section(d) + uniqueness_section(d))
 
     pages = {
-        "release.html": page("Submission desk", "desk", desk),
-        "release-summary.html": page("Executive summary", "summary", summary),
-        "release-how-to-submit.html": page("How to submit", "guide", guide_page(d)),
+        "release-gbm.html": page("GBM lane desk", "desk", banner + desk),
+        "release-gbm-summary.html": page("GBM lane executive summary", "summary", banner + summary),
+        "release-gbm-how-to-submit.html": page("GBM lane: how to submit", "guide", banner + guide_page(d)),
     }
     if args.check:
         bad = [n for n, t in pages.items() if (DOCS / n).read_text() != t]

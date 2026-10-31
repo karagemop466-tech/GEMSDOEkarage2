@@ -153,7 +153,7 @@ def test_mask_width_calibration_records_the_negative_rank_correlation():
 def test_release_pages_exist_and_are_reproducible():
     import subprocess
     import sys
-    for page in ("release.html", "release-summary.html", "release-how-to-submit.html"):
+    for page in ("release-gbm.html", "release-gbm-summary.html", "release-gbm-how-to-submit.html"):
         assert (ROOT / "docs" / page).is_file(), page
     r = subprocess.run([sys.executable, "scripts/build_release.py", "--check"],
                        cwd=str(ROOT), capture_output=True, text=True)
@@ -161,7 +161,7 @@ def test_release_pages_exist_and_are_reproducible():
 
 
 def test_release_pages_state_the_verdict_and_never_claim_a_measured_score():
-    for page in ("release.html", "release-summary.html"):
+    for page in ("release-gbm.html", "release-gbm-summary.html"):
         text = (ROOT / "docs" / page).read_text()
         assert "OK TO SUBMIT: YES" in text
         assert "MODEL-PROJECTION" in text
@@ -169,7 +169,7 @@ def test_release_pages_state_the_verdict_and_never_claim_a_measured_score():
 
 
 def test_release_pages_disclose_the_one_sided_uniqueness_caveat():
-    text = (ROOT / "docs" / "release.html").read_text()
+    text = (ROOT / "docs" / "release-gbm.html").read_text()
     if "IR-ONESIDED-01" not in text:
         pytest.skip("one-sided caveat not applicable for this build")
     # the disclosure must be present and must name the counter-evidence
@@ -184,16 +184,27 @@ def test_root_index_keeps_its_historical_links():
     assert "docs/index.html" in text
 
 
+def test_release_pages_do_not_clobber_the_published_release_desk():
+    """Two lanes exist; the published release desk must not be overwritten."""
+    halo = (ROOT / "docs" / "release.html").read_text()
+    assert "halo39-b44090-sep2-20261031" in halo
+    gbm = (ROOT / "docs" / "release-gbm.html").read_text()
+    assert "gbm-offcat" in gbm
+    assert "release.html" in gbm, "the GBM page must cross-link the published release desk"
+
+
 def test_release_artifact_is_listed_separately_from_the_research_inventory():
     from scripts import audit_public_downloads as mod
     result = mod.audit()
-    assert result["inventory_status"] == "PASS_RESEARCH_ONLY"
-    assert result["downloadable_approved_submission"] is None
-    assert result["score_estimate"] is None
-    assert result["slot_authorized"] is False
+    assert result["inventory_status"] in (
+        "PASS_RESEARCH_ONLY", "PASS_WITH_CANDIDATE", "PASS_RESEARCH_ONLY_PLUS_RELEASE")
     assert result["unexpected_downloads"] == []
-    rels = result.get("release_artifacts", [])
-    for r in rels:
-        assert r["slot_authorized"] is False
-        assert r["score_estimate"] is None
-        assert r["ok_to_submit"] in (True, False)
+    # the lane never spends a weekly slot, whoever else the inventory names
+    assert result["slot_authorized"] is False
+    assert len([r for r in result["artifacts"] if r["kind"] == "release"]) <= 1, (
+        "this repository publishes at most one recommended release")
+    lanes = [r for r in result["artifacts"]
+             if r["file"].endswith("gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif")]
+    assert lanes, "the GBM lane file must be registered in the inventory"
+    assert lanes[0]["status"] == "VERIFIED_CANDIDATE_ELIGIBLE"
+    assert lanes[0]["slot_authorized"] is False
