@@ -138,5 +138,34 @@
     "submit": false,
     "submit_reason": "UNIQUE and format-valid, but HOLDOUT-DTI 0.0184 (far below submission-worthy threshold). NOT OK to submit. Negative deliverable per protocol.",
     "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2"
+  },
+  {
+    "site": "NEW · GEMSDOEkarage2 H-B (this repo)",
+    "historical_submission": "gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031",
+    "user_reported_result": null,
+    "evidence_class": "NEW HYPOTHESIS · HOLDOUT-DTI MEASURED · NOT ORGANIZER-CONFIRMED",
+    "estimated_score": null,
+    "unique": true,
+    "unique_reason": "PASS vs 12 local rasters: max |Spearman| 0.0242 (<=0.90), max dot overlap 0.2247 (<=0.70). Full registry not locally available.",
+    "download": "downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif",
+    "verdict": "negative",
+    "submit": false,
+    "submit_reason": "UNIQUE and values-in-[0,1]-safe, but HOLDOUT-DTI 0.000585 (near zero by design: off-catalogue discovery masked against known-fault labels). NOT OK to submit. Negative deliverable per protocol.",
+    "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2/tree/arena/f09ff072-gemsdoekarage2"
+  },
+  {
+    "site": "NEW · GEMSDOEkarage2 H-F2 (this repo, 2026-10-31)",
+    "historical_submission": "gemsdoekarage2-coheridge-d28-b37654-20261031-zeros",
+    "user_reported_result": null,
+    "evidence_class": "HOLDOUT-DTI MEASURED on gems57-pooled-hide-v2 · LIVE value is a CALIBRATED ESTIMATE on USER-REPORTED data · not ORGANIZER-CONFIRMED",
+    "estimated_score": 0.2979,
+    "score_evidence": "UNVERIFIED · calibrated from the 0.2778 champion by the paired credit-per-pixel ratio 1.512 on identical folds, bounded by metric saturation; metric band [0.2778, 0.4201], after detector-transfer error [0.1833, 0.6366]. Not a score and not a projection of one.",
+    "unique": true,
+    "unique_reason": "max 3-px dot overlap 63.1% (limit 70%) and |rho| 0.012 (limit 0.90) across 67 locally available registry rasters; the only comparators reaching 100% are the space-filling 5-px lattice witnesses, against which the 70% rule is unsatisfiable for any file in this footprint (pigeonhole, IR-51-LATTICE-01 style conflict, owner decision open)",
+    "download": "downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif",
+    "verdict": "negative",
+    "submit": false,
+    "submit_reason": "UNIQUE and format-valid (all 12,279,160 cells finite in [0,1], nodata=None, exterior zeros), and it beats the 0.2778 champion on the shared holdout with a paired CI excluding zero (HOLDOUT-DTI 0.01039 vs 0.00665). NOT OK to submit: the same holdout is mildly anti-correlated with the live board across this family (Spearman -0.23 over 53 scored rasters), the literal duplicate gate is unresolved, and no organizer receipt or authenticated input exists. Download for audit: yes.",
+    "source": "https://github.com/karagemop466-tech/GEMSDOEkarage2"
   }
 ]

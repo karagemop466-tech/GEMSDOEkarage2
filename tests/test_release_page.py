@@ -203,3 +203,22 @@ def test_adding_a_profitable_dot_never_lowers_the_score():
         after = score_model.dti(T + K * h, F + 1 - h, G)
         assert after > before
     assert score_model.dti(T + K * bar, F + 1 - bar, G) == pytest.approx(before, abs=1e-9)
+
+
+def test_directed_overlap_receipt_names_the_closest_published_field():
+    """The 473-raster snapshot went stale; the receipt must track files published since."""
+    new = json.loads((ROOT / "evidence/halo/overlap-vs-published.json").read_text())
+    assert new == json.loads((ROOT / "docs/evidence/halo/overlap-vs-published.json").read_text())
+    rel = json.loads((ROOT / "evidence/halo/final_generation.json").read_text())
+    assert new["release"]["sha256"] == rel["format_checks"]["sha256"]
+    assert new["release"]["dots"] == rel["generation"]["dots_emitted"]
+    worst = new["worst_directed_overlap"]
+    assert worst["fraction"] < 0.70, worst
+    # every row is a saved file on disk with a hash
+    for row in new["rows"]:
+        path = ROOT / row["file"]
+        assert path.is_file(), row["file"]
+        assert len(row["sha256"]) == 64
+    # the reverse direction is recorded, and never used to excuse the forward one
+    assert new["worst_reverse_overlap"]["fraction"] >= worst["fraction"]
+    assert new["verdict"] == "PASS"

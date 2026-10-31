@@ -1,0 +1,14 @@
+{
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "arm": "champion_b2_gemsdoe32_user_reported_0.2778",
+  "dti": 0.006653012398221865,
+  "ci95": [
+    0.005961026321687419,
+    0.007496579639988998
+  ],
+  "tpw": 358.7546306271551,
+  "fpw": 36027.43420894155,
+  "withheld_positive_pixels": 58308,
+  "interpretation": "the champion-class emission scores BELOW budget-matched random dots (0.0714-0.0735) on the withheld-component instrument; the instrument cannot rank leaderboard-class corridor emissions because whole-component withholding detaches 96%+ of truth from visible context (fold-0 measurement: 3.4% of truth within 3km of visible context)."
+}

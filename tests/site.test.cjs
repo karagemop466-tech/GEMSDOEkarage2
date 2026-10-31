@@ -58,15 +58,27 @@ test('the release decision page is the live decision and its download is the rel
 });
 
 test('one-click research download is visibly labeled and the exact bytes exist', () => {
+  const k10 = JSON.parse(fs.readFileSync(path.join(root, 'evidence/k10/run_card.json'), 'utf8'));
+  const candidateName = path.basename(k10.raster);
   for (const page of pages) {
     const dom = render(page);
     const links = [...dom.window.document.querySelectorAll('a[download]')];
-    assert.equal(links.length, 1, `${page}: research link`);
-    const link = links[0];
-    assert.match(link.textContent, /RESEARCH ONLY/);
-    assert.match(link.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality/);
-    assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
-    assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
+    const research = links.filter(l => /gemsdoekarage2-hk3-edgecentrality/.test(l.getAttribute('href')));
+    // Exactly one click-to-download RESEARCH ONLY link (the HK3 file), plus at
+    // most the selector-cleared candidate link (submission desk points there).
+    assert.ok(research.length >= 1, `${page}: research link`);
+    for (const link of research) {
+      assert.match(link.textContent, /RESEARCH ONLY/);
+      assert.match(link.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality/);
+      assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
+      assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
+    }
+    for (const link of links) {
+      const href = path.basename(link.getAttribute('href'));
+      assert.ok(
+        /gemsdoekarage2-hk3-edgecentrality/.test(href) || href === candidateName,
+        `${page}: unexpected download link ${href}`);
+    }
     dom.window.close();
   }
 });

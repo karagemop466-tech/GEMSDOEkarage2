@@ -50,13 +50,37 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
     assert result['downloadable_approved_submission'] == releases[0]['file']
     assert releases[0]['status'] == 'VERIFIED_RELEASE_CANDIDATE'
     assert releases[0]['slot_authorized'] is False
-    assert result['score_estimate'] and min(result['score_estimate']) >= 0 < max(result['score_estimate']) <= 1
+    assert result['score_estimate'] and 0 < min(result['score_estimate']) < max(result['score_estimate']) <= 1
+    assert result['slot_authorized'] is False
+    # Unregistered leftovers from parallel lanes are quarantined, never authorized.
+    assert [q['status'] for q in result['quarantined_downloads']] == ['QUARANTINED_NOT_AUTHORIZED'] * len(result['quarantined_downloads'])
+    assert not result['unexpected_downloads']
     assert all(r['exterior_convention'].startswith('not assessed')
                for r in result['artifacts'] if r['kind'] != 'release')
     assert all(r['exterior_convention'].startswith('zeros outside')
                for r in result['artifacts'] if r['kind'] == 'release')
     hk3 = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
-    assert len(result['artifacts']) == 11
+    # The count is a guard against un-inventoried downloads, not an endorsement: every
+    # research entry must stay ok_to_submit False until an organizer receipt and a
+    # resolvable duplicate gate exist. Exactly one release row may be authorized for
+    # download, and its slot stays unauthorized.
+    assert len(result['artifacts']) == len(mod.ARTIFACTS)
+    hf2_name = 'gemsdoekarage2-coheridge-d28-b37654-20261031-zeros'
+    hf2 = next(r for r in result['artifacts'] if r['file'].endswith(hf2_name + '.tif'))
+    hf2_card = json.loads((ROOT / f'docs/downloads/{hf2_name}.run-card.json').read_text())
+    assert hf2['status'] == 'VERIFIED_RESEARCH_ONLY' and hf2['ok_to_submit'] is False
+    assert hf2['slot_authorized'] is False and hf2['zip_file'].endswith('.zip')
+    assert all(v is True for v in hf2['checks'].values())
+    assert hf2['diagnostics']['nan_pixels'] == 0 and hf2['diagnostics']['masked_pixels'] == 0
+    assert hf2['diagnostics']['finite_min'] >= 0.0 and hf2['diagnostics']['finite_max'] <= 1.0
+    assert hf2['diagnostics']['whole_array_pixels'] == 12279160
+    # the card must keep the three things the protocol asks of every run
+    assert hf2_card['verdict'] == 'negative' and hf2_card['ok_to_submit'] is False
+    assert hf2_card['holdout_dti'] is not None and hf2_card['holdout_ci_95'][0] > 0.0
+    assert hf2_card['calibrated_live_estimate']['evidence_class'].startswith('CALIBRATED')
+    assert 'never a score' in hf2_card['calibrated_live_estimate']['evidence_class']
+    assert hf2_card['evaluator_version'] == 'gems57-pooled-hide-v2'
+    assert len(hf2_card['note']) <= 140
     ha_name = 'gemsdoekarage2-hA-intersection-propensity-aad3569983ab'
     ha = next(r for r in result['artifacts'] if r['file'].endswith(ha_name + '.tif'))
     ha_card = json.loads((ROOT / 'evidence/hA-intersection/run_card.json').read_text())
@@ -84,12 +108,18 @@ def test_current_saved_downloads_are_hash_bound_and_research_only():
         assert record['slot_authorized'] is False
         if record['kind'] == 'release':
             # A release entry is verified by its own re-read bytes and receipt; the
-            # slot is still unauthorized here (that is the selector's decision).
+            # slot is still unauthorized here (that is the owner's decision).
             assert record['status'] == 'VERIFIED_RELEASE_CANDIDATE'
             assert record['checks']['all_values_finite'] and record['checks']['values_in_unit_range']
             assert record['checks']['card_sha_matches_saved_bytes']
             assert record['checks']['grid_matches_template']
             assert record['checks']['uniqueness_inside_literal_thresholds']
+        elif record.get('kind') == 'candidate':
+            # The K10 candidate stays eligible for download but is superseded by the
+            # release row; its slot is unauthorized too.
+            assert record['status'] == 'VERIFIED_CANDIDATE_ELIGIBLE'
+            assert record['ok_to_submit'] is True
+            assert record['file'] != result['downloadable_approved_submission']
         else:
             assert record['status'] == 'VERIFIED_RESEARCH_ONLY'
             assert record['ok_to_submit'] is False
@@ -110,8 +140,14 @@ def test_stale_unverified_tif_is_not_published_as_a_submission():
         assert 'gw-nfs-h1-20261029-zeros' not in page
     assert 'docs/index.html' in (ROOT / 'index.html').read_text()
     report = mod.audit()
-    assert all(r['ok_to_submit'] is False for r in report['artifacts'] if r['kind'] != 'release')
-    assert sum(r['ok_to_submit'] is True for r in report['artifacts']) <= 1
+    assert all(r['ok_to_submit'] is False for r in report['artifacts']
+               if r['kind'] not in ('release', 'candidate'))
+    released = [r for r in report['artifacts'] if r['kind'] == 'release']
+    assert len(released) == 1
+    assert report['downloadable_approved_submission'] == released[0]['file']
+    assert released[0]['ok_to_submit'] is True and released[0]['slot_authorized'] is False
+    cand = [r for r in report['artifacts'] if r.get('kind') == 'candidate']
+    assert all(r['file'] != released[0]['file'] for r in cand)
 
 
 def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch):
@@ -126,7 +162,7 @@ def test_forged_candidate_and_selector_always_fail_closed(tmp_path, monkeypatch)
             ok_to_submit=True, slot_authorized=False, source_run_card=card_rel, raster_sha256=card['raster_sha256'])))
         result = mod.audit_artifact(root, stem, card_rel, selector_rel, has_zip, grid, 'candidate')
         assert result['status'] == 'FAIL_CLOSED' and result['ok_to_submit'] is False
-        assert result['checks']['independent_release_verification_implemented'] is False
+        assert result['checks']['candidate_card_gates'] is False
     monkeypatch.setattr(mod, 'ARTIFACTS', ((stem, card_rel, selector_rel, True, 'candidate'),))
     result = mod.audit(root)
     assert result['inventory_status'] == 'FAIL_CLOSED'

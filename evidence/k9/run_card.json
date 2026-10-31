@@ -1,0 +1,59 @@
+{
+  "hypothesis": "K9: corroborated magnetic+gravity lineaments with oriented strike persistence locate faults absent from the catalogue.",
+  "mechanism": "RMS edge strength (tmi_hg, |tmi_vg|) x (iso_grav_anom_hg, |iso_grav_anom_vg|); structure-tensor orientation agreement ~30 deg at 200/600 m; oriented closing; 38k greedy 200m NMS dots; 200m catalogue apron excluded.",
+  "non_fault_mimic": "Lithological contacts and dikes juxtapose susceptibility/density without being faults; gridding seams mimic corroborated edges.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.054552523084471775,
+    "ci95": [
+      0.04796416242389923,
+      0.06106817825909717
+    ],
+    "withheld_positive_pixels": 58259,
+    "random38k_dti": 0.07345272240566862,
+    "paired_delta_vs_random38k": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": -0.018900199321196846,
+      "ci95": [
+        -0.025551443680668657,
+        -0.012386187882514815
+      ],
+      "withheld_positive_pixels": 58259
+    },
+    "final_dots_dti": 0.00736344464091005,
+    "canary_pass": true,
+    "verdict": "NEGATIVE: candidate and its dot realization score below budget-matched random dots"
+  },
+  "registry": {
+    "evidence_class": "REGISTRY-MEASUREMENT",
+    "rasters_checked": 486,
+    "rasters_expected": 487,
+    "rho_firings": [],
+    "like_for_like_firings": [
+      "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif"
+    ],
+    "worst_jaccard": 0.018113796630241697,
+    "lattice_saturation_irregularity": {
+      "champion": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "reported_score_user": 0.2778,
+      "champion_dots": 37654,
+      "champion_dots_within_3px_of_lattice": 0.9991501566898603,
+      "interpretation": "the best historical submission also saturates the spacing-5 lattice witness; the literal lattice gate does not separate duplicates from any dense emission"
+    },
+    "note": "byte-unique and pixel-unique vs every checked raster; the only like-for-like firing is the spacing-5 lattice witness, which the 0.2778 champion also fires at 99.92%"
+  },
+  "raster_sha256": "82f54249afc6224bec2073d397581c48b8ac13125189b96f4ca39aa2a71247a3",
+  "raster": "docs/downloads/gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros.tif",
+  "submission_name": "gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros",
+  "note": "Corroborated magnetic+gravity lineaments, oriented strike persistence; 38k dots, 200m catalogue apron excluded; hide-recover evaluated",
+  "format_valid": true,
+  "unique_vs_all_checked_rasters_except_lattice_witness": true,
+  "approved_for_weekly_slot": false,
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "verdict": "negative",
+  "assembly_note": "run-card assembled post-hoc from holdout.json + final_registry.json + validator.json + champion_vs_lattice.json after a serialization crash at the end of the original run; all inputs are the run's own saved receipts."
+}

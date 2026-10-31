@@ -156,8 +156,15 @@ def test_desk_pages_are_explicitly_research_only(card):
         assert "DO NOT SUBMIT" in page and "RESEARCH ONLY" in page
         assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
-        assert len(downloads) == 1
-        assert (DOCS / downloads[0]).resolve() == (ROOT / card["raster"]["file"]).resolve()
+        # The HK3 research file is always offered; the verified current candidate
+        # banner (submission desk, evidence/k10) may add its own download links.
+        hk3_links = [d for d in downloads
+                     if (DOCS / d).resolve() == (ROOT / card["raster"]["file"]).resolve()]
+        assert len(hk3_links) == 1
+        k10 = json.loads((ROOT / "evidence/k10/run_card.json").read_text())
+        for d in downloads:
+            assert (card["raster"]["file"].split("/")[-1] in d
+                    or k10["submission_name"] in d)
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
     assert "45,046 of 45,108" in home and "99.86%" in home

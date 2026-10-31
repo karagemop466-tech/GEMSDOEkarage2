@@ -49,11 +49,19 @@ def review():
         "raster_unchanged_since_original_card": entry["raster_sha256"] == raster["sha256"] == old["raster"]["sha256"],
         "historical_registry_bound_to_same_tiff": registry["candidate_file_sha256"] == raster["sha256"],
         "saved_download_checks_pass_research_only": entry["status"] == "VERIFIED_RESEARCH_ONLY",
-        "all_downloads_research_only": all(
-            row["status"] == "VERIFIED_RESEARCH_ONLY" for row in inventory["artifacts"]
-            if row.get("kind") != "release"),
+        # Every legacy/research file stays research-only. One verified candidate and
+        # at most one verified release are permitted, both with slot_authorized False
+        # (spending the weekly slot is the owner's action, never this repository's).
+        "all_downloads_research_only": (
+            inventory["inventory_status"] in ("PASS_RESEARCH_ONLY", "PASS_WITH_CANDIDATE",
+                                              "PASS_RESEARCH_ONLY_PLUS_RELEASE")
+            and all(row["slot_authorized"] is False for row in inventory["artifacts"])
+            and all(row["status"] == "VERIFIED_RESEARCH_ONLY"
+                    for row in inventory["artifacts"]
+                    if row.get("kind") not in ("candidate", "release"))),
         "release_entries_verified": all(
-            row["status"] == "VERIFIED_RELEASE_CANDIDATE" and row["slot_authorized"] is False
+            row["status"] == "VERIFIED_RELEASE_CANDIDATE" and row["ok_to_submit"] is True
+            and row["slot_authorized"] is False
             for row in inventory["artifacts"] if row.get("kind") == "release"),
     }
     if not all(checks.values()):

@@ -321,6 +321,12 @@ def pooled_dti_hide_and_recover(build_prediction,
         pred = np.nan_to_num(np.asarray(build_prediction(visible.copy(), i), dtype=np.float64), nan=0.0)
         if pred.shape != gt_mask.shape:
             raise ValueError(f"fold {i}: prediction shape {pred.shape} != {gt_mask.shape}")
+        # Defect fixed 2026-10-31: without this restriction, predictions outside the held-out
+        # block were scored as false positives of this fold (a perfect-everywhere predictor
+        # scored 0.625). Only the fold's active region (block minus visible faults) is scored,
+        # the same rule as pooled_dti_over_folds.
+        active = block & ~visible
+        pred = np.where(active, pred, 0.0)
         gt = np.zeros_like(pred, dtype=bool)
         gt[withheld] = True
         terms.append(dti_weighted_terms(pred, gt, pixel_size_m, alpha, beta, R_m))

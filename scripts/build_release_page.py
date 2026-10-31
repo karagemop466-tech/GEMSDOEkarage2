@@ -178,7 +178,7 @@ def method_section(e1: dict, e2: dict, e3: dict, rel: dict) -> str:
 </section>"""
 
 
-def gates_section(rel: dict) -> str:
+def gates_section(rel: dict, new: dict) -> str:
     f, u = rel["format_checks"], rel["uniqueness"]
     probe = u["universal_probes"][0] if u["universal_probes"] else None
     return f"""<section class="section" id="gates"><h3>Validation gates actually run on the released bytes</h3>
@@ -188,11 +188,13 @@ def gates_section(rel: dict) -> str:
 <tr><td>Value range</td><td>[0, 1] and no NaN — this is the check that produced the portal message on other files</td><td>min {f['min']}, max {f['max']}, all {f['shape'][0] * f['shape'][1]:,} cells finite, NaN inside footprint: {f['nan_inside_footprint']}</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Footprint</td><td>positives only inside the organizer footprint</td><td>{f['positive_pixels']:,} positive cells, all inside the footprint</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Uniqueness (rank)</td><td>|Spearman| ≤ 0.90 against every registry raster</td><td>worst |ρ| = <b>{u['worst_spearman']:.4f}</b> ({esc(Path(u['worst_spearman_submission']).name)})</td><td><b class="ok">PASS</b></td></tr>
-<tr><td>Uniqueness (dots)</td><td>≤ 70% of my dots within 3 px of one registry raster</td><td>worst = <b>{pct(u['worst_dot_overlap'])}</b> ({esc(Path(u['worst_overlap_submission']).name)}) over {u['submission_rasters_compared']} submission rasters</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Uniqueness (dots, registry snapshot)</td><td>≤ 70% of my dots within 3 px of one registry raster</td><td>worst = <b>{pct(u['worst_dot_overlap'])}</b> ({esc(Path(u['worst_overlap_submission']).name)}) over {u['submission_rasters_compared']} submission rasters</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Uniqueness (dots, files published since)</td><td>same rule against every raster now in <code>docs/downloads</code></td><td>worst = <b>{pct(new['worst_directed_overlap']['fraction'])}</b> ({esc(Path(new['worst_directed_overlap']['file']).name)}), margin {new['worst_directed_overlap']['margin_pp']:.1f} pp over {new['rasters_with_2000_plus_dots']} comparable rasters</td><td><b class="{'ok' if new['worst_directed_overlap']['passes_rule'] else 'no'}">{'PASS' if new['worst_directed_overlap']['passes_rule'] else 'FAIL'}</b></td></tr>
 <tr><td>Byte / pixel identity</td><td>no registry raster is an identical copy</td><td>no identical bytes, no identical decoded array, max Jaccard 0.033</td><td><b class="ok">PASS</b></td></tr>
 <tr><td>Leakage canary</td><td>each feature alone must have AUC ≤ 0.90</td><td>max AUC {max(abs(v - 0.5) for v in json.loads((HALO / 'e3.json').read_text())['leakage_canary_auc_vs_catalogue'].values()) + 0.5:.2f}</td><td><b class="ok">PASS</b></td></tr>
 </tbody></table></div>
 <p class="muted"><b>Two irregularities are reported rather than hidden.</b> (1) The literal protocol rule cannot be satisfied by <i>any</i> raster: the registry contains a uniform 5-px lattice probe whose dots lie within 3 px of {((probe['scored_domain_coverage_within_3px'] * 100) if probe else 99.87):.2f}% of the scored domain, so every possible submission has ~100% three-pixel overlap with it. The probe is therefore classified from its own bytes as an unavoidable sampling probe and reported separately (<code>evidence/halo/uniqueness_final.json</code>). (2) One registry blob, <code>GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif</code>, is not on the organizer grid and cannot be a competing submission; it is recorded, not dropped.</p>
+<p class="muted"><b>The closest published field is a same-day parallel-lane candidate, and the rule is directional.</b> {pct(new['worst_directed_overlap']['fraction'])} of this file's dots lie within 3 px of <code>{esc(Path(new['worst_directed_overlap']['file']).name)}</code> — under the 70% rule, but the thinnest margin in the table. In the other direction {pct(new['worst_reverse_overlap']['fraction'])} of <i>that</i> file's dots lie within 3 px of this one, so it is the duplicate under the project's directional rule, not this file. That is the evidence for recommending this file over it, together with this file's holdout measurement and score estimate, which the other file does not carry. Full receipt: <a href="evidence/halo/overlap-vs-published.json"><code>evidence/halo/overlap-vs-published.json</code></a>.</p>
 <p class="muted"><b>Inventory freshness.</b> The comparison set is the hash-pinned 489-raster focus inventory plus {u['delta_rasters_included']} rasters published after that snapshot, re-enumerated from each repository's current <code>main</code> today. It is not an organizer-complete registry: private, unlinked or larger rasters can exist. Re-run <code>python scripts/audit_halo_uniqueness.py --tif &lt;file&gt;</code> before uploading.</p>
 </section>"""
 
@@ -242,8 +244,9 @@ def build() -> str:
     e1 = load(HALO / "e1.json")
     e2 = load(HALO / "e2.json")
     e3 = load(HALO / "e3.json")
+    overlap = load(EV / "halo" / "overlap-vs-published.json")
     body = (hero(rel) + decision_table(model, rel) + why_section(model, rel)
-            + method_section(e1, e2, e3, rel) + gates_section(rel)
+            + method_section(e1, e2, e3, rel) + gates_section(rel, overlap)
             + estimate_section(model, rel) + risks_section(rel))
     return shell("Release decision", body)
 

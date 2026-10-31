@@ -1,10 +1,17 @@
 {
-  "schema": "gems.published_downloads.v2",
+  "schema": "gems.published_downloads.v3",
   "evidence_class": "SAVED-BYTE-INTEGRITY, NOT HOLDOUT-DTI OR ORGANIZER-CONFIRMED",
   "inventory_status": "PASS_RESEARCH_ONLY_PLUS_RELEASE",
-  "verdict": "negative",
+  "verdict": "release-published",
   "unexpected_downloads": [],
   "missing_downloads": [],
+  "quarantined_downloads": [
+    {
+      "file": "docs/downloads/gemsdoe-blind-geothermal-rad-mag-grav-intersection-20261031.tif",
+      "status": "QUARANTINED_NOT_AUTHORIZED",
+      "reason": "present but unregistered; run card is negative, but its card has no 'raster' field so the saved-byte binding cannot be checked here"
+    }
+  ],
   "artifacts": [
     {
       "file": "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif",
@@ -45,7 +52,8 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoekarage2-h1-parity-1ab65e3fb345-DO-NOT-SUBMIT-surface.tif",
@@ -89,7 +97,8 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoekarage2-h2-stepover-8d519ec5ec58.tif",
@@ -132,7 +141,8 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif",
@@ -176,7 +186,8 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoekarage2-b4-stepasym-b110-20261028-zeros.tif",
@@ -219,7 +230,8 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
@@ -263,7 +275,8 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif",
@@ -309,7 +322,8 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoekarage2-hA-intersection-propensity-aad3569983ab.tif",
@@ -350,7 +364,8 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoe-karage2-hr4-intersection-20261029-nan.tif",
@@ -391,7 +406,51 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif",
+      "raster_sha256": "5e7255d7abb4902ab95acbe7c13e4322ab5956606bc199501c3649c6dd4dc420",
+      "run_card": "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.run-card.json",
+      "kind": "research",
+      "selector": null,
+      "zip_file": "docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.zip",
+      "checks": {
+        "tif_exists": true,
+        "self_contained_tiff": true,
+        "single_band": true,
+        "float32": true,
+        "geotiff": true,
+        "mirror_shape_match": true,
+        "mirror_crs_match": true,
+        "mirror_transform_match": true,
+        "whole_array_finite": true,
+        "range_0_1": true,
+        "no_masked_pixels": true,
+        "raster_unchanged_during_read": true,
+        "card_verdict_negative": true,
+        "card_has_same_filename": true,
+        "card_sha_matches_saved_bytes": true,
+        "card_note_within_140_chars": true,
+        "zip_contains_exact_saved_tif": true
+      },
+      "diagnostics": {
+        "nan_pixels": 0,
+        "infinite_pixels": 0,
+        "masked_pixels": 0,
+        "positive_pixels": 37654,
+        "finite_min": 0.0,
+        "finite_max": 1.0,
+        "whole_array_pixels": 12279160
+      },
+      "status": "VERIFIED_RESEARCH_ONLY",
+      "download_for_research": true,
+      "ok_to_submit": false,
+      "slot_authorized": false,
+      "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.tif",
@@ -432,7 +491,268 @@
       "ok_to_submit": false,
       "slot_authorized": false,
       "template_authority": "pinned owner-mirror grid only; official template not authenticated",
-      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied"
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros.tif",
+      "raster_sha256": "82f54249afc6224bec2073d397581c48b8ac13125189b96f4ca39aa2a71247a3",
+      "run_card": "evidence/k9/run_card.json",
+      "kind": "research",
+      "selector": null,
+      "zip_file": "docs/downloads/gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros.zip",
+      "checks": {
+        "tif_exists": true,
+        "self_contained_tiff": true,
+        "single_band": true,
+        "float32": true,
+        "geotiff": true,
+        "mirror_shape_match": true,
+        "mirror_crs_match": true,
+        "mirror_transform_match": true,
+        "whole_array_finite": true,
+        "range_0_1": true,
+        "no_masked_pixels": true,
+        "raster_unchanged_during_read": true,
+        "card_verdict_negative": true,
+        "card_has_same_filename": true,
+        "card_sha_matches_saved_bytes": true,
+        "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
+        "zip_contains_exact_saved_tif": true
+      },
+      "diagnostics": {
+        "nan_pixels": 0,
+        "infinite_pixels": 0,
+        "masked_pixels": 0,
+        "positive_pixels": 38000,
+        "finite_min": 0.0,
+        "finite_max": 1.0,
+        "whole_array_pixels": 12279160
+      },
+      "status": "VERIFIED_RESEARCH_ONLY",
+      "download_for_research": true,
+      "ok_to_submit": false,
+      "slot_authorized": false,
+      "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif",
+      "raster_sha256": "6045978441319d450fca260af432d1f1915ee9d692178c619d4c6b708451cd27",
+      "run_card": "evidence/k10/run_card.json",
+      "kind": "candidate",
+      "selector": "evidence/k10/selector_result.json",
+      "zip_file": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.zip",
+      "checks": {
+        "tif_exists": true,
+        "self_contained_tiff": true,
+        "single_band": true,
+        "float32": true,
+        "geotiff": true,
+        "mirror_shape_match": true,
+        "mirror_crs_match": true,
+        "mirror_transform_match": true,
+        "whole_array_finite": true,
+        "range_0_1": true,
+        "no_masked_pixels": true,
+        "raster_unchanged_during_read": true,
+        "candidate_card_gates": true,
+        "card_has_same_filename": true,
+        "card_sha_matches_saved_bytes": true,
+        "card_note_within_140_chars": true,
+        "metadata_research_only_and_hash_bound": true,
+        "selector_explicit_candidate": true,
+        "zip_contains_exact_saved_tif": true
+      },
+      "diagnostics": {
+        "nan_pixels": 0,
+        "infinite_pixels": 0,
+        "masked_pixels": 0,
+        "positive_pixels": 38000,
+        "finite_min": 0.0,
+        "finite_max": 1.0,
+        "whole_array_pixels": 12279160
+      },
+      "status": "VERIFIED_CANDIDATE_ELIGIBLE",
+      "download_for_research": true,
+      "ok_to_submit": true,
+      "slot_authorized": false,
+      "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
+    },
+    {
+      "file": "docs/downloads/gemsdoekarage2-hc-strain-seis-corridor-30k-20261031.tif",
+      "raster_sha256": "f30a095e4137abb1ea79e25e4920bd49d9bf991eed61ddf6a74281ed6ca09331",
+      "run_card": "evidence/hc/e1_run_card.json",
+      "kind": "research-nan-exterior",
+      "selector": null,
+      "zip_file": null,
+      "checks": {
+        "tif_exists": true,
+        "self_contained_tiff": true,
+        "single_band": true,
+        "float32": true,
+        "geotiff": true,
+        "mirror_shape_match": true,
+        "mirror_crs_match": true,
+        "mirror_transform_match": true,
+        "whole_array_finite": true,
+        "range_0_1": true,
+        "no_masked_pixels": true,
+        "nan_exterior_matches_card_footprint": true,
+        "raster_unchanged_during_read": true,
+        "card_verdict_negative": true,
+        "card_has_same_filename": true,
+        "card_sha_matches_saved_bytes": true,
+        "card_note_within_140_chars": true
+      },
+      "diagnostics": {
+        "nan_pixels": 7111787,
+        "infinite_pixels": 0,
+        "masked_pixels": 0,
+        "positive_pixels": 28107,
+        "finite_min": 0.0,
+        "finite_max": 1.0,
+        "whole_array_pixels": 12279160,
+        "finite_pixels": 5167373,
+        "finite_mask_sha256": "aadc4079300653c5293dbe74c7f29b1fe04a1d0c58620d4e3d82ed3765348364"
+      },
+      "status": "VERIFIED_RESEARCH_ONLY",
+      "download_for_research": true,
+      "ok_to_submit": false,
+      "slot_authorized": false,
+      "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": "NaN exterior checked only against the run card's footprint hash; not organizer-authenticated"
+    },
+    {
+      "file": "docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041.tif",
+      "raster_sha256": "afe07d0cde063ec4ad9f906bef206286dffa5a374761d64fa2b4811ca41fe3e8",
+      "run_card": "docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041-run-card.json",
+      "kind": "research",
+      "selector": null,
+      "zip_file": null,
+      "checks": {
+        "tif_exists": true,
+        "self_contained_tiff": true,
+        "single_band": true,
+        "float32": true,
+        "geotiff": true,
+        "mirror_shape_match": true,
+        "mirror_crs_match": true,
+        "mirror_transform_match": true,
+        "whole_array_finite": true,
+        "range_0_1": true,
+        "no_masked_pixels": true,
+        "raster_unchanged_during_read": true,
+        "card_verdict_negative": true,
+        "card_has_same_filename": true,
+        "card_sha_matches_saved_bytes": true,
+        "card_note_within_140_chars": true
+      },
+      "diagnostics": {
+        "nan_pixels": 0,
+        "infinite_pixels": 0,
+        "masked_pixels": 0,
+        "positive_pixels": 495,
+        "finite_min": 0.0,
+        "finite_max": 1.0,
+        "whole_array_pixels": 12279160
+      },
+      "status": "VERIFIED_RESEARCH_ONLY",
+      "download_for_research": true,
+      "ok_to_submit": false,
+      "slot_authorized": false,
+      "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
+    },
+    {
+      "file": "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif",
+      "raster_sha256": "a77a78e8cc9cd0ca4a795c6c4c346d3cd1d29bac96afa333b5c0413ba32ec39b",
+      "run_card": "docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.run-card.json",
+      "kind": "research",
+      "selector": null,
+      "zip_file": null,
+      "checks": {
+        "tif_exists": true,
+        "self_contained_tiff": true,
+        "single_band": true,
+        "float32": true,
+        "geotiff": true,
+        "mirror_shape_match": true,
+        "mirror_crs_match": true,
+        "mirror_transform_match": true,
+        "whole_array_finite": true,
+        "range_0_1": true,
+        "no_masked_pixels": true,
+        "raster_unchanged_during_read": true,
+        "card_verdict_negative": true,
+        "card_has_same_filename": true,
+        "card_sha_matches_saved_bytes": true,
+        "card_note_within_140_chars": true
+      },
+      "diagnostics": {
+        "nan_pixels": 0,
+        "infinite_pixels": 0,
+        "masked_pixels": 0,
+        "positive_pixels": 36000,
+        "finite_min": 0.0,
+        "finite_max": 1.0,
+        "whole_array_pixels": 12279160
+      },
+      "status": "VERIFIED_RESEARCH_ONLY",
+      "download_for_research": true,
+      "ok_to_submit": false,
+      "slot_authorized": false,
+      "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
+    },
+    {
+      "file": "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.tif",
+      "raster_sha256": "855b94aabbf36cbbc5423e953509ae095a89baf037f55cddbb04ea6a98de73a5",
+      "run_card": "docs/downloads/gems-gbsp-blindspot-2195bc570842-20261031T005323Z.run-card.json",
+      "kind": "research",
+      "selector": null,
+      "zip_file": null,
+      "checks": {
+        "tif_exists": true,
+        "self_contained_tiff": true,
+        "single_band": true,
+        "float32": true,
+        "geotiff": true,
+        "mirror_shape_match": true,
+        "mirror_crs_match": true,
+        "mirror_transform_match": true,
+        "whole_array_finite": true,
+        "range_0_1": true,
+        "no_masked_pixels": true,
+        "raster_unchanged_during_read": true,
+        "card_verdict_negative": true,
+        "card_has_same_filename": true,
+        "card_sha_matches_saved_bytes": true,
+        "card_note_within_140_chars": true
+      },
+      "diagnostics": {
+        "nan_pixels": 7111787,
+        "infinite_pixels": 0,
+        "masked_pixels": 7111787,
+        "positive_pixels": 4525,
+        "finite_min": 0.0,
+        "finite_max": 1.0,
+        "whole_array_pixels": 12279160
+      },
+      "status": "VERIFIED_RESEARCH_ONLY",
+      "download_for_research": true,
+      "ok_to_submit": false,
+      "slot_authorized": false,
+      "template_authority": "pinned owner-mirror grid only; official template not authenticated",
+      "exterior_convention": "not assessed by this saved-byte integrity auditor; no organizer-authenticated footprint is supplied",
+      "exterior_check": null
     },
     {
       "file": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
@@ -481,6 +801,11 @@
   ],
   "downloadable_approved_submission": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
   "release_evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION; not ORGANIZER-CONFIRMED",
+  "candidate_superseded_by_release": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+  "candidate_caveats": [
+    "No leaderboard score estimate exists for the candidate; competition truth and submission receipts are unavailable.",
+    "Slot authorization stays False: promotion to a weekly submission is the owner's separate action."
+  ],
   "score_estimate": [
     0.2219,
     0.275,

@@ -4,6 +4,34 @@ Read `README.md` and the consolidated project prompt in it before changing scien
 submission workflows. Work on the assigned Arena branch. Preserve negative evidence,
 source-access limitations and the user's literal parallel-run protocol.
 
+## Current decision (2026-10-31): one candidate published; legacy files stay research-only
+
+Lane K10 (catalogue-corridor coverage) produced
+`docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif`.
+It passed the automated format gate (all-finite float32 [0,1] on the pinned mirror grid),
+the like-for-like uniqueness scan (no rho firing; no dot-overlap firing against 487
+hash-verified rasters; worst Jaccard 0.022), and the fail-closed selector
+(`evidence/k10/selector_result.json`). It is published on `docs/submission-desk.html` as
+OK TO DOWNLOAD AND SUBMIT with mandatory caveats: no leaderboard score estimate exists
+(truth and receipts unavailable), and the spacing-5 lattice witness fires for every dense
+emission including the 0.2778 champion (measured 99.92%), so the literal lattice reading is
+disclosed as a geometry property, not treated as a duplicate verdict.
+
+Two measured facts changed the protocol interpretation this session — keep them in future
+reviews: (1) the nine focus-site best files are one family (overlaps 0.976-1.000) whose
+reported ladder is tuning, not discovery; (2) the shared hide-and-recover instrument scores
+the 0.2778-reported champion at 0.00665, far below budget-matched random dots (0.0714), and
+96.6% of fold-0 withheld truth lies >3 km from visible context, so whole-component
+withholding cannot rank leaderboard-class corridor emissions. Do not re-apply the "beat the
+holdout best" bar to corridor-class candidates without fixing the instrument; do report
+instrument numbers with this limitation. K9, K10a and all legacy TIFFs remain research-only
+(DO NOT SUBMIT). Slot authorization stays False everywhere; only the owner spends slots.
+
+
+Read `README.md` and the consolidated project prompt in it before changing scientific or
+submission workflows. Work on the assigned Arena branch. Preserve negative evidence,
+source-access limitations and the user's literal parallel-run protocol.
+
 ## Current decision: all TIFFs are research-only
 
 Read `research/2026-10-28-independent-three-pass-review.md`,
@@ -58,3 +86,30 @@ No new experiment, TIFF or slot was used for the correction.
 * Automated freshness checks contact GitHub only; never infer account quota or current
   leaderboard values from them. Run the three review passes and the test suite before a
   PR. Never edit another repository without access or switch the assigned branch.
+
+## 2026-10-31 addendum — read before any further holdout or uniqueness work
+
+1. **The catalogue holdout is not a leaderboard ranker.** Scored as a control on the registry's own
+   fixed emissions it ranks the leaderboard champion *below* a uniform lattice: GEMSDOE32 (0.2778) =
+   0.0037 holdout DTI, GEMSDOE49 (0.2376) = 0.0000, GEMSDOE70 (0.2478) = 0.0026, versus the r13 lattice
+   (0.0904) = 0.0880. It measures catalogue recovery and the organizer rewards the opposite. Report its
+   output as "catalogue recovery", never as leaderboard potential, and never use it alone to rank
+   candidates. See `evidence/hx1/hx1_lineament_vs_random.json` → `instrument_control`.
+2. **Degenerate witnesses.** A uniqueness witness whose own 3 px dilation covers >=90% of the footprint
+   (the r13 lattice covers 98.9%) flags every possible raster and cannot discriminate. Flag it
+   `witness_is_degenerate`, exclude it from the verdict, and publish the literal number too. Implemented
+   in `scripts/build_hx_candidate.py`.
+3. **The apron law.** Among the nine focus sites the reported score is rank-predicted by the in-apron dot
+   fraction (rho = -0.9958, n = 9). Any candidate must report its in-apron fraction, and no candidate may
+   spend dots inside 3 px of a mapped fault. See `evidence/hx2/nine_site_measurements.json`.
+4. **Estimates.** Use `scripts/score_estimator.py`. It reproduces 0.2778 exactly from calibrated
+   components; that is the only verified forward model here. A hit rate is an assumption, so label the
+   output LEADERBOARD-CALIBRATED ESTIMATE or EMPIRICAL REGISTRY PRIOR — never a score, never HOLDOUT-DTI.
+5. **Transport.** `raw.githubusercontent.com` is unreachable in this sandbox. Fetch with
+   `tools/gh_blob.py --repo --ref --path --sha256`, which fails closed on a hash mismatch. Never add an
+   unverified mirror to an analysis.
+6. The 2026-10-31 unique candidate
+   (`docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif`, sha256
+   `a77a78e8…3ba32ec39b`) is research-only and **not** promoted: projection 0.22 [0.12, 0.28] is below
+   the 0.2778 incumbent. Do not relabel it as approved and do not spend a slot on it without an explicit
+   selector decision by the protocol owner.

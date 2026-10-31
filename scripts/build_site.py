@@ -36,6 +36,12 @@ def main():
     # experiment. This historical page is explicitly H1: never interpolate H2
     # numbers or download hashes into the older H1 explanation.
     card, ho, hist, src, forensic, reg = [load(p) for p in ('h1/run_card.json','h1/holdout.json','nine_site_best_files_audit.json','sources.json','champion_forensics.json','h1/surface_registry.json')]
+    # 2026-10-31 emission-economics session: this repo's candidate card, the
+    # live score law measured on the operator's own scored rasters, and the E2 arms.
+    eco = json.loads((ROOT/'evidence'/'emission'/'final.json').read_text())
+    law = json.loads((ROOT/'evidence'/'emission'/'live_metric_fit.json').read_text())
+    e2 = json.loads((ROOT/'evidence'/'emission'/'holdout.json').read_text())
+    scl = json.loads((ROOT/'evidence'/'emission'/'live_scale_fit.json').read_text())
     (DOCS/'evidence').mkdir(exist_ok=True)
     # Field Notes publishes its own distinct follow-on receipts under
     # docs/field-notes/data; do not duplicate or confuse them with H1's card.
@@ -56,8 +62,116 @@ def main():
         site=r['site']
         rows.append(f'''<tr><td><a class="site-name" href="sites/{site}.html">{site} ↗</a><span class="muted">{r['positive_dots']:,} positive pixels</span></td><td><code class="file-name">{esc(Path(r['file']).name)}</code></td><td><strong>{r['user_reported_value_not_verified']:.4f}</strong><span class="muted">Unverified user report</span></td><td>Not estimable<span class="muted">No receipt or valid OOF reconstruction</span></td><td>{badge('NOT lane-unique')}<span class="muted">Do not resubmit</span></td></tr>''')
     controls=''.join(f'<div class="comparison"><div><span>{esc(n.replace("_", " "))}</span>{metric(ho["scores"][n])}</div><div class="track"><span style="width:{ho["scores"][n]["dti"]/.08*100:.2f}%"></span></div></div>' for n in ('candidate',ho['best_comparable_control']))
+
+    _c = eco["holdout"]["scores"]["candidate"]
+    _ch = eco["holdout"]["scores"].get("champion_0p2778", {})
+    _pd = eco["holdout"]["paired_differences"].get("champion_0p2778", {})
+    _est = eco.get("calibrated_live_estimate") or {}
+    _u = eco["correlation_overlap"]
+    _v = eco["validator"]
+    _wa = _v["whole_array"]
+    _stem = Path(eco["files"]["tif"]).name
+    _band = _est.get("band_no_saturation_to_full_saturation", [None, None])
+    _iv = _est.get("interval_after_detector_transfer_error", [None, None])
+    _dl = "downloads/" + _stem
+    arm_rows = ''.join(
+        '<tr><td><code>%s</code></td><td>%s</td><td>%.5f</td><td>%.4f</td></tr>' % (
+            esc(n), f'{e2["arms"][n]["inherited"]["n_emitted"]:,}',
+            e2["arms"][n]["inherited"]["dti"], e2["arms"][n]["inherited"]["credit_per_emitted_px"])
+        for n in sorted(e2["arms"], key=lambda k: -e2["arms"][k]["inherited"]["dti"]))
+    law_terms = [
+        ("emitted mass / dot budget",
+         "R\u00b2 = %.3f of the reported spread across 53 scored rasters; the family's "
+         "37,654-dot cap is not explained by the metric" % law['null_budget']['r2']),
+        ("catalogue proximity of the mass",
+         "avoiding mapped traces ranks the focus files 9/9, but across 53 scored rasters the "
+         "association with credit per pixel is only rho = %.2f, so it is not a usable estimator"
+         % scl['spearman_reported_vs_credit_per_px']),
+        ("credit per emitted pixel",
+         "the one term that is not saturated; fitted precision decay \u03b3 = %.2f, "
+         "hidden-truth scale |G| = %s px" % (law['model_all']['gamma'],
+                                             f"{law['model_all']['G']:,.0f}")),
+    ]
+    law_rows = ''.join('<tr><td>%s</td><td class="muted">%s</td></tr>'
+                       % (esc(a), esc(b)) for a, b in law_terms)
+    gate1 = ("%s cells finite in [%.1f, %.1f] \u00b7 0 NaN \u00b7 nodata=None \u00b7 exterior zeros"
+             % (f"{_wa['size_px']:,}", _wa['min'], _wa['max']))
+    gate2 = ("max 3-px overlap %.1f%% vs %s comparators (limit 70%%) and |rho| %.3f (limit 0.90); "
+             "only the %d space-filling lattice witnesses reach 100%%"
+             % (100 * _u['worst_within_3px_overlap_vs_informative_comparators'],
+                _u['n_comparators'], _u['worst_abs_spearman_dot_field'],
+                _u['n_space_filling_comparators_where_70pct_rule_is_uninformative']))
+    gate3 = "NOT AUTHORIZED \u00b7 verdict " + eco["verdict"]
+    parts = [
+      '<section class="section panel"><span class="eyebrow">'
+      '2026-10-31 / EMISSION ECONOMICS AND A NEW CANDIDATE</span>',
+      '<h2>We measured what actually moves the score. Then we changed only that.</h2>',
+      '<p class="lead">53 published rasters from the focus sites were retrieved, hash-recorded and '
+      'measured against the published metric. The family\u2019s own budget law does not explain its '
+      'spread: a score is not a function of how many dots a raster emits.</p>',
+      '<div class="table-wrap"><table><caption>What predicts a live score, fitted on the '
+      'operator-reported scores (USER-REPORTED; no organizer receipt)</caption><thead>'
+      '<tr><th scope="col">Term in DTI</th><th scope="col">Measured on the published bytes</th>'
+      '</tr></thead><tbody>' + law_rows + '</tbody></table></div>',
+      '<div class="two-col"><article class="panel"><h3>Emission geometry: same field, same mass</h3>',
+      '<p>The ten best published rasters have mean 8-neighbour degree 0.00 \u2014 no emitted pixel '
+      'touches another. No file in the registry has tried a continuous crest, so dots and crests were '
+      'scored on the shared folds at an identical 37,654-pixel mass.</p>',
+      '<div class="table-wrap"><table><caption>HOLDOUT-DTI from ' + esc(_c['evaluator_version'])
+      + '; not a leaderboard estimate</caption><thead><tr><th scope="col">Arm</th>'
+        '<th scope="col">Emitted px</th><th scope="col">HOLDOUT-DTI</th>'
+        '<th scope="col">Credit / px</th></tr></thead><tbody>' + arm_rows
+      + '</tbody></table></div>',
+      '<p class="small">Dots beat every crest arm and binary 1.0 beat grading by about 8\u00d7, which is '
+      'why this geometry kept winning locally. The emission law was therefore left untouched in the '
+      'new file.</p></article>',
+      '<article class="panel"><h3>The new candidate</h3>',
+      '<p><code>' + esc(_stem) + '</code> \u2014 ' + f'{eco["emitted_px"]:,}' + ' dots on a grid, collar, '
+      'separation, budget and encoding identical to the 0.2778 file. One variable changed: the ranking '
+      'field, now an <strong>unsupervised</strong> coherence-weighted gradient-ridge consensus over RTP, '
+      'detrended elevation, isostatic gravity and depth to conductive base. The catalogue is never an '
+      'input, so there is no label to leak.</p>',
+      '<p><strong>Why it should catch an unmapped fault:</strong> a step that has never been mapped still '
+      'offsets all four co-located surfaces, so its signature survives where a scarp does not \u2014 under '
+      'valley fill and basin cover, where the mapped catalogue stops.</p>',
+      '<p><strong>Named mimic:</strong> lacustrine terrace margins and basalt flow edges repeat the same '
+      'short-wavelength ridge, and no radiometric, age or thermal band exists to separate them.</p>'
+      '</article></div>',
+      '<div class="stat-grid"><article><span>HOLDOUT-DTI / NEW FILE</span><strong>'
+      + f'{_c["dti"]:.5f}' + '</strong><p>95% CI [' + f'{_c["ci95"][0]:.5f}, {_c["ci95"][1]:.5f}'
+      + '] \u00b7 ' + f'{_c["withheld_positive_pixels"]:,}' + ' withheld positives</p></article>',
+      '<article><span>PAIRED AGAINST THE 0.2778 FILE</span><strong>'
+      + f'{_pd.get("delta", 0):+.5f}' + '</strong><p>CI ['
+      + f'{_pd.get("ci95", [0, 0])[0]:+.5f}, {_pd.get("ci95", [0, 0])[1]:+.5f}'
+      + '] on the same folds \u00b7 ' + f'{_ch.get("dti", 0):.5f}' + ' for the champion \u00b7 '
+      + f'{_est.get("ratio_holdout_credit_per_px", 0):.2f}' + '\u00d7 credit per pixel</p></article>',
+      '<article><span>LEAKAGE CANARY</span><strong>AUC '
+      + f'{eco["leakage_canary_auc"]["composite_coherence_ridge"]:.3f}'
+      + '</strong><p>Threshold 0.90. A pass is not proof of absence.</p></article></div>',
+      '<div class="gate"><span>01 \u00b7 GeoTIFF format, whole array</span>' + badge(gate1, True)
+      + '</div>',
+      '<div class="gate"><span>02 \u00b7 Registry uniqueness</span>' + badge(gate2, True) + '</div>',
+      '<div class="gate"><span>03 \u00b7 Portal submission</span>' + badge(gate3) + '</div>',
+      '<p class="small"><strong>Estimated leaderboard score for this file:</strong> '
+      + str(_est.get('point', 'not estimable')) + ' \u00b7 metric band [' + str(_band[0]) + ', '
+      + str(_band[1]) + '] \u00b7 after detector-transfer error [' + str(_iv[0]) + ', ' + str(_iv[1])
+      + ']. ' + esc(_est.get('evidence_class', '')) + ' <em>'
+      + esc(_est.get('why_it_is_wide', '')) + '</em></p>',
+      '<div class="actions">' + link(_dl, 'Download research TIF \u00b7 DO NOT SUBMIT', 'button research')
+      + link(_dl.replace('.tif', '.zip'), 'Single-TIF ZIP', 'button secondary')
+      + link(_dl.replace('.tif', '.run-card.json'), 'Run card', 'button secondary')
+      + link(_dl.replace('.tif', '.audit.json'), 'Byte-level format audit', 'button secondary')
+      + '</div>',
+      '<p class="small">SHA-256 <code class="hash">' + eco['raster_sha256'] + '</code> \u00b7 submission '
+      'name <code>' + esc(eco['submission_name']) + '</code> \u00b7 note ' + str(eco['note_length'])
+      + '/140 characters. Format-valid \u2260 authorized: no organizer receipt and no authenticated inputs, '
+      'and the shared holdout is mildly anti-correlated with the live board across this family, so the '
+      'estimate above is a bounded model output, never a score.</p></section>']
+    eco_section = ''.join(parts)
+
     body=f'''<div class="eyebrow">FIELDNOTES / EXPERIMENT 001 <span>27 OCT 2026</span></div>
 <section class="hero"><div><div class="kicker"><span class="status-dot"></span> NEGATIVE RESULT · NO SLOT USED</div><h1>A clear decision.<br>Not another guess.</h1><p class="lead">One new geological hypothesis. Spatially withheld faults. A transparent stop when the evidence did not support submission.</p><div class="actions"><button class="button primary" disabled>No approved submission TIF</button>{link('#downloads','View research download ↓','button secondary')}</div><p class="small">No file in this release is cleared for the competition. Format-valid ≠ unique ≠ high-scoring.</p></div><aside class="decision"><span class="eyebrow">AUTOMATED RELEASE GATES</span><h2>Do not submit.</h2><p>The new surface failed performance and registry checks. No final dot placement was performed.</p><div class="gate"><span>01 · GeoTIFF format</span>{badge('PASS',True)}</div><div class="gate"><span>02 · Holdout improvement</span>{badge('FAIL')}</div><div class="gate"><span>03 · Registry uniqueness</span>{badge('STOP')}</div><a href="evidence/h1/run_card.json">Open machine-readable run card ↗</a></aside></section>
+{eco_section}
 <section class="section panel"><span class="eyebrow">INDEPENDENT FOLLOW-UP · GEOMETRY, NOT A SCORE</span><h2>Rechecked from pinned raster bytes.</h2><p>All 72 directional pairs among the nine audited historical references exceed the 70% proximity limit. At the H33-sized budget, the registered lattice forces at least 82.34% overlap even for an unrelated placement; this is not a proof for all smaller budgets. The complete parallel registry is still unavailable.</p><p>The mirrored sample contains the known-fault labels, while the organizer describes its sample as predicting no faults. The mirror is not authenticated, and a local format pass does not establish portal acceptance. The owner mirror describes band 15 as basement depth, but the organizer lists conductive-base depth; the physical meaning needs verification.</p><a href="audit.html">Explore the independent nine-site audit →</a></section>
 <div class="stat-grid"><article><span>HOLDOUT-DTI / NEW SURFACE</span>{metric(candidate)}<p>{candidate['withheld_positive_pixels']:,} withheld positive pixels · {version}</p></article><article><span>REGISTRY / SURFACE STOP</span><strong>100% overlap</strong><p>Directional support within 3 px of a registry lattice. Limit: &gt;70%. {reg['checked']} of {reg['expected']} compared before mandatory stop.</p></article><article><span>AUTOMATED FORMAT VALIDATION</span><strong>Passed, not promoted</strong><p>Single band · finite [0,1] · matching CRS, shape and transform. No NaNs anywhere. No portal acceptance implied.</p></article></div>
 <section class="section"><div class="section-head"><div><span class="eyebrow">THE EXECUTIVE READOUT</span><h2>What changed in the historical best?</h2></div>{link('evidence/champion_forensics.json','Inspect pixel-level evidence ↗','text-link')}</div><div class="two-col"><article class="panel"><h3>Pruning, not a new detector.</h3><p>GEMSDOE32’s historical B2 file is exactly the D2.8 mask with predictions within 200 m of known traces removed. The audit measured <strong>{forensic['removed_d28_to_b2']:,} removed pixels</strong>; {forensic['removed_b1_to_b2']:,} were removed relative to its B1 parent.</p><p>The supplied <strong>0.2778</strong> is an <strong>unverified user report</strong>, not an ORGANIZER-CONFIRMED receipt. It is the highest such report in the nine-site list, not a verified current leaderboard high.</p></article><article class="panel"><h3>Why that might help—and what it cannot prove.</h3><p>DTI balances covered withheld truth against false-positive mass. Removing low-credit predictions can improve that balance without discovering a new fault. This is a plausible explanation, not a causal finding about hidden competition labels.</p><p>GEMSDOE25 and 30 have identical decoded dots. GEMSDOE36 contains the full B2 mask plus 1,200 pixels. These are one related emission family, not independent validation of nine geological models.</p><p><a href="evidence/champion_explanation.md">Exact pruning condition and interpretation limits ↗</a></p></article></div></section>
