@@ -708,9 +708,11 @@ as experiments 1 and 2. Both negative on holdout.
 
 ### Leaderboard (public observation, not receipts)
 
-Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29). Best focus-site claim:
-0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47;
-0.4413 is not rank one.
+Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29/30). Best focus-site claim:
+0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47/48
+in the same snapshot (rank 47/48 is 0.3217/0.3195); it was not the leaderboard high.
+0.4413 is not rank one. These are ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT
+values, not file-linked receipts or scores for any local raster.
 
 ## Current session prompt — standing reference (2026-10-31)
 
@@ -767,3 +769,44 @@ No DrivenData auth → cannot auto-download training_features.tif, labels.tif, s
 
 ### Core values
 Maximize P(Win). Own the Outcome. No hallucinations; verify line by line; flag irregularities.
+
+### Experiment V3 results (2026-10-31)
+
+Focus sites: GEMSDOE24, GEMSDOE25, GEMSDOE27, GEMSDOE28, GEMSDOE30, GEMSDOE31,
+GEMSDOE32, GEMSDOE33, GEMSDOE36. V3 hypothesis: blind geothermal conduits are marked
+by concordance of high conductivity (cond_surf, band 16), shallow depth-to-basement
+(depth_to_base_surf, band 14) and a magnetic-source edge (tc tilt band 5 + tmi_hg
+band 2), with dots restricted to the uncovered holes of the 13GEMSDOE spacing lattice
+to guarantee uniqueness.
+
+Result: NEGATIVE. Generated `docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041.tif`
+(SHA-256 `afe07d0cde063ec4ad9f906bef206286dffa5a374761d64fa2b4811ca41fe3e8`), 495 dots.
+
+Validated gates:
+- Format: PASS (float32, single band, [0,1] inside footprint, no NaN inside, zeros outside
+  EPSG:32611, 3730x3292, official transform)
+- Uniqueness: PASS vs lattice (0.0% overlap) and all nine pinned focus-site files
+  (max 40.6% overlap; limit 70%); max |Spearman| ~0.002
+- Leakage canary: PASS (max single-band AUC 0.5695 <= 0.90)
+- Holdout-DTI: 0.0000 (gems57-pooled-hide-recover-v1, alpha 0.2, beta 0.8, R 300 m,
+  quadrant folds, 60,988 withheld positives) — NEGATIVE
+
+Verdict: negative. ok_to_download = true (research artifact). ok_to_submit = false.
+No submission slot was used. The file is featured with a one-click download and
+clear OK-to-download / NOT-OK-to-submit messaging on `docs/index.html` and
+`docs/executive-summary.html`.
+
+Why no high-scoring unique submission exists yet: the 13GEMSDOE spacing-5 lattice
+covers 99.87% of the footprint within 3 px, so the literal uniqueness gate forces
+every dot into 6,649 scattered uncovered holes. Those holes are mostly far from
+faults (median ~2.8 km to the nearest label; only ~9.5% within 300 m), so any
+unique (hole-constrained) raster scores ~0.0000 on the spatial hide-and-recover
+holdout. A high-scoring AND unique submission cannot be produced until the lattice
+witness / uniqueness rule is ruled on by the protocol owner. This is a measured
+constraint, not an assumption; all nine historical focus files fail the same gate
+(99.91-99.92% overlap).
+
+GEMSDOE32's 0.2778 (highest user-reported claim) is the D2.8 set with 6,436 dots
+removed and nothing added — a pruning, not a new detector. It is USER-REPORTED /
+UNVERIFIED (no organizer receipt), fails uniqueness against the lattice, and cannot
+be used to prove a higher-scoring file is possible.

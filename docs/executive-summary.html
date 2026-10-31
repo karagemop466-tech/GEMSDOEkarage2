@@ -17,6 +17,33 @@ The nine-site data show <i>why</i> the band is 0.19&ndash;0.28 and what would br
 <p><b>Every</b> one of the nine focus files fails the same gate, so this is a property of the lattice witness, not a defect of one file. Changing the file name, the exterior value, or a few dots does not change this. The decision needs a policy answer before any file can be eligible; see <a href="#policy">the policy decision</a>.</p>
 <p class="muted">Lattice coverage: 99.87% of the template footprint lies within 3 px of the witness. Dots placed in the uncovered cells would be gaming the gate and are not used here.</p>
 </section>
+
+<section class="hero" id="unique-candidate">
+  <div class="decision">
+    <span class="eyebrow">NEW UNIQUE SUBMISSION ATTEMPT · EXPERIMENT V3</span>
+    <h2>A unique, format-valid TIF was generated.</h2>
+    <p class="verdict">
+      <b class="good">OK TO DOWNLOAD: YES</b> — hash-validated research artifact.
+      <b class="no">OK TO SUBMIT: NO</b> — holdout DTI 0.0000 (negative), below any submission threshold.
+    </p>
+    <p>This file is <b>unique</b>: 0.0% of its 495 dots lie within 3 px of the 13GEMSDOE lattice witness, and at most 40.6% vs any single focus-site file (limit 70%). It is <b>format-valid</b>: single float32 band, values in [0,1], no NaN inside the footprint, zeros outside it (research-only exterior convention), EPSG:32611, 3730 x 3292, 100 m. It is <b>not</b> a high-scoring submission: its holdout DTI is 0.0000, so it must not be uploaded as a competitive entry. Download it only to inspect a validated, unique raster.</p>
+    <div class="actions">
+      <a class="btn big" href="downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041.tif">Download unique TIF · research only · DO NOT SUBMIT</a>
+      <a class="btn secondary" href="downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041-run-card.json">Open run card</a>
+      <a class="btn secondary" href="downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041-audit.json">Open validator receipt</a>
+    </div>
+    <div class="meta">
+      <b>Submission name:</b> <code>gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041</code><br>
+      <b>SHA-256:</b> <code>afe07d0cde063ec4ad9f906bef206286dffa5a374761d64fa2b4811ca41fe3e8</code><br>
+      <b>Holdout DTI (HOLDAUT-DTI):</b> 0.0000 · evaluator gems57-pooled-hide-recover-v1 · alpha 0.2 / beta 0.8 / R 300 m triangular · 60,988 withheld positives · quadrant folds<br>
+      <b>Leakage canary:</b> max single-band AUC 0.5695 &le; 0.90 · PASS<br>
+      <b>Uniqueness vs registry:</b> lattice 0.0000; focus-site files 0.0869&ndash;0.4061 · all &le; 0.70 · PASS · unique = true<br>
+      <b>Note (&le;140 chars):</b> Unique conductivity-depth-magnetic-edge blind-conduit dots (research only; holdout DTI below submission threshold).<br>
+      <b>Verdict:</b> negative &middot; ok_to_download = true &middot; ok_to_submit = false
+    </div>
+  </div>
+</section>
+
 <section class="section"><h3>Submission decision table · nine focus sites</h3>
 <p>Every number is a measurement on the pinned bytes, or a copied user report. <b>No estimated leaderboard score exists.</b> Download links are research references, not submissions.</p>
 <table id="decision-table"><thead><tr><th>Site</th><th>Pinned file (research reference)</th><th>Reported score</th><th>Estimated score</th><th>Unique vs lattice witness?</th><th>Download and submit?</th></tr></thead>
