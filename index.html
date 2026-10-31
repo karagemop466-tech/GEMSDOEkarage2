@@ -26,9 +26,12 @@
         Different committed pages currently advertise two different candidate GeoTIFFs, while the
         root release assessor returns <code>negative</code> and <code>slot_authorized: false</code>.
         The competition owner, not this site, controls whether a weekly submission slot is used.</p>
-      <p class="warn"><strong>Do not treat an “OK TO SUBMIT” badge on either candidate page as slot authorization.</strong>
-        Both files can be downloaded for review; the selector and release evidence must first be reconciled.
-        No upload is performed by this project.</p>
+      <p class="warn"><strong>Do not download either file for submission or spend a slot.</strong>
+        The literal uniqueness rule in the project prompt is >70% overlap within 3 px against <em>any</em>
+        registry raster. HALO measures 99.84% overlap against the 13GEMSDOE lattice; GBM measures
+        99.67% against that lattice and 93.77% against a non-lattice registry raster. Older audits
+        excluded the space-filling witness, but the current prompt does not grant that exception.
+        Both therefore fail the literal stop. No upload is performed by this project.</p>
     </section>
 
     <section class="sec" aria-labelledby="candidate-heading">
@@ -41,14 +44,14 @@
               <td><strong>HALO · 44,090 dots</strong></td>
               <td><code>gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</code><br>
                 <small>SHA-256 <code>603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38</code></small></td>
-              <td>Inventory names this the downloadable release. Score range on its page is a private model projection, not an organizer result. No slot authorization is recorded.</td>
+              <td><strong>Literal uniqueness FAIL.</strong> 99.84% of dots within 3 px of the lattice witness; prior audit excluded that witness. Its score range is a model projection, not an organizer result.</td>
               <td><a class="btn" href="docs/release.html">Open HALO candidate dossier</a></td>
             </tr>
             <tr>
               <td><strong>GBM off-catalogue · 100,000 dots</strong></td>
               <td><code>gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif</code><br>
                 <small>SHA-256 <code>18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e</code></small></td>
-              <td>Lane card says promote, but explicitly records <code>weekly_slot_used: false</code>; its score figures are model projections, not organizer results.</td>
+              <td><strong>Literal uniqueness FAIL.</strong> 99.67% within 3 px of the lattice witness and 93.77% of dots near a non-lattice registry raster. Lane card says promote but records <code>weekly_slot_used: false</code>; score figures are projections.</td>
               <td><a class="btn" href="docs/release-summary.html">Open GBM candidate dossier</a></td>
             </tr>
           </tbody>

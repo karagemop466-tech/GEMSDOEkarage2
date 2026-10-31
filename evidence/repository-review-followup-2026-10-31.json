@@ -44,6 +44,10 @@
     "public_download_audit": "HALO named downloadable_approved_submission",
     "gbm_lane_card": "verdict promote; weekly_slot_used false",
     "root_assessor": "negative; slot_authorized false",
+    "literal_uniqueness_rule": "FAIL for both advertised files under user prompt; no space-filling reference exception applied",
+    "halo_fraction_within_3px_of_13gems_lattice": 0.9983896575187117,
+    "gbm_fraction_within_3px_of_lattice": 0.99666,
+    "gbm_fraction_within_3px_of_nonlattice_registry": 0.93771,
     "single_consistent_selector_receipt": false
   },
   "experiments_run": 0,

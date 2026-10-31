@@ -88,6 +88,7 @@ function chromeEnvironment() {
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       assert.ok((await page.locator('body').innerText()).includes('NO SINGLE SUBMISSION SELECTED'));
       assert.ok((await page.locator('body').innerText()).includes('selector conflict'));
+      assert.ok((await page.locator('body').innerText()).includes('Both therefore fail the literal stop'));
       assert.equal(await page.locator('a[download]').count(), 0, 'landing page must not imply a slot choice');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Status page overflow');
       await page.locator('a[href="docs/release.html"]').click();

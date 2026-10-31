@@ -64,6 +64,9 @@ test('root landing page fails closed on the conflicting HALO and GBM release rec
   const text = doc.body.textContent;
   assert.match(text, /NO SINGLE SUBMISSION SELECTED/);
   assert.match(text, /selector conflict/);
+  assert.match(text, /Both therefore fail the literal stop/);
+  assert.match(text, /99\.84%/);
+  assert.match(text, /93\.77%/);
   assert.match(text, /slot_authorized/);
   assert.ok([...doc.querySelectorAll('a[href]')].some(a => a.getAttribute('href') === 'docs/release.html'));
   assert.ok([...doc.querySelectorAll('a[href]')].some(a => a.getAttribute('href') === 'docs/release-summary.html'));
