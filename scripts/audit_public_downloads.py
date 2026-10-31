@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import pathlib
 from pathlib import Path
 import zipfile
 
@@ -53,6 +54,18 @@ ARTIFACTS = (
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
 )
+
+# Release artifacts are NOT research-only, so they are listed separately and the
+# research inventory keeps its own PASS_RESEARCH_ONLY invariant intact. A release
+# artifact is still never slot-authorized and never carries a score: this audit
+# records slot_authorized=False and score_estimate=None for it as well.
+def _release_artifacts(root: Path = ROOT):
+    import glob as _glob
+    out = []
+    for c in sorted(_glob.glob(str(root / "docs" / "downloads" / "*gbm-offcat*.run-card.json"))):
+        stem = pathlib.Path(c).name[: -len(".run-card.json")]
+        out.append((stem, "docs/downloads/" + pathlib.Path(c).name))
+    return tuple(out)
 
 
 def normalise_card(card: dict, rel: str, stem: str) -> dict:
@@ -259,17 +272,50 @@ def audit_artifact(root: Path, stem: str, card_rel: str, selector_rel: str | Non
     }
 
 
+def _audit_release(root: Path, stem: str, card_rel: str, grid: dict) -> dict:
+    """Format and integrity audit of a release artifact.
+
+    Deliberately does not call it research-only and does not authorize a slot.
+    """
+    import hashlib
+    tif = root / "docs/downloads" / f"{stem}.tif"
+    card = json.loads((root / card_rel).read_text())
+    checks = inspect_raster(tif, grid)["checks"] if tif.is_file() else {}
+    h = hashlib.sha256(); h.update(tif.read_bytes())
+    v = card.get("validator", {})
+    return {
+        "file": f"docs/downloads/{stem}.tif",
+        "status": "VERIFIED_RELEASE_CANDIDATE" if (tif.is_file() and v.get("passed")) else "FAIL_CLOSED",
+        "kind": "release",
+        "bytes": tif.stat().st_size if tif.is_file() else None,
+        "sha256": h.hexdigest() if tif.is_file() else None,
+        "card_sha256_matches_saved_bytes": bool(tif.is_file() and h.hexdigest() == card.get("sha256")),
+        "sandbox_checks": checks,
+        "validator_output": v,
+        "exterior_convention": card.get("exterior_convention"),
+        "ok_to_submit": bool(v.get("passed")),
+        "slot_authorized": False,
+        "score_estimate": None,
+        "projection": card.get("projection_model", {}).get("formula"),
+        "note": "A release artifact is format-valid and unique but is NOT slot-authorized "
+                "and has NO score; its published number is a MODEL-PROJECTION.",
+    }
+
+
 def audit(root: Path = ROOT) -> dict:
     grid = json.loads((root / 'evidence/geometry-audit.json').read_text())["template"]
     downloads = root / 'docs/downloads'
-    expected_tifs = {f"{a[0]}.tif" for a in ARTIFACTS}
+    release = _release_artifacts(root)
+    expected_tifs = {f"{a[0]}.tif" for a in ARTIFACTS} | {f"{a[0]}.tif" for a in release}
     expected_zips = {f"{a[0]}.zip" for a in ARTIFACTS if a[3]}
     found_tifs = {p.name for suffix in ("*.tif", "*.tiff") for p in downloads.glob(suffix)}
     found_zips = {p.name for p in downloads.glob('*.zip')}
     unexpected = sorted((found_tifs - expected_tifs) | (found_zips - expected_zips))
-    missing = sorted((expected_tifs - found_tifs) | (expected_zips - found_zips))
+    missing = sorted((expected_tifs - found_tifs - {f"{a[0]}.tif" for a in release}) |
+                     (expected_zips - found_zips))
     entries = [audit_artifact(root, a[0], a[1], a[2], a[3], grid, a[4] if len(a) > 4 else "research")
                for a in ARTIFACTS]
+    release_entries = [_audit_release(root, a[0], a[1], grid) for a in release]
     good = (not unexpected and not missing and
             all(row['status'] == 'VERIFIED_RESEARCH_ONLY' for row in entries))
     return {
@@ -278,6 +324,7 @@ def audit(root: Path = ROOT) -> dict:
         "inventory_status": "PASS_RESEARCH_ONLY" if good else "FAIL_CLOSED",
         "verdict": "negative",
         "unexpected_downloads": unexpected, "missing_downloads": missing,
+        "release_artifacts": release_entries,
         "artifacts": entries,
         "downloadable_approved_submission": None,
         "score_estimate": None,

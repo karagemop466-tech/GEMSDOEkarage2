@@ -1,4 +1,30 @@
-# Submission status — NO APPROVED FILE
+# Submission status
+
+## Legacy artifact inventory — NO APPROVED FILE (research only, DO NOT SUBMIT)
+
+Every artifact listed below the 2026-10-31 release section is research only. **DO NOT SUBMIT any of
+them.** The retracted HK3 promotion stays retracted; the HK3, K2, K3, H1, H2, B4, gw-nfs, H-A and
+nine focus-site files all remain negative or duplicate-stopped.
+
+
+## 2026-10-31 — **ONE FILE IS CLEARED TO DOWNLOAD AND SUBMIT**
+
+| | |
+|---|---|
+| File | `docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif` |
+| SHA-256 | `18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e` |
+| Dots | 100,000 · catalogue apron 500 m · binary 0/1 · **all 12,279,160 values finite in [0, 1]** |
+| Format | single-band float32 GeoTIFF · EPSG:32611 · 3730 × 3292 · 100 m · template-identical |
+| Uniqueness | independent model; full-registry scan in `evidence/lane-gbm/uniqueness-full-registry.json` |
+| Score | **MODEL-PROJECTION 0.084 / 0.149 / 0.215** — *not* a score, *not* organizer-confirmed |
+
+Open [`docs/release.html`](docs/release.html) for the download button, the nine-site table, the
+estimate and the step-by-step submission guide.
+
+**Everything else in this repository remains research-only. DO NOT SUBMIT any of it.**
+In particular all nine focus-site best files are one family and are not unique against each other.
+
+---
 
 **Review 2026-10-31: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
 

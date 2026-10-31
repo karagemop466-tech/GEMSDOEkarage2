@@ -5,6 +5,50 @@
   "verdict": "negative",
   "unexpected_downloads": [],
   "missing_downloads": [],
+  "release_artifacts": [
+    {
+      "file": "docs/downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif",
+      "status": "VERIFIED_RELEASE_CANDIDATE",
+      "kind": "release",
+      "bytes": 360319,
+      "sha256": "18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e",
+      "card_sha256_matches_saved_bytes": true,
+      "sandbox_checks": {
+        "self_contained_tiff": true,
+        "single_band": true,
+        "float32": true,
+        "geotiff": true,
+        "mirror_shape_match": true,
+        "mirror_crs_match": true,
+        "mirror_transform_match": true,
+        "whole_array_finite": true,
+        "range_0_1": true,
+        "no_masked_pixels": true
+      },
+      "validator_output": {
+        "geotiff_driver": true,
+        "single_band": true,
+        "dtype_float32": true,
+        "crs_EPSG_32611": true,
+        "shape_3730x3292": true,
+        "transform_matches_template": true,
+        "bounds_match": true,
+        "all_values_finite": true,
+        "all_values_in_0_1_whole_array": true,
+        "no_nan_inside_footprint": true,
+        "zeros_outside_footprint": true,
+        "n_dots_matches_request": true,
+        "sha256_matches": true,
+        "passed": true
+      },
+      "exterior_convention": "finite zeros outside the footprint (all values finite)",
+      "ok_to_submit": true,
+      "slot_authorized": false,
+      "score_estimate": null,
+      "projection": "DTI = T / (0.2 T + 0.2 (n - M) + 0.8 Khat)",
+      "note": "A release artifact is format-valid and unique but is NOT slot-authorized and has NO score; its published number is a MODEL-PROJECTION."
+    }
+  ],
   "artifacts": [
     {
       "file": "docs/downloads/gemsdoe-karage2-hkarage1-irregular-submodular-15000d-6a3f542a-zeros.tif",

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to submit · GEMSDOEkarage2 release desk</title>
+<meta name="description" content="Off-catalogue fault-discovery lane: validated, unique submission GeoTIFF with a labelled score projection.">
+<link rel="stylesheet" href="assets/release.css"></head>
+<body><header class="hdr"><div class="inner">
+<h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES</span></h1>
+<div class="sub">DOE GEMS Prize (Drivendata #306) · off-catalogue fault discovery · release desk</div>
+</div></header>
+<main class="wrap"><nav class="topnav" aria-label="Main navigation"><a href="release.html">Submission desk</a> · <a href="release-summary.html">Executive summary</a> · <a href="release-how-to-submit.html" aria-current=page>How to submit</a> · <a href="index.html">Historical desk (negative)</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
+<section class="sec"><h2>How to submit — every step, nothing left out</h2>
+<ol class="steps">
+<li><b>Download the file.</b> <a class="btn" href="downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif" download>⬇ gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif</a>
+(360,319 bytes). It is a single-band float32 GeoTIFF, EPSG:32611, 3730 × 3292, 100 m, matching
+the official template exactly.</li>
+<li><b>Verify it yourself before uploading</b> (optional but recommended).
+<pre><code>sha256sum gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif
+# expect: 18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e</code></pre>
+If the hash differs, the download is corrupt — do not upload it.</li>
+<li><b>Sign in and open the submission page.</b>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/ ↗</a>
+then choose <b>New submission</b>.</li>
+<li><b>Choose the file.</b> Under <em>File to submit</em>, select the <code>.tif</code> you downloaded.
+DrivenData accepts a single-band GeoTIFF, or a <code>.zip</code> containing exactly one GeoTIFF.
+<b>Do not</b> add <code>.aux.xml</code>, <code>.ovr</code> or any sidecar file to the zip.</li>
+<li><b>Paste the note.</b> Use this exact string so you can tell the entry apart later
+(124 characters, under the 140 limit):
+<pre><code>GBM fault prospectivity from the 19 GeoDAWN bands; top 100k off-catalogue pixels, 500 m catalogue apron, binary 0/1, no NaN.</code></pre></li>
+<li><b>Create the submission</b> and wait for scoring. If you see
+<em>"Predicted values must be in range [0, 1]"</em>, that is the whole-array NaN failure described
+under IR-EXTERIOR-01 — this file cannot trigger it, because every one of its
+12,279,160 values is finite and in [0, 1]. If you see it anyway, report the exact message.</li>
+<li><b>Record the receipt.</b> Copy the score and the submission ID back into this repository so the
+value stops being a projection and becomes an ORGANIZER-CONFIRMED number.</li>
+</ol>
+<h3>Submission-format checklist (official)</h3>
+<table class="kv"><tbody>
+<tr><th>Format</th><td>single-band GeoTIFF (.tif), or a .zip containing one GeoTIFF</td></tr>
+<tr><th>Values</th><td>finite, in [0, 1]. This file: min 0.0, max 1.0, no NaN, no Inf</td></tr>
+<tr><th>CRS</th><td>EPSG:32611 (UTM zone 11N) — <a href="https://epsg.io/32611">epsg.io/32611 ↗</a></td></tr>
+<tr><th>Shape / geotransform</th><td>3730 × 3292, 100 m, upper-left (243350.0, 4508550.0) — identical to the template</td></tr>
+<tr><th>Metric</th><td>distance-weighted Tversky index, α = 0.2, β = 0.8, 300 m triangular kernel — <a href="https://en.wikipedia.org/wiki/Tversky_index">Tversky index ↗</a></td></tr>
+<tr><th>Weekly cap</th><td>the number of submissions allowed per rolling 7 days is shown on the submission page; this project cannot read it and does not spend slots automatically</td></tr>
+</tbody></table>
+<p class="warn"><b>Do not upload any of the nine focus-site files.</b> They are all thinnings of one
+shared dot pool (Jaccard up to 1.000 between sites) and are already public. Uploading one is a
+duplicate entry, not a new submission.</p>
+<h3>Official sources for manual review</h3>
+<ul class="srcs">
+<li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">Competition problem description (page 967) ↗</a> — metric, grid, submission format</li>
+<li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">Competition data page ↗</a> — login required; this project has no session</li>
+<li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">Public leaderboard ↗</a></li>
+<li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">DOE/NLR GEMS Prize official rules PDF ↗</a></li>
+<li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData reference solution ↗</a></li>
+<li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN airborne magnetic and radiometric surveys ↗</a></li>
+<li><a href="https://gbcge.org/current-projects/ingenious/">GBCGE INGENIOUS project ↗</a> ·
+<a href="https://gdr.openei.org/submissions/1391">DOE GDR submission 1391 (INGENIOUS fault and thermal data) ↗</a></li>
+</ul></section>
+<footer class="foot"><p><b>Evidence labels used on this site.</b>
+<b>ORGANIZER-CONFIRMED</b> — copied from an actual submission-page receipt. None exists locally; this project has no DrivenData session.
+<b>USER-REPORTED / UNVERIFIED</b> — a leaderboard value pasted from the project prompt, with no file-linked receipt.
+<b>HOLDOUT-DTI-PROXY</b> — a local hide-and-recover score against the PUBLIC catalogue, which is not the competition truth.
+<b>MODEL-PROJECTION</b> — a number produced by a stated model with stated assumptions. It is <b>not</b> a score and must never be reported as one.
+<b>RASTER-MEASUREMENT</b> — computed directly from pinned TIFF bytes.</p>
+<p>Maximize P(Win). Own the outcome. <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">Problem description ↗</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">Leaderboard ↗</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules PDF ↗</a></p>
+</footer></main></body></html>
