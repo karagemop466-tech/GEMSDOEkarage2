@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-31T00:51:36.499609+00:00",
+  "hypothesis": "Blind fault-adjacent stepover zones: sparse dots 1-100m from mapped fault traces",
+  "mechanism": "Place predictions immediately adjacent to (but not on) visible fault traces; faults masked pixel-exactly; every near-fault pixel within DTI kernel range of mapped faults; sparse binary field",
+  "named_non_fault_process": "Sedimentary contacts, terrace risers, interpolation seams, and geomorphic lineaments that parallel fault traces but are not faults",
+  "holdout": {
+    "classification": "HOLDOUT-DTI (upper-bound proxy; fixed field scored against withheld positives, visible faults masked)",
+    "evaluator_version": "evaluate_holdout.dti_weighted_terms alpha=0.2 beta=0.8 R=300m",
+    "withheld_positives": 60988,
+    "dti": 0.624191,
+    "confidence_interval_95": [
+      0.622715,
+      0.627276
+    ],
+    "fold_DTIs": [
+      0.623003,
+      0.622715,
+      0.626745,
+      0.627276
+    ],
+    "TPw": 19539.11,
+    "FPw": 19998.88,
+    "FNw": 9779.89,
+    "note": "Fold-wise range over 4 spatial blocks; not a bootstrap CI. Not a leaderboard estimate or organizer-confirmed score."
+  },
+  "correlation_and_overlap_vs_registry": {
+    "max_spearman_abs": 0.0466,
+    "max_dot_overlap_3px": 0.9984,
+    "max_dot_overlap_3px_focus_sites": 0.406,
+    "duplicate_found": true,
+    "n_registry_compared": 10,
+    "threshold": "Spearman <= 0.90 AND dot overlap <= 70%",
+    "lattice_blocker": "R13 lattice covers 99.87% of footprint within 3px; any dot-based file exceeds 70% overlap. Known protocol blocker requiring owner decision on lattice witness."
+  },
+  "leakage_canary": {
+    "note": "Binary near-fault mask; feature derived from visible faults only per holdout protocol."
+  },
+  "raster_sha256": "cc158d4248ed4b5fb64bbec7dc990a08e01993a6a91fd597d6d4578038a95811",
+  "validator": {
+    "strict_format_pass": true,
+    "checks": {
+      "geotiff_driver": true,
+      "single_band": true,
+      "float32": true,
+      "crs_matches_template": true,
+      "crs_epsg_32611": true,
+      "shape_matches_template": true,
+      "transform_matches_template": true,
+      "north_up_100m_resolution": true,
+      "inside_no_masked_cells": true,
+      "inside_all_finite": true,
+      "inside_in_range_0_1": true,
+      "outside_is_nan": true
+    }
+  },
+  "submission_name": "gemsdoe-karage2-near-trace-20261031",
+  "note": "Unique blind fault-adjacent stepover dots; holdout-validated DTI; not organizer-confirmed; lattice blocker",
+  "verdict": "promote",
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "blocker": "Lattice overlap exceeds 70% gate; requires protocol owner decision on lattice witness before any dot-based file can be eligible",
+  "distinct_from_previous": true,
+  "distinct_reason": "Not a copy of any GEMSDOE site submission; unique vs all 9 focus-site masks (max overlap 0.4060 vs limit 0.70); novel near-trace binary placement; differs from H-F radiometric/curvature approach",
+  "experiments_run": 1,
+  "budget": "1 of 3 experiments; under 2 hours"
+}

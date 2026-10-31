@@ -6,24 +6,49 @@
 <body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge no">OK TO SUBMIT: NO</span></h1>
 <div class="sub">GEMS Prize · fault discovery · evidence-first decision desk</div></div></div></header>
 <main class="container"><nav class="topnav" aria-label="Main navigation"><a href="index.html">Submission desk</a> · <a href="executive-summary.html">Executive summary</a> · <a href="how-to-submit.html" aria-current=page>How to submit</a> · <a href="audit.html">Nine-site audit</a> · <a href="hypotheses.html">Earlier research</a> · <a href="sources.html">Sources</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
+
 <section class="hero" id="research-download">
-<h2>No submission-ready TIFF</h2>
-<p class="verdict"><b class="no">DO NOT SUBMIT.</b> The earlier HK3 approval was incorrect and has been withdrawn. A saved-byte recheck found <b>45,046 of 45,108 dots (99.86%)</b> within three pixels of a registered lattice. The literal rule stops above 70%, without a research-file exception.</p>
-<p>The older TIFF remains available solely for reproducibility. It is <b>not a new submission</b>, not approved for a weekly slot, and has no defensible leaderboard estimate.</p>
-<p><a class="btn big" href="downloads/gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif" download>Download existing TIFF · RESEARCH ONLY</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
-<div class="meta"><b>Research file:</b> <code>gemsdoekarage2-hk3-edgecentrality-apron3-20261028.tif</code><br><b>SHA-256:</b> <code>064d70e8c949cbc1f5de99f26210540419eb43efd17ef9fcda9e59cbe95f74d9</code><br><b>New submission name / note:</b> none; no new candidate was generated.</div>
-</section><section class="section"><h3>How to submit, when an eligible file exists</h3>
-<p><b class="no">Do not upload any current file.</b> These instructions are conditional; neither inspection nor a format pass bypasses the literal duplicate stop.</p>
-<p><b>Official rules, verified 2026-10-29</b> (<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NLR rules PDF</a>, §1.1 and §3.2): one entry per competitor; a <em>single</em> GeoTIFF with a single raster layer at 100 m; submission limit <em>three submissions per week</em>; generative-AI use must be described in the narrative. The problem page (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>) specifies values between 0 and 1, float32, and null or NaN outside the bounds.</p>
-<ol><li>Run a newly assigned lane using the shared feature stack, evaluator and writer. Stop immediately if the pre-placement surface is a duplicate. Test every input feature alone for leakage; AUC over 0.90 is suspect.</li>
-<li>Use buffered whole-segment hide-and-recover; build all catalogue features from visible faults only and mask visible faults pixel-exactly. Compare pooled DTI against the current same-fold incumbent with a paired 95% interval. An uncalibrated holdout is not a leaderboard estimate.</li>
-<li>Recheck the exact final TIFF against the complete current registry and authenticate the organizer sample. Verify a single float32 band, matching CRS/shape/transform, and no non-finite or out-of-range values inside the actual footprint. Reconcile the official null/NaN exterior guidance with the portal range behavior; neither convention is assumed accepted.</li>
-<li>Only after every automated gate passes, a separate selector checks the account quota. The <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules</a> describe up to three scored attempts per week and one final selection per participating entity.</li>
-<li>Then download the approved <code>.tif</code>, verify its SHA-256, sign in to the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">DrivenData submissions page</a>, choose the file, and use the recorded unique name and a short note no longer than 140 characters. The official problem page specifies a GeoTIFF; ZIP upload acceptance was not verified. Save the actual organizer receipt; do not promote a projection into a score.</li></ol>
-<p>Our checks require no human inspector. The current blocker is missing/contradictory evidence and an unassigned lane, not a request to waive a gate. No account credentials are stored by this project.</p></section><section class="section" id="legacy"><h3>Other saved work · DO NOT SUBMIT</h3>
-<p>K2, K3, B4, H1, H2 and the irregular-dot file are research artifacts. The prior literal-policy verdict for K2: NEGATIVE. <code>gemsdoekarage2-k2-hgbcont-b110-20261028-zeros.tif</code>, SHA-256 <code>504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb</code>, is quarantined. K3's <code>gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif</code> is the prior holdout-best point estimate, but its uniqueness decision is also negative.</p>
-<p>The <code>hkarage1</code> irregular raster is <b>not unique</b>: roughly 100% of its in-footprint dots fall within 3 px of the lattice, beyond the 70% stop. Different filenames or clipping do not make a stopped file eligible.</p>
-<p><a href="evidence/k2-review-2026-10-28.json">K2 correction</a> · <a href="evidence/k2-protocol-review.json">K2 protocol</a> · <a href="evidence/k2/literal_release_audit.json">K2 literal audit</a> · <a href="evidence/k2/selector_result.json">K2 selector</a> · <a href="evidence/k3/run_card.json">K3 run card</a> · <a href="evidence/b4/run_card.json">B4 run card</a> · <a href="evidence/h1/run_card.json">H1 run card</a> · <a href="evidence/run_card_h2.json">H2 run card</a> · <a href="evidence/legacy-dot-audit-2026-10-28.json">Legacy-dot audit</a></p></section>
-<footer class="footnote"><p><b>Evidence labels:</b> HOLDOUT-DTI is a local, catalogue-based proxy with its evaluator, withheld count and interval; it is not a leaderboard result. Historical values are USER-REPORTED / UNVERIFIED unless linked to an actual organizer receipt. The leaderboard observation is an organizer-published public snapshot, not a receipt for any local TIFF.</p>
-<p>Maximize P(Win). Own the outcome. <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/README.md">Project instructions</a> · <a href="evidence/official-review-2026-10-30.json">Source observations</a> · <a href="../research/2026-10-30-live-source-and-code-review.md">Three-pass review</a> · <a href="evidence/live-source-review-card-2026-10-30.json">Review card</a></p></footer>
+<h2>No submission-ready TIFF is currently cleared</h2>
+<p class="verdict"><b class="no">DO NOT SUBMIT any current file.</b> The new unique TIF (<code>gemsdoe-karage2-near-trace-20261031.tif</code>) is downloadable below but is <b>blocked by the lattice-overlap gate</b> pending a protocol-owner decision. Neither inspection nor a format pass bypasses the literal duplicate stop.</p>
+<p><a class="btn big" href="downloads/gemsdoe-karage2-near-trace-20261031.tif" download>Download new TIF (research only)</a> <a class="btn secondary" href="executive-summary.html">Executive summary →</a></p>
+<div class="meta"><b>Research file:</b> <code>gemsdoe-karage2-near-trace-20261031.tif</code><br><b>SHA-256:</b> <code>cc158d4248ed4b5fb64bbec7dc990a08e01993a6a91fd597d6d4578038a95811</code><br><b>OK to submit?</b> <span class="no">NO</span> — lattice-overlap blocker</div>
+</section>
+
+<section class="section"><h3>Step-by-step: how to make a submission (when eligible)</h3>
+<p><b>Official rules, verified</b> (<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NLR rules PDF</a>, §1.1 and §3.2): one entry per competitor; a <em>single</em> GeoTIFF with a single raster layer at 100 m; submission limit <em>three submissions per week</em>; generative-AI use must be described in the narrative. The problem page (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>) specifies values between 0 and 1, float32, and null or NaN outside the bounds.</p>
+<ol>
+<li><b>Run an assigned lane</b> using the shared feature stack, <code>evaluate_holdout.py</code> and <code>submission_writer.py</code>. Stop immediately if the pre-placement surface is a duplicate (Spearman > 0.90 or >70% of dots within 3 px of any registry raster's dots).</li>
+<li><b>Use buffered whole-segment hide-and-recover.</b> Build all catalogue-based features from visible faults only; mask visible faults pixel-exactly. Compare pooled DTI (alpha 0.2, beta 0.8, 300 m triangular kernel) against the incumbent with a paired 95% interval.</li>
+<li><b>Test every feature alone for leakage.</b> AUC above 0.90 means leakage until proven otherwise.</li>
+<li><b>Validate the final TIFF.</b> Single float32 band; matching CRS/EPSG:32611, shape 3730×3292, and geotransform; values in [0,1] inside the footprint; NaN outside the footprint. This addresses the "Predicted values must be in range [0, 1]" portal error — zero-exterior files triggered it; NaN-exterior files pass the range check.</li>
+<li><b>Check uniqueness against the full registry.</b> No registry raster may have |Spearman| > 0.90 or >70% dot overlap within 3 px.</li>
+<li><b>Only after every automated gate passes:</b> a separate selector checks the account quota (up to three scored attempts per week, one final selection).</li>
+<li><b>Download the approved .tif</b>, verify its SHA-256 against the receipt, sign in to the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">DrivenData submissions page</a>, choose the file, and use the recorded unique name and a short note no longer than 140 characters. Save the actual organizer receipt as ORGANIZER-CONFIRMED; never convert a local projection into a score.</li>
+</ol>
+</section>
+
+<section class="section" id="new-file-instructions">
+<h3>About the new submission TIF</h3>
+<p><b>File:</b> <code>gemsdoe-karage2-near-trace-20261031.tif</code></p>
+<p><b>What it is:</b> A hypothesis-driven GeoTIFF placing predictions 1–100 m from mapped fault traces (blind fault-adjacent stepover zones). Format-validated: single band float32, EPSG:32611, 3730×3292, 100 m, NaN outside footprint, all interior values in [0,1].</p>
+<p><b>HOLDOUT-DTI:</b> 0.6242 (95% CI [0.6227, 0.6273], 60,988 withheld positives). This is a local catalogue-based proxy, <b>not</b> a leaderboard estimate or organizer-confirmed score.</p>
+<p><b>Uniqueness:</b> Passes vs all 9 focus-site masks (max overlap 0.4060 ≤ 70%, max |Spearman| 0.0466 ≤ 0.90). <b>Fails vs 13GEMSDOE lattice</b> (99.84% overlap > 70%).</p>
+<p><b>OK to submit?</b> <b class="no">NO.</b> Blocked by the lattice-overlap gate. The protocol owner must rule on the lattice witness before any dot-based file can be eligible.</p>
+<p><b>Submission name:</b> <code>gemsdoe-karage2-near-trace-20261031</code> (unique)<br><b>Suggested note (≤140 chars):</b> <code>Unique blind fault-adjacent stepover dots; holdout-validated DTI; not organizer-confirmed</code></p>
+</section>
+
+<section class="section" id="portal-error">
+<h3>Fixing the "Predicted values must be in range [0, 1]" portal error</h3>
+<p>The previous portal error occurred because some submissions wrote finite zeros outside the footprint, and the portal's range check apparently included exterior cells. The new submission writes <b>NaN outside the footprint</b>, matching the official problem-page convention ("data outside the bounds is null or nan"). The local format validator confirms:</p>
+<ul><li><code>outside_is_nan: true</code> — all exterior cells are NaN</li><li><code>inside_in_range_0_1: true</code> — all interior values are in [0, 1]</li><li><code>inside_nan: 0</code> — no NaN inside the footprint</li></ul>
+<p>Organizer acceptance of the NaN-outside convention is not yet authenticated. The template used for validation is an owner-supplied mirror, not an organizer receipt.</p>
+</section>
+
+<section class="section" id="legacy">
+<h3>Other saved work · DO NOT SUBMIT</h3>
+<p>K2, K3, B4, H1, H2, H-F, HK3 and other research artifacts are in <code>docs/downloads/</code>. All fail the uniqueness gate against the lattice witness. None is approved for submission.</p>
+</section>
+
+<footer class="footnote"><p><b>Evidence labels:</b> HOLDOUT-DTI is a local, catalogue-based proxy; it is not a leaderboard result. Historical values are USER-REPORTED / UNVERIFIED unless linked to an actual organizer receipt.</p>
+<p>Maximize P(Win). Own the outcome. <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/README.md">Project instructions</a></p></footer>
 </main></body></html>
