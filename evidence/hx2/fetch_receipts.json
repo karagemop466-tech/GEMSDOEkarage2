@@ -1,0 +1,137 @@
+{
+ "evidence_class": "TRANSPORT RECEIPTS (sha256 of saved bytes)",
+ "transport": "api.github.com git blobs; raw.githubusercontent.com unreachable in sandbox",
+ "fetches": {
+  "extra": {
+   "GEMSDOE70": {
+    "repo": "buffedlizard55-lab/GEMSDOE70",
+    "ref": "158aec19800d4c7b8ca9fb94b06567e2b7d61e8d",
+    "path": "docs/downloads/gems70-p5-dual-submod300-oof38k-20261020.tif",
+    "blob_sha": "df462e08604d70333eb0df81eec56ff4e7e1506a",
+    "sha256": "d0e41ce921afcf3af33b7d86d75f6a258653dfbb4d050e864babe643245f0ea8",
+    "bytes": 143907,
+    "out": ".cache/registry_extra/GEMSDOE70.tif",
+    "reported": null
+   },
+   "GEMSDOE49": {
+    "repo": "buffedlizard55-lab/GEMSDOE49",
+    "ref": "8ab48f22d02d8be3b8e01d843ed7dc7967b87c44",
+    "path": "docs/downloads/gems49-gate_ortho_w0.25-40k-20261006T213721Z-zeros.tif",
+    "blob_sha": "ab3927ff4ade32bba6fb1954a3d6aa9295734077",
+    "sha256": "3722e26fbf9129874be1fb8c687825803952c57ef1154ed0a21029596bc412f1",
+    "bytes": 230827,
+    "out": ".cache/registry_extra/GEMSDOE49.tif",
+    "reported": null
+   },
+   "GEMSDOE76": {
+    "repo": "buffedlizard55-lab/GEMSDOE76",
+    "ref": "97f3dd5a818d909bb2d2e362bdd2282bfbf2cae1",
+    "path": "docs/downloads/gems76-ptcf-tiltworm-submod39k-20261021T034000Z-6316481d-zeros.tif",
+    "blob_sha": "f74fa15581a8628438f1540a05fce4d6e77d7840",
+    "sha256": "54c978399d0a875ba89aacc465e7efd8644420e6ba1dfa7c0a1390328be2c514",
+    "bytes": 137028,
+    "out": ".cache/registry_extra/GEMSDOE76.tif",
+    "reported": null
+   },
+   "GEMSDOE63": {
+    "repo": "buffedlizard55-lab/GEMSDOE63",
+    "ref": "4195d91809a0c33871fe7013c90dde74d6571294",
+    "path": "docs/downloads/gemsdoe63-cvarlw-thin-s3p17-54864-20261011T220606Z-c58f60c4-zeros.tif",
+    "blob_sha": "2168b3d053fb708a76ad132cc04166e4d49fefc0",
+    "sha256": "46a0f0fa2f63e6e6b4a5fe4520e999b925cf3ff954a01b10b36b735c1b0649c8",
+    "bytes": 330275,
+    "out": ".cache/registry_extra/GEMSDOE63.tif",
+    "reported": null
+   },
+   "GEMSDOE27": {
+    "repo": "buffedlizard55-lab/GEMSDOE27",
+    "ref": "60da5e4128339244efc61274abf95d22702ff801",
+    "path": "docs/downloads/gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-allfinite.tif",
+    "blob_sha": "cf1c1bb264dea82fcee1ad0b8610675a15814445",
+    "sha256": "8585c5e870f197f84fda5bac7f22047d646fb73d455eb8b1129486c79bb976cf",
+    "bytes": 825276,
+    "out": ".cache/registry_extra/GEMSDOE27.tif",
+    "reported": null
+   },
+   "GEMSDOE82": {
+    "repo": "buffedlizard55-lab/GEMSDOE82",
+    "ref": "4fb7df6f650f98690c547b4e23bf17deeaa9b141",
+    "path": "downloads/gemsdoe82-h82-submodular-punoisyor-20261021T235456Z-fe137199-zeros.tif",
+    "blob_sha": "4142da62699ad87a0d20d8aeba3ef6cbd0203380",
+    "sha256": "120810feffb4688c364f2bb49a3d2624dcbb53fdc294892c68957f65fbaba131",
+    "bytes": 137930,
+    "out": ".cache/registry_extra/GEMSDOE82.tif",
+    "reported": null
+   }
+  },
+  "resolved_heads": {
+   "GEMSDOE70|gems70-p5-dual-submod300-oof38k": {
+    "head": "158aec19800d4c7b8ca9fb94b06567e2b7d61e8d",
+    "hits": [
+     "docs/downloads/gems70-p5-dual-submod300-oof38k-20261020.tif"
+    ]
+   },
+   "GEMSDOE49|gate_ortho_w0.25-40k": {
+    "head": "8ab48f22d02d8be3b8e01d843ed7dc7967b87c44",
+    "hits": [
+     "docs/downloads/gems49-gate_ortho_w0.25-40k-20261006T213721Z-nan.tif",
+     "docs/downloads/gems49-gate_ortho_w0.25-40k-20261006T213721Z-zeros.tif"
+    ]
+   },
+   "GEMSDOE76|gems76-ptcf-tiltworm-submod39k": {
+    "head": "97f3dd5a818d909bb2d2e362bdd2282bfbf2cae1",
+    "hits": [
+     "docs/downloads/gems76-ptcf-tiltworm-submod39k-20261021T034000Z-6316481d-zeros.tif"
+    ]
+   },
+   "GEMSDOE63|cvarlw-thin-s3p17": {
+    "head": "4195d91809a0c33871fe7013c90dde74d6571294",
+    "hits": [
+     "docs/downloads/gemsdoe63-cvarlw-thin-s3p17-54864-20261011T220606Z-c58f60c4-nan.tif",
+     "docs/downloads/gemsdoe63-cvarlw-thin-s3p17-54864-20261011T220606Z-c58f60c4-zeros.tif"
+    ]
+   },
+   "GEMSDOE48|h59-cover-ds-belief-b2xh33d": {
+    "head": "268ec599f51c517cc3485da077c24d83af5be81d",
+    "hits": [
+     "docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-belief-normalized-20261008T184547Z.tif",
+     "docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-conflict-K-20261008T184547Z.tif",
+     "docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-disagreement-a-only-20261008T184547Z.tif",
+     "docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-disagreement-b-only-20261008T184547Z.tif",
+     "docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-mtheta-unassigned-20261008T184547Z.tif",
+     "docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-plausibility-20261008T184547Z.tif",
+     "docs/downloads/gemsdoe48-h59-cover-ds-belief-b2xh33d-20261008T184547Z-b79c4c61d8d8.tif"
+    ]
+   },
+   "GEMSDOE27|gems27-h31-drcg-wl-celf28": {
+    "head": "60da5e4128339244efc61274abf95d22702ff801",
+    "hits": [
+     "docs/downloads/gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-allfinite.tif",
+     "docs/downloads/gems27-h31-drcg-wl-celf28-20261026-cf8e1bbef244-nan.tif"
+    ]
+   },
+   "GEMSDOE27|gems27-h29-hydrothermal-piedmont": {
+    "head": "60da5e4128339244efc61274abf95d22702ff801",
+    "hits": [
+     "docs/downloads/gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-allfinite.tif",
+     "docs/downloads/gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-nan.tif"
+    ]
+   },
+   "GEMSDOE82|h82-submodular-punoisyor": {
+    "head": "4fb7df6f650f98690c547b4e23bf17deeaa9b141",
+    "hits": [
+     "docs/downloads/gemsdoe82-h82-submodular-punoisyor-20261021T235456Z-fe137199-zeros.tif",
+     "downloads/gemsdoe82-h82-submodular-punoisyor-20261021T235456Z-fe137199-zeros.tif",
+     "submissions/gemsdoe82-h82-submodular-punoisyor-20261021T235456Z-fe137199-zeros.tif"
+    ]
+   },
+   "GEMSDOE31|h27-4-solo-d28": {
+    "head": "f9248200f20def2654af596c1cc13ab2f9d96687",
+    "hits": [
+     "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+     "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif"
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-31T00:53:23.436317+00:00",
+  "hypothesis": "H-GBSP: Geothermal Blind-Spot Prospectivity \u2014 coincident multi-physics anomalies (magnetic edge, gravity gradient, geodetic strain, conductivity, basement offset) WITHOUT catalogue faults, targeting unmapped blind structures",
+  "mechanism": "Mask all known faults pixel-exactly; compute anomaly strength per geophysical band; weighted combination with distance decay from known faults; restrict dots to lattice-uncovered pixels for uniqueness; output continuous [0,1] prospectivity field",
+  "named_non_fault_mimic": "Lithologic contacts, intrusive edges, survey-line striping, sedimentary facies changes, hydrothermal alteration without faulting",
+  "holdout": {
+    "classification": "HOLDOUT-DTI (proxy; fixed field, not strict hide-and-recover OOF)",
+    "evaluator_version": "evaluate_holdout.dti_weighted_terms alpha=0.2 beta=0.8 R=300m",
+    "withheld_positives": 60988,
+    "dti": 2e-06,
+    "confidence_interval_95": [
+      0.0,
+      9e-06
+    ],
+    "fold_DTIs": [
+      1e-06,
+      0.0,
+      9e-06,
+      1e-06
+    ],
+    "note": "PROXY only \u2014 hidden organizer labels unavailable; not a leaderboard estimate"
+  },
+  "leakage_canary": {
+    "tc": {
+      "auc_mean": 0.4257559331542339,
+      "auc_max": 0.4610862140591425,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "tmi_hg": {
+      "auc_mean": 0.5125179284809387,
+      "auc_max": 0.5323488873640874,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "tmi_vg": {
+      "auc_mean": 0.4826427019628124,
+      "auc_max": 0.48945596677922165,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "iso_grav_hg": {
+      "auc_mean": 0.5071360329036201,
+      "auc_max": 0.5708773166084471,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "iso_grav_vg": {
+      "auc_mean": 0.5333863402470361,
+      "auc_max": 0.5654743333333333,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "iso_grav_slope": {
+      "auc_mean": 0.5328584687473856,
+      "auc_max": 0.5800974618926644,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "geod_2ndinv": {
+      "auc_mean": 0.5491755234864563,
+      "auc_max": 0.5761876227171963,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "geod_shear": {
+      "auc_mean": 0.5415467076178189,
+      "auc_max": 0.5913172616911221,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "geod_dilate": {
+      "auc_mean": 0.5147701041868968,
+      "auc_max": 0.5676326041666667,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "cond_surf": {
+      "auc_mean": 0.49224247259114495,
+      "auc_max": 0.5424929739583333,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "depth_to_base": {
+      "auc_mean": 0.5072917202925606,
+      "auc_max": 0.5254365989583334,
+      "n_folds": 4,
+      "leakage": false
+    },
+    "det_elev_slope": {
+      "auc_mean": 0.5641513728896903,
+      "auc_max": 0.5883273471972976,
+      "n_folds": 4,
+      "leakage": false
+    }
+  },
+  "correlation_and_overlap_vs_registry": {
+    "max_spearman_abs": 0.006046,
+    "max_dot_overlap_3px": 0.188729,
+    "duplicate_found": false,
+    "n_registry_compared": 10,
+    "threshold": "Spearman <= 0.90 AND dot overlap <= 70%"
+  },
+  "raster_sha256": "855b94aabbf36cbbc5423e953509ae095a89baf037f55cddbb04ea6a98de73a5",
+  "validator": {
+    "strict_format_pass": true,
+    "checks": {
+      "single_band": true,
+      "float32": true,
+      "crs_EPSG_32611": true,
+      "shape_3730x3292": true,
+      "geotransform_match": true,
+      "inside_in_range_0_1": true,
+      "no_nan_inside_footprint": true,
+      "outside_footprint_is_nan": true,
+      "n_positive_pixels": 4525,
+      "n_nan_outside": 7111787
+    }
+  },
+  "submission_name": "gems-gbsp-blindspot-2195bc570842-20261031T005323Z",
+  "note": "Unique blind-geothermal-prospectivity field; masks known faults; no dots on catalogue traces",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "slot_authorized": false,
+  "experiments_run": 1,
+  "budget": "1 of 3 experiments; under 2 hours"
+}

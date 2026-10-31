@@ -73,14 +73,26 @@ function chromeEnvironment() {
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
     assert.equal(hk3.verdict, 'negative');
-    const expectBadge = 'OK TO SUBMIT: NO';
+    // The badge is derived from the release receipt, never hard-coded: the desk says
+    // "1 FILE" exactly when a release receipt certifies one file for submission.
+    const releaseReceipt = require('../evidence/halo/final_generation.json');
+    const expectBadge = releaseReceipt.verdict.ok_to_submit
+      ? 'OK TO SUBMIT: 1 FILE · SEE RELEASE'
+      : 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
       await page.waitForURL('**/docs/index.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
-      const primary = page.locator('a.btn.big[download]').first();
-      assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
+      // The desk may offer a verified current candidate (evidence/k10) above the HK3 research
+      // control, so the research-only link is addressed by href rather than by position -- the
+      // same contract tests/test_hk3.py states. Everything below still asserts on the HK3 file:
+      // its RESEARCH ONLY wording, the downloaded filename and its SHA-256.
+      const primary = page.locator(`a.btn.big[download][href*="${hk3.submission.name}"]`).first();
+      assert.ok(await primary.count(), 'HK3 research download is no longer offered by the desk');
+      for (const link of await page.locator('a.btn.big[download]').all()) {
+        assert.ok((await link.getAttribute('href')).startsWith('downloads/'), 'a download link leaves the published tree');
+      }
       assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
       const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
       assert.equal(download.suggestedFilename(), path.basename(hk3.raster.file));

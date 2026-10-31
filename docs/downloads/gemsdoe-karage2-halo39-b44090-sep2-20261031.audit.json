@@ -1,0 +1,86 @@
+{
+  "evidence_class": "SAVED-BYTE CHECK + REGISTRY-MEASUREMENT + CALIBRATED-PRIVATE PROJECTION (never ORGANIZER-CONFIRMED)",
+  "generated_utc": "20261031T021039Z",
+  "submission_file": "docs/downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif",
+  "submission_name": "gemsdoe-karage2-halo39-b44090-sep2-20261031",
+  "format_checks": {
+    "driver": "GTiff",
+    "count": 1,
+    "dtype": "float32",
+    "shape": [
+      3730,
+      3292
+    ],
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "crs_ok": true,
+    "shape_ok": true,
+    "transform_ok": true,
+    "single_band_ok": true,
+    "float32_ok": true,
+    "all_finite": true,
+    "nan_inside_footprint": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "range_ok": true,
+    "positive_pixels": 44090,
+    "distinct_values": 2,
+    "sha256": "603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38",
+    "bytes": 837376,
+    "passed": true
+  },
+  "uniqueness": {
+    "evidence_class": "REGISTRY-MEASUREMENT (hash-verified pinned inventory; not an organizer-complete registry)",
+    "registry_unique_rasters": 473,
+    "submission_rasters_compared": 471,
+    "delta_rasters_included": 11,
+    "worst_dot_overlap": 0.6546609208437287,
+    "worst_overlap_submission": "docs/downloads/gemsdoe30-edge-hybrid-80k-02845bd4-20261003T234340Z-allfinite.tif",
+    "worst_spearman": 0.05566645743662113,
+    "worst_spearman_submission": "docs/downloads/GEMSDOE30-nearslay-annulus-d3-offcat-20261025T235837Z-662af003-nan.tif",
+    "rasters_above_0_70_overlap": [],
+    "rasters_above_0_90_rho": [],
+    "universal_probes": [
+      {
+        "path": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+        "their_dots": 206895,
+        "my_dots_within_3px_of_theirs": 0.9983896575187117,
+        "scored_domain_coverage_within_3px": 0.9987243421716145
+      }
+    ],
+    "non_grid_files": [
+      {
+        "repo": "GEMSDOE36",
+        "path": "docs/downloads/GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif",
+        "reason": "non_grid_file"
+      }
+    ],
+    "probe_note": "r13_lattice is a uniform 5-px sampling probe, not a competitor submission: it covers 99.87 % of the scored domain within 3 px, so every possible raster 'overlaps' it. It is reported separately and is not counted as a duplicate witness.",
+    "unique_vs_submission_rasters": true
+  },
+  "uniqueness_literal_gate": {
+    "unique": false,
+    "worst_overlap_including_probe": 0.9983896575187117,
+    "worst_overlap_submission_including_probe": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "duplicate_count": 2,
+    "stop_required": true,
+    "missing_or_invalid": 1,
+    "scope": "All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only.",
+    "vacuous_because": "r13_lattice is a uniform 5-px sampling probe, not a competitor submission: it covers 99.87 % of the scored domain within 3 px, so every possible raster 'overlaps' it. It is reported separately and is not counted as a duplicate witness. The pinned inventory also contains one non-grid QA blob (GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif) that the literal gate reports as a missing entry."
+  },
+  "verdict": {
+    "format_valid": true,
+    "unique_vs_submission_rasters": true,
+    "ok_to_download": true,
+    "ok_to_submit": true,
+    "leaderboard_estimate": "range, not a score: see score_projection.scenarios"
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "experiment": "E1",
+  "question": "What is the distance-decay profile of withheld whole fault components?",
+  "evidence_class": "HOLDOUT-DTI (gems57 holdout, hide_frac=0.20, 3 px feature buffer, 4 quadrants, pooled DTI)",
+  "draws": {
+    "20": {
+      "n_withheld_truth_px": 11321,
+      "rows": [
+        {
+          "ring_px": [
+            3,
+            4
+          ],
+          "ring_cells": 98640,
+          "truth_cells_in_ring": 871.0,
+          "truth_occupancy": 0.008830089213300892,
+          "truth_occupancy_ci95": [
+            0.008265095901091668,
+            0.00943333750340297
+          ],
+          "enrichment_vs_footprint": 2.3715571414376586,
+          "mean_kernel_credit_per_emitted_dot": 0.02824917436013407,
+          "hit_probability_per_dot": 0.07949133640203732
+        },
+        {
+          "ring_px": [
+            4,
+            6
+          ],
+          "ring_cells": 228696,
+          "truth_cells_in_ring": 2388.0,
+          "truth_occupancy": 0.010441809213978382,
+          "truth_occupancy_ci95": [
+            0.010033346890454254,
+            0.010866717702214514
+          ],
+          "enrichment_vs_footprint": 2.804427748435269,
+          "mean_kernel_credit_per_emitted_dot": 0.03247544030400234,
+          "hit_probability_per_dot": 0.09330329655346559
+        },
+        {
+          "ring_px": [
+            6,
+            9
+          ],
+          "ring_cells": 319097,
+          "truth_cells_in_ring": 2287.0,
+          "truth_occupancy": 0.007167099659351232,
+          "truth_occupancy_ci95": [
+            0.006880291857305467,
+            0.007465773285907991
+          ],
+          "enrichment_vs_footprint": 1.9249167216710241,
+          "mean_kernel_credit_per_emitted_dot": 0.025073728671579597,
+          "hit_probability_per_dot": 0.06501942867632038
+        },
+        {
+          "ring_px": [
+            9,
+            14
+          ],
+          "ring_cells": 508979,
+          "truth_cells_in_ring": 2352.0,
+          "truth_occupancy": 0.004621015798294232,
+          "truth_occupancy_ci95": [
+            0.004438397073955805,
+            0.004811112094819128
+          ],
+          "enrichment_vs_footprint": 1.241097655121448,
+          "mean_kernel_credit_per_emitted_dot": 0.016166735908127707,
+          "hit_probability_per_dot": 0.04242047292124129
+        },
+        {
+          "ring_px": [
+            14,
+            22
+          ],
+          "ring_cells": 728225,
+          "truth_cells_in_ring": 1882.0,
+          "truth_occupancy": 0.002584366095643517,
+          "truth_occupancy_ci95": [
+            0.0024703522364663195,
+            0.002703627760363494
+          ],
+          "enrichment_vs_footprint": 0.69410078677128,
+          "mean_kernel_credit_per_emitted_dot": 0.008963861950701328,
+          "hit_probability_per_dot": 0.023950643466101318
+        },
+        {
+          "ring_px": [
+            22,
+            40
+          ],
+          "ring_cells": 1156921,
+          "truth_cells_in_ring": 1165.0,
+          "truth_occupancy": 0.0010069831907278024,
+          "truth_occupancy_ci95": [
+            0.000950821626162059,
+            0.001066458472932056
+          ],
+          "enrichment_vs_footprint": 0.2704523272178205,
+          "mean_kernel_credit_per_emitted_dot": 0.00353171631891768,
+          "hit_probability_per_dot": 0.009401330762431659
+        }
+      ]
+    },
+    "21": {
+      "n_withheld_truth_px": 11572,
+      "rows": [
+        {
+          "ring_px": [
+            3,
+            4
+          ],
+          "ring_cells": 97604,
+          "truth_cells_in_ring": 833.0,
+          "truth_occupancy": 0.00853448629154543,
+          "truth_occupancy_ci95": [
+            0.007976428076553,
+            0.009131228786517245
+          ],
+          "enrichment_vs_footprint": 2.21801135804969,
+          "mean_kernel_credit_per_emitted_dot": 0.026774601306327,
+          "hit_probability_per_dot": 0.07693536798050127
+        },
+        {
+          "ring_px": [
+            4,
+            6
+          ],
+          "ring_cells": 226057,
+          "truth_cells_in_ring": 2265.0,
+          "truth_occupancy": 0.010019596827348855,
+          "truth_occupancy_ci95": [
+            0.009617281297138677,
+            0.010438564861641311
+          ],
+          "enrichment_vs_footprint": 2.603973901528658,
+          "mean_kernel_credit_per_emitted_dot": 0.031351993807805664,
+          "hit_probability_per_dot": 0.08970522393350766
+        },
+        {
+          "ring_px": [
+            6,
+            9
+          ],
+          "ring_cells": 317007,
+          "truth_cells_in_ring": 2200.0,
+          "truth_occupancy": 0.006939909844262114,
+          "truth_occupancy_ci95": [
+            0.006656837592798627,
+            0.0072349316557131
+          ],
+          "enrichment_vs_footprint": 1.8035999277030756,
+          "mean_kernel_credit_per_emitted_dot": 0.024610373822809804,
+          "hit_probability_per_dot": 0.06302475931088203
+        },
+        {
+          "ring_px": [
+            9,
+            14
+          ],
+          "ring_cells": 499748,
+          "truth_cells_in_ring": 2265.0,
+          "truth_occupancy": 0.0045322842712727214,
+          "truth_occupancy_ci95": [
+            0.0043498266862727125,
+            0.004722358912059029
+          ],
+          "enrichment_vs_footprint": 1.1778867114182825,
+          "mean_kernel_credit_per_emitted_dot": 0.015799054384600532,
+          "hit_probability_per_dot": 0.041623120742990016
+        },
+        {
+          "ring_px": [
+            14,
+            22
+          ],
+          "ring_cells": 713195,
+          "truth_cells_in_ring": 1647.0,
+          "truth_occupancy": 0.0023093263413232006,
+          "truth_occupancy_ci95": [
+            0.0022005752355636764,
+            0.0024234388080891177
+          ],
+          "enrichment_vs_footprint": 0.600166416527301,
+          "mean_kernel_credit_per_emitted_dot": 0.007962769036706327,
+          "hit_probability_per_dot": 0.021429229069532152
+        },
+        {
+          "ring_px": [
+            22,
+            40
+          ],
+          "ring_cells": 1153814,
+          "truth_cells_in_ring": 1747.0,
+          "truth_occupancy": 0.0015141088598335606,
+          "truth_occupancy_ci95": [
+            0.001444802908263594,
+            0.0015867340754252895
+          ],
+          "enrichment_vs_footprint": 0.3934988625807938,
+          "mean_kernel_credit_per_emitted_dot": 0.005106706328805873,
+          "hit_probability_per_dot": 0.01410240817772035
+        }
+      ]
+    }
+  },
+  "note": "draw 20 is the design (fitting) draw; draw 21 is an independent confirmatory draw built by the same label-blind procedure with a different seed."
+}

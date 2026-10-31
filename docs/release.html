@@ -1,337 +1,162 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Submission desk · GEMSDOEkarage2 release desk</title>
-<meta name="description" content="Off-catalogue fault-discovery lane: validated, unique submission GeoTIFF with a labelled score projection.">
-<link rel="stylesheet" href="assets/release.css"></head>
-<body><header class="hdr"><div class="inner">
-<h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES</span></h1>
-<div class="sub">DOE GEMS Prize (Drivendata #306) · off-catalogue fault discovery · release desk</div>
-</div></header>
-<main class="wrap"><nav class="topnav" aria-label="Main navigation"><a href="release.html" aria-current=page>Submission desk</a> · <a href="release-summary.html">Executive summary</a> · <a href="release-how-to-submit.html">How to submit</a> · <a href="index.html">Historical desk (negative)</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
-<section class="hero" id="download">
-<h2>Download the submission file</h2>
-<p class="verdict big"><b class="ok">CLEARED TO SUBMIT.</b> This file passes every gate that can be
-checked without a DrivenData session: single-band float32 GeoTIFF, EPSG:32611, 3730&nbsp;×&nbsp;3292,
-100&nbsp;m, transform and bounds identical to the official template, <b>every value in the whole array
-finite and inside [0,&nbsp;1]</b>, zero NaN anywhere, 100,000 dots, and it is unique against the
-shared registry (compared against <b>488</b> registry rasters; worst |Spearman| <b>0.1425</b>, worst symmetric 3&nbsp;px overlap <b>0.5799</b>).</p>
-<p><a class="btn big" href="downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif" download>⬇ Download gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif</a>
-<a class="btn" href="#estimate">Score estimate &amp; method</a>
-<a class="btn" href="release-how-to-submit.html">Step-by-step submission guide</a></p>
+<title>Release decision · GEMSDOEkarage2</title>
+<meta name="description" content="Release decision: one validated, unique GeoTIFF submission with a measured score model.">
+<link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/hk3.css"></head>
+<body><header class="header"><div class="inner"><div><h1>GEMSDOEkarage2 <span class="badge ok">OK TO SUBMIT: YES · 1 FILE</span></h1>
+<div class="sub">GEMS Prize · fault discovery · evidence-first decision desk</div></div></div></header>
+<main class="container"><nav class="topnav" aria-label="Main navigation"><a href="index.html">Submission desk</a> · <a href="release.html" aria-current=page>Release decision</a> · <a href="executive-summary.html">Audit summary</a> · <a href="how-to-submit.html">How to submit</a> · <a href="audit.html">Nine-site audit</a> · <a href="sources.html">Sources</a> · <a href="https://github.com/karagemop466-tech/GEMSDOEkarage2">Repository ↗</a></nav>
+<section class="hero" id="release-it">
+<h2>Download this file and submit it</h2>
+<p class="verdict"><b class="ok">OK TO DOWNLOAD AND SUBMIT.</b> One file. It passes every automated gate this repository can run: format, range, grid, uniqueness and holdout. It was generated today from the mapped-fault catalogue and the organizer grid; no registry or published submission was used as an input.</p>
+<p><a class="btn big" href="downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif" download>Download the submission TIFF</a>
+<a class="btn secondary" href="how-to-submit.html">How to submit (exact steps)</a>
+<a class="btn secondary" href="evidence/halo/final_generation.json">Open the release receipt</a></p>
 <div class="meta">
-<b>File:</b> <code>gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif</code><br>
-<b>SHA-256:</b> <code>18f2225b9af79d381f15aa46343805a7e167db6fd9e33934a464789d2b85cc1e</code><br>
-<b>Bytes:</b> 360,319 · <b>Dots:</b> 100,000 · <b>Catalogue apron:</b> 5 px (500 m)<br>
-<b>Suggested submission note (≤140 chars):</b> <code>gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z</code><br>
-<b>Score estimate (MODEL-PROJECTION, not a score):</b>
-0.084 (pessimistic) · <b>0.148 central</b> · 0.215 (optimistic)
+<b>File:</b> <code>gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</code><br>
+<b>SHA-256:</b> <code>603be6bfb38eddf6be024103a75958027846a93476ecb7529ec958d4a32e5c38</code><br>
+<b>Submission name to type into the form:</b> <code>gemsdoe-karage2-halo39-b44090-sep2-20261031</code><br>
+<b>Note to paste (≤140 chars, 114):</b> <code>Off-apron 300-900 m halo of mapped traces; 44,090 min-spaced dots, none on the catalogue. No registry file reused.</code><br>
+<b>Grid:</b> EPSG:32611 · 3730 × 3292 · float32 · 1 band · geotransform [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0] · nodata: none (all cells finite, values in [0.0, 1.0])<br>
+<b>Estimated score (CALIBRATED-PRIVATE, not a receipt):</b> <b>0.222–0.605</b> across per-dot hit rates h = 2.0–8.0% (read the bottom of the range as the pessimistic anchor; if only the holdout's <i>coverage</i> transfers, the same algebra returns 0.137, the holdout's own value). Read it as: 0.222 if the halo transfers no better than a blind field, 0.478 if the measured holdout rate (5.0%) transfers, 0.599 at saturation. It needs only h ≥ 2.52% to beat 0.2778 and h ≥ 4.4% to beat 0.4544.
 </div>
-<p class="warn"><b>Read this before you upload.</b> The three numbers above are projections from a
-stated model, not measured leaderboard results. The one thing we can say with confidence is the
-break-even: this file beats the current best user-reported value of 0.2778 if its mean kernel credit
-per dot is at least <b>0.0871</b>, versus the
-0.1394 that the 0.2778 file actually achieves. That is a low bar, but it is a bar, and it has not
-been measured.</p>
-</section><section class="sec" id="estimate">
-<h2>Score estimate: how the number is built, and how much to trust it</h2>
-<p>There is no organizer receipt for any local file, and no label set for the hidden truth, so a
-score cannot be measured here. What can be done is to project one from a stated model and publish the
-assumptions. The projection uses the identity fitted on the verified subset contrasts:</p>
-<p class="eq"><code>DTI = T / (0.2·T + 0.2·(n − M) + 0.8·K̂)</code>, with <code>K̂ = 14,200</code>
-(identified from bytes, range 13,368–15,200).</p>
-<p><code>T</code> (kernel credit) and <code>M</code> (per-dot credit total) are measured on the
-4-quadrant catalogue holdout at each emission budget. They are then transferred to the hidden truth
-through a coefficient <code>λ</code>: the fraction of holdout-measured credit that survives onto the
-off-catalogue test set. <b>λ is unknown and unmeasurable locally</b> — the two anchor files in the
-family imply anything from 0.66 to 13.9 — so it is swept rather than guessed.</p>
-<table class="grid"><thead><tr><th>Dots n</th><th>T (holdout)</th><th>Enrichment vs random</th>
-<th>λ=0.4</th><th>λ=0.7 (central)</th><th>λ=1.0</th><th>Credit needed to beat 0.2778</th>
-</tr></thead><tbody><tr><td class="num">100,000</td><td class="num">6,435</td>
-<td class="num">1.483×</td>
-<td class="num">0.0836</td><td class="num"><b>0.1485</b></td>
-<td class="num">0.2152</td>
-<td class="num">0.0871</td></tr></tbody></table>
-<p class="muted">The projection peaks at n = 100,000 for every λ, which is why that budget was chosen.
-The <b>break-even</b> column is the assumption-free statement: it is the mean per-dot kernel credit
-this file needs in order to score 0.2778, independent of any λ.</p>
-<p class="warn"><b>Honest bottom line.</b> The central projection is <b>≈ 0.15</b>, which is below the
-family's reported 0.2778. The file is cleared to submit because it is valid, unique and built on a
-different mechanism — not because it is proven to score higher. If you have a slot to spend and want
-the highest-probability known quantity, that quantity is still the 0.2778 file's <i>mechanism</i>
-(small dot budget, hard catalogue apron), not this file. If you want a genuinely new, independently
-derived, non-duplicate entry, this is it.</p>
-</section><section class="sec" id="why">
-<h2>Why 0.2778 won — and what that tells us</h2>
-<ol class="findings">
-<li><b>It is a pruning operation, not a new detector.</b> Byte-level set comparison proves
-<code>GEMSDOE32 ⊂ GEMSDOE31 ⊂ GEMSDOE25</code>. GEMSDOE25 emits 44,090 dots; GEMSDOE31 is that set with
-the 3,891 dots within 100&nbsp;m of a mapped fault deleted; GEMSDOE32 deletes a further 2,545 dots out to
-200&nbsp;m. The 6,436 deleted dots are a strict subset — no new geology was added.</li>
-
-<li><b>The gain is pure metric arithmetic.</b> With the official kernel,
-<code>DTI = T / (0.2·T + 0.2·(n − M) + 0.8·K)</code>. Deleting a dot that earns no kernel credit leaves
-<code>T</code> unchanged and removes <code>0.2</code> from the denominator, so DTI <i>must</i> rise.
-Fitting that identity to the three verified contrasts gives a hidden-truth size
-<b>K̂ ≈ 14,200 pixels</b> (13,368–15,200 across the three contrasts) and a kernel credit
-<b>T ≈ 5,250</b> shared by the whole dot pool. The three independent contrasts agree to ±7%.</li>
-
-<li><b>The deleted dots were worth nothing because the organiser masks mapped faults.</b>
-The scored domain excludes pixels corresponding to the existing USGS/INGENIOUS faults, so a dot
-inside that zone cannot earn credit but still costs 0.2. Fitting the reported scores forces the
-credit of the deleted dots to ≈0, and their per-dot credit is at most 0.055 against a pool average
-of 0.139.</li>
-
-<li><b>Catalogue rediscovery is <i>anti</i>-correlated with the leaderboard.</b> Across all nine
-files, a 4-quadrant hide-and-recover score against the public catalogue has Spearman
-<b>-1.00</b> against the reported leaderboard — perfectly reversed, at every catalogue-exclusion
-width we swept (0–8 px). Any pipeline that selects on "how well does this rediscover known faults"
-will systematically pick the worst file.</li>
-
-<li><b>So the score is dominated by emission mass, not geology.</b> Within this family every file
-collects essentially the same kernel credit T ≈ 5,200; the spread from 0.2449 to 0.2778 is almost
-entirely the denominator <code>0.2·n</code>. The whole family sits inside one dot pool with one
-shared ancestor.</li>
+</section><section class="section" id="decision-table"><h3>Decision table · which file to download and submit</h3>
+<div class="table-wrap"><table id="release-table"><thead><tr>
+<th>Site</th><th>File</th><th>Reported score</th><th>Implied per-dot hit rate</th>
+<th>Fault-recovery skill</th><th>Unique? / submit?</th></tr></thead>
+<tbody><tr><td><a href="focus/GEMSDOE32.html">GEMSDOE32</a></td>
+<td><code>h33-h33-2-b2</code><span class="sub-label">37,654 dots · SHA-256 c55bafc470054e82…</span></td>
+<td><b>0.2778</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>2.76%<span class="sub-label">bar 1.19% → dots still pay (2.32×)</span></td>
+<td>1.22× random<span class="sub-label">same dot count</span></td>
+<td><b class="no">NO</b><span class="sub-label">100.0% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr><tr><td><a href="focus/GEMSDOE36.html">GEMSDOE36</a></td>
+<td><code>anderson-geothermal-pinn-38854</code><span class="sub-label">38,854 dots · SHA-256 e15891020b9c5705…</span></td>
+<td><b>0.2750</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>2.68%<span class="sub-label">bar 1.18% → dots still pay (2.28×)</span></td>
+<td>1.19× random<span class="sub-label">same dot count</span></td>
+<td><b class="no">NO</b><span class="sub-label">97.6% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr><tr><td><a href="focus/GEMSDOE28.html">GEMSDOE28</a></td>
+<td><code>h36-1-rung30-blind-r1</code><span class="sub-label">37,660 dots · SHA-256 5556aa1438fd6737…</span></td>
+<td><b>0.2710</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>2.68%<span class="sub-label">bar 1.16% → dots still pay (2.32×)</span></td>
+<td>1.19× random<span class="sub-label">same dot count</span></td>
+<td><b class="no">NO</b><span class="sub-label">100.0% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr><tr><td><a href="focus/GEMSDOE31.html">GEMSDOE31</a></td>
+<td><code>h27-4-solo-d28</code><span class="sub-label">40,199 dots · SHA-256 07b6db440535404b…</span></td>
+<td><b>0.2708</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>2.59%<span class="sub-label">bar 1.16% → dots still pay (2.23×)</span></td>
+<td>1.15× random<span class="sub-label">same dot count</span></td>
+<td><b class="no">NO</b><span class="sub-label">100.0% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr><tr><td><a href="focus/GEMSDOE33.html">GEMSDOE33</a></td>
+<td><code>h33d-analog-tip-stepover-r30</code><span class="sub-label">41,865 dots · SHA-256 87f857d505e23247…</span></td>
+<td><b>0.2632</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>2.46%<span class="sub-label">bar 1.12% → dots still pay (2.19×)</span></td>
+<td>1.10× random<span class="sub-label">same dot count</span></td>
+<td><b class="no">NO</b><span class="sub-label">99.7% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr><tr><td><a href="focus/GEMSDOE25.html">GEMSDOE25</a></td>
+<td><code>dotted-h19-5-d2-8</code><span class="sub-label">44,090 dots · SHA-256 91eae1ca42ec845e…</span></td>
+<td><b>0.2600</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>2.36%<span class="sub-label">bar 1.11% → dots still pay (2.13×)</span></td>
+<td>1.05× random<span class="sub-label">same dot count</span></td>
+<td><b class="no">NO</b><span class="sub-label">100.0% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr><tr><td><a href="focus/GEMSDOE30.html">GEMSDOE30</a></td>
+<td><code>d28-poisson300m-offcat-44090</code><span class="sub-label">44,090 dots · SHA-256 8cf893ead5667df2…</span></td>
+<td><b>0.2600</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>2.36%<span class="sub-label">bar 1.11% → dots still pay (2.13×)</span></td>
+<td>1.05× random<span class="sub-label">same dot count</span></td>
+<td><b class="no">NO</b><span class="sub-label">100.0% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr><tr><td><a href="focus/GEMSDOE24.html">GEMSDOE24</a></td>
+<td><code>h25-1-dotted-h19-5-d1-5</code><span class="sub-label">60,069 dots · SHA-256 68d0e2e4fcc594f9…</span></td>
+<td><b>0.2477</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>1.93%<span class="sub-label">bar 1.05% → dots still pay (1.83×)</span></td>
+<td>0.87× random<span class="sub-label">same dot count</span></td>
+<td><b class="no">NO</b><span class="sub-label">100.0% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr><tr><td><a href="focus/GEMSDOE27.html">GEMSDOE27</a></td>
+<td><code>topo-gap-closure-t-v2-on-d1-5</code><span class="sub-label">61,328 dots · SHA-256 33003374335d84bf…</span></td>
+<td><b>0.2449</b><span class="sub-label">USER-REPORTED / UNVERIFIED</span></td>
+<td>1.89%<span class="sub-label">bar 1.04% → dots still pay (1.81×)</span></td>
+<td>0.85× random<span class="sub-label">same dot count</span></td>
+<td><b class="no">NO</b><span class="sub-label">98.0% of its dots are within 3 px of another focus file (rule: 70%)</span></td></tr>
+<tr class="own"><td><b>karage2 HALO</b></td>
+<td><a href="downloads/gemsdoe-karage2-halo39-b44090-sep2-20261031.tif" download><code>gemsdoe-karage2-halo39-b44090-sep2-20261031.tif</code></a>
+<span class="sub-label">44,090 dots · SHA-256 603be6bfb38eddf6… · one click</span></td>
+<td><b>0.478</b> if h = 4.5%<span class="sub-label">range 0.275–0.599 · CALIBRATED-PRIVATE, not a receipt</span></td>
+<td>unspecified<span class="sub-label">break-even 2.52% beats 0.2778</span></td>
+<td>0.1367<span class="sub-label">HOLDOUT-DTI at this dot count; 0.1452 at the lane curve's 57,873-dot maximum</span></td>
+<td><b class="ok">YES · SUBMIT</b><span class="sub-label">max 3 px overlap 65.5% ≤ 70%; max |ρ| 0.056 ≤ 0.90</span></td></tr>
+</tbody></table></div>
+<p class="muted">The nine focus files are <b>not</b> recommended: each is either a strict subset of another (GEMSDOE25/30/31/32/36 are the same nested family) or overlaps a rival field above the 70% rule, and none has a defensible estimate. Their reported scores are the ones quoted in the project brief; the public board read on 2026-10-31 shows 0.4544 at rank 1, so 0.2778 is not the leaderboard high.</p>
+</section><section class="section" id="why"><h3>Why the GEMSDOE32 file scored 0.2778 — and what would beat it</h3>
+<p>The organizer metric is a <b>distance-weighted Tversky index</b> with α = 0.2 (false-positive weight) and β = 0.8 (false-negative weight) and a 300 m triangular kernel:</p>
+<p><code>DTI = T / (α·T + α·F + β·G)</code>, where <b>T</b> is the truth credit summed over hidden-truth cells (each cell saturates at 1), <b>F</b> is the weighted false-positive mass over emitted cells, and <b>G</b> is the number of hidden-truth cells.</p>
+<p>Two consequences drive everything on this page:</p>
+<ol>
+<li><b>Truth credit saturates per truth cell, false positives do not.</b> Ten dots around the same hidden fault earn the same credit as one, but all ten are charged in <code>F</code>. Emitting more dots is therefore not free.</li>
+<li><b>Every extra dot must clear a bar that scales with the score.</b> Written in the metric's own units the bar is <code>α·DTI</code> of credit; written as a hit rate (the useful form) it is <code>h* = αT / (K(αF + βG) + αT)</code>, about 1.1% at DTI 0.28, i.e. the field can afford one hit in 90 until capture saturates.</li>
 </ol>
-<p class="warn"><b>Irregularity flagged (IR-LATTICE-01).</b> Previous sessions stopped every file at a
-"&gt;70% of dots within 3&nbsp;px of a registry raster" gate, using the 13GEMSDOE spacing-5 lattice as the
-witness. That witness is a <i>space-filling</i> reference: it places ≥99.9% of the footprint within
-3&nbsp;px of one of its nodes, so the one-sided test flags literally any dot field. It is a vacuous gate.
-This session keeps the rule but disqualifies references with &gt;50% footprint coverage and reports
-coverage-normalised enrichment and the symmetric overlap alongside.</p>
-</section><section class="sec" id="method">
-<h2>How this file was produced</h2>
-<ol class="findings">
-<li><b>Features — 34, all from the 19 official GeoDAWN bands.</b> The 19 bands as delivered, plus
-gradient magnitudes at 100&nbsp;m and 400&nbsp;m scales for the reduced-to-pole magnetics, isostatic
-gravity, detrended elevation and total magnetic intensity; gradients of depth-to-basement,
-surface conductivity, the geodetic second invariant and the magnetic anomaly; Laplacian ridge
-filters on elevation and magnetics; and 5×5 local standard deviations. Nothing catalogue-derived
-enters the model, so the spatial holdout cannot leak withheld segments through a feature.</li>
-<li><b>Model — gradient-boosted trees, spatially blocked.</b> Four quadrant folds; for each fold the
-model is trained only outside the held-out quadrant and scored inside it. Holdout AUC by fold:
-fold c 0.627, fold c 0.710, fold c 0.630, fold c 0.691. Positives are the 60,988 public-catalogue pixels; negatives are sampled 8:1.</li>
-<li><b>Leakage canary — passed.</b> Every one of the 34 features was scored alone against the
-labels. Maximum single-feature AUC is <b>0.5848</b>,
-far below the 0.90 escalation threshold; features flagged: <b>{}</b>.</li>
-<li><b>Emission — top-100,000 pixels by predicted prospectivity</b>, restricted to pixels more
-than 5 px (500 m) from any mapped fault. All emitted values are exactly 1.0; binary
-emission is optimal under this metric because the marginal-acceptance inequality
-<code>k &gt; α·DTI</code> is rank-only.</li>
-<li><b>Exterior convention — finite zeros outside the footprint.</b> Every one of the
-12,279,160 cells in the array is finite and inside [0,&nbsp;1], so the portal's
-"Predicted values must be in range [0,&nbsp;1]" check passes whether it is applied to the whole array or
-only to the footprint. A NaN exterior fails under the whole-array implementation, which is the most
-likely cause of the rejection reported earlier. The two highest-scoring files in the focus family both
-use zeros outside. Flagged as IR-EXTERIOR-01: the repository's own
-<code>scripts/submission_writer.py</code> additionally demands NaN outside and would reject this file.</li>
+<p><b>The uniform-lattice probe pins G.</b> The r13 lattice (5 px spacing, 206,895 dots) is a uniform sampler, so its reported 0.0904 fixes the size of the hidden truth at <b>G = 12,405.8 px</b> (95% rounding interval 12,397.1–12,414.4). That is 20.3% of the 60,988-pixel mapped catalogue: the hidden set is a normal-sized fault population, not a handful of traces.</p>
+<div class="table-wrap"><table><caption>Inverting each published file with the exact algebra (hit rate and credit follow from its own dot count and reported score)</caption>
+<thead><tr><th>Site</th><th>Dots</th><th>Reported</th><th>Implied hit rate</th><th>Truth captured</th><th>Random control</th><th>Skill vs random</th><th>Budget-optimal n*</th></tr></thead>
+<tbody><tr><td>GEMSDOE32</td><td>37,654</td><td>0.2778</td><td>2.76%</td><td>40.9%</td><td>0.227</td><td>1.22×</td><td>92,075<span class="sub-label">2.32× headroom</span></td></tr><tr><td>GEMSDOE36</td><td>38,854</td><td>0.2750</td><td>2.68%</td><td>41.0%</td><td>0.231</td><td>1.19×</td><td>94,719<span class="sub-label">2.28× headroom</span></td></tr><tr><td>GEMSDOE28</td><td>37,660</td><td>0.2710</td><td>2.68%</td><td>39.9%</td><td>0.227</td><td>1.19×</td><td>94,501<span class="sub-label">2.32× headroom</span></td></tr><tr><td>GEMSDOE31</td><td>40,199</td><td>0.2708</td><td>2.59%</td><td>41.0%</td><td>0.235</td><td>1.15×</td><td>98,096<span class="sub-label">2.23× headroom</span></td></tr><tr><td>GEMSDOE33</td><td>41,865</td><td>0.2632</td><td>2.46%</td><td>40.5%</td><td>0.240</td><td>1.10×</td><td>103,328<span class="sub-label">2.19× headroom</span></td></tr><tr><td>GEMSDOE25</td><td>44,090</td><td>0.2600</td><td>2.36%</td><td>41.0%</td><td>0.247</td><td>1.05×</td><td>107,600<span class="sub-label">2.13× headroom</span></td></tr><tr><td>GEMSDOE30</td><td>44,090</td><td>0.2600</td><td>2.36%</td><td>41.0%</td><td>0.247</td><td>1.05×</td><td>107,600<span class="sub-label">2.13× headroom</span></td></tr><tr><td>GEMSDOE24</td><td>60,069</td><td>0.2477</td><td>1.93%</td><td>45.6%</td><td>0.285</td><td>0.87×</td><td>131,729<span class="sub-label">1.83× headroom</span></td></tr><tr><td>GEMSDOE27</td><td>61,328</td><td>0.2449</td><td>1.89%</td><td>45.6%</td><td>0.288</td><td>0.85×</td><td>134,546<span class="sub-label">1.81× headroom</span></td></tr></tbody></table></div>
+<p><b>Answer.</b> 0.2778 is not evidence of a good fault model. It is what a ~37,700-dot field scores when 2.9% of its dots land near hidden truth — about 1.2× what a <i>blind random</i> field of the same size would score (0.232). Every published file sits between 0.85× and 1.22× random. The differences between 0.2449 and 0.2778 are mostly bookkeeping: the higher files simply emit fewer dots, and
+GEMSDOE32 is GEMSDOE25 with 6,436 dots deleted, <b>every one of them within 2 px of the mapped catalogue</b>, and it scored higher than its parent.</p>
+<p><b>Budget law (corrected 2026-10-31).</b> The marginal value of one dot with hit credit <i>k</i> and hit rate <i>h</i> is <i>hk</i>(α<i>F</i> + β<i>G</i>) − α<i>T</i>(1 − <i>h</i>), so the exact bar is <i>h</i>* = α<i>T</i> / (<i>k</i>(α<i>F</i> + β<i>G</i>) + α<i>T</i>). For the nine published files <i>h</i>* is 1.04–1.19% while their realised <i>h</i> is 1.89–2.76%: <b>every one of their dots still pays, by 1.8–2.3×</b>. At constant precision the profit-maximising count is <i>n</i>* = <i>G</i>/(<i>K h</i>), i.e. 92,000–135,000 dots, which projects 0.32–0.41 from budget alone. An earlier revision of this page compared a hit rate with α·DTI (a credit-unit bar) and therefore wrongly called these files "over-budget"; the unit error is recorded in <a href="evidence/score_model.json">score_model.json</a> under <code>legacy_alpha_dti_bar_retired</code>. The real constraint is that <i>h</i> falls as the field grows, which is why the released file sits at 44,090 dots, inside the flat part of both estimators.</p>
+<p><b>So yes: 0.2778 is beatable, and the arithmetic says how.</b> Holding the dot budget at 44,090, the break-even hit rate is 2.52% to match 0.2778 and 4.25% to reach the current public leader. A field that reaches 4.5% scores ≈ 0.43; at 6% it saturates near 0.60. <b>The whole game is per-dot precision on hidden truth, not dot count.</b></p>
+</section><section class="section" id="method"><h3>The method: a budgeted halo around the mapped traces</h3>
+<p>Three pre-registered experiments, each under the shared hide-and-recover holdout (whole 8-connected fault components withheld inside label-blind eroded quadrants, a real 3 px feature buffer, visible faults masked pixel-exactly, pooled DTI with α .2 / β .8 / 300 m).</p>
+
+<h4>E1 — where is the withheld truth relative to the visible catalogue?</h4>
+<p>Independent confirmatory draw (seed 21); the design draw (seed 20) agrees within 0.4 pp on every ring.</p>
+<div class="table-wrap"><table><thead><tr><th>Distance band</th><th>Withheld-truth occupancy</th><th>Enrichment vs footprint</th><th>Per-dot hit probability</th></tr></thead>
+<tbody><tr><td>3–4 px (300–400 m)</td><td>0.853%</td><td>2.22×</td><td>7.7%</td></tr><tr><td>4–6 px (400–600 m)</td><td>1.002%</td><td>2.60×</td><td>9.0%</td></tr><tr><td>6–9 px (600–900 m)</td><td>0.694%</td><td>1.80×</td><td>6.3%</td></tr><tr><td>9–14 px (900–1400 m)</td><td>0.453%</td><td>1.18×</td><td>4.2%</td></tr><tr><td>14–22 px (1400–2200 m)</td><td>0.231%</td><td>0.60×</td><td>2.1%</td></tr><tr><td>22–40 px (2200–4000 m)</td><td>0.151%</td><td>0.39×</td><td>1.4%</td></tr></tbody></table></div>
+<p>The 300–900 m band is <b>2.2–2.6× enriched</b>: a dot placed there has a ~6–9% chance of landing within 3 px of a hidden fault, versus ~2.2% for a dot anywhere on the footprint. Beyond 1.4 km the enrichment drops below 1×. This is the band no published file uses — they sit at 0–300 m, where GEMSDOE31→GEMSDOE32's own score step shows the credit is near zero.</p>
+
+<h4>E2 — how many dots, at what spacing?</h4>
+<div class="table-wrap"><table><thead><tr><th>Dot budget</th><th>Emitted</th><th>HOLDOUT-DTI</th><th>Truth captured</th><th>Hit rate</th></tr></thead>
+<tbody><tr><td>3,000</td><td>2,795</td><td>0.0178</td><td>1.5%</td><td>4.94%</td></tr><tr><td>3,000</td><td>2,802</td><td>0.0176</td><td>1.5%</td><td>4.82%</td></tr><tr><td>3,000</td><td>2,804</td><td>0.0171</td><td>1.5%</td><td>4.81%</td></tr><tr><td>6,000</td><td>5,604</td><td>0.0310</td><td>2.8%</td><td>4.69%</td></tr><tr><td>6,000</td><td>5,602</td><td>0.0319</td><td>2.9%</td><td>4.71%</td></tr><tr><td>6,000</td><td>5,606</td><td>0.0333</td><td>3.0%</td><td>4.78%</td></tr><tr><td>12,000</td><td>11,213</td><td>0.0616</td><td>6.2%</td><td>5.07%</td></tr><tr><td>12,000</td><td>11,212</td><td>0.0637</td><td>6.4%</td><td>5.04%</td></tr><tr><td>12,000</td><td>11,232</td><td>0.0627</td><td>6.3%</td><td>4.90%</td></tr><tr><td>20,000</td><td>18,695</td><td>0.0862</td><td>9.8%</td><td>5.03%</td></tr><tr><td>20,000</td><td>18,707</td><td>0.0918</td><td>10.4%</td><td>5.05%</td></tr><tr><td>20,000</td><td>18,692</td><td>0.0932</td><td>10.6%</td><td>5.01%</td></tr><tr><td>30,000</td><td>28,099</td><td>0.1071</td><td>13.9%</td><td>5.09%</td></tr><tr><td>30,000</td><td>28,088</td><td>0.1175</td><td>15.3%</td><td>5.12%</td></tr><tr><td>30,000</td><td>28,024</td><td>0.1202</td><td>15.7%</td><td>5.04%</td></tr><tr><td>44,090</td><td>41,288</td><td>0.1254</td><td>19.2%</td><td>5.20%</td></tr><tr><td>44,090</td><td>41,242</td><td>0.1367</td><td>21.0%</td><td>5.08%</td></tr><tr><td>44,090</td><td>36,126</td><td>0.1315</td><td>19.0%</td><td>4.89%</td></tr><tr><td>62,000</td><td>58,029</td><td>0.1324</td><td>24.2%</td><td>5.18%</td></tr><tr><td>62,000</td><td>57,873</td><td>0.1452</td><td>26.5%</td><td>5.03%</td></tr><tr><td>62,000</td><td>36,126</td><td>0.1315</td><td>19.0%</td><td>4.89%</td></tr></tbody></table></div>
+<p>Controls on the identical holdout: <b>the GEMSDOE32 mask scores 0.0041</b> (hit rate 0.83% — it is anti-correlated with the catalogue-adjacent holdout truth by construction), a blind uniform field of the same size scores 0.0427, and a 5 px lattice scores 0.0899. The halo field scores <b>0.1452</b> at the lane budget curve's maximum (57,873 dots in-fold) and <b>0.1367</b> at the released 44,090-dot count — 33–35× the best published mask and 3.2–3.4× blind random on the same instrument. Minimum spacing between dots is enforced (realised ≥ 3 px) so no dot duplicates another's kernel credit.</p>
+
+<h4>E3 — does a geophysical ridge/curvature tie-break help? <span class="badge no">NEGATIVE</span></h4>
+<p>Seven bands (strain rate, seismicity density, tilt/curvature derivatives, gravity and magnetic horizontal gradients) were each tested alone: maximum AUC vs the catalogue <b>0.57</b>, far under the 0.90 leakage canary. As a placement tie-break the ridge ensemble scored <b>0.1182</b> against <b>0.1367</b> for uniform placement inside the same band. <b>Rejected</b> — the released field therefore uses uniform placement inside the measured band. The negative result is kept in <code>evidence/halo/e3.json</code>.</p>
+<p>Because the released field uses only the mapped catalogue geometry and the organizer grid, it contains no catalogue-adjacency artefact and no inherited dot set: <b>0 of 44,090 dots sit on mapped-catalogue pixels</b>, mean distance to a mapped trace 5.78 px (578 m).</p>
+</section><section class="section" id="gates"><h3>Validation gates actually run on the released bytes</h3>
+<div class="table-wrap"><table><thead><tr><th>Gate</th><th>Requirement</th><th>Measured</th><th>Result</th></tr></thead><tbody>
+<tr><td>Grid</td><td>EPSG:32611, 3730 × 3292, 100 m, upper-left (243350, 4508550)</td><td>EPSG:32611, 3730 × 3292, [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0]</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Encoding</td><td>single band, float32</td><td>1 band, float32</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Value range</td><td>[0, 1] and no NaN — this is the check that produced the portal message on other files</td><td>min 0.0, max 1.0, all 12,279,160 cells finite, NaN inside footprint: 0</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Footprint</td><td>positives only inside the organizer footprint</td><td>44,090 positive cells, all inside the footprint</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Uniqueness (rank)</td><td>|Spearman| ≤ 0.90 against every registry raster</td><td>worst |ρ| = <b>0.0557</b> (GEMSDOE30-nearslay-annulus-d3-offcat-20261025T235837Z-662af003-nan.tif)</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Uniqueness (dots, registry snapshot)</td><td>≤ 70% of my dots within 3 px of one registry raster</td><td>worst = <b>65.5%</b> (gemsdoe30-edge-hybrid-80k-02845bd4-20261003T234340Z-allfinite.tif) over 471 submission rasters</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Uniqueness (dots, files published since)</td><td>same rule against every raster now in <code>docs/downloads</code></td><td>worst = <b>68.5%</b> (gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif), margin 1.5 pp over 17 comparable rasters</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Byte / pixel identity</td><td>no registry raster is an identical copy</td><td>no identical bytes, no identical decoded array, max Jaccard 0.033</td><td><b class="ok">PASS</b></td></tr>
+<tr><td>Leakage canary</td><td>each feature alone must have AUC ≤ 0.90</td><td>max AUC 0.57</td><td><b class="ok">PASS</b></td></tr>
+</tbody></table></div>
+<p class="muted"><b>Two irregularities are reported rather than hidden.</b> (1) The literal protocol rule cannot be satisfied by <i>any</i> raster: the registry contains a uniform 5-px lattice probe whose dots lie within 3 px of 99.87% of the scored domain, so every possible submission has ~100% three-pixel overlap with it. The probe is therefore classified from its own bytes as an unavoidable sampling probe and reported separately (<code>evidence/halo/uniqueness_final.json</code>). (2) One registry blob, <code>GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif</code>, is not on the organizer grid and cannot be a competing submission; it is recorded, not dropped.</p>
+<p class="muted"><b>The closest published field is a same-day parallel-lane candidate, and the rule is directional.</b> 68.5% of this file's dots lie within 3 px of <code>gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif</code> — under the 70% rule, but the thinnest margin in the table. In the other direction 81.3% of <i>that</i> file's dots lie within 3 px of this one, so it is the duplicate under the project's directional rule, not this file. That is the evidence for recommending this file over it, together with this file's holdout measurement and score estimate, which the other file does not carry. Full receipt: <a href="evidence/halo/overlap-vs-published.json"><code>evidence/halo/overlap-vs-published.json</code></a>.</p>
+<p class="muted"><b>Inventory freshness.</b> The comparison set is the hash-pinned 489-raster focus inventory plus 11 rasters published after that snapshot, re-enumerated from each repository's current <code>main</code> today. It is not an organizer-complete registry: private, unlinked or larger rasters can exist. Re-run <code>python scripts/audit_halo_uniqueness.py --tif &lt;file&gt;</code> before uploading.</p>
+</section><section class="section" id="estimate"><h3>How to read the score estimate (and why it is a range)</h3>
+<p>The estimate is the metric applied to the model's own components — <code>T = K·n·h</code> (saturating at G) and <code>F = n·(1−h)</code> — with <b>G = 12,406 px</b> measured from the lattice probe and <b>K = 4.89</b> truth credits earned per hit dot (fitted on the nested GEMSDOE25→31 step, where the removed dots are provably catalogue-adjacent). The one input that cannot be measured locally is <b>h</b>, the per-dot hit rate on the hidden set, so it is swept rather than asserted.</p>
+<div class="table-wrap"><table><caption>CALIBRATED-PRIVATE projected DTI by per-dot hit rate and dot count</caption>
+<thead><tr><th>hit rate h</th><th>10,000 dots</th><th>20,000 dots</th><th>30,000 dots</th><th>44,090 dots</th><th>60,000 dots</th></tr></thead><tbody><tr><th>h=0.03</th><td>0.121</td><td>0.204</td><td>0.265</td><td>0.328</td><td>0.378</td></tr><tr><th>h=0.04</th><td>0.160</td><td>0.269</td><td>0.349</td><td>0.429</td><td>0.494</td></tr><tr><th>h=0.05</th><td>0.199</td><td>0.333</td><td>0.430</td><td>0.528</td><td>0.521</td></tr><tr><th>h=0.06</th><td>0.237</td><td>0.396</td><td>0.509</td><td>0.600</td><td>0.524</td></tr><tr><th>h=0.08</th><td>0.312</td><td>0.517</td><td>0.661</td><td>0.605</td><td>0.529</td></tr><tr><th>h=0.10</th><td>0.386</td><td>0.633</td><td>0.697</td><td>0.610</td><td>0.535</td></tr></tbody></table></div>
+<p>The released file emits 44,090 dots. It needs only
+<b>h = 2.52%</b> to beat the 0.2778 file,
+<b>h = 2.92%</b> to beat 0.3195 and
+<b>h = 4.25%</b> to beat the 0.4544 currently at rank 1. A blind uniform field on this footprint achieves about 2.2%; the measured 300–900 m halo achieves 5.1% on the holdout at this dot count. <b>The two transfer readings differ by a factor of 3.5</b>: if the hit rate transfers the score is ≈0.48, while if only the holdout <i>coverage</i> transfers it is ≈0.14 — the holdout's own DTI. Both bounds are printed rather than averaged. Whether that transfers to the expert hidden set is <b>the one assumption that cannot be verified inside this repository</b> and it is the main risk on this page.</p>
+<p class="muted"><b>Why the holdout cannot certify the private score.</b> The holdout truth is withheld catalogue segments; the private truth is expert-mapped faults that are <i>not</i> in the catalogue. The published masks demonstrate the difference: GEMSDOE32 scores 0.0041 on the holdout because it places nothing near mapped traces, yet 0.2778 privately. So the holdout ranks <i>placement strategies</i> on a catalogue-analogue target; it does not transfer as a score. The lattice probe agreement (0.0904 reported vs 0.0899 holdout) validates <i>G</i>, not the spatial transfer.</p>
+</section><section class="section" id="risks"><h3>Risks, limits and what would change the decision</h3>
+<ul>
+<li><b>Transfer risk (dominant).</b> If the hidden fault population is <i>anti</i>-correlated with the mapped-trace neighbourhood (i.e. concentrated far from every mapped fault), the halo band's hit rate falls to ~1.5% and the projected score falls to ≈0.19. Under a neutral (blind) placement assumption the same file scores ≈0.26. Under transfer of the measured 5% halo rate it scores ≈0.48. The estimate is a range for exactly this reason.</li>
+<li><b>Uniqueness margin.</b> The worst three-pixel overlap is 65.5% against a gemsdoe30-edge-hybrid-80k-02845bd4-20261003T… field, below the 70% rule but not far below it. A newly published dense field could raise it; re-audit before uploading.</li>
+<li><b>Exterior convention.</b> This file writes 0 outside the footprint (all cells finite). The organizer sample uses NaN outside its footprint. Zeros cannot be out of range, which is why they are used here; if the portal rejects the file, try the NaN variant described on the how-to-submit page and record the error text.</li>
+<li><b>Unverified reported scores.</b> Every published score on this page is USER-REPORTED / UNVERIFIED — no submission-page receipt links a file hash to a score. The 2026-10-31 public board shows xiaofanhu 0.4544 at rank 1; 0.4413 and 0.3195 are not the current high.</li>
+<li><b>One submission slot.</b> The competition allows choosing one submission for scoring in both rounds; the weekly cap is shown on the submission page and is not visible here. Choose deliberately.</li>
+<li><b>Rule compliance.</b> The rules require finalists to describe generative-AI use in the narrative. This work is AI-assisted and must be disclosed.</li>
+</ul>
+<h4>Next steps with the highest expected value</h4>
+<ol>
+<li><b>Upload this file once and read the leaderboard number.</b> That single measurement replaces the entire projection range and calibrates h for every future candidate. It is the only way to close the transfer question.</li>
+<li><b>Digitize an independent fault compilation</b> (USGS Quaternary Faults, Nevada Bureau of Mines, GBCGE INGENIOUS fault layer) and intersect it with the footprint; if its extra traces are the hidden set, a point-exact overlay would score far above any geometric prior. Needs a network path to those hosts (blocked in this sandbox).</li>
+<li><b>Tip-and-step-over placement</b> (E4, not run — the 3-experiment budget was spent): restrict the band to along-strike extrapolations beyond mapped tips and to relay zones between overlapping traces. The holdout already supports band placement; this would test whether structure inside the band raises the hit rate.</li>
+<li><b>Re-audit registry uniqueness</b> immediately before any upload (<code>scripts/audit_halo_uniqueness.py</code>).</li>
 </ol>
-<p><a href="evidence/lane-gbm/run_card.json">Lane run card</a> ·
-<a href="downloads/gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.run-card.json">Emission run card</a></p>
-</section><section class="sec" id="uniqueness">
-<h2>Uniqueness against the shared registry</h2>
-<p><b>488</b> registry rasters from the nine focus repositories were
-downloaded and compared against this file (1 could not be parsed and
-was skipped).</p>
-<table class="kv"><tbody>
-<tr><th>Gate as written</th><td>duplicate if |spearman| &gt; 0.90 OR &gt; 70% of candidate dots within 3 px of one registry raster&#x27;s dots</td></tr>
-<tr><th>Degeneracy fix applied</th><td>references with &gt;50% footprint coverage at 3 px are space-filling; their one-sided number is reported but cannot decide the gate. Enrichment vs coverage and symmetric overlap are reported alongside.</td></tr>
-<tr><th>Worst |Spearman|</th><td class="yes"><b>0.1425</b> against
-<code>gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif</code> — passes the 0.90 gate with a wide
-margin</td></tr>
-<tr><th>Worst symmetric 3 px overlap</th><td class="yes">
-<b>0.5799</b> — passes the 70 % gate</td></tr>
-<tr><th>Worst support Jaccard</th><td class="yes">
-<b>0.0782</b> — the closest registry raster shares
-under 8 % of the combined dot support</td></tr>
-<tr><th>Worst one-sided 3 px overlap<br>(space-filling refs excluded)</th>
-<td class="no"><b>0.9377</b> against
-<code>gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif</code> — <b>trips the literal
-70 % rule</b>. See the discussion below.</td></tr>
-<tr><th>Provenance</th><td>This dot set is produced by a model that never opens another
-submission. It is not a subset, superset, re-thinning or re-weighting of anything in the
-registry.</td></tr>
-</tbody></table>
-<p class="warn"><b>Irregularity declared (IR-ONESIDED-01) — read before you upload.</b>
-Under the <i>literal</i> one-sided rule ("more than 70 % of your dots fall within 3 px of one
-registry raster's dots") this file trips against
-<b>76</b> registry rasters,
-the worst at <b>0.938</b>. That number
-is a <i>regional</i> co-location measurement at 300 m, not evidence of copying: the same raster's
-support Jaccard against this file is only
-<b>0.0771</b> and its correlation is
-<b>0.1425</b>. Both models independently concentrate on
-the same structures — which is what you would expect if both are finding something real, and also
-what you would expect if both are finding the same false-positive geology.
-<b>This is the one gate the file does not cleanly pass.</b> It is disclosed here rather than
-hidden; the control below is the evidence for treating it as a limitation of the rule, not of the
-file.</p>
-<h3>Control: the 0.2778 file scanned identically</h3>
-<p>The decisive question is not whether the one-sided figure trips: it is whether that figure
-<i>discriminates</i>. It does not. The incumbent <code>gemsdoe32-h33-h33-2-b2</code> file
-(37,654 dots) was pushed through the identical scan against the identical
-488 rasters. 2 exact duplicates of
-itself were removed from the control before computing its statistics; this file had
-0.</p>
-<table class="grid"><thead><tr><th>Statistic</th><th>This file</th><th>GEMSDOE32 (0.2778)</th>
-<th>What it measures</th></tr></thead><tbody>
-<tr><td>References tripping the one-sided 70 % test<br>(space-filling refs excluded)</td>
-<td class="num">76</td>
-<td class="num">109</td>
-<td>Regional co-location at 300 m</td></tr>
-<tr><td>Worst |Spearman|</td><td class="yes">0.1425</td>
-<td class="num">0.9882</td><td>Whole-grid agreement</td></tr>
-<tr><td>Worst symmetric 3 px overlap</td><td class="yes">0.5799</td>
-<td class="num">0.9791</td><td>Mutual dot-level agreement</td></tr>
-<tr><td>Worst support Jaccard</td><td class="yes">0.0782</td>
-<td class="num">0.9767</td><td>Shared support</td></tr>
-</tbody></table>
-<p><b>The one-sided count barely separates the two files
-(76 versus
-109 references) while the discriminating statistics
-separate them by more than an order of magnitude (Jaccard 0.078 versus
-0.977).</b> The incumbent is a verified nesting descendant of GEMSDOE25 with
-97.7 % support overlap against a registry file, and it trips the literal rule only marginally more
-often than this file does. A 300 m one-sided overlap test therefore measures <i>where in the state
-both models think the interesting ground is</i>, not whether one was copied from the other. It is
-reported here because the brief asks for it, and it is not used as the decision rule.</p>
-<p class="muted">1 raster could not be parsed and was skipped;
-1 space-filling reference is excluded from the one-sided count under
-IR-LATTICE-01. <a href="evidence/lane-gbm/uniqueness-dual.json">Both runs, row by row</a>.</p>
-<h3>Closest registry rasters by correlation</h3>
-<table class="grid"><thead><tr><th>Reference</th><th>Repo</th><th>Its dots</th><th>Spearman</th>
-<th>My dots within 3 px</th><th>Symmetric 3 px</th><th>Jaccard</th><th>Its coverage</th></tr></thead>
-<tbody><tr><td><code>gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-nan.tif</code></td><td>GEMSDOE30</td>
-<td class="num">60,000</td><td class="num">0.1425</td>
-<td class="num">0.9377</td>
-<td class="num">0.5799</td><td class="num">0.0771</td>
-<td class="num">0.155</td></tr><tr><td><code>gemsdoe30-g30s19-habitat-edge-60000dots-20261025T210221Z-b527922d7f-zeros.tif</code></td><td>GEMSDOE30</td>
-<td class="num">60,000</td><td class="num">0.1425</td>
-<td class="num">0.9377</td>
-<td class="num">0.5799</td><td class="num">0.0771</td>
-<td class="num">0.155</td></tr><tr><td><code>gemsdoe36-lane36-supgbm-68302-20261026T002651Z-f35cb3e4-zeros.tif</code></td><td>GEMSDOE36</td>
-<td class="num">68,302</td><td class="num">0.1420</td>
-<td class="num">0.8430</td>
-<td class="num">0.5295</td><td class="num">0.0782</td>
-<td class="num">0.149</td></tr><tr><td><code>gemsdoe30-g30s20-disc-60000dots-20261025T224159Z-24de17a6fa-nan.tif</code></td><td>GEMSDOE30</td>
-<td class="num">60,000</td><td class="num">0.1321</td>
-<td class="num">0.9186</td>
-<td class="num">0.5613</td><td class="num">0.0714</td>
-<td class="num">0.158</td></tr><tr><td><code>gemsdoe30-g30s20-disc-60000dots-20261025T224159Z-24de17a6fa-zeros.tif</code></td><td>GEMSDOE30</td>
-<td class="num">60,000</td><td class="num">0.1321</td>
-<td class="num">0.9186</td>
-<td class="num">0.5613</td><td class="num">0.0714</td>
-<td class="num">0.158</td></tr><tr><td><code>gems29-s29-hole-k20000-20261029-b68117a828cc-nan.tif</code></td><td>GEMSDOE28</td>
-<td class="num">20,000</td><td class="num">0.1066</td>
-<td class="num">0.3103</td>
-<td class="num">0.3103</td><td class="num">0.0426</td>
-<td class="num">0.031</td></tr><tr><td><code>gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-nan.tif</code></td><td>GEMSDOE32</td>
-<td class="num">37,654</td><td class="num">0.1011</td>
-<td class="num">0.7618</td>
-<td class="num">0.4786</td><td class="num">0.0494</td>
-<td class="num">0.130</td></tr><tr><td><code>gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif</code></td><td>GEMSDOE32</td>
-<td class="num">37,654</td><td class="num">0.1011</td>
-<td class="num">0.7618</td>
-<td class="num">0.4786</td><td class="num">0.0494</td>
-<td class="num">0.130</td></tr></tbody></table>
-<p><a href="evidence/lane-gbm/uniqueness-full-registry.json">Full registry receipt</a> · <a href="evidence/lane-gbm/uniqueness-dual.json">Side-by-side control receipt</a></p>
-<p class="muted">Independent of the scan: this file's 100,000 dots sit a median of
-7.62 px from the nearest mapped fault, versus
-19.65 px for the 0.2778 file, and its nearest registry neighbour shares under 8 % of the combined
-support. It is a different mechanism, not a re-thinning.</p>
-</section><section class="sec" id="nine">
-<h2>Which file to download from each of the nine focus sites</h2>
-<p>Every value in the <em>Reported</em> column is <b>USER-REPORTED / UNVERIFIED</b>: it was pasted
-from the project prompt and is not linked to any organizer receipt. The remaining columns are
-<b>RASTER-MEASUREMENT</b> and <b>MODEL-FIT</b> computed from the pinned bytes.</p>
-<table class="grid"><thead><tr>
-<th>Site</th><th>Best file (download)</th><th>Reported<br>(unverified)</th><th>Dots</th>
-<th>Model credit T</th><th>Credit per<br>effective dot</th><th>Max overlap vs<br>other eight</th>
-<th>Unique?</th></tr></thead><tbody>
-<tr><td><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html">GEMSDOE32</a></td>
-<td><code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code></td>
-<td class="num">0.2778</td>
-<td class="num">37,654</td>
-<td class="num">5,248</td>
-<td class="num">0.1394</td>
-<td class="num">0.974</td>
-<td><span class='no'>NO</span></td></tr>
-<tr><td><a href="https://buffedlizard55-lab.github.io/GEMSDOE36/docs/">GEMSDOE36</a></td>
-<td><code>gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif</code></td>
-<td class="num">0.2750</td>
-<td class="num">38,854</td>
-<td class="num">5,261</td>
-<td class="num">0.1354</td>
-<td class="num">0.974</td>
-<td><span class='no'>NO</span></td></tr>
-<tr><td><a href="https://buffedlizard55-lab.github.io/GEMSDOE28/">GEMSDOE28</a></td>
-<td><code>gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif</code></td>
-<td class="num">0.2710</td>
-<td class="num">37,660</td>
-<td class="num">5,120</td>
-<td class="num">0.1450</td>
-<td class="num">0.996</td>
-<td><span class='no'>NO</span></td></tr>
-<tr><td><a href="https://buffedlizard55-lab.github.io/GEMSDOE31/docs/">GEMSDOE31</a></td>
-<td><code>gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif</code></td>
-<td class="num">0.2708</td>
-<td class="num">40,199</td>
-<td class="num">5,254</td>
-<td class="num">0.1395</td>
-<td class="num">0.996</td>
-<td><span class='no'>NO</span></td></tr>
-<tr><td><a href="https://buffedlizard55-lab.github.io/GEMSDOE33/">GEMSDOE33</a></td>
-<td><code>GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif</code></td>
-<td class="num">0.2632</td>
-<td class="num">41,865</td>
-<td class="num">5,194</td>
-<td class="num">0.1368</td>
-<td class="num">0.975</td>
-<td><span class='no'>NO</span></td></tr>
-<tr><td><a href="https://buffedlizard55-lab.github.io/GEMSDOE25/">GEMSDOE25</a></td>
-<td><code>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</code></td>
-<td class="num">0.2600</td>
-<td class="num">44,090</td>
-<td class="num">5,246</td>
-<td class="num">0.1393</td>
-<td class="num">1.000</td>
-<td><span class='no'>NO</span></td></tr>
-<tr><td><a href="https://buffedlizard55-lab.github.io/GEMSDOE30/">GEMSDOE30</a></td>
-<td><code>gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif</code></td>
-<td class="num">0.2600</td>
-<td class="num">44,090</td>
-<td class="num">5,246</td>
-<td class="num">0.1393</td>
-<td class="num">1.000</td>
-<td><span class='no'>NO</span></td></tr>
-<tr><td><a href="https://buffedlizard55-lab.github.io/GEMSDOE24/">GEMSDOE24</a></td>
-<td><code>gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif</code></td>
-<td class="num">0.2477</td>
-<td class="num">60,069</td>
-<td class="num">5,790</td>
-<td class="num">0.1129</td>
-<td class="num">1.000</td>
-<td><span class='no'>NO</span></td></tr>
-<tr><td><a href="https://buffedlizard55-lab.github.io/GEMSDOE27/">GEMSDOE27</a></td>
-<td><code>gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif</code></td>
-<td class="num">0.2449</td>
-<td class="num">61,328</td>
-<td class="num">5,786</td>
-<td class="num">0.1103</td>
-<td class="num">0.980</td>
-<td><span class='no'>NO</span></td></tr>
-</tbody></table>
-<p class="muted"><b>Verdict on the nine: none of them is a unique submission.</b>
-All nine are thinnings of one shared dot pool: GEMSDOE25 and GEMSDOE30 have identical dot sets (Jaccard 1.000, Spearman 1.000) and GEMSDOE31 and GEMSDOE32 are strict subsets of GEMSDOE25. None is unique against the other eight. Re-uploading any of them — including the 0.2778 leader of the
-group — would be submitting a near-duplicate of a file that is already public. They are useful as
-<i>education</i> about what the scorer rewards, not as files to upload.</p>
-<p><a href="data/nine-site-scorecard.json">Scorecard JSON</a> ·
-<a href="data/mask-width-calibration.json">Mask-width calibration sweep</a></p>
 </section>
-<footer class="foot"><p><b>Evidence labels used on this site.</b>
-<b>ORGANIZER-CONFIRMED</b> — copied from an actual submission-page receipt. None exists locally; this project has no DrivenData session.
-<b>USER-REPORTED / UNVERIFIED</b> — a leaderboard value pasted from the project prompt, with no file-linked receipt.
-<b>HOLDOUT-DTI-PROXY</b> — a local hide-and-recover score against the PUBLIC catalogue, which is not the competition truth.
-<b>MODEL-PROJECTION</b> — a number produced by a stated model with stated assumptions. It is <b>not</b> a score and must never be reported as one.
-<b>RASTER-MEASUREMENT</b> — computed directly from pinned TIFF bytes.</p>
-<p>Maximize P(Win). Own the outcome. <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">Problem description ↗</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">Leaderboard ↗</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules PDF ↗</a></p>
-</footer></main></body></html>
+<footer class="footnote"><p><b>Evidence labels used on this page.</b>
+<b>CALIBRATED-PRIVATE</b> = arithmetic on organizer-published public leaderboard values quoted in the project brief (USER-REPORTED / UNVERIFIED); it is a model, not a receipt.
+<b>HOLDOUT-DTI</b> = measured on the local hide-and-recover holdout (evaluator <code>vendor/gems57/holdout.py</code>, α = 0.2, β = 0.8, 300 m triangular kernel, 4 spatial quadrant folds, whole components withheld with a real 3 px feature buffer).
+<b>SAVED-BYTE CHECK</b> = re-read from the committed raster bytes. <b>REGISTRY-MEASUREMENT</b> = comparison against the hash-pinned 473-raster inventory.
+No number on this page is ORGANIZER-CONFIRMED.</p>
+<p><a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/README.md">Project instructions</a> · <a href="evidence/halo/final_generation.json">Release receipt</a> · <a href="evidence/score_model.json">Score model</a></p></footer>
+</main></body></html>

@@ -1,0 +1,951 @@
+{
+ "evidence_class": "MEASURED RASTER GEOMETRY (not a score)",
+ "method": "directed 3 px proximity both ways plus exact-cell Jaccard on binary positive masks",
+ "pairs": [
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE25",
+   "n_a": 60069,
+   "n_b": 44090,
+   "mine_in_theirs": 1.0,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.4017
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE30",
+   "n_a": 60069,
+   "n_b": 44090,
+   "mine_in_theirs": 1.0,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.4017
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE30",
+   "n_a": 44090,
+   "n_b": 44090,
+   "mine_in_theirs": 1.0,
+   "theirs_in_mine": 1.0,
+   "jaccard": 1.0
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE27_h29",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 1.0,
+   "theirs_in_mine": 1.0,
+   "jaccard": 1.0
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE31",
+   "n_a": 37660,
+   "n_b": 40199,
+   "mine_in_theirs": 0.998,
+   "theirs_in_mine": 0.996,
+   "jaccard": 0.557
+  },
+  {
+   "a": "GEMSDOE31",
+   "b": "GEMSDOE33",
+   "n_a": 40199,
+   "n_b": 41865,
+   "mine_in_theirs": 0.999,
+   "theirs_in_mine": 0.975,
+   "jaccard": 0.6957
+  },
+  {
+   "a": "GEMSDOE32",
+   "b": "GEMSDOE36",
+   "n_a": 37654,
+   "n_b": 38854,
+   "mine_in_theirs": 1.0,
+   "theirs_in_mine": 0.974,
+   "jaccard": 0.9691
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE33",
+   "n_a": 37660,
+   "n_b": 41865,
+   "mine_in_theirs": 0.998,
+   "theirs_in_mine": 0.971,
+   "jaccard": 0.5317
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE33",
+   "n_a": 60069,
+   "n_b": 41865,
+   "mine_in_theirs": 0.962,
+   "theirs_in_mine": 0.997,
+   "jaccard": 0.3893
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE33",
+   "n_a": 44090,
+   "n_b": 41865,
+   "mine_in_theirs": 0.961,
+   "theirs_in_mine": 0.997,
+   "jaccard": 0.682
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE33",
+   "n_a": 44090,
+   "n_b": 41865,
+   "mine_in_theirs": 0.961,
+   "theirs_in_mine": 0.997,
+   "jaccard": 0.682
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE32",
+   "n_a": 37660,
+   "n_b": 37654,
+   "mine_in_theirs": 0.955,
+   "theirs_in_mine": 0.999,
+   "jaccard": 0.535
+  },
+  {
+   "a": "GEMSDOE31",
+   "b": "GEMSDOE32",
+   "n_a": 40199,
+   "n_b": 37654,
+   "mine_in_theirs": 0.954,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.9367
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE31",
+   "n_a": 60069,
+   "n_b": 40199,
+   "mine_in_theirs": 0.941,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.3696
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE31",
+   "n_a": 44090,
+   "n_b": 40199,
+   "mine_in_theirs": 0.937,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.9117
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE31",
+   "n_a": 44090,
+   "n_b": 40199,
+   "mine_in_theirs": 0.937,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.9117
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE28",
+   "n_a": 60069,
+   "n_b": 37660,
+   "mine_in_theirs": 0.935,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.3518
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE28",
+   "n_a": 44090,
+   "n_b": 37660,
+   "mine_in_theirs": 0.932,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.5168
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE30",
+   "n_a": 37660,
+   "n_b": 44090,
+   "mine_in_theirs": 1.0,
+   "theirs_in_mine": 0.932,
+   "jaccard": 0.5168
+  },
+  {
+   "a": "GEMSDOE31",
+   "b": "GEMSDOE36",
+   "n_a": 40199,
+   "n_b": 38854,
+   "mine_in_theirs": 0.954,
+   "theirs_in_mine": 0.975,
+   "jaccard": 0.9095
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE36",
+   "n_a": 37660,
+   "n_b": 38854,
+   "mine_in_theirs": 0.955,
+   "theirs_in_mine": 0.973,
+   "jaccard": 0.5222
+  },
+  {
+   "a": "GEMSDOE32",
+   "b": "GEMSDOE33",
+   "n_a": 37654,
+   "n_b": 41865,
+   "mine_in_theirs": 1.0,
+   "theirs_in_mine": 0.926,
+   "jaccard": 0.6599
+  },
+  {
+   "a": "GEMSDOE33",
+   "b": "GEMSDOE36",
+   "n_a": 41865,
+   "n_b": 38854,
+   "mine_in_theirs": 0.927,
+   "theirs_in_mine": 0.975,
+   "jaccard": 0.6438
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE32",
+   "n_a": 60069,
+   "n_b": 37654,
+   "mine_in_theirs": 0.885,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.3534
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE32",
+   "n_a": 44090,
+   "n_b": 37654,
+   "mine_in_theirs": 0.882,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.854
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE32",
+   "n_a": 44090,
+   "n_b": 37654,
+   "mine_in_theirs": 0.882,
+   "theirs_in_mine": 1.0,
+   "jaccard": 0.854
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE36",
+   "n_a": 60069,
+   "n_b": 38854,
+   "mine_in_theirs": 0.886,
+   "theirs_in_mine": 0.976,
+   "jaccard": 0.3476
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE36",
+   "n_a": 44090,
+   "n_b": 38854,
+   "mine_in_theirs": 0.883,
+   "theirs_in_mine": 0.975,
+   "jaccard": 0.8314
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE36",
+   "n_a": 44090,
+   "n_b": 38854,
+   "mine_in_theirs": 0.883,
+   "theirs_in_mine": 0.975,
+   "jaccard": 0.8314
+  },
+  {
+   "a": "GEMSDOE32",
+   "b": "GEMSDOE63",
+   "n_a": 37654,
+   "n_b": 54864,
+   "mine_in_theirs": 0.959,
+   "theirs_in_mine": 0.55,
+   "jaccard": 0.1874
+  },
+  {
+   "a": "GEMSDOE31",
+   "b": "GEMSDOE63",
+   "n_a": 40199,
+   "n_b": 54864,
+   "mine_in_theirs": 0.937,
+   "theirs_in_mine": 0.562,
+   "jaccard": 0.1814
+  },
+  {
+   "a": "GEMSDOE36",
+   "b": "GEMSDOE63",
+   "n_a": 38854,
+   "n_b": 54864,
+   "mine_in_theirs": 0.941,
+   "theirs_in_mine": 0.555,
+   "jaccard": 0.1849
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE63",
+   "n_a": 37660,
+   "n_b": 54864,
+   "mine_in_theirs": 0.934,
+   "theirs_in_mine": 0.558,
+   "jaccard": 0.1872
+  },
+  {
+   "a": "GEMSDOE33",
+   "b": "GEMSDOE63",
+   "n_a": 41865,
+   "n_b": 54864,
+   "mine_in_theirs": 0.915,
+   "theirs_in_mine": 0.567,
+   "jaccard": 0.1846
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE63",
+   "n_a": 60069,
+   "n_b": 54864,
+   "mine_in_theirs": 0.889,
+   "theirs_in_mine": 0.581,
+   "jaccard": 0.1862
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE63",
+   "n_a": 44090,
+   "n_b": 54864,
+   "mine_in_theirs": 0.882,
+   "theirs_in_mine": 0.571,
+   "jaccard": 0.1731
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE63",
+   "n_a": 44090,
+   "n_b": 54864,
+   "mine_in_theirs": 0.882,
+   "theirs_in_mine": 0.571,
+   "jaccard": 0.1731
+  },
+  {
+   "a": "GEMSDOE49",
+   "b": "GEMSDOE70",
+   "n_a": 40000,
+   "n_b": 37654,
+   "mine_in_theirs": 0.563,
+   "theirs_in_mine": 0.703,
+   "jaccard": 0.0304
+  },
+  {
+   "a": "GEMSDOE76",
+   "b": "GEMSDOE82",
+   "n_a": 39200,
+   "n_b": 37654,
+   "mine_in_theirs": 0.606,
+   "theirs_in_mine": 0.636,
+   "jaccard": 0.0362
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE76",
+   "n_a": 60069,
+   "n_b": 39200,
+   "mine_in_theirs": 0.48,
+   "theirs_in_mine": 0.626,
+   "jaccard": 0.0271
+  },
+  {
+   "a": "GEMSDOE63",
+   "b": "GEMSDOE76",
+   "n_a": 54864,
+   "n_b": 39200,
+   "mine_in_theirs": 0.369,
+   "theirs_in_mine": 0.722,
+   "jaccard": 0.0185
+  },
+  {
+   "a": "GEMSDOE31",
+   "b": "GEMSDOE76",
+   "n_a": 40199,
+   "n_b": 39200,
+   "mine_in_theirs": 0.491,
+   "theirs_in_mine": 0.597,
+   "jaccard": 0.0245
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE27",
+   "n_a": 60069,
+   "n_b": 37654,
+   "mine_in_theirs": 0.443,
+   "theirs_in_mine": 0.64,
+   "jaccard": 0.028
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE27_h29",
+   "n_a": 60069,
+   "n_b": 37654,
+   "mine_in_theirs": 0.443,
+   "theirs_in_mine": 0.64,
+   "jaccard": 0.028
+  },
+  {
+   "a": "GEMSDOE33",
+   "b": "GEMSDOE76",
+   "n_a": 41865,
+   "n_b": 39200,
+   "mine_in_theirs": 0.478,
+   "theirs_in_mine": 0.603,
+   "jaccard": 0.0242
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE76",
+   "n_a": 37660,
+   "n_b": 39200,
+   "mine_in_theirs": 0.487,
+   "theirs_in_mine": 0.59,
+   "jaccard": 0.0235
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE76",
+   "n_a": 44090,
+   "n_b": 39200,
+   "mine_in_theirs": 0.466,
+   "theirs_in_mine": 0.607,
+   "jaccard": 0.0233
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE76",
+   "n_a": 44090,
+   "n_b": 39200,
+   "mine_in_theirs": 0.466,
+   "theirs_in_mine": 0.607,
+   "jaccard": 0.0233
+  },
+  {
+   "a": "GEMSDOE32",
+   "b": "GEMSDOE76",
+   "n_a": 37654,
+   "n_b": 39200,
+   "mine_in_theirs": 0.493,
+   "theirs_in_mine": 0.58,
+   "jaccard": 0.0253
+  },
+  {
+   "a": "GEMSDOE36",
+   "b": "GEMSDOE76",
+   "n_a": 38854,
+   "n_b": 39200,
+   "mine_in_theirs": 0.484,
+   "theirs_in_mine": 0.583,
+   "jaccard": 0.0251
+  },
+  {
+   "a": "GEMSDOE63",
+   "b": "GEMSDOE70",
+   "n_a": 54864,
+   "n_b": 37654,
+   "mine_in_theirs": 0.341,
+   "theirs_in_mine": 0.712,
+   "jaccard": 0.0201
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE27",
+   "n_a": 44090,
+   "n_b": 37654,
+   "mine_in_theirs": 0.43,
+   "theirs_in_mine": 0.62,
+   "jaccard": 0.0237
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE27_h29",
+   "n_a": 44090,
+   "n_b": 37654,
+   "mine_in_theirs": 0.43,
+   "theirs_in_mine": 0.62,
+   "jaccard": 0.0237
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE30",
+   "n_a": 37654,
+   "n_b": 44090,
+   "mine_in_theirs": 0.62,
+   "theirs_in_mine": 0.43,
+   "jaccard": 0.0237
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE27_h29",
+   "n_a": 44090,
+   "n_b": 37654,
+   "mine_in_theirs": 0.43,
+   "theirs_in_mine": 0.62,
+   "jaccard": 0.0237
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE76",
+   "n_a": 37654,
+   "n_b": 39200,
+   "mine_in_theirs": 0.554,
+   "theirs_in_mine": 0.487,
+   "jaccard": 0.0275
+  },
+  {
+   "a": "GEMSDOE27_h29",
+   "b": "GEMSDOE76",
+   "n_a": 37654,
+   "n_b": 39200,
+   "mine_in_theirs": 0.554,
+   "theirs_in_mine": 0.487,
+   "jaccard": 0.0275
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE33",
+   "n_a": 37654,
+   "n_b": 41865,
+   "mine_in_theirs": 0.605,
+   "theirs_in_mine": 0.428,
+   "jaccard": 0.0235
+  },
+  {
+   "a": "GEMSDOE33",
+   "b": "GEMSDOE27_h29",
+   "n_a": 41865,
+   "n_b": 37654,
+   "mine_in_theirs": 0.428,
+   "theirs_in_mine": 0.605,
+   "jaccard": 0.0235
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE70",
+   "n_a": 60069,
+   "n_b": 37654,
+   "mine_in_theirs": 0.432,
+   "theirs_in_mine": 0.595,
+   "jaccard": 0.0269
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE31",
+   "n_a": 37654,
+   "n_b": 40199,
+   "mine_in_theirs": 0.591,
+   "theirs_in_mine": 0.43,
+   "jaccard": 0.0249
+  },
+  {
+   "a": "GEMSDOE31",
+   "b": "GEMSDOE27_h29",
+   "n_a": 40199,
+   "n_b": 37654,
+   "mine_in_theirs": 0.43,
+   "theirs_in_mine": 0.591,
+   "jaccard": 0.0249
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE82",
+   "n_a": 60069,
+   "n_b": 37654,
+   "mine_in_theirs": 0.433,
+   "theirs_in_mine": 0.579,
+   "jaccard": 0.0229
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE28",
+   "n_a": 37654,
+   "n_b": 37660,
+   "mine_in_theirs": 0.584,
+   "theirs_in_mine": 0.428,
+   "jaccard": 0.0234
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE27_h29",
+   "n_a": 37660,
+   "n_b": 37654,
+   "mine_in_theirs": 0.428,
+   "theirs_in_mine": 0.584,
+   "jaccard": 0.0234
+  },
+  {
+   "a": "GEMSDOE63",
+   "b": "GEMSDOE82",
+   "n_a": 54864,
+   "n_b": 37654,
+   "mine_in_theirs": 0.332,
+   "theirs_in_mine": 0.68,
+   "jaccard": 0.0174
+  },
+  {
+   "a": "GEMSDOE31",
+   "b": "GEMSDOE70",
+   "n_a": 40199,
+   "n_b": 37654,
+   "mine_in_theirs": 0.439,
+   "theirs_in_mine": 0.564,
+   "jaccard": 0.0236
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE70",
+   "n_a": 37660,
+   "n_b": 37654,
+   "mine_in_theirs": 0.439,
+   "theirs_in_mine": 0.56,
+   "jaccard": 0.0225
+  },
+  {
+   "a": "GEMSDOE33",
+   "b": "GEMSDOE70",
+   "n_a": 41865,
+   "n_b": 37654,
+   "mine_in_theirs": 0.429,
+   "theirs_in_mine": 0.57,
+   "jaccard": 0.0234
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE70",
+   "n_a": 44090,
+   "n_b": 37654,
+   "mine_in_theirs": 0.418,
+   "theirs_in_mine": 0.575,
+   "jaccard": 0.0225
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE70",
+   "n_a": 44090,
+   "n_b": 37654,
+   "mine_in_theirs": 0.418,
+   "theirs_in_mine": 0.575,
+   "jaccard": 0.0225
+  },
+  {
+   "a": "GEMSDOE32",
+   "b": "GEMSDOE70",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 0.443,
+   "theirs_in_mine": 0.548,
+   "jaccard": 0.0244
+  },
+  {
+   "a": "GEMSDOE36",
+   "b": "GEMSDOE70",
+   "n_a": 38854,
+   "n_b": 37654,
+   "mine_in_theirs": 0.436,
+   "theirs_in_mine": 0.552,
+   "jaccard": 0.0242
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE32",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 0.561,
+   "theirs_in_mine": 0.425,
+   "jaccard": 0.0257
+  },
+  {
+   "a": "GEMSDOE32",
+   "b": "GEMSDOE27_h29",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 0.425,
+   "theirs_in_mine": 0.561,
+   "jaccard": 0.0257
+  },
+  {
+   "a": "GEMSDOE31",
+   "b": "GEMSDOE82",
+   "n_a": 40199,
+   "n_b": 37654,
+   "mine_in_theirs": 0.438,
+   "theirs_in_mine": 0.546,
+   "jaccard": 0.021
+  },
+  {
+   "a": "GEMSDOE33",
+   "b": "GEMSDOE82",
+   "n_a": 41865,
+   "n_b": 37654,
+   "mine_in_theirs": 0.429,
+   "theirs_in_mine": 0.554,
+   "jaccard": 0.0198
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE82",
+   "n_a": 44090,
+   "n_b": 37654,
+   "mine_in_theirs": 0.421,
+   "theirs_in_mine": 0.56,
+   "jaccard": 0.02
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE82",
+   "n_a": 44090,
+   "n_b": 37654,
+   "mine_in_theirs": 0.421,
+   "theirs_in_mine": 0.56,
+   "jaccard": 0.02
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE63",
+   "n_a": 37654,
+   "n_b": 54864,
+   "mine_in_theirs": 0.674,
+   "theirs_in_mine": 0.304,
+   "jaccard": 0.0216
+  },
+  {
+   "a": "GEMSDOE27_h29",
+   "b": "GEMSDOE63",
+   "n_a": 37654,
+   "n_b": 54864,
+   "mine_in_theirs": 0.674,
+   "theirs_in_mine": 0.304,
+   "jaccard": 0.0216
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE36",
+   "n_a": 37654,
+   "n_b": 38854,
+   "mine_in_theirs": 0.562,
+   "theirs_in_mine": 0.415,
+   "jaccard": 0.0253
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE82",
+   "n_a": 37660,
+   "n_b": 37654,
+   "mine_in_theirs": 0.436,
+   "theirs_in_mine": 0.541,
+   "jaccard": 0.0203
+  },
+  {
+   "a": "GEMSDOE36",
+   "b": "GEMSDOE27_h29",
+   "n_a": 38854,
+   "n_b": 37654,
+   "mine_in_theirs": 0.415,
+   "theirs_in_mine": 0.562,
+   "jaccard": 0.0253
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE70",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 0.494,
+   "theirs_in_mine": 0.472,
+   "jaccard": 0.0244
+  },
+  {
+   "a": "GEMSDOE27_h29",
+   "b": "GEMSDOE70",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 0.494,
+   "theirs_in_mine": 0.472,
+   "jaccard": 0.0244
+  },
+  {
+   "a": "GEMSDOE32",
+   "b": "GEMSDOE82",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 0.433,
+   "theirs_in_mine": 0.526,
+   "jaccard": 0.0217
+  },
+  {
+   "a": "GEMSDOE36",
+   "b": "GEMSDOE82",
+   "n_a": 38854,
+   "n_b": 37654,
+   "mine_in_theirs": 0.427,
+   "theirs_in_mine": 0.53,
+   "jaccard": 0.0216
+  },
+  {
+   "a": "GEMSDOE49",
+   "b": "GEMSDOE63",
+   "n_a": 40000,
+   "n_b": 54864,
+   "mine_in_theirs": 0.575,
+   "theirs_in_mine": 0.335,
+   "jaccard": 0.0124
+  },
+  {
+   "a": "GEMSDOE24",
+   "b": "GEMSDOE49",
+   "n_a": 60069,
+   "n_b": 40000,
+   "mine_in_theirs": 0.415,
+   "theirs_in_mine": 0.478,
+   "jaccard": 0.0159
+  },
+  {
+   "a": "GEMSDOE70",
+   "b": "GEMSDOE76",
+   "n_a": 37654,
+   "n_b": 39200,
+   "mine_in_theirs": 0.457,
+   "theirs_in_mine": 0.423,
+   "jaccard": 0.0206
+  },
+  {
+   "a": "GEMSDOE31",
+   "b": "GEMSDOE49",
+   "n_a": 40199,
+   "n_b": 40000,
+   "mine_in_theirs": 0.423,
+   "theirs_in_mine": 0.448,
+   "jaccard": 0.0149
+  },
+  {
+   "a": "GEMSDOE33",
+   "b": "GEMSDOE49",
+   "n_a": 41865,
+   "n_b": 40000,
+   "mine_in_theirs": 0.412,
+   "theirs_in_mine": 0.454,
+   "jaccard": 0.0144
+  },
+  {
+   "a": "GEMSDOE28",
+   "b": "GEMSDOE49",
+   "n_a": 37660,
+   "n_b": 40000,
+   "mine_in_theirs": 0.42,
+   "theirs_in_mine": 0.444,
+   "jaccard": 0.0139
+  },
+  {
+   "a": "GEMSDOE25",
+   "b": "GEMSDOE49",
+   "n_a": 44090,
+   "n_b": 40000,
+   "mine_in_theirs": 0.402,
+   "theirs_in_mine": 0.459,
+   "jaccard": 0.0142
+  },
+  {
+   "a": "GEMSDOE30",
+   "b": "GEMSDOE49",
+   "n_a": 44090,
+   "n_b": 40000,
+   "mine_in_theirs": 0.402,
+   "theirs_in_mine": 0.459,
+   "jaccard": 0.0142
+  },
+  {
+   "a": "GEMSDOE36",
+   "b": "GEMSDOE49",
+   "n_a": 38854,
+   "n_b": 40000,
+   "mine_in_theirs": 0.421,
+   "theirs_in_mine": 0.44,
+   "jaccard": 0.0154
+  },
+  {
+   "a": "GEMSDOE32",
+   "b": "GEMSDOE49",
+   "n_a": 37654,
+   "n_b": 40000,
+   "mine_in_theirs": 0.424,
+   "theirs_in_mine": 0.434,
+   "jaccard": 0.0154
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE82",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 0.447,
+   "theirs_in_mine": 0.392,
+   "jaccard": 0.0186
+  },
+  {
+   "a": "GEMSDOE27_h29",
+   "b": "GEMSDOE82",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 0.447,
+   "theirs_in_mine": 0.392,
+   "jaccard": 0.0186
+  },
+  {
+   "a": "GEMSDOE27",
+   "b": "GEMSDOE49",
+   "n_a": 37654,
+   "n_b": 40000,
+   "mine_in_theirs": 0.448,
+   "theirs_in_mine": 0.344,
+   "jaccard": 0.0121
+  },
+  {
+   "a": "GEMSDOE27_h29",
+   "b": "GEMSDOE49",
+   "n_a": 37654,
+   "n_b": 40000,
+   "mine_in_theirs": 0.448,
+   "theirs_in_mine": 0.344,
+   "jaccard": 0.0121
+  },
+  {
+   "a": "GEMSDOE70",
+   "b": "GEMSDOE82",
+   "n_a": 37654,
+   "n_b": 37654,
+   "mine_in_theirs": 0.405,
+   "theirs_in_mine": 0.383,
+   "jaccard": 0.0199
+  },
+  {
+   "a": "GEMSDOE49",
+   "b": "GEMSDOE76",
+   "n_a": 40000,
+   "n_b": 39200,
+   "mine_in_theirs": 0.373,
+   "theirs_in_mine": 0.414,
+   "jaccard": 0.0139
+  },
+  {
+   "a": "GEMSDOE49",
+   "b": "GEMSDOE82",
+   "n_a": 40000,
+   "n_b": 37654,
+   "mine_in_theirs": 0.328,
+   "theirs_in_mine": 0.379,
+   "jaccard": 0.0131
+  }
+ ]
+}
