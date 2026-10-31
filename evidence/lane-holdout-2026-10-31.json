@@ -1,0 +1,169 @@
+{
+  "stage": "holdout",
+  "n_folds": 4,
+  "folds": [
+    {
+      "fold": 0,
+      "cached": true,
+      "n_withheld": 13098
+    },
+    {
+      "fold": 1,
+      "cached": true,
+      "n_withheld": 18956
+    },
+    {
+      "fold": 2,
+      "cached": true,
+      "n_withheld": 16917
+    },
+    {
+      "fold": 3,
+      "cached": true,
+      "n_withheld": 12017
+    }
+  ],
+  "operating_points": [
+    {
+      "top_pct": 0.1,
+      "threshold": 7.62939453125e-06,
+      "n_dots": 5194,
+      "dti_full": 0.011337225469004826,
+      "tp_full": 563.9630823068861,
+      "fp_full": 4205.862133536853,
+      "n_truth_iso": 60988,
+      "dti_isolated": 0.011337225469004826,
+      "tp_iso": 563.9630823068861,
+      "fp_iso": 4205.862133536853
+    },
+    {
+      "top_pct": 0.5,
+      "threshold": 3.5762786865234375e-06,
+      "n_dots": 26279,
+      "dti_full": 0.030116779716523264,
+      "tp_full": 1620.7946002227761,
+      "fp_full": 23512.183189342086,
+      "n_truth_iso": 60988,
+      "dti_isolated": 0.030116779716523264,
+      "tp_iso": 1620.7946002227761,
+      "fp_iso": 23512.183189342086
+    },
+    {
+      "top_pct": 1.0,
+      "threshold": 2.7418136596679688e-06,
+      "n_dots": 52260,
+      "dti_full": 0.04616534463244024,
+      "tp_full": 2720.640436344535,
+      "fp_full": 47989.99644049024,
+      "n_truth_iso": 60988,
+      "dti_isolated": 0.04616534463244024,
+      "tp_iso": 2720.640436344535,
+      "fp_iso": 47989.99644049024
+    },
+    {
+      "top_pct": 2.0,
+      "threshold": 2.086162567138672e-06,
+      "n_dots": 104899,
+      "dti_full": 0.06718249868399731,
+      "tp_full": 4652.862298854994,
+      "fp_full": 97680.4344672277,
+      "n_truth_iso": 60988,
+      "dti_isolated": 0.06718249868399731,
+      "tp_iso": 4652.862298854994,
+      "fp_iso": 97680.4344672277
+    },
+    {
+      "top_pct": 4.0,
+      "threshold": 1.5497207641601562e-06,
+      "n_dots": 211887,
+      "dti_full": 0.08652755230504412,
+      "tp_full": 7796.3652405902285,
+      "fp_full": 198765.08584519412,
+      "n_truth_iso": 60988,
+      "dti_isolated": 0.08652755230504412,
+      "tp_iso": 7796.3652405902285,
+      "fp_iso": 198765.08584519412
+    },
+    {
+      "top_pct": 7.0,
+      "threshold": 1.1920928955078125e-06,
+      "n_dots": 368390,
+      "dti_full": 0.09564904747125165,
+      "tp_full": 11523.03547688707,
+      "fp_full": 346885.14382079174,
+      "n_truth_iso": 60988,
+      "dti_isolated": 0.09564904747125165,
+      "tp_iso": 11523.03547688707,
+      "fp_iso": 346885.14382079174
+    },
+    {
+      "top_pct": 10.0,
+      "threshold": 9.5367431640625e-07,
+      "n_dots": 559476,
+      "dti_full": 0.09681534944935781,
+      "tp_full": 15251.98783564539,
+      "fp_full": 528480.3991129037,
+      "n_truth_iso": 60988,
+      "dti_isolated": 0.09681534944935781,
+      "tp_iso": 15251.98783564539,
+      "fp_iso": 528480.3991129037
+    },
+    {
+      "top_pct": 15.0,
+      "threshold": 7.748603820800781e-07,
+      "n_dots": 795860,
+      "dti_full": 0.09495371328258455,
+      "tp_full": 19316.14660105406,
+      "fp_full": 753866.7253954071,
+      "n_truth_iso": 60988,
+      "dti_isolated": 0.09495371328258455,
+      "tp_iso": 19316.14660105406,
+      "fp_iso": 753866.7253954071
+    },
+    {
+      "top_pct": 20.0,
+      "threshold": 5.960464477539062e-07,
+      "n_dots": 1182634,
+      "dti_full": 0.09077353487548692,
+      "tp_full": 25285.678317919184,
+      "fp_full": 1123551.4398211548,
+      "n_truth_iso": 60988,
+      "dti_isolated": 0.09077353487548692,
+      "tp_iso": 25285.678317919184,
+      "fp_iso": 1123551.4398211548
+    }
+  ],
+  "isolated_enrichment": [
+    {
+      "top_pct": 1.0,
+      "area_frac": 0.010113456102356071,
+      "pos_frac": 0.020823768610218403,
+      "enrichment": 2.059016067253925
+    },
+    {
+      "top_pct": 5.0,
+      "area_frac": 0.05358835137312518,
+      "pos_frac": 0.08090116088410836,
+      "enrichment": 1.509678107482901
+    },
+    {
+      "top_pct": 10.0,
+      "area_frac": 0.10827087574285812,
+      "pos_frac": 0.14975077064340525,
+      "enrichment": 1.383112213842819
+    },
+    {
+      "top_pct": 20.0,
+      "area_frac": 0.2288656150813963,
+      "pos_frac": 0.2835475831311078,
+      "enrichment": 1.2389260965665978
+    },
+    {
+      "top_pct": 50.0,
+      "area_frac": 0.5087070354704412,
+      "pos_frac": 0.5621105791303207,
+      "enrichment": 1.104978975984661
+    }
+  ],
+  "note": "assembled map: each block scored by the model that never saw that block's faults. dti_full uses the whole catalogue as truth (optimistic: the real scorer masks mapped faults). dti_isolated keeps only catalogue pixels >=4 px from any visible fault, the closest available proxy for an unmapped fault."
+}

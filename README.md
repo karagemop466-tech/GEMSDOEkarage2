@@ -8,6 +8,40 @@
 * **Leaderboard:** the [official board](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) shows rank 1 at 0.4544, not 0.4413 or 0.3195.
 * **Full review, with every source and irregularity:** [`research/2026-10-31-official-source-verification-arena.md`](research/2026-10-31-official-source-verification-arena.md); run card [`evidence/arena-official-verification-2026-10-31.json`](evidence/arena-official-verification-2026-10-31.json).
 * **Still needed:** official data access (the DrivenData data tab is login-walled), and one portal receipt for the recommended file.
+## Parallel lane 2026-10-31 — independent structural-habitat raster (arena/788c0b40)
+
+**One new raster, generated from the 19-band GeoDAWN stack alone — no published raster is an input.**
+`docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif` · 40,561 dots · single-band float32 ·
+EPSG:32611 · 100 m · 3730 × 3292 · values [0,1] · SHA-256
+`ff22311cb19c83926b1b3d3f66a0f960c863fb9d3c3d603a682a0b7870d0402f`
+
+Habitat index (`src/gemsdoe/habitat.py`, closed form, untrained):
+`z(log1p det_elev_slope) + z(log1p tmi_hg) − z(tc) + 0.5·z(|iso_grav_anom_hg|)`, rank-transformed,
+discounted by `(1 − exp(−d_cat/3 px))`, zeroed within 100 m of a mapped fault, emitted by lazy-greedy
+(CELF) maximisation of expected DTI at K̂ = 35,000.
+
+| Question | Answer |
+| --- | --- |
+| Is it a copy? | **No.** Built from the geophysical stack only. |
+| Unique vs the other GEMSDOE sites? | **Yes, measured.** Max within 3 px of any pinned published raster **23.3%** (stop 70%); max Jaccard **0.0057**. |
+| Format valid? | **Yes, measured.** min 0.0 / max 1.0, 12,279,160 finite values, template CRS/shape/transform. |
+| HOLDOUT-DTI | **0.0172**, 95% CI [0.0130, 0.0227]. Vendored official metric (α 0.2, β 0.8, R = 300 m), 60,661 withheld isolated positives, 11 of 16 folds. **A proxy against withheld catalogue faults.** |
+| Forward projection | **0.007 – 0.013** (PROJECTION, not an organizer score), fitted to the 21 USER-REPORTED scores, RMSE 0.029–0.037. |
+| **May you submit it?** | **Safe and genuinely ours — but not the recommended file and not forecast to win.** This repository publishes exactly one recommendation (the HALO release below). Spending a slot on this raster ahead of it is not supported by the measurements. |
+
+**Why it is not forecast to win, in one sentence:** the highest-scoring published files occupy one compact
+territory and the R = 3 px credit kernel only pays dots inside their ±3 px halo, so under the best model
+we can fit, "unique" and "high-scoring" are in direct tension — adding that territory to our density lifts
+the projection to 0.09–0.15 but puts 99% of our dots within 3 px of a published raster, past the 70% stop.
+
+Evidence: [`evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json`](evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json) ·
+[`evidence/habitat-holdout-2026-10-31.json`](evidence/habitat-holdout-2026-10-31.json) ·
+[`evidence/projection-range-2026-10-31.json`](evidence/projection-range-2026-10-31.json) ·
+[`research/2026-10-31-independent-habitat-release.md`](research/2026-10-31-independent-habitat-release.md).
+
+The nine-site executive scorecard now also carries an **estimated score per site** — the forward projection
+of each site's best byte-verified pinned file, labelled PROJECTION beside the USER-REPORTED value.
+Site: <https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/index.html>. No slot was used.
 
 ## S1 session review (2026-10-31, arena/fe0fee78) — additional negative research lane
 

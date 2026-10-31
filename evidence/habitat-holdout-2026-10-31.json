@@ -1,0 +1,150 @@
+{
+  "generated": "2026-10-31T03:53:40",
+  "metric": "vendored official DTI (alpha=0.2, beta=0.8, R=300 m triangular kernel)",
+  "method": {
+    "weights": {
+      "slope": 1.0,
+      "tmi_hg": 1.0,
+      "tilt": -1.0,
+      "grav_hg": 0.5,
+      "elev": 0.0
+    },
+    "bands": [
+      "det_elev_slope",
+      "tmi_hg",
+      "tc",
+      "iso_grav_anom_hg"
+    ]
+  },
+  "scoring": "scripts/evaluate_holdout.py::dti_weighted_terms, pooled over 16 interleaved 4x4 spatial folds",
+  "withheld_positives_isolated": 60661,
+  "emitted_total": 40559,
+  "terms": {
+    "TPw": 972.753,
+    "FPw": 39313.4,
+    "FNw": 59688.25
+  },
+  "HOLDOUT_DTI": {
+    "estimate": 0.01719,
+    "ci95": [
+      0.013,
+      0.02269
+    ],
+    "bootstrap": "block bootstrap over the 16 spatial folds, 2000 draws"
+  },
+  "per_fold": [
+    {
+      "fold": 0,
+      "n_emit": 4050,
+      "n_isolated": 4926,
+      "TPw": 25.327,
+      "FPw": 4023.65,
+      "FNw": 4900.67,
+      "DTI": 0.00533,
+      "enrichment": 0.65
+    },
+    {
+      "fold": 1,
+      "n_emit": 6050,
+      "n_isolated": 6125,
+      "TPw": 57.365,
+      "FPw": 5993.19,
+      "FNw": 6067.64,
+      "DTI": 0.00939,
+      "enrichment": 1.18
+    },
+    {
+      "fold": 2,
+      "n_emit": 5190,
+      "n_isolated": 6133,
+      "TPw": 63.688,
+      "FPw": 5067.33,
+      "FNw": 6069.31,
+      "DTI": 0.01073,
+      "enrichment": 1.31
+    },
+    {
+      "fold": 3,
+      "n_emit": 5002,
+      "n_isolated": 5336,
+      "TPw": 149.317,
+      "FPw": 4767.81,
+      "FNw": 5186.68,
+      "DTI": 0.02843,
+      "enrichment": 3.52
+    },
+    {
+      "fold": 4,
+      "n_emit": 3231,
+      "n_isolated": 7405,
+      "TPw": 93.255,
+      "FPw": 3142.63,
+      "FNw": 7311.75,
+      "DTI": 0.01419,
+      "enrichment": 1.59
+    },
+    {
+      "fold": 5,
+      "n_emit": 5895,
+      "n_isolated": 10706,
+      "TPw": 122.633,
+      "FPw": 5739.39,
+      "FNw": 10583.37,
+      "DTI": 0.01259,
+      "enrichment": 1.44
+    },
+    {
+      "fold": 6,
+      "n_emit": 562,
+      "n_isolated": 1077,
+      "TPw": 31.238,
+      "FPw": 521.48,
+      "FNw": 1045.76,
+      "DTI": 0.03213,
+      "enrichment": 3.65
+    },
+    {
+      "fold": 9,
+      "n_emit": 3417,
+      "n_isolated": 5518,
+      "TPw": 112.795,
+      "FPw": 3264.63,
+      "FNw": 5405.21,
+      "DTI": 0.02216,
+      "enrichment": 2.57
+    },
+    {
+      "fold": 10,
+      "n_emit": 2347,
+      "n_isolated": 4214,
+      "TPw": 95.837,
+      "FPw": 2216.9,
+      "FNw": 4118.16,
+      "DTI": 0.025,
+      "enrichment": 2.86
+    },
+    {
+      "fold": 13,
+      "n_emit": 982,
+      "n_isolated": 3871,
+      "TPw": 114.082,
+      "FPw": 878.32,
+      "FNw": 3756.92,
+      "DTI": 0.03462,
+      "enrichment": 3.71
+    },
+    {
+      "fold": 14,
+      "n_emit": 3833,
+      "n_isolated": 5350,
+      "TPw": 107.217,
+      "FPw": 3698.07,
+      "FNw": 5242.78,
+      "DTI": 0.02127,
+      "enrichment": 2.52
+    }
+  ],
+  "note": "HOLDOUT-DTI against ISOLATED withheld catalogue positives. This is a PROXY for the scored unseen-fault label set, not an organizer score. 5 of the 16 interleaved folds contained fewer than 5 isolated withheld positives and were skipped.",
+  "folds_evaluated": 11,
+  "folds_total": 16
+}
