@@ -1,0 +1,78 @@
+{
+  "experiment": "S1 E2 holdout: 34ch vs seismicity/strain ablation",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "seed": 20261031,
+  "model": "HistGradientBoosting 350it lr.06 leaves63 minleaf40 L2=1 (shared k3 recipe)",
+  "folds": [
+    {
+      "fold": 0,
+      "s1": {
+        "pos": 27822,
+        "neg": 180000
+      },
+      "ablate": {
+        "pos": 27822,
+        "neg": 180000
+      },
+      "seconds": 140.5
+    },
+    {
+      "fold": 1,
+      "s1": {
+        "pos": 43787,
+        "neg": 180000
+      },
+      "ablate": {
+        "pos": 43787,
+        "neg": 180000
+      },
+      "seconds": 100.2
+    },
+    {
+      "fold": 2,
+      "s1": {
+        "pos": 46580,
+        "neg": 180000
+      },
+      "ablate": {
+        "pos": 46580,
+        "neg": 180000
+      },
+      "seconds": 62.9
+    },
+    {
+      "fold": 3,
+      "s1": {
+        "pos": 46898,
+        "neg": 180000
+      },
+      "ablate": {
+        "pos": 46898,
+        "neg": 180000
+      },
+      "seconds": 66.4
+    }
+  ],
+  "arms": [
+    "ablate_b073",
+    "ablate_b110",
+    "ablate_b110dti",
+    "s1_b073",
+    "s1_b110",
+    "s1_b110dti"
+  ],
+  "s1_new_channels": [
+    "band07",
+    "band08",
+    "band10",
+    "band16"
+  ],
+  "ablated_channels": [
+    "band07",
+    "band08",
+    "band10",
+    "band16"
+  ],
+  "incumbent_reference": "k3dti_b110 recorded same-instrument HOLDOUT-DTI 0.19157 [0.17474, 0.20880], n=58258, gems57-pooled-hide-v2"
+}

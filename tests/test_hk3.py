@@ -154,7 +154,11 @@ def test_desk_pages_are_explicitly_research_only(card):
         assert card["raster"]["sha256"] in page
         downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', page)
         assert len(downloads) == 1
-        assert (DOCS / downloads[0]).resolve() == (ROOT / card["raster"]["file"]).resolve()
+        # 2026-10-31: the one-click research download now points at the S1
+        # candidate (newest research file; negative verdict, clearly labelled);
+        # the HK3 file stays named on the pages without a download button.
+        assert "s1-quakeflank" in downloads[0]
+        assert (DOCS / downloads[0]).is_file()
     home = (DOCS / "index.html").read_text()
     assert "HOLDOUT-DTI" in home and "Leaderboard estimate</th><td><b>Unavailable" in home
     assert "45,046 of 45,108" in home and "99.86%" in home

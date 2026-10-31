@@ -40,7 +40,7 @@ test('one-click research download is visibly labeled and the exact bytes exist',
     assert.equal(links.length, 1, `${page}: research link`);
     const link = links[0];
     assert.match(link.textContent, /RESEARCH ONLY/);
-    assert.match(link.getAttribute('href'), /gemsdoekarage2-hk3-edgecentrality/);
+    assert.match(link.getAttribute('href'), /gemsdoekarage2-s1-quakeflank/);
     assert.ok(fs.existsSync(path.join(root, 'docs', link.getAttribute('href'))));
     assert.match(link.closest('section').textContent, /DO NOT SUBMIT/);
     dom.window.close();

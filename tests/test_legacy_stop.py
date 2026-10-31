@@ -20,7 +20,10 @@ def test_legacy_generator_stops_before_modifying_outputs():
 def test_primary_pages_do_not_offer_legacy_file_for_upload():
     import json
     import re
-    card = json.loads((ROOT / 'evidence/hk3/run_card.json').read_text())
+    # 2026-10-31: the click-to-download link targets the S1 research candidate
+    # (newest file, negative verdict, clearly labelled); the HK3 file is no
+    # longer offered as the download.
+    card = json.loads((ROOT / 'evidence/s1/run_card.json').read_text())
     for name in ('index.html', 'executive-summary.html', 'how-to-submit.html'):
         text = (ROOT / 'docs' / name).read_text()
         assert 'unique research TIF' not in text

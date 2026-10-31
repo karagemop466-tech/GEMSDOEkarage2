@@ -1,6 +1,24 @@
 # Submission status — NO APPROVED FILE
 
-**Review 2026-10-31: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
+**S1 session (2026-10-31, this review): ONE new research TIFF generated; OK-TO-DOWNLOAD: YES (research only);
+OK-TO-SUBMIT: NO.** The S1 seismicity-flank candidate
+(`docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif`, 51,961 off-catalogue dots,
+SHA-256 `fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c`) is format-valid (float32, EPSG:32611,
+3730×3292, nodata=None, finite zeros exterior, 0 NaN/inf, 0 catalogue dots) and rank-uncorrelated with every
+registry raster (|Spearman| ≤ 0.146, 473 unique rasters compared). It is **negative** on the conjunctive gates:
+(1) HOLDOUT-DTI 0.18791 [0.16799, 0.20782] (gems57-pooled-hide-v2, 58,308 withheld positives) does **not** beat the
+recorded incumbent k3dti_b110 0.19157 [0.17474, 0.20880]; the paired novelty-vs-ablation delta at matched placement
+is +0.00833 [−0.00382, +0.02055], inconclusive. (2) The literal uniqueness rule stops the file against the
+degenerate spacing-5 lattice witness (100% of dots within 3 px; that witness covers 99.87% of the footprint, so it
+fires for every dot file including the accepted 0.2778 champion — flagged protocol irregularity). (3) New finding:
+55 **non-lattice** fleet rasters also exceed the 70%-overlap clause (worst 0.8977 vs GEMSDOE32 h45-kernelspacing) —
+independent supervised lanes converge on the same consensus off-catalogue ridge (K3 recorded the same pattern at
+0.8477–0.8862). No leaderboard estimate exists for any of this; HOLDOUT-DTI is a local proxy, not a score. Slot
+used: none. Card: [`evidence/s1/run_card.json`](evidence/s1/run_card.json); selector:
+[`evidence/s1/selector_result.json`](evidence/s1/selector_result.json); site:
+[executive summary](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html).
+
+**Review 2026-10-31 (earlier, leaderboard recheck): NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
 
 **Current review (2026-10-30): NO FILE IS OK TO DOWNLOAD AND SUBMIT.** The audited public-download inventory contains research-only files and `downloadable_approved_submission: null`. No new experiment, TIFF, score estimate, upload, or slot was created. The 2026-10-30 public leaderboard snapshot shows rank 1 at 0.4544 and the user-cited 0.3195 at rank 48; these are public-board observations, not receipts for local files. Full review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); source snapshot: [`evidence/official-review-2026-10-30.json`](evidence/official-review-2026-10-30.json); review card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
 

@@ -208,10 +208,43 @@ def gather() -> dict:
     pairs = load(EV / "uniqueness/nine-site-pairwise-recheck.json")
     if len(pairs["summary"]) != 9 or any(r["unique_vs_other_eight"] for r in pairs["summary"]):
         raise ValueError("Nine-site pairwise recheck disagrees with the non-unique finding")
+    # S1 candidate (2026-10-31 session): negative verdict, research download.
+    s1_card = load(EV / "s1/run_card.json")
+    s1_selector = load(EV / "s1/selector_result.json")
+    s1_name = s1_card["submission"]["name"]
+    s1_rel = f"docs/downloads/{s1_name}.tif"
+    s1_path = (ROOT / s1_rel).resolve()
+    if not s1_path.is_file() or not s1_path.is_relative_to((DOCS / "downloads").resolve()):
+        raise ValueError("Missing or unsafe S1 research raster path")
+    s1_sha = hashlib.sha256(s1_path.read_bytes()).hexdigest()
+    s1_surface = load(EV / "s1/surface_gate.json")
+    s1_audit = load(EV / "s1/final_registry_audit.json")
+    s1_final = load(EV / "s1/final_generation.json")
+    if not (s1_sha == s1_card["raster"]["sha256"] == s1_selector["raster_sha256"]
+            == s1_surface["candidate_sha256"]
+            == s1_audit["audit"]["candidate_file_sha256"]
+            == s1_final["writer_receipt"]["sha256"]):
+        raise ValueError("S1 raster or evidence hashes disagree")
+    if (s1_card["verdict"] != "negative" or s1_selector["verdict"] != "negative"
+            or s1_selector.get("ok_to_submit") is not False
+            or s1_selector.get("slot_authorized") is not False
+            or s1_card.get("ok_to_submit") is not False
+            or s1_card.get("slot_authorized") is not False
+            or s1_card.get("approved_for_weekly_slot") is not False
+            or s1_selector.get("source_run_card") != "evidence/s1/run_card.json"
+            or s1_card.get("gates", {}).get("holdout_beats_recorded_incumbent") is not False):
+        raise ValueError("Inconsistent S1 negative decision")
+    s1_inventory = [r for r in inventory["artifacts"] if r["file"] == s1_rel]
+    if (len(s1_inventory) != 1 or s1_inventory[0]["raster_sha256"] != s1_sha
+            or s1_inventory[0]["status"] != "VERIFIED_RESEARCH_ONLY"):
+        raise ValueError("S1 file missing from the research-only published inventory")
     return {"card": card, "selector": selector, "witness": witness, "registry": registry,
             "inventory": inventory, "focus": records, "geometry": geometry, "official": official,
             "official_filename": official_filename, "monitor": monitor, "k3": k3,
-            "profile": profile, "uniq": uniq, "pairs": pairs}
+            "profile": profile, "uniq": uniq, "pairs": pairs,
+            "s1": {"card": s1_card, "selector": s1_selector, "name": s1_name,
+                   "sha": s1_sha, "surface": s1_surface, "audit": s1_audit,
+                   "final": s1_final}}
 
 
 UNIQUENESS_CANDIDATES = [
@@ -266,13 +299,104 @@ def shell(title: str, active: str, body: str, *, base_href: str | None = None,
 
 def hero(d: dict) -> str:
     c, w = d["card"], d["witness"]
-    name = Path(c["raster"]["file"]).name
+    hk3_name = Path(c["raster"]["file"]).name
+    s1 = d["s1"]
+    s1_card = s1["card"]
+    s1_name = s1["name"]
+    dots = s1_card["raster"]["dots"]
+    hold = s1_card["holdout"]
     return f'''<section class="hero" id="research-download">
-<h2>No submission-ready TIFF</h2>
-<p class="verdict"><b class="no">DO NOT SUBMIT.</b> The earlier HK3 approval was incorrect and has been withdrawn. A saved-byte recheck found <b>{w['matched_within_3_pixels']:,} of {w['candidate_positive_inside_footprint']:,} dots ({w['overlap_fraction'] * 100:.2f}%)</b> within three pixels of a registered lattice. The literal rule stops above 70%, without a research-file exception.</p>
-<p>The older TIFF remains available solely for reproducibility. It is <b>not a new submission</b>, not approved for a weekly slot, and has no defensible leaderboard estimate.</p>
-<p><a class="btn big" href="downloads/{esc(name)}" download>Download existing TIFF · RESEARCH ONLY</a> <a class="btn secondary" href="evidence/hk3/literal_recheck.json">Open byte-level audit</a></p>
-<div class="meta"><b>Research file:</b> <code>{esc(name)}</code><br><b>SHA-256:</b> <code>{esc(c['raster']['sha256'])}</code><br><b>New submission name / note:</b> none; no new candidate was generated.</div>
+<h2>S1 candidate · OK to download for research · OK to submit: NO</h2>
+<p class="verdict"><b class="no">DO NOT SUBMIT.</b> The 2026-10-31 S1 candidate
+(<code>{esc(s1_name)}</code>, {dots:,} off-catalogue dots) is format-valid and rank-uncorrelated with every
+registry raster (|Spearman| ≤ 0.146), but three recorded stops keep it research-only: its HOLDOUT-DTI
+<b>{hold['candidate_dti']:.4f}</b> (95% CI [{hold['candidate_ci95'][0]:.4f}, {hold['candidate_ci95'][1]:.4f}],
+<code>{esc(hold['evaluator_version'])}</code>) is <b>below</b> the recorded incumbent
+K3 {hold['incumbent_arm']} at {hold['incumbent_dti']:.4f}; the literal uniqueness rule stops every dot file
+against the dense spacing-5 lattice witness (a flagged protocol irregularity — it lies within 3 px of 99.87% of
+the footprint, so it fires for every file on this grid, including the 0.2778 site champion); and 55
+<i>non-lattice</i> fleet rasters independently produced dots on the same consensus off-catalogue ridge
+(worst overlap 0.898 vs GEMSDOE32's h45-kernelspacing — the same convergence pattern K3 recorded at 0.85–0.89).
+See the S1 gate table below.</p>
+<p>The older HK3 file also remains available for reproducibility: <b>{w['matched_within_3_pixels']:,} of {w['candidate_positive_inside_footprint']:,} dots ({w['overlap_fraction'] * 100:.2f}%)</b> of its dots sit within three
+pixels of a registered lattice. SHA-256 <code>{esc(c['raster']['sha256'])}</code>.</p>
+<p><a class="btn big" href="downloads/{esc(s1_name)}.tif" download>Download S1 candidate TIFF · RESEARCH ONLY</a>
+<a class="btn secondary" href="evidence/s1/run_card.json">Open the S1 run card</a></p>
+<div class="meta"><b>Research file:</b> <code>{esc(s1_name)}.tif</code><br><b>SHA-256:</b> <code>{esc(s1['sha'])}</code><br>
+<b>Recorded submission name / note:</b> <code>{esc(s1_card['submission']['name'])}</code> / “{esc(s1_card['submission']['note'])}” ({len(s1_card['submission']['note'])} chars)<br>
+<b>Verdict:</b> negative · <b>OK to download for research:</b> yes · <b>OK to submit:</b> <b class="no">no</b> · <b>Slot authorized:</b> no.</div>
+<p class="muted">Older HK3 research file (no download button): <a href="downloads/{esc(hk3_name)}">{esc(hk3_name)}</a>.</p>
+</section>'''
+
+
+def s1_panel(d: dict) -> str:
+    """S1 (2026-10-31) candidate: holdout results, gate table, verdict, evidence links."""
+    s1 = d["s1"]
+    card = s1["card"]
+    hold = card["holdout"]
+    leak = card["leakage"]
+    uniq = card["uniqueness"]
+    val = card["validator_output"]
+    arms = hold["arms"]
+    arm_rows = []
+    for name, a in sorted(arms.items(), key=lambda kv: -kv[1]["dti"]):
+        mark = " ← candidate" if name == hold["candidate_arm"] else ""
+        arm_rows.append(
+            f'<tr><td><code>{esc(name)}</code>{mark}</td><td>{a["dti"]:.5f}</td>'
+            f'<td>[{a["ci95"][0]:.4f}, {a["ci95"][1]:.4f}]</td><td>{a["n_withheld"]:,}</td></tr>')
+    delta_rows = []
+    for name, a in sorted(hold["paired_deltas"].items()):
+        verdict = "significant" if a["ci95"][0] > 0 else "inconclusive (CI crosses 0)"
+        delta_rows.append(
+            f'<tr><td>candidate − {esc(name)}</td><td>{a["delta"]:+.5f}</td>'
+            f'<td>[{a["ci95"][0]:+.5f}, {a["ci95"][1]:+.5f}]</td><td>{esc(verdict)}</td></tr>')
+    gates = card["gates"]
+
+    def _gate_cell(ok):
+        if ok is True:
+            return "<b>PASS</b>"
+        if ok is False:
+            return '<b class="no">FAIL</b>'
+        return esc(str(ok))
+
+    gate_rows = "".join(
+        f'<tr><td>{esc(label)}</td><td>{_gate_cell(ok)}</td><td>{esc(detail)}</td></tr>'
+        for label, ok, detail in gates["table"])
+    return f'''<section class="section" id="s1-candidate"><h3>S1 candidate of 2026-10-31 · seismicity-flank hypothesis · verdict: negative</h3>
+<p>S1 added earthquake-location density (USGS, 1950–2024), rate, and depth-profile channels to the cached 35-channel
+template stack and validated them with the spatially-blocked hide-and-recover protocol. The novelty channels passed
+every leakage canary (worst feature-alone max(AUC, 1−AUC) = {leak['worst_max_auc']:.4f} over {leak['channels_tested']} channels),
+and the full model's best arm improved on its own no-novelty ablation — but it <b class="no">did not beat the recorded
+incumbent</b> K3 {esc(hold['incumbent_arm'])} at {hold['incumbent_dti']:.4f}. The final dots also reveal a
+<b>consensus-convergence</b> property of the off-catalogue space: independent supervised lanes (K2, GEMSDOE32
+h45, GEMSDOE30 g30s19/g30s20, GEMSDOE36 lane36, and S1) independently select the same ridge of high-probability
+cells — 55 non-lattice registry rasters overlap the final dots above 70% while rank correlation stays ≤ 0.146.
+Under the binding rules (“do not spend a submission slot on an idea that hasn't beaten the current holdout best”;
+uniqueness vs every registry raster), the verdict is <b class="no">negative</b>.</p>
+<table class="kv"><thead><tr><th>HOLDOUT-DTI arm (pooled, evaluator <code>{esc(hold['evaluator_version'])}</code>)</th><th>DTI</th><th>95% CI</th><th>Withheld positives</th></tr></thead><tbody>{''.join(arm_rows)}
+<tr><td><code>{esc(hold['incumbent_arm'])}</code> · recorded incumbent (2026-10-28, K3)</th><td>{hold['incumbent_dti']:.5f}</td><td>[{hold['incumbent_ci95'][0]:.4f}, {hold['incumbent_ci95'][1]:.4f}]</td><td>{hold['incumbent_n_withheld']:,}</td></tr></tbody></table>
+<p class="muted">Every number on this page is HOLDOUT-DTI: a local catalogue-based proxy with its evaluator, withheld
+count and interval. It is not a leaderboard estimate and not an organizer score. Cross-session comparison against the
+recorded incumbent is approximate (its eligible mask differs by {hold['n_mask_difference']} truth pixels, {hold['n_mask_difference_pct']:.3f}%).</p>
+<h4>Paired deltas (same folds, same withheld positives)</h4>
+<table><thead><tr><th>Comparison</th><th>Δ DTI</th><th>95% CI</th><th>Reading</th></tr></thead><tbody>{''.join(delta_rows)}</tbody></table>
+<h4>Gate table (conjunctive — every row must pass for eligibility)</h4>
+<table><thead><tr><th>Gate</th><th>Result</th><th>Detail</th></tr></thead><tbody>{gate_rows}</tbody></table>
+<p><b>Saved bytes:</b> {esc(s1['name'])}.tif · SHA-256 <code>{esc(s1['sha'])}</code> · {card['raster']['dots']:,} dots ·
+single-band float32, EPSG:32611, 3730×3292, nodata=None, finite zeros outside the footprint (the owner-scored
+convention), {val['on_catalogue_positive_pixels']} dots on the mirrored catalogue.
+Format/range validator: {"all local checks passed" if val["all_checks_passed"] else "FAILED"}.</p>
+<p class="muted">Portal “Predicted values must be in range [0, 1]” (UNVERIFIED hypothesis, 2026-10-31): pixel values
+are not the cause — every published research TIFF is finite and inside [0, 1]. The only failed downloadable file
+(H-F) carried a nodata=NaN TAG on an all-finite array. The S1 file follows the owner-scored champion convention
+(zeros exterior, nodata=None). Exact portal behaviour remains untestable from this sandbox.</p>
+<p><a href="evidence/s1/run_card.json">run card</a> · <a href="evidence/s1/selector_result.json">selector result</a> ·
+<a href="evidence/s1/e1_canary.json">E1 leakage canaries</a> · <a href="evidence/s1/e2_holdout.json">E2 fold holdout</a> ·
+<a href="evidence/s1/combined_holdout.json">pooled holdout</a> · <a href="evidence/s1/surface_gate.json">surface gate (474 registry rasters)</a> ·
+<a href="evidence/s1/final_registry_audit.json">final-dot registry audit</a> ·
+<a href="evidence/s1/final_generation.json">writer receipt</a> ·
+<a href="evidence/public_downloads_audit.json">saved-byte inventory</a> ·
+<a href="https://github.com/karagemop466-tech/GEMSDOEkarage2/blob/main/research/hypotheses-2026-10-31-untried-slate.md">S1 hypothesis slate ↗</a></p>
 </section>'''
 
 
@@ -350,15 +474,37 @@ def legacy() -> str:
 
 
 def guide(d: dict) -> str:
+    s1 = d["s1"]
+    s1_card = s1["card"]
     return f'''<section class="section"><h3>How to submit, when an eligible file exists</h3>
-<p><b class="no">Do not upload any current file.</b> These instructions are conditional; neither inspection nor a format pass bypasses the literal duplicate stop.</p>
+<p><b class="no">Do not upload any current file, including the S1 candidate above.</b> These instructions are
+conditional; neither inspection nor a format pass bypasses the two recorded stops (holdout below the incumbent;
+literal duplicate stop against the lattice witness, a flagged protocol irregularity).</p>
 <p><b>Official rules, verified 2026-10-29</b> (<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NLR rules PDF</a>, §1.1 and §3.2): one entry per competitor; a <em>single</em> GeoTIFF with a single raster layer at 100 m; submission limit <em>three submissions per week</em>; generative-AI use must be described in the narrative. The problem page (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>) specifies values between 0 and 1, float32, and null or NaN outside the bounds.</p>
 <ol><li>Run a newly assigned lane using the shared feature stack, evaluator and writer. Stop immediately if the pre-placement surface is a duplicate. Test every input feature alone for leakage; AUC over 0.90 is suspect.</li>
 <li>Use buffered whole-segment hide-and-recover; build all catalogue features from visible faults only and mask visible faults pixel-exactly. Compare pooled DTI against the current same-fold incumbent with a paired 95% interval. An uncalibrated holdout is not a leaderboard estimate.</li>
-<li>Recheck the exact final TIFF against the complete current registry and authenticate the organizer sample. Verify a single float32 band, matching CRS/shape/transform, and no non-finite or out-of-range values inside the actual footprint. Reconcile the official null/NaN exterior guidance with the portal range behavior; neither convention is assumed accepted.</li>
+<li>Recheck the exact final TIFF against the complete current registry and authenticate the organizer sample. Verify a single float32 band, matching CRS/shape/transform, and no non-finite or out-of-range values inside the actual footprint.</li>
 <li>Only after every automated gate passes, a separate selector checks the account quota. The <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules</a> describe up to three scored attempts per week and one final selection per participating entity.</li>
-<li>Then download the approved <code>.tif</code>, verify its SHA-256, sign in to the <a href="{SUBMISSIONS}">DrivenData submissions page</a>, choose the file, and use the recorded unique name and a short note no longer than 140 characters. The official problem page specifies a GeoTIFF; ZIP upload acceptance was not verified. Save the actual organizer receipt; do not promote a projection into a score.</li></ol>
-<p>Our checks require no human inspector. The current blocker is missing/contradictory evidence and an unassigned lane, not a request to waive a gate. No account credentials are stored by this project.</p></section>'''
+<li>Then download the <code>.tif</code>, verify its SHA-256, sign in to the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">DrivenData submissions page</a>, choose the file, and use the recorded unique name and a short note no longer than 140 characters. The official problem page specifies a GeoTIFF; ZIP upload acceptance was not verified. Save the actual organizer receipt; do not promote a projection into a score.</li></ol>
+<h4>Fixing the portal error “Predicted values must be in range [0, 1]” (evidence-based, 2026-10-31)</h4>
+<p>The error is <b>not</b> caused by out-of-range pixels in the research files: every published TIFF in this repo is
+finite and inside [0, 1] (saved-byte inventory: <a href="evidence/public_downloads_audit.json">public-downloads audit</a>).
+What the audit of 10 published files plus the pinned registry shows:</p>
+<ul><li><b>Owner-scored files use both exterior conventions.</b> The 0.2778 site champion and its GEMSDOE30/33/36
+relatives use finite zeros outside the footprint with a nodata=None tag; GEMSDOE24/27/28/31-style files use NaN outside
+with a nodata=NaN tag. Both styles have owner-reported scores, so the exterior value alone cannot be the portal check.</li>
+<li><b>The only downloadable file with a user-reported portal range failure (H-F, 2026-10-30) had a nodata=NaN TAG while
+containing zero NaN pixels.</b> Reading the file with masked I/O therefore leaves every cell unmasked and the reader may
+propagate the declared NaN sentinel — a plausible trigger for a server-side “NaN not in [0, 1]” message. This is a
+hypothesis, unverified against the portal.</li>
+<li><b>Practical guidance if a portal range error appears:</b> re-upload the identical pixel content as
+<code>nodata=None</code> with finite zeros outside the footprint (the champion convention used by the S1 candidate);
+do not declare a nodata value that occurs nowhere in the array; keep the TIFF single-band float32 with the sample's
+exact CRS/shape/transform; upload the <code>.tif</code> itself rather than the ZIP.</li></ol>
+<p>Recorded S1 submission identity (for the day a selector clears it): name <code>{esc(s1_card['submission']['name'])}</code>,
+note “{esc(s1_card['submission']['note'])}” ({len(s1_card['submission']['note'])} characters, ≤140 required),
+SHA-256 <code>{esc(s1['sha'])}</code>.</p>
+<p>Our checks require no human inspector. The current blocker is the recorded negative verdict, not a request to waive a gate. No account credentials are stored by this project.</p></section>'''
 
 
 def decision_section(d: dict) -> str:
@@ -590,8 +736,8 @@ def champion_panel() -> str:
 
 
 def render_all(d: dict) -> dict[str, str]:
-    desk = decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
-    how = hero(d) + guide(d) + legacy()
+    desk = s1_panel(d) + decision_section(d) + candidate_section(d) + champion_panel() + gw_nfs_panel() + hero(d) + policy_section(d) + registry_audit_section(d) + evidence_summary(d) + nine_site_table(d) + nested_section(d) + science_and_sources(d) + legacy()
+    how = hero(d) + s1_panel(d) + guide(d) + legacy()
     official_ref = f"evidence/{d['official_filename']}"
     pages = {"index.html": shell("Submission desk", "desk", desk, official_ref=official_ref),
              "executive-summary.html": shell("Executive summary", "summary", desk, official_ref=official_ref),
@@ -620,6 +766,7 @@ def main() -> int:
                 (EV / "lattice-gate-audit-2026-10-29.json", DOCS / "evidence/lattice-gate-audit-2026-10-29.json"),
                 (EV / "live-source-review-card-2026-10-30.json", DOCS / "evidence/live-source-review-card-2026-10-30.json")]
     mirrors += [(f, DOCS / "evidence" / f.name) for f in sorted(EV.glob("official-review-????-??-??.json"))]
+    mirrors += [(f, DOCS / "evidence/s1" / f.name) for f in sorted((EV / "s1").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/lattice-gate" / f.name) for f in sorted((EV / "lattice-gate").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/gw-nfs" / f.name) for f in sorted((EV / "gw-nfs").glob("*.json"))]
     mirrors += [(f, DOCS / "evidence/uniqueness" / f.name) for f in sorted((EV / "uniqueness").glob("*.json"))]

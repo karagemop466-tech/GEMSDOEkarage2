@@ -1,5 +1,39 @@
 # GEMSDOEkarage2
 
+## S1 session review (2026-10-31, current Arena branch) — read first
+
+**Decision: NEGATIVE. One new research TIFF exists: download OK (research only), submit NO.**
+This session wrote the untried-hypothesis slate
+([`research/hypotheses-2026-10-31-untried-slate.md`](research/hypotheses-2026-10-31-untried-slate.md)),
+validated the top hypothesis (S1: USGS earthquake-catalogue flank density added to the cached template feature
+stack) under the binding parallel-run protocol, and generated the required unique-format TIF:
+
+- **File:** `docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif`
+  (51,961 off-catalogue dots, SHA-256 `fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c`,
+  one-click download on the site hero). Format: float32 single band, EPSG:32611, 3730×3292, nodata=None,
+  finite zeros outside the footprint (owner-scored champion convention), 0 NaN/inf, **0 catalogue dots**.
+- **Leakage gate:** 34/34 feature-alone canaries pass (worst max(AUC,1−AUC) = 0.6173, band06).
+- **HOLDOUT-DTI:** candidate s1_b110dti = **0.18791 [0.16799, 0.20782]**, n=58,308
+  (gems57-pooled-hide-v2, SEED 20261031) — **does not beat** the recorded incumbent k3dti_b110
+  0.19157 [0.17474, 0.20880]; paired novelty-vs-ablation delta +0.00833 [−0.00382, +0.02055] (inconclusive).
+  Negative under the binding "beat the current holdout best before spending a slot" rule.
+- **Uniqueness:** rank-uncorrelated with all 473 compared registry rasters (|Spearman| ≤ 0.146), but two
+  recorded stops apply: the degenerate spacing-5 **lattice witness** (100% of dots within 3 px; the witness
+  covers 99.87% of the footprint, so it fires for every dot file incl. the 0.2778 champion — flagged protocol
+  irregularity), and **55 non-lattice fleet rasters** above the 70% overlap clause (worst 0.8977 vs
+  GEMSDOE32 h45-kernelspacing) — independent supervised lanes converge on the same consensus off-catalogue
+  ridge (the same pattern K3 recorded at 0.8477–0.8862). Second policy question recorded.
+- **Portal [0, 1] error:** pixel values are not the cause (all published files are finite and in range);
+  the only failed downloadable file (H-F) declared nodata=NaN on an all-finite array. The site's how-to-submit
+  page documents the evidence-based guidance (nodata=None + zeros exterior; no phantom nodata tag).
+- Cards: [`evidence/s1/run_card.json`](evidence/s1/run_card.json),
+  [`evidence/s1/selector_result.json`](evidence/s1/selector_result.json);
+  pooled holdout: [`evidence/s1/combined_holdout.json`](evidence/s1/combined_holdout.json);
+  registry audits: [`evidence/s1/surface_gate.json`](evidence/s1/surface_gate.json),
+  [`evidence/s1/final_registry_audit.json`](evidence/s1/final_registry_audit.json).
+  Slot used: **none**. Experiments: 3 (E1 canaries+primitives, E2 paired holdout, E3 final+gates).
+  S2–S5 in the slate remain untried; S4 is next.
+
 ## Current repository review (2026-10-31)
 
 Read [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md) and `AGENTS.md` before scientific or submission work. Current verdict remains **NO APPROVED TIFF / NO SCORE ESTIMATE**. The dated 2026-10-30 historical H-F entry below contains a stale “OK_TO_DOWNLOAD: YES” statement; it is superseded by the fail-closed controls in `AGENTS.md`, `SUBMISSION_STATUS.md`, the generated website, and release assessment. H-A is also not untried: its own status update records a duplicate-stop. This review generated no raster and ran no geological experiment.

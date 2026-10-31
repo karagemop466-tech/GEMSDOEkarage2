@@ -73,6 +73,14 @@ function chromeEnvironment() {
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
     assert.equal(hk3.verdict, 'negative');
+    // 2026-10-31: the click-to-download primary is the S1 research candidate.
+    const s1 = require('../evidence/s1/run_card.json');
+    const s1Response = await fetch(base + '/' + s1.raster.file);
+    assert.equal(s1Response.status, 200);
+    assert.equal(crypto.createHash('sha256').update(Buffer.from(await s1Response.arrayBuffer())).digest('hex'), s1.raster.sha256);
+    assert.equal(s1.verdict, 'negative');
+    assert.equal(s1.ok_to_submit, false);
+    assert.equal(s1.ok_to_download_for_research, true);
     const expectBadge = 'OK TO SUBMIT: NO';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
@@ -80,12 +88,12 @@ function chromeEnvironment() {
       await page.waitForURL('**/docs/index.html');
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
       const primary = page.locator('a.btn.big[download]').first();
-      assert.ok((await primary.getAttribute('href')).includes(hk3.submission.name));
+      assert.ok((await primary.getAttribute('href')).includes(s1.submission.name));
       assert.ok((await primary.innerText()).includes('RESEARCH ONLY'));
       const [download] = await Promise.all([page.waitForEvent('download'), primary.click()]);
-      assert.equal(download.suggestedFilename(), path.basename(hk3.raster.file));
+      assert.equal(download.suggestedFilename(), path.basename(s1.raster.file));
       const downloaded = fs.readFileSync(await download.path());
-      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), hk3.raster.sha256);
+      assert.equal(crypto.createHash('sha256').update(downloaded).digest('hex'), s1.raster.sha256);
       assert.ok((await page.locator('#legacy').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('body').innerText()).includes('not unique'));
       assert.equal(await page.locator('#nine-sites tbody tr').count(), 9);

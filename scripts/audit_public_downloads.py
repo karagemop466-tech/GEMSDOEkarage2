@@ -52,6 +52,11 @@ ARTIFACTS = (
     ("gemsdoe-hf-alteration-curvature-intersection-20261030",
      "docs/downloads/gemsdoe-hf-alteration-curvature-intersection-20261030.run-card.json",
      None, False, "research"),
+    # S1 seismicity-flank candidate (2026-10-31 session): format-valid, zero
+    # catalogue hits, unique vs every real submission; HOLDOUT-DTI below the
+    # recorded incumbent and the literal lattice clause stops it -> negative.
+    ("gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros",
+     "evidence/s1/run_card.json", "evidence/s1/selector_result.json", True, "research"),
 )
 
 

@@ -1,0 +1,294 @@
+{
+  "schema": "gems.run_card.v1",
+  "session": "2026-10-31 S1 (branch arena/fe0fee78-gemsdoekarage2)",
+  "preregistration": "research/hypotheses-2026-10-31-untried-slate.md",
+  "lane": "S1 SELF-ASSIGNED: earthquake-catalogue flank-density mechanism (USGS ComCat 1950-2024 M>=2.5) added to the cached 35-channel template feature stack",
+  "hypothesis": "USGS earthquake-catalogue density, rate and depth-profile channels mark unexplored down-dip/downdip-flank extensions of mapped faults and recover more withheld catalogue faults per dot than the template stack without them (paired hide-and-recover).",
+  "mechanism": "Fold-local HistGradientBoosting on 34 stacked channels (template 35 minus footprint); E1 leakage canaries per channel; E2 paired S1-vs-ablation folds; E3 final full-catalogue surface with off-catalogue DTI placement at rate 0.0110 of allowed cells.",
+  "named_non_fault_mimic": "Production/mining seismicity clusters (Coso ops, historical mining) and basin-fill interpolation artefacts; control = the ablation arm without the four novelty channels.",
+  "leakage": {
+    "evidence_class": "LEAKAGE-CANARY (feature-alone AUC)",
+    "channels_tested": 34,
+    "worst_max_auc": 0.6172588135470827,
+    "worst_channel": "band06",
+    "canary_all_pass": true,
+    "novelty_channels": {
+      "band07": 0.578090642316871,
+      "band08": 0.5764283912839399,
+      "band10": 0.5536725219280156,
+      "band16": 0.569228082575101
+    },
+    "file": "evidence/s1/e1_canary.json"
+  },
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "triangular_radius_m": 300.0,
+    "seed": 20261031,
+    "candidate_arm": "s1_b110dti",
+    "candidate_dti": 0.1879068989441183,
+    "candidate_ci95": [
+      0.16799019838800397,
+      0.20781991843931474
+    ],
+    "n_withheld": 58308,
+    "arms": {
+      "prim_grav_edge": {
+        "dti": 0.06636993249554693,
+        "ci95": [
+          0.050912785021666365,
+          0.08204915825820659
+        ],
+        "n_withheld": 58308
+      },
+      "prim_quake_rate": {
+        "dti": 0.04111181226287271,
+        "ci95": [
+          0.025219458146739458,
+          0.05874932140449517
+        ],
+        "n_withheld": 58308
+      },
+      "s1_b073": {
+        "dti": 0.14990282316279246,
+        "ci95": [
+          0.13028809003871414,
+          0.16884621858378707
+        ],
+        "n_withheld": 58308
+      },
+      "s1_b110": {
+        "dti": 0.18331549200581873,
+        "ci95": [
+          0.16320045065187153,
+          0.2027471116930162
+        ],
+        "n_withheld": 58308
+      },
+      "s1_b110dti": {
+        "dti": 0.1879068989441183,
+        "ci95": [
+          0.16799019838800397,
+          0.20781991843931474
+        ],
+        "n_withheld": 58308
+      },
+      "ablate_b073": {
+        "dti": 0.14167463628513102,
+        "ci95": [
+          0.12494647184702606,
+          0.15932940862455217
+        ],
+        "n_withheld": 58308
+      },
+      "ablate_b110": {
+        "dti": 0.17465276849495479,
+        "ci95": [
+          0.15708111299282831,
+          0.1923079768070813
+        ],
+        "n_withheld": 58308
+      },
+      "ablate_b110dti": {
+        "dti": 0.1795802146098508,
+        "ci95": [
+          0.16234713069183962,
+          0.19687306485763578
+        ],
+        "n_withheld": 58308
+      }
+    },
+    "paired_deltas": {
+      "ablate_b110dti": {
+        "delta": 0.008326684334267503,
+        "ci95": [
+          -0.0038232076193385816,
+          0.020549493016602173
+        ],
+        "n_withheld": 58308
+      },
+      "ablate_b110": {
+        "delta": 0.013254130449163515,
+        "ci95": [
+          0.0006943912241297922,
+          0.02519055487469706
+        ],
+        "n_withheld": 58308
+      },
+      "s1_b073": {
+        "delta": 0.038004075781325836,
+        "ci95": [
+          0.03304318430387174,
+          0.04307642451621084
+        ],
+        "n_withheld": 58308
+      },
+      "s1_b110": {
+        "delta": 0.004591406938299569,
+        "ci95": [
+          0.001197232558745718,
+          0.008141693740903974
+        ],
+        "n_withheld": 58308
+      },
+      "prim_grav_edge": {
+        "delta": 0.12153696644857137,
+        "ci95": [
+          0.09818816983700046,
+          0.14452647890534706
+        ],
+        "n_withheld": 58308
+      },
+      "prim_quake_rate": {
+        "delta": 0.14679508668124558,
+        "ci95": [
+          0.12300769738366835,
+          0.17088296954022003
+        ],
+        "n_withheld": 58308
+      }
+    },
+    "incumbent_arm": "k3dti_b110",
+    "incumbent_dti": 0.19157277649309276,
+    "incumbent_ci95": [
+      0.17473856601650986,
+      0.20879702016447013
+    ],
+    "incumbent_n_withheld": 58258,
+    "incumbent_source": "evidence/k3/combined_holdout.json (recorded 2026-10-28, same evaluator family; not rerun this session)",
+    "n_mask_difference": 50,
+    "n_mask_difference_pct": 0.08575152637716951,
+    "beats_recorded_incumbent": false,
+    "interpretation": "NEGATIVE vs the promotion bar: candidate below the recorded 0.19157. The paired S1-vs-ablation delta at matched placement is positive but inconclusive (CI crosses 0)."
+  },
+  "uniqueness": {
+    "surface": {
+      "evidence_class": "REGISTRY-MEASUREMENT (pre-placement)",
+      "scope_count": 473,
+      "worst_abs_spearman": 0.16191577161277154,
+      "worst_overlap": 1.0,
+      "n_overlap_over_0p70": 56,
+      "n_overlap_over_0p70_excluding_lattice": 55,
+      "lattice_overlap": 1.0,
+      "lattice_spearman": 0.00015170123488368665,
+      "file": "evidence/s1/surface_gate.json"
+    },
+    "final_dots": {
+      "evidence_class": "REGISTRY-MEASUREMENT (final dots, post-placement)",
+      "scope_count": 473,
+      "duplicate_count_literal": 56,
+      "lattice_overlap": 1.0,
+      "lattice_spearman": -0.0005684058787894951,
+      "n_overlap_over_0p70": 56,
+      "n_overlap_over_0p70_excluding_lattice": 55,
+      "worst_overlap_excluding_lattice": 0.6996208694982775,
+      "worst_overlap_excluding_lattice_at": "GEMSDOE24/docs/downloads/gems24-gvc1-negative-geothermal-lineament-submod-20261025-abe8e51c719d-nan.tif",
+      "worst_abs_spearman_excluding_lattice": 0.14604503569044192,
+      "worst_abs_spearman_excluding_lattice_at": "karage2-local/gemsdoekarage2-k3-linctxdti-b110-20261028-zeros.tif",
+      "literal_rule_passed": false,
+      "verdict": "negative",
+      "file": "evidence/s1/final_registry_audit.json"
+    },
+    "lattice_witness": {
+      "note": "DEGENERATE WITNESS - FLAGGED PROTOCOL IRREGULARITY: the spacing-5 lattice lies within 3 px of 99.8713% of the template footprint (EDT-verified 2026-10-31), so the literal <=70% clause fires for ANY dot file on this grid, including the accepted 0.2778 site champion (99.91-99.92%). This clause cannot be passed honestly; policy ruling required (see docs policy section).",
+      "coverage_within_3px": 0.998713
+    }
+  },
+  "validator_output": {
+    "all_checks_passed": true,
+    "file": "docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.json",
+    "dtype": "float32",
+    "count": 1,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "nodata": null,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "emitted_positive_pixels": 51961,
+    "on_catalogue_positive_pixels": 0,
+    "exterior_convention": "finite zeros outside the footprint, nodata=None (owner-scored champion convention; c55bafc4-family)",
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance"
+  },
+  "raster": {
+    "file": "docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif",
+    "sha256": "fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c",
+    "bytes": 158299,
+    "dots": 51961,
+    "rate": 0.011,
+    "placement": "dti"
+  },
+  "submission": {
+    "name": "gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros",
+    "note": "S1 seismicity-flank HGB 34ch hide-recover validated off-catalogue emission",
+    "note_chars": 74
+  },
+  "budget": {
+    "experiments": 3,
+    "list": [
+      "E1 leakage canaries + primitives",
+      "E2 paired S1-vs-ablation holdout",
+      "E3 final surface + uniqueness gates + writer"
+    ],
+    "wall_clock": "E1+E2+E3 modelling completed within ~70 minutes (01:26-01:47 UTC); registry audits are checks, not experiments."
+  },
+  "gates": {
+    "format_grid_range": true,
+    "leakage_canaries": true,
+    "holdout_beats_recorded_incumbent": false,
+    "unique_literal_vs_all_registry_rasters": false,
+    "unique_vs_all_except_degenerate_lattice_witness": false,
+    "table": [
+      [
+        "Format, grid, range, no catalogue dots",
+        true,
+        "float32 single-band, EPSG:32611, 3730x3292, nodata=None, zeros exterior, 0 NaN/inf, 51,961 dots, 0 on-mirrored-catalogue"
+      ],
+      [
+        "Leakage canaries (34 channels)",
+        true,
+        "all pass; worst max(AUC,1-AUC) = 0.6173 (band06)"
+      ],
+      [
+        "Holdout beats recorded incumbent (0.19157)",
+        false,
+        "candidate 0.18791 < incumbent 0.19157 (HOLDOUT-DTI, gems57-pooled-hide-v2, paired mechanism delta vs ablation inconclusive)"
+      ],
+      [
+        "Surface gate vs registry (pre-placement)",
+        false,
+        "473 rasters; 55 non-lattice overlaps >70%; lattice witness 100.00%"
+      ],
+      [
+        "Final-dot gate vs registry (post-placement)",
+        false,
+        "473 rasters; worst non-lattice overlap 69.96% (GEMSDOE24); |Spearman| 0.1460"
+      ],
+      [
+        "Literal uniqueness clause incl. lattice witness",
+        false,
+        "FAIL: lattice witness overlap 100% - degenerate witness (99.87% footprint coverage); flagged protocol irregularity; policy ruling required"
+      ]
+    ]
+  },
+  "verdict": "negative",
+  "verdict_reasons": [
+    "HOLDOUT-DTI is below the recorded incumbent k3dti_b110 0.19157; the binding rule forbids spending a slot on an idea that has not beaten the current holdout best.",
+    "The paired S1-vs-ablation delta at matched placement is positive but inconclusive (CI crosses 0): the novelty mechanism is not established.",
+    "The literal uniqueness rule stops the file against the degenerate spacing-5 lattice witness (flagged irregularity; the same clause fires for every dot file incl. the 0.2778 champion).",
+    "Consensus-convergence finding: 55 non-lattice registry rasters also exceed the 70% overlap clause against the final dots (worst 0.8977 vs GEMSDOE32 h45-kernelspacing). Spearman stays <=0.146 vs everything. Independent supervised lanes (k2, h45, g30s19/20, lane36, S1) independently select the same consensus off-catalogue ridge - the same pattern k3 recorded (0.8477-0.8862). Under the per-raster literal clause, competitive supervised emissions are expected to stop against this consensus set."
+  ],
+  "ok_to_download_for_research": true,
+  "ok_to_submit": false,
+  "approved_for_weekly_slot": false,
+  "slot_authorized": false,
+  "leaderboard_estimate": null,
+  "organizer_confirmed_score": null,
+  "score_statement": "HOLDOUT-DTI is a local catalogue-based proxy; it is not an organizer score and not a leaderboard estimate. No leaderboard projection is recorded."
+}

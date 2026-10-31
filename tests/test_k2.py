@@ -93,13 +93,14 @@ def test_homepage_keeps_k2_quarantined_and_offers_only_the_run_card_file():
     assert "prior literal-policy verdict for K2: NEGATIVE" in home and "DO NOT SUBMIT" in home
     assert "evidence/k2/selector_result.json" in home
     assert "504be4587e3bec7b81f802b4c16b6c546c683e8a4c8b514d3a9856c6e0698dfb" in home
-    # the only click-to-download links are the file named by the HK3 run card
-    card = load(ROOT / "evidence/hk3/run_card.json")
+    # 2026-10-31: the only click-to-download link is the S1 research
+    # candidate (newest file; negative verdict; HK3 stays named above).
+    s1 = load(ROOT / "evidence/s1/run_card.json")
     import re
     downloads = re.findall(r'<a[^>]*href="([^"]+)"[^>]*\sdownload[\s>]', home)
     assert downloads, "the desk must offer a click-to-download link"
     for href in downloads:
-        assert card["submission"]["name"] in href
+        assert s1["submission"]["name"] in href
         assert not any(x in href for x in ("k2-hgbcont", "h1-parity", "hkarage1"))
 
 
