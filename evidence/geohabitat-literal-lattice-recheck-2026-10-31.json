@@ -1,0 +1,51 @@
+{
+  "schema": "gems.registry-raster-recheck.v1",
+  "date_utc": "2026-10-31",
+  "evidence_class": "READ-ONLY RASTER-MEASUREMENT; NOT A SCORE; NOT ORGANIZER DATA",
+  "candidate": {
+    "path": "docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif",
+    "sha256": "ff22311cb19c83926b1b3d3f66a0f960c863fb9d3c3d603a682a0b7870d0402f",
+    "dots": 40561,
+    "source_receipt": "evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json"
+  },
+  "registry_raster": {
+    "repo": "GEMSDOE24",
+    "path": "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "commit": "53121cbeead26eea7ce3df357e5d4b0885f68015",
+    "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "registry_manifest": "registry/focus_registry_manifest.json"
+  },
+  "grid_comparison": {
+    "same_crs": true,
+    "same_transform": true,
+    "same_shape": true,
+    "footprint_pixels_from_finite_lattice_cells": 5167373
+  },
+  "literal_rule": {
+    "dot_overlap_stop": "more than 70% of candidate dots within 3 px of any registry raster",
+    "pixel_size_m": 100,
+    "radius_px": 3,
+    "radius_m": 300,
+    "candidate_dots_within_radius": 40561,
+    "candidate_dot_count": 40561,
+    "candidate_overlap_fraction": 1.0,
+    "spearman_on_common_finite_footprint": 0.00002225334777930568,
+    "overlap_gate": "FAIL",
+    "correlation_gate": "PASS",
+    "overall_uniqueness_gate": "FAIL"
+  },
+  "candidate_saved_byte_validation_recheck": {
+    "all_values_finite_on_lattice_footprint": true,
+    "nan_inside_lattice_finite_footprint": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "raster_sha256_unchanged": true,
+    "no_candidate_tiff_created_or_modified": true
+  },
+  "decision": "RESEARCH_ONLY; DO NOT SUBMIT",
+  "limitations": [
+    "This single-raster stop is sufficient under the any-registry rule; a complete 473-raster rerun was not needed to decide this candidate fails.",
+    "The lattice and candidate are owner-repository artifacts; organizer provenance and the official template remain unauthenticated.",
+    "This recheck is geometric only; it does not independently validate or alter the saved HOLDOUT-DTI receipt."
+  ]
+}

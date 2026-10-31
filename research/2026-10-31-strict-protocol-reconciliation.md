@@ -6,6 +6,24 @@
 
 The rule is literal: stop when `|Spearman| > 0.90` against **any** registry raster **or** more than 70% of candidate dots fall within 3 px of **any** registry raster. The instruction does not define an exclusion for space-filling rasters. The site previously treated lattice saturation as an exceptional/degenerate control and treated selected like-for-like comparisons as clearance; that is a different policy. This change restores the original any-registry rule without modifying the old TIFFs or their lane receipts.
 
+## Executive summary and requested nine-site comparison
+
+The requested GEMSDOE best-file values below are **USER-REPORTED / UNVERIFIED** from `evidence/nine_site_best_files_audit.json`, not organizer receipts. The within-family overlaps are RASTER-MEASUREMENTS from the pinned-byte comparison; every one also fails the literal stop against the universal 5-px lattice (the lattice-gate audit records a firing for all nine). This is a historical best-file comparison, not a leaderboard score prediction.
+
+| Site | Saved best file (basename) | Reported value label | Dots | Max 3-px overlap vs the other eight | Literal result |
+|---|---|---:|---:|---:|---|
+| GEMSDOE24 | `gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif` | 0.2477 USER-REPORTED / UNVERIFIED | 60,069 | 1.000 | STOP |
+| GEMSDOE25 | `gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif` | 0.2600 USER-REPORTED / UNVERIFIED | 44,090 | 1.000 | STOP |
+| GEMSDOE27 | `gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif` | 0.2449 USER-REPORTED / UNVERIFIED | 61,328 | 0.996 | STOP |
+| GEMSDOE28 | `gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif` | 0.2710 USER-REPORTED / UNVERIFIED | 37,660 | 0.996 | STOP |
+| GEMSDOE30 | `gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif` | 0.2600 USER-REPORTED / UNVERIFIED | 44,090 | 1.000 | STOP |
+| GEMSDOE31 | `gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif` | 0.2708 USER-REPORTED / UNVERIFIED | 40,199 | 0.996 | STOP |
+| GEMSDOE32 | `gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif` | 0.2778 USER-REPORTED / UNVERIFIED | 37,654 | 0.974 | STOP |
+| GEMSDOE33 | `GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif` | 0.2632 USER-REPORTED / UNVERIFIED | 41,865 | 0.975 | STOP |
+| GEMSDOE36 | `gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif` | 0.2750 USER-REPORTED / UNVERIFIED | 38,854 | 0.974 | STOP |
+
+**Recommendation: submit none.** There is no organizer-confirmed score for a local file. Candidate estimates remain explicitly projections: the older HALO page carries a `MODEL-PROJECTION` range 0.222–0.605 (central 0.478), but it fails 99.84% lattice overlap; the GBM page carries `MODEL-PROJECTION` 0.084–0.215 (central 0.148), but fails 93.77% against another registry raster; the merged GeoDAWN habitat file's existing model projection is 0.007–0.013, with HOLDOUT-DTI 0.01719 [0.01300, 0.02269] under its recorded 11/16-fold setup, but it has 100% lattice overlap. These ranges are not scores and none licenses a submission.
+
 ## Findings from committed evidence
 
 | Candidate | Saved evidence | Literal result | Decision |
@@ -13,6 +31,7 @@ The rule is literal: stop when `|Spearman| > 0.90` against **any** registry rast
 | HALO, `gemsdoe-karage2-halo39-b44090-sep2-20261031.tif` | `evidence/halo/final_generation.json` | 99.83896575% within 3 px of the r13 spacing-5 lattice; `uniqueness_literal_gate.unique=false`, `stop_required=true` | **Research only / DO NOT SUBMIT** |
 | Off-catalogue GBM, `gemsdoekarage2-gbm-offcat-a5-n100000-20261031T020958Z.tif` | `evidence/lane-gbm/uniqueness-full-registry.json`; `evidence/lane-gbm/final-run-card.json` | 93.771% one-sided overlap with a non-space-filling GEMSDOE30 raster. The audit also records 99.666% overlap with a space-filling reference that its policy excluded. | **Research only / DO NOT SUBMIT** |
 | K10 corridor coverage | `evidence/k10/final_registry.json`; `evidence/k10/run_card.json` | Its `literal_reading.duplicate=true`; its like-for-like clearance excludes the lattice witness. | **Research only / DO NOT SUBMIT** |
+| GeoDAWN structural-habitat TIFF (merged from parallel main work) | `docs/downloads/gemsdoekarage2-geo-habitat-dti-20261031.tif`; original `evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json`; read-only lattice recheck `evidence/geohabitat-literal-lattice-recheck-2026-10-31.json` | Original run card reports 23.26% max overlap against 13 focus files but omits the universal lattice. This review retrieved the exact manifest-pinned lattice at its recorded commit and measured **40,561/40,561 dots (100%) within 3 px**; Spearman = 0.0000223. The literal overlap stop fires. Existing HOLDOUT-DTI is 0.01719 [0.01300, 0.02269], with 60,661 isolated withheld positives across 11/16 folds. | **Research only / DO NOT SUBMIT** |
 | Nine requested site-best masks | `evidence/nine_site_best_files_audit.json`, pairwise and lattice receipts | The nine files fail the saved registry/family overlap gate; GEMSDOE32's supplied 0.2778 is not linked to an organizer receipt. | **Do not resubmit** |
 
 A negative finding is not a judgment that the candidate was copied. It is the required protocol outcome. The lattice may be a sampling probe and the one-sided metric may be scientifically crude, but those are reasons to ask the protocol owner to revise the criterion before a future run—not reasons for an agent to silently waive it. The user explicitly prohibited “gaming” around the uncovered cells.
@@ -38,6 +57,7 @@ A negative finding is not a judgment that the candidate was copied. It is the re
 
 - Checked direct root landing, both current release pages, summary/how-to pages, submission desk, and historical/generated site pages for green submission states.
 - Preserved valid local format results as format results; they are not evidence of uniqueness, authenticated organizer format, portal acceptance, or score.
+- Revisited the GeoDAWN habitat TIFF imported from parallel main work. Retrieved the exact lattice bytes using the SHA-pinned repository/commit in `registry/focus_registry_manifest.json`, verified the lattice SHA-256, and measured the existing candidate against that raster without generating or editing a TIFF: all 40,561 dots are within 3 px; full-footprint Spearman is 0.0000223. Saved receipt: `evidence/geohabitat-literal-lattice-recheck-2026-10-31.json`.
 - Confirmed the custom site-score table continues to mark all nine reported values `USER-REPORTED / UNVERIFIED`; estimates for these nine remain unavailable.
 - Added regression tests preventing positive lane selectors from overriding a literal overlap stop and ensuring failed-but-readable candidates remain research-only rather than mislabeled as corrupt.
 
@@ -45,8 +65,8 @@ A negative finding is not a judgment that the candidate was copied. It is the re
 
 - Python: **305 passed, 10 skipped, 101 warnings, 98 subtests passed**. Warnings are Rasterio `PendingDeprecationWarning`s for Affine multiplication.
 - Node feed: **3 passed**. Node site: **9 passed**. Browser smoke: passed at 1440, 390 and 320 px, with the strict-negative route, research download hash and responsive checks.
-- Page generators: `build_release_page.py --check`, `build_release.py --check`, and `build_hk3_pages.py --check` pass. `audit_public_downloads.py --check` passes and reports `PASS_RESEARCH_ONLY`, `downloadable_approved_submission: null`. Generic release assessor remains negative; `slot_authorized: false`.
-- No current candidate passes the user's uniqueness condition. Therefore the requirement for a newly generated **unique** TIFF cannot honestly be fulfilled under the current rule. The repository retains research TIFF downloads, but none is labeled okay to submit. Do not treat a local score projection as a measured score.
+- Page generators: `build_release_page.py --check`, `build_release.py --check`, and `build_hk3_pages.py --check` pass. `audit_public_downloads.py --check` passes and reports `PASS_RESEARCH_ONLY`, `downloadable_approved_submission: null`, across 21 artifacts. The merged GeoDAWN habitat TIFF is included as `VERIFIED_RESEARCH_ONLY`, not cleared: its own format receipt is sound, but its saved uniqueness scan does not evaluate the literal full-registry rule. Generic release assessor remains negative; `slot_authorized: false`.
+- No candidate passes the literal rule. HALO, GBM, K10, and the merged GeoDAWN habitat file all have literal stop evidence. The GeoDAWN file's limited-scope scan (23.26% vs 13 focus files) omitted the universal lattice; this review measured 100% (40,561/40,561) within 3 px of that manifest-pinned raster. Its published 0.01719 HOLDOUT-DTI uses its recorded 11/16-fold evaluator setup and is a catalogue proxy, not a leaderboard score; do not compare it numerically to holdout values from other lanes without matching evaluator/version and withheld sets. The repository retains research TIFF downloads, but none is labeled okay to submit. Do not treat a local score projection as a measured score.
 
 ## Candidate hypotheses for the next assigned lane
 
@@ -63,7 +83,7 @@ Before any next experiment, the protocol owner must decide whether to retain the
 
 ## Data access and score limitation
 
-No competition data were restored into `data/` or `.cache/` during this review. The DrivenData training/data page requires participant authentication; this review did not access an authenticated organizer template or portal receipt. Thus the current local format checks are owner-mirror checks only. No up-to-date leaderboard was fetched in this review. Official manual-review links (source links retained in the repo; not fetched anew here):
+No competition data were restored into `data/` or `.cache/` during this review. The DrivenData training/data page requires participant authentication; this review did not access an authenticated organizer template or portal receipt. Thus the current local format checks are owner-mirror checks only. A separate source-review packet merged from the parallel main branch records an official public-board snapshot at 2026-10-31 04:33 UTC (#1 = 0.4544; 0.3195 at #50), but it is a time-stamped public snapshot, not a file-linked receipt, and was not re-fetched here. See `evidence/leaderboard-live-read-2026-10-31T0433Z.json`, `research/2026-10-31-official-source-verification-arena.md`, and `evidence/arena-official-verification-2026-10-31.json`. Official manual-review links (retained in the repo; not fetched anew in this review):
 
 - [DrivenData GEMS problem description](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
 - [Competition data page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/)

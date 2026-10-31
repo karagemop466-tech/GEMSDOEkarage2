@@ -73,15 +73,16 @@ function chromeEnvironment() {
     assert.equal(hk3Response.status, 200);
     assert.equal(crypto.createHash('sha256').update(Buffer.from(await hk3Response.arrayBuffer())).digest('hex'), hk3.raster.sha256);
     assert.equal(hk3.verdict, 'negative');
-    // The root route must land on the actual current decision page. An older page
-    // may retain historical positive wording, so test the literal protocol stop.
+    // The root route must leave its warning visible; then test the release page directly.
     const releaseReceipt = require('../evidence/halo/final_generation.json');
     const releaseName = path.basename(releaseReceipt.submission_file);
     const expectBadge = 'NO FILE CLEARED · DO NOT SUBMIT';
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({width, height:900});
       await page.goto(base + '/', {waitUntil:'domcontentloaded'});
-      await page.waitForURL('**/docs/release.html');
+      assert.ok((await page.locator('body').innerText()).includes('NO SINGLE SUBMISSION SELECTED'));
+      assert.equal(await page.locator('meta[http-equiv="refresh"]').count(), 0);
+      await page.goto(base + '/docs/release.html', {waitUntil:'domcontentloaded'});
       assert.equal((await page.locator('.header .badge').innerText()).trim(), expectBadge);
       assert.ok((await page.locator('#release-it').innerText()).includes('DO NOT SUBMIT'));
       assert.ok((await page.locator('#release-it').innerText()).includes('99.84%'));

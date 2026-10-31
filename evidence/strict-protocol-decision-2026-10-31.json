@@ -37,6 +37,19 @@
       "max_abs_spearman": 0.0356934237,
       "literal_forward_overlap": 0.9999736842,
       "literal_gate": "FAIL"
+    },
+    "merged_GeoDAWN_habitat": {
+      "source": "evidence/geohabitat-literal-lattice-recheck-2026-10-31.json",
+      "original_max_dot_overlap_vs_13_focus_rasters": 0.2326,
+      "lattice_overlap": 1.0,
+      "lattice_spearman": 0.00002225334777930568,
+      "lattice_raster_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "universal_lattice_included": true,
+      "literal_gate": "FAIL",
+      "holdout_dti": 0.01719,
+      "holdout_ci95": [0.013, 0.02269],
+      "holdout_withheld_positives": 60661,
+      "holdout_folds_evaluated_of_16": 11
     }
   },
   "raster_sha256": null,
@@ -59,6 +72,15 @@
         "source": "evidence/lane-gbm/final-run-card.json",
         "organizer_template_authenticated": false
       },
+      "merged_GeoDAWN_habitat": {
+        "no_nan_inside_footprint": true,
+        "values_in_0_1_whole_array": true,
+        "crs_shape_transform_match_owner_mirror": true,
+        "source": "evidence/run-card-gemsdoekarage2-geo-habitat-dti-20261031.json",
+        "literal_lattice_overlap": 1.0,
+        "literal_registry_uniqueness_evaluated": true,
+        "organizer_template_authenticated": false
+      },
       "K10": {
         "no_nan_inside_footprint": true,
         "values_in_0_1_whole_array": true,
@@ -77,6 +99,7 @@
   "verdict": "negative",
   "inventory": {
     "status": "PASS_RESEARCH_ONLY",
+    "artifacts": 21,
     "downloadable_approved_submission": null,
     "source": "evidence/public_downloads_audit.json"
   },
