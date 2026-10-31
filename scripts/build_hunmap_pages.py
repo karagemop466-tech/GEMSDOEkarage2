@@ -27,7 +27,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 EV = ROOT / "evidence" / "hunmap"
-DATA = DOCS / "data" / "hunmap"
+DATA = DOCS / "evidence" / "hunmap"
 
 REPO = "https://github.com/karagemop466-tech/GEMSDOEkarage2"
 COMP = "https://www.drivendata.org/competitions/306/competition-doe-gems/"
@@ -228,8 +228,8 @@ emitted as 60,000 non-maximum-suppressed dots. It is <b>not a copy</b> of any ea
 every automated gate below, and it can be uploaded as-is.</p>
 <p><a class="btn big" href="submission/{esc(name)}.tif" download>⬇ Download the submission GeoTIFF</a>
 <a class="btn secondary" href="submission/{esc(name)}.zip" download>⬇ Download the one-TIFF ZIP</a>
-<a class="btn secondary" href="data/hunmap/e3-candidate-audit.json">Audit receipt ↗</a>
-<a class="btn secondary" href="data/hunmap/e3-release-card.json">Run card ↗</a></p>
+<a class="btn secondary" href="evidence/hunmap/e3-candidate-audit.json">Audit receipt ↗</a>
+<a class="btn secondary" href="evidence/hunmap/e3-release-card.json">Run card ↗</a></p>
 <div class="meta"><b>File:</b> <code>{esc(name)}.tif</code> ·
 <b>SHA-256:</b> <code>{esc(raster['sha256'])}</code> ·
 <b>Size:</b> {raster['bytes']:,} bytes ·
@@ -327,13 +327,13 @@ the competition's own mapped catalogue, plus public GeoDAWN airborne radiometric
 (<a href="{esc(GEODAWN)}">USGS ScienceBase</a>). No competition test labels, receipts or private-round
 scores were used. Generative-AI use is disclosed in the competition narrative as the rules require.</td></tr>
 </tbody></table>
-<p><a href="data/hunmap/e1-blocked-holdout.json">Blocked holdout receipt ↗</a> ·
-<a href="data/hunmap/hunmap-uniqueness-verdict.json">Registry overlap verdict ↗</a> ·
-<a href="data/hunmap/lattice-rule-calibration.json">Lattice rule calibration ↗</a> ·
-<a href="data/hunmap/leaderboard_calibration.json">Calibration fit ↗</a> ·
-<a href="data/hunmap/nine_site_sgmc_cal.json">Nine-site instrument measurements ↗</a> ·
-<a href="data/hunmap/e2-train-canary.json">Leakage canary ↗</a> ·
-<a href="data/hunmap/e2f-catalogue-holdout.json">Cross-family transfer test ↗</a></p>
+<p><a href="evidence/hunmap/e1-blocked-holdout.json">Blocked holdout receipt ↗</a> ·
+<a href="evidence/hunmap/hunmap-uniqueness-verdict.json">Registry overlap verdict ↗</a> ·
+<a href="evidence/hunmap/lattice-rule-calibration.json">Lattice rule calibration ↗</a> ·
+<a href="evidence/hunmap/leaderboard_calibration.json">Calibration fit ↗</a> ·
+<a href="evidence/hunmap/nine_site_sgmc_cal.json">Nine-site instrument measurements ↗</a> ·
+<a href="evidence/hunmap/e2-train-canary.json">Leakage canary ↗</a> ·
+<a href="evidence/hunmap/e2f-catalogue-holdout.json">Cross-family transfer test ↗</a></p>
 </section>
 
 <section class="section" id="limits"><h3>Limitations and what would improve this</h3>
