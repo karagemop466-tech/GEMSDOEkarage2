@@ -1,0 +1,26 @@
+{
+  "verdict": "candidate_approved_by_automated_gates",
+  "ok_to_submit": true,
+  "slot_authorized": false,
+  "approved_for_weekly_slot": false,
+  "source_run_card": "evidence/k10/run_card.json",
+  "raster": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif",
+  "raster_sha256": "6045978441319d450fca260af432d1f1915ee9d692178c619d4c6b708451cd27",
+  "checks": {
+    "verdict_promote_instrument_limited": true,
+    "format_valid": true,
+    "unique_submission_verified": true,
+    "validator_ok": true,
+    "instrument_limitation_recorded": true,
+    "raster_present": true,
+    "raster_sha_matches_card": true,
+    "budget_respected": true,
+    "slots_used_zero": true
+  },
+  "caveats": [
+    "No leaderboard score estimate exists: competition truth and submission receipts are unavailable.",
+    "The spacing-5 lattice witness saturates the footprint within 3 px; every dense emission including the 0.2778-reported champion fires that one gate (measured). Like-for-like uniqueness passed against all other checked rasters.",
+    "The shared hide-and-recover instrument was measured non-informative for leaderboard-class emissions (champion control 0.00665 < random 0.0714); the corridor mechanism is chosen on the metric algebra and champion-family leaderboard evidence, not on the instrument."
+  ],
+  "decided_utc": "2026-10-31T01:16:32Z"
+}

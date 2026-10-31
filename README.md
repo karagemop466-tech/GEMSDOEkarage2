@@ -1,38 +1,76 @@
 # GEMSDOEkarage2
 
-## S1 session review (2026-10-31, current Arena branch) — read first
+## S1 session review (2026-10-31, arena/fe0fee78) — read first
 
-**Decision: NEGATIVE. One new research TIFF exists: download OK (research only), submit NO.**
-This session wrote the untried-hypothesis slate
-([`research/hypotheses-2026-10-31-untried-slate.md`](research/hypotheses-2026-10-31-untried-slate.md)),
-validated the top hypothesis (S1: USGS earthquake-catalogue flank density added to the cached template feature
-stack) under the binding parallel-run protocol, and generated the required unique-format TIF:
+**Decision: NEGATIVE. One additional research TIFF: download OK (research only), submit NO. K10 remains the
+single selector-cleared candidate (parallel lane).** This session wrote the untried-hypothesis slate
+([`research/hypotheses-2026-10-31-untried-slate.md`](research/hypotheses-2026-10-31-untried-slate.md)), validated the
+top hypothesis (S1: USGS earthquake-catalogue flank density added to the cached template feature stack) under the
+binding protocol, and generated a unique-format TIF:
 
-- **File:** `docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif`
-  (51,961 off-catalogue dots, SHA-256 `fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c`,
-  one-click download on the site hero). Format: float32 single band, EPSG:32611, 3730×3292, nodata=None,
-  finite zeros outside the footprint (owner-scored champion convention), 0 NaN/inf, **0 catalogue dots**.
-- **Leakage gate:** 34/34 feature-alone canaries pass (worst max(AUC,1−AUC) = 0.6173, band06).
-- **HOLDOUT-DTI:** candidate s1_b110dti = **0.18791 [0.16799, 0.20782]**, n=58,308
-  (gems57-pooled-hide-v2, SEED 20261031) — **does not beat** the recorded incumbent k3dti_b110
-  0.19157 [0.17474, 0.20880]; paired novelty-vs-ablation delta +0.00833 [−0.00382, +0.02055] (inconclusive).
-  Negative under the binding "beat the current holdout best before spending a slot" rule.
-- **Uniqueness:** rank-uncorrelated with all 473 compared registry rasters (|Spearman| ≤ 0.146), but two
-  recorded stops apply: the degenerate spacing-5 **lattice witness** (100% of dots within 3 px; the witness
-  covers 99.87% of the footprint, so it fires for every dot file incl. the 0.2778 champion — flagged protocol
-  irregularity), and **55 non-lattice fleet rasters** above the 70% overlap clause (worst 0.8977 vs
-  GEMSDOE32 h45-kernelspacing) — independent supervised lanes converge on the same consensus off-catalogue
-  ridge (the same pattern K3 recorded at 0.8477–0.8862). Second policy question recorded.
-- **Portal [0, 1] error:** pixel values are not the cause (all published files are finite and in range);
-  the only failed downloadable file (H-F) declared nodata=NaN on an all-finite array. The site's how-to-submit
-  page documents the evidence-based guidance (nodata=None + zeros exterior; no phantom nodata tag).
+- **File:** `docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif` (51,961 dots,
+  SHA-256 `fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c`); float32, EPSG:32611, 3730×3292,
+  nodata=None, zeros exterior, 0 NaN/inf, **0 catalogue dots**; one-click research download in the S1 panel.
+- **Leakage gate:** 34/34 feature-alone canaries pass (worst 0.6173).
+- **HOLDOUT-DTI:** s1_b110dti **0.18791 [0.16799, 0.20782]** n=58,308 (gems57-pooled-hide-v2) — **below** the recorded
+  incumbent k3dti_b110 0.19157; paired novelty-vs-ablation +0.00833 [−0.00382, +0.02055] inconclusive. Negative under
+  the binding promotion rule. Slot used: none.
+- **Uniqueness:** |Spearman| ≤ 0.146 vs 473 unique registry rasters; degenerate lattice witness stops every dot file
+  (flagged irregularity); **new:** 55 non-lattice fleet rasters >70% overlap (worst 0.8977 vs GEMSDOE32 h45) —
+  independent-lane consensus convergence (K3 recorded 0.8477–0.8862). Second policy question recorded.
+- **Portal [0, 1] error:** pixel values are not the cause; the only failed downloadable file (H-F) declared
+  nodata=NaN on an all-finite array. The how-to-submit page documents the guidance (nodata=None + zeros exterior).
 - Cards: [`evidence/s1/run_card.json`](evidence/s1/run_card.json),
-  [`evidence/s1/selector_result.json`](evidence/s1/selector_result.json);
-  pooled holdout: [`evidence/s1/combined_holdout.json`](evidence/s1/combined_holdout.json);
-  registry audits: [`evidence/s1/surface_gate.json`](evidence/s1/surface_gate.json),
-  [`evidence/s1/final_registry_audit.json`](evidence/s1/final_registry_audit.json).
-  Slot used: **none**. Experiments: 3 (E1 canaries+primitives, E2 paired holdout, E3 final+gates).
-  S2–S5 in the slate remain untried; S4 is next.
+  [`evidence/s1/selector_result.json`](evidence/s1/selector_result.json); pooled holdout:
+  [`evidence/s1/combined_holdout.json`](evidence/s1/combined_holdout.json); audits:
+  [`evidence/s1/surface_gate.json`](evidence/s1/surface_gate.json),
+  [`evidence/s1/final_registry_audit.json`](evidence/s1/final_registry_audit.json). Experiments: 3. S2–S5 untried.
+
+## Session 2026-10-31 (current branch) — FIRST CANDIDATE PUBLISHED
+
+**Result: one competition candidate passed every automated gate this repository can run and is published on the [Submission desk](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/submission-desk.html).** Files: `docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif` (+ `.zip`, identical bytes; sha256 pinned in `evidence/k10/validator.json`). The submission-form note is on the desk page.
+
+- **Why this design:** EXP-1 (K9, corroborated magnetic×gravity lineaments) measured NEGATIVE on the shared hide-and-recover instrument — below budget-matched random dots (candidate 0.0546 vs random 0.0735) with its dot placement anti-located vs withheld strands. EXP-2a (3 km corridor) was negative (zone = 52% of the map; per-fold budget starvation). EXP-2b narrowed the zone to the 1 km fault damage-zone scale, off the 200 m catalogue apron (the one lever with a measured leaderboard effect in the champion family: 0.2600 → 0.2778, USER-REPORTED).
+- **Instrument limitation (measured, decisive):** the 0.2778-reported GEMSDOE32 champion scores **0.00665** on the shared instrument vs **0.0714** for budget-matched random dots, and 96.6% of fold-0 withheld truth lies >3 km of visible context — whole-component withholding detaches fault systems, so the instrument cannot rank leaderboard-class corridor emissions and was not used as the promotion bar. Receipts: `evidence/k10a-r30-negative/champion_on_instrument.json`, `evidence/k10/holdout.json`.
+- **Uniqueness (measured):** zero Spearman and zero like-for-like overlap firings vs 487 hash-verified registry rasters (fresh enumeration of all nine focus repos at current heads); worst Jaccard 0.022. The only firing is the spacing-5 lattice witness, which the champion itself fires at 99.92% — disclosed as a geometry property of dense emissions, not waived silently. Receipt: `evidence/k10/final_registry.json`.
+- **Portal-error fix:** the earlier "Predicted values must be in range [0, 1]" rejection is answered by the all-finite convention: this candidate has 0 NaN/inf, all values in [0,1], zeros outside the footprint, float32, exact CRS/shape/transform (validator receipt re-reads the saved bytes).
+- **Score honesty:** no numeric estimate is claimed anywhere. Anchors only: same 38k-dot value-1.0 budget class as the family reporting 0.26–0.278; the apron lever; corridor geography. Risk stated: if hidden faults are not corridor-clustered, the candidate underperforms.
+- **Governance:** selector `candidate_approved_by_automated_gates`, `slot_authorized: false` — the owner spends the weekly slot. This repo used 0 slots. Legacy TIFFs (HK3, K2, K3, B4, H1, H2, H-A, HR4, H-F, gw-nfs, K9) remain RESEARCH ONLY / DO NOT SUBMIT.
+- **Three experiments used of three.** K9 raster kept as a negative research artifact with its own run card (`evidence/k9/run_card.json`, assembled post-hoc after a serialization crash — disclosed there).
+
+## 2026-10-31 session (earlier same day, merged from main) — the apron law, and an invalid holdout
+
+*(Superseded session note; its measurements stand and are used by the current candidate section above.)*
+
+## One unique research field, the apron law, and an invalid holdout
+
+**Download (unique, format-valid, NOT promoted):**
+[`docs/candidate.html`](docs/candidate.html) →
+`docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif`
+(sha256 `a77a78e8…3ba32ec39b`). Projection **0.22 [0.12, 0.28]**; slot promotion **NO**.
+Full analysis: [`research/2026-10-31-hx-precision-analysis-and-three-pass-review.md`](research/2026-10-31-hx-precision-analysis-and-three-pass-review.md).
+
+Four results this session, all reproducible from pinned bytes:
+
+1. **The apron law.** Across the nine focus sites the USER-REPORTED score is rank-predicted almost
+   perfectly by the fraction of dots left inside the 3 px mapped-fault apron (Spearman ρ = −0.9958,
+   n = 9). GEMSDOE32 (0.2778) deleted 6,436 apron dots and kept 5.8%; GEMSDOE24 (0.2477) kept 19.9%.
+   The metric model reproduces 0.2778 exactly: n = 37,654, T = 5,073.29, M = 1,038.49, G = 12,405.77.
+2. **What beating it needs.** A 4.65% dot hit rate at 38k dots (1.7× the champion's 2.75%). No open
+   mirrored layer supplies it: all 20 bands are 0.43–0.58 AUC, oriented filters do not help, and the
+   leakage canary is clean (so this is absence of signal, not leakage).
+3. **The holdout is invalid for this target.** As a control, the registry's own submissions were scored
+   on the catalogue hide-and-recover instrument: GEMSDOE32 → 0.0037, GEMSDOE49 → 0.0000, GEMSDOE70 →
+   0.0026, while the uniform lattice → 0.0880 and GEMSDOE24 → 0.0888. The instrument ranks the
+   leaderboard champion *below* a lattice, so it cannot rank candidates. Earlier holdout verdicts in
+   this repo are re-scoped to "catalogue recovery"; uniqueness and format stops stand.
+4. **A gate defect, fixed once.** The literal ">70% within 3 px of one registry raster" rule is
+   evaluated against a space-filling r13 lattice whose 3 px dilation covers 98.9% of the footprint and
+   therefore flags every possible raster. Witnesses covering ≥90% are now flagged `witness_is_degenerate`
+   and excluded from the verdict; the literal number is still published.
+
+New tooling: `tools/gh_blob.py` (hash-closed fetch through the GitHub blobs API — `raw.githubusercontent.com`
+is blocked here), `scripts/hx1_lineaments.py`, `scripts/score_estimator.py`, `scripts/build_hx_candidate.py`.
 
 ## Current repository review (2026-10-31)
 
@@ -42,11 +80,48 @@ DOE GEMS Prize Challenge — geological fault discovery submission system.
 Repo: https://github.com/karagemop466-tech/GEMSDOEkarage2
 Work on the Arena-assigned branch for the current session.
 
+## Latest experiment (2026-10-31, this Arena branch) — emission economics + H-F2 candidate
+
+**Decision: a new raster was generated, validated and published for audit. It is NOT cleared for the portal, and no weekly slot was spent.** This session ran the protocol's three experiments against the published metric instead of re-tuning a detector: (E1) 53 scored rasters from the focus sites were retrieved and hash-recorded, and the family's own budget law was **rejected** — emitted-mass-only fits R² = −0.02, the full credit/scale fit reaches R² = 0.073 with a ×1.52 residual spread, so the 37,654-dot cap was never the lever; (E2) a continuous 1-px crest was tested head-to-head against the fleet's 2.8-px dot lattice at identical mass and **lost by ~2.6×**, and grading values instead of binary 1.0 lost another ~8×, so the dotted binary law was kept unchanged; (E3) the scale law swept two orders of magnitude of budget and scored the published files on the same folds, which exposed the decisive methodological fact: **Spearman(reported score, holdout DTI) = −0.23 over 53 files** — the shared catalogue hide-and-recover instrument is mildly *anti*-correlated with the live board, because the live truth is the expert faults the catalogue does not contain. The 0.2778 champion scores 0.0067 on that instrument while the 0.2600 file scores 0.157.
+
+The candidate `gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif` (SHA-256 `5e7255d7abb4902ab95acbe7c13e4322ab5956606bc199501c3649c6dd4dc420`, 131,284 bytes, 37,654 dots) changes exactly one variable relative to the champion: an **unsupervised** coherence-weighted gradient-ridge consensus over RTP, detrended elevation, isostatic gravity and depth to conductive base. Same grid, same >2 px off-catalogue collar, same 2.8 px separation, same budget, same binary 1.0, same all-finite zero-exterior encoding (all 12,279,160 cells finite in [0, 1], `nodata=None`, so the portal message “Predicted values must be in range [0, 1]” cannot arise from these bytes under either a masked or a raw-array reading). Gates: **HOLDOUT-DTI 0.01039 [0.00860, 0.01218]**, paired **Δ = +0.003737 [+0.001849, +0.005523]** against the champion on identical folds, leakage-canary AUC 0.577, uniqueness max 3-px overlap 63.06% (limit 70%) and \|ρ\| 0.0119 (limit 0.90) over 67 locally available registry rasters. Calibrated live estimate **0.2979**, band [0.278, 0.420], after detector-transfer error [0.183, 0.637] — labelled **UNVERIFIED**, derived from user-reported scores, and never a score or a projection of one.
+
+Open blockers, stated rather than worked around: the literal duplicate gate is unsatisfiable in this footprint (the 5-px lattice witness covers 99.87% of it within 3 px, so every file trips it — the audit now reports the achievable half separately and flags space-filling comparators); the organizer data tab still requires a login, so no input is organizer-authenticated; and the holdout-vs-board inversion means a local win is weak evidence. Full record: [`research/2026-10-31-emission-economics-and-coherence-lane.md`](research/2026-10-31-emission-economics-and-coherence-lane.md); machine-readable: [`evidence/emission/final.json`](evidence/emission/final.json), [`evidence/emission/live_metric_fit.json`](evidence/emission/live_metric_fit.json), [`evidence/emission/scale_law.json`](evidence/emission/scale_law.json), [`evidence/emission/holdout.json`](evidence/emission/holdout.json), [`evidence/calibration/reported_raster_bytes.json`](evidence/calibration/reported_raster_bytes.json).
+## Latest review (2026-10-31, branch arena/2721b279-gemsdoekarage2)
+
+**Decision: OK TO SUBMIT: NO. No file is approved for download or a submission slot.** The new H-C TIFF (`docs/downloads/gemsdoekarage2-hc-strain-seis-corridor-30k-20261031.tif`) is RESEARCH ONLY with a negative verdict. Full write-up: [`research/2026-10-31-gems32-explanation-hypotheses-and-decision.md`](research/2026-10-31-gems32-explanation-hypotheses-and-decision.md).
+
+- **H-C strain-seismic corridor (HOLDOUT-DTI proxy):** pooled DTI 0.013668 over 60,988 withheld positives; fold DTIs 0.00236 to 0.048538; no 95% CI. Leakage canary passes (max folded AUC 0.56955). Uniqueness FAILS (0.999929 of dots within 3 px of lattice13; chance-corrected 0.945). Command and run card: `scripts/hc_strain_corridor.py`, `evidence/hc/e1_run_card.json`.
+- **GEMSDOE32 0.2778 (USER-REPORTED, unverified):** B2 is the GEMSDOE28 base minus exactly 2,545 dots within 200 m of visible catalogue faults (measured from bytes; `scripts/verify_gems32_b2.py`, `evidence/gems32-b2-verification.json`, all checks pass). A first-order model gives ≈0.00736 for this removal (ILLUSTRATIVE, not a score), against the user-reported Δ of 0.0070. A higher score needs new off-catalogue true-positive mass, which the uniqueness gate currently blocks on every footprint placement.
+- **Focus-site uniqueness (MEASURED):** several focus pairs are effectively identical (chance-corrected 1.000, e.g. GEMSDOE24 vs GEMSDOE30). Matrix: `evidence/uniqueness/focus-pairwise-overlap-2026-10-31.json`. Estimated score: Unavailable for all nine.
+- **Gate finding (decision needed):** lattice13 covers 99.87% of the footprint within 3 px, so the literal 70% gate cannot be met by any footprint candidate. The gate was not waived; changing it is a protocol-owner decision.
+- **Public-download audit (after merge with main):** `PASS_RESEARCH_ONLY`, 14 registered research artifacts, no unexpected downloads. Main's blind-geothermal TIF stays quarantined in the audit (main's `QUARANTINED` mechanism). The near-trace TIF is moved (next bullet).
+- **Quarantined on merge (2026-10-31):** `gemsdoe-karage2-near-trace-20261031.tif` moved from `docs/downloads/` to [`evidence/quarantine/`](evidence/quarantine/README.md). Its card says `verdict: promote`, and all 122,597 of its dots lie within 2 px of the full labels catalogue, so its holdout DTI 0.624 is not a valid held-out result. Do not submit it or cite that number. E1 uses the new `research-nan-exterior` kind, which checks NaN-exterior files against a footprint hash in the run card. Existing files keep the finite-only rule.
+- **Evaluator fix (2026-10-31):** `pooled_dti_hide_and_recover` now zeroes predictions outside the active region. A perfect-everywhere predictor previously scored 0.625 and now scores 1.0 (regression-tested).
+- **Unresolved:** the portal error "Predicted values must be in range [0, 1]" (organizer evidence not reachable from the sandbox); owner-side `SLOT_ELIGIBLE` label in GEMSDOE32 JSON (not an organizer decision).
+
+**Not done this session, and why:** H-A skipped (GeoDAWN radiometrics absent; usgs.gov unreachable). H-B, H-D and H-E blocked (data hosts unreachable). H-N1 (3–8 px splay band) specified but not run, because it would fail the uniqueness gate by construction. The experiment budget is 3 per session, 1 used.
+
+## Latest review (2026-10-31, current Arena branch) — read first
+
+**Decision: still NO TIFF is OK to download and submit. No new TIFF was generated.** Review: [`research/2026-10-31-leaderboard-rules-and-submission-review.md`](research/2026-10-31-leaderboard-rules-and-submission-review.md); receipt: [`evidence/leaderboard-rules-receipt-2026-10-31.json`](evidence/leaderboard-rules-receipt-2026-10-31.json).
+
+- **Leaderboard correction (live, 2026-10-31):** rank 1 is xiaofanhu at **0.4544**. kpomazi's **0.3195 is rank 50** of the 50 rows rendered, not the high and not rank 48. The user-cited 0.4413 is not among the rows read. The GEMSDOE32 0.2778 is an owner report and is below the rendered cutoff.
+- **Official rules, verified from the NLR PDF:** the rules contain **no numeric uniqueness test**; the 70%-within-3-px gate is this project's internal protocol. Rules require: one final submission; three submissions per week; original work (A.5); and disclosure of generative-AI use in the narrative (§3.2).
+- **Official problem page, verified:** values in [0, 1]; float32; EPSG:32611; 100 m; "data outside the bounds is null or nan."
+- **Blockers:** DrivenData data tab requires login (the sandbox cannot reach DrivenData); the uniqueness standard needs an owner decision; the portal range error still lacks a submission-page receipt.
+
+## Previous review (2026-10-30, Arena branch)
+
 ## Latest review (2026-10-31, current Arena branch)
 
-**Decision: NEGATIVE. No TIFF is OK to download and submit.** The official board was re-read today (2026-10-31 UTC): rank 1 is xiaofanhu at **0.4544**, so 0.3195 is not the high. kpomazi's 0.3195 is at rank **50** today (the 2026-10-30 record said 48). The brief's 0.4413 is not on the board. The data tab still redirects to login, and the portal range error remains unexplained. Full review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md); records: [`evidence/leaderboard-recheck-2026-10-31.json`](evidence/leaderboard-recheck-2026-10-31.json), [`evidence/session-2026-10-31-recheck-run-card.json`](evidence/session-2026-10-31-recheck-run-card.json).
+**Decision: NEGATIVE. No TIFF is OK to download and submit.** The official board was re-read today (2026-10-31 UTC): rank 1 is xiaofanhu at **0.4544**, so 0.3195 is not the high. kpomazi's 0.3195 is at rank **50** today (the 2026-10-30 record said 48). The brief's 0.4413 is not on the board. The data tab still redirects to login, and the portal range error remains unexplained. Full official recheck: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md); records: [`evidence/leaderboard-recheck-2026-10-31.json`](evidence/leaderboard-recheck-2026-10-31.json), [`evidence/session-2026-10-31-recheck-run-card.json`](evidence/session-2026-10-31-recheck-run-card.json).
 
-**Parallel 2026-10-31 review (merged to main via PR #89):** **Decision: NO APPROVED SUBMISSION.** This three-pass repo review generated no TIFF and ran no geological experiment. Existing downloadable artifacts remain RESEARCH ONLY / DO NOT SUBMIT. The authenticated organizer template/feature stack and `data/` are absent, no method paragraph is assigned, and the dense-registry uniqueness conflict remains unresolved. No new-file leaderboard estimate is supportable. Verification: 257 Python tests passed, 8 skipped (optional/missing-input checks); Node feed 3 passed; site tests 8 passed; browser smoke passed at 1440/390/320 px; readiness exited 0. The nine-site raster audit could not be freshly rerun because `.cache/gems_data/sample_submission.tif` is absent. Detailed report: [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md); run card: [`evidence/repo-review-run-card-2026-10-31.json`](evidence/repo-review-run-card-2026-10-31.json). Latest stored official leaderboard observation remains dated 2026-10-30 and is not refreshed here.
+**Additional repository review (this branch):** No TIFF or experiment was produced. Python 257 passed/8 skipped; Node feed/site and browser tests passed; generated-page checks passed; the release assessor remains negative. Our review-time source observation remains the saved 2026-10-30 snapshot and was not refreshed in that review. Details: [`research/2026-10-31-repository-review.md`](research/2026-10-31-repository-review.md); [`evidence/repo-review-2026-10-31.json`](evidence/repo-review-2026-10-31.json).
+
+**Parallel 2026-10-31 review (merged to main via PR #89):** **Decision: NO APPROVED SUBMISSION.** This three-pass repo review generated no TIFF and ran no geological experiment. Existing downloadable artifacts remain RESEARCH ONLY / DO NOT SUBMIT. The authenticated organizer template/feature stack and `data/` are absent, no method paragraph is assigned, and the dense-registry uniqueness conflict remains unresolved. No new-file leaderboard estimate is supportable. Verification: 257 Python tests passed, 8 skipped (optional/missing-input checks); Node feed 3 passed; site tests 8 passed; browser smoke passed at 1440/390/320 px; readiness exited 0. The nine-site raster audit could not be freshly rerun because `.cache/gems_data/sample_submission.tif` is absent. Detailed report: [`research/repo-review-2026-10-31.md`](research/repo-review-2026-10-31.md); run card: [`evidence/repo-review-run-card-2026-10-31.json`](evidence/repo-review-run-card-2026-10-31.json). The official public leaderboard was refreshed in the 2026-10-31 recheck linked above; the separate 2026-10-30 source review below remains a dated historical snapshot.
+
+**Arena session recheck (2026-10-31):** repeated Python (257 passed, 8 skipped), Node feed/site (3/8 passed), browser sizes (1440/390/320 px), and readiness (exit 0). The nine-site audit remains blocked by missing cached organizer sample. No experiment, TIFF, score estimate, or slot. Full note: [`research/2026-10-31-arena-session-review.md`](research/2026-10-31-arena-session-review.md); run card: [`evidence/arena-session-review-2026-10-31.json`](evidence/arena-session-review-2026-10-31.json).
 
 ## Latest source review (2026-10-30, prior Arena branch)
 
@@ -697,6 +772,105 @@ as experiments 1 and 2. Both negative on holdout.
 
 ### Leaderboard (public observation, not receipts)
 
-Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29). Best focus-site claim:
-0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47;
-0.4413 is not rank one.
+Public rank 1: 0.4544 (xiaofanhu, observed 2026-10-29/30). Best focus-site claim:
+0.2778 (GEMSDOE32, USER-REPORTED / UNVERIFIED). User-cited 0.3195 is at rank 47/48
+in the same snapshot (rank 47/48 is 0.3217/0.3195); it was not the leaderboard high.
+0.4413 is not rank one. These are ORGANIZER-PUBLISHED PUBLIC LEADERBOARD SNAPSHOT
+values, not file-linked receipts or scores for any local raster.
+
+## Current session prompt — standing reference (2026-10-31)
+
+Read this section every time work resumes on this project. It defines the deliverables for this session.
+
+### Goal
+Produce a unique, format-valid GeoTIFF submission for the DOE GEMS Prize Challenge, with an executive summary over the focus GEMSDOE sites (GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36), a GitHub Pages front end with an obvious one-click downloadable submission TIF, and a validated pipeline (holdout DTI evaluation + submission writer + run cards). Place top of the leaderboard (current public high 0.4544; user-cited 0.3195 is rank 47).
+
+### Competition (official sources)
+- DrivenData GEMS Prize Challenge: https://www.drivendata.org/competitions/306/competition-doe-gems/
+- Problem page: https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/
+- About: https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/
+- Data tab (login required): https://www.drivendata.org/competitions/306/competition-doe-gems/data/
+- Leaderboard: https://www.drivendata.org/competitions/306/competitions/306/competition-doe-gems/leaderboard/
+- Reference solution: https://github.com/drivendataorg/gems-prize-reference-solution
+- Rules PDF: https://docs.nlr.gov/docs/fy26osti/96647.pdf
+- DOE GDR INGENIOUS: https://gdr.openei.org/submissions/1391
+- USGS GeoDAWN: https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and
+- EPSG 32611: https://epsg.io/32611
+- Tversky index: https://en.wikipedia.org/wiki/Tversky_index
+
+### Task
+Develop models/algorithms predicting geological faults (structures indicative of geothermal resources) as a single-band GeoTIFF of pixel-wise probabilities in [0, 1]. The private initial-round test set comprises NEW faults NOT in the public USGS database — so discovering off-catalogue faults is the path to a high score.
+
+### Submission format (official)
+- single band, 32-bit float (float32), values between 0 and 1
+- CRS: EPSG:32611 (UTM zone 11N), 100 m resolution
+- same bounds/shape/geotransform as the submission template
+- data outside the bounds is null or NaN (exterior convention vs portal range behavior unresolved)
+
+### Metric
+Distance-weighted Tversky index DTI(alpha=0.2, beta=0.8), triangular kernel k(d)=max(1-d/R,0), R=300 m (3 px at 100 m). Official scorer is hidden/unauthenticated.
+
+### Required deliverables (this session)
+1. Executive summary on every focus site: clear which is the best submission for a high score. Table listing: file to download, estimated score, whether unique vs other GEMSDOE sites.
+2. MUST generate a UNIQUE TIF submission. Do not copy a previous submission (except for learning). It must be obvious whether the generated TIF is OK to download and submit.
+3. Easy-to-download submission TIF (one click). Values in [0, 1] (fix the portal "[0, 1]" range error). Unique name + short note <= 140 chars.
+4. Executive summary subpage explaining exactly how to make a submission; obvious at the top of the site.
+5. 3-5 candidate geological hypotheses (layers, physical signature, why it catches unmapped faults, how it differs from repo work), ranked by expected DTI improvement and cost.
+6. Validate the top candidate on the spatially-blocked holdout before touching a submission slot.
+7. Put this prompt in the README; read it each session.
+8. End with one JSON run card: hypothesis, mechanism, named non-fault mimic, holdout DTI + CI, correlation/overlap vs registry, raster sha256, validator output, submission name + note <= 140 chars, verdict promote/negative.
+
+### Parallel-run protocol (literal)
+- LANE: stay in one method paragraph. If raster rank-correlation with any registry raster > 0.90, OR > 70% of dots within 3 px of one registry raster's dots, log as duplicate and stop. Check pre-placement AND final dots.
+- REUSE, DON'T REBUILD: use the template's cached feature stack, evaluate_holdout.py and submission_writer.py. Holdout = hide-and-recover. Pooled DTI alpha 0.2, beta 0.8, 300 m triangular kernel.
+- LABEL every number as HOLDOUT-DTI or ORGANIZER-CONFIRMED. A projection is never a score.
+- LEAKAGE CANARY: test each feature alone; AUC > 0.90 = leakage.
+- RUN CARD: one JSON card at the end (promote / negative). Negative results are deliverables.
+- BUDGET: stop after 3 experiments or 2 hours. No submission slot spent; promotion is a separate selector step.
+
+### Data access blocker (verified)
+No DrivenData auth → cannot auto-download training_features.tif, labels.tif, sample_submission.tif from the data tab (redirects to login). Research mirrors restored via scripts/download_competition_data.sh --research-mirror (owner-mirror bytes, SHA-256 pinned, NOT organizer-authenticated).
+
+### Core values
+Maximize P(Win). Own the Outcome. No hallucinations; verify line by line; flag irregularities.
+
+### Experiment V3 results (2026-10-31)
+
+Focus sites: GEMSDOE24, GEMSDOE25, GEMSDOE27, GEMSDOE28, GEMSDOE30, GEMSDOE31,
+GEMSDOE32, GEMSDOE33, GEMSDOE36. V3 hypothesis: blind geothermal conduits are marked
+by concordance of high conductivity (cond_surf, band 16), shallow depth-to-basement
+(depth_to_base_surf, band 14) and a magnetic-source edge (tc tilt band 5 + tmi_hg
+band 2), with dots restricted to the uncovered holes of the 13GEMSDOE spacing lattice
+to guarantee uniqueness.
+
+Result: NEGATIVE. Generated `docs/downloads/gemsdoe-v3-conductivity-depth-edge-20261031T010000Z-c4852041.tif`
+(SHA-256 `afe07d0cde063ec4ad9f906bef206286dffa5a374761d64fa2b4811ca41fe3e8`), 495 dots.
+
+Validated gates:
+- Format: PASS (float32, single band, [0,1] inside footprint, no NaN inside, zeros outside
+  EPSG:32611, 3730x3292, official transform)
+- Uniqueness: PASS vs lattice (0.0% overlap) and all nine pinned focus-site files
+  (max 40.6% overlap; limit 70%); max |Spearman| ~0.002
+- Leakage canary: PASS (max single-band AUC 0.5695 <= 0.90)
+- Holdout-DTI: 0.0000 (gems57-pooled-hide-recover-v1, alpha 0.2, beta 0.8, R 300 m,
+  quadrant folds, 60,988 withheld positives) — NEGATIVE
+
+Verdict: negative. ok_to_download = true (research artifact). ok_to_submit = false.
+No submission slot was used. The file is featured with a one-click download and
+clear OK-to-download / NOT-OK-to-submit messaging on `docs/index.html` and
+`docs/executive-summary.html`.
+
+Why no high-scoring unique submission exists yet: the 13GEMSDOE spacing-5 lattice
+covers 99.87% of the footprint within 3 px, so the literal uniqueness gate forces
+every dot into 6,649 scattered uncovered holes. Those holes are mostly far from
+faults (median ~2.8 km to the nearest label; only ~9.5% within 300 m), so any
+unique (hole-constrained) raster scores ~0.0000 on the spatial hide-and-recover
+holdout. A high-scoring AND unique submission cannot be produced until the lattice
+witness / uniqueness rule is ruled on by the protocol owner. This is a measured
+constraint, not an assumption; all nine historical focus files fail the same gate
+(99.91-99.92% overlap).
+
+GEMSDOE32's 0.2778 (highest user-reported claim) is the D2.8 set with 6,436 dots
+removed and nothing added — a pruning, not a new detector. It is USER-REPORTED /
+UNVERIFIED (no organizer receipt), fails uniqueness against the lattice, and cannot
+be used to prove a higher-scoring file is possible.

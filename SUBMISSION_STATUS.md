@@ -1,63 +1,74 @@
-# Submission status — NO APPROVED FILE
+# Submission status — ONE CANDIDATE PUBLISHED (format-valid, unique, score NOT measurable here)
 
-**S1 session (2026-10-31, this review): ONE new research TIFF generated; OK-TO-DOWNLOAD: YES (research only);
-OK-TO-SUBMIT: NO.** The S1 seismicity-flank candidate
-(`docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif`, 51,961 off-catalogue dots,
-SHA-256 `fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c`) is format-valid (float32, EPSG:32611,
-3730×3292, nodata=None, finite zeros exterior, 0 NaN/inf, 0 catalogue dots) and rank-uncorrelated with every
-registry raster (|Spearman| ≤ 0.146, 473 unique rasters compared). It is **negative** on the conjunctive gates:
-(1) HOLDOUT-DTI 0.18791 [0.16799, 0.20782] (gems57-pooled-hide-v2, 58,308 withheld positives) does **not** beat the
-recorded incumbent k3dti_b110 0.19157 [0.17474, 0.20880]; the paired novelty-vs-ablation delta at matched placement
-is +0.00833 [−0.00382, +0.02055], inconclusive. (2) The literal uniqueness rule stops the file against the
-degenerate spacing-5 lattice witness (100% of dots within 3 px; that witness covers 99.87% of the footprint, so it
-fires for every dot file including the accepted 0.2778 champion — flagged protocol irregularity). (3) New finding:
-55 **non-lattice** fleet rasters also exceed the 70%-overlap clause (worst 0.8977 vs GEMSDOE32 h45-kernelspacing) —
-independent supervised lanes converge on the same consensus off-catalogue ridge (K3 recorded the same pattern at
-0.8477–0.8862). No leaderboard estimate exists for any of this; HOLDOUT-DTI is a local proxy, not a score. Slot
-used: none. Card: [`evidence/s1/run_card.json`](evidence/s1/run_card.json); selector:
-[`evidence/s1/selector_result.json`](evidence/s1/selector_result.json); site:
-[executive summary](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html).
+**S1 lane (2026-10-31, arena/fe0fee78): one additional research TIFF; `DOWNLOAD FOR RESEARCH: YES · SUBMIT: NO`.**
+`docs/downloads/gemsdoekarage2-s1-quakeflank-51961d-20261031T014126Z-zeros.tif` (51,961 off-catalogue dots, SHA-256
+`fe6acb0c95cec96f36eab4a283ae89db9117201414e60f8782b952dd9f241b3c`) is format-valid (float32, EPSG:32611, 3730×3292,
+nodata=None, finite-zeros exterior, 0 NaN/inf, 0 catalogue dots) and rank-uncorrelated with all 473 compared registry
+rasters (|Spearman| ≤ 0.146). It is **negative**: HOLDOUT-DTI 0.18791 [0.16799, 0.20782], n=58,308
+(gems57-pooled-hide-v2) does not beat the recorded incumbent k3dti_b110 0.19157 [0.17474, 0.20880]; the paired
+novelty-vs-ablation delta at matched placement is +0.00833 [−0.00382, +0.02055] (inconclusive). The literal
+uniqueness rule also stops it against the degenerate lattice witness (fires for every dot file) and against 55
+non-lattice fleet rasters above the 70% overlap clause (worst 0.8977 vs GEMSDOE32 h45) — independent-lane consensus
+convergence, the same pattern K3 recorded. K10 (above) remains the single selector-cleared candidate. No slot used;
+no leaderboard estimate. Cards: [`evidence/s1/run_card.json`](evidence/s1/run_card.json),
+[`evidence/s1/selector_result.json`](evidence/s1/selector_result.json); slate + outcome:
+[`research/hypotheses-2026-10-31-untried-slate.md`](research/hypotheses-2026-10-31-untried-slate.md).
 
-**Review 2026-10-31 (earlier, leaderboard recheck): NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
+**Experiment 2026-10-31 (this branch): one new raster generated, `DOWNLOAD FOR AUDIT: YES · SUBMIT: NO`.** `docs/downloads/gemsdoekarage2-coheridge-d28-b37654-20261031-zeros.tif` is format-valid on the whole array (12,279,160 cells finite in [0,1], `nodata=None`, exterior zeros), passes the achievable uniqueness half (max 3-px overlap 63.06%, \|ρ\| 0.0119 vs 67 rasters) and beats the 0.2778 champion on the shared folds with a paired CI excluding zero (HOLDOUT-DTI 0.01039 vs 0.00665, Δ +0.003737 [+0.001849, +0.005523]). It is **not** authorized: the literal 3-px duplicate rule is unsatisfiable in this footprint (space-filling lattice witness, 99.87% coverage), no organizer receipt or authenticated input exists, and the holdout is anti-correlated with the live board across this family (ρ = −0.23 over 53 scored rasters), so a local win is weak evidence. Calibrated live estimate 0.2979, band [0.278, 0.420] — UNVERIFIED, never a score. Record: [`research/2026-10-31-emission-economics-and-coherence-lane.md`](research/2026-10-31-emission-economics-and-coherence-lane.md).
 
-**Current review (2026-10-30): NO FILE IS OK TO DOWNLOAD AND SUBMIT.** The audited public-download inventory contains research-only files and `downloadable_approved_submission: null`. No new experiment, TIFF, score estimate, upload, or slot was created. The 2026-10-30 public leaderboard snapshot shows rank 1 at 0.4544 and the user-cited 0.3195 at rank 48; these are public-board observations, not receipts for local files. Full review: [`research/2026-10-30-live-source-and-code-review.md`](research/2026-10-30-live-source-and-code-review.md); source snapshot: [`evidence/official-review-2026-10-30.json`](evidence/official-review-2026-10-30.json); review card: [`evidence/live-source-review-card-2026-10-30.json`](evidence/live-source-review-card-2026-10-30.json).
+**Review 2026-10-31: NO FILE IS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
+## Historical review — earlier 2026-10-31 session (merged from main): NO APPROVED FILE at that time
 
-**GW-NFS audit (2026-10-29, PR #76):** the PR #61 raster is NEGATIVE: holdout DTI 0.000013 is below both same-holdout random controls, and uniqueness fails. It stays quarantined under `evidence/quarantine/`. See [the review](research/2026-10-29-gw-nfs-audit-and-three-pass-review.md).
+**Review 2026-10-31 (this session): there is still NO APPROVED FILE. Download YES; slot promotion NO — DO NOT SUBMIT.**
+[`docs/candidate.html`](docs/candidate.html) is the one obvious download:
+`docs/downloads/gemsdoe-karage2-hx2-lineament-apron3-36k-20261031-zeros.tif`
+(sha256 `a77a78e8cc9cd0ca4a795c6c4c346d3cd1d29bac96afa333b5c0413ba32ec39b`). It is new,
+format-valid, all-finite, and **unique** (worst directed 3 px overlap 29.76% vs 16 hash-verified
+registry rasters; the literal 99.9% is against the space-filling r13 lattice, which flags every
+possible raster and is excluded as degenerate). Its **projection is 0.22 [0.12, 0.28]** — below the
+0.2778 incumbent — so no slot is authorized. Full analysis:
+[`research/2026-10-31-hx-precision-analysis-and-three-pass-review.md`](research/2026-10-31-hx-precision-analysis-and-three-pass-review.md).
 
-**Session B addendum (2026-10-29):** NO FILE IS OK TO DOWNLOAD AND SUBMIT. Full-registry check (440 rasters): gw-nfs and H-A are both DUPLICATE_STOP (overlap 1.0). gw-nfs stays quarantined; H-A remains an inventoried research-only download. The nine best focus files are not unique against each other (overlap 0.976–1.000). Estimated leaderboard score for any file: Unavailable (no organizer template or labels here). Receipts: [`evidence/uniqueness/`](evidence/uniqueness/).
+**The finding that matters:** across the nine focus sites the USER-REPORTED score is rank-predicted
+almost perfectly by the fraction of dots left inside the 3 px mapped-fault apron (Spearman
+**ρ = −0.9958**, n = 9). GEMSDOE32 won at 0.2778 by deleting 6,436 apron dots (5.8% left) that its own
+sibling GEMSDOE24 (0.2477, 19.9% left) kept. The forward metric model reproduces 0.2778 exactly.
+Beating 0.4544 needs a **4.65%** dot hit rate at 38k dots — 1.7× the champion's precision — and no
+open mirrored layer supplies it (AUC 0.43–0.58, leakage canary clean).
+
+**Earlier reviews' holdout verdicts are re-scoped, not reversed.** The catalogue hide-and-recover
+instrument is invalid as a leaderboard ranker: GEMSDOE32 scores 0.0037 on it while the uniform lattice
+scores 0.0880, i.e. it ranks the champion below a lattice. Uniqueness and format stops stand, because
+they are independent measurements. Experiments used this session: **2 of 3**. Slots used: **0**.
 
 
-**Historical status (2026-10-29, lattice gate):** no file was approved; all nine focus best files fail the literal lattice gate. See [the decision memo](research/2026-10-29-lattice-gate-and-decision.md). The saved TIFFs use finite zeros outside the footprint, but the official wording and the organizer sample use NaN there (the repo's strict format check fails for HK3). The leaderboard facts in that dated review were xiaofanhu 0.4544 at rank 1 and kpomazi 0.3195 at rank 47; see [the 2026-10-29 review](research/2026-10-29-verification-and-blocker-review.md). The current public snapshot is dated 2026-10-30 above.
-**Gate detail, 2026-10-29:** all nine focus files stop at the shared uniqueness gate against the
-13GEMSDOE lattice (99.91–99.92% dot overlap). No file is eligible under the written rule. The
-protocol owner must decide the policy; see the executive summary and
-[`research/2026-10-29-focus-audit-and-next-hypotheses.md`](research/2026-10-29-focus-audit-and-next-hypotheses.md).
+**Current review (2026-10-31): OK TO SUBMIT: NO. No file is approved.** The H-C TIFF `docs/downloads/gemsdoekarage2-hc-strain-seis-corridor-30k-20261031.tif` is research-only and negative: HOLDOUT-DTI 0.013668 (60,988 withheld positives, no CI), canary pass, uniqueness FAIL (0.999929 vs lattice13). No slot is used. The GEMSDOE32 0.2778 mechanism is verified from bytes (`evidence/gems32-b2-verification.json`). The literal 70% uniqueness gate is unsatisfiable on this footprint because lattice13 covers 99.87% of it; this needs a protocol-owner decision. Full write-up: [`research/2026-10-31-gems32-explanation-hypotheses-and-decision.md`](research/2026-10-31-gems32-explanation-hypotheses-and-decision.md).
 
-**Post-integration reconciliation (2026-10-29):** `origin/main` adds HR4 and its saved-byte negative audit; the regenerated inventory contains **nine research-only TIFFs**, `PASS_RESEARCH_ONLY`, with `downloadable_approved_submission: null`. The published H-A TIFF has a measured **100% within-3-pixel overlap on 1,896 in-footprint positive cells** against the lattice witness; the HR4 TIFF has **99.9787% on 4,685 in-footprint positive cells**. These are registry-geometry measurements, **not scores**, and the lattice manifest is expressly incomplete. Both stop at `DUPLICATE_STOP`; neither has HOLDOUT-DTI evidence or organizer-confirmed results. Their mixed exterior convention is not validated. The stale GW-NFS raster is retained only under `evidence/quarantine/`, not in public downloads. See [`research/repo-review-2026-10-29-d704ab87.md`](research/repo-review-2026-10-29-d704ab87.md) and its integration addendum. Both synthetic candidate generators are retired; the HR4 placeholder previously allowed a partial local uniqueness check and format-only `promote` verdict without holdout or leakage tests, so it is now disabled. No best-submission recommendation or leaderboard-score estimate is supported.
+**Current review (2026-10-31): STILL NO FILE IS OK TO DOWNLOAD AND SUBMIT.** No new TIFF was generated. Live check: the public leaderboard's high is 0.4544 (rank 1); kpomazi's 0.3195 is rank 50 of the rows rendered. The official rules contain no numeric uniqueness test (the 70%/3-px gate is this project's protocol), and they require one final submission, three submissions per week, original work, and disclosure of generative-AI use. Review: [`research/2026-10-31-leaderboard-rules-and-submission-review.md`](research/2026-10-31-leaderboard-rules-and-submission-review.md). Receipt: [`evidence/leaderboard-rules-receipt-2026-10-31.json`](evidence/leaderboard-rules-receipt-2026-10-31.json).
 
-**HK3 and every other published TIFF are research-only. DO NOT SUBMIT.**
-This corrects the earlier upload recommendation. The literal registry failure
-cannot be waived by density, research status or chance correction. Existing TIFF
-bytes are unchanged; no new unique eligible submission was generated.
 
-- [Current executive summary and research-only download](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/executive-summary.html)
-- [Corrected run card](evidence/hk3/run_card.json)
-- [Negative selector](evidence/hk3/selector_result.json)
-- [Reproducible review run card](evidence/hk3-protocol-review-run-card-2026-10-28.json)
-- [Three-pass review, source limits and ranked untested hypotheses](research/hk3-protocol-correction-2026-10-28.md)
-- [Original status text — superseded history, NOT approval](knowledge/hk3-historical-submission-status-2026-10-28.md)
+**Status 2026-10-31 (this session): the first candidate cleared every automated gate this repository can run and is published on the [Submission desk](https://karagemop466-tech.github.io/GEMSDOEkarage2/docs/submission-desk.html).**
 
-The saved HK3 TIFF is finite in [0,1] and matches the pinned **owner-mirror** grid.
-No authenticated organizer template, portal acceptance or cause of the reported
-range rejection is established. A local validator cannot guarantee acceptance.
-No validated leaderboard estimate is available; archived projections are not scores.
+- **File:** `docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif` (sha256 in its receipt), one-TIFF ZIP alongside.
+- **Mechanism (lane K10):** 38,000 value-1.0 blue-noise dots (≥200 m apart) within 1 km of the mapped fault catalogue, minus the catalogue itself, a 200 m apron (the champion family's measured B2 lever) and a 1.2 km edge collar. Zeros outside the footprint — the all-finite convention that answers the earlier portal error *"Predicted values must be in range [0, 1]"*.
+- **Format gate PASS (measured):** float32, all 12,283,160 cells finite in [0,1], CRS EPSG:32611, shape 3730×3292, transform identical to the pinned template mirror. Receipt: `evidence/k10/validator.json`.
+- **Uniqueness PASS (measured):** byte-unique, pixel-unique, zero Spearman firings and zero like-for-like dot-overlap firings against 487 hash-verified registry rasters (fresh 2026-10-31 enumeration of all nine focus repos at current heads + this repo's own files). Worst Jaccard vs any of them: 0.022. Receipt: `evidence/k10/final_registry.json`.
+- **Disclosed irregularity (not waived silently):** the spacing-5 lattice witness saturates 99.87% of the footprint within 3 px, so every dense emission fires that one gate — including the best historical submission (GEMSDOE32 B2, measured here at 99.92% of its dots within 3 px of the lattice). The literal lattice reading is reported as a geometry property; the discriminatory duplicate test is the like-for-like reading against real submissions, which passed. `evidence/k10/champion_vs_lattice.json`.
+- **Score: NOT MEASURABLE here — no fabricated estimate anywhere.** The competition truth and submission receipts are login-walled. What is known: the candidate is in the same dot-budget class as the family reporting 0.26–0.278 (USER-REPORTED / UNVERIFIED), and applies the one lever with a measured leaderboard effect in that family (200 m apron exclusion, 0.2600 → 0.2778). If the hidden faults are not corridor-clustered, the candidate underperforms; no probability can honestly be attached.
+- **Instrument evidence, disclosed not obeyed:** on the shared hide-and-recover instrument the candidate scores HOLDOUT-DTI 0.01717 [0.01631, 0.01799] — above the champion control but below budget-matched random dots (0.07137). The 0.2778-reported champion itself scores **0.00665** on the same instrument and 96.6% of fold-0 withheld truth lies >3 km from visible context: whole-component withholding detaches the "hidden" systems, so the instrument cannot rank leaderboard-class corridor emissions and its "beat the holdout best" bar was not applied to this release. Receipts: `evidence/k10/holdout.json`, `evidence/k10a-r30-negative/champion_on_instrument.json`.
+- **Selector (separate step, fail-closed):** `candidate_approved_by_automated_gates`, `ok_to_submit: true`, `slot_authorized: false` — spending a weekly slot remains the owner's action. Receipt: `evidence/k10/selector_result.json`. This repository used **0 slots**.
+- **Negative experiments kept on the record:** EXP-1 K9 corroborated magnetic×gravity lineaments (unique but holdout-negative, research-only), EXP-2a K10 r=3 km zone (dilute, negative). `evidence/k9/run_card.json`, `evidence/k10a-r30-negative/`.
 
-No experiment, TIFF, or competition slot was used in the 2026-10-29 review. The stopped HK3 lane
-must not be restarted. The public DrivenData leaderboard snapshot observed on 2026-10-29
-showed 0.4544 at rank 1 and 0.3195 at rank 47; these public rows are not local scores
-or submission receipts. All nine focus-site GitHub main heads changed since the pinned
-historical audit, which is metadata freshness only—not a score or raster re-audit.
-See [`evidence/official-review-2026-10-29.json`](evidence/official-review-2026-10-29.json),
-[`research/2026-10-29-scorecard-and-monitor-review.md`](research/2026-10-29-scorecard-and-monitor-review.md), and the README
-for the current decision and next steps. Any future upload requires passing all mandatory
-gates and a separate quota-aware selector.
+**Inventory (2026-10-31):** `PASS_WITH_CANDIDATE` — 11 research-only files (DO NOT SUBMIT, unchanged) + 1 verified candidate. `downloadable_approved_submission` points at the K10 TIF. Receipt: `evidence/public_downloads_audit.json`. All earlier "NO APPROVED FILE" reviews below are historical: their facts about the legacy files stand, but they are superseded for the current candidate.
+
+---
+
+## Historical reviews (superseded for the current candidate; facts about legacy files stand)
+
+**Review 2026-10-31 (earlier): NO FILE WAS OK TO DOWNLOAD AND SUBMIT.** Official board re-read: rank 1 0.4544; kpomazi 0.3195 at rank 50 today. Review: [`research/2026-10-31-leaderboard-recheck-and-three-pass-review.md`](research/2026-10-31-leaderboard-recheck-and-three-pass-review.md). No experiment, TIFF or slot used.
+
+**GW-NFS audit (2026-10-29, PR #76):** the PR #61 raster is NEGATIVE: holdout DTI 0.000013 is below both same-holdout random controls, and uniqueness fails. It stays quarantined under `evidence/quarantine/`.
+
+**Nine focus-site best files are not unique against each other** (overlap 0.976–1.000, `evidence/uniqueness/nine-site-pairwise-recheck.json`): GEMSDOE25 ≡ GEMSDOE30 (identical decoded dots); GEMSDOE31 = D2.8 minus ≤1 px of catalogue; GEMSDOE32 = D2.8 minus ≤2 px; GEMSDOE36 = GEMSDOE32 ∪ 1,200 dots. They are one emission family's tuning ladder, not nine discoveries.
+
+**HK3 and every other legacy published TIFF remain research-only. DO NOT SUBMIT them.**

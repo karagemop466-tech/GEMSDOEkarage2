@@ -1,0 +1,72 @@
+{
+  "canary_auc": {
+    "composite_coherence_ridge": 0.5774756389928309
+  },
+  "candidate": "candidate",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "note": "HOLDOUT-DTI against withheld catalogue segments; never a portal score",
+  "paired_differences": {
+    "champion_0p2778": {
+      "ci95": [
+        0.0018489116526234238,
+        0.005522785535964781
+      ],
+      "delta": 0.0037372674619707115,
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "evidence_class": "HOLDOUT-DTI",
+      "withheld_positive_pixels": 58259
+    },
+    "random_matched": {
+      "ci95": [
+        0.005204177726993098,
+        0.008836461317650868
+      ],
+      "delta": 0.007023853439148239,
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "evidence_class": "HOLDOUT-DTI",
+      "withheld_positive_pixels": 58259
+    }
+  },
+  "schema": "gemsdoe.emission.final-holdout.v1",
+  "scores": {
+    "candidate": {
+      "ci95": [
+        0.008597031844872703,
+        0.012179898847169841
+      ],
+      "dti": 0.010390962080797999,
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "evidence_class": "HOLDOUT-DTI",
+      "fnw": 57696.16818003004,
+      "fpw": 37228.74679762742,
+      "tpw": 562.8318199699587,
+      "withheld_positive_pixels": 58259
+    },
+    "champion_0p2778": {
+      "ci95": [
+        0.005958045562233683,
+        0.0074246128497197994
+      ],
+      "dti": 0.006653694618827287,
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "evidence_class": "HOLDOUT-DTI",
+      "fnw": 57900.50001338037,
+      "fpw": 36004.688852949046,
+      "tpw": 358.49998661965503,
+      "withheld_positive_pixels": 58259
+    },
+    "random_matched": {
+      "ci95": [
+        0.0030369256367947387,
+        0.0037108792154600407
+      ],
+      "dti": 0.0033671086416497604,
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "evidence_class": "HOLDOUT-DTI",
+      "fnw": 58076.680065633285,
+      "fpw": 37518.317594190274,
+      "tpw": 182.31993436672064,
+      "withheld_positive_pixels": 58259
+    }
+  }
+}

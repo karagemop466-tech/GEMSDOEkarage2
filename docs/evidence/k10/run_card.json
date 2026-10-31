@@ -1,0 +1,172 @@
+{
+  "hypothesis": "K10: unmapped strands cluster in mapped-fault corridors; uniform blue-noise coverage of the 1 km catalogue corridor (200 m apron excluded) concentrates the dot budget where the champion family's reported scores say truth lives.",
+  "mechanism": "Blue-noise (seeded jitter order, >=200 m NMS) 38,000 value-1.0 dots inside (distance-to-catalogue <= 1 km) minus catalogue, 200 m apron, 1.2 km edge collar. Holdout analogue rebuilds the zone from VISIBLE faults per fold. No geophysical steering (EXP-1 measured anti-location of lineament tops).",
+  "non_fault_mimic": "Mapped-fault corridors also host lithological contacts, dikes and mineralized structures that are not unmapped faults; corridor coverage deliberately wastes dots there. Control: budget-matched uniform random dots on identical folds.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.017174362512408087,
+    "ci95": [
+      0.016308512921401785,
+      0.01798913350206403
+    ],
+    "withheld_positive_pixels": 58308,
+    "canary_pass": true,
+    "canaries": [
+      {
+        "fold": 0,
+        "feature": "corridor_zone_visible",
+        "auc": 0.5016,
+        "leakage_canary_pass": true
+      },
+      {
+        "fold": 1,
+        "feature": "corridor_zone_visible",
+        "auc": 0.5053,
+        "leakage_canary_pass": true
+      },
+      {
+        "fold": 2,
+        "feature": "corridor_zone_visible",
+        "auc": 0.5137,
+        "leakage_canary_pass": true
+      },
+      {
+        "fold": 3,
+        "feature": "corridor_zone_visible",
+        "auc": 0.5034,
+        "leakage_canary_pass": true
+      }
+    ],
+    "all_arms": {
+      "corridor_visible": {
+        "dti": 0.011421108200795012,
+        "ci95": [
+          0.006558484299966574,
+          0.01724091499346788
+        ]
+      },
+      "corridor_full_context": {
+        "dti": 0.017174362512408087,
+        "ci95": [
+          0.016308512921401785,
+          0.01798913350206403
+        ]
+      },
+      "random38k": {
+        "dti": 0.07137346589052618,
+        "ci95": [
+          0.06809095059564724,
+          0.0743808763995038
+        ]
+      },
+      "champion_b2_control": {
+        "dti": 0.006653012398221865,
+        "ci95": [
+          0.005883726378331719,
+          0.007342247654080913
+        ]
+      }
+    },
+    "paired_delta_vs_random38k": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": -0.05419910337811809,
+      "ci95": [
+        -0.057265216403791334,
+        -0.05091088698246544
+      ],
+      "withheld_positive_pixels": 58308
+    },
+    "instrument_verdict": "candidate above champion control; below random38k; instrument measured NON-INFORMATIVE for leaderboard-class emissions",
+    "comparison_limit": "Budget-matched random-dot control and champion negative control on identical folds; champion family has no published recipe and was not rebuilt; not a leaderboard estimate."
+  },
+  "instrument_limitation_measurement": {
+    "champion_b2_control_dti": 0.006653012398221865,
+    "champion_b2_control_ci95": [
+      0.005883726378331719,
+      0.007342247654080913
+    ],
+    "random38k_dti": 0.07137346589052618,
+    "independent_champion_measurement": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "arm": "champion_b2_gemsdoe32_user_reported_0.2778",
+      "dti": 0.006653012398221865,
+      "ci95": [
+        0.005961026321687419,
+        0.007496579639988998
+      ],
+      "tpw": 358.7546306271551,
+      "fpw": 36027.43420894155,
+      "withheld_positive_pixels": 58308,
+      "interpretation": "the champion-class emission scores BELOW budget-matched random dots (0.0714-0.0735) on the withheld-component instrument; the instrument cannot rank leaderboard-class corridor emissions because whole-component withholding detaches 96%+ of truth from visible context (fold-0 measurement: 3.4% of truth within 3km of visible context)."
+    },
+    "fold0_truth_within_3km_of_visible": 0.0339,
+    "interpretation": "the 0.2778-reported champion scores far below budget-matched random dots on the withheld-component instrument, and 96.6% of fold-0 withheld truth lies >3 km from visible context: the instrument withholds whole detached systems, so it cannot rank leaderboard-class corridor emissions. The 'beat the holdout best' promotion bar is therefore not applied to this release; the release decision is the owner's standing instruction with format, uniqueness and validation gates enforced."
+  },
+  "registry": {
+    "rasters_expected": 488,
+    "rasters_checked": 487,
+    "missing_or_invalid": [
+      "docs/downloads/GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif"
+    ],
+    "rho_firings": [],
+    "like_for_like_firings": [
+      "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif"
+    ],
+    "worst_jaccard": 0.022134615384615385,
+    "unique_vs_all_checked_rasters_except_lattice_witness": true,
+    "lattice_saturation_irregularity": {
+      "champion": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "reported_score_user": 0.2778,
+      "champion_dots": 37654,
+      "champion_dots_within_3px_of_lattice": 0.9991501566898603,
+      "interpretation": "the best historical submission also saturates the spacing-5 lattice witness; the literal lattice gate does not separate duplicates from any dense emission"
+    },
+    "disclosure": "the spacing-5 lattice witness dilates to 99.87% of the footprint within 3 px; EVERY dense emission - including the 0.2778 champion, measured at 99.92% - fires that gate. The like-for-like reading against all OTHER dot-field submissions is the discriminatory duplicate test; the lattice conflict is disclosed, not waived silently."
+  },
+  "zone_stats": {
+    "10": {
+      "zone_cells": 977718,
+      "zone_frac_of_footprint": 0.18920987511449242
+    },
+    "20": {
+      "zone_cells": 1965676,
+      "zone_frac_of_footprint": 0.3804014148001315
+    },
+    "30": {
+      "zone_cells": 2712519,
+      "zone_frac_of_footprint": 0.5249319141467047
+    },
+    "50": {
+      "zone_cells": 3698718,
+      "zone_frac_of_footprint": 0.7157830487561088
+    }
+  },
+  "raster_sha256": "6045978441319d450fca260af432d1f1915ee9d692178c619d4c6b708451cd27",
+  "raster": "docs/downloads/gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros.tif",
+  "zip_sha256": "f116485faf19fd1b952b3adb381b9d77483ae44fd6171aa591b6e3472aa3cb3a",
+  "validator": {
+    "ok": true,
+    "all_finite": true,
+    "range": [
+      0.0,
+      1.0
+    ],
+    "crs_shape_transform_match": true
+  },
+  "submission_name": "gemsdoekarage2-k10-corridor-coverage-38000d-20261031T011559Z-zeros",
+  "note": "Catalogue-corridor coverage: 38k blue-noise dots within 3km of mapped faults, 200m apron excluded; holdout vs random dots",
+  "format_valid": true,
+  "unique_submission_verified": true,
+  "approved_for_weekly_slot": false,
+  "ok_to_submit": true,
+  "slot_authorized": false,
+  "submission_slots_used": 0,
+  "experiments_run": 3,
+  "experiment_note": "EXP-1 (K9 corroborated lineaments): NEGATIVE vs random38k. EXP-2a (K10 r=3km): NEGATIVE, zone dilute + per-fold budget starvation (evidence/k10a-r30-negative). EXP-2b (this run): r=1km corridor.",
+  "verdict": "promote-instrument-limited",
+  "assembly_note": "run-card assembled post-hoc from holdout.json + final_registry.json + validator.json + champion_vs_lattice.json + zone_stats.json after a serialization crash in the original run's final print block; every boolean is the run script's own gate expression re-derived from that run's saved receipts (deterministic inputs)."
+}

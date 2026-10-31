@@ -1,0 +1,125 @@
+{
+  "file": "gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros.tif",
+  "sha256": "82f54249afc6224bec2073d397581c48b8ac13125189b96f4ca39aa2a71247a3",
+  "bytes": 131235,
+  "submission_name": "gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros",
+  "note": "Corroborated magnetic+gravity lineaments, oriented strike persistence; 38k dots, 200m catalogue apron excluded; hide-recover evaluated",
+  "note_chars": 134,
+  "validator": {
+    "file": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros.tif",
+    "bytes": 131235,
+    "sha256": "82f54249afc6224bec2073d397581c48b8ac13125189b96f4ca39aa2a71247a3",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.0030946743208914995,
+    "emitted_positive_pixels": 38000,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 38000,
+    "footprint_fraction": 0.007353833369489681
+  },
+  "template_report": {
+    "path": "/home/user/GEMSDOEkarage2/docs/downloads/gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros.tif",
+    "bytes": 131235,
+    "sha256": "82f54249afc6224bec2073d397581c48b8ac13125189b96f4ca39aa2a71247a3",
+    "bands": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "width": 3292,
+    "height": 3730,
+    "bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "ref_bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "blocksize": [
+      256,
+      256
+    ],
+    "fixture_grid": false,
+    "has_validity_mask": false,
+    "nan_pixels": 0,
+    "infinity_pixels": 0,
+    "n_nan": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.0030946743208914995,
+    "n_nonzero": 38000,
+    "mass": 38000.0,
+    "mass_outside_footprint": 0,
+    "problems": [],
+    "ok": true,
+    "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+  },
+  "zip_file": "gemsdoekarage2-k9-maggrav-corr-persist-38000d-20261031T010517Z-zeros.zip",
+  "zip_sha256": "336cd1bc2d43df356bc84e5e7946e41bc19c200625794bde37e380e2d188c3ca",
+  "approved_for_weekly_slot": false,
+  "promoted": false,
+  "submission_slots_used": 0,
+  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "metadata": {
+    "artifact_role": "competition candidate",
+    "lane": "K9 corroborated potential-field lineaments",
+    "holdout_evaluator": "gems57-pooled-hide-v2",
+    "experiments_run": 1
+  }
+}
